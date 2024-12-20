@@ -343,6 +343,14 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     setCurrentPage('compliance')
     localStorage.setItem('currentPage', 'compliance');
   }
+
+  const [settignspgshow, setSettingsPGShow] = useState(false)
+
+  const handledisplaySettingsPG = (settingNewDesign) => {
+    setCurrentPage('settingNewDesign')
+    localStorage.setItem('currentPage', 'settingNewDesign');
+    setSettingsPGShow(true)
+  }
  
   const [selectedProfileImage,setSelectedProfileImage] = useState("")
   const handleHostelId = (id,name,profile) => {
@@ -357,10 +365,13 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     setSelectedProfileImage(
       profile && profile !== "0" && profile !== "" ? profile : Profile
     );
-    handlePageClick('settingNewDesign');
+   
   };
 
-
+const handleSettingspage = () => {
+  handlePageClick('settingNewDesign');
+  setSettingsPGShow(false)
+}
 
 
 useEffect(()=>{
@@ -743,7 +754,7 @@ useEffect(()=>{
               </li>
               <p style={{border:" 1px solid white"}}></p>
               <div style={{display: 'flex', flexDirection: 'row',gap:30}}>
-  <img src={sidebarOne}/>
+  <img src={sidebarOne} onClick={handleSettingspage}/>
   <img src={sidebarTwo}/>
   <img src={sidebarThree}/>
   <img src={sidebarFour}/>
@@ -813,7 +824,7 @@ useEffect(()=>{
             </Offcanvas> */}
 
             {currentPage === 'dashboard' && <Dashboards displayCompliance={handledisplaycompliace} allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
-            {currentPage === 'pg-list' && < PgLists allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'pg-list' && < PgLists displaysettings={handledisplaySettingsPG} allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'user-list' && < UserLists allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'invoice' && < Invoices allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'vendor' && < VendorComponent allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
@@ -826,7 +837,7 @@ useEffect(()=>{
             {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'profile' && <Profilesettings allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'banking' && <Banking allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+          {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName = {payingGuestName} settignspgshow={settignspgshow} />}
           </Col>
         </Row>
       </Container>

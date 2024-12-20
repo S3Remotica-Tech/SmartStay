@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 
 
-function SettingAllPages() {
+function SettingAllPages(props ) {
   
   const dispatch = useDispatch();
   const state = useSelector(state => state);
@@ -39,7 +39,28 @@ function SettingAllPages() {
   const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id,setHostel_Id] = useState('')
   const [displayError, setDisplayError] = useState('')
- 
+
+
+  useEffect(() => {
+    console.log('Current_hostelid', state.login.selectedHostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id)
+  }, [state?.login?.selectedHostel_Id]);
+  
+
+  const handleHostelId = (e) => {
+    const selectedHostelId = e.target.value; 
+    setHostel_Id(selectedHostelId); 
+    console.log("Selected Hostel ID:", selectedHostelId);
+    setDisplayError('')
+  };
+
+//   useEffect(()=> {
+// if(props.settignspgshow){
+//   handleShowManagePage()
+// }
+//   },[props])
+  
+
   const handleShowGeneralPage = () => {
     setGeneralPageShow(true);
     setManagePageShow(false); 
@@ -55,7 +76,11 @@ function SettingAllPages() {
     setRolePageShow(false)
   };
 
+  console.log("settingsprops",props);
+  
+
   const handleShowManagePage = () => {
+
     setManagePageShow(true);
     setGeneralPageShow(false); 
     setSecurityPageShow(false)
@@ -221,10 +246,10 @@ function SettingAllPages() {
   }
 
 
-  const handleHostelId = (e) => {
-    setHostel_Id(e.target.value)
-    setDisplayError('')
-  }
+  // const handleHostelId = (e) => {
+  //   setHostel_Id(e.target.value)
+  //   setDisplayError('')
+  // }
 
 
 
@@ -412,30 +437,27 @@ function SettingAllPages() {
                         </span>
                       </Form.Label>
                       <Form.Select
-                        aria-label="Default select example"
-                        className="border"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 47,
-                          borderRadius: 8,
-                        }}
-                        value={hostel_Id}
-                        onChange={(e) => handleHostelId(e)}
-                      >
-                        <option>Select a PG</option>
-                        {/* <option>Select</option> */}
+  aria-label="Default select example"
+  className="border"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 47,
+    borderRadius: 8,
+  }}
+  value={state.login.selectedHostel_Id} 
+  onChange={(e) => handleHostelId(e)} 
+>
+  <option value={state.login.selectedHostel_Id}>
+    {state.UsersList?.hostelList?.find((item) => item.id === state.login.selectedHostel_Id)?.Name || "Select a PG"}
+  </option>
+</Form.Select>
 
-                        {state.UsersList?.hostelList?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.Name}
-                          </option>
-                        ))}
-                      </Form.Select>
+
                       {displayError && (
                         <div className="d-flex gap-2 align-items-center p-2">
                         
@@ -448,7 +470,7 @@ function SettingAllPages() {
                       )}
                     </div>
                     {
-                      hostel_Id && 
+                      state.login.selectedHostel_Id && 
                    
 
 <div
