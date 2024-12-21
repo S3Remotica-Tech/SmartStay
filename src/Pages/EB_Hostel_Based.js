@@ -151,7 +151,7 @@ useEffect(()=>{
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
     setHos_Name(props.hostelName);
-  }, [props]);
+  }, [props,state.login.selectedHostel_Id]);
 
   useEffect(() => {
     dispatch({
