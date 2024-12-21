@@ -452,7 +452,7 @@ function Vendor() {
         }}
       >
         <MdError size={20} />
-        <span>{vendorpermissionError}</span>
+        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{vendorpermissionError}</span>
       </div>
     )}
   </div></>

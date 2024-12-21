@@ -302,8 +302,8 @@ console.log("uniqueExpences",uniqueExpences);
           marginTop: "1rem",
         }}
       >
-        <MdError size={20} />
-        <span>{expencepermissionError}</span>
+        <MdError  />
+        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{expencepermissionError}</span>
       </div>
     )}
   </div>
@@ -341,7 +341,7 @@ console.log("uniqueExpences",uniqueExpences);
 {cateogoryerrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {cateogoryerrmsg}
+      {cateogoryerrmsg !== " " && <MdError style={{  color: 'red' }} />} {cateogoryerrmsg}
     </p>
   </div>
 )}
@@ -367,7 +367,7 @@ console.log("uniqueExpences",uniqueExpences);
 {subcateogoryerrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
+      {subcateogoryerrmsg !== " " && <MdError style={{  color: 'red' }} />} {subcateogoryerrmsg}
     </p>
   </div>
 )}
@@ -389,7 +389,7 @@ console.log("uniqueExpences",uniqueExpences);
             {totalErrormsg.trim() !== "" && (
               <div>
          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+      {totalErrormsg !== " " && <MdError style={{  color: 'red' }} />} {totalErrormsg}
     </p>
   </div>
 )}

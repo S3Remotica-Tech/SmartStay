@@ -622,7 +622,7 @@ console.log("Booking ID:", props.assignBooking.id);
             {floorError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {floorError}
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
               </div>
             )}
                   </Col>
@@ -671,7 +671,7 @@ console.log("Booking ID:", props.assignBooking.id);
             {roomError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {roomError}
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
               </div>
             )}
 
@@ -780,7 +780,7 @@ console.log("Booking ID:", props.assignBooking.id);
 {bedError && (
   <div style={{ color: "red" }}>
     <MdError />
-    {bedError}
+    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>
   </div>
 )}
 
@@ -815,7 +815,7 @@ console.log("Booking ID:", props.assignBooking.id);
       </Form.Group>
       {dateError && (
         <div style={{ color: "red" }}>
-          <MdError />
+        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}><MdError /></span>  
           {dateError}
         </div>
       )}
@@ -856,7 +856,7 @@ console.log("Booking ID:", props.assignBooking.id);
                                     {advanceError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {advanceError}
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{advanceError}</span>
               </div>
             )}
             
@@ -893,7 +893,7 @@ console.log("Booking ID:", props.assignBooking.id);
                                     {rentError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {rentError}
+               <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{rentError}</span> 
               </div>
             )}
           </Col>

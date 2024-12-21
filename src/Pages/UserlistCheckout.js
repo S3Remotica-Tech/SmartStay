@@ -375,8 +375,8 @@ function CheckOut(props) {
                   marginTop: "1rem",
                 }}
               >
-                <MdError size={20} />
-                <span>{checkOutPermissionError}</span>
+                <MdError  />
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{checkOutPermissionError}</span>
               </div>
             )}
           </div>

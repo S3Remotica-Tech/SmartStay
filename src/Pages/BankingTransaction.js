@@ -363,7 +363,7 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
               {accountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {accountError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span> 
                 </div>
               )}
               </div>
@@ -405,7 +405,7 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
               {dateError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {dateError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
                 </div>
               )}
             </div>
@@ -444,7 +444,7 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
               {amountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {amountError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span> 
                 </div>
               )}
             </div>
@@ -500,7 +500,7 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
               {transError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {transError}
+                                       <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span> 
                                       </div>
                                     )}
             </div>
@@ -538,7 +538,7 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
               {describtionError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {describtionError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span> 
                 </div>
               )}
             </div>

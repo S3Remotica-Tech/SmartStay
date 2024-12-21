@@ -428,7 +428,7 @@ useEffect(()=>{
             }}
           >
             <MdError size={20} />
-            <span>{assetpermissionError}</span>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
           </div>
         )}
       </div></>

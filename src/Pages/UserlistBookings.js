@@ -1094,8 +1094,8 @@ const handleSubmit = () => {
                   marginTop: "1rem",
                 }}
               >
-                <MdError size={20} />
-                <span>{bookingPermissionError}</span>
+                <MdError  />
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{bookingPermissionError}</span>
               </div>
             )}
           </div></>
@@ -1891,7 +1891,7 @@ const handleSubmit = () => {
               {firstNameError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {firstNameError}
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span> 
                 </div>
               )}
             </Col>
@@ -2006,25 +2006,25 @@ const handleSubmit = () => {
                 {phoneError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {phoneError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>  
                   </div>
                 )}
                 {phonenumError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {phonenumError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span> 
                   </div>
                 )}
                 {phoneErrorMessage && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {phoneErrorMessage}
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                   </div>
                 )}
                  {state?.Booking?.bookingPhoneError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {state?.Booking?.bookingPhoneError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state?.Booking?.bookingPhoneError}</span>
                 </div>
               )}
               </Form.Group>
@@ -2063,25 +2063,25 @@ const handleSubmit = () => {
               {emailError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {emailError}
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span> 
                 </div>
               )}
               {emailIdError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {emailIdError}
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailIdError}</span>
                 </div>
               )}
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {emailErrorMessage}
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {emailErrorMessage}</span>
                 </div>
               )}
                {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {state?.Booking?.bookingEmailError}
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {state?.Booking?.bookingEmailError}</span>
                 </div>
               )}
             </Col>
@@ -2115,7 +2115,7 @@ const handleSubmit = () => {
                       {addressError && (
                                     <div style={{ color: "red" }}>
                                       <MdError />
-                                      {addressError}
+                                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {addressError}</span>
                                     </div>
                                   )}
                     </Col>
@@ -2144,7 +2144,7 @@ const handleSubmit = () => {
   {dateError && (
     <div style={{ color: "red" }}>
       <MdError />
-      {dateError}
+     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
     </div>
   )}
 </Col>
@@ -2189,7 +2189,7 @@ const handleSubmit = () => {
               {amountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {amountError}
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
                 </div>
               )}
             </Col>

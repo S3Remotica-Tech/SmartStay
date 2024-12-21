@@ -853,8 +853,8 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
           marginTop: "1rem",
         }}
       >
-        <MdError size={20} />
-        <span>{compliancepermissionError}</span>
+        <MdError  />
+        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{compliancepermissionError}</span>
       </div>
     )}
   </div>
@@ -1203,7 +1203,7 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
                       {usererrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {usererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {usererrmsg}
+      {usererrmsg !== " " && <MdError style={{  color: 'red' }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span> 
     </p>
   </div>
 )}
@@ -1245,7 +1245,7 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
         {complaint_typeerrmsg.trim() !== "" && (
             <div>
                 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {complaint_typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {complaint_typeerrmsg}
+                    {complaint_typeerrmsg !== " " && <MdError style={{  color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
                 </p>
             </div>
         )}
@@ -1391,7 +1391,7 @@ Please add a 'ComplaintType' option in Settings, accessible after  adding an Com
 {statsuserrormsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {statsuserrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {statsuserrormsg}
+      {statsuserrormsg !== " " && <MdError style={{ color: 'red' }} />} {statsuserrormsg}
     </p>
   </div>
 )}
@@ -1593,7 +1593,7 @@ Please add a 'ComplaintType' option in Settings, accessible after  adding an Com
       {totalErrormsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+      {totalErrormsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
     </p>
   </div>
 )}

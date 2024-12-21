@@ -474,7 +474,7 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                 {nameError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {nameError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{nameError}</span>  
                         </div>
                       )}
               </div>
@@ -563,19 +563,19 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                       {phoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>  
                         </div>
                       )}
                       {phonenumError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phonenumError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span>  
                         </div>
                       )}
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneErrorMessage}
+                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span> 
                         </div>
                       )}
                     </Form.Group>
@@ -614,13 +614,13 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                 {emailIdError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {emailIdError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span>  
                         </div>
                       )}
                       {emailError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {emailError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>  
                         </div>
                       )}
               </div>
@@ -731,7 +731,7 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                 {roleError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {roleError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</span>  
                         </div>
                       )}
               </div>
@@ -772,7 +772,7 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
             {formError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {formError}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>  
                         </div>
                       )}
             <Button

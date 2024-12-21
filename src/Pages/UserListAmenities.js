@@ -328,8 +328,8 @@ if(state.UsersList.statusCustomerAddUser === 200){
         {amnityError && (
           <div style={{ color: "red" }}>
             {" "}
-            <MdError style={{ width: 20, height: 20 }} />
-            {amnityError}
+            <MdError style={{  }} />
+            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amnityError}</span>
           </div>
         )}
       </div>
@@ -373,8 +373,9 @@ if(state.UsersList.statusCustomerAddUser === 200){
           {amnityError && (
             <div style={{ color: "red" }}>
               {" "}
-              <MdError style={{ width: 20, height: 20 }} />
-              {amnityError}
+              <MdError  />
+        
+              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amnityError}</span>
             </div>
           )}
           <div className="mb-3 ps-2 pe-2">

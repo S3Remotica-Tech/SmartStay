@@ -458,7 +458,7 @@ function Amenities() {
         }}
       >
         <MdError size={20} />
-        <span>{amenitiespermissionError}</span>
+        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amenitiespermissionError}</span>
       </div>
     )}
   </div>
@@ -483,7 +483,7 @@ function Amenities() {
         {hostelerrormsg.trim() !== "" && (
         <div>
    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+{hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{hostelerrormsg}</span>
 </p>
 </div>
 )}
@@ -510,7 +510,7 @@ function Amenities() {
                       {amenityerrormsg.trim() !== "" && (
         <div>
    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{amenityerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amenityerrormsg}
+{amenityerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amenityerrormsg}</span>
 </p>
 </div>
 )}
@@ -534,7 +534,7 @@ function Amenities() {
                       {amounterrormsg.trim() !== "" && (
         <div>
    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+{amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amounterrormsg}</span>
 </p>
 </div>
 )}
@@ -552,7 +552,7 @@ function Amenities() {
       {totalErrormsg.trim() !== "" && (
         <div>
    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+{totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{totalErrormsg}</span>
 </p>
 </div>
 )}
@@ -826,7 +826,7 @@ function Amenities() {
                                               {amounterrormsg.trim() !== "" && (
               <div>
          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amounterrormsg}</span>
     </p>
   </div>
 )}

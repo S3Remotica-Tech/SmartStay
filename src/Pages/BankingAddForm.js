@@ -287,7 +287,7 @@ useEffect(()=>{
               {accountNameError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {accountNameError}
+                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span> 
                   </div>
                 )}
             </div>
@@ -326,7 +326,7 @@ useEffect(()=>{
               {accountNumberError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {accountNumberError}
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
                   </div>
                 )}
             </div>
@@ -364,7 +364,7 @@ useEffect(()=>{
               {bankNameError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {bankNameError}
+                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
                   </div>
                 )}
             </div>
@@ -403,7 +403,7 @@ useEffect(()=>{
               {ifcsCodeError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {ifcsCodeError}
+                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span> 
                   </div>
                 )}
             </div>
@@ -441,7 +441,7 @@ useEffect(()=>{
               {descriptionError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {descriptionError}
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
                   </div>
                 )}
             </div>
@@ -450,7 +450,7 @@ useEffect(()=>{
          {error && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {error}
+                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span> 
                   </div>
                 )} 
         <Modal.Footer className="d-flex justify-content-center">

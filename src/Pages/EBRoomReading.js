@@ -535,8 +535,8 @@ if(state.PgList.statusCodeForEditElectricity === 200){
           marginTop: "1rem",
         }}
       >
-        <MdError size={20} />
-        <span>{props.ebpermissionError}</span>
+        <MdError  />
+        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{props.ebpermissionError}</span>
       </div>
     )}
   </div>
@@ -1262,7 +1262,7 @@ console.log('Formatted Date:', formattedDate);
                 {floorError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {floorError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span> 
                   </div>
                 )}
               </div>
@@ -1351,7 +1351,7 @@ console.log('Formatted Date:', formattedDate);
               {readingError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {readingError}
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span> 
                 </div>
               )}
             </div>
@@ -1394,7 +1394,7 @@ console.log('Formatted Date:', formattedDate);
          {formError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {formError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span> 
                   </div>
                 )}
         <Modal.Footer className="d-flex justify-content-center">

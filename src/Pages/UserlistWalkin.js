@@ -304,8 +304,8 @@ function UserlistWalkin(props) {
                                         marginTop: "1rem",
                                     }}
                                 >
-                                    <MdError size={20} />
-                                    <span>{walkInPermissionError}</span>
+                                    <MdError  />
+                                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{walkInPermissionError}</span>
                                 </div>
                             )}
                         </div></>

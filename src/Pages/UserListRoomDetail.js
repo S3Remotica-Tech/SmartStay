@@ -2166,9 +2166,9 @@ const handleFileChange = (e, type) => {
                                       <div style={{ color: "red" }}>
                                         {" "}
                                         <MdError
-                                          style={{ width: 20, height: 20 }}
+                                          style={{  }}
                                         />
-                                        {firstnameError}
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstnameError}</span>
                                       </div>
                                     )}
                                   </div>
@@ -2311,13 +2311,13 @@ const handleFileChange = (e, type) => {
                                       {phonenumError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                          {phonenumError}
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span>  
                                         </div>
                                       )}
                                       {phoneErrorMessage && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                          {phoneErrorMessage}
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>  
                                         </div>
                                       )}
                                     </Form.Group>
@@ -2359,19 +2359,19 @@ const handleFileChange = (e, type) => {
                                       {emailError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                          {emailError}
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>  
                                         </div>
                                       )}
                                       {emailIdError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                          {emailIdError}
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span>  
                                         </div>
                                       )}
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                          {emailErrorMessage}
+                                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span> 
                                         </div>
                                       )}
                                     </Form.Group>
@@ -2482,7 +2482,7 @@ const handleFileChange = (e, type) => {
                                 {formError && (
                                   <div style={{ color: "red" }}>
                                     <MdError />
-                                    {formError}
+                                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>  
                                   </div>
                                 )}
                                 <Button
@@ -2611,7 +2611,7 @@ const handleFileChange = (e, type) => {
                                     {floorError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {floorError}
+                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>  
                                       </div>
                                     )}
                                   </div>
@@ -2671,7 +2671,7 @@ const handleFileChange = (e, type) => {
                                     {roomError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {roomError}
+                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>  
                                       </div>
                                     )}
                                   </div>
@@ -2748,7 +2748,7 @@ const handleFileChange = (e, type) => {
                                     {bedError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {bedError}
+                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>  
                                       </div>
                                     )}
                                   </div>
@@ -2780,7 +2780,7 @@ const handleFileChange = (e, type) => {
             {dateError && (
                 <div style={{ color: "red" }}>
                     <MdError />
-                    {dateError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
             )}
         </div>
@@ -2826,7 +2826,7 @@ const handleFileChange = (e, type) => {
                                     {advanceAmountError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {advanceAmountError}
+                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{advanceAmountError}</span>  
                                       </div>
                                     )}
                                   </div>
@@ -2871,7 +2871,7 @@ const handleFileChange = (e, type) => {
                                     {roomrentError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {roomrentError}
+                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomrentError}</span>  
                                       </div>
                                     )}
                                   </div>
@@ -2879,7 +2879,7 @@ const handleFileChange = (e, type) => {
                                 {formError && (
                                   <div style={{ color: "red" }}>
                                     <MdError />
-                                    {formError}
+                                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>  
                                   </div>
                                 )}
                                 <Button
