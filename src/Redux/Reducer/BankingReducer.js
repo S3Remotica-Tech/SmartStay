@@ -29,7 +29,7 @@ const BankingReducer = (state = initialState, action) => {
     case "EDIT_BANK_TRANSACTION":
       return {
         ...state,
-        editTransaction: action.payload,
+        editTransaction: action.payload.response,
         statusEditTrasactionCode: action.payload.statusCode,
       };
     case "CLEAR_EDIT_BANK_TRANSACTION":

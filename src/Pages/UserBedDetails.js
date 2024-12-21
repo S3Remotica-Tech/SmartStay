@@ -359,7 +359,7 @@ useEffect(() => {
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
         setLoginID(parsedData)
-        dispatch({ type: 'USERLIST' })
+        dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
       }
       catch (error) {
         console.log("Error decrypting loginid", error);

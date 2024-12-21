@@ -38,7 +38,7 @@ const RecurringBills = (props) => {
     const dispatch = useDispatch()
 
       useEffect(()=> {
-        dispatch({type: "USERLIST"})
+        dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
       },[])
 
       useEffect(()=> {

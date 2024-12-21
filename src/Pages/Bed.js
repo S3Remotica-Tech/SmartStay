@@ -547,7 +547,7 @@ console.log("props",props);
 
  
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
   }, [])
 
   useEffect(() => {
@@ -677,7 +677,7 @@ console.log("props",props);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser == 200) {
-      dispatch({ type: 'USERLIST' })
+      dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
       // setTimeout(()=>{
       //   dispatch({ type: 'MANUALINVOICE' })
       // },3000)

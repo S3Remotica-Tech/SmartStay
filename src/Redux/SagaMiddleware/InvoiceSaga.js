@@ -700,8 +700,8 @@ console.log("responseformanualinvoiceadd",response);
 }
 
 
-function* handleGetManualInvoice() {
-   const response = yield call(GetManualInvoices)
+function* handleGetManualInvoice(action) {
+   const response = yield call(GetManualInvoices,action.payload)
    console.log("responseManual", response);
    
    

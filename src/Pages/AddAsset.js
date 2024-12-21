@@ -74,7 +74,7 @@ const [paymentError,setPaymentError]=useState('')
 
 useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",hostel_id:state.login.selectedHostel_Id  });
   }, []);
 
 const handleModeOfPaymentChange = (e) => {

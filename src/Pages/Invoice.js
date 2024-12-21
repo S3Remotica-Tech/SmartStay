@@ -195,7 +195,7 @@ const [account, setAccount] = useState("");
   const dueRef = useRef(null);
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
   }, []);
 
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
@@ -694,7 +694,7 @@ const [account, setAccount] = useState("");
 
 
 
-  const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
+  // const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
 
 
  
@@ -716,7 +716,7 @@ const [account, setAccount] = useState("");
 
   useEffect(() => {
     if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users.find(item => item.User_Id === selectedUserId);
+      const filteredDetails = state.UsersList?.Users?.find(item => item.User_Id === selectedUserId);
       if (filteredDetails) {
         setFilteredUserDetails([filteredDetails]);
         setInvoiceList({
@@ -1123,7 +1123,7 @@ const [account, setAccount] = useState("");
 
 
   useEffect(()=> {
-    dispatch({type: "USERLIST"})
+    dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
   },[])
 
 
@@ -3126,7 +3126,7 @@ let serialNumber = 1;
         borderRadius: 8 
       }}>
         <option value=''>Select Customer</option>
-        {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+        {state.UsersList?.Users && state.UsersList?.Users?.length > 0 && state?.UsersList?.Users?.filter(u => 
             u.Bed !== 'undefined' && 
             u.Bed !== '0' && 
             typeof u.Bed === 'string' && 

@@ -54,18 +54,17 @@ function Banking() {
   const [updateTransaction,setUpdateTransaction] = useState("")
   const [deleteBankId,setDeleteBankId]=useState("")
   const[trnseId,setDeleteTransId] =useState("")
-
-
-
-
   const [bankingrolePermission, setBankingRolePermission] = useState("");
-
   const [bankingpermissionError, setBankingPermissionError] = useState("");
   const [bankingAddPermission,setBankingAddPermission]= useState("")
   const [bankingDeletePermission,setBankingDeletePermission]=useState("")
   const [bankingEditPermission,setBankingEditPermission]=useState("")
+  const [hostel_id,setHostel_Id]=useState("")
 
-
+ useEffect(() => {
+    console.log('Current_hostelid', state.login.selectedHostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id)
+  }, [state?.login?.selectedHostel_Id]);
 
 
   useEffect(() => {
@@ -124,8 +123,19 @@ function Banking() {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
-  }, []);
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id}});
+  }, [hostel_id]);
+
+
+console.log("state.bankingDetails.statusCodeForGetBanking",state.bankingDetails.statusCodeForGetBanking)
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
   const handleShowDots = (id) => {
     if (openMenuId === id) {
@@ -194,7 +204,7 @@ useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       // setLoading(false);
       setShowAccountTypeOptions(null);
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -205,7 +215,7 @@ useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       // setLoading(false);
       handleCloseAddBalance();
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 1000);
@@ -243,7 +253,7 @@ useEffect(() => {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeDeleteBank === 200){
       handleCloseDelete()
-      dispatch({ type: "BANKINGLIST" ,payload:{hostel_id:state.login.selectedHostel_Id}});
+      dispatch({ type: "BANKINGLIST" ,payload:{hostel_id:hostel_id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -300,7 +310,7 @@ useEffect(() => {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeForDeleteTrans === 200){
       handleCloseTransactionDelete()
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
       }, 1000);
@@ -333,7 +343,7 @@ useEffect(() => {
   const handleAddAmountSubmit = () => {
     dispatch({
       type: "ADDBANKAMOUNT",
-      payload: { id: typeId, amount: AddBankAmount,hostel_id:state.login.selectedHostel_Id },
+      payload: { id: typeId, amount: AddBankAmount,hostel_id:hostel_id },
     });
   };
 
@@ -736,7 +746,7 @@ useEffect(() => {
   }}
   onClick={() => {
     if (!bankingEditPermission) {
-      handleEditTransForm(item);
+      handleEditAddBank(item);
     }
   }}
 >
