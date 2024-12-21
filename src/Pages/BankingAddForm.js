@@ -22,6 +22,12 @@ function BankingAddForm(props) {
   const [bankNameError, setBankNameError] = useState("");
   const [ifcsCodeError, setIfcsCodeError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+   const [hostel_id,setHostel_Id]=useState("")
+  
+   useEffect(() => {
+      console.log('Current_hostelid', state.login.selectedHostel_Id);
+      setHostel_Id(state.login.selectedHostel_Id)
+    }, [state?.login?.selectedHostel_Id]);
 
 
 
@@ -51,7 +57,7 @@ function BankingAddForm(props) {
     setDescriptionError("")
   };
 
-console.log("props.editAddBank",props)
+console.log("props.editAddBank",props.editAddBank)
 useEffect(()=>{
   if(props.editAddBank && props.editAddBank.id){
 
@@ -169,7 +175,7 @@ useEffect(()=>{
         ifsc_code: ifscCode,
         desc: description,
         id: props.edit ? bankId : "",
-        hostel_id:state.login.selectedHostel_Id
+        hostel_id:hostel_id
       },
     });
   };
@@ -190,7 +196,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleClose();
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);

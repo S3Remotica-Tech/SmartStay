@@ -26,9 +26,14 @@ function BankingEditTransaction(props) {
   const [id, setId] = useState("");
   const [error,setError] = useState("")
   console.log("props.updateTransaction", props.updateTransaction);
+ const [hostel_id,setHostel_Id]=useState("")
 
+ useEffect(() => {
+    console.log('Current_hostelid', state.login.selectedHostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id)
+  }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
   }, []);
 
   const handleAccount = (e) => {
@@ -200,15 +205,22 @@ modifiedDate.setDate(modifiedDate.getDate() + 1);
   useEffect(()=>{
     if(state.bankingDetails.statusEditTrasactionCode === 200){
       handleCloseTransactionEdit()
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_BANK_TRANSACTION" });
       }, 1000);
     }
   },[state.bankingDetails.statusEditTrasactionCode])
+console.log("state.bankingDetails.statusCodeForGetBanking",state.bankingDetails.statusCodeForGetBanking)
 
-
-
+useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
 

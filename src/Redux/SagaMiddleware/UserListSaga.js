@@ -10,8 +10,8 @@ function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
 
    console.log("response for user list", response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.statusCode } })
+   if (response.status === 200 ) {
+      yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

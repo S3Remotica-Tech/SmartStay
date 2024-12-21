@@ -25,7 +25,7 @@ function Checkout() {
   const [loginAdmin, setLoginAdmin] = useState('')
 
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
 
   }, [])
 
@@ -95,7 +95,7 @@ function Checkout() {
 
   useEffect(() => {
     if (state.UsersList?.checkOutStatusCode == 200) {
-      dispatch({ type: 'USERLIST' })
+      dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_CHECK_OUT' })
       }, 1000)
