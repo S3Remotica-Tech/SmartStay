@@ -216,12 +216,12 @@ function* handleDeleteBanking(action) {
     
    };
  
-   if (response.status === 200 || response.statusCode === 200) {
+   if (response.status === 200 || response.data.statusCode === 200) {
      yield put({
        type: "DELETE_BANKING",
        payload: {
          response: response.data,
-         statusCode: response.status || response.statusCode,
+         statusCode: response.status || response.data.statusCode,
        },
      });
      toast.success("Deleted successfully", {
@@ -235,7 +235,7 @@ function* handleDeleteBanking(action) {
        progress: undefined,
        style: toastStyle,
      });
-   } else if (response.status === 201 || response.statusCode === 201) {
+   } else if (response.status === 201 || response.data.statusCode === 201) {
      yield put({ type: "DELETE_BANKING_ERROR", payload: response.data.message });
     
    }
