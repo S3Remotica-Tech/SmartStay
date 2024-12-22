@@ -363,8 +363,6 @@ function UserList(props) {
     const handleClickOutsideAccount = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setActiveRow(null);
-      } else {
-        setActiveRow(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutsideAccount);
