@@ -1007,12 +1007,32 @@ const handleFileChange = (e, type) => {
   }
 };
 
-
+const [contactDeleteId,setContactDeleteId]=useState("")
 const handleContactDelete=(v)=>{
   console.log("handleContactDelete",v)
   setDeleteAdditional(true)
+  setContactDeleteId(v.id)
 
 }
+const handleCloseDelete=()=>{
+  setDeleteAdditional(false)
+}
+
+const handleDeleteContact =()=>{
+  dispatch({type:"CONTACTDELETE",payload:{id:contactDeleteId}})
+}
+
+
+useEffect(()=>{
+  if(state.UsersList.statusCodeDeleteContact === 200){
+    handleCloseDelete()
+    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_DELETE_CONTACT"});
+    }, 100);
+        
+  }
+},[state.UsersList.statusCodeDeleteContact])
 
   return (
     <>
@@ -2899,7 +2919,89 @@ const handleContactDelete=(v)=>{
                         <Modal.Footer style={{ border: "none" }}></Modal.Footer>
                       </Modal.Dialog>
                     </Modal>
+                    <Modal
+        show={deleteAdditional}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Contact?
+          </Modal.Title>
+        </Modal.Header>
 
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this Contact?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDeleteContact}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>

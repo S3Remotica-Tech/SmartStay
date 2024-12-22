@@ -79,7 +79,9 @@ const initialState = {
     statusCodeForCustomerCoatact:0,
     customerContact:[],
     customerAllDetails:[],
-    statusCodeForCustomerAllDetails:0
+    statusCodeForCustomerAllDetails:0,
+    deleteContact:[],
+    statusCodeDeleteContact:0
 
 }
 
@@ -385,6 +387,16 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
                         };
                       case "CLEAR_CUSTOMER_ALL_DETAILS":
                         return { ...state, statusCodeForCustomerAllDetails: 0 };
+
+
+                        case "DELETE_CONTACT":
+        return {
+          ...state,
+          deleteContact: action.payload,
+          statusCodeDeleteContact: action.payload.statusCode,
+        };
+        case "CLEAR_DELETE_CONTACT":
+            return { ...state, statusCodeDeleteContact: 0 };
 
     }
     return state;

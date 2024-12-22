@@ -272,3 +272,10 @@ export async function customerAllContact(datum) {
     data:datum
   })
 }
+
+
+export async function deleteContact(contact){
+  return await AxiosConfig.post('/contacts/delete_contact',contact,{
+    data:contact
+  })
+}
