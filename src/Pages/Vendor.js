@@ -102,9 +102,9 @@ function Vendor() {
   }, [vendorrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: 'VENDORLIST' })
+    dispatch({ type: 'VENDORLIST' , payload:{hostel_id: state.login.selectedHostel_Id} })
     setLoader(true)
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
@@ -128,7 +128,9 @@ function Vendor() {
       setShow(false);
       setShowDeleteVendor(false)
       setTimeout(() => {
-        dispatch({ type: 'VENDORLIST' })
+        dispatch({ type: 'VENDORLIST' ,payload:{hostel_id: state.login.selectedHostel_Id} })
+
+
         console.log("get vendor list executed")
       }, 100)
       setTimeout(() => {

@@ -146,7 +146,7 @@ useEffect(()=>{
   useEffect(() => {
     dispatch({ type: 'ASSETLIST', payload:{ hostel_id: state.login.selectedHostel_Id }})
     setLoading(true)
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
 
   useEffect(() => {

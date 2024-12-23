@@ -23,9 +23,10 @@ export async function VendorList(vendor) {
 
 export async function addVendor(params) {
   console.log("param", params)
-
+ 
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
+  if (params.hostel_id) formData.append("hostel_id", params.hostel_id);
   if (params.Last_Name) formData.append("Last_Name", params.Last_Name)
   if (params.first_Name) formData.append("first_Name", params.first_Name)
   if (params.Vendor_Email) formData.append("Vendor_Email", params.Vendor_Email)
