@@ -982,7 +982,7 @@ value: invoicedueDate
                 </button>
               </Modal.Header>
             </div>
-            {/* Modal content here */}
+
           </Modal.Body>
           <Modal.Footer style={{ border: "none" }}>
             <Button
