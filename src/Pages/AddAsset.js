@@ -206,7 +206,7 @@ const handleModeOfPaymentChange = (e) => {
     };
 
     useEffect(() => {
-        dispatch({ type: 'VENDORLIST' })
+        dispatch({ type: 'VENDORLIST' , payload: {hostel_id: state.login.selectedHostel_Id}})
     }, [])
 
 
