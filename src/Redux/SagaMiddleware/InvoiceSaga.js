@@ -622,7 +622,7 @@ function* handleRecurrbillamountData(params) {
 function* handleManualInvoiceAdd (params) {
    const response = yield call (AddManualInvoiceBill,params.payload);
  
-console.log("responseformanualinvoiceadd",response);
+   console.log("responseformanualinvoiceadd",response);
 
 
    if (response.status === 200 || response.statusCode === 200){
@@ -716,8 +716,8 @@ function* handleGetManualInvoice(action) {
    }
 }
 
-function* handleGetRecurrbills() {
-   const response = yield call(GetRecurrBills)
+function* handleGetRecurrbills(action) {
+   const response = yield call(GetRecurrBills, action.payload)
    console.log("responseManual", response);
    
    

@@ -1133,7 +1133,7 @@ const [account, setAccount] = useState("");
 
   useEffect(() => {
     // setLoading(true)
-    dispatch({ type: 'MANUAL-INVOICES-LIST' })
+    dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} })
     console.log("MAnual");
     
     setBills(state.InvoiceList.ManualInvoices);
@@ -1177,7 +1177,7 @@ console.log("newRows",newRows);
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' });
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
         setLoading(true);
   
         setTimeout(() => {
@@ -1198,7 +1198,7 @@ console.log("newRows",newRows);
     console.log("invoice added executed");
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
      
-      dispatch({type:'MANUAL-INVOICES-LIST'})
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
       console.log("MAnual invoice status code");
       setBills(state.InvoiceList.ManualInvoices)
       // setLoading(true);
@@ -1221,7 +1221,7 @@ console.log("newRows",newRows);
     console.log("statuscode", state.InvoiceList.message);
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
       console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
-      dispatch({type:'MANUAL-INVOICES-LIST'})
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
       console.log("MAnual invoice update status code");
       setBills(state.InvoiceList.ManualInvoices)
       // setLoading(true)
@@ -1850,7 +1850,7 @@ const customInvoiceDueDateInput = (props) => {
             
 
             useEffect(()=> {
-              dispatch({ type: 'RECURRING-BILLS-LIST' });
+              dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
             },[])
 
             useEffect(() => {
@@ -1866,7 +1866,7 @@ const customInvoiceDueDateInput = (props) => {
       
             useEffect(() => {
               if (state.InvoiceList.RecurringBillAddStatusCode === 200 || state.InvoiceList.deleterecurringbillsStatuscode ) {
-                dispatch({ type: 'RECURRING-BILLS-LIST' });
+                dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
                 setRecurringBills(state.InvoiceList.RecurringBills);
             
                 setTimeout(() => {
