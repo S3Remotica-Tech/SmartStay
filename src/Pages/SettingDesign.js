@@ -79,7 +79,7 @@ const handleDeleteRole=()=>{
 useEffect(()=>{
   if(state.Settings.StatusForDeletePermission === 200){
     handleCloseRoleDelete()
-    dispatch({type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id}});
+    dispatch({type: "SETTING_ROLE_LIST"});
     setTimeout(() => {
       dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
     }, 1000);
@@ -311,7 +311,7 @@ const handleCloseRoleDelete=()=>{
         });
         return resetValues;
       });
-        dispatch({ type: "SETTING_ROLE_LIST" , payload: { hostel_id: state.login.selectedHostel_Id}});
+        dispatch({ type: "SETTING_ROLE_LIST" });
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
     }, 1000);
@@ -330,7 +330,7 @@ useEffect(()=>{
         });
         return resetValues;
       });
-        dispatch({type: "SETTING_ROLE_LIST",  payload: { hostel_id: state.login.selectedHostel_Id}});
+        dispatch({type: "SETTING_ROLE_LIST"});
         // dispatch({ type: "EDITPERMISSIONROLE", payload: {role_id:editRolePermission}});
     setTimeout(() => {
       dispatch({ type: "CLEAR_EDIT_SETTING_ROLE"});

@@ -70,7 +70,7 @@ const [addRole, setAddRole] = useState(false)
 
     useEffect(() => {
         if(hostelid){
-        dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id} })
+        dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } })
         }
     }, [hostelid])
 
@@ -113,7 +113,7 @@ const handleEditForm = (view) =>{
         if(state.Settings.statusCodeForAddRole == 200)
             
             setShowRole(false)
-            dispatch({ type: "SETTING_ROLE_LIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
+            dispatch({ type: "SETTING_ROLE_LIST" , payload: { hostel_id: hostelid }});
         setTimeout(() => {
           dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
         }, 1000);
@@ -124,7 +124,7 @@ const handleEditForm = (view) =>{
       useEffect(()=>{
         if(state.Settings.StatusForDeletePermission == 200){
             setDeleteRole(false)
-          dispatch({type: "SETTING_ROLE_LIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
+          dispatch({type: "SETTING_ROLE_LIST" , payload: { hostel_id: hostelid }});
           setTimeout(() => {
             dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
           }, 1000);
@@ -135,7 +135,7 @@ const handleEditForm = (view) =>{
       useEffect(()=>{
         if(state.Settings.StatusForEditPermission === 200){
                     setShowRole(false)
-            dispatch({ type: "SETTING_ROLE_LIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
+            dispatch({ type: "SETTING_ROLE_LIST" , payload: { hostel_id: hostelid }});
             setTimeout(() => {
                 dispatch({ type: "CLEAR_EDIT_SETTING_ROLE"});
                 dispatch({ type: "CLEAR_EDIT_PERMISSION"});     

@@ -94,7 +94,7 @@ const [initialState, setInitialState] = useState(null)
                         Amount: amount,
                         setAsDefault: isChecked,
                         Status: editDetails.Status,
-                        Hostel_Id: state.login.selectedHostel_Id,
+                        Hostel_Id: hostelid,
                     }
                 });
 
@@ -106,7 +106,7 @@ const [initialState, setInitialState] = useState(null)
                         amenitiesName: amenity,
                         Amount: amount,
                         setAsDefault: isChecked,
-                        Hostel_Id: state.login.selectedHostel_Id,
+                        Hostel_Id: hostelid,
 
                     }
                 });

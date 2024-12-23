@@ -236,7 +236,7 @@ useEffect(()=>{
     dispatch({ type: 'VENDORLIST', payload: {hostel_id: state.login.selectedHostel_Id} })
     dispatch({ type: 'EXPENSELIST', payload:{hostel_id: state.login.selectedHostel_Id}})
     setLoading(true)
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
 
 

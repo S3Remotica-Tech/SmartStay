@@ -252,12 +252,12 @@ function SettingAllPages(props ) {
   //   setDisplayError('')
   // }
 
-useEffect(()=>{
-  if(hostel_Id){
-     dispatch(StoreSelectedHostelAction(hostel_Id))
-  }
+// useEffect(()=>{
+//   if(hostel_Id){
+//      dispatch(StoreSelectedHostelAction(hostel_Id))
+//   }
 
-},[hostel_Id])
+// },[hostel_Id])
 
 
 

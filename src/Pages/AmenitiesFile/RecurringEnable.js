@@ -77,7 +77,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
 
                     type: "amenities",
                     recure: 1,
-                    hostel_id: state.login.selectedHostel_Id,
+                    hostel_id: hostelid,
                     start_date: startDate,
                     end_date: endDate,
                     am_id: amenityDetails.id,

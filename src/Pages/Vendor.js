@@ -104,7 +104,7 @@ function Vendor() {
   useEffect(() => {
     dispatch({ type: 'VENDORLIST' , payload:{hostel_id: state.login.selectedHostel_Id} })
     setLoader(true)
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {

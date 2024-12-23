@@ -59,7 +59,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
 
 
 
-    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: hostelid, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
   }
 
 
@@ -70,14 +70,14 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
       return;
     }
 
-    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
+    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: hostelid, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
 
   }
 
   useEffect(() => {
     dispatch({
       type: 'GETASSIGNAMENITIES', payload: {
-        hostel_id: state.login.selectedHostel_Id,
+        hostel_id: hostelid,
         am_id: assignAmenitiesDetails.id,
       }
     })
@@ -105,7 +105,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.selectedHostel_Id,
+          hostel_id: hostelid,
           am_id: assignAmenitiesDetails.id,
         }
       })
@@ -120,7 +120,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200) {
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.selectedHostel_Id,
+          hostel_id: hostelid,
           am_id: assignAmenitiesDetails.id,
         }
       })
