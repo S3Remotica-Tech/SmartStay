@@ -65,7 +65,7 @@ const handleDeleteRole=()=>{
 useEffect(()=>{
   if(state.Settings.StatusForDeletePermission === 200){
     handleCloseRoleDelete()
-    dispatch({type: "SETTING_ROLE_LIST"});
+    dispatch({type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id}});
     setTimeout(() => {
       dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
     }, 1000);
@@ -73,7 +73,7 @@ useEffect(()=>{
 },[state.Settings.StatusForDeletePermission])
 
  useEffect(()=>{
-  dispatch({ type: 'SETTING_ROLE_LIST' })
+  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id} })
 },[])
 
     const handleCreateNew=()=>{
