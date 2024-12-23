@@ -21,7 +21,7 @@ import { MdError } from "react-icons/md";
 import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
 
 
-function SettingAllPages(props ) {
+function  SettingAllPages(props ) {
   
   const dispatch = useDispatch();
   const state = useSelector(state => state);
@@ -55,11 +55,19 @@ function SettingAllPages(props ) {
     setDisplayError('')
   };
 
-//   useEffect(()=> {
-// if(props.settignspgshow){
-//   handleShowManagePage()
-// }
-//   },[props])
+
+console.log("props",props)
+
+
+console.log("state",state)
+
+
+  useEffect(()=> {
+if(state.PgList.isManageEnable){
+  setActiveItem("Manage PG")
+  handleShowManagePage()
+}
+  },[state.PgList.isManageEnable])
   
 
   const handleShowGeneralPage = () => {

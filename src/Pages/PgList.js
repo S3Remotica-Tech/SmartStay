@@ -376,6 +376,7 @@ function PgList(props) {
 
   const handleShowsettingsPG = (settingNewDesign) => {
     props.displaysettings(settingNewDesign);
+    dispatch({ type: 'MANAGE_PG'})
   };
 
   const handleDisplayPgList = (isVisible) => {
