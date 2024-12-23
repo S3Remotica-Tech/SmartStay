@@ -428,10 +428,10 @@ const RecurringBills = (props) => {
   // Validate each row to ensure all fields are filled
   const incompleteRow = allRows.find(row => !row.description || !row.amount);
 
-  if (incompleteRow) {
-    setAllFieldErrmsg('Please fill all the details in the table.');
-    return;
-  }
+  // if (incompleteRow) {
+  //   setAllFieldErrmsg('Please fill all the details in the table.');
+  //   return;
+  // }
 
 
 
@@ -715,7 +715,7 @@ const RecurringBills = (props) => {
   </div>
 
 
-  <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+  {/* <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                   <Form.Label 
                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >
@@ -742,7 +742,7 @@ const RecurringBills = (props) => {
 )}
                 </Form.Group>
 
-              </div>
+              </div> */}
 
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -774,16 +774,16 @@ const RecurringBills = (props) => {
       borderRadius: 8 
     }}>
       <option value=''>Select Customer</option>
-      {customernamefilter && customernamefilter.length > 0 && customernamefilter?.filter(u => 
-            u.Bed !== 'undefined' && 
-            u.Bed !== '0' && 
-            typeof u.Bed === 'string' && 
-            u.Bed.trim() !== '' && 
-            u.Rooms !== 'undefined' && 
-            u.Rooms !== '0' && 
-            typeof u.Rooms === 'string' && 
-            u.Rooms.trim() !== '')
-  .map(u => (
+      {state?.UsersList?.Users && state?.UsersList?.Users.length > 0 && state?.UsersList?.Users.filter(u => 
+       u.Bed !== 'undefined' && 
+       u.Bed !== '0' && 
+       typeof u.Bed === 'string' && 
+       u.Bed.trim() !== '' && 
+       u.Rooms !== 'undefined' && 
+       u.Rooms !== '0' && 
+       typeof u.Rooms === 'string' && 
+       u.Rooms.trim() !== '')
+      .map(u => (
     <option value={u.ID} key={u.ID}>{u.Name}</option>
   ))
 }

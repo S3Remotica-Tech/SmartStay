@@ -60,8 +60,9 @@ export async function UpdateInvoice(datum) {
     })
   }
 
-  export async function GetRecurrBills() {
-    return await AxiosConfig.get('/all_recuring_bills',{  //Recurr bills data
+  export async function GetRecurrBills(bills) {
+    return await AxiosConfig.post('/all_recuring_bills',bills,{  //Recurr bills data
+      data:bills
     })
   }
 
