@@ -251,7 +251,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
         const payload = {
             id: editRoleDetails.id || null,
-            hostel_id: hostelid,
+            hostel_id: state.login.Settings_Hostel_Id,
             role_name: roleName,
             permissions: permissionRole,
             

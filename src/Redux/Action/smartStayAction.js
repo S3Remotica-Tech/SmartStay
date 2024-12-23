@@ -141,6 +141,14 @@ export const StoreSelectedHostelAction = (data) => {
   };
 };
 
+export const SettingsStoreSelectedHostelAction = (data) => {
+  return {
+    type: "SETTINGS_STORE_HOSTEL_DATA", 
+    payload: data,          
+  };
+};
+
+
 
 
 

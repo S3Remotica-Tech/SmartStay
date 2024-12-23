@@ -729,15 +729,20 @@ useEffect(()=>{
                   <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
 
-                <li className={`align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <li className={`align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
                   <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span>
-                </li>
+                </li> */}
 
 
               </ul>
 </div>
-            <ul className="second p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+
+<div className="mb-3" style={{ position: "absolute", bottom: 0, left: 0,right:0, display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+
+            <ul className=" p-0" >
               <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
@@ -752,15 +757,29 @@ useEffect(()=>{
 
 
               </li>
-              <p style={{border:" 1px solid white"}}></p>
-              <div style={{display: 'flex', flexDirection: 'row',gap:30}}>
-  <img src={sidebarOne} onClick={handleSettingspage}/>
-  <img src={sidebarTwo}/>
-  <img src={sidebarThree}/>
-  <img src={sidebarFour}/>
+              </ul>
+   <div style= {{border:"1px solid white "}}></div>
+
+
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-around'}} className=" w-100">
+                <div>
+    
+                <img src={sidebarOne} onClick={handleSettingspage}/>
+                </div>
+          <div>
+          <img src={sidebarTwo}/>
+          </div>
+
+<div>
+<img src={sidebarThree}/>
+</div>
+<div>
+<img src={sidebarFour}/>
+</div>
+
 </div>            
  
-            </ul>
+</div>
 
  
 
@@ -831,7 +850,7 @@ useEffect(()=>{
             {currentPage === 'compliance' && < Compliances allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'asset' && < Assets allPageHostel_Id={allPageHostel_Id} />}
             {currentPage === 'reports' && < Report allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
-            {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {/* {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>} */}
             {currentPage === 'eb' && <  EbHostel allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'checkout' && <Checkout allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}

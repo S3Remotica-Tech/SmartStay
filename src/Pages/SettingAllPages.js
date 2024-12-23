@@ -18,10 +18,10 @@ import "./Settings.css";
 import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { StoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
+import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
 
 
-function SettingAllPages(props ) {
+function  SettingAllPages(props ) {
   
   const dispatch = useDispatch();
   const state = useSelector(state => state);
@@ -55,11 +55,19 @@ function SettingAllPages(props ) {
     setDisplayError('')
   };
 
-//   useEffect(()=> {
-// if(props.settignspgshow){
-//   handleShowManagePage()
-// }
-//   },[props])
+
+console.log("props",props)
+
+
+console.log("state",state)
+
+
+  useEffect(()=> {
+if(state.PgList.isManageEnable){
+  setActiveItem("Manage PG")
+  handleShowManagePage()
+}
+  },[state.PgList.isManageEnable])
   
 
   const handleShowGeneralPage = () => {
@@ -252,12 +260,12 @@ function SettingAllPages(props ) {
   //   setDisplayError('')
   // }
 
-// useEffect(()=>{
-//   if(hostel_Id){
-//      dispatch(StoreSelectedHostelAction(hostel_Id))
-//   }
+useEffect(()=>{
+  if(hostel_Id){
+     dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
+  }
 
-// },[hostel_Id])
+},[hostel_Id])
 
 
 
@@ -268,7 +276,7 @@ function SettingAllPages(props ) {
     dispatch({type:'HOSTELLIST'})
   },[])
 
-
+console.log("state",state)
 
   return (
     <>
