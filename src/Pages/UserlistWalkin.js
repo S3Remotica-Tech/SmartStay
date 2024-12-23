@@ -45,52 +45,52 @@ function UserlistWalkin(props) {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [dotsButton, setDotsButton] = useState(null);
     const [walkInPermissionError, setWalkInPermissionError] = useState("");
-  const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
-  const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
+    const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
+    const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
 
 
 
 
 
-  useEffect(() => {
-    console.log("===customerrolePermission[0]", props.customerrolePermission);
-    if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_view == 1
-    ) {
-        setWalkInPermissionError("");
-    } else {
-        setWalkInPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+    useEffect(() => {
+        console.log("===customerrolePermission[0]", props.customerrolePermission);
+        if (
+            props.customerrolePermission[0]?.is_owner == 1 ||
+            props.customerrolePermission[0]?.role_permissions[7]?.per_view == 1
+        ) {
+            setWalkInPermissionError("");
+        } else {
+            setWalkInPermissionError("Permission Denied");
+        }
+    }, [props.customerrolePermission]);
 
 
-  useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
-  
-    if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_edit == 1
-    ) {
-        setWalkInEditPermissionError("");
-    } else {
-        setWalkInEditPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+    useEffect(() => {
+        console.log("===rolePermission", props.customerrolePermission[0]);
+
+        if (
+            props.customerrolePermission[0]?.is_owner == 1 ||
+            props.customerrolePermission[0]?.role_permissions[7]?.per_edit == 1
+        ) {
+            setWalkInEditPermissionError("");
+        } else {
+            setWalkInEditPermissionError("Permission Denied");
+        }
+    }, [props.customerrolePermission]);
 
 
-  useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
-  
-    if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_delete == 1
-    ) {
-        setWalkInDeletePermissionError("");
-    } else {
-        setWalkInDeletePermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+    useEffect(() => {
+        console.log("===rolePermission", props.customerrolePermission[0]);
+
+        if (
+            props.customerrolePermission[0]?.is_owner == 1 ||
+            props.customerrolePermission[0]?.role_permissions[7]?.per_delete == 1
+        ) {
+            setWalkInDeletePermissionError("");
+        } else {
+            setWalkInDeletePermissionError("Permission Denied");
+        }
+    }, [props.customerrolePermission]);
 
     const popupRef = useRef(null);
     const itemsPerPage = 7;
@@ -274,391 +274,404 @@ function UserlistWalkin(props) {
 
     return (
         <>
-{
-    walkInPermissionError ?(
-      <>
-      <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              // height: "100vh",
-            }}
-          >
-            {/* Image */}
-            <img
-              src={Emptystate}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
+            {
+                walkInPermissionError ? (
+                    <>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                // height: "100vh",
+                            }}
+                        >
+                            {/* Image */}
+                            <img
+                                src={Emptystate}
+                                alt="Empty State"
+                                style={{ maxWidth: "100%", height: "auto" }}
+                            />
 
-            {/* Permission Error */}
-            {walkInPermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span>{walkInPermissionError}</span>
-              </div>
-            )}
-          </div></>
-    ):<>
-    <div style={{ marginLeft: "-20px" }}>
-                {currentCustomers.length > 0 ? (
-                    <div className=' walkin_table_custom'>
-                        <Table responsive="md" className="table_walkin">
-                            <thead style={{ border: "none" }}>
-                                <tr>
-                                    <th style={{
-                                        textAlign: "center",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none",
-                                        borderTopLeftRadius: "24px"
-                                    }}>
-                                        <img src={minus} height={20} width={20} alt="minus icon" style={{}} />
-                                    </th>
-                                    <th style={{
-                                        textAlign: "start",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none"
-                                    }}>Name</th>
-                                    <th style={{
-                                        textAlign: "start",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none"
-                                    }}>Email ID</th>
+                            {/* Permission Error */}
+                            {walkInPermissionError && (
+                                <div
+                                    style={{
+                                        color: "red",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "0.5rem",
+                                        marginTop: "1rem",
+                                    }}
+                                >
+                                    <MdError  />
+                                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{walkInPermissionError}</span>
+                                </div>
+                            )}
+                        </div></>
+                ) : <>
+                    <div style={{ marginLeft: "-20px" }}>
+                        {currentCustomers.length > 0 ? (
+                            <div className=' walkin_table_custom'>
+                                <Table responsive="md" className="table_walkin">
+                                    <thead style={{ border: "none" }}>
+                                        <tr>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none",
+                                                borderTopLeftRadius: "24px"
+                                            }}>
+                                                <img src={minus} height={20} width={20} alt="minus icon" style={{ textAlign: "start" }} />
+                                            </th>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none"
+                                            }}>Name</th>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none"
+                                            }}>Email ID</th>
 
-                                    <th style={{
-                                        textAlign: "center",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none"
-                                    }}>Mobile no</th>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none"
+                                            }}>Mobile no</th>
 
-                                    <th style={{
-                                        textAlign: "center",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none"
-                                    }}>Walkin date</th>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none"
+                                            }}>Walkin date</th>
 
-                                    <th style={{
-                                        textAlign: "center",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none"
-                                    }}>Address</th>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none"
+                                            }}>Address</th>
 
-                                    <th style={{
-                                        textAlign: "center",
-                                        padding: "10px",
-                                        color: "#4B4B4B",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        background: "#E7F1FF",
-                                        border: "none",
-                                        borderTopRightRadius: "24px"
-                                    }}></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                            <th style={{
+                                                textAlign: "start",
+                                                padding: "10px",
+                                                color: "#4B4B4B",
+                                                fontSize: "14px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                background: "#E7F1FF",
+                                                border: "none",
+                                                borderTopRightRadius: "24px"
+                                            }}></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                {currentCustomers.map((customer) => (
-                                    <tr key={customer.id} className="customer-row">
-                                        <td style={{
-                                            textAlign: "center",
-                                            padding: "10px",
-                                            border: "none"
-                                        }}>
-                                            <img src={minus} height={20} width={20} alt="minus icon" />
-                                        </td>
-                                        <td>
-                                            <div className="d-flex align-items-center">
-                                                <Image src={Ellipse1} roundedCircle height={40} width={40} alt="avatar" />
-                                                <span style={{
+                                        {currentCustomers.map((customer) => (
+                                            <tr key={customer.id} className="customer-row">
+                                                <td style={{
+                                                    textAlign: "start",
+                                                    padding: "10px",
+                                                    border: "none"
+                                                }}>
+                                                    <img src={minus} height={20} width={20} alt="minus icon" />
+                                                </td>
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <Image src={Ellipse1} roundedCircle height={30} width={30} alt="avatar" style={{ textAlign: "start" }} />
+                                                        <span style={{
+                                                            fontSize: "16px",
+                                                            fontWeight: 600,
+                                                            fontFamily: "Gilroy",
+                                                            color: "#222222",
+                                                            textAlign: "start",
+                                                            paddingLeft: "10px",
+
+
+
+                                                        }}
+                                                            className=" customer-name">
+                                                            {customer.customer_Name}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style={{
+                                                    fontSize: "16px",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy",
+                                                    color: "#000000",
+                                                    textAlign: "start",
+
+
+                                                }}>{customer.email_Id || '-'}</td>
+                                                <td style={{
+                                                    fontSize: "16px",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy",
+                                                    color: "#000000",
+                                                    textAlign: "start",
+
+                                                    padding: "10px"
+                                                }}>{customer.mobile_Number}</td>
+
+                                                <td style={{
+                                                    padding: "8px",
+                                                    border: "none",
+
+                                                    textAlign: "start",
                                                     fontSize: "16px",
                                                     fontWeight: 600,
                                                     fontFamily: "Gilroy",
-                                                    color: "#222222",
-                                                    paddingLeft: "12px"
-                                                }}
-                                                    className=" customer-name">
-                                                    {customer.customer_Name}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td style={{
-                                            fontSize: "16px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            color: "#000000",
-                                            textAlign: "start"
-                                        }}>{customer.email_Id || '-'}</td>
-                                        <td style={{
-                                            fontSize: "16px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            color: "#000000",
-                                            textAlign: "center"
-                                        }}>{customer.mobile_Number}</td>
+                                                    padding: "10px"
+                                                }}>
+                                                    <span style={{
+                                                        padding: "3px 7px",
+                                                        borderRadius: "60px",
+                                                        backgroundColor: "#EBEBEB",
+                                                        textAlign: "start",
+                                                        fontSize: "16px",
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy",
+                                                        padding: "2px"
+                                                    }}>
+                                                        {moment(customer.walk_In_Date).format('DD/MMM/YYYY')}
+                                                    </span>
+                                                </td>
 
-                                        <td style={{
-                                            padding: "8px",
-                                            border: "none",
-                                            textAlign: "center",
-                                            fontSize: "16px",
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy"
-                                        }}>
-                                            <span style={{
-                                                padding: "3px 7px",
-                                                borderRadius: "60px",
-                                                backgroundColor: "#EBEBEB",
-                                                textAlign: "center",
-                                                fontSize: "16px",
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy"
-                                            }}>
-                                                {moment(customer.walk_In_Date).format('DD/MMM/YYYY')}
-                                            </span>
-                                        </td>
+                                                <td style={{
+                                                    fontSize: "16px",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy",
+                                                    color: "#000000",
+                                                    textAlign: "start",
+                                                    padding: "10px"
 
-                                        <td style={{
-                                            fontSize: "16px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            color: "#000000",
-                                            textAlign: "center"
-                                        }}>{customer.comments || "-"}</td>
+                                                }}>{customer.comments || "-"}</td>
 
 
-                                        <td>
+                                                <td>
 
-                                            <div
-
-                                                style={{
-                                                    cursor: "pointer",
-                                                    height: 40,
-                                                    width: 40,
-                                                    borderRadius: "50%",
-                                                    border: "1px solid #EFEFEF",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    position: "relative",
-                                                    zIndex: dotsButton === customer.id ? 1000 : 'auto'
-                                                }}
-                                                onClick={() => handleDotsClick(customer.id)}
-                                            >
-                                                <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                                                {dotsButton === customer.id && (
                                                     <div
-                                                        ref={popupRef}
+
                                                         style={{
                                                             cursor: "pointer",
-                                                            backgroundColor: "#F9F9F9",
-                                                            position: "absolute",
-                                                            left: -170,
-                                                            // bottom:0,
-                                                            top: 30,
-                                                            overflow: "visible ! important",
-                                                            marginButtom: "30px",
-                                                            width: 163,
-                                                            height: 92,
-                                                            border: "1px solid #EBEBEB",
-                                                            borderRadius: 10,
+                                                            height: 40,
+                                                            width: 40,
+                                                            borderRadius: "50%",
+                                                            border: "1px solid #EFEFEF",
                                                             display: "flex",
-                                                            flexDirection: "column",
                                                             justifyContent: "center",
-                                                            padding: 15,
-                                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
+                                                            alignItems: "center",
+                                                            position: "relative",
+                                                            zIndex: dotsButton === customer.id ? 1000 : 'auto'
                                                         }}
+                                                        onClick={() => handleDotsClick(customer.id)}
                                                     >
-                                                       <div
-  className="mb-2 d-flex align-items-center"
-  onClick={() => {
-    if (!walkInEditPermissionError) {
-      handleEdit(customer);
-    }
-  }}
-  style={{
-    cursor:walkInEditPermissionError ? "not-allowed" : "pointer",
-    pointerEvents:walkInEditPermissionError ? "none" : "auto",
-    opacity:walkInEditPermissionError ? 0.5 : 1,
-  }}
->
-  <img
-    src={Edit}
-    style={{
-      height: 16,
-      width: 16,
-      marginRight: "8px",
-    }}
-    alt="Edit icon"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#222222",
-    }}
-  >
-    Edit
-  </label>
-</div>
+                                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                                        {dotsButton === customer.id && (
+                                                            <div
+                                                                ref={popupRef}
+                                                                style={{
+                                                                    cursor: "pointer",
+                                                                    backgroundColor: "#F9F9F9",
+                                                                    position: "absolute",
+                                                                    left: -170,
+                                                                    // bottom:0,
+                                                                    top: 30,
+                                                                    overflow: "visible ! important",
+                                                                    marginButtom: "30px",
+                                                                    width: 163,
+                                                                    height: 92,
+                                                                    border: "1px solid #EBEBEB",
+                                                                    borderRadius: 10,
+                                                                    display: "flex",
+                                                                    flexDirection: "column",
+                                                                    justifyContent: "center",
+                                                                    padding: 15,
+                                                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
+                                                                }}
+                                                            >
+                                                                <div
+                                                                    className="mb-2 d-flex align-items-center"
+                                                                    onClick={() => {
+                                                                        if (!walkInEditPermissionError) {
+                                                                            handleEdit(customer);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
+                                                                        pointerEvents: walkInEditPermissionError ? "none" : "auto",
+                                                                        opacity: walkInEditPermissionError ? 0.5 : 1,
+                                                                    }}
+                                                                >
+                                                                    <img
+                                                                        src={Edit}
+                                                                        style={{
+                                                                            height: 16,
+                                                                            width: 16,
+                                                                            marginRight: "8px",
+                                                                        }}
+                                                                        alt="Edit icon"
+                                                                    />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 500,
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#222222",
+                                                                        }}
+                                                                    >
+                                                                        Edit
+                                                                    </label>
+                                                                </div>
 
 
-<div
-  className="d-flex align-items-center"
-  onClick={() => {
-    if (!walkInDeletePermissionError) {
-      handleDelete(customer);
-    }
-  }}
-  style={{
-    cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
-    pointerEvents:walkInDeletePermissionError ? "none" : "auto",
-    opacity:walkInDeletePermissionError ? 0.5 : 1,
-  }}
->
-  <img
-    src={Delete}
-    style={{
-      height: 16,
-      width: 16,
-      marginRight: "8px",
-    }}
-    alt="Delete icon"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#FF0000",
-    }}
-  >
-    Delete
-  </label>
-</div>
+                                                                <div
+                                                                    className="d-flex align-items-center"
+                                                                    onClick={() => {
+                                                                        if (!walkInDeletePermissionError) {
+                                                                            handleDelete(customer);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
+                                                                        pointerEvents: walkInDeletePermissionError ? "none" : "auto",
+                                                                        opacity: walkInDeletePermissionError ? 0.5 : 1,
+                                                                    }}
+                                                                >
+                                                                    <img
+                                                                        src={Delete}
+                                                                        style={{
+                                                                            height: 16,
+                                                                            width: 16,
+                                                                            marginRight: "8px",
+                                                                        }}
+                                                                        alt="Delete icon"
+                                                                    />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 500,
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#FF0000",
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
 
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                )}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
 
 
-                        <Pagination className=" d-flex justify-content-end align-items-center">
-                            <Pagination.Prev
-                                onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                                style={{ cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-                            >
-                                <ArrowLeft2 size="16" color="#1E45E1" />
-                            </Pagination.Prev>
+                                <Pagination className=" d-flex justify-content-end align-items-center">
+                                    <Pagination.Prev
+                                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        style={{ cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+                                    >
+                                        <ArrowLeft2 size="16" color="#1E45E1" />
+                                    </Pagination.Prev>
 
-                            {Array.from({ length: totalPages }, (_, idx) => (
-                                <Pagination.Item
-                                    key={idx + 1}
-                                    active={idx + 1 === currentPage}
-                                    onClick={() => handlePageChange(idx + 1)}
-                                    style={{
-                                        fontSize: '8px',
-                                    }}
-                                >
-                                    {idx + 1}
-                                </Pagination.Item>
-                            ))}
+                                    {Array.from({ length: totalPages }, (_, idx) => (
+                                        <Pagination.Item
+                                            key={idx + 1}
+                                            active={idx + 1 === currentPage}
+                                            onClick={() => handlePageChange(idx + 1)}
+                                            style={{
+                                                fontSize: '8px',
+                                            }}
+                                        >
+                                            {idx + 1}
+                                        </Pagination.Item>
+                                    ))}
 
-                            <Pagination.Next
-                                onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                                style={{ cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-                            >
-                                <ArrowRight2 size="16" color="#1E45E1" />
-                            </Pagination.Next>
-                        </Pagination>
-                    </div>
-                ) : (
-
-                    <div className='d-flex align-items-center justify-content-center ' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-                        <div>
-
-                            <div className="no-data-container">
-                                <Image src={Emptystate} alt="No Data" />
-                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)", paddingTop: "10px" }}>No Walk-in available</div>
-                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Walk-in added. </div>
+                                    <Pagination.Next
+                                        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        style={{ cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+                                    >
+                                        <ArrowRight2 size="16" color="#1E45E1" />
+                                    </Pagination.Next>
+                                </Pagination>
                             </div>
-                            <div style={{ textAlign: "center" }}>
-                                <Button
-                                disabled={props.customerWalkInAddPermission}
-                                    onClick={handleShowWalk}
-                                    style={{
-                                        fontSize: 16,
-                                        backgroundColor: "#1E45E1",
-                                        color: "white",
-                                        height: 56,
-                                        fontWeight: 600,
-                                        borderRadius: 12,
-                                        width: 200,
-                                        padding: "18px 20px",
-                                        fontFamily: 'Montserrat',
-                                        marginTop: "20px"
-                                    }}
-                                >
-                                    + Add Walk-in
-                                </Button>
+                        ) : (
 
+                            <div className='d-flex align-items-center justify-content-center ' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+                                <div>
+
+                                    <div className="no-data-container">
+                                        <Image src={Emptystate} alt="No Data" />
+                                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)", paddingTop: "10px" }}>No Walk-in available</div>
+                                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Walk-in added. </div>
+                                    </div>
+                                    <div style={{ textAlign: "center" }}>
+                                        <Button
+                                            disabled={props.customerWalkInAddPermission}
+                                            onClick={handleShowWalk}
+                                            style={{
+                                                fontSize: 16,
+                                                backgroundColor: "#1E45E1",
+                                                color: "white",
+                                                height: 56,
+                                                fontWeight: 600,
+                                                borderRadius: 12,
+                                                width: 200,
+                                                padding: "18px 20px",
+                                                fontFamily: 'Montserrat',
+                                                marginTop: "20px"
+                                            }}
+                                        >
+                                            + Add Walk-in
+                                        </Button>
+
+                                    </div>
+                                </div>
+                                <div>
+
+                                </div>
                             </div>
-                        </div>
-                        <div>
+                        )}
+                    </div></>
+            }
 
-                        </div>
-                    </div>
-                )}
-            </div></>
-}
-            
 
             {
 

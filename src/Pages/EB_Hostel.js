@@ -855,8 +855,8 @@ function EB_Hostel(props) {
                         marginTop: "1rem",
                       }}
                     >
-                      <MdError size={20} />
-                      <span>{ebpermissionError}</span>
+                      <MdError  />
+                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{ebpermissionError}</span>
                     </div>
                   )}
                 </div>
@@ -1578,7 +1578,7 @@ function EB_Hostel(props) {
                 {floorError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {floorError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>  
                   </div>
                 )}
               </div>
@@ -1623,7 +1623,7 @@ function EB_Hostel(props) {
                 {roomError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {roomError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>  
                   </div>
                 )}
               </div>
@@ -1662,7 +1662,7 @@ function EB_Hostel(props) {
                 {endMeterError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{endMeterError}</span> 
                   </div>
                 )}
               </div>

@@ -375,7 +375,7 @@ useEffect(() => {
               {accountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {accountError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span> 
                 </div>
               )}
               </div>
@@ -417,7 +417,7 @@ useEffect(() => {
               {dateError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {dateError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
                 </div>
               )}
             </div>
@@ -456,7 +456,7 @@ useEffect(() => {
               {amountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {amountError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span> 
                 </div>
               )}
             </div>
@@ -512,7 +512,7 @@ useEffect(() => {
               {transError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {transError}
+                                       <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span> 
                                       </div>
                                     )}
             </div>
@@ -550,7 +550,7 @@ useEffect(() => {
               {describtionError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {describtionError}
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span> 
                 </div>
               )}
             </div>

@@ -456,7 +456,7 @@ useEffect(() => {
         }}
       >
         <MdError size={20} />
-        <span>{bankingpermissionError}</span>
+        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankingpermissionError}</span>
       </div>
     )}
   </div></>

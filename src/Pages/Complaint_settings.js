@@ -221,7 +221,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         }}
       >
         <MdError size={20} />
-        <span>{compliancepermissionError}</span>
+        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{compliancepermissionError}</span>
       </div>
     )}
   </div>
@@ -243,7 +243,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
             {typeerrmsg.trim() !== "" && (
               <div>
          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {typeerrmsg}
+      {typeerrmsg !== " " && <MdError style={{  color: 'red' }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {typeerrmsg}</span>
     </p>
   </div>
 )}

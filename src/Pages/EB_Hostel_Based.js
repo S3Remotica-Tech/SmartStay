@@ -1268,7 +1268,7 @@ console.log("formattedDate:", formattedDate);
   {hostelIdError && (
                     <div style={{ color: "red" }}>
                       <MdError />
-                      {hostelIdError}
+                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{hostelIdError}</span> 
                     </div>
                   )}
   
@@ -1315,7 +1315,7 @@ console.log("formattedDate:", formattedDate);
               {readingError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {readingError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {readingError}</span>
                   </div>
                 )}
               {/* {readingError && (
@@ -1355,7 +1355,7 @@ console.log("formattedDate:", formattedDate);
               {dateError && (
         <div style={{ color: "red" }}>
           <MdError />
-          {dateError}
+         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
         </div>
       )}
             </div>
@@ -1364,7 +1364,7 @@ console.log("formattedDate:", formattedDate);
         {formError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {formError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span> 
                   </div>
                 )}
         <Modal.Footer className="d-flex justify-content-center">

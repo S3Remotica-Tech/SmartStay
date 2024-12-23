@@ -126,8 +126,10 @@ function SettingCompliance({ hostelid }) {
                     }}>Complaint Type</h4>
                 </Col>
                 <Col>
-                <div className="d-flex justify-content-end">
-                        <Button style={{ backgroundColor: "#1E45E1", color: '#ffffff',fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px"  }} onClick={handleShowForm}>
+
+                    <div className="d-flex justify-content-end">
+
+                                        <Button style={{ backgroundColor: "#1E45E1", color: '#ffffff',fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px"  }} onClick={handleShowForm}>
     
                             + Add Complaint Type
                         </Button>

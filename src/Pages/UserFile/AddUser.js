@@ -283,7 +283,7 @@ if (editDetails && !hasChanges) {
                     onChange={handleNameChange}
                     type="text" placeholder="Enter Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
-                {nameError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{nameError}</p>}
+                {nameError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{nameError}</p>}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -386,8 +386,8 @@ if (editDetails && !hasChanges) {
                   ></p>
                 </Form.Group>
 
-                {mobileError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{mobileError}</p>}
-                {countryCodeError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{countryCodeError}</p>}
+                {mobileError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{mobileError}</p>}
+                {countryCodeError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{countryCodeError}</p>}
 
                 {state.Settings.phoneNumError && (
                   <div className="d-flex align-items-center p-1 mb-2">
@@ -456,7 +456,7 @@ if (editDetails && !hasChanges) {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{passwordError}</p>}
+                  {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</p>}
                 </div>
 
               }
@@ -480,7 +480,7 @@ if (editDetails && !hasChanges) {
                     ))}
                   </Form.Select>
                 </Form.Group>
-                {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{roleError}</p>}
+                {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</p>}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -493,7 +493,7 @@ if (editDetails && !hasChanges) {
 
               </div>
 
-              {error && <p  style={{ color: "red",fontFamily: "Gilroy",fontSize:12 }}>{error}</p>}
+              {error && <p  style={{fontSize:12, color: "red",fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>}
 
 
 

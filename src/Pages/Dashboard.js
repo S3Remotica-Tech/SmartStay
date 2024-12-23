@@ -559,8 +559,8 @@ const mergedData = months.map((monthData) => {
   {/* Permission Error */}
   {permissionError && (
     <div style={{ color: "red", display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1rem" }}>
-      <MdError size={20} />
-      <span>{permissionError}</span>
+      <MdError  />
+      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{permissionError}</span>
     </div>
   )}
 </div>

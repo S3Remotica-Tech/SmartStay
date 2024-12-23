@@ -1066,7 +1066,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
         }}
       >
         <MdError size={20} />
-        <span>{profilepermissionError}</span>
+        <span style={{ fontSize: '12px', color: 'red',fontFamily: "Gilroy", fontWeight: 500 }}>{profilepermissionError}</span>
       </div>
     )}
   </div>
@@ -1092,7 +1092,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                                 {firstNameError.trim() !== "" && (
 <div>
 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{firstNameError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {firstNameError}
+{firstNameError !== " " && <MdError style={{ fontSize: '12px', color: 'red',fontFamily: "Gilroy", fontWeight: 500 }} />} {firstNameError}
 </p>
 </div>
 )}
@@ -1139,7 +1139,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                        {EmailError.trim() !== "" && (
 <div>
 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{EmailError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {EmailError}
+{EmailError !== " " && <MdError style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }} />} {EmailError}
 </p>
 </div>
 )}
@@ -1219,7 +1219,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
         {mobilenoError.trim() !== "" && (
 <div>
 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{mobilenoError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {mobilenoError}
+{mobilenoError !== " " && <MdError style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }} />} {mobilenoError}
 </p>
 </div>
 )}
@@ -1246,7 +1246,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               {AddressError.trim() !== "" && (
     <div>
 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{AddressError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {AddressError}
+{AddressError !== " " && <MdError style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }} />} {AddressError}
 </p>
 </div>
 )}
@@ -1257,7 +1257,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   {totalErrormsg.trim() !== "" && (
     <div>
 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-{totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+{totalErrormsg !== " " && <MdError style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }} />} {totalErrormsg}
 </p>
 </div>
 )}
@@ -1418,7 +1418,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               <div>
                 <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
                   {passworderrmsg !== " " && (
-                    <MdError style={{ fontSize: "15px", color: "red" }} />
+                    <MdError style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }} />
                   )}{" "}
                   {passworderrmsg}
                 </p>
@@ -1587,7 +1587,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                   }}
                 >
                   <MdError size={20} />
-                  <span>{profilepermissionError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{profilepermissionError}</span>
                 </div>
               </div>
               ):
@@ -1657,7 +1657,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                   }}
                 >
                   <MdError size={20} />
-                  <span>{profilepermissionError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{profilepermissionError}</span>
                 </div>
               </div>
               ):

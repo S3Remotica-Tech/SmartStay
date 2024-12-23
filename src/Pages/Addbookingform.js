@@ -703,7 +703,7 @@ useEffect(() => {
             {firstNameError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {firstNameError}
+               <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}> {firstNameError}</span>
               </div>
             )}
           </Col>
@@ -823,20 +823,20 @@ useEffect(() => {
                       {phoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneError}
+                        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>  
                         </div>
                       )}
                       
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneErrorMessage}
+                         <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span> 
                         </div>
                       )}
                         {state.Booking.bookingPhoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {state.Booking.bookingPhoneError}
+                          <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.Booking.bookingPhoneError}</span>
                         </div>
                       )}
                     </Form.Group>
@@ -872,25 +872,25 @@ useEffect(() => {
             {emailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailError}
+                            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                           </div>
                         )}
                         {emailIdError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailIdError}
+                           <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span> 
                           </div>
                         )}
                         {emailErrorMessage && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailErrorMessage}
+                            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                           </div>
                         )}
                         {state?.Booking?.bookingEmailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {state?.Booking?.bookingEmailError}
+                            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state?.Booking?.bookingEmailError}</span>
                           </div>
                         )}
           </Col>
@@ -924,7 +924,7 @@ useEffect(() => {
             {addressError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {addressError}
+                           <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span> 
                           </div>
                         )}
           </Col>
@@ -954,7 +954,7 @@ useEffect(() => {
       {dateError && (
         <div style={{ color: "red" }}>
           <MdError />
-          {dateError}
+          <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
         </div>
       )}
     </Col>
@@ -991,7 +991,7 @@ useEffect(() => {
             {amountError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {amountError}
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
               </div>
             )}
           </Col>

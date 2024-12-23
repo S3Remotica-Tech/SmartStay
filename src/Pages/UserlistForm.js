@@ -950,8 +950,8 @@ function UserlistForm(props) {
                       {firstnameError && (
                         <div style={{ color: "red" }}>
                           {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
+                          <MdError  />
+                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
                         </div>
                       )}
                     </div>
@@ -1078,19 +1078,19 @@ function UserlistForm(props) {
                       {phoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneError}
+                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phoneError}</span>
                         </div>
                       )}
                       {phonenumError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phonenumError}
+                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phonenumError}</span>
                         </div>
                       )}
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {phoneErrorMessage}
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {phoneErrorMessage}</span>
                         </div>
                       )}
                     </Form.Group>
@@ -1132,19 +1132,19 @@ function UserlistForm(props) {
                         {emailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailError}
+                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailError}</span>
                           </div>
                         )}
                         {emailIdError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailIdError}
+                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span> 
                           </div>
                         )}
                         {emailErrorMessage && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {emailErrorMessage}
+                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span> 
                           </div>
                         )}
                       </Form.Group>
@@ -1186,7 +1186,7 @@ function UserlistForm(props) {
                         {addressError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {addressError}
+                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span> 
                           </div>
                         )}
                       </Form.Group>
