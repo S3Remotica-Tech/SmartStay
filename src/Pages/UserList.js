@@ -77,11 +77,11 @@ function UserList(props) {
   const [uniqueostel_Id, setUniqostel_Id] = useState("");
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
   
-  console.log("uniqueostel_Id", props.allPageHostel_Id);
-  useEffect(() => {
-    console.log("uniqueHostelId:", props.allPageHostel_Id);
-    setUniqostel_Id(props.allPageHostel_Id);
-  }, [props.allPageHostel_Id]);
+  // console.log("uniqueostel_Id", props.allPageHostel_Id);
+  // useEffect(() => {
+  //   console.log("uniqueHostelId:", props.allPageHostel_Id);
+  //   setUniqostel_Id(props.allPageHostel_Id);
+  // }, [props.allPageHostel_Id]);
 
 
    useEffect(() => {
