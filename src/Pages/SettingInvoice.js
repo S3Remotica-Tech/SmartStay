@@ -31,7 +31,7 @@ function SettingInvoice({hostelid}) {
   const state = useSelector((state) => state);
 
   console.log("state for invoice settings", state);
-
+  const [invoice, setSetinvoice] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState(null);
 
@@ -595,9 +595,9 @@ useEffect(() => {
       ))}
 </div>
 
-
 {showform ? (
-  <div
+  invoice.length === 0 ? (
+    <div
   className="modal show"
   style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif"}}
 >
@@ -915,25 +915,99 @@ value: invoicedueDate
   </Modal>
 </div>
 
-) : (
-  <div>
-    <div className="d-flex justify-content-center">
-      <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-    </div>
+  ) : (
     <div
-      className="pb-1 mt-3"
+      className="modal show"
       style={{
-        textAlign: "center",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: 20,
-        color: "rgba(75, 75, 75, 1)",
+        display: "block",
+        position: "initial",
+        fontFamily: "Gilroy, sans-serif",
       }}
     >
-      No Invoice available
+      <Modal
+        show={showform}
+        onHide={handleCloseForm}
+        centered
+        backdrop="static"
+      >
+        <Modal.Dialog
+          style={{
+            maxWidth: 950,
+            paddingRight: "10px",
+            borderRadius: "30px",
+          }}
+          className="m-0 p-0"
+        >
+          <Modal.Body>
+            <div>
+              <Modal.Header
+                style={{ marginBottom: "30px", position: "relative" }}
+              >
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  {edit ? "Edit Invoice" : "Add Invoice "}
+                </div>
+                <button
+                  type="button"
+                  className="close"
+                  aria-label="Close"
+                  onClick={handleCloseForm}
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "16px",
+                    border: "1px solid black",
+                    background: "transparent",
+                    cursor: "pointer",
+                    padding: "0",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{ fontSize: "30px", paddingBottom: "6px" }}
+                  >
+                    &times;
+                  </span>
+                </button>
+              </Modal.Header>
+            </div>
+            {/* Modal content here */}
+          </Modal.Body>
+          <Modal.Footer style={{ border: "none" }}>
+            <Button
+              className="w-100"
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 500,
+                height: 50,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                fontStyle: "normal",
+                lineHeight: "normal",
+              }}
+              onClick={handleInvoiceSettings}
+            >
+              Add Invoice
+            </Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </Modal>
     </div>
-  </div>
-)}
+  )
+) : null}
+
 
 
       {recurringform && (
