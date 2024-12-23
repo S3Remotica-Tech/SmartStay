@@ -84,15 +84,15 @@ const handleDelete = () =>{
     // useEffect/////////////////////
 
     useEffect(() => {
-                dispatch({ type: "GETUSERSTAFF" });
-    }, [])
+                dispatch({ type: "GETUSERSTAFF" , payload:{hostel_id:state.login.Settings_Hostel_Id}});
+    }, [state.login.Settings_Hostel_Id])
 
 
 
 useEffect(()=>{
     if(state.InvoiceList?.deleteUserSuccessStatusCode == 200){
         setIsConfirmDelete(false)
-        dispatch({ type: "GETUSERSTAFF" });
+        dispatch({ type: "GETUSERSTAFF" ,payload:{hostel_id:state.login.Settings_Hostel_Id}});
         setTimeout(()=>{
 dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
         },2000)
@@ -127,7 +127,7 @@ console.log("state",state)
     useEffect(()=>{
         if(state.Settings.StatusForaddSettingUser === 200){
             setAddUserForm(false)
-          dispatch({ type: "GETUSERSTAFF"});
+          dispatch({ type: "GETUSERSTAFF",payload:{hostel_id:state.login.Settings_Hostel_Id} });
           setTimeout(() => {
             dispatch({ type: "CLEAR_ADD_STAFF_USER" });
           }, 200);

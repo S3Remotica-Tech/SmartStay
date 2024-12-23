@@ -133,7 +133,7 @@ const Compliance = ({allPageHostel_Id}) => {
  
 console.log("excelDownload",excelDownload)
 const handleComplianceeExcel = () => {
-    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint"} });
+    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint",hostel_id :state.login.selectedHostel_Id} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
@@ -762,7 +762,7 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
     setComplainttypelist(state.Settings.Complainttypelist)
 
 
-  }, [state.Settings.Complainttypelist.complaint_types])
+  }, [state.Settings.Complainttypelist])
 
 
   useEffect(() => {

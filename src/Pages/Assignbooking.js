@@ -325,13 +325,16 @@ const handleSubmit = (event) => {
   const isFloorvalid = validateAssignField(floor, "floor");
   const isRoomValid = validateAssignField(room, "room");
   const isbedvalid = validateAssignField(bed, "bed");
- 
+  const isjoiningDatevalid = validateAssignField(joiningDate,"joiningDate"); 
+  const isrentAmountvalid = validateAssignField(rentamount,"rentAmount");
  
  
   if (
         !isFloorvalid ||
         !isRoomValid ||
-        !isbedvalid 
+        !isbedvalid ||
+        !isjoiningDatevalid ||
+        !isrentAmountvalid
         
        
         
@@ -354,7 +357,7 @@ const handleSubmit = (event) => {
       floor: floor,
       room: room,
       bed: bed,
-      hostel_id:props.assignBooking.hostel_id,
+      hostel_id:state.login.selectedHostel_Id,
       
       join_date: formattedDate,
       ad_amount: Advanceamount,
@@ -383,8 +386,8 @@ console.log("Booking ID:", props.assignBooking.id);
   useEffect(()=>{
     if(state.Booking.statusCodeForAssignBooking === 200){
       handleAssignClose()
-      dispatch({ type: "USERLIST"});
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "USERLIST", payload:{ hostel_id: state.login.selectedHostel_Id}});
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
 
     }
 
@@ -792,7 +795,7 @@ console.log("Booking ID:", props.assignBooking.id);
                   
                   <Col md={6}>
                  
-                        <Form.Group className="mb-2" controlId="purchaseDate">
+                        <Form.Group className="mb-2" controlId="joiningDate">
         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
         Joining_Date 
         </Form.Label>

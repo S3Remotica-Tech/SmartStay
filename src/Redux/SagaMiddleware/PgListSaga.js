@@ -202,9 +202,35 @@ function* handleCustomerEblist(action) {
 }
 
 function* handleCheckEB(action) {
-  const response = yield call(Checkeblist, action.payload.hostelcheckedvalues);
+  const response = yield call(Checkeblist, action.payload);
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "CHECK_EB", payload: response.data });
+     var toastStyle = {
+             backgroundColor: "#E6F6E6",
+             color: "black",
+             width: "100%",
+             borderRadius: "60px",
+             height: "20px",
+             fontFamily: "Gilroy",
+             fontWeight: 600,
+             fontSize: 14,
+             textAlign: "start",
+             display: "flex",
+             alignItems: "center", 
+             padding: "10px",
+            
+           };
+           toast.success(response.data.message, {
+             position: "bottom-center",
+             autoClose: 1000,
+             hideProgressBar: true,
+             closeButton: false,
+             closeOnClick: true,
+             pauseOnHover: true,
+             draggable: true,
+             progress: undefined,
+             style: toastStyle
+           })
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }

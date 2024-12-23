@@ -31,6 +31,7 @@ function CustomerCheckout(props){
     console.log("dateDifference",dateDifference)
 
     const handleCloseCheckout=()=>{
+      dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR'})
         props.setCustomerCheckoutpage(false)
     }
 
@@ -203,6 +204,16 @@ function CustomerCheckout(props){
                       </span>
                     </button>
                   </Modal.Header>
+
+
+{state.UsersList.errorMessageAddCheckOut && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {state.UsersList.errorMessageAddCheckOut}
+                  </label>
+                </div>
+              )}
 
                   <div className="row mb-3">
                     

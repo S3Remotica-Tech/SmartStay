@@ -38,7 +38,7 @@ const RecurringBills = (props) => {
     const dispatch = useDispatch()
 
       useEffect(()=> {
-        dispatch({type: "USERLIST"})
+        dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
       },[])
 
       useEffect(()=> {
@@ -416,13 +416,25 @@ const RecurringBills = (props) => {
     
     
     
-    
+        const [allFieldErrmsg] = useState('');
+
     
     
           const handleCreateBill = () => {
     
                const allRows = [...billamounts, ...newRows];
     
+                
+  // Validate each row to ensure all fields are filled
+  const incompleteRow = allRows.find(row => !row.description || !row.amount);
+
+  if (incompleteRow) {
+    setAllFieldErrmsg('Please fill all the details in the table.');
+    return;
+  }
+
+
+
                const amenityArray = amenityDetail.map(detail => ({
                   am_name: detail.am_name,
                   amount: detail.amount
@@ -474,8 +486,7 @@ const RecurringBills = (props) => {
     
                 // setShowManualInvoice(true)
               
-              
-                }
+              }
     
     
     
@@ -1108,9 +1119,17 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
         </h5>
       <Button 
       onClick={handleCreateBill}
-       className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
+       className='w-80 mt-3 ' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
+       borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
         Create Bill
       </Button>
+      {allFieldErrmsg && (
+  <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>
+    {allFieldErrmsg}
+  </p>
+)}
+
+      <div style={{marginBottom:30}}></div>
     </div>
     </div>
   {/* </div> */}

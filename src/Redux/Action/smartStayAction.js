@@ -133,3 +133,24 @@ export async function UpdateNotification(message) {
   })
 }
 // http://localhost:2001
+
+export const StoreSelectedHostelAction = (data) => {
+  return {
+    type: "STORE_HOSTEL_DATA", 
+    payload: data,          
+  };
+};
+
+export const SettingsStoreSelectedHostelAction = (data) => {
+  return {
+    type: "SETTINGS_STORE_HOSTEL_DATA", 
+    payload: data,          
+  };
+};
+
+
+
+
+
+
+

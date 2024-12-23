@@ -81,11 +81,11 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   };
 
    useEffect(()=> {
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: hostelId} })
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: state.login.selectedHostel_Id} })
    },[])
 
    useEffect(() => {
-       dispatch({ type: 'ASSETLIST' })
+       dispatch({ type: 'ASSETLIST', payload: {hostel_id: state.login.selectedHostel_Id}  })
      }, [])
 
   const [errors, setErrors] = useState({});
@@ -136,7 +136,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   };
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",hostel_id:state.login.selectedHostel_Id  });
   }, []);
 
   const handlePurchaseDateChange = (e) => {
@@ -329,6 +329,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
           hostel_id: hostelId ,
           id: currentItem ? currentItem.id : null,
           bank_id: account,
+          hostel_id: state.login.selectedHostel_Id
         },
       });
     }
@@ -723,6 +724,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                     
                     }}
                   >
                     Category{" "}
@@ -738,7 +740,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     className=""
                     id="vendor-select"
                     style={{
-                      fontSize: 14,
+                       marginTop:"5px",
+                      fontSize: '16px',
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: category ? 600 : 500,
@@ -1041,7 +1044,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       fontWeight: 500,
                     }}
                   >
-                    Mode of payment{" "}
+                   Mode of transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -1059,13 +1062,13 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     className=""
                     id="vendor-select"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: modeOfPayment ? 600 : 500,
                     }}
                   >
-                    <option value="">Select mode of payment</option>
+                    <option value="">Select a mode</option>
                     <option value="UPI/BHIM">UPI/BHIM</option>
                     <option value="CASH">CASH</option>
                     <option value="Net Banking">Net Banking</option>

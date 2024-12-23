@@ -74,7 +74,7 @@ const [paymentError,setPaymentError]=useState('')
 
 useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",hostel_id:state.login.selectedHostel_Id  });
   }, []);
 
 const handleModeOfPaymentChange = (e) => {
@@ -206,7 +206,7 @@ const handleModeOfPaymentChange = (e) => {
     };
 
     useEffect(() => {
-        dispatch({ type: 'VENDORLIST' })
+        dispatch({ type: 'VENDORLIST' , payload: {hostel_id: state.login.selectedHostel_Id}})
     }, [])
 
 
@@ -334,7 +334,7 @@ const handleModeOfPaymentChange = (e) => {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
 
-            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price,payment_type:modeOfPayment,bank_id:account, id: id } })
+            dispatch({ type: 'ADDASSET', payload: {hostel_id: state.login.selectedHostel_Id, asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price,payment_type:modeOfPayment,bank_id:account, id: id } })
 
        } 
     }

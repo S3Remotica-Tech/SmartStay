@@ -6,6 +6,7 @@ import round from "../Assets/Images/Group 14.png"
 import { Button, Col, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 function SettingCompliance({ hostelid }) {
 
@@ -125,16 +126,22 @@ function SettingCompliance({ hostelid }) {
                     }}>Complaint Type</h4>
                 </Col>
                 <Col>
+
                     <div className="d-flex justify-content-end">
-                        <Button style={{ backgroundColor: "#1E45E1", color: '#ffffff',fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px"  }} onClick={handleShowForm}>
+
+                                        <Button style={{ backgroundColor: "#1E45E1", color: '#ffffff',fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px"  }} onClick={handleShowForm}>
     
                             + Add Complaint Type
                         </Button>
                     </div>
                 </Col>
             </div>
-            <div className="container">
-                <div className="row">
+
+
+            <div>
+  {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? (
+    <div className="container">
+      <div className="row">
                     {
 
                         state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u) => {
@@ -223,11 +230,37 @@ function SettingCompliance({ hostelid }) {
                                         )}
                                     </div>
                                 </>
+                                
                             )
                         })
                     }
                 </div>
-            </div>
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <img
+          src={EmptyState}
+          style={{ height: 240, width: 240 }}
+          alt="Empty state"
+        />
+      </div>
+      <div
+        className="pb-1 mt-3"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Complaints available
+      </div>
+    </div>
+  )}
+</div>
+
 
             <Modal
                 show={showForm}

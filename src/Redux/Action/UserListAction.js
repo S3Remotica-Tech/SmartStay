@@ -170,8 +170,9 @@ export async function countrylist() {
 
 
 
-export async function getWalkInCustomer() {
-  return await AxiosConfig.get('/get_walkin-customer',{
+export async function getWalkInCustomer(walk) {
+  return await AxiosConfig.post('/get_walkin-customer',walk,{
+    data:walk
   })
 }
 
@@ -215,6 +216,8 @@ export async function AddCheckOutCustomer(checkout) {
   })
 }
 
+
+
 export async function GetConfirmCheckOut(checkout) {
   return await AxiosConfig.post('/get/confirm_checkout',checkout,{
     data:checkout
@@ -245,5 +248,34 @@ export async function AvailableCheckOutCustomer(checkout) {
 export async function exportDetails(datum) {
   return await AxiosConfig.post('/export_details',datum,{
     data:datum
+  })
+}
+
+
+export async function customerReAssignBed(datum) {
+  console.log("reassign",datum)
+  return await AxiosConfig.post('/customers/reassign_bed',datum,{
+    data:datum
+  })
+}
+
+export async function customerAddContact(datum) {
+  console.log("customerAddContact",datum)
+  return await AxiosConfig.post('/contacts/add_contact',datum,{
+    data:datum
+  })
+}
+
+export async function customerAllContact(datum) {
+  console.log("customerAllContact",datum)
+  return await AxiosConfig.post('/customers/all_contacts',datum,{
+    data:datum
+  })
+}
+
+
+export async function deleteContact(contact){
+  return await AxiosConfig.post('/contacts/delete_contact',contact,{
+    data:contact
   })
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SettingAllPages from "./SettingAllPages"
 import Plus from "../Assets/Images/Create-button.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
@@ -42,7 +43,8 @@ import "react-toastify/dist/ReactToastify.css";
 // import Edit from '../Assets/Images/New_images/edit.png';
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
+import SettingManage from "./SettingManage";
 // function getFloorName(floor_Id) {
 
 //   const numberToWord = {
@@ -116,7 +118,7 @@ function getFloorName(floor_Id) {
   }
 }
 
-function PgList() {
+function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
@@ -144,6 +146,7 @@ function PgList() {
     // floorDetails: [],
   });
 
+  let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
 
   const [hostelIndex, setHostelIndex] = useState(0);
@@ -365,6 +368,15 @@ function PgList() {
   const handleShowAddPg = () => {
     setShowAddPg(true);
     setEditHostelDetails("");
+  };
+
+  const [settingsshow, setSettingsShow]= useState(false)
+
+ 
+
+  const handleShowsettingsPG = (settingNewDesign) => {
+    props.displaysettings(settingNewDesign);
+    dispatch({ type: 'MANAGE_PG'})
   };
 
   const handleDisplayPgList = (isVisible) => {
@@ -913,7 +925,7 @@ function PgList() {
 
                   <div>
                     <Button
-                      onClick={handleShowAddPg}
+                      onClick={handleShowsettingsPG}
                       disabled={addPermissionError}
                       style={{
                         fontFamily: "Gilroy",
@@ -926,9 +938,11 @@ function PgList() {
                       }}
                     >
                       {" "}
-                      + Add new PG
+                      + Manage PG
                     </Button>
                   </div>
+
+                  
                 </div>
                 {/* </div> */}
               </div>
@@ -1065,7 +1079,7 @@ function PgList() {
                               padding: "20px 40px",
                               fontFamily: "Gilroy",
                             }}
-                            onClick={handleShowAddPg}
+                            onClick={handleShowsettingsPG}
                           >
                             {" "}
                             + Add new PG
@@ -1125,6 +1139,8 @@ function PgList() {
       </Pagination> */}
             </>
           )}
+
+
 
           {selectedHostel && (
             <div className="container mt-3">
@@ -1564,6 +1580,9 @@ function PgList() {
           )}
 
           {showAddPg && (
+
+         
+            
             <AddPg
               show={showAddPg}
               handleClose={handleCloses}
@@ -1606,8 +1625,12 @@ function PgList() {
               addPermissionError={addPermissionError}
             />
           )}
+
+         
         </div>
       )}
+
+
     </>
   );
 }

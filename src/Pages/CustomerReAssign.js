@@ -20,12 +20,19 @@ function CustomerReAssign(props){
     const [currentFloor,setCurrentFloor] = useState("")
     const [currentRoom,setCurrentRoom]= useState("")
     const [currentBed,setCurrentBed]= useState("")
+    const [currentRoomId,setCurrentRoomId]= useState("")
+    const [currentBedId,setCurrentBedId]= useState("")
     const [currentRoomRent,setCurrentRoomRent]=useState("")
     const [newRoomRent,setNewRoomRent]=useState("")
     const [currentHostel_id,setCurrentHostel_Id]=useState("")
     const [newFloor,setNewFloor]=useState("")
     const [newRoom,setNewRoom]=useState("")
     const [newBed,setNewBed]=useState("")
+    const [userId,setUserId]=useState("")
+    const [floorError, setfloorError] = useState("");
+      const [roomError, setRoomError] = useState("");
+      const [bedError, setBedError] = useState("");
+      const [rentError, setRentError] = useState("");
     console.log("props.reAssignDetail",props.reAssignDetail)
 
     useEffect(()=>{
@@ -33,22 +40,35 @@ function CustomerReAssign(props){
         setCurrentRoom(props.reAssignDetail.Rooms)
         setCurrentBed(props.reAssignDetail.Bed)
         setCurrentRoomRent(props.reAssignDetail.RoomRent)
-        setCurrentHostel_Id(props.reAssignDetail.Hostel_Id)
+        setCurrentHostel_Id(state.login.selectedHostel_Id)
+        setUserId(props.reAssignDetail.ID)
+        setCurrentBedId(props.reAssignDetail.hstl_Bed)
+        setCurrentRoomId(props.reAssignDetail.room_id)
 
     },[props.reAssignDetail])
     const handleCloseReAssign=()=>{
         props.setCustomerReAssign(false)
+        setRentError("")
+        setRoomError("")
+        setBedError("")
+        setfloorError("")
+        setDateError("")
+        setNewFloor("")
+        setNewRoom("")
+        setNewBed("")
+        setNewRoomRent("")
+        setSelectedDate("")
     }
 
     useEffect(() => {
-        dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: currentHostel_id } });
+        dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
       }, [currentHostel_id]);
     
       useEffect(() => {
         if (currentHostel_id && newFloor) {
           dispatch({
             type: "ROOMDETAILS",
-            payload: { hostel_Id: currentHostel_id, floor_Id: newFloor },
+            payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: newFloor },
           });
         }
       }, [newFloor]);
@@ -56,28 +76,149 @@ function CustomerReAssign(props){
         setNewFloor(e.target.value);
         // setRooms("");
         // setBed("");
-        // setfloorError("");
+        setfloorError("");
       };
       const handleBed = (e) => {
         setNewBed(e.target.value);
         // setRooms("");
         // setBed("");
-        // setfloorError("");
+        setBedError("");
       };
       const handleRooms = (e) => {
         setNewRoom(e.target.value);
         dispatch({
           type: "BEDNUMBERDETAILS",
           payload: {
-            hostel_id: currentHostel_id,
+            hostel_id: state.login.selectedHostel_Id,
             floor_id: newFloor,
             room_id: e.target.value,
           },
         });
         // setRoomRent("");
-        // setRoomError("");
+        setRoomError("");
+      };
+
+
+      const validateAssignField = (value, fieldName) => {
+        const isValueEmpty =
+          (typeof value === "string" && value.trim() === "") ||
+          value === undefined ||
+          value === null ||
+          value === "0";
+        if (isValueEmpty) {
+          switch (fieldName) {
+            case "newRoomRent":
+              setRentError("newRoomRent is required");
+              break;
+              case "newFloor":
+                setfloorError("newFloor is required");
+                break;
+              case "newRoom":
+                setRoomError("newRoom is required");
+                break;
+                case "newBed":
+                  setBedError("newBed is required");
+                break;
+            case "selectedDate":
+              setDateError("Date is required");
+              break;
+    
+            default:
+              break;
+          }
+          return false;
+        }
+    
+        // Clear the error if value is valid
+        switch (fieldName) {
+          case "newRoomRent":
+            setRentError("");
+            break;
+            case "newFloor":
+              setfloorError("");
+              break;
+            case "newRoom":
+              setRoomError("");
+              break;
+              case "newBed":
+                setBedError("");
+              break;
+          case "selectedDate":
+            setDateError("");
+            break;
+  
+          default:
+            break;
+        }
+    
+        return true;
       };
    
+const handleSaveReassignBed = ()=>{
+  const isreadingValid = validateAssignField(newRoomRent, "newRoomRent");
+    const isDatevalid = validateAssignField(selectedDate, "selectedDate");
+    const isFloorValid = validateAssignField(newFloor, "newFloor");
+    const isRoomValid = validateAssignField(newRoom, "newRoom");
+    const isBedValid = validateAssignField(newBed, "newBed");
+
+
+
+    if (newFloor === "Selected Floor" || !isFloorValid) {
+      setfloorError("Please select a valid Floor");
+      return;
+    } else {
+      setfloorError("");
+    }
+    if (newRoom === "Selected Room" || !isRoomValid) {
+      setRoomError("Please select a valid Room");
+      return;
+    } else {
+      setRoomError("");
+    }
+
+    if (newBed === "Selected Bed" || !isBedValid) {
+      setBedError("Please select a valid Bed");
+      return;
+    } else {
+      setBedError("");
+    }
+   
+    if (
+      
+      !isreadingValid ||
+      (!isFloorValid && !isRoomValid && !isDatevalid && !isBedValid)
+    ) {
+      return;
+    }
+  dispatch({
+    type: 'CUSTOMERREASSINBED', payload: {
+      hostel_id: currentHostel_id,
+      c_floor: currentFloor, 
+      c_room: currentRoomId,
+      c_bed: currentBedId,
+      re_floor: newFloor,
+      re_room:newRoom,
+      re_bed: newBed,
+      re_date: selectedDate,
+      re_rent:newRoomRent,
+      user_id:userId
+    }
+  })
+}
+
+
+useEffect(()=>{
+if(state.UsersList.statusCodeForReassinBed === 200){
+  handleCloseReAssign()
+  dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+
+setTimeout(() => {
+  dispatch({ type: "CLEAR_REASSIGN_BED"});
+}, 200);
+
+}
+},[state.UsersList.statusCodeForReassinBed])
+
     const customDateInput = (props) => {
         return (
             <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
@@ -111,6 +252,7 @@ function CustomerReAssign(props){
 
     const handleNewRoomRent=(e)=>{
             setNewRoomRent(e.target.value)
+            setRentError("")
     }
     
     return(
@@ -394,12 +536,12 @@ function CustomerReAssign(props){
                           </option>
                         ))}
                       </Form.Select>
-                      {/* {floorError && (
+                      {floorError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {floorError}
                         </div>
-                      )} */}
+                      )}
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -443,12 +585,12 @@ function CustomerReAssign(props){
                             </option>
                           ))}
                       </Form.Select>
-                      {/* {roomError && (
+                      {roomError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {roomError}
                         </div>
-                      )} */}
+                      )}
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -516,12 +658,12 @@ function CustomerReAssign(props){
                             ))}
                       </Form.Select>
 
-                      {/* {bedError && (
+                      {bedError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {bedError}
                         </div>
-                      )} */}
+                      )}
                     </div>
         
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -548,12 +690,12 @@ function CustomerReAssign(props){
                 </div>
             </Form.Group>
 
-            {/* {dateError && (
+            {dateError && (
                 <div style={{ color: "red" }}>
                     <MdError />
                     {dateError}
                 </div>
-            )} */}
+            )}
         </div>
 
         {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -642,8 +784,12 @@ function CustomerReAssign(props){
         onChange={(e) => {
           if (e.target.checked) {
             setNewRoomRent(currentRoomRent); 
+            setRentError("")
+
           } else {
             setNewRoomRent("");
+            setRentError("")
+            
           }
         }}
       />
@@ -667,6 +813,12 @@ function CustomerReAssign(props){
       }}
     />
   </Form.Group>
+  {rentError && (
+                <div style={{ color: "red" }}>
+                    <MdError />
+                    {rentError}
+                </div>
+            )}
 </div>
 
                   </div>
@@ -681,7 +833,7 @@ function CustomerReAssign(props){
                       fontSize: 16,
                       fontFamily: "Montserrat",
                     }}
-                    // onClick={handleSaveUserlistAddUser}
+                    onClick={handleSaveReassignBed}
                   >
                     Reassign Bed
                   </Button>

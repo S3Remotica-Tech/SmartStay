@@ -215,6 +215,30 @@ text-decoration: underline;
 
 
 
-.css-1b3x6ee-control:hover{
-border-color: unset !important;
+.carousel-indicators [data-bs-target] {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 8px !important;
+  height: 8px !important;
+  padding: 0;
+  margin-right: 3px;
+  margin-top: 30px !important;
+  margin-left: 3px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color:#1E45E1 !important;
+  background-clip: padding-box;
+  border: 0;
+  border-top: 40px solid transparent;
+  border-bottom: 10px solid transparent;
+  opacity: .5;
+  transition: opacity .6s ease;
+  border-radius: 50% !important;
+  bottom: -20px;
+  /* position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; */
+
 }

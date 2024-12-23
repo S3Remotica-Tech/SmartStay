@@ -12,6 +12,7 @@ import {Autobrightness,Call,Sms,House, Buildings,ArrowLeft2,ArrowRight2,MoreCirc
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
+import Carousel from 'react-bootstrap/Carousel'
 import {
   Button,
   Offcanvas,
@@ -44,11 +45,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import editliner from "../Assets/Images/Edit-Linear-32px.png";
 import upload from "../Assets/Images/New_images/upload.png";
-
 import UserListKyc from "./UserListKyc";
-
-
 import UserAdditionalContact from "./UserAdditionalContact";
+import trash from "../Assets/Images/New_images/trash.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -105,13 +104,39 @@ function UserListRoomDetail(props) {
   const [kycdetailsForm,setKycDetailForm] = useState(false)
   const [additionalForm,setAdditionalForm] = useState(false);
   const [kycuserDetails, setkycuserDetails] = useState('')
+  const [contactList, setContactList] = useState('')
+  const [contactDetails,setContactDetails] = useState('')
+  const [contactEdit,setContactEdit] = useState("")
+  const [editAdditional,setEditAdditional]=useState(false)
+  const [deleteAdditional,setDeleteAdditional]=useState(false)
 
 
+useEffect(()=>{
+  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+},[props.id])
+
+useEffect(()=>{
+  if(state.UsersList.statusCodeForCustomerAllDetails === 200){
+    
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS"});
+    }, 100);
+        
+  }
+},[state.UsersList.statusCodeForCustomerAllDetails])
+
+const handleContactEdit=(u)=>{
+  setEditAdditional(true)
+console.log("vvvvvvvvvvvv//",u)
+setContactEdit(u)
+setAdditionalForm(true)
+}
   const handleKycdetailsForm =(item)=>{
     setkycuserDetails(item)
     setKycDetailForm(true)
   }
   const handleAdditionalForm =()=>{
+    setEditAdditional(false)
     setAdditionalForm(true)
   }
 
@@ -154,24 +179,7 @@ function UserListRoomDetail(props) {
     console.log("itemitem", item);
 
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -243,24 +251,7 @@ function UserListRoomDetail(props) {
   const handleEditUser = (item) => {
     console.log("item...", item);
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -316,7 +307,7 @@ function UserListRoomDetail(props) {
     if (hostel_Id && Floor) {
       dispatch({
         type: "ROOMDETAILS",
-        payload: { hostel_Id: hostel_Id, floor_Id: Floor },
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
       });
     }
   }, [Floor]);
@@ -460,7 +451,7 @@ function UserListRoomDetail(props) {
   }, [props.id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
+    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
   console.log(
     "state.UsersList?.bednumberdetails?.bed_details",
@@ -468,9 +459,9 @@ function UserListRoomDetail(props) {
   );
   useEffect(()=>{
     const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
+    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(props.uniqueostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id);
   },[])
   console.log("selectedHostel",hostel_Id)
 
@@ -516,7 +507,7 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: RoomId },
+      payload: { hostel_id: state.login.selectedHostel_Id, floor_id: Floor, room_id: RoomId },
     });
   }, [Rooms]);
 
@@ -598,38 +589,7 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  // useEffect(() => {
-  //   if (props.userDetails && props.userDetails.ID) {
-  //     seteditBed("editbeddet");
-  //     setId(props.userDetails.ID);
-  //     if (props.userDetails.profile == 0) setFile(null);
-  //     else {
-  //       setFile(props.userDetails.profile);
-  //     }
-  //     let value = props.userDetails.Name.split(" ");
-  //     setFirstname(value[0]);
-  //     setLastname(value[1]);
-  //     setAddress(props.userDetails.Address);
-  //     setAadharNo(props.userDetails.AadharNo);
-  //     setPancardNo(props.userDetails.PancardNo);
-  //     setLicence(props.userDetails.licence);
-  //     setPhone(props.userDetails.Phone);
-  //     setEmail(props.userDetails.Email);
-  //     setHostelName(props.userDetails.HostelName);
-  //     setHostel_Id(props.userDetails.Hostel_Id);
-  //     setFloor(props.userDetails.Floor);
-  //     setRooms(props.userDetails.Rooms);
-  //     setBed(props.userDetails.Bed);
-  //     setAdvanceAmount(props.userDetails.AdvanceAmount);
-  //     setRoomRent(props.userDetails.RoomRent);
-  //     setPaymentType(props.userDetails.PaymentType);
-  //     setBalanceDue(props.userDetails.BalanceDue);
-  //     setPaidAdvance(props.userDetails.paid_advance);
-  //     setPaidrent(props.userDetails.paid_rent);
-  //   } else {
-  //     props.setEdit("Add");
-  //   }
-  // }, [props.userDetails]);
+  
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
@@ -948,7 +908,6 @@ function UserListRoomDetail(props) {
         ID: id,
       },
     });
-
     // Trigger post-edit actions
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
@@ -960,20 +919,27 @@ function UserListRoomDetail(props) {
 };
 
 
- 
+console.log("mydata",state.UsersList.customerdetails.contact_details);
 
-  useEffect(() => {
-    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-      }, 1000);
-    }
-  }, [state.UsersList.CustomerdetailsgetStatuscode]);
  
+ console.log("state.UsersList.statusCodeForCustomerAllDetails",state.UsersList.statusCodeForCustomerAllDetails)
+ console.log("state.UsersList.statusCodeForCustomerCoatact",state.UsersList.statusCodeForCustomerCoatact)
+
+useEffect(()=>{
+  if(state.UsersList.statusCodeForCustomerCoatact === 200){
+    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
+    }, 100);
+        
+  }
+},[state.UsersList.statusCodeForCustomerCoatact])
+
+
   useEffect(()=>{
     if(state.UsersList.statusCodeForAddUser === 200){
    
-dispatch({type:"USERLIST"})
+dispatch({type:"USERLIST",payload:{hostel_id:hostel_Id}})
 setTimeout(() => {
   dispatch({ type: "CLEAR_STATUS_CODES" });
 }, 100);
@@ -1040,6 +1006,33 @@ const handleFileChange = (e, type) => {
     }
   }
 };
+
+const [contactDeleteId,setContactDeleteId]=useState("")
+const handleContactDelete=(v)=>{
+  console.log("handleContactDelete",v)
+  setDeleteAdditional(true)
+  setContactDeleteId(v.id)
+
+}
+const handleCloseDelete=()=>{
+  setDeleteAdditional(false)
+}
+
+const handleDeleteContact =()=>{
+  dispatch({type:"CONTACTDELETE",payload:{id:contactDeleteId}})
+}
+
+
+useEffect(()=>{
+  if(state.UsersList.statusCodeDeleteContact === 200){
+    handleCloseDelete()
+    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_DELETE_CONTACT"});
+    }, 100);
+        
+  }
+},[state.UsersList.statusCodeDeleteContact])
 
   return (
     <>
@@ -1823,146 +1816,163 @@ const handleFileChange = (e, type) => {
     </div>
   ))}
 </div>
-    <div
-  className=" col-md-12 col-lg-12 mb-md-0"
-  style={{ paddingLeft: 20, paddingRight: 20,marginTop:30 }}
->
+
+
+
+
+
+
 <div
-  className="card "
-  style={{
-    borderRadius: "20px",
-    padding: "20px",
-   
-  }}
+  className="col-md-12 col-lg-12 mb-md-0"
+  style={{ paddingLeft: 20, paddingRight: 20, marginTop: 30 }}
 >
- 
-  <div
-    className="card-header d-flex justify-content-between align-items-center"
-    style={{
-      backgroundColor: "transparent",
-      borderBottom: "1px solid #e0e0e0",
-      marginBottom: "15px",
-    }}
-  >
+  <div className="card" style={{ borderRadius: "20px", padding: "20px" }}>
     <div
+      className="card-header d-flex justify-content-between align-items-center"
       style={{
-        fontSize: 16,
-        fontWeight: 600,
-        fontFamily: "Gilroy, sans-serif",
-        lineHeight: "40px",
+        backgroundColor: "transparent",
+        borderBottom: "1px solid #e0e0e0",
+        marginBottom: "15px",
       }}
     >
-      Additional Contact
-    </div>
-    <button
-      className="btn btn-link"
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        textDecoration: "none",
-      }}
-      onClick={handleAdditionalForm}
-    >
-      + Add Contact
-    </button>
-  </div>
-
-  {/* Contact Info */}
-  <div className="card-body">
-    
-     <p>Contact Info <img src={editliner} alt="Edit Icon" width={15} height={15} /></p>
-    
-    <div className="row mb-3">
-
-      
-      <div className="col-sm-4 d-flex flex-column align-items-start">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Contact Name
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.name || "N/A"} */}
-        </p>
+      <div className="fw-semibold" style={{ fontSize: 16, lineHeight: "40px" }}>
+        Additional Contact
       </div>
-      <div className="col-sm-4 d-flex flex-column align-items-center">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Mobile no.
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.phone || "N/A"} */}
-        </p>
-      </div>
-      <div className="col-sm-4 d-flex flex-column align-items-end">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Guardian
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.guardian || "N/A"} */}
-        </p>
-      </div>
+      <button
+        className="btn btn-link fw-medium text-decoration-none"
+        style={{ fontSize: 14 }}
+        onClick={handleAdditionalForm}
+      >
+        + Add Contact
+      </button>
     </div>
 
-    <div className="row">
-      <div className="col-sm-12">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Address
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.address || "N/A"} */}
-        </p>
-      </div>
+    <div className="card-body">
+      {state?.UsersList?.customerAllDetails?.contact_details?.length > 0 ? (
+        state.UsersList.customerAllDetails.contact_details.length > 1 ? (
+          <Carousel interval={null} indicators>
+            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
+              <Carousel.Item key={index}>
+                <div>
+                  <p>
+                    Contact Info{" "}
+                    <img
+                      src={editliner}
+                      alt="Edit Icon"
+                      width={15}
+                      height={15}
+                      onClick={() => handleContactEdit(v)}
+                    />
+                    <img
+                      src={trash}
+                      alt="Trash Icon"
+                      width={15}
+                      height={15}
+                      className="ms-2"
+                      onClick={() => handleContactDelete(v)}
+                    />
+                  </p>
+
+                  <div className="row mb-3">
+                    <div className="col-sm-4">
+                      <p className="mb-1 small fw-medium">Contact Name</p>
+                      <p className="mb-0 fw-semibold">{v.user_name}</p>
+                    </div>
+                    <div className="col-sm-4 text-center">
+                      <p className="mb-1 small fw-medium">Mobile no.</p>
+                      <p className="mb-0 fw-semibold">
+                        +
+                        {v &&
+                          String(v.mob_no).slice(
+                            0,
+                            String(v.mob_no).length - 10
+                          )}{" "}
+                        {v && String(v.mob_no).slice(-10)}
+                      </p>
+                    </div>
+                    <div className="col-sm-4 text-end">
+                      <p className="mb-1 small fw-medium">Guardian</p>
+                      <p className="mb-0 fw-semibold">{v.guardian}</p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <p className="mb-1 small fw-medium">Address</p>
+                      <p className="mb-0 fw-semibold">{v.address}</p>
+                    </div>
+                  </div>
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        ) : (
+          <div>
+            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
+              <div key={index}>
+                <p>
+                  Contact Info{" "}
+                  <img
+                    src={editliner}
+                    alt="Edit Icon"
+                    width={15}
+                    height={15}
+                    onClick={() => handleContactEdit(v)}
+                  />
+                  <img
+                    src={trash}
+                    alt="Trash Icon"
+                    width={15}
+                    height={15}
+                    className="ms-2"
+                    onClick={() => handleContactDelete(v)}
+                  />
+                </p>
+
+                <div className="row mb-3">
+                  <div className="col-sm-4">
+                    <p className="mb-1 small fw-medium">Contact Name</p>
+                    <p className="mb-0 fw-semibold">{v.user_name}</p>
+                  </div>
+                  <div className="col-sm-4 text-center">
+                    <p className="mb-1 small fw-medium">Mobile no.</p>
+                    <p className="mb-0 fw-semibold">
+                      +
+                      {v &&
+                        String(v.mob_no).slice(
+                          0,
+                          String(v.mob_no).length - 10
+                        )}{" "}
+                      {v && String(v.mob_no).slice(-10)}
+                    </p>
+                  </div>
+                  <div className="col-sm-4 text-end">
+                    <p className="mb-1 small fw-medium">Guardian</p>
+                    <p className="mb-0 fw-semibold">{v.guardian}</p>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-12">
+                    <p className="mb-1 small fw-medium">Address</p>
+                    <p className="mb-0 fw-semibold">{v.address}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      ) : (
+        <p>No data available</p>
+      )}
     </div>
   </div>
 </div>
 
-</div>
+
+
+
+
 </div>
 </div>
 </div>
@@ -1974,7 +1984,7 @@ const handleFileChange = (e, type) => {
 }
 {
   additionalForm == true ? (
-<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm}/>
+<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id} contactEdit={contactEdit} editAdditional={editAdditional} setEditAdditional={setEditAdditional}/>
   ) :null
 }
   
@@ -2819,7 +2829,8 @@ const handleFileChange = (e, type) => {
                                           boxShadow: "none",
                                           border: "1px solid #D9D9D9",
                                           height: 50,
-                                          borderRadius: 8,
+                                        
+                                          borderRadius:8
                                         }}
                                       />
                                     </Form.Group>
@@ -2908,7 +2919,89 @@ const handleFileChange = (e, type) => {
                         <Modal.Footer style={{ border: "none" }}></Modal.Footer>
                       </Modal.Dialog>
                     </Modal>
+                    <Modal
+        show={deleteAdditional}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Contact?
+          </Modal.Title>
+        </Modal.Header>
 
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this Contact?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDeleteContact}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>

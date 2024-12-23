@@ -47,12 +47,12 @@ function* handleAddBanking(action) {
    }
 }
 
-function* handleGetBanking() {
-   const response = yield call(GetAddBanking)
+function* handleGetBanking(action) {
+   const response = yield call(GetAddBanking,action.payload)
    console.log("response.....///",response)
    
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'BANKING_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'BANKING_LIST', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -172,8 +172,8 @@ function* handleEditBankTrans(action) {
    };
 
    console.log("handleEditBankTrans",response)
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'EDIT_BANK_TRANSACTION' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EDIT_BANK_TRANSACTION' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -216,12 +216,12 @@ function* handleDeleteBanking(action) {
     
    };
  
-   if (response.status === 200 || response.statusCode === 200) {
+   if (response.status === 200 || response.data.statusCode === 200) {
      yield put({
        type: "DELETE_BANKING",
        payload: {
          response: response.data,
-         statusCode: response.status || response.statusCode,
+         statusCode: response.status || response.data.statusCode,
        },
      });
      toast.success("Deleted successfully", {
@@ -235,7 +235,7 @@ function* handleDeleteBanking(action) {
        progress: undefined,
        style: toastStyle,
      });
-   } else if (response.status === 201 || response.statusCode === 201) {
+   } else if (response.status === 201 || response.data.statusCode === 201) {
      yield put({ type: "DELETE_BANKING_ERROR", payload: response.data.message });
     
    }

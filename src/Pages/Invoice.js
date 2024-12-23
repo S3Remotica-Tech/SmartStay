@@ -195,7 +195,7 @@ const [account, setAccount] = useState("");
   const dueRef = useRef(null);
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
   }, []);
 
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
@@ -694,7 +694,7 @@ const [account, setAccount] = useState("");
 
 
 
-  const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
+  // const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
 
 
  
@@ -716,7 +716,7 @@ const [account, setAccount] = useState("");
 
   useEffect(() => {
     if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users.find(item => item.User_Id === selectedUserId);
+      const filteredDetails = state.UsersList?.Users?.find(item => item.User_Id === selectedUserId);
       if (filteredDetails) {
         setFilteredUserDetails([filteredDetails]);
         setInvoiceList({
@@ -1123,7 +1123,7 @@ const [account, setAccount] = useState("");
 
 
   useEffect(()=> {
-    dispatch({type: "USERLIST"})
+    dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
   },[])
 
 
@@ -1693,12 +1693,18 @@ const customInvoiceDueDateInput = (props) => {
 
 
 
-          
+            const [tableErrmsg, setTableErrmsg] = useState('');
+
 
 
       const handleCreateBill = () => {
 
-               
+               // Validate if all rows in the table have the description and amount
+  const incompleteRows = newRows.some(row => !row.am_name || !row.amount);
+  if (incompleteRows) {
+    setTableErrmsg('Please fill all details in the table before generating the bill');
+    return;
+  }
 
                if(!customername){
                 setCustomerErrmsg('Please Select Customer')
@@ -2128,13 +2134,13 @@ let serialNumber = 1;
             <Modal.Body>
 
 
-              <div className='row mt-4'>
+              <div className='row mt-2'>
 
 
 
                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+                    <Form.Label style={{ fontFamily: "Gilroy"}}
                     >
                       Due Amount
                     </Form.Label>
@@ -2152,7 +2158,7 @@ let serialNumber = 1;
 
                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                   <Form.Group className="mb-2" controlId="exampleForm.ControlInput3">
-                    <Form.Label
+                    <Form.Label style={{ fontFamily: "Gilroy"}}
                     >
                       Paid Amount
                     </Form.Label>
@@ -3120,7 +3126,7 @@ let serialNumber = 1;
         borderRadius: 8 
       }}>
         <option value=''>Select Customer</option>
-        {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+        {state.UsersList?.Users && state.UsersList?.Users?.length > 0 && state?.UsersList?.Users?.filter(u => 
             u.Bed !== 'undefined' && 
             u.Bed !== '0' && 
             typeof u.Bed === 'string' && 
@@ -3401,74 +3407,6 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
     </tr>
   ))}
 
-{/* {selectedData && selectedData.length > 0 && selectedData.map((u, index) => (
-<tr key={index}>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
-<p>{u.description}</p>
-</div>
-</td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`actualAmount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter actual amount"
-value={u.total_amount ?? 0}  // using nullish coalescing for safer default value
-// onChange={(e) => handleActualAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`amount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter total amount"
-value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
-onChange={(e) => handleAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
-
-<td style={{ paddingTop: '35px' }}>
-<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeletebilldata(u)}>
-<img src={Closebtn} height={15} width={15} alt="delete" />
-</span>
-</td>
-</tr>
-))} */}
-
-
-  {/* <tr>
-
-  <div className='col-lg-12 col-md-5 col-sm-12 col-xs-12 mt-1'>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
-        
-        </Form.Label>
-        <Form.Select aria-label="Default select example" onChange={handleSelectChange} className='border'>
-  <option value=''>Select</option>
-  {availableOptions && availableOptions.length > 0 && availableOptions.map((option, index) => (
-    <option key={index} value={option.description}>
-      {option.description}
-    </option>
-  ))}
-</Form.Select>
-
-
-      </Form.Group>
-
-    </div>
-    </tr> */}
 </tbody>
        
         </Table>
@@ -3478,9 +3416,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 
       <div style={{ float: 'right', marginRight: '130px' }}>
         <h5>Total Amount ₹{totalAmount}</h5>
-        <Button onClick={handleCreateBill} className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
+        <Button onClick={handleCreateBill} className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", 
+          fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",
+           fontStyle: 'normal', lineHeight: 'normal' }} >
           Create Bill
         </Button>
+        {tableErrmsg && <div style={{ color: 'red', marginTop: '10px' }}>{tableErrmsg}</div>}
+
+
+        <div className='mb-3'></div>
       </div>
     </div>
   

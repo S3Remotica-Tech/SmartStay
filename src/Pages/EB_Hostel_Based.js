@@ -56,6 +56,22 @@ function EBHostelReading(props) {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);  // Close the menu if clicked outside
+      }
+    };
+  
+    // Add event listener for detecting clicks outside the popup
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 const handleDeleteEb=(item)=>{
   setDeleteForm(true)
   setHostelDeleteId(item.eb_Id)
@@ -133,9 +149,9 @@ useEffect(()=>{
 ])
  
   useEffect(() => {
-    setSelectedHostel(props.uniqueostel_Id);
+    setSelectedHostel(state.login.selectedHostel_Id);
     setHos_Name(props.hostelName);
-  }, [props]);
+  }, [props,state.login.selectedHostel_Id]);
 
   useEffect(() => {
     dispatch({

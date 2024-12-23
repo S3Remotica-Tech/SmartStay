@@ -192,7 +192,7 @@ console.log("roomCountData",roomCountData)
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
       setShowDeleteBed(false)
-      dispatch({ type: 'USERLIST' })
+      dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
 
     }
   }, [state.UsersList?.statusCodeForAddUser]);
@@ -238,7 +238,7 @@ console.log("roomCountData",roomCountData)
   console.log("roomCountData", roomCountData)
 
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
   }, [])
 
 

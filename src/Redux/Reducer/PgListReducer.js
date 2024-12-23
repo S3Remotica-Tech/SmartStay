@@ -72,7 +72,9 @@ const initialState = {
     deleteHostelBasedReading:[],
     statusCodeForDeleteHostelBased:0,
     dateAlready:'',
-    editDateAlready:''
+    editDateAlready:'',
+    isManageEnable: null,
+
 
 
 }
@@ -80,6 +82,14 @@ const initialState = {
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
     switch (action.type) {
+ case 'MANAGE_PG':
+            return { ...state, isManageEnable: true  }
+
+            case 'REMOVE_MANAGE_PG':
+                return { ...state, isManageEnable: false  }
+    
+    
+
         case 'DELETE_FLOOR':
             return { ...state, deleteFloor: action.payload.message }
         case 'CLEAR_DELETE_FLOOR':

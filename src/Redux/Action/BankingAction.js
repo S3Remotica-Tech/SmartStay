@@ -6,8 +6,10 @@ export async function AddBankingDetails(datum) {
     data: datum,
   });
 }
-export async function GetAddBanking() {
-  return await AxiosConfig.get("/all_bankings", {});
+export async function GetAddBanking(datum) {
+  return await AxiosConfig.post("/all_bankings",datum, {
+    data:datum,
+  });
 }
 
 export async function AddDefaultAccount(datum) {

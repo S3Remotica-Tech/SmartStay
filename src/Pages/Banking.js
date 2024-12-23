@@ -54,18 +54,17 @@ function Banking() {
   const [updateTransaction,setUpdateTransaction] = useState("")
   const [deleteBankId,setDeleteBankId]=useState("")
   const[trnseId,setDeleteTransId] =useState("")
-
-
-
-
   const [bankingrolePermission, setBankingRolePermission] = useState("");
-
   const [bankingpermissionError, setBankingPermissionError] = useState("");
   const [bankingAddPermission,setBankingAddPermission]= useState("")
   const [bankingDeletePermission,setBankingDeletePermission]=useState("")
   const [bankingEditPermission,setBankingEditPermission]=useState("")
+  const [hostel_id,setHostel_Id]=useState("")
 
-
+ useEffect(() => {
+    console.log('Current_hostelid', state.login.selectedHostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id)
+  }, [state?.login?.selectedHostel_Id]);
 
 
   useEffect(() => {
@@ -124,8 +123,19 @@ function Banking() {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
-  }, []);
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id}});
+  }, [hostel_id]);
+
+
+console.log("state.bankingDetails.statusCodeForGetBanking",state.bankingDetails.statusCodeForGetBanking)
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
   const handleShowDots = (id) => {
     if (openMenuId === id) {
@@ -136,21 +146,48 @@ function Banking() {
     // setSearch(false);
   };
 
+useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
   const handleAccountTypeChange = (item) => {
     console.log("item123", item);
 
     setTypeId(item.id);
-    // const defaultType = item.setus_default !== null ? item.setus_default : 3;
     const defaultType = item.setus_default ? item.setus_default : 3;
     setDefaultType(defaultType);
     setSelectedAccountType(defaultType);
-    setShowAccountTypeOptions((prevId) =>
-      prevId === item.id ? null : item.id
-    );
+    // setShowAccountTypeOptions((prevId) =>
+    //   prevId === item.id ? null : item.id
+    // );
+    setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
   };
+
+  useEffect(() => {
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowAccountTypeOptions(null); 
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
  
   const handleAccountTypeSelection = (e) => {
-    const selectedValue = parseInt(e.target.value); // Ensure we're using a number
+    const selectedValue = parseInt(e.target.value); 
     setSelectedAccountType(selectedValue);
     dispatch({
       type: "DEFAULTACCOUNT",
@@ -167,7 +204,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       // setLoading(false);
       setShowAccountTypeOptions(null);
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -178,7 +215,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       // setLoading(false);
       handleCloseAddBalance();
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 1000);
@@ -190,6 +227,7 @@ function Banking() {
     setShowForm(true);
     setEditAddBank(item);
     setOpenMenuId(false);
+
   };
 
   const handleShowForm = () => {
@@ -215,7 +253,7 @@ function Banking() {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeDeleteBank === 200){
       handleCloseDelete()
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST" ,payload:{hostel_id:hostel_id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -250,6 +288,7 @@ function Banking() {
     console.log("EditTransactionForm", EditTransactionForm);
     setEditTransaction(false);
     setDeleteTransactionForm(false);
+    setOpenMenuId(null);
   };
   const handleCloseTransactionDelete = () => {
     setDeleteTransactionForm(false);
@@ -271,7 +310,7 @@ function Banking() {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeForDeleteTrans === 200){
       handleCloseTransactionDelete()
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
       }, 1000);
@@ -304,7 +343,7 @@ function Banking() {
   const handleAddAmountSubmit = () => {
     dispatch({
       type: "ADDBANKAMOUNT",
-      payload: { id: typeId, amount: AddBankAmount },
+      payload: { id: typeId, amount: AddBankAmount,hostel_id:hostel_id },
     });
   };
 
@@ -707,7 +746,7 @@ function Banking() {
   }}
   onClick={() => {
     if (!bankingEditPermission) {
-      handleEditTransForm(item);
+      handleEditAddBank(item);
     }
   }}
 >
@@ -1570,7 +1609,7 @@ function Banking() {
               flex: 1,
             }}
           >
-            Delete Check-out?
+            Delete Banking?
           </Modal.Title>
         </Modal.Header>
 
@@ -1584,7 +1623,7 @@ function Banking() {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Bank-details?
         </Modal.Body>
 
         <Modal.Footer
@@ -1803,7 +1842,7 @@ function Banking() {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Transaction?
         </Modal.Body>
 
         <Modal.Footer
@@ -1870,6 +1909,7 @@ function Banking() {
           setEditAddBank={setEditAddBank}
           setEdit={setEdit}
           edit={edit}
+          updateTransaction = {updateTransaction}
         />
       ) : null}
     </div>

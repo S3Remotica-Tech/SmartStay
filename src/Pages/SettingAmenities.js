@@ -16,6 +16,8 @@ import AssignAmenities from './AmenitiesFile/AssignAmenities';
 
 function SettingAmenities({ hostelid }) {
 
+
+    
     // state declare//////////////////////////////////////////
 
 
@@ -29,7 +31,7 @@ function SettingAmenities({ hostelid }) {
     const popupRef = useRef(null);
     const [editDetails, setEditDetails] = useState('')
     const [active, setActive] = useState(false)
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(null);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
     const [amenityDetails, setAmenityDetails] = useState('')
     const [switchStates, setSwitchStates] = useState({});
@@ -77,26 +79,30 @@ function SettingAmenities({ hostelid }) {
         setAmenityDetails(amenity);
     };
 
+    
+
+
     useEffect(() => {
-        if (isChecked) {
-            setIsDisplayRecurring(true)
+        if (isChecked === null) {
+            return; 
         }
-    }, [isChecked])
-
-
-    useEffect(() => {
         if (!isChecked) {
+
+console.log("che",isChecked)
+
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
                     type: "amenities",
                     recure: 0,
-                    hostel_id: hostelid,
+                    hostel_id: state.login.Settings_Hostel_Id,
                     start_date: '0',
                     end_date: '0',
                     am_id: amenityDetails.id,
                 },
             });
+        }else{
+            setIsDisplayRecurring(true)
         }
     }, [isChecked]);
 
@@ -157,7 +163,7 @@ function SettingAmenities({ hostelid }) {
 
     const handleDeleteAmenitiesConfirm = () => {
         if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: hostelid } })
+            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.Settings_Hostel_Id } })
 
         }
     }
@@ -180,12 +186,12 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        if(hostelid){
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+        if(state.login.Settings_Hostel_Id){
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
 
         }
 
-    }, [hostelid])
+    }, [state.login.Settings_Hostel_Id])
 
 
 
@@ -218,7 +224,7 @@ function SettingAmenities({ hostelid }) {
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
 
             setOpenAmenitiesForm(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -241,7 +247,7 @@ function SettingAmenities({ hostelid }) {
 
         if (state.Settings?.addRecurringRole == 200) {
             setIsDisplayRecurring(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_RECURRING_ROLE' })
@@ -253,7 +259,7 @@ function SettingAmenities({ hostelid }) {
     useEffect(() => {
         if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200) {
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id:state.login.Settings_Hostel_Id } })
 
             setDeleteAmenities(false)
 

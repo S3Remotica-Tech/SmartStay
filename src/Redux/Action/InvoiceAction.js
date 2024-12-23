@@ -54,8 +54,9 @@ export async function UpdateInvoice(datum) {
     })
   }
 
-  export async function GetManualInvoices() {
-    return await AxiosConfig.get('/get_bill_details',{  // bills data
+  export async function GetManualInvoices(datum) {
+    return await AxiosConfig.post('/get_bill_details',datum,{ 
+      data:datum 
     })
   }
 

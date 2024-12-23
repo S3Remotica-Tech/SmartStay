@@ -889,8 +889,11 @@ const handleSubmit = () => {
     handleModalClose();
   };
   
+console.log("booking",state.login.selectedHostel_Id)
+
+
   useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST" });
+    dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id} });
   }, []);
   useEffect(() => {
     setCustomers(state.Booking.CustomerBookingList.bookings);
@@ -935,7 +938,7 @@ const handleSubmit = () => {
   useEffect(() => {
     if (state?.Booking?.statusCodeForDeleteBooking === 200) {
       handleCloseDelete();
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
     
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BOOKING" });
@@ -948,7 +951,7 @@ const handleSubmit = () => {
       dispatch({type:"CLEAR_PHONE_ERROR"})
       handleCloseForm()
 
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
@@ -2489,6 +2492,14 @@ const handleSubmit = () => {
               {formError}
             </div>
           )} */}
+
+
+{formError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {formError}
+                </div>
+              )}
           <Modal.Footer>
             <Button
               variant="primary"
@@ -2537,7 +2548,7 @@ const handleSubmit = () => {
               flex: 1,
             }}
           >
-            Delete Check-out?
+            Delete Booking?
           </Modal.Title>
         </Modal.Header>
 
@@ -2551,7 +2562,7 @@ const handleSubmit = () => {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Booking?
         </Modal.Body>
 
         <Modal.Footer

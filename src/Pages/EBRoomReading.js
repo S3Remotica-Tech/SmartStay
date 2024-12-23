@@ -24,6 +24,7 @@ import { setISODay } from "date-fns";
 function EBRoomReading(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const popupRef = useRef(null);
   const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [ebEditShow, setebEditShow] = useState(false);
@@ -46,18 +47,37 @@ function EBRoomReading(props) {
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [deleteId, setDeleteId] = useState("");
 
+  // const handleShowDots = (eb_Id) => {
+  //   if (activeRow === eb_Id) {
+  //     setActiveRow(null);
+  //   } else {
+  //     setActiveRow(eb_Id);
+  //   }
+  // };
   const handleShowDots = (eb_Id) => {
-    if (activeRow === eb_Id) {
-      setActiveRow(null);
-    } else {
-      setActiveRow(eb_Id);
+  setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); // Toggle the activeRow
+};
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveRow(null);  // Close the menu if clicked outside
     }
   };
+
+  // Add event listener for detecting clicks outside the popup
+  document.addEventListener("mousedown", handleClickOutside);
+
+  // Cleanup the event listener when the component unmounts
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
  
   useEffect(()=>{
-    console.log("setHostelId..?",props.uniqueostel_Id)
-    setHostelId(props.uniqueostel_Id);
-  },[props.uniqueostel_Id])
+    console.log("setHostelId..?",state.login.selectedHostel_Id)
+    setHostelId(state.login.selectedHostel_Id);
+  },[state.login.selectedHostel_Id])
   
 
   const handleReadingChange = (e) => {
@@ -141,7 +161,7 @@ function EBRoomReading(props) {
     setDeleteShow(true);
     setDeleteId(item.eb_Id)
   };
-  const popupRef = useRef(null);
+  
 
   console.log("state", state);
   useEffect(() => {

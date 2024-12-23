@@ -1,14 +1,17 @@
-import { Room } from "@material-ui/icons"
+
 import AxiosConfig from "../../WebService/AxiosConfig"
 
 
-export async function GetAsset() {
-  return await AxiosConfig.get('/all_assets',{
+export async function GetAsset(asset) {
+  console.log("action asset @@@", asset)
+  return await AxiosConfig.post('/all_assets',asset,{
+    data:asset
       })
 }
 
 
 export async function AddAsset(asset) {
+ 
     return await AxiosConfig.post('/add_asset',asset,{
         data:asset
         })

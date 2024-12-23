@@ -99,13 +99,13 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id }});
+    dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
   }, []);
 
   useEffect(()=> {
       if(state.UsersList.statusCodeAddConfirmCheckout === 200){
         checkoutcloseModal()
-        dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id }});
+        dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
         setTimeout(()=>{   
           dispatch({type:"CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER"})
         },1000)
@@ -121,13 +121,25 @@ function CheckOut(props) {
       }, 2000);
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+          setActiveDotsId(null);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
   useEffect(() => {
     if (
       state.UsersList.addCheckoutCustomerStatusCode == 200 ||
       state.UsersList.deleteCheckoutCustomerStatusCode == 200
     ) {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       setModalType(null);
       setTimeout(() => {
@@ -142,6 +154,7 @@ function CheckOut(props) {
     state.UsersList.addCheckoutCustomerStatusCode,
     state.UsersList.deleteCheckoutCustomerStatusCode,
   ]);
+  const popupRef = useRef(null);
 
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
@@ -834,6 +847,7 @@ function CheckOut(props) {
 
 {activeDotsId === checkout.ID && (
                         <div
+                        ref={popupRef}
                           style={{
                             cursor: "pointer",
                             backgroundColor: "#EBEBEB",
@@ -881,7 +895,7 @@ function CheckOut(props) {
                             </label>
                           </div>
 
-                          <div  className="d-flex align-items-center mt-2" >
+                          {/* <div  className="d-flex align-items-center mt-2" >
                             <img
                               src={Addbtn}
                               style={{
@@ -901,7 +915,7 @@ function CheckOut(props) {
                             >
                               Reassign bed
                             </label>
-                          </div>
+                          </div> */}
 
                           <div
                             className="mb-2 mt-2 d-flex align-items-center"

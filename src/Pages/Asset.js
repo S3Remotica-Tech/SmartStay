@@ -21,10 +21,14 @@ import excelimg from "../Assets/Images/New_images/excel (5).png";
 function Asset() {
 
 
+
+
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
   console.log("state asset //////////////////////////", state)
+
+console.log("hostel-id",state.login.selectedHostel_Id)
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
@@ -49,7 +53,7 @@ function Asset() {
  
 console.log("excelDownload",excelDownload)
 const handleAssetsExcel = () => {
-    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets"}});
+    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id}});
     setIsDownloadTriggered(true); 
 };
 useEffect(() => {
@@ -140,15 +144,15 @@ useEffect(()=>{
   console.log("getData", getData)
 
   useEffect(() => {
-    dispatch({ type: 'ASSETLIST' })
+    dispatch({ type: 'ASSETLIST', payload:{ hostel_id: state.login.selectedHostel_Id }})
     setLoading(true)
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode == 200 || state.AssetList.deleteAssetStatusCode == 200 || state.AssetList.addAssignAssetStatusCode == 200) {
       setTimeout(() => {
-        dispatch({ type: 'ASSETLIST' })
+        dispatch({ type: 'ASSETLIST' ,  payload:{ hostel_id: state.login.selectedHostel_Id }})
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
