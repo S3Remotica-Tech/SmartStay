@@ -50,7 +50,7 @@ function User({ show, handleClose, editDetails ,hostelid}) {
  
 
 useEffect(() => {
-  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } })
+  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
   dispatch({ type: "COUNTRYLIST" });
 }, [])
 

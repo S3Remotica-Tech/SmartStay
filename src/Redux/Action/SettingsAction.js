@@ -132,8 +132,10 @@ export async function addStaffUser(datum) {
     data: datum,
   });
 }
-export async function GetAllStaff() {
-  return await AxiosConfig.get("/get_all_staffs", {});
+export async function GetAllStaff(staff) {
+  return await AxiosConfig.post("/get_all_staffs",staff, {
+    data:staff
+  });
 }
 
 export async function GetAllReport() {

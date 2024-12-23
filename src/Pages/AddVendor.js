@@ -349,13 +349,16 @@ const handlePinCodeChange = (e) => {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, id: id, Country:country, Pincode:pinCode }
+            { hostel_id: state.login.selectedHostel_Id ,
+              profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, id: id, Country:country, Pincode:pinCode }
         })
       } else {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name,Country:country, Pincode:pinCode }
+            { 
+              hostel_id: state.login.selectedHostel_Id ,
+              profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name,Country:country, Pincode:pinCode }
         })
       }
 

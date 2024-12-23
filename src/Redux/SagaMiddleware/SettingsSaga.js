@@ -618,8 +618,8 @@ function* handleAddStaffUserPage(detail) {
    }
 }
 
-function* handleGetAllStaffs() {
-   const response = yield call(GetAllStaff)
+function* handleGetAllStaffs(action) {
+   const response = yield call(GetAllStaff,action.payload)
    console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {

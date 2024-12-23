@@ -37,6 +37,12 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
 
+
+    console.log("state",state)
+
+
+
+
     // function declare///////////////////////////////////////////////////////////
 
     const handleEditAmenities = (amenity) => {
@@ -93,7 +99,7 @@ console.log("che",isChecked)
                 payload: {
                     type: "amenities",
                     recure: 0,
-                    hostel_id: hostelid,
+                    hostel_id: state.login.selectedHostel_Id,
                     start_date: '0',
                     end_date: '0',
                     am_id: amenityDetails.id,
@@ -161,7 +167,7 @@ console.log("che",isChecked)
 
     const handleDeleteAmenitiesConfirm = () => {
         if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: hostelid } })
+            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
 
         }
     }
@@ -184,12 +190,12 @@ console.log("che",isChecked)
 
 
     useEffect(() => {
-        if(hostelid){
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+        if(state.login.selectedHostel_Id){
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
         }
 
-    }, [hostelid])
+    }, [state.login.selectedHostel_Id])
 
 
 
@@ -222,7 +228,7 @@ console.log("che",isChecked)
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
 
             setOpenAmenitiesForm(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -245,7 +251,7 @@ console.log("che",isChecked)
 
         if (state.Settings?.addRecurringRole == 200) {
             setIsDisplayRecurring(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_RECURRING_ROLE' })
@@ -257,7 +263,7 @@ console.log("che",isChecked)
     useEffect(() => {
         if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200) {
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id} })
 
             setDeleteAmenities(false)
 

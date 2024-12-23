@@ -18,6 +18,7 @@ import "./Settings.css";
 import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
+import { StoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
 
 
 function SettingAllPages(props ) {
@@ -251,7 +252,12 @@ function SettingAllPages(props ) {
   //   setDisplayError('')
   // }
 
+useEffect(()=>{
+  if(hostel_Id){
+     dispatch(StoreSelectedHostelAction(hostel_Id))
+  }
 
+},[hostel_Id])
 
 
 
