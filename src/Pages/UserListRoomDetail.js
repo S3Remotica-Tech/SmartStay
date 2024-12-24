@@ -1466,7 +1466,7 @@ useEffect(()=>{
                                       </span>
                                     </p>
                                   </div>
-                                  <div className="col-sm-4 d-flex flex-column align-items-center">
+                                  <div className="col-sm-4 d-flex flex-column align-items-center" style={{whiteSpace:"nowrap"}}>
                                     <p
                                       style={{
                                         fontSize: 12,
@@ -1485,6 +1485,7 @@ useEffect(()=>{
                                           fontSize: 14,
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
+                                          whiteSpace:"nowrap"
                                         }}
                                       >
                                         +

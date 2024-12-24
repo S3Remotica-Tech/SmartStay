@@ -622,7 +622,7 @@ const mergedData = months.map((monthData) => {
       <div class="d-flex flex-column gap-3 dashfive" style={{flex:1,padding:5,}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm sixthcard" >
           <h6 class="text-muted">Next Month Projection</h6>
-          <h4 class="mb-0">1</h4>
+          <h4 class="mb-0">{dashboardList[0]?.project_amount}</h4>
         </div>
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm seventhcard" >
           <h6 class="text-muted">EB Amount</h6>
