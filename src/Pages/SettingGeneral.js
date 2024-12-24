@@ -9,6 +9,7 @@ import round from "../Assets/Images/Group 14.png"
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
+import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import "./Settings.css";
 import eye from '../Assets/Images/login-password.png'
@@ -517,164 +518,263 @@ useEffect(() => {
 
 
       <div class="container mt-4">
-        {
-        currentRowGeneral &&  currentRowGeneral?.map((item)=>{
-            const imageUrl = item.profile || Profile;
-return(
-  <div class="card p-3 settingGreneral mt-2" style={{borderRadius:16}}>
-  <div class="d-flex flex-wrap justify-content-between align-items-center">
-    <div class="d-flex align-items-center">
-      {/* <img src={img1} alt="Profile" class="rounded-circle" style={{width:50,height:50}}/> */}
-      <Image
-                          src={imageUrl}
-                          alt={item.first_name || "Default Profile"}
-                          roundedCircle
-                          style={{
-                            height: "50px",
-                            width: "50px",
-                            // marginRight: "10px",
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = Profile;
-                          }}
-                        />
-      <div class="ms-3">
-        <p class="mb-0" style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",whiteSpace:"nowrap"}}>{item.first_name} {item.last_name}</p>
+       {
+  currentRowGeneral && currentRowGeneral.length > 0 ? (
+    currentRowGeneral.map((item) => {
+      const imageUrl = item.profile || Profile;
+      return (
+        <div className="card p-3 settingGreneral mt-2" style={{ borderRadius: 16 }} key={item.id}>
+          <div className="d-flex flex-wrap justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <Image
+                src={imageUrl}
+                alt={item.first_name || "Default Profile"}
+                roundedCircle
+                style={{
+                  height: "50px",
+                  width: "50px",
+                }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = Profile;
+                }}
+              />
+              <div className="ms-3">
+                <p
+                  className="mb-0"
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.first_name} {item.last_name}
+                </p>
+              </div>
+            </div>
+            <div className="d-flex align-items-center">
+              <img src={img2} width="20" height="20" alt="icon" />
+              <p
+                className="mb-0 mx-2"
+                style={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 600,
+                  fontSize: 14,
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                }}
+              >
+                Change Password
+              </p>
+              <img
+                src={round}
+                width="30"
+                height="30"
+                alt="icon"
+                onClick={() => handlegeneralform(item.id)}
+              />
+              {generalEdit === item.id && (
+                <div
+                  ref={popupRef}
+                  style={{
+                    cursor: "pointer",
+                    backgroundColor: "#F9F9F9",
+                    position: "absolute",
+                    right: 80,
+                    top: 8,
+                    width: 160,
+                    height: 70,
+                    border: "1px solid #EBEBEB",
+                    borderRadius: 10,
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: 10,
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleEditGeneralUser(item)}
+                  >
+                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
+                    <label
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy, sans-serif",
+                        color: "#000000",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Edit
+                    </label>
+                  </div>
+
+                  <div
+                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                    style={{ cursor: "pointer", pointerEvents: "auto" }}
+                    onClick={() => handleDelete(item)}
+                  >
+                    <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
+                    <label
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy, sans-serif",
+                        color: "#FF0000",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Delete
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <hr />
+          <div className="row">
+            <div className="col-md-6">
+              <p
+                className="mb-1"
+                style={{
+                  fontSize: 12,
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  color: "#939393",
+                }}
+              >
+                Email ID
+              </p>
+              <p
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                }}
+              >
+                {item.email_Id}
+              </p>
+            </div>
+            <div className="col-md-6">
+              <p
+                className="mb-1"
+                style={{
+                  fontSize: 12,
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  color: "#939393",
+                }}
+              >
+                Contact Number
+              </p>
+              <p
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                }}
+              >
+                +
+                {item &&
+                  String(item.mobileNo).slice(
+                    0,
+                    String(item.mobileNo).length - 10
+                  )}{" "}
+                {item && String(item.mobileNo).slice(-10)}
+              </p>
+            </div>
+            <div className="col-12">
+              <p
+                className="mb-1"
+                style={{
+                  fontSize: 12,
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  color: "#939393",
+                }}
+              >
+                Address
+              </p>
+              <p
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                }}
+              >
+                {item.Address}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={EmptyState}
+            width={240}
+            height={240}
+            alt="emptystate"
+          />
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Profile{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Profile available.{" "}
+        </div>
+        <div style={{textAlign:"center"}}>
+            <Button
+              style={{
+                fontFamily: "Montserrat",
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                height: 52,
+                fontWeight: 600,
+                borderRadius: 8,
+                width: 160,
+                padding: "14px, 22px, 14px, 22px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            //   disabled={ebAddPermission}
+              onClick={handleShowFormGreneral}
+            >
+              + Create Master
+            </Button>
+          </div>
+        
       </div>
-    </div>
-    <div class="d-flex align-items-center">
-<img src={img2} width="20" height="20" alt="icon" />
-<p class="mb-0 mx-2" style={{fontFamily:"Montserrat",fontWeight:600,fontSize:14,color:"#1E45E1",cursor:"pointer"}}>Change Password</p>
-<img src={round} width="30" height="30" alt="icon"  onClick={() => handlegeneralform(item.id)}/>
-{generalEdit === item.id && (
-                     <div
-                       ref={popupRef}
-                       style={{
-                         cursor: "pointer",
-                         backgroundColor: "#F9F9F9",
-                         position: "absolute",
-                         right: 80,
-                         top: 8,
-                         width: 160,
-                         height: 70,
-                         border: "1px solid #EBEBEB",
-                         borderRadius: 10,
-                         display: "flex",
-                         flexDirection: "column",
-                         padding: 10,
-                         alignItems: "start",
-                         // zIndex: 9999,
-                        
-                       }}
-                     >
-                    <div
-  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-  style={{cursor:"pointer"}}
-  // style={{
-  //   cursor: bankingEditPermission ? "not-allowed" : "pointer",
-  //   pointerEvents: bankingEditPermission ? "none" : "auto",
-  //   opacity: bankingEditPermission ? 0.6 : 1,
-  // }}
-  // onClick={() => {
-  //   if (!bankingEditPermission) {
-  //     handleEditTransForm(user);
-  //   }
-  // }}
- 
-  onClick={() => handleEditGeneralUser(item)}
->
-  <img
-    src={Edit}
-    style={{ height: 16, width: 16 }}
-    alt="Edit"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: "#000000",
-      cursor: "pointer",
-    }}
-  >
-    Edit
-  </label>
-</div>
+  )}
 
-<div
-  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-  // style={{
-  //   cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-  //   pointerEvents: bankingDeletePermission ? "none" : "auto",
-  //   opacity: bankingDeletePermission ? 0.6 : 1,
-  // }}
-  style={{cursor:"pointer",pointerEvents:"auto"}}
-  // onClick={() => {
-  //   if (!bankingDeletePermission) {
-  //     handleDeleteTransForm(item);
-  //   }
-  // }}
-  onClick={(()=>handleDelete(item))}
->
-  <img
-    src={Delete}
-    style={{ height: 16, width: 16 }}
-    alt="Delete"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: "#FF0000",
-      cursor:"pointer"
-      // cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Delete
-  </label>
-</div>
-
-                     </div>
-                   )}
-{/* <PiDotsThreeOutlineVerticalFill width={20} height={20}/> */}
-</div>
+         
   </div>
-  <hr/>
-  <div class="row">
-    <div class="col-md-6">
-      <p class="mb-1" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:500,color:"#939393"}}>Email ID</p>
-      <p  style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>{item.email_Id}</p>
-    </div>
-    <div class="col-md-6">
-      <p class="mb-1" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:500,color:"#939393"}}>Contact Number</p>
-      {/* <p  style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>{item.mobileNo}</p> */}
-      +
-                                        {item &&
-                                          String(item.mobileNo).slice(
-                                            0,
-                                            String(item.mobileNo).length - 10
-                                          )}{" "}
-                                        {item && String(item.mobileNo).slice(-10)}
-    </div>
-    <div class="col-12">
-      <p class="mb-1"style={{fontSize:12,fontFamily:"Gilroy",fontWeight:500,color:"#939393"}}>Address</p>
-      <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>{item.Address}</p>
-    </div>
-  </div>
-</div>
-)
 
-
-          })
-          
-
-
-        }
-   
-  </div>
-      
+  
   {currentRowGeneral?.length > 0 && (
                         <nav>
                           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end',marginTop:10 }}>

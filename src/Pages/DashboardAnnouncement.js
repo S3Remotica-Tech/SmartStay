@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from 'react-bootstrap/Card';
-
+import { useDispatch, useSelector } from "react-redux";
 import Ellipse5 from '../Assets/Images/Group 1.png';
 import like from '../Assets/Images/like.png';
 import message from '../Assets/Images/message.png';
@@ -11,45 +11,12 @@ import Emptystate from '../Assets/Images/Empty-State.jpg'
 import { Modal, Button, Form, FormControl } from 'react-bootstrap';
 
 import './DashboardAnnouncement.css'
-const cardData = [
-    {
-        date: "01 September 2024",
-        title: "August 2024 . Monthly Report",
-        author: "Akash Rathod",
-        likes: 11565,
-        comments: 986
-    },
-    {
-        date: "01 September 2024",
-        title: "August 2024 . Monthly Report",
-        author: "Akash Rathod",
-        likes: 11565,
-        comments: 986
-    },
-    {
-        date: "01 September 2024",
-        title: "August 2024 . Monthly Report",
-        author: "Akash Rathod",
-        likes: 11565,
-        comments: 986
-    },
-    {
-        date: "01 September 2024",
-        title: "August 2024 . Monthly Report",
-        author: "Akash Rathod",
-        likes: 11565,
-        comments: 986
-    },
-    {
-        date: "01 September 2024",
-        title: "August 2024 . Monthly Report",
-        author: "Akash Rathod",
-        likes: 11565,
-        comments: 986
-    }
-];
+
 
 function DashboardAnnouncement(props) {
+     const state = useSelector((state) => state);
+      const dispatch = useDispatch();
+      console.log("DashboardAnnouncement",state)
     const [showMainModal, setShowMainModal] = useState(false);
     const [showLikeModal, setShowLikeModal] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
@@ -57,6 +24,7 @@ function DashboardAnnouncement(props) {
 
     const [showAnnouncement, setShowAnnouncement] = useState(false);
     const [showTittleModal,setshowTittleModal] = useState(false)
+    const [hostel_id,setHostel_Id]=useState("")
     
     const handleShowAnnouncement = () => setShowAnnouncement(true);
     const handleCloseAnnouncement = () => setShowAnnouncement(false);
@@ -71,6 +39,26 @@ function DashboardAnnouncement(props) {
        setSelectedCard (card);
        setshowTittleModal (true);
     }
+
+
+   useEffect(() => {
+      console.log('Current_hostelid', state.login.selectedHostel_Id);
+      setHostel_Id(state.login.selectedHostel_Id)
+    }, [state?.login?.selectedHostel_Id]);
+useEffect(()=>{
+    dispatch({
+        type: "ANNOUNCEMENTLIST",
+        payload: { hostel_id:hostel_id},
+      });
+},[hostel_id])
+
+useEffect(()=>{
+    if(state.PgList.statuscodeForAnnounceMentList === 200){
+        setTimeout(() => {
+            dispatch({ type: "CLEAR_ANNOUNCEMENT_LIST"});   
+          }, 1000)}
+        
+},[state.PgList.statuscodeForAnnounceMentList])
 
     //  modal close
     const handleCloseMain = () => setShowMainModal(false);
@@ -142,9 +130,9 @@ props.announcePermissionError ?(
 ):
 
 <div>
-            {cardData.map((data, index) => (
+            {state.PgList?.announcementList?.announcements?.map((data) => (
                 <Card className="card"
-                    key={index}
+                    key={data.id}
                     style={{
                         borderRadius: "16px",
                         borderColor: "#DCDCDC",
@@ -163,7 +151,7 @@ props.announcePermissionError ?(
                                     color: "#4B4B4B",
                                     marginBottom: "0px"
                                 }}>
-                                    {data.date}
+                                    {data.createdat}
                                 </p>
                                 <p style={{
                                     fontFamily: "Gilroy",
@@ -197,7 +185,8 @@ props.announcePermissionError ?(
                                 marginTop: "6px",
                                 marginRight: "6px",
                                 cursor: "pointer"
-                            }} onClick={(e) => { e.stopPropagation(); handleLikeClick(data); }}>
+                            }} 
+                            onClick={(e) => { e.stopPropagation(); handleLikeClick(data); }}>
                                 <p style={{ padding: "4px 10px" }}>
                                     <img src={like} alt="like" width={20} height={20} />
                                     <span style={{
@@ -207,7 +196,7 @@ props.announcePermissionError ?(
                                         color: "#222222",
                                         paddingLeft: "4px"
                                     }}>
-                                        {data.likes.toLocaleString()}
+                                        {/* {data.likes.toLocaleString()} */}1
                                     </span>
                                 </p>
                             </div>
@@ -228,7 +217,7 @@ props.announcePermissionError ?(
                                         color: "#222222",
                                         paddingLeft: "4px"
                                     }}>
-                                        {data.comments}
+                                        {/* {data.comments} */}1
                                     </span>
                                 </p>
                             </div>

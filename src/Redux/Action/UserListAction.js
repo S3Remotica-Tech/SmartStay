@@ -254,7 +254,7 @@ export async function exportDetails(datum) {
 
 export async function customerReAssignBed(datum) {
   console.log("reassign",datum)
-  return await AxiosConfig.post('/customers/reassign_bed',datum,{
+  return await AxiosConfig.post('/users/reassign_bed',datum,{
     data:datum
   })
 }
@@ -268,7 +268,7 @@ export async function customerAddContact(datum) {
 
 export async function customerAllContact(datum) {
   console.log("customerAllContact",datum)
-  return await AxiosConfig.post('/customers/all_contacts',datum,{
+  return await AxiosConfig.post('/users/all_contacts',datum,{
     data:datum
   })
 }

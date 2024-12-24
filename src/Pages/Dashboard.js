@@ -81,7 +81,12 @@ lineHeight: 'normal',
   const [cashBackData,setCashBackData] = useState("")
   const [reveneReceived,setRevenueReceived]=useState("")
   const [selectRevenu,setSelectRevenu] = useState("six_month")
+  const [hostel_id,setHostel_Id] = useState("")
 
+ useEffect(() => {
+      console.log('Current_hostelid', state.login.selectedHostel_Id);
+      setHostel_Id(state.login.selectedHostel_Id)
+    }, [state?.login?.selectedHostel_Id]);
 
   const handleSelectedReceived=(e)=>{
     setSelectCashback(e.target.value)
@@ -92,11 +97,12 @@ lineHeight: 'normal',
         // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
           }
           useEffect(()=>{
-            dispatch({ type: "DASHBOARDFILTERCASHBACK", payload: { type:'cashback',range:selectCashback}});
-          },[selectCashback])
+            console.log('Currentdlls_hostelid', state.login.selectedHostel_Id);
+            dispatch({ type: "DASHBOARDFILTERCASHBACK", payload: { type:'cashback',range:selectCashback,hostel_id:hostel_id}});
+          },[selectCashback,hostel_id])
       useEffect(()=>{
-        dispatch({ type: "DASHBOARDFILTERREVENUE", payload: { type:'exp_vs_rev',range:selectRevenu}});
-      },[selectRevenu])
+        dispatch({ type: "DASHBOARDFILTERREVENUE", payload: { type:'exp_vs_rev',range:selectRevenu,hostel_id:hostel_id}});
+      },[selectRevenu,hostel_id])
       useEffect(() => {
         const cashBackDataRevenu = state.PgList?.dashboardFilterRevenu?.response?.cash_back_data;
         console.log("Processed Data for Chart:", cashBackDataRevenu);
@@ -131,8 +137,8 @@ setSelectExpence(e.target.value)
 // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
   }
   useEffect(()=>{
-    dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:selectExpence}});
-  },[selectExpence])
+    dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:selectExpence,hostel_id:hostel_id}});
+  },[selectExpence,hostel_id])
  
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -247,8 +253,8 @@ setSelectExpence(e.target.value)
   
 
   useEffect(() => {
-    dispatch({ type: "PGDASHBOARD" });
-  }, []);
+    dispatch({ type: "PGDASHBOARD",payload:{hostel_id:hostel_id} });
+  }, [hostel_id]);
 
   useEffect(() => {
     if (state.PgList?.dashboardDetails?.dashboardList) {

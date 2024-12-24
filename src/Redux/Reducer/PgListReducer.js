@@ -74,10 +74,8 @@ const initialState = {
     dateAlready:'',
     editDateAlready:'',
     isManageEnable: null,
-
-
-
-}
+    announcementList:[],
+    statuscodeForAnnounceMentList:0 }
 
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -356,6 +354,19 @@ case 'CLEAR_SAME_DATE_ALREADY':
 
 case 'CLEAR_EDIT_SAME_DATE_ALREADY':
     return { ...state, editDateAlready: ''}
+
+
+
+
+    case "ANNOUNCEMENT_LIST":
+        return {
+          ...state,
+          announcementList: action.payload.response,
+          statuscodeForAnnounceMentList: action.payload.statusCode,
+        };
+      case "CLEAR_ANNOUNCEMENT_LIST":
+        return { ...state, statuscodeForAnnounceMentList: 0 };
+
         //         case 'ROOM_COUNT':
         // console.log("action.payload.response",action.payload.response)
         //             if (state.roomCount.length > 0) {
