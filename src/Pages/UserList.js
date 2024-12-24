@@ -2,14 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Dropdown, Table } from "react-bootstrap";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Table,Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Plus from "../Assets/Images/Create-button.png";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { BsSearch } from "react-icons/bs";
-import MapsUgcRoundedIcon from "@mui/icons-material/MapsUgcRounded";
 import Image from "react-bootstrap/Image";
 import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
@@ -53,8 +49,6 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [showLoader, setShowLoader] = useState(false);
-  const [selectedItems, setSelectedItems] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -76,14 +70,7 @@ function UserList(props) {
   const [reAssignDetail, setReasignDetail] = useState("");
   const [uniqueostel_Id, setUniqostel_Id] = useState("");
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
-  
-  // console.log("uniqueostel_Id", props.allPageHostel_Id);
-  // useEffect(() => {
-  //   console.log("uniqueHostelId:", props.allPageHostel_Id);
-  //   setUniqostel_Id(props.allPageHostel_Id);
-  // }, [props.allPageHostel_Id]);
-
-
+ 
    useEffect(() => {
       console.log('Current_hostelid', state.login.selectedHostel_Id);
       setUniqostel_Id(state.login.selectedHostel_Id)
@@ -198,13 +185,7 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "GET_BOOKING_LIST",
-  //     payload: { hostel_id: uniqueostel_Id},
-  //   });
-  // }, []);
-
+  
   useEffect(() => {
     let FilterUser = [];
   
@@ -238,39 +219,6 @@ function UserList(props) {
     state.UsersList?.hostelList,
   ]);
   
-
-  // useEffect(() => {
-  //   // Only filter when value is "1"
-  //   if (value === "1") {
-  //     const FilterUser = state.UsersList?.Users?.filter((item) => 
-  //       item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-  //     ) || [];
-
-  //     setFilteredUsers(FilterUser);
-  //     console.log("FilterUser", FilterUser);
-  //   }
-  //   if (value === "2") {
-  //     const FilterUsertwo =
-  //       state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
-  //         return item.first_name
-  //           .toLowerCase()
-  //           .includes(filterInput.toLowerCase());
-  //       });
-  //     setFilteredUsers(FilterUsertwo);
-  //   }
-  //   if (value === "4") {
-  //     const FilterUsertwo = state.UsersList?.hostelList?.filter((item) => {
-  //       return item.Name.toLowerCase().includes(filterInput.toLowerCase());
-  //     });
-  //     setFilteredUsers(FilterUsertwo);
-  //     console.log("FilterUsertwo", FilterUsertwo);
-  //   }
-  // }, [
-  //   filterInput,
-  //   state.UsersList.Users,
-  //   value,
-  //   state?.Booking?.CustomerBookingList?.bookings,
-  // ]);
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -307,34 +255,10 @@ function UserList(props) {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
-  useEffect(() => {
-    const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
-    if (toTriggerPDF) {
-      setTimeout(() => {
-        let pdfWindow;
-        const InvoicePDf =
-          state.InvoiceList?.Invoice &&
-          state.InvoiceList.Invoice?.filter(
-            (view) =>
-              view.User_Id == selectedItems.User_Id &&
-              view.id == selectedItems.id
-          );
-        if (InvoicePDf[0]?.invoicePDF) {
-          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, "_blank");
-          if (pdfWindow) {
-            setShowLoader(false);
-          }
-        } else {
-        }
-      }, 0);
-    } else {
-      console.log("to trigger pdf is false so pdf not working");
-    }
-  }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
+ 
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
   const [isUserClicked, setUserClicked] = useState(true);
   const [searchItem, setSearchItem] = useState("");
   const [searchicon, setSearchicon] = useState(false);

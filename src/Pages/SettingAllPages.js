@@ -435,7 +435,7 @@ console.log("state",state)
 <div>
 
 <div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
-<div className="col-lg-10 col-md-10 col-sm-12 col-xs-12" style={{marginLeft:30}}>
+{/* <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12" style={{marginLeft:30}}>
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -482,7 +482,7 @@ console.log("state",state)
                         </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     {
                       state.login.selectedHostel_Id && 
                    

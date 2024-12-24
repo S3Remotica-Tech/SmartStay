@@ -172,3 +172,10 @@ export async function ebAddHostelDelete(datum) {
     data: datum,
   });
 }
+
+export async function announcement_list(datum) {
+  console.log("announcement_list",datum)
+  return await AxiosConfig.post("/announcement/all_announcement", datum, {
+    data: datum,
+  });
+}

@@ -1,30 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {
-  deleteHostelImages,
-  UpdateFloor,
-  DeletePG,
-  DeleteBed,
-  createBed,
-  createPgList,
-  createRoom,
-  CheckRoomId,
-  CheckBedDetails,
-  Checkeblist,
-  CreateEbbill,
-  EB_Customerlist,
-  EB_startmeterlist,
-  createAllPGDetails,
-  OccupiedCustomer,
-  EB_CustomerListTable,
-  editElectricity,
-  deleteElectricity,
-  dashboardFilter,
-  ebAddHostelReading,
-  ebHostelBasedRead,
-  ebAddHostelEdit,
-  ebAddHostelDelete
-
-} from "../Action/PgListAction";
+import {deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list} from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -931,6 +906,25 @@ function* handleHostelBasedEblist(action) {
   }
 }
 
+
+
+
+
+function* handleAnnouncementList(action) {
+  console.log("action dashboard", action.payload);
+  const response = yield call(announcement_list, action.payload);
+  console.log("responseforannouncement", response);
+
+  if (response.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: "ANNOUNCEMENT_LIST",payload:{response:response.data, statusCode:response.status || response.data.statusCode} });
+  } else {
+    yield put({ type: "ERROR", payload: response.data.message });
+  }
+  if (response) {
+    refreshToken(response);
+  }
+}
+
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
@@ -970,6 +964,7 @@ function* PgListSaga() {
   yield takeEvery("HOSTELBASEDDELETEEB", handleHostelDeleteElectricity);
   yield takeEvery("HOSTELBASEDEDITEB", handleHostelEditElectricity);
   yield takeEvery("HOSTELBASEDADDEB", handleAddHostelElectricity);
+  yield takeEvery("ANNOUNCEMENTLIST", handleAnnouncementList);
 
 
 }
