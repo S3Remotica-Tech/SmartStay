@@ -51,7 +51,6 @@ import trash from "../Assets/Images/New_images/trash.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
-  console.log("state...",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const initialvalue = useRef();
@@ -82,7 +81,6 @@ function UserListRoomDetail(props) {
   const [bedArray, setBedArray] = useState("");
   const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
-  console.log("Bednum", Bednum);
   const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
@@ -127,7 +125,6 @@ useEffect(()=>{
 
 const handleContactEdit=(u)=>{
   setEditAdditional(true)
-console.log("vvvvvvvvvvvv//",u)
 setContactEdit(u)
 setAdditionalForm(true)
 }
@@ -176,8 +173,6 @@ setAdditionalForm(true)
   };
 
   const handleShowEditBed = (item) => {
-    console.log("itemitem", item);
-
     if (item[0].ID) {
      
       setBednum(item);
@@ -201,7 +196,6 @@ setAdditionalForm(true)
         setFirstname("");
         setLastname("");
       }
-      console.log("roomrentupdated",item);
       
 
       setAddress(item[0].Address || "");
@@ -224,7 +218,6 @@ setAdditionalForm(true)
       if (parsedDate && !isNaN(parsedDate.getTime())) {
           setSelectedDate(parsedDate);
       } else {
-          console.warn("Invalid date format for user_join_date");
           setSelectedDate(""); 
       }
       // setSelectedDate(item[0].user_join_date ? new Date(item[0].user_join_date) : "");
@@ -249,7 +242,6 @@ setAdditionalForm(true)
 
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEditUser = (item) => {
-    console.log("item...", item);
     if (item[0].ID) {
      
       const phoneNumber = String(item[0].Phone || "");
@@ -454,7 +446,6 @@ setAdditionalForm(true)
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
   console.log(
-    "state.UsersList?.bednumberdetails?.bed_details",
     state.UsersList?.bednumberdetails?.bed_details
   );
   useEffect(()=>{
@@ -463,7 +454,6 @@ setAdditionalForm(true)
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   },[])
-  console.log("selectedHostel",hostel_Id)
 
   // const handleHostelId = (e) => {
   //   const selectedHostelId = e.target.value;
@@ -513,7 +503,6 @@ setAdditionalForm(true)
 
   const handleRooms = (e) => {
     setRoomId(e.target.value);
-    console.log("e.target.value", e.target.value);
 
     dispatch({
       type: "BEDNUMBERDETAILS",
@@ -563,10 +552,8 @@ setAdditionalForm(true)
     } else {
       setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
     }
-    console.log("Roomamountfilter", selectedRoomRent);
   }
 
-    console.log("e.target.valuebed", e.target.value);
     if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
@@ -859,8 +846,7 @@ setAdditionalForm(true)
       formattedDate = new Date(selectedDate).toISOString().split("T")[0];
     } catch (error) {
       setDateError("Invalid date format.");
-      console.error(error);
-      return; // Ensure invalid date stops execution
+      return; 
     }
 
     // Detect any changes
@@ -918,13 +904,6 @@ setAdditionalForm(true)
     dispatch({ type: "INVOICELIST" });
 };
 
-
-console.log("mydata",state.UsersList.customerdetails.contact_details);
-
- 
- console.log("state.UsersList.statusCodeForCustomerAllDetails",state.UsersList.statusCodeForCustomerAllDetails)
- console.log("state.UsersList.statusCodeForCustomerCoatact",state.UsersList.statusCodeForCustomerCoatact)
-
 useEffect(()=>{
   if(state.UsersList.statusCodeForCustomerCoatact === 200){
     dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
@@ -945,8 +924,6 @@ setTimeout(() => {
 }, 100);
     }
   },[state.UsersList.statusCodeForAddUser,state.UsersList.Users])
-  console.log(" props.userDetails", props.userDetails)
-
 
   const customDateInput = (props) => {
     return (
@@ -977,8 +954,7 @@ setTimeout(() => {
             />
         </div>
     );
-};
-console.log("props.roomDetail12344",props.userDetails )
+}
 
 
 
@@ -1009,7 +985,6 @@ const handleFileChange = (e, type) => {
 
 const [contactDeleteId,setContactDeleteId]=useState("")
 const handleContactDelete=(v)=>{
-  console.log("handleContactDelete",v)
   setDeleteAdditional(true)
   setContactDeleteId(v.id)
 
@@ -2264,13 +2239,9 @@ useEffect(()=>{
                                         >
                                           {state.UsersList?.countrycode?.country_codes?.map(
                                             (item) => {
-                                              console.log("itemImage", item);
 
                                               return (
-                                                console.log(
-                                                  "item.country_flag",
-                                                  item.country_flag
-                                                ),
+                                               
                                                 (
                                                   <>
                                                     <option

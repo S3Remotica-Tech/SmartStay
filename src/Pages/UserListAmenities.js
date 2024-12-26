@@ -27,25 +27,20 @@ function UserListAmenities(props) {
 
   useEffect(() => {
     if (props.id) {
-      console.log("user_id", props.id);
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
       
     }
-    console.log("userIduserId....?", props.id);
   }, [props.id]);
   const [selectAmneties, setselectAmneties] = useState("");
   
-  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
-  console.log("selectedAmenityName", selectedAmenityName);
+  const [selectedAmenityName, setSelectedAmenityName] = useState([])
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [active, setActive] = useState(false);
   const [status, setStatus] = useState("");
   const [createby, setcreateby] = useState('');
-  console.log("createby123456",createby)
   const [amnityEdit, setamnityEdit] = useState("");
   const [filtshow, setFiltshow] = useState(false);
   const [amnitytableshow, setamnitytableshow] = useState(false);
-  console.log("createby", createby);
   const [amnityError, setamnityError] = useState("");
 
  
@@ -54,7 +49,6 @@ function UserListAmenities(props) {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
-    console.log("e.target.value", value);
 
     if (value === "" || value === "Select an Amenities") {
       setamnityError("Please select a valid amenity Id");
@@ -67,17 +61,13 @@ function UserListAmenities(props) {
       return item.amenity_Id == value;
 
     });
-    console.log("amenitiesHistory",amenitiesHistory)
 
-    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
     if (amenitiesHistory && amenitiesHistory.length > 0) {
       if (amenitiesHistory[0].status == 0) {
-        console.log("Status is 0, setting add amenity show to true");
         setaddamenityShow(true);
         setstatusShow(false);
       }
     } else {
-      console.log("else");
       setaddamenityShow(true);
       setstatusShow(false);
       setSelectedAmenityName([]);
@@ -90,15 +80,10 @@ function UserListAmenities(props) {
       state.UsersList.customerdetails.all_amenities.length > 0 &&
       selectAmneties
     ) {
-      console.log(
-        "state.UsersList.customerdetails.all_amenities",
-        state.UsersList.customerdetails.all_amenities
-      );
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities.filter((item) => {
           return item.Amnities_Id == selectAmneties;
-        });
-      console.log("AmnitiesNamelist", AmnitiesNamelist);
+        })
       setcreateby(AmnitiesNamelist);
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
@@ -137,7 +122,6 @@ function UserListAmenities(props) {
   const [amnitynotshow, setamnitynotshow] = useState([]);
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value);
-    console.log("eee.ttt.v", e.target.value);
   };
 
   const handleAddUserAmnities = () => {
@@ -166,25 +150,14 @@ function UserListAmenities(props) {
       setselectAmneties("");
     }
   };
-  console.log(
-    "state.UsersList?.customerdetails?.all_amenities?",
-    state.UsersList?.customerdetails?.all_amenities
-  );
-
-  console.log(
-    "state.UsersList?.statusCustomerAddUser",
-    state.UsersList.statusCustomerAddUser
-  );
+ 
   useEffect(()=>{
 if(state.UsersList.statusCustomerAddUser === 200){
   setaddamenityShow(false)
 }
   },[state.UsersList.statusCustomerAddUser])
  
-
-  console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
-    console.log("vvvfdfdfdfdg", v);
 
     setamnityEdit(v);
     setaddamenityShow(true);
@@ -200,8 +173,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
   const currentRowAmnities = amnitiesFilterddata?.slice(
     indexOfFirstRowamnities,
     indexOfLastRowamneties
-  );
-  console.log("currentRowAmnities", currentRowAmnities);
+  )
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
@@ -579,15 +551,13 @@ if(state.UsersList.statusCustomerAddUser === 200){
         <tbody style={{ verticalAlign: "middle" }}>
           {currentRowAmnities &&
             currentRowAmnities?.map((v) => {
-              let Datform = new Date(v.created_At);
-              console.log("Datform..?", Datform);
+              let Datform = new Date(v.created_At)
 
               let day = Datform.getDate();
               let month = Datform.getMonth() + 1;
               let year = Datform.getFullYear();
 
-              let formattedDate = `${day}/${month}/${year}`;
-              console.log("Formatted Date:", formattedDate);
+              let formattedDate = `${day}/${month}/${year}`
 
               return (
                 <tr key={v.amenity_Id} style={{ marginTop: 30 }}>

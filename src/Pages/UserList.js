@@ -70,9 +70,16 @@ function UserList(props) {
   const [reAssignDetail, setReasignDetail] = useState("");
   const [uniqueostel_Id, setUniqostel_Id] = useState("");
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
+  const [selectAmneties, setselectAmneties] = useState("");
+  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
+  const [addamenityShow, setaddamenityShow] = useState(false);
+  const [active, setActive] = useState(false);
+  const [status, setStatus] = useState("");
+  const [createby, setcreateby] = useState("");
+  const [amnityEdit, setamnityEdit] = useState("");
+  const [deleteShow, setDeleteShow] = useState(false);
  
    useEffect(() => {
-      console.log('Current_hostelid', state.login.selectedHostel_Id);
       setUniqostel_Id(state.login.selectedHostel_Id)
     }, [state?.login?.selectedHostel_Id]);
 
@@ -85,7 +92,6 @@ function UserList(props) {
   }, [uniqueostel_Id]);
 
   const handleCustomerReAssign = (reuser) => {
-    console.log("reuser", reuser);
     setReasignDetail(reuser);
     setCustomerReAssign(true);
   };
@@ -99,7 +105,6 @@ function UserList(props) {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===customerrolePermission[0]", customerrolePermission);
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[4]?.per_view == 1
@@ -111,8 +116,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[4]?.per_create == 1
@@ -123,7 +126,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
 
     if (
       customerrolePermission[0]?.is_owner == 1 ||
@@ -135,7 +137,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
 
     if (
       customerrolePermission[0]?.is_owner == 1 ||
@@ -148,7 +149,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
 
     if (
       customerrolePermission[0]?.is_owner == 1 ||
@@ -161,7 +161,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
 
     if (
       customerrolePermission[0]?.is_owner == 1 ||
@@ -173,7 +172,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", customerrolePermission[0]);
 
     if (
       customerrolePermission[0]?.is_owner == 1 ||
@@ -209,8 +207,7 @@ function UserList(props) {
         : [];
     }
   
-    setFilteredUsers(FilterUser);
-    console.log("Filtered Users:", FilterUser);
+    setFilteredUsers(FilterUser)
   }, [
     filterInput, 
     state.UsersList?.Users, 
@@ -222,7 +219,6 @@ function UserList(props) {
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    console.log("e,,,,", e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
   };
 
@@ -236,7 +232,6 @@ function UserList(props) {
 
     setFilteredUsers([]);
     setDropdownVisible(false);
-    console.log("User selected:", user);
   };
 
   const handleCloseSearch = () => {
@@ -349,8 +344,7 @@ function UserList(props) {
     setShowMenu(true);
     setAddBasicDetail(true);
     setEditObj(u);
-    setemail_id(u.Email);
-    console.log("u.Email...r?", u.Email);
+    setemail_id(u.Email)
   };
 
   const [showInput, setShowInput] = useState(false);
@@ -368,12 +362,8 @@ function UserList(props) {
 
 
 
-  console.log("state", state);
-
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
-      console.log("invoice added executed");
-
       setFilteredUsers(state.UsersList.Users);
 
       const uniqueUsersList = Array.isArray(state.UsersList?.Users)
@@ -404,17 +394,10 @@ function UserList(props) {
   const [createbyamni, setcreatebyamni] = useState("");
   const [amnitytableshow, setamnitytableshow] = useState(false);
 
-  // console.log("uniqueostel_Id",props.allPageHostel_Id)
-  // useEffect(() => {
-  //   console.log("uniqueHostelId:", props.allPageHostel_Id);
-  //   setUniqostel_Id(props.allPageHostel_Id);
-  // }, [props.allPageHostel_Id]);
-
   const handleRoomDetailsPage = (userData) => {
     const clickedUserDataArray = Array.isArray(userData)
       ? userData
       : [userData];
-    console.log("userData", userData);
     setHostelIds(userData.Hostel_Id);
     setBedIds(userData.Bed);
     setFloorIds(userData.Floor);
@@ -430,15 +413,11 @@ function UserList(props) {
   };
   const handleShowAddBed = (u) => {
     setEdit("Edit");
-
-    console.log("u for assign bed", u);
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false);
     setEditObj(u);
-    console.log("uu", u);
     setemail_id(u.Email);
-    console.log("u.Email", u.Email);
   };
 
   const [propsHostel, setPropsHostel] = useState("");
@@ -474,32 +453,23 @@ function UserList(props) {
 
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
-  console.log("userDetails", userDetails);
-
-  console.log("bedIds", bedIds, hostelIds, floorIds, roomsIds);
   useEffect(() => {
-    // Check if Users is a valid array
     const users = Array.isArray(state.UsersList?.Users) ? state.UsersList.Users : [];
     
     // Filter Particular User Details
     const ParticularUserDetails = users.filter((item) => {
-      console.log("item", item);
-      return item.User_Id == customerUser_Id; // Use loose equality only if `customerUser_Id` can have different types
+      return item.User_Id == customerUser_Id; 
     });
   
-    console.log("ParticularUserDetails", ParticularUserDetails);
     setUserDetails(ParticularUserDetails);
   
     if (ParticularUserDetails.length > 0) {
       const User_Id = ParticularUserDetails[0]?.User_Id;
   
-      // Check if Invoice is a valid array
       const invoices = Array.isArray(state.InvoiceList?.Invoice) ? state.InvoiceList.Invoice : [];
-      
-      // Filter Invoice Data
+    
       const filteredData = invoices.filter((user) => user.User_Id == User_Id);
   
-      console.log("Filtered Data for User:", filteredData);
       setFilteredDataForUser(filteredData);
     } else {
       setFilteredDataForUser([]); 
@@ -509,46 +479,7 @@ function UserList(props) {
     state.UsersList?.Users, 
     state.InvoiceList?.Invoice, 
   ]);
-  
-  // useEffect(() => {
-  //   const ParticularUserDetails = state.UsersList?.Users?.filter((item) => {
-  //     console.log("item", item);
-
-  //     return item.User_Id == customerUser_Id;
-  //   });
-  //   console.log("ParticularUserDetails", ParticularUserDetails);
-
-  //   setUserDetails(ParticularUserDetails);
-
-  //   let User_Id = null;
-  //   if (ParticularUserDetails.length > 0) {
-  //     User_Id = ParticularUserDetails[0]?.User_Id;
-  //     const filteredData =
-  //       state.InvoiceList?.Invoice &&
-  //       state.InvoiceList?.Invoice?.filter((user) => user.User_Id == User_Id);
-
-  //     setFilteredDataForUser(filteredData);
-  //   }
-  // }, [
-  //   roomDetail,
-  //   state.UsersList?.Users,
-  //   hostelIds,
-  //   bedIds,
-  //   floorIds,
-  //   roomsIds,
-  //   email_id,
-  // ]);
-
-  const customCheckboxStyle = {
-    appearance: "none",
-    width: "20px",
-    height: "20px",
-    backgroundColor: "#fff",
-    border: "2px solid #DCDCDC",
-    borderRadius: "4px",
-    display: "inline-block",
-    position: "relative",
-  };
+ 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -582,7 +513,6 @@ function UserList(props) {
   const [isOpenTab, setIsOpenTab] = useState(true);
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites;
-  console.log("amenties", Amenitiesname);
 
   const billPaymentHistory = state.UsersList.billPaymentHistory;
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
@@ -703,47 +633,29 @@ function UserList(props) {
     if (id) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
     }
-    console.log("userIduserId", id);
   }, [id]);
   useEffect(() => {
     if (id) {
-      console.log("user_id", id);
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
-      // setAmnnityhistory(state.UsersList?.amnetieshistory)
     }
-    console.log("userIduserId....?", id);
   }, [id]);
 
-  const [selectAmneties, setselectAmneties] = useState("");
-  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
-  console.log("selectedAmenityName", selectedAmenityName);
-  const [addamenityShow, setaddamenityShow] = useState(false);
-  const [active, setActive] = useState(false);
-  const [status, setStatus] = useState("");
-  const [createby, setcreateby] = useState("");
-  const [amnityEdit, setamnityEdit] = useState("");
-  const [deleteShow, setDeleteShow] = useState(false);
-  console.log("createby", createby);
-
+  
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
-    console.log("e.target.value", value);
 
     const amenitiesHistory = state.UsersList.amnetieshistory?.filter((item) => {
       return item.amenity_Id == value;
     });
-    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
       if (amenitiesHistory && amenitiesHistory[0].status == 0) {
-        console.log("Status is 0, setting add amenity show to true");
         setaddamenityShow(true);
         setstatusShow(false);
       }
     } else {
-      console.log("else");
       setaddamenityShow(true);
       setstatusShow(false);
       setSelectedAmenityName([]);
@@ -763,15 +675,11 @@ function UserList(props) {
       state.UsersList.customerdetails.all_amenities.length > 0 &&
       selectAmneties
     ) {
-      console.log(
-        "state.UsersList.customerdetails.all_amenities",
-        state.UsersList.customerdetails.all_amenities
-      );
+     
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities?.filter((item) => {
           return item.Amnities_Id == selectAmneties;
         });
-      console.log("AmnitiesNamelist", AmnitiesNamelist);
       setcreateby(AmnitiesNamelist);
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
@@ -818,7 +726,6 @@ function UserList(props) {
   const [amnitynotshow, setamnitynotshow] = useState([]);
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value);
-    console.log("eee.ttt.v", e.target.value);
   };
 
   const handleAddUserAmnities = () => {
@@ -847,15 +754,7 @@ function UserList(props) {
       setselectAmneties("");
     }
   };
-  console.log(
-    "state.UsersList?.customerdetails?.all_amenities?",
-    state.UsersList?.customerdetails?.all_amenities
-  );
-
-  console.log(
-    "state.UsersList?.statusCustomerAddUser",
-    state.UsersList.statusCustomerAddUser
-  );
+ 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false);
@@ -870,10 +769,8 @@ function UserList(props) {
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  console.log("state For Add userAminity", state);
+ 
   const handleEdit = (v) => {
-    console.log("vvv", v);
-
     setamnityEdit(v);
     setaddamenityShow(true);
     setstatusShow(true);
@@ -893,7 +790,6 @@ function UserList(props) {
     indexOfFirstRowamnities,
     indexOfLastRowamneties
   );
-  console.log("currentRowAmnities", currentRowAmnities);
 
   const [showOtpValidation, setShowOtpValidation] = useState(false);
   const [showValidate, setShowValidate] = useState(true);
@@ -1002,68 +898,43 @@ function UserList(props) {
 
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); // To control downloads
 
-  // Update excelDownload based on state.UsersList changes
-  // useEffect(() => {
-  //   console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
-  //   if (state.UsersList?.exportDetails?.response?.fileUrl) {
-  //     setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
-  //   }
-  // }, [state.UsersList?.exportDetails?.response?.fileUrl]);
   useEffect(() => {
-    // if (value === 1) {
-    console.log(
-      "File URL in state:",
-      state.UsersList?.exportDetails?.response?.fileUrl
-    );
     if (state.UsersList?.exportDetails?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
     }
-    // }
+    
   }, [state.UsersList?.exportDetails?.response?.fileUrl]);
 
   useEffect(() => {
-    // if(value === 2){
-    console.log(
-      "File URL in state:",
-      state.UsersList?.exportBookingDetails?.response?.fileUrl
-    );
+   
     if (state.UsersList?.exportBookingDetails?.response?.fileUrl) {
       setExcelDownloadBooking(
         state.UsersList?.exportBookingDetails?.response?.fileUrl
       );
     }
-    // }
   }, [state.UsersList?.exportBookingDetails?.response?.fileUrl]);
 
   useEffect(() => {
-    // if(value === 3){
-    console.log(
-      "File URL in state:",
-      state.UsersList?.exportCheckoutDetails?.response?.fileUrl
-    );
+    
+    
     if (state.UsersList?.exportCheckoutDetails?.response?.fileUrl) {
       setExcelDownloadCheckout(
         state.UsersList?.exportCheckoutDetails?.response?.fileUrl
       );
     }
-    // }
   }, [state.UsersList?.exportCheckoutDetails?.response?.fileUrl]);
 
   useEffect(() => {
-    // if(value === 4){
-    console.log(
-      "File URL in state:",
-      state.UsersList?.exportWalkinDetails?.response?.fileUrl
-    );
+    
     if (state.UsersList?.exportWalkinDetails?.response?.fileUrl) {
       setExcelDownloadChecIn(
         state.UsersList?.exportWalkinDetails?.response?.fileUrl
       );
     }
-    // }
+    
   }, [state.UsersList?.exportWalkinDetails?.response?.fileUrl]);
 
-  console.log("excelDownload", excelDownload);
+ 
   const handleCustomerExcel = () => {
     if (value === "1") {
       dispatch({
@@ -1107,12 +978,7 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    console.log(
-      "excelDownload:",
-      excelDownload,
-      "isDownloadTriggered:",
-      isDownloadTriggered
-    );
+   
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownload;
@@ -1128,7 +994,6 @@ function UserList(props) {
   }, [excelDownload, isDownloadTriggered]);
 
   useEffect(() => {
-    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
     if (excelDownloadBooking && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownloadBooking;
@@ -1144,7 +1009,6 @@ function UserList(props) {
   }, [excelDownloadBooking, isDownloadTriggered]);
 
   useEffect(() => {
-    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
     if (excelDownloadChecout && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownloadChecout;
@@ -1160,7 +1024,6 @@ function UserList(props) {
   }, [excelDownloadChecout, isDownloadTriggered]);
 
   useEffect(() => {
-    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
     if (excelDownloadCheckIn && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownloadCheckIn;
