@@ -20,11 +20,12 @@ function DashboardAnnouncement(props) {
   const [showLikeModal, setShowLikeModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [showTittleModal, setshowTittleModal] = useState(false);
   const [hostel_id, setHostel_Id] = useState("");
   const [createprofile, setCreateProfile] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescrption] = useState("");
   const handleShowAnnouncement = () => setShowAnnouncement(true);
   const handleCloseAnnouncement = () => setShowAnnouncement(false);
 
@@ -39,6 +40,14 @@ function DashboardAnnouncement(props) {
     setshowTittleModal(true);
   };
   console.log("state.createAccount.accountList.user_details", createprofile);
+
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleDescrpton = (e) => {
+    setDescrption(e.target.value);
+  };
+
   useEffect(() => {
     setCreateProfile(state.createAccount.accountList[0].user_details);
   }, [state.createAccount.accountList[0].user_details]);
@@ -78,6 +87,25 @@ function DashboardAnnouncement(props) {
     setShowCommentModal(true);
   };
 
+  const handleSaveAnnonce = () => {
+    dispatch({
+      type: "ADDANNOUNCEMENT",
+      payload: { hostel_id: hostel_id, title: title, description: description },
+    });
+  };
+
+  useEffect(() => {
+    if (state.PgList.statuscodeForAddAnnouncement === 200) {
+      handleCloseAnnouncement();
+      dispatch({
+        type: "ANNOUNCEMENTLIST",
+        payload: { hostel_id: hostel_id },
+      });
+    }
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_ANNOUNCEMENT" });
+    }, 200);
+  }, [state.PgList.statuscodeForAddAnnouncement]);
   return (
     <>
       <div
@@ -284,7 +312,7 @@ function DashboardAnnouncement(props) {
             </Card>
           ))}
 
-          {/* Main Modal */}
+          
           {selectedCard && (
             <Modal show={showMainModal} onHide={handleCloseMain} centered>
               <Modal.Header
@@ -299,7 +327,7 @@ function DashboardAnnouncement(props) {
                     marginBottom: "0px",
                   }}
                 >
-                  August 2024 . Monthly Report
+                  August
                 </p>
                 <CloseCircle
                   size="32"
@@ -321,7 +349,7 @@ function DashboardAnnouncement(props) {
                         paddingLeft: "6px",
                       }}
                     >
-                      Akash Rathod
+                      Akash
                     </span>
                   </p>
                   <p
@@ -410,7 +438,7 @@ function DashboardAnnouncement(props) {
             </Modal>
           )}
 
-          {/* Like Modal */}
+         
           {selectedCard && (
             <Modal show={showLikeModal} onHide={handleCloseLike} centered>
               <Modal.Header
@@ -425,7 +453,7 @@ function DashboardAnnouncement(props) {
                     marginBottom: "0px",
                   }}
                 >
-                  August 2024 . Monthly Report
+                  Monthly Report
                 </p>
                 <CloseCircle
                   size="32"
@@ -683,7 +711,7 @@ function DashboardAnnouncement(props) {
                     marginBottom: "0px",
                   }}
                 >
-                  August 2024 . Monthly Report
+                  Monthly
                 </p>
                 <CloseCircle
                   size="32"
@@ -895,79 +923,86 @@ function DashboardAnnouncement(props) {
             </Modal>
           )}
 
-          {/* titlemodal */}
+          {
 
-          {selectedCard && (
-            <Modal show={showTittleModal} onHide={handleCloseTittle} centered>
-              <Modal.Header
-                className="d-flex justify-content-between align-items-center"
-                style={{ border: "none" }}
-              >
-                <p
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    fontSize: "18px",
-                    marginBottom: "0px",
-                  }}
-                >
-                  August 2024 . Monthly Report
-                </p>
-                <CloseCircle
-                  size="32"
-                  color="#222222"
-                  onClick={handleCloseTittle}
-                  style={{ cursor: "pointer" }}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <div className="d-flex justify-content-between">
-                  <p style={{ marginBottom: "0px" }}>
-                    <img src={Ellipse5} alt="Ellipse5" width={20} height={20} />
-                    <span
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#222222",
-                        paddingLeft: "6px",
-                      }}
-                    >
-                      Akash Rathod
-                    </span>
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "12px",
-                      color: "#4B4B4B",
-                      paddingLeft: "6px",
-                    }}
-                  >
-                    01 September 2024
-                  </p>
-                </div>
+          }
 
-                <p
-                  tyle={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    color: "#222222",
-                  }}
-                >
-                  {" "}
-                  Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                  commodo leo scelerisque turpis in gravida. Et facilisi eget id
-                  consequat maecenas diam velit eget accumsan. Nam suspendisse
-                  lectus vitae elementum integer. Velit sem nec eget id ac.
-                  Sagittis sit mauris massa eget vel integer mattis pulvinar.
-                  Eget aliquet{" "}
-                </p>
-              </Modal.Body>
-            </Modal>
-          )}
+{selectedCard &&
+  state.PgList?.announcementList?.announcements?.map((data, index) => (
+    <Modal
+      key={index}
+      show={showTittleModal}
+      onHide={handleCloseTittle}
+      centered
+    >
+      <Modal.Header
+        className="d-flex justify-content-between align-items-center"
+        style={{ border: "none" }}
+      >
+        <p
+          style={{
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: "18px",
+            marginBottom: "0px",
+          }}
+        >
+          {data.title}
+        </p>
+        <CloseCircle
+          size="32"
+          color="#222222"
+          onClick={handleCloseTittle}
+          style={{ cursor: "pointer" }}
+        />
+      </Modal.Header>
+      <Modal.Body>
+        <div className="d-flex justify-content-between">
+          <p style={{ marginBottom: "0px" }}>
+            <img src={createprofile.profile || Profile} alt="Ellipse5" width={20} height={20} />
+            <span
+              style={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "12px",
+                color: "#222222",
+                paddingLeft: "6px",
+              }}
+            >
+                {createprofile.first_name} {createprofile.last_name}
+            </span>
+          </p>
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+              fontSize: "12px",
+              color: "#4B4B4B",
+              paddingLeft: "6px",
+            }}
+          >
+             {new Date(data.createdat).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
+          </p>
+        </div>
+
+        <p
+          style={{
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            fontSize: "14px",
+            color: "#222222",
+          }}
+        >
+          {data.description}
+        </p>
+      </Modal.Body>
+    </Modal>
+  ))}
+
         </div>
       )}
       <Modal
@@ -1037,6 +1072,8 @@ function DashboardAnnouncement(props) {
                 type="text"
                 id="form-title"
                 placeholder="Enter Title"
+                value={title}
+                onChange={(e) => handleTitle(e)}
                 style={{
                   fontSize: 16,
                   color: "#222222",
@@ -1067,7 +1104,9 @@ function DashboardAnnouncement(props) {
                 as="textarea"
                 id="form-description"
                 placeholder="Enter Description"
-                rows={4} // Adjust number of rows as needed
+                value={description}
+                onChange={(e) => handleDescrpton(e)}
+                rows={4}
                 style={{
                   fontSize: 16,
                   color: "#222222",
@@ -1094,7 +1133,7 @@ function DashboardAnnouncement(props) {
               marginTop: 20,
               width: "100%",
             }}
-            onClick={handleCloseAnnouncement}
+            onClick={handleSaveAnnonce}
           >
             Add Announcement
           </Button>
