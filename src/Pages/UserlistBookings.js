@@ -40,8 +40,7 @@ import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 
 function Booking(props) {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  console.log("stateBooking", state);
+  const dispatch = useDispatch()
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [modalType, setModalType] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -52,7 +51,6 @@ function Booking(props) {
   const [amount, setAmount] = useState("");
   const [comments, setComments] = useState("");
   const [paying, setPaying] = useState("");
-  console.log("paying", paying);
   const [floor, setFloor] = useState("");
   const [room, setRoom] = useState("");
   const [bed, setBed] = useState("");
@@ -70,8 +68,7 @@ function Booking(props) {
   const [formErrors, setFormErrors] = useState({});
   const [formEdit, setFormEdit] = useState(false);
   const [roomId, setRoomId] = useState("");
-  const [HostelIds, setHostelIds] = useState("");
-  console.log("HostelIds", HostelIds);
+  const [HostelIds, setHostelIds] = useState("")
   const [FloorIds, setFloorIds] = useState("");
   const [bedIds, setBedIds] = useState("");
   const [id, setId] = useState("");
@@ -96,9 +93,7 @@ function Booking(props) {
   const [validEmailError, setvalidEmailError] = useState("");
   const [bookingPermissionError, setBookingPermissionError] = useState("");
   const [bookingEditPermissionError, setBookingEditPermissionError] = useState("");
-  const [bookingDeletePermissionError, setBookingDeletePermissionError] = useState("");
-  console.log("userlisthostelid",props.uniqueostel_Id);
-  // const HostelID = props.allhost_id 
+  const [bookingDeletePermissionError, setBookingDeletePermissionError] = useState("")
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
     lastName: "",
@@ -116,11 +111,9 @@ function Booking(props) {
   });
 
 useEffect(() => {
-  // console.log("allhost_id", props.allhost_id);
   setHostelIds(props.uniqueostel_Id); 
 }, [props.uniqueostel_Id]);
   useEffect(() => {
-    console.log("===customerrolePermission[0]", props.customerrolePermission);
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
       props.customerrolePermission[0]?.role_permissions[5]?.per_view == 1
@@ -133,7 +126,6 @@ useEffect(() => {
 
 
   useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
   
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -146,7 +138,6 @@ useEffect(() => {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
   
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -168,23 +159,6 @@ useEffect(() => {
 
 
   const handleEdit = (item) => {
-    // console.log("Full item during edit:", item); // Log entire item
-    // console.log("Item file during edit:", item.profile); // Log file specifically
-    // if (!item.profile) {
-    //   console.warn("File is missing or undefined in the item data.");
-    // }
-  
-    // setFile(item.profile || Profile2);
-    // dispatch({
-    //   type: "BOOKINGBEDDETAILS",
-    //   payload: {
-    //     hostel_id: HostelIds,
-    //     floor_id: FloorIds,
-    //     room_id: roomId,
-    //     joining_date: joiningDate,
-    //   },
-    // });
-   
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
@@ -193,24 +167,10 @@ useEffect(() => {
       const formattedJoiningDate = item.joining_date
         ? new Date(item.joining_date)
         : null;
-        console.log("itemEdit...///", formattedJoiningDate);
       setJoiningDate(formattedJoiningDate);
       setFile(item.profile || "");
-      // setFile(item.profile === 0 || item.profile === "0" ? Profile2 : item.profile);
-
-
-      // console.log("item.profile:", item.profile);
-
       setAmount(item.amount || "");
-      // setPaying(item.hostel_name || "");
-      // setFloor(item.floor_name || "");
-      // setRoom(item.room_name || "");
-      // setBed(item.bed_name || "");
-      // setComments(item.comments || "");
       setHostelIds(item.hostel_id || "");
-      // setFloorIds(item.floor_id || "");
-      // setRoomId(item.room_id || "");
-      // setBedIds(item.bed_id || "");
       setId(item.id || "");
       const phoneNumber = String(item.phone_number || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
@@ -219,15 +179,9 @@ useEffect(() => {
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
       setAddress(item.address || "");
-      // setBednum(item);
-      // seteditBed("editbeddet");
-
       setInitialStateAssign({
         firstName: item.first_name || "",
         lastName: item.last_name || "",
-        // floor: item.floor_id || "",
-        // room: item.room_id || "",
-        // bed: item.bed_id || "",
         Phone: item.phone_number || "",
         Email: item.email_id || "",
         Address: item.address || "",
@@ -235,11 +189,9 @@ useEffect(() => {
         amount: item.amount || "",
         paying: item.hostel_id || "",
         file :item.profile || "",
-        // comments: item.comments || "",
       });
 
       seteditMode(true);
-      // setRoomId(item[0].room_id || "");
     }
   };
 
@@ -380,28 +332,22 @@ useEffect(() => {
           u.Floor_Id == FloorIds &&
           u.Room_Id == roomId
       );
-    console.log("Bedfilter", Bedfilter);
 
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
       Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
-    console.log("Roomamountfilter123", Roomamountfilter);
-    console.log("initialStateAssign123", initialStateAssign);
 
     if (Roomamountfilter?.length != 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
 
       if (editMode && e.target.value == initialStateAssign.bed) {
         setAmount(initialStateAssign.amount);
-        console.log("initialStateAssign.amount", initialStateAssign.amount);
       } else {
         setAmount(selectedRoomRent);
       }
-      console.log("Roomamountfilter", selectedRoomRent);
     }
 
-    console.log("e.target.valuebed", e.target.value);
     if (e.target.value === "Selected a Bed" && e.target.value === "") {
       setBedError("Please select a valid Bed");
     } else {
@@ -519,165 +465,7 @@ useEffect(() => {
       return true;
     }
   };
-  
-//   const handleSubmit = () => {
-//     const isFirstnameValid = validateAssignField(firstName, "firstName");
-//     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-//     const isamountValid = validateAssignField(amount, "amount");
-//     const isphoneValid = validateAssignField(Phone, "Phone");
-//     const isHostelValid = validateAssignField(HostelIds, "paying");
-//     const isaddressValid = validateAssignField(Address, "Address");
-//     // const isFloorvalid = validateAssignField(FloorIds, "floor");
-//     // const isRoomValid = validateAssignField(roomId, "room");
-//     // const isbedvalid = validateAssignField(bedIds, "bed");
-
-//     // if ((HostelIds === "Select a PG" && HostelIds === "") || !isHostelValid) {
-//     //   setHostelIdError("Please select a valid Hostel");
-//     //   return;
-//     // } else {
-//     //   setfloorError("");
-//     // }
-//     // if ((FloorIds === "Select a floor" && FloorIds === "") || !isFloorvalid) {
-//     //   setfloorError("Please select a valid Floor");
-//     //   return;
-//     // } else {
-//     //   setfloorError("");
-//     // }
-
-//     // if ((roomId === "Select a room" && roomId === "") || !isRoomValid) {
-//     //   setRoomError("Please select a valid Room");
-//     //   return;
-//     // } else {
-//     //   setRoomError("");
-//     // }
-//     // if ((bedIds === "Select a bed" && bedIds === "") || !isbedvalid) {
-//     //   setBedError("Please select a valid Room");
-//     //   return;
-//     // } else {
-//     //   setBedError("");
-//     // }
-
-//     if (
-//       !isFirstnameValid ||
-//       !isjoiningDateValid ||
-//       !isamountValid ||
-//       !isphoneValid ||
-//       !isaddressValid ||
-//       !isHostelValid // Negate this condition
-//     ) {
-//       return;
-//     }
-    
-//     // console.log("FloorIds:", FloorIds);
-//     // console.log("initialStateAssign.floor:", initialStateAssign.floor);
-//     // console.log("RoomId:", roomId);
-//     // console.log("initialStateAssign.room:", initialStateAssign.room);
-//     // console.log("BedIds:", bedIds);
-//     // console.log("initialStateAssign.bed:", initialStateAssign.bed);
-//     console.log("JoiningDate:", joiningDate);
-//     console.log(
-//       "initialStateAssign.joiningDate:",
-//       initialStateAssign.joiningDate
-//     );
-//     console.log("Amount:", amount);
-//     console.log("initialStateAssign.amount:", initialStateAssign.amount);
-//     console.log("FirstName:", firstName);
-//     console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
-//     console.log("LastName:", lastName);
-//     console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
-//     // console.log("Comments:", comments);
-//     // console.log("initialStateAssign.comments:", initialStateAssign.comments);
-//     console.log("ProfileImage", file);
-//     console.log("initialStateAssign.Profile:", initialStateAssign.file);
-//     console.log("Address:", Address);
-//     console.log("initialStateAssign.Address:", initialStateAssign.Address);
-//     console.log("Email:", Email);
-//     console.log("initialStateAssign.Email:", initialStateAssign.Email);
-//     console.log("Phone:", Phone);
-//     console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
-//     console.log("isHostelValid:", isHostelValid);
-//     console.log("Phone:", countryCode);
-//     console.log("initialStateAssign.Phone:", initialStateAssign.countryCode);
-
-//     const isValidDate = (date) => {
-//       return !isNaN(Date.parse(date));
-//     };
-//     const isChangedBed =
-//       // (isNaN(FloorIds)
-//       //   ? String(FloorIds).toLowerCase() !==
-//       //     String(initialStateAssign.floor).toLowerCase()
-//       //   : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
-//       // (isNaN(roomId)
-//       //   ? String(roomId).toLowerCase() !==
-//       //     String(initialStateAssign.room).toLowerCase()
-//       //   : Number(roomId) !== Number(initialStateAssign.room)) ||
-//       // (isNaN(bedIds)
-//       //   ? String(bedIds).toLowerCase() !==
-//       //     String(initialStateAssign.bed).toLowerCase()
-//       //   : Number(bedIds) !== Number(initialStateAssign.bed)) ||
-//       (
-//         isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
-//         ? new Date(joiningDate).toISOString().split("T")[0] !==
-//           new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
-//         : joiningDate !== initialStateAssign.joiningDate) ||
-//       Number(amount) !== Number(initialStateAssign.amount) ||
-//       String(firstName) !== String(initialStateAssign.firstName) ||
-//       String(Address) !== String(initialStateAssign.Address) ||
-//       String(Email) !== String(initialStateAssign.Email) ||
-//       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-//       String(lastName) !== String(initialStateAssign.lastName)
-//       // file !== initialStateAssign.file ||
-     
-    
-//       // String(comments) !== String(initialStateAssign.comments);
-
-//     if (!isChangedBed) {
-//       setFormError("No changes detected.");
-//       return;
-//     } else {
-//       setFormError("");
-//     }
-//     // let formattedDate = null;
-//     // try {
-//     //   formattedDate = new Date(joiningDate).toISOString().split("T")[0];
-//     // } catch (error) {
-//     //   setDateError("date is required.");
-//     //   console.error(error);
-//     //   return;
-//     // }
-//     let formattedDate = null;
-// try {
-//   let date = new Date(joiningDate);
-//   date.setDate(date.getDate() + 1); // Add 1 day
-//   formattedDate = date.toISOString().split("T")[0];
-// } catch (error) {
-//   setDateError("Date is required.");
-//   console.error(error);
-//   return;
-// }
-//     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-
-//     dispatch({
-//       type: "ADD_BOOKING",
-//       payload: {
-//         f_name: firstName,
-//         l_name: lastName,
-//         joining_date: formattedDate,
-//         amount: amount,
-//         hostel_id: HostelIds,
-//         mob_no: normalizedPhoneNumber,
-//         email_id: Email,
-//         address: Address,
-//         profile:file,
-//         id: id,
-//       },
-//     });
-//     setFormEdit(false);
-//     // props.handleClose()
-  
-//   };
 const handleSubmit = () => {
-  // Validation checks
   const isFirstnameValid = validateAssignField(firstName, "firstName");
   const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
   const isamountValid = validateAssignField(amount, "amount");
@@ -696,35 +484,16 @@ const handleSubmit = () => {
     return;
   }
 
-  // Debugging logs
-  console.log("JoiningDate:", joiningDate);
-  console.log("initialStateAssign.joiningDate:", initialStateAssign.joiningDate);
-  console.log("Amount:", amount);
-  console.log("initialStateAssign.amount:", initialStateAssign.amount);
-  console.log("FirstName:", firstName);
-  console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
-  console.log("LastName:", lastName);
-  console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
+
 
   // Check for 'file' object and print details
   if (file instanceof File || file instanceof Blob) {
-    console.log("ProfileImage Name:", file.name);
-    console.log("ProfileImage Type:", file.type);
-    console.log("ProfileImage Size:", file.size);
+   
   } else {
     console.log("ProfileImage Value:", JSON.stringify(file, null, 2));
   }
 
-  console.log("initialStateAssign.Profile:", initialStateAssign.file);
-  console.log("Address:", Address);
-  console.log("initialStateAssign.Address:", initialStateAssign.Address);
-  console.log("Email:", Email);
-  console.log("initialStateAssign.Email:", initialStateAssign.Email);
-  console.log("Phone:", Phone);
-  console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
-  console.log("isHostelValid:", isHostelValid);
-  console.log("Country Code:", countryCode);
-  console.log("initialStateAssign.CountryCode:", initialStateAssign.countryCode);
+
 
   // Check if any values have changed
   const isValidDate = (date) => !isNaN(Date.parse(date));
@@ -788,10 +557,6 @@ const handleSubmit = () => {
 };
 
 
-  console.log("stateghjhsjdhjs", state);
-
-  
-
   const handleDotsClick = (id) => {
     setActiveDotsId((prevId) => (prevId === id ? null : id));
   };
@@ -848,7 +613,6 @@ const handleSubmit = () => {
   const handleCheckin = (item) => {
     setModalType(true);
     setAssignBooking(item);
-    console.log("id12345", item);
   };
 
   const handleSave = (updatedCustomer) => {
@@ -888,8 +652,6 @@ const handleSubmit = () => {
     }
     handleModalClose();
   };
-  
-console.log("booking",state.login.selectedHostel_Id)
 
 
   useEffect(() => {
@@ -898,7 +660,6 @@ console.log("booking",state.login.selectedHostel_Id)
   useEffect(() => {
     setCustomers(state.Booking.CustomerBookingList.bookings);
   }, state.Booking.CustomerBookingList.bookings);
-  console.log("customer///////", props.filteredUsers);
 
   useEffect(()=>{
     if(state?.Booking?.bookingPhoneError){
@@ -1240,22 +1001,12 @@ console.log("booking",state.login.selectedHostel_Id)
                 </thead>
                 <tbody>
                   {currentItems?.map((customer) => {
-                    //  let Dated = new Date(customer.joining_date);
-                    //  console.log("Dated..?", Dated);
-
-                    //  let day = Dated.getDate();
-                    //  let month = Dated.getMonth() + 1;
-                    //  let year = Dated.getFullYear();
-                    // let formattedDate = `${year}/${month}/${day}`;
-
+                  
                     let Dated = new Date(customer.joining_date);
-                    console.log("Dated..?", Dated);
-
                     let day = Dated.getDate();
-                    let month = Dated.getMonth(); // Get the zero-indexed month
+                    let month = Dated.getMonth(); 
                     let year = Dated.getFullYear();
 
-                    // Array of month names abbreviated to the first 3 letters
                     const monthNames = [
                       "Jan",
                       "Feb",
@@ -1271,16 +1022,12 @@ console.log("booking",state.login.selectedHostel_Id)
                       "Dec",
                     ];
 
-                    // Get the month abbreviation
                     let formattedMonth = monthNames[month];
 
-                    // Format the date as YYYY Mon DD
                     let formattedDate = `${year} ${formattedMonth} ${day}`;
 
-                    console.log("Formatted Date:", formattedDate);
 
                     let createDated = new Date(customer.createdat);
-                    console.log("Dated..?", Dated);
 
                     let day1 = createDated.getDate();
                     let month1 = createDated.getMonth();
@@ -1302,7 +1049,6 @@ console.log("booking",state.login.selectedHostel_Id)
                     ];
                     let formattedMonthjj = monthNamesformate[month1];
                     let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
-                    console.log("formatted date", formattedDatecreate);
 
                     return (
                       <tr key={customer.id} className="customer-row">
@@ -1969,7 +1715,6 @@ console.log("booking",state.login.selectedHostel_Id)
                     {state.UsersList?.countrycode?.country_codes?.map(
                       (item) => {
                         return (
-                          console.log("item.country_flag", item.country_flag),
                           (
                             <>
                               <option value={item.country_code}>
