@@ -978,6 +978,7 @@ function UserList(props) {
     }
   };
   useEffect(() => {
+   
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownload;
@@ -998,6 +999,8 @@ function UserList(props) {
       link.href = excelDownloadBooking;
       link.download = "smartstay_file.xlsx";
       link.click();
+
+      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownloadBooking("");
@@ -1010,7 +1013,9 @@ function UserList(props) {
       const link = document.createElement("a");
       link.href = excelDownloadChecout;
       link.download = "smartstay_file.xlsx";
-      link.click()
+      link.click();
+
+      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownload("");
@@ -1025,6 +1030,7 @@ function UserList(props) {
       link.download = "smartstay_file.xlsx";
       link.click();
 
+      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownload("");
