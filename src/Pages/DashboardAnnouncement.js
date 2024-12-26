@@ -26,8 +26,14 @@ function DashboardAnnouncement(props) {
   const [createprofile, setCreateProfile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescrption] = useState("");
+  const [titleError,setTitleError]=useState("")
+  const [descriptionError,setDescriptionError]=useState("")
   const handleShowAnnouncement = () => setShowAnnouncement(true);
-  const handleCloseAnnouncement = () => setShowAnnouncement(false);
+  const handleCloseAnnouncement = () => {
+    setShowAnnouncement(false)
+    setDescriptionError("")
+    setTitleError("")
+  }
 
   //  card click
   const handleCardClick = (card) => {
@@ -43,9 +49,11 @@ function DashboardAnnouncement(props) {
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
+    setTitleError("")
   };
   const handleDescrpton = (e) => {
     setDescrption(e.target.value);
+    setDescriptionError("")
   };
 
   useEffect(() => {
@@ -86,8 +94,27 @@ function DashboardAnnouncement(props) {
     setSelectedCard(card);
     setShowCommentModal(true);
   };
+  const validateField = (value, fieldName) => {
+    if (!value || (typeof value === "string" && value.trim() === "")) {
+      switch (fieldName) {
+       
+        case "title":
+          setTitleError("title is required");
+          break;
+        case "description":
+          setDescriptionError("Description is required");
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
+    return true;
+  };
 
   const handleSaveAnnonce = () => {
+    if (!validateField(title, "title"));
+    if (!validateField(description, "description"));
     dispatch({
       type: "ADDANNOUNCEMENT",
       payload: { hostel_id: hostel_id, title: title, description: description },
@@ -1085,6 +1112,12 @@ function DashboardAnnouncement(props) {
                   borderRadius: 8,
                 }}
               />
+               {titleError && (
+                                <div style={{ color: "red" }}>
+                                  <MdError />
+                                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span> 
+                                </div>
+                              )}
             </div>
 
             {/* Description Field */}
@@ -1117,6 +1150,12 @@ function DashboardAnnouncement(props) {
                   borderRadius: 8,
                 }}
               />
+               {descriptionError && (
+                                <div style={{ color: "red" }}>
+                                  <MdError />
+                                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span> 
+                                </div>
+                              )}
             </div>
           </div>
         </Modal.Body>
