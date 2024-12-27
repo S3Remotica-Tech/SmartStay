@@ -27,8 +27,6 @@ function AddPg({ show, handleClose, currentItem }) {
   const [errorsPG, setErrorsPG] = useState({});
   const [initialState, setInitialState] = useState({});
   const [displayLayer, setDisplayLayer] = useState(null)
-
-
   const [pgNameError, setPgNameError] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -36,18 +34,13 @@ function AddPg({ show, handleClose, currentItem }) {
   const [countryCodeError, setCountryCodeError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [isChangedError, setIsChangedError] = useState('');
+  const [countryCode, setCountryCode] = useState('91');
 
 
 
   useEffect(() => {
     dispatch({ type: 'COUNTRYLIST' })
   }, [])
-
-
-console.log("currentItem",currentItem)
-
-
-
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -66,7 +59,6 @@ console.log("currentItem",currentItem)
     }
   };
 
-console.log("file", file)
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
@@ -144,7 +136,7 @@ console.log("file", file)
   };
 
 
-  const [countryCode, setCountryCode] = useState('91');
+ 
 
 
   const handleCountryCodeChange = (e) => {
@@ -253,7 +245,6 @@ console.log("file", file)
 
     const MobileNumber = `${countryCode}${mobile}`
 
-    console.log("MobileNumber", MobileNumber)
 
     if (pgName && MobileNumber && location && countryCode) {
       dispatch({
@@ -285,16 +276,6 @@ console.log("file", file)
 
 
   }
-
-  console.log("current Item", currentItem)
-
-
-  console.log("state", state)
-
-
-
-
-
 
 
   useEffect(() => {
@@ -336,10 +317,6 @@ console.log("file", file)
   //   name: img.image !== '0' && typeof img.image === 'string' ? img.name : '',
   //   image: img.image !== '0' && typeof img.image === 'string' ? img.image : null
   // })) : [];
-
-
-
-      console.log("Formatted Images:", formattedImages);
 
 
 
@@ -447,12 +424,7 @@ const handleFileChange = (index) => async (e) => {
 
 
 
-  console.log("images ************", images)
-  console.log("file ************", file)
-
   const handleDeleteImages = (ImageName) => {
-
-    console.log("Deleting image", ImageName)
 
     if (currentItem.id) {
       dispatch({
@@ -699,8 +671,6 @@ const handleFileChange = (index) => async (e) => {
 
             {images.map((img, index) => {
 
-
-              console.log("Rendering image for index:", index, "Image object:", img);
               const imageSrc = img.image;
 
 
