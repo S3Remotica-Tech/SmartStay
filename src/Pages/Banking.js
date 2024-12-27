@@ -25,7 +25,6 @@ import { MdError } from "react-icons/md";
 
 function Banking() {
   const state = useSelector((state) => state);
-  console.log("state-for-banking", state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const editRef = useRef(null);
@@ -38,10 +37,7 @@ function Banking() {
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType, setDefaultType] = useState("");
-  console.log("defaltType", defaltType);
   const [selectedAccountType, setSelectedAccountType] = useState("");
-  console.log("selectedAccountTypeass", selectedAccountType);
-
   const [EditTransaction, setEditTransaction] = useState(null);
   const [EditTransactionForm, setEditTransactionForm] = useState(false);
   const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
@@ -62,7 +58,6 @@ function Banking() {
   const [hostel_id,setHostel_Id]=useState("")
 
  useEffect(() => {
-    console.log('Current_hostelid', state.login.selectedHostel_Id);
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
 
@@ -72,7 +67,6 @@ function Banking() {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===bankingrolePermission[0]", bankingrolePermission);
     if (
       bankingrolePermission[0]?.is_owner == 1 ||
       bankingrolePermission[0]?.role_permissions[16]?.per_view == 1
@@ -86,7 +80,6 @@ function Banking() {
 
 
   useEffect(() => {
-    console.log("===bankingrolePermission[0]", bankingrolePermission);
     if (
       bankingrolePermission[0]?.is_owner == 1 ||
       bankingrolePermission[0]?.role_permissions[16]?.per_create == 1
@@ -99,7 +92,6 @@ function Banking() {
 
 
   useEffect(() => {
-    console.log("===bankingrolePermission[0]", bankingrolePermission);
     if (
       bankingrolePermission[0]?.is_owner == 1 ||
       bankingrolePermission[0]?.role_permissions[16]?.per_delete == 1
@@ -110,7 +102,6 @@ function Banking() {
     }
   }, [bankingrolePermission]);
   useEffect(() => {
-    console.log("===bankingrolePermission[0]", bankingrolePermission);
     if (
       bankingrolePermission[0]?.is_owner == 1 ||
       bankingrolePermission[0]?.role_permissions[16]?.per_edit == 1
@@ -126,8 +117,6 @@ function Banking() {
     dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id}});
   }, [hostel_id]);
 
-
-console.log("state.bankingDetails.statusCodeForGetBanking",state.bankingDetails.statusCodeForGetBanking)
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
       
@@ -161,15 +150,10 @@ useEffect(() => {
 
 
   const handleAccountTypeChange = (item) => {
-    console.log("item123", item);
-
     setTypeId(item.id);
     const defaultType = item.setus_default ? item.setus_default : 3;
     setDefaultType(defaultType);
     setSelectedAccountType(defaultType);
-    // setShowAccountTypeOptions((prevId) =>
-    //   prevId === item.id ? null : item.id
-    // );
     setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
   };
 
@@ -222,7 +206,6 @@ useEffect(() => {
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
   const handleEditAddBank = (item) => {
-    console.log("handleEditAddBank", item);
     setEdit(true);
     setShowForm(true);
     setEditAddBank(item);
@@ -234,11 +217,9 @@ useEffect(() => {
     setEdit(false);
     setShowForm(true);
     setEditAddBank("");
-    console.log("showForm", showForm);
     setOpenMenuId(false);
   };
   const handleDeleteForm = (v) => {
-    console.log("Delete,",v)
     setDeleteBankId(v.id)
     setDeleteShow(true);
     setdotsshowbank(false);
@@ -282,10 +263,8 @@ useEffect(() => {
   }, []);
 
   const handleEditTransForm = (item) => {
-    console.log("handleEditTransForm",item)
     setUpdateTransaction(item)
     setEditTransactionForm(true);
-    console.log("EditTransactionForm", EditTransactionForm);
     setEditTransaction(false);
     setDeleteTransactionForm(false);
     setOpenMenuId(null);
@@ -294,11 +273,9 @@ useEffect(() => {
     setDeleteTransactionForm(false);
   };
   const handleDeleteTransForm = (u) => {
-    console.log("deletetrans",u)
     setDeleteTransId(u.id)
     setDeleteTransactionForm(true);
     setEditTransactionForm(false);
-    console.log("deleteTransactionForm", deleteTransactionForm);
     setEditTransaction(false);
   };
   const handleDeleteTransSubmit=()=>{
@@ -318,7 +295,6 @@ useEffect(() => {
   },[state.bankingDetails.statusCodeForDeleteTrans])
 
   const handleShowAddBalance = (item) => {
-    console.log("itemBalance", item);
     setAddBankName(item.bank_name);
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -1174,16 +1150,13 @@ useEffect(() => {
                  borderTopRightRadius: 24,
                }}
              >
-               {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                       </div> */}
+              
              </th>
            </tr>
          </thead>
          <tbody style={{ textAlign: "center" }}>
            {currentRowTransaction?.map((user) => {
              let Dated = new Date(user.date);
-             console.log("Dated..?", Dated);
 
              let day = Dated.getDate();
              let month = Dated.getMonth();
@@ -1205,14 +1178,10 @@ useEffect(() => {
                "Dec",
              ];
 
-             // Get the month abbreviation
              let formattedMonth = monthNames[month];
 
-             // Format the date as YYYY Mon DD
              let formattedDate = `${year} ${formattedMonth} ${day}`;
 
-             console.log("Formatted Date:", formattedDate);
-             // const imageUrl = user.profile || Profile;
              return (
                <tr
                  key={user.id}
