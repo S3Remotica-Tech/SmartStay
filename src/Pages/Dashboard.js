@@ -503,14 +503,16 @@ const mergedData = months.map((monthData) => {
         </div>
       </div> */}
 
-      <TabContext value={value} >
-        <div>
-          <Box sx={{ borderBottom: 0, borderColor: "divider" ,position:'sticky' , top:10, backgroundColor:'white' }}>
+
+      <TabContext value={value}>
+        <div style={{position:"sticky",top:0,right:0,left:0,zIndex:1000,backgroundColor:"#FFFFFF"}}>
+          <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "20px" }}
+              style={{ marginLeft: "20px", }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab

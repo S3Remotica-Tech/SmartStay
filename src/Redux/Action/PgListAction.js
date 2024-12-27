@@ -179,3 +179,12 @@ export async function announcement_list(datum) {
     data: datum,
   });
 }
+
+
+
+export async function add_announcement(datum) {
+  console.log("add_announcement",datum)
+  return await AxiosConfig.post("/add/announcement",datum, {
+    data: datum,
+  });
+}
