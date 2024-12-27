@@ -27,48 +27,6 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   const [errorUnAssign, setUnErrorAssign] = useState('')
 
 
-  const handleUnassignedCheckboxChange = (user_id) => {
-    setUnErrorAssign('')
-    setUnassignedCheckedUsers((prevChecked) =>
-      prevChecked.includes(user_id)
-        ? prevChecked.filter((id) => id !== user_id)
-        : [...prevChecked, user_id]
-    );
-  };
-
-  const handleAssignedCheckboxChange = (user_id) => {
-    setErrorAssign('')
-    setAssignedCheckedUsers((prevChecked) =>
-      prevChecked.includes(user_id)
-        ? prevChecked.filter((id) => id !== user_id)
-        : [...prevChecked, user_id]
-    );
-  };
-
-
-  const handleAssignUser = () => {
-
-    if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
-      setErrorAssign("Please select at least one user before assigning amenities.");
-      return;
-    }
-
-
-
-    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
-  }
-
-
-  const handleUnAssignUser = () => {
-
-    if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
-      setUnErrorAssign("Please select at least one user before Unassigning amenities.");
-      return;
-    }
-
-    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
-
-  }
 
   useEffect(() => {
     dispatch({
@@ -125,6 +83,51 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
 
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
+
+  const handleUnassignedCheckboxChange = (user_id) => {
+    setUnErrorAssign('')
+    setUnassignedCheckedUsers((prevChecked) =>
+      prevChecked.includes(user_id)
+        ? prevChecked.filter((id) => id !== user_id)
+        : [...prevChecked, user_id]
+    );
+  };
+
+  const handleAssignedCheckboxChange = (user_id) => {
+    setErrorAssign('')
+    setAssignedCheckedUsers((prevChecked) =>
+      prevChecked.includes(user_id)
+        ? prevChecked.filter((id) => id !== user_id)
+        : [...prevChecked, user_id]
+    );
+  };
+
+
+  const handleAssignUser = () => {
+
+    if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
+      setErrorAssign("Please select at least one user before assigning amenities.");
+      return;
+    }
+
+
+
+    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+  }
+
+
+  const handleUnAssignUser = () => {
+
+    if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
+      setUnErrorAssign("Please select at least one user before Unassigning amenities.");
+      return;
+    }
+
+    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
+
+  }
+
+ 
 
 
   return (

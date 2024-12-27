@@ -31,8 +31,6 @@ function User({ show, handleClose, editDetails ,hostelid}) {
   const [description, setDescription] = useState('');
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState('')
-
-
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [mobileError, setMobileError] = useState('');

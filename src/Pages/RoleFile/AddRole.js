@@ -25,11 +25,8 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
     const initialFormState = useRef(null);
-    
-    
 
-
-    const [checkboxValues, setCheckboxValues] = useState({
+     const [checkboxValues, setCheckboxValues] = useState({
         Dashboard: [false, false, false, false],
         Announcement: [false, false, false, false],
         Updates: [false, false, false, false],
@@ -261,9 +258,6 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
     };
 
-   
-
-
 
     useEffect(()=>{
         if(addRole){
@@ -281,14 +275,6 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
         }
       
       },[addRole])
-
-
-
-
-     
-    
-    
-   
 
 
     return (

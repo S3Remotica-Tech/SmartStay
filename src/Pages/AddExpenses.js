@@ -30,11 +30,6 @@ import { FormControl } from "react-bootstrap";
 function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  console.log("state for Add expenses", state);
-
-  console.log("currentItem  expense", currentItem);
-
   const [assetName, setAssetName] = useState("");
   const [vendorName, setVendorName] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
@@ -126,7 +121,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setIsChangedError("");
   };
 
-  console.log("category", category);
 
   const handleModeOfPaymentChange = (e) => {
     setModeOfPayment(e.target.value);
@@ -135,7 +129,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setIsChangedError("");
   };
   useEffect(() => {
-    // setLoading(true);
     dispatch({ type: "BANKINGLIST",hostel_id:state.login.selectedHostel_Id  });
   }, []);
 
@@ -195,8 +188,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     }
   }, []);
 
-  console.log("category", category, initialState);
-
   useEffect(() => {
     if (currentItem) {
       setId((currentItem && currentItem.id) || "");
@@ -254,28 +245,10 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
       initialState.description !== description ||
       Number(initialState.count) !== Number(count) ||
       initialState.hostelName !== hostelName;
-
-    console.log("isChanged", isChanged);
     if (!isChanged) {
       setIsChangedError("Please make some changes before saving.");
       return;
     }
-
-    // if (!hostelName) {
-    //      setHostelError('Please select a hostel name');
-    // return;
-
-    // }
-    // if (!vendorName) {
-    //     setVendorError('Please select a vendor');
-    //     return;
-    // }
-    // if (!assetName) {
-    //     setAssetError('Please select an asset name');
-    //     return;
-
-    // }
-
     if (!category) {
       setCategoryError("Please select a category");
       // return;
@@ -340,8 +313,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const calendarRef = useRef(null);
   const customContainerRef = useRef();
 
-  console.log("selectedDate", selectedDate);
-
   const options = {
     dateFormat: "d/m/Y",
     defaultDate: selectedDate || new Date(),
@@ -382,11 +353,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setSelectedDate(selectedDates[0]);
   };
 
-  console.log("assetName", assetName);
-
   const [purchaseDateError, setPurchaseDateError] = useState("");
-
-  console.log("selectedDate", selectedDate);
 
   const customDateInput = (props) => {
     return (

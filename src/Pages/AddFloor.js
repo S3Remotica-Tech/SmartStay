@@ -20,22 +20,13 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor , editFloor, 
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-
-
-    console.log("state", state)
-
-console.log(" edit floor:", editFloor, "update Floor:" ,updateFloor,"hostelFloor:", hostelFloor)
-
     const [floorNo, setFloorNo] = useState('')
     const [floorName, setFloorName] = useState('')
     const [isChangedError, setIsChangedError] = useState('');
     const [initialState, setInitialState] = useState({
         floorNo: '',
     });
-
-console.log("floorNo",floorNo)
-
-
+    
     useEffect(() => {
         if (editFloor) {
             setFloorNo(editFloor.floorName);
