@@ -792,7 +792,7 @@ function SettingManage() {
                 style={{
                   height: 83,
                   position: "sticky",
-                  top: 0,
+                  top: 20,
                   left: 0,
                   right: 0,
                   zIndex: 1000,

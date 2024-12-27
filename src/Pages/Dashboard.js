@@ -503,9 +503,9 @@ const mergedData = months.map((monthData) => {
         </div>
       </div> */}
 
-      <TabContext value={value}>
+      <TabContext value={value} >
         <div>
-          <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 0, borderColor: "divider" ,position:'sticky' , top:10, backgroundColor:'white' }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}

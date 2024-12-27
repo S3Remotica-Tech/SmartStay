@@ -69,25 +69,16 @@ const InvoicePage = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
-  console.log("state", state);
+  
 
   const [show, setShow] = useState(false);
-
   const [loading, setLoading] = useState(false)
-
- 
- 
-
- 
   const [data, setData] = useState([]);
-  //offcanvas variable
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
   const [invoiceDetail, setInvoiceDetails] = useState(false)
   const [invoiceValue, setInvoiceValue] = useState("")
-
-  
   const [file, setFile] = useState(null)
   const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
@@ -111,186 +102,90 @@ const InvoicePage = () => {
     transaction: ''
   })
 
-
   const [invoicePage, setInvoicePage] = useState('')
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
-
   const [showDots, setShowDots] = useState('')
-
   const [notification, setNotification] = useState([]);
-  console.log("notification", notification);
-
-
   const LoginId = localStorage.getItem("loginId")
   const [loginID, setLoginID] = useState('')
-
-  console.log("invoice list", state);
   const [filtericon, setFiltericon] = useState(false)
   const [statusfilter, setStatusfilter] = useState('')
-
-
   const [searchItem, setSearchItem] = useState('')
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-
   const [searchicon, setSearchicon] = useState(false);
-
   const [selectedUserId, setSelectedUserId] = useState('')
   const [filteredUserDetails, setFilteredUserDetails] = useState([]);
-
   const [paymodeerrormsg, setPaymodeErrmsg] = useState('');
   const [amounterrormsg, setAmountErrmsg] = useState('');
   const [dateerrmsg, setDateErrmsg] = useState('')
   const [totalErrormsg, setTotalErrmsg] = useState('')
-
   const [customername , setCustomerName] =  useState ('');
   const [invoicenumber , setInvoiceNumber] =  useState ('');
   const [startdate , setStartDate] =  useState (null);
   const [enddate , setEndDate] =  useState (null);
   const [invoicedate , setInvoiceDate] =  useState (null);
   const [invoiceduedate , setInvoiceDueDate] =  useState (null);
-
   const [formatstartdate, setFormatStartDate] = useState(null)
   const [formatenddate, setFormatEndDate] = useState(null)
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
   const [formatduedate, setFormatDueDate] = useState(null)
- 
-
   const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
   const [billamounts, setBillAmounts] = useState([])
- 
-
-  
-const [ebamount, setEBAmount] = useState('')
-const [rentamount , setRentAmount] = useState('')
-const [amenityDetail , setAmenityDetails] = useState([])
-
-
-const [totalAmount , setTotalAmount] = useState('')
-
-const [selectedData, setSelectedData] = useState([]);
-const [bills , setBills] = useState([])  // bills store
-const [newRows, setNewRows] = useState([
-  {"S.NO": 1,"am_name":'', "amount" : "0"}
-]);
-
-const [customererrmsg , setCustomerErrmsg] = useState('')
-const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-const [startdateerrmsg , setStartdateErrmsg] = useState('')
-const [enddateerrmsg , setEnddateErrmsg] = useState('')
-const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
-const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
-const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-
-const [dataFetched, setDataFetched] = useState(false);
-
-const [amenityArray,setamenityArray] = useState([])
-const [recurringbills , setRecurringBills] = useState([]) 
-const [account, setAccount] = useState("");
+  const [ebamount, setEBAmount] = useState('')
+  const [rentamount , setRentAmount] = useState('')
+  const [amenityDetail , setAmenityDetails] = useState([])
+  const [totalAmount , setTotalAmount] = useState('')
+  const [selectedData, setSelectedData] = useState([]);
+  const [bills , setBills] = useState([])  
+  const [newRows, setNewRows] = useState([{"S.NO": 1,"am_name":'', "amount" : "0"}]);
+  const [customererrmsg , setCustomerErrmsg] = useState('')
+  const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
+  const [startdateerrmsg , setStartdateErrmsg] = useState('')
+  const [enddateerrmsg , setEnddateErrmsg] = useState('')
+  const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
+  const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
+  const [allfielderrmsg , setAllFieldErrmsg] = useState('')
+  const [dataFetched, setDataFetched] = useState(false);
+  const [amenityArray,setamenityArray] = useState([])
+  const [recurringbills , setRecurringBills] = useState([]) 
+  const [account, setAccount] = useState("");
   const [accountError, setAccountError] = useState("");
-
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
-  useEffect(() => {
-    // setLoading(true);
-    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
-  }, []);
-
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false)
   const [showAllBill, setShowAllBill] = useState(true)
-
   const [billrolePermission, setBillRolePermission] = useState("");
-
   const [billpermissionError, setBillPermissionError] = useState("");
   const [billAddPermission,setBillAddPermission]= useState("")
   const [billDeletePermission,setBillDeletePermission]=useState("")
   const [billEditPermission,setBillEditPermission]=useState("")
   const [recuringbillAddPermission,setRecuringBillAddPermission]= useState("")
   const [recurringPermission,setRecurringPermission]=useState("")
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false)
+  const [totalPaidAmount, setTotalPaidAmount] = useState('')
+  const [paiddate, setPaidDate] = useState(null);
+  const [paiddateerrormsg, setPaidDateErrmsg] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showform, setShowform] = useState(false);
+  const [invoicefilterdata, setinvoiceFilterddata] = useState([])
+  const [selectedDate, setSelectedDate] = useState(null);
+  const calendarRef = useRef(null);
+  const [formattedDate, setFormattedDate] = useState('')
+  const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
+  const [tableErrmsg, setTableErrmsg] = useState('');
+  const [value, setValue] = React.useState('1');
+  const [DownloadInvoice, setDownloadInvoice] = useState(false)
+  const [showPdfModal, setShowPdfModal] = useState(false)
+  const [rowData, setRowData] = useState('')
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  let serialNumber = 1;
 
 
-
-  useEffect(() => {
-    setBillRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_view == 1
-    ) {
-      setBillPermissionError("");
-    } else {
-      setBillPermissionError("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create == 1
-    ) {
-      setRecuringBillAddPermission("");
-    } else {
-      setRecuringBillAddPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view == 1
-    ) {
-      setRecurringPermission("");
-    } else {
-      setRecurringPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_create == 1
-    ) {
-      setBillAddPermission("");
-    } else {
-      setBillAddPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
-    ) {
-      setBillDeletePermission("");
-    } else {
-      setBillDeletePermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-  useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
-    ) {
-      setBillEditPermission("");
-    } else {
-      setBillEditPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
 
   const handleManualShow = () => {
     setShowAllBill(false)
@@ -300,36 +195,32 @@ const [account, setAccount] = useState("");
   const handleRecurrBillShow = () => {
     setShowAllBill(false)
     setShowRecurringBillForm(true)
-
   }
-  
+ 
+
   const handleAccount = (e) => {
     setAccount(e.target.value);
     setAccountError("");
     // setIsChangedError("");
   };
+
   const handleTransaction=(e)=>{
     setInvoiceList({ ...invoiceList, transaction: e.target.value }) 
     setAccountError("")
     setPaymodeErrmsg("")
     setAccount("")
   }
-  
-  // console.log("invoiceList", invoiceList);
 
   
-
   const handleShowDots = () => {
     setShowDots(!showDots)
   }
 
 
   const handleInvoiceDetail = (item) => {
-    console.log("printinvoice", item);
     setSelectedItems(item);
 
     if (item.User_Id) {
-      // Parse the date and format it as 'YYYY-MM-DD'
       const originalDate = new Date(item.Date);
       const year = originalDate.getFullYear();
       const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
@@ -372,43 +263,12 @@ const [account, setAccount] = useState("");
     }
   }
 
- 
-
-
-
-
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList.InvoiceListStatusCode === 200 || state.InvoiceList.statusCodeForPDf === 200) {
-      // dispatch({ type: 'INVOICELIST' })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_INVOICE_LIST' });
-      }, 100);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
-      }, 200);
-    }
-  }, [state.InvoiceList?.InvoiceListStatusCode, state.InvoiceList?.statusCodeForPDf]);
-
-
-
-
-  
-
-  useEffect(() => {
-    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-    setNotification(state.login.Notification)
-  }, [])
-
 
 
   let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
 
 
   const newNotificationsCount = newNotificationIDs.length;
-  console.log("id", newNotificationIDs);
 
 
   const handleClosepopup = () => setShow(false);
@@ -420,9 +280,1116 @@ const [account, setAccount] = useState("");
         dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
       }, 1000)
     }
-
-    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
   }
+
+
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm);
+  
+    const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+    const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+  
+    if (searchTerm !== '') {
+      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setBills(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
+    } else {
+      setBills(state.InvoiceList.Invoice.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
+    }
+  };
+  
+  
+    const handleiconshow = () => {
+      setSearchicon(!searchicon)
+      setFiltericon(false)
+    }
+
+
+
+    const handleInvoiceback = (isVisible) => {
+      setInvoiceDetails(isVisible)
+    }
+  
+  
+    const handleImageChange = (event) => {
+      const fileimgage = event.target.files[0];
+      if (fileimgage) {
+        setFile(fileimgage);
+      }
+    };
+  
+    const handlePhoneNo = (e) => {
+      const result = e.target.value.replace(/\D/g, '');
+      const phoneError = document.getElementById("phoneError");
+      setInvoiceList({ ...invoiceList, phone: result })
+      if (result.length < 10) {
+        phoneError.textContent = "Please put 10 digit mobile number";
+      }
+      else {
+        phoneError.textContent = "";
+      }
+    }
+  
+    const handleEmailID = (e) => {
+      const emailID = e.target.value;
+      const emailError = document.getElementById("emailError");
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
+      if (!emailPattern.test(emailID)) {
+        setInvoiceList({ ...invoiceList, email: emailID });
+        emailError.textContent = "Invalid email format";
+      } else {
+        setInvoiceList({ ...invoiceList, email: emailID });
+        emailError.textContent = "";
+      }
+  
+    }
+  
+    
+  
+  
+  
+    const handleClose = () => {
+      setInvoiceList({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        hostel_Name: '',
+        hostel_Id: '',
+        FloorNo: '',
+        RoomNo: '',
+        amount: '',
+        balanceDue: '',
+        dueDate: '',
+        // total_amount:'',
+        paymentType: ''
+      })
+      setShowMenu(false);
+      setUserClicked(false);
+      setShowForm(false);
+    };
+  
+  
+  
+  
+    const handleShow = (item) => {
+      setInvoiceValue(item);
+      if (item.id !== undefined) {
+        setEditOption('Edit');
+        const dateObject = new Date(item.Date);
+        const year = dateObject.getFullYear();
+        const month = dateObject.getMonth() + 1;
+        const day = dateObject.getDate();
+  
+        const lastDayOfMonth = new Date(year, month, 0);
+        const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+  
+        // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        const EditCheck = state.InvoiceList.Invoice.find(view => {
+          const viewDate = new Date(view.Date);
+          return (
+            view.User_Id === item.User_Id &&
+            view.BalanceDue === 0 &&
+            viewDate.getFullYear() === year &&
+            viewDate.getMonth() === month - 1
+          );
+        });
+  
+  
+        setShowMenu(true);
+        setShowForm(true);
+        let value = item.Name.split(" ");
+        setSelectedUserId(item.User_Id);
+        const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        setInvoiceList({
+          id: item.id,
+          firstName: value[0],
+          lastName: value[1],
+          phone: item.phoneNo,
+          email: item.EmailID,
+          hostel_Name: item.Hostel_Name,
+          hostel_Id: item.Hostel_Id,
+          FloorNo: item.Floor_Id,
+          RoomNo: item.Room_No,
+          date: formattedDate,
+          // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+          amount: item.Amount,
+          paidAmount: item.PaidAmount,
+          balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+          dueDate: formattedDueDate,
+          InvoiceId: item.Invoices,
+          invoice_type: item.invoice_type
+        });
+        // }
+      } else {
+        setEditOption('Add');
+        setSelectedUserId('');
+        setShowForm(true);
+        setUserClicked(true);
+        setShowMenu(true);
+      }
+    };
+  
+  
+    const generatePageNumbers = () => {
+      const pageNumbers = [];
+  
+      for (let page = 1; page <= totalPages; page++) {
+        pageNumbers.push(page);
+      }
+  
+      return pageNumbers;
+    };
+  
+    const handlePageSelect = (eventKey) => {
+      const selectedPage = parseInt(eventKey, 10);
+      setCurrentPage(selectedPage);
+    };
+  
+  
+  
+      const invoicerowsPerPage = 15;
+
+
+
+      const handleHostelId = (e) => {
+        const hostelName = state.UsersList?.hostelList.filter((item) => {
+          return item.id == e.target.value
+        })
+        const hosName = hostelName[0].Name
+        setInvoiceList({ ...invoiceList, hostel_Name: hosName, hostel_Id: e.target.value, RoomNo: '', FloorNo: '' })
+    
+    
+      }
+    
+      const handleFloor = (e) => {
+        setInvoiceList({ ...invoiceList, FloorNo: e.target.value })
+    
+      }
+
+
+
+      const handleFiltershow = () => {
+        setFiltericon(!filtericon)
+        setSearchicon(false)
+      }
+    
+      const handleStatusFilter = (e) => {
+        const searchTerm = e.target.value;
+        setStatusfilter(searchTerm)
+        if (searchTerm == "ALL") {
+          setBills(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
+        }
+        else {
+          const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+            user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          setBills(filteredItems);
+        }
+      }
+    
+      const randomNumberInRange = (hostelName, min, max) => {
+        const prefix = hostelName.slice(0, 4)
+        const invoice = prefix + (Math.floor(Math.random()
+          * (max - min + 1)) + min);
+        return invoice
+      };
+
+
+
+      const handleRooms = (e) => {
+        setInvoiceList({ ...invoiceList, RoomNo: e.target.value })
+    
+      }
+     
+    
+      const handleUserIdChange = (e) => {
+        setSelectedUserId(e.target.value);
+    
+      };
+    
+      const formatDateForPayload = (date) => {
+        if (!date) return null;
+        const offset = date.getTimezoneOffset();
+        date.setMinutes(date.getMinutes() - offset);
+        return date.toISOString().split('T')[0];
+      };
+    
+      const handledatepaidDate = (dates) => {
+
+        const date = dates
+        if(!dates){
+          setPaidDateErrmsg("Please Select Date")
+         }
+         else{
+          setPaidDateErrmsg('')
+         }
+         
+         const formatpaiddate = formatDateForPayload(date)
+          setPaidDate(formatpaiddate)
+         }
+    
+      const customDateInput = (props) => { 
+       
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                                               height: 50,
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
+    
+    
+    
+    
+      const handleAmount = (e) => {
+    
+        if (!e.target.value) {
+          setAmountErrmsg("Please Enter Amount");
+        } else {
+          setAmountErrmsg("");
+        }
+        const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
+        const selectedDate = new Date(invoiceList.date);
+        const selectedMonth = selectedDate.getMonth();
+        const roomRent = filteredUserDetails[0]?.RoomRent;
+    
+        const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
+          const itemDate = new Date(item.Date);
+          const itemMonth = itemDate.getMonth();
+          return itemMonth === selectedMonth && item.User_Id === selectedUserId;
+        });
+    
+    
+    
+        let totalPaidAmount = 0;
+        AlreadyPaidRoomRent.forEach(item => {
+          const paidAmount = parseFloat(item.Amount) || 0;
+          totalPaidAmount += paidAmount;
+        });
+    
+    
+        setTotalPaidAmount(totalPaidAmount)
+    
+        if (!isNaN(AmountValue) && !isNaN(invoiceList.amount) && !isNaN(invoiceList.paidAmount) && !isNaN(invoiceList.balanceDue)) {
+    
+          var total_amount = invoiceList.amount; 
+          var paid_amount = invoiceList.paidAmount;
+          var payablAmount = AmountValue;
+          var balance_due = invoiceList.balanceDue; 
+    
+          var cal1 = paid_amount + payablAmount;
+    
+          var new_balance_due = total_amount - cal1;
+          if (total_amount < cal1) {
+            console.log("This is Not crt value");
+          } else {
+            setInvoiceList(prevState => ({
+              ...prevState,
+              payableAmount: payablAmount,
+              balanceDue: new_balance_due,
+            }));
+          }
+        }
+      };
+
+
+
+      const toggleModal = () => {
+        setShowModal(!showModal);
+      };
+    
+    
+    
+    
+      const handleShowForm = (props) => {
+        setShowform(true);
+        setInvoiceValue(props.item);
+        if (props.item.id !== undefined) {
+          setEditOption('Edit');
+          const dateObject = new Date(props.item.Date);
+          const year = dateObject.getFullYear();
+          const month = dateObject.getMonth() + 1;
+          const day = dateObject.getDate();
+    
+          const lastDayOfMonth = new Date(year, month, 0);
+          const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+    
+          // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+          const EditCheck = state.InvoiceList.Invoice.find(view => {
+            const viewDate = new Date(view.Date);
+            return (
+              view.User_Id === props.item.User_Id &&
+              view.BalanceDue === 0 &&
+              viewDate.getFullYear() === year &&
+              viewDate.getMonth() === month - 1
+            );
+          });
+    
+    
+          // setShowMenu(true);
+          // setShowForm(true);
+          let value = props.item.Name.split(" ");
+          setSelectedUserId(props.item.User_Id);
+          const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          setInvoiceList({
+            id: props.item.id,
+            firstName: value[0],
+            lastName: value[1],
+            phone: props.item.phoneNo,
+            email: props.item.EmailID,
+            hostel_Name: props.item.Hostel_Name,
+            hostel_Id: props.item.Hostel_Id,
+            FloorNo: props.item.Floor_Id,
+            RoomNo: props.item.Room_No,
+            date: formattedDate,
+            // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+            amount: props.item.Amount,
+            paidAmount: props.item.PaidAmount,
+            balanceDue: props.item.BalanceDue == 0 ? '00' : props.item.BalanceDue,
+            dueDate: formattedDueDate,
+            InvoiceId: props.item.Invoices,
+            invoice_type: props.item.invoice_type
+          });
+          // }
+        } else {
+          setEditOption('Add');
+          setSelectedUserId('');
+          // setShowForm(true);
+          setUserClicked(true);
+          // setShowMenu(true);
+        }
+      }
+      const handleCloseForm = () => {
+        // setEdit(!edit)
+        setShowform(false);
+        setInvoiceList({
+          firstName: '',
+          lastName: '',
+          phone: '',
+          email: '',
+          hostel_Name: '',
+          hostel_Id: '',
+          FloorNo: '',
+          RoomNo: '',
+          amount: '',
+          balanceDue: '',
+          dueDate: '',
+          // total_amount:'',
+          transaction: '',
+          paymentType: ''
+        })
+    
+      }
+    
+     
+    
+    
+      const handleSaveInvoiceList = () => {
+    
+        const formatpaiddate = formatDateForPayload(selectedDate)
+    
+        if (!invoiceList.payableAmount) {
+          setAmountErrmsg('Please Enter Amount')
+        }
+    
+        // if (!invoiceList.formatpaiddate) {
+        //   setDateErrmsg("Please Select Date");
+        // }
+        // else{
+        //   setDateErrmsg('')
+        // }
+        if (!formatpaiddate) {
+          setDateErrmsg("Please Select Date");
+        } else {
+          setDateErrmsg('');
+        }
+    
+        if (!invoiceList.transaction) {
+          setPaymodeErrmsg('Please select Paymode Type')
+        
+        }
+        if (invoiceList.transaction == "Net Banking" && !account) {
+          setAccountError("Please Choose Bank Account");
+          return;
+        }
+    
+        if (!invoiceList.payableAmount || !formatpaiddate || !invoiceList.transaction) {
+          setTotalErrmsg('Please enter All field')
+          setTimeout(() => {
+            setTotalErrmsg('')
+          }, 1000)
+          return;
+        }
+    
+        
+    
+        const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
+        const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
+          item.User_Id === selectedUserId && item.Invoices !== undefined
+        );
+    
+        if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction && formatpaiddate) {
+          dispatch({
+            type: 'UPDATEINVOICEDETAILS',
+            payload: {
+              id: invoiceList.id,
+              invoice_id: invoiceList.InvoiceId,
+              invoice_type:1,
+              amount: invoiceList.payableAmount,
+              balance_due: invoiceList.balanceDue,
+              payment_by: invoiceList.transaction,
+              payment_date: formatpaiddate,
+              bank_id:account
+    
+    
+            }
+          });
+    
+          setShowform(false);
+    
+          setAmountErrmsg('')
+          setDateErrmsg('')
+          setPaymodeErrmsg('')
+        }
+      }
+    
+
+      const options = {
+        dateFormat: 'd/m/Y',
+        defaultDate: null,
+        // defaultDate: selectedDate,
+        maxDate: new Date(),
+        minDate: null,
+      };
+    
+      const handleDateChange = (selectedDates) => {
+        if (!selectedDates) {
+          setDateErrmsg("Please Select Date");
+        } else {
+          setDateErrmsg('');
+        }
+        const date = selectedDates[0];
+        setSelectedDate(date);
+    
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const lastDayOfMonth = new Date(year, month, 0);
+        const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+        const formattedDate = formatDateForPayload(date);
+        setFormattedDate(formattedDate)
+        setInvoiceList(prevState => ({
+          ...prevState,
+          date: formattedDate,
+          dueDate: formattedDueDate,
+        }));
+      };
+    
+
+      const handleAddColumn = () => {
+        const newRow = {
+          am_name: '',
+          used_unit: '',
+          per_unit_amount: '',
+          total_amount: '',
+          amount: ''
+        };
+        setNewRows([...newRows, newRow]);
+      };
+
+
+
+      const handleCustomerName = (e) => {
+        setCustomerName(e.target.value)
+        setAllFieldErrmsg('')
+        if(!e.target.value){
+          setCustomerErrmsg("Please Select Name")
+        }
+        else{
+          setCustomerErrmsg('')
+        }
+        setStartDate('');
+        setEndDate('');
+        setSelectedData('');
+        setBillAmounts('')
+        setTotalAmount('')
+      }
+    
+    
+    
+    
+      const handleBackBill = () => {
+        setShowManualInvoice(false)
+        setShowRecurringBillForm(false)
+        setShowAllBill(true)
+        setCustomerName('');
+        setInvoiceNumber('');
+        setStartDate('');
+        setEndDate('');
+        setInvoiceDate('');
+        setInvoiceDueDate('');
+        setSelectedData('');
+        setAvailableOptions('');
+        setBillAmounts('')
+        setTotalAmount('')
+        setCustomerErrmsg('')
+        setStartdateErrmsg('')
+        setInvoiceDateErrmsg('')
+        setInvoiceDueDateErrmsg('')
+        setAllFieldErrmsg('')
+        
+      }
+
+
+
+      const formatDateForPayloadmanualinvoice = (date) => {
+        if (!date) return null;
+        const offset = date.getTimezoneOffset();
+        date.setMinutes(date.getMinutes() - offset);
+        return date.toISOString().split('T')[0]; 
+      };
+    
+    
+      const handlestartDate = (selectedDates) => {
+            setAllFieldErrmsg('')
+            const date = selectedDates
+            setStartDate(date);
+    
+               if(!selectedDates){
+                setStartdateErrmsg("Please Select Date")
+               }
+               else{
+                setStartdateErrmsg('')
+                setEnddateErrmsg('')
+               }
+           
+           const formattedDate = formatDateForPayloadmanualinvoice(date);    
+           setFormatStartDate(formattedDate)
+    
+      }
+    
+      const handleEndDate = (selectedDates) => {
+           setAllFieldErrmsg('')
+           const date = selectedDates
+           setEndDate(date);
+           if(!selectedDates){
+            setEnddateErrmsg("Please Select Date")
+           }
+           else{
+            setEnddateErrmsg('')
+            setStartdateErrmsg('')
+           }
+    
+          const formattedDate = formatDateForPayloadmanualinvoice(date);
+          setFormatEndDate(formattedDate)
+      }
+    
+      const handleInvoiceDate = (selectedDates) => {
+           setAllFieldErrmsg('')
+           const date = selectedDates
+           setInvoiceDate(date);
+           if(!selectedDates){
+            setInvoiceDateErrmsg("Please Select Date")
+           }
+           else{
+            setInvoiceDateErrmsg('')
+            setEnddateErrmsg('')
+            setStartdateErrmsg('')
+           }
+    
+           const formattedDate = formatDateForPayloadmanualinvoice(date);
+           setFormatInvoiceDate(formattedDate)
+      }
+    
+    
+      const handleDueDate = (selectedDates) => {
+            setAllFieldErrmsg('')
+            const date = selectedDates
+            setInvoiceDueDate(date);
+            if(!selectedDates){
+              setInvoiceDueDateErrmsg("Please Select Date")
+             }
+             else{
+              setInvoiceDueDateErrmsg('')
+             }
+    
+            const formattedDate = formatDateForPayloadmanualinvoice(date);
+            setFormatDueDate(formattedDate)
+      }
+    
+      const customStartDateInput = (props) => {
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                    
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                                               height: 50,
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
+    
+    const customEndDateInput = (props) => {
+      return (
+          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+              <FormControl
+                  type="text"
+                  className='date_input'
+                  value={props.value || 'DD/MM/YYYY'}
+                  readOnly
+                  
+                  style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 9,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: props.value ? 600 : 500,
+                                             width: "100%", 
+                                             height: 50,
+                      boxSizing: "border-box",
+                      boxShadow:"none" 
+                  }}
+              />
+              <img 
+                  src={Calendars} 
+              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                  alt="Calendar" 
+                  onClick={props.onClick} 
+              />
+          </div>
+      );
+    };
+      
+    const customInvoiceDateInput = (props) => {
+      return (
+          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+              <FormControl
+                  type="text"
+                  className='date_input'
+                  value={props.value || 'DD/MM/YYYY'}
+                  readOnly
+                  
+                  style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 9,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: props.value ? 600 : 500,
+                                             width: "100%", 
+                                             height: 50,
+                      boxSizing: "border-box",
+                      boxShadow:"none" 
+                  }}
+              />
+              <img 
+                  src={Calendars} 
+              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                  alt="Calendar" 
+                  onClick={props.onClick} 
+              />
+          </div>
+      );
+    };
+    
+    
+    const customInvoiceDueDateInput = (props) => {
+      return (
+          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+              <FormControl
+                  type="text"
+                  className='date_input'
+                  value={props.value || 'DD/MM/YYYY'}
+                  readOnly
+                  
+                  style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 9,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: props.value ? 600 : 500,
+                                             width: "100%", 
+                                             height: 50,
+                      boxSizing: "border-box",
+                      boxShadow:"none" 
+                  }}
+              />
+              <img 
+                  src={Calendars} 
+              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                  alt="Calendar" 
+                  onClick={props.onClick} 
+              />
+          </div>
+      );
+    };
+
+
+    const handleNewRowChange = (index, field, value) => {
+      const updatedRows = [...newRows];
+      updatedRows[index][field] = value;
+       setNewRows(updatedRows);
+      };
+
+
+  const handleDeleteNewRow = (index) => {
+        const updatedRows = newRows.filter((_, i) => i !== index);
+        setNewRows(updatedRows);
+       };
+
+
+
+
+
+ const handleCreateBill = () => {
+
+const incompleteRows = newRows.some(row => !row.am_name || !row.amount);
+if (incompleteRows) {
+setTableErrmsg('Please fill all details in the table before generating the bill');
+return;
+}
+
+          if(!customername){
+           setCustomerErrmsg('Please Select Customer')
+          }
+          
+         
+          if(!customername && !invoicenumber ){
+           setAllFieldErrmsg('Please Enter All Field')
+            return;
+          }
+       
+
+         
+          if(customername && invoicenumber ){
+           dispatch({
+             type: 'MANUAL-INVOICE-ADD',
+             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+             invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+             amenity: amenityArray.length > 0 ? amenityArray : []
+             }
+             });
+             setShowManualInvoice(false)
+             setShowRecurringBillForm(false)
+             setShowAllBill(true)
+             setCustomerName('');
+             setInvoiceNumber('');
+             setStartDate('');
+             setEndDate('');
+             setInvoiceDate('')
+             setInvoiceDueDate('')
+             setSelectedData('')
+             setAvailableOptions('');
+             setTotalAmount('')
+             setBillAmounts([]);
+             setNewRows([]);
+
+             setCustomerErrmsg('')
+             setStartdateErrmsg('')
+             setInvoiceDateErrmsg('')
+             setInvoiceDueDateErrmsg('')
+             setAllFieldErrmsg('')
+          }
+
+       // setShowManualInvoice(true)
+    
+       }
+
+
+
+       const handleSelectChange = (e) => {
+        const selectedDescription = e.target.value;  
+        const selectedOption = invoicetotalamounts.find(opt => opt.description === selectedDescription);
+
+        if (selectedOption) {
+          setBillAmounts([...billamounts, selectedOption]);
+          setAvailableOptions(availableOptions.filter(opt => opt.description !== selectedDescription));
+            }
+       };
+
+
+
+
+  const handleAmountChange = (index, value) => {
+       const updatedData = [...billamounts];
+       updatedData[index] = { ...updatedData[index], amount: value }; 
+       setBillAmounts(updatedData);                                  
+       };
+
+
+
+   const handleDelete = (item) => {
+      setBillAmounts(billamounts.filter(bill => bill.description !== item.description));
+      setAvailableOptions([...availableOptions, item]);
+       };
+
+
+
+
+       const rowsPerPage = 5;
+       const [currentPage, setCurrentPage] = useState(1);
+     
+       const indexOfLastRow = currentPage * rowsPerPage;
+       const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+       const currentRows = bills.slice(
+         indexOfFirstRow,
+         indexOfLastRow
+       );
+
+       const handlePageChange = (pageNumber) => {
+         setCurrentPage(pageNumber);
+       };
+     
+       const itemsPerPage = 5;
+       const indexOfLastItem = currentPage * itemsPerPage;
+       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+       const currentItems = bills.slice(
+         indexOfFirstItem,
+         indexOfLastItem
+       );
+
+       const currentItem = recurringbills.slice(
+         indexOfFirstItem,                      //recurring pagination
+         indexOfLastItem
+       );
+     
+       const totalPages = Math.ceil(bills.length / itemsPerPage);
+       const totalPage = Math.ceil(recurringbills.length / itemsPerPage);  //recurring pagination
+
+       const renderPageNumbers = () => {
+         const pageNumbers = [];
+         for (let i = 1; i <= totalPages; i++) {
+           pageNumbers.push(
+             <li key={i} style={{ margin: "0 5px" }}>
+               <button
+                 style={{
+                   padding: "5px 10px",
+                   color: i === currentPage ? "#007bff" : "#000",
+                   cursor: "pointer",
+                   border: i === currentPage ? "1px solid #ddd" : "none",
+                   backgroundColor:
+                     i === currentPage ? "transparent" : "transparent",
+                 }}
+                 onClick={() => handlePageChange(i)}
+               >
+                 {i}
+               </button>
+             </li>
+           );
+         }
+         return pageNumbers;
+       };
+
+
+       const renderPageNumber = () => {
+         const pageNumbers = [];
+         for (let i = 1; i <= totalPage; i++) {
+           pageNumbers.push(
+             <li key={i} style={{ margin: "0 5px" }}>
+               <button
+                 style={{
+                   padding: "5px 10px",
+                   color: i === currentPage ? "#007bff" : "#000",
+                   cursor: "pointer",
+                   border: i === currentPage ? "1px solid #ddd" : "none",
+                   backgroundColor:
+                     i === currentPage ? "transparent" : "transparent",
+                 }}
+                 onClick={() => handlePageChange(i)}
+               >
+                 {i}
+               </button>
+             </li>
+           );
+         }
+         return pageNumbers;
+       };
+
+
+
+
+       const handleDeleteRecurringbills = (item) => {
+        if(item){
+          dispatch({
+              type: 'DELETE-RECURRING-BILLS',
+              payload: {id: item.recuire_id , user_id : item.user_id}
+            });
+        }
+  };
+
+
+const handleChanges = (event, newValue) => {
+setValue(newValue);
+}
+
+
+const handleDisplayInvoiceDownload = (isVisible, rowData) => {
+setDownloadInvoice(isVisible)
+setShowPdfModal(true)
+setRowData(rowData)
+}
+
+const handleBackClose = () => {
+setDownloadInvoice(false)
+}
+
+const handleClosePdfModal = () => {
+setDownloadInvoice(false)
+}
+
+
+
+  useEffect(() => {
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+  }, []);
+
+
+  useEffect(() => {
+    setBillRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_view == 1
+    ) {
+      setBillPermissionError("");
+    } else {
+      setBillPermissionError("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+    ) {
+      setRecuringBillAddPermission("");
+    } else {
+      setRecuringBillAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+    ) {
+      setRecurringPermission("");
+    } else {
+      setRecurringPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_create == 1
+    ) {
+      setBillAddPermission("");
+    } else {
+      setBillAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+    ) {
+      setBillDeletePermission("");
+    } else {
+      setBillDeletePermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+    ) {
+      setBillEditPermission("");
+    } else {
+      setBillEditPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+ 
+ 
+
+
+  useEffect(() => {
+    if (state.InvoiceList.InvoiceListStatusCode === 200 || state.InvoiceList.statusCodeForPDf === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_LIST' });
+      }, 100);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
+      }, 200);
+    }
+  }, [state.InvoiceList?.InvoiceListStatusCode, state.InvoiceList?.statusCodeForPDf]);
+
+
+
+  useEffect(() => {
+    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    setNotification(state.login.Notification)
+  }, [])
+
+
+
+  
 
 
   useEffect(() => {
@@ -446,8 +1413,7 @@ const [account, setAccount] = useState("");
         let pdfWindow;
         const InvoicePDf = state.InvoiceList?.Invoice &&
           state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-        console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0])
-        console.log("////////////////////////////////////////")
+    
         if (InvoicePDf[0]?.invoicePDF) {
           pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
           if (pdfWindow) {
@@ -458,260 +1424,21 @@ const [account, setAccount] = useState("");
         }
       }, 0);
     } else {
-      console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
 
+ 
 
-
-
-  const handleInvoiceback = (isVisible) => {
-    setInvoiceDetails(isVisible)
-  }
-
-
-  const handleImageChange = (event) => {
-    const fileimgage = event.target.files[0];
-    if (fileimgage) {
-      setFile(fileimgage);
-    }
-  };
-
-  const handlePhoneNo = (e) => {
-    const result = e.target.value.replace(/\D/g, '');
-    const phoneError = document.getElementById("phoneError");
-    setInvoiceList({ ...invoiceList, phone: result })
-    if (result.length < 10) {
-      phoneError.textContent = "Please put 10 digit mobile number";
-    }
-    else {
-      phoneError.textContent = "";
-    }
-  }
-
-  const handleEmailID = (e) => {
-    const emailID = e.target.value;
-    const emailError = document.getElementById("emailError");
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    if (!emailPattern.test(emailID)) {
-      setInvoiceList({ ...invoiceList, email: emailID });
-      emailError.textContent = "Invalid email format";
-    } else {
-      setInvoiceList({ ...invoiceList, email: emailID });
-      emailError.textContent = "";
-    }
-
-  }
-
-  
-
-
-
-  const handleClose = () => {
-    setInvoiceList({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      hostel_Name: '',
-      hostel_Id: '',
-      FloorNo: '',
-      RoomNo: '',
-      amount: '',
-      balanceDue: '',
-      dueDate: '',
-      // total_amount:'',
-      paymentType: ''
-    })
-    setShowMenu(false);
-    setUserClicked(false);
-    setShowForm(false);
-  };
-
-
-
-
-  const handleShow = (item) => {
-    setInvoiceValue(item);
-    if (item.id !== undefined) {
-      setEditOption('Edit');
-      const dateObject = new Date(item.Date);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-
-      const lastDayOfMonth = new Date(year, month, 0);
-      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-
-      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-      const EditCheck = state.InvoiceList.Invoice.find(view => {
-        const viewDate = new Date(view.Date);
-        return (
-          view.User_Id === item.User_Id &&
-          view.BalanceDue === 0 &&
-          viewDate.getFullYear() === year &&
-          viewDate.getMonth() === month - 1
-        );
-      });
-
-
-      setShowMenu(true);
-      setShowForm(true);
-      let value = item.Name.split(" ");
-      setSelectedUserId(item.User_Id);
-      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      setInvoiceList({
-        id: item.id,
-        firstName: value[0],
-        lastName: value[1],
-        phone: item.phoneNo,
-        email: item.EmailID,
-        hostel_Name: item.Hostel_Name,
-        hostel_Id: item.Hostel_Id,
-        FloorNo: item.Floor_Id,
-        RoomNo: item.Room_No,
-        date: formattedDate,
-        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
-        amount: item.Amount,
-        paidAmount: item.PaidAmount,
-        balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
-        dueDate: formattedDueDate,
-        InvoiceId: item.Invoices,
-        invoice_type: item.invoice_type
-      });
-      // }
-    } else {
-      setEditOption('Add');
-      setSelectedUserId('');
-      setShowForm(true);
-      setUserClicked(true);
-      setShowMenu(true);
-    }
-  };
-
-
-  const generatePageNumbers = () => {
-    const pageNumbers = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      pageNumbers.push(page);
-    }
-
-    return pageNumbers;
-  };
-
-  const handlePageSelect = (eventKey) => {
-    const selectedPage = parseInt(eventKey, 10);
-    setCurrentPage(selectedPage);
-  };
-
-
-
-    const invoicerowsPerPage = 15;
-
- const handleInputChange = (e) => {
-  const searchTerm = e.target.value;
-  setSearchItem(searchTerm);
-
-  // Recalculate the pagination indexes
-  const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-  const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-
-  if (searchTerm !== '') {
-    const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-      user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setBills(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
-  } else {
-    // Show all data when search term is cleared
-    setBills(state.InvoiceList.Invoice.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
-  }
-};
-
-
-
-
-  const handleiconshow = () => {
-    setSearchicon(!searchicon)
-    setFiltericon(false)
-  }
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: invoiceList.hostel_Id } });
   }, [invoiceList.hostel_Id])
-  const handleHostelId = (e) => {
-    const hostelName = state.UsersList?.hostelList.filter((item) => {
-      return item.id == e.target.value
-    })
-    const hosName = hostelName[0].Name
-    setInvoiceList({ ...invoiceList, hostel_Name: hosName, hostel_Id: e.target.value, RoomNo: '', FloorNo: '' })
 
 
-  }
-
-  const handleFloor = (e) => {
-    setInvoiceList({ ...invoiceList, FloorNo: e.target.value })
-
-  }
   useEffect(() => {
     dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: invoiceList.hostel_Id, floor_Id: invoiceList.FloorNo } })
   }, [invoiceList.FloorNo])
 
-  const handleRooms = (e) => {
-    setInvoiceList({ ...invoiceList, RoomNo: e.target.value })
-
-  }
-
-
-
-  const handleFiltershow = () => {
-    setFiltericon(!filtericon)
-    setSearchicon(false)
-  }
-
-  const handleStatusFilter = (e) => {
-    const searchTerm = e.target.value;
-    setStatusfilter(searchTerm)
-    if (searchTerm == "ALL") {
-      setBills(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
-    }
-    else {
-      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setBills(filteredItems);
-    }
-  }
-
-  const randomNumberInRange = (hostelName, min, max) => {
-    const prefix = hostelName.slice(0, 4)
-    const invoice = prefix + (Math.floor(Math.random()
-      * (max - min + 1)) + min);
-    return invoice
-  };
-
-
-
-
-
-  // const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
-
-
  
-
-
-  const handleUserIdChange = (e) => {
-    setSelectedUserId(e.target.value);
-
-  };
-
-  const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split('T')[0];
-  };
-
 
 
   useEffect(() => {
@@ -729,7 +1456,6 @@ const [account, setAccount] = useState("");
           hostel_Id: filteredDetails.Hostel_Id || '',
           FloorNo: filteredDetails.Floor || '',
           RoomNo: filteredDetails.Rooms || '',
-          // dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
         });
       } else {
         setFilteredUserDetails([]);
@@ -739,290 +1465,6 @@ const [account, setAccount] = useState("");
     }
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
-  // const [displayText, setDisplayText] = useState(false)
-  const [isSaveDisabled, setIsSaveDisabled] = useState(false)
-  const [totalPaidAmount, setTotalPaidAmount] = useState('')
-  
-  const [paiddate, setPaidDate] = useState(null);
-  const [paiddateerrormsg, setPaidDateErrmsg] = useState(null);
-    
-   const handledatepaidDate = (dates) => {
-
-    const date = dates
-    if(!dates){
-      setPaidDateErrmsg("Please Select Date")
-     }
-     else{
-      setPaidDateErrmsg('')
-     }
-     
-     const formatpaiddate = formatDateForPayload(date)
-      setPaidDate(formatpaiddate)
-     }
-
-  const customDateInput = (props) => { 
-   
-    return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
-    );
-};
-
-
-
-
-  const handleAmount = (e) => {
-
-    if (!e.target.value) {
-      setAmountErrmsg("Please Enter Amount");
-    } else {
-      setAmountErrmsg("");
-    }
-    const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-    console.log("AmountValue", AmountValue);
-    const selectedDate = new Date(invoiceList.date);
-    const selectedMonth = selectedDate.getMonth();
-    const roomRent = filteredUserDetails[0]?.RoomRent;
-    console.log("roomRent", roomRent);
-
-    const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
-      const itemDate = new Date(item.Date);
-      const itemMonth = itemDate.getMonth();
-      return itemMonth === selectedMonth && item.User_Id === selectedUserId;
-    });
-
-
-
-    let totalPaidAmount = 0;
-    AlreadyPaidRoomRent.forEach(item => {
-      const paidAmount = parseFloat(item.Amount) || 0;
-      totalPaidAmount += paidAmount;
-    });
-
-
-    setTotalPaidAmount(totalPaidAmount)
-
-    if (!isNaN(AmountValue) && !isNaN(invoiceList.amount) && !isNaN(invoiceList.paidAmount) && !isNaN(invoiceList.balanceDue)) {
-
-      var total_amount = invoiceList.amount; // Total Amount values
-      var paid_amount = invoiceList.paidAmount; // Already Paid Amount
-      var payablAmount = AmountValue; // New Amount
-      var balance_due = invoiceList.balanceDue; // Balance Amount
-
-      // Calculate the new total paid amount
-      var cal1 = paid_amount + payablAmount;
-
-      // Calculate the new balance due
-      var new_balance_due = total_amount - cal1;
-      // Validate the new amount to ensure it does not exceed the remaining balance
-      if (total_amount < cal1) {
-        console.log("This is Not crt value");
-      } else {
-        // Update the invoice list with the new payable amount and balance due
-        setInvoiceList(prevState => ({
-          ...prevState,
-          payableAmount: payablAmount,
-          balanceDue: new_balance_due,
-        }));
-      }
-    }
-  };
-
-  const [showModal, setShowModal] = useState(false);
-
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
-
-  const [showform, setShowform] = useState(false);
-
-  const handleShowForm = (props) => {
-    // console.log("currentitems", currentItems);
-    console.log("state.InvoiceList.Invoice", state.InvoiceList.Invoice);
-    setShowform(true);
-    console.log("editclickvalue", props.item);
-    setInvoiceValue(props.item);
-    if (props.item.id !== undefined) {
-      setEditOption('Edit');
-      const dateObject = new Date(props.item.Date);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-
-      const lastDayOfMonth = new Date(year, month, 0);
-      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-
-      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-      const EditCheck = state.InvoiceList.Invoice.find(view => {
-        const viewDate = new Date(view.Date);
-        return (
-          view.User_Id === props.item.User_Id &&
-          view.BalanceDue === 0 &&
-          viewDate.getFullYear() === year &&
-          viewDate.getMonth() === month - 1
-        );
-      });
-
-
-      // setShowMenu(true);
-      // setShowForm(true);
-      let value = props.item.Name.split(" ");
-      setSelectedUserId(props.item.User_Id);
-      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      setInvoiceList({
-        id: props.item.id,
-        firstName: value[0],
-        lastName: value[1],
-        phone: props.item.phoneNo,
-        email: props.item.EmailID,
-        hostel_Name: props.item.Hostel_Name,
-        hostel_Id: props.item.Hostel_Id,
-        FloorNo: props.item.Floor_Id,
-        RoomNo: props.item.Room_No,
-        date: formattedDate,
-        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
-        amount: props.item.Amount,
-        paidAmount: props.item.PaidAmount,
-        balanceDue: props.item.BalanceDue == 0 ? '00' : props.item.BalanceDue,
-        dueDate: formattedDueDate,
-        InvoiceId: props.item.Invoices,
-        invoice_type: props.item.invoice_type
-      });
-      // }
-    } else {
-      setEditOption('Add');
-      setSelectedUserId('');
-      // setShowForm(true);
-      setUserClicked(true);
-      // setShowMenu(true);
-    }
-  }
-  const handleCloseForm = () => {
-    // setEdit(!edit)
-    setShowform(false);
-    setInvoiceList({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      hostel_Name: '',
-      hostel_Id: '',
-      FloorNo: '',
-      RoomNo: '',
-      amount: '',
-      balanceDue: '',
-      dueDate: '',
-      // total_amount:'',
-      transaction: '',
-      paymentType: ''
-    })
-
-  }
-
-  // const [transaction , setTransaction] =  useState ('')
-
-
-  const handleSaveInvoiceList = () => {
-
-    const formatpaiddate = formatDateForPayload(selectedDate)
-
-    if (!invoiceList.payableAmount) {
-      setAmountErrmsg('Please Enter Amount')
-    }
-
-    // if (!invoiceList.formatpaiddate) {
-    //   setDateErrmsg("Please Select Date");
-    // }
-    // else{
-    //   setDateErrmsg('')
-    // }
-    if (!formatpaiddate) {
-      setDateErrmsg("Please Select Date");
-    } else {
-      setDateErrmsg('');
-    }
-
-    if (!invoiceList.transaction) {
-      setPaymodeErrmsg('Please select Paymode Type')
-    
-    }
-    if (invoiceList.transaction == "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      return;
-    }
-
-    if (!invoiceList.payableAmount || !formatpaiddate || !invoiceList.transaction) {
-      setTotalErrmsg('Please enter All field')
-      setTimeout(() => {
-        setTotalErrmsg('')
-      }, 1000)
-      return;
-    }
-
-    
-
-    const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
-    const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
-      item.User_Id === selectedUserId && item.Invoices !== undefined
-    );
-
-    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction && formatpaiddate) {
-      dispatch({
-        type: 'UPDATEINVOICEDETAILS',
-        payload: {
-          id: invoiceList.id,
-          invoice_id: invoiceList.InvoiceId,
-          invoice_type:1,
-          amount: invoiceList.payableAmount,
-          balance_due: invoiceList.balanceDue,
-          payment_by: invoiceList.transaction,
-          payment_date: formatpaiddate,
-          bank_id:account
-
-
-        }
-      });
-
-      setShowform(false);
-
-      setAmountErrmsg('')
-      setDateErrmsg('')
-      setPaymodeErrmsg('')
-    }
-  }
-
-
-
-
-   const [invoicefilterdata, setinvoiceFilterddata] = useState([])
-   const [selectedDate, setSelectedDate] = useState(null);
-   const calendarRef = useRef(null);
-   const [formattedDate, setFormattedDate] = useState('')
    
 
   useEffect(() => {
@@ -1031,60 +1473,11 @@ const [account, setAccount] = useState("");
 
 
 
-
- 
-
-
-  console.log("selectedDate", selectedDate)
-
-
-
-  const options = {
-    dateFormat: 'd/m/Y',
-    defaultDate: null,
-    // defaultDate: selectedDate,
-    maxDate: new Date(),
-    minDate: null,
-  };
-
- 
-
-
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate])
-
-
-
-
-  console.log("formattedDate", formattedDate);
-
-
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates) {
-      setDateErrmsg("Please Select Date");
-    } else {
-      setDateErrmsg('');
-    }
-    const date = selectedDates[0];
-    setSelectedDate(date);
-
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const lastDayOfMonth = new Date(year, month, 0);
-    const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-    const formattedDate = formatDateForPayload(date);
-    setFormattedDate(formattedDate)
-    console.log("formattedDueDate ", formattedDate, formattedDueDate)
-    setInvoiceList(prevState => ({
-      ...prevState,
-      date: formattedDate,
-      dueDate: formattedDueDate,
-    }));
-  };
-
 
 
 
@@ -1132,42 +1525,18 @@ const [account, setAccount] = useState("");
  
 
   useEffect(() => {
-    // setLoading(true)
     dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} })
-    console.log("MAnual");
     
     setBills(state.InvoiceList.ManualInvoices);
   }, [])
-  console.log("bills",bills);
-  const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
   
 
-
-const handleAddColumn = () => {
-  const newRow = {
-    am_name: '',
-    used_unit: '',
-    per_unit_amount: '',
-    total_amount: '',
-    amount: ''
-  };
-  setNewRows([...newRows, newRow]);
-};
-
-console.log("newRows",newRows);
-
-
- 
-  // useEffect(()=> {
-  //  dispatch({type:'MANUAL-INVOICES-LIST'})
-  //  },[])
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 && !loading) {
      
       setBills(state.InvoiceList.ManualInvoices);
       setLoading(true); 
-      console.log("MAnual invoice get status code");
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
         setLoading(false); 
@@ -1183,25 +1552,20 @@ console.log("newRows",newRows);
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
           setLoading(false);
-          console.log("TimeOut",state.InvoiceList.ManualInvoices);
           
           setBills(state.InvoiceList.ManualInvoices);
         }, 1000);
       
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.ManualInvoices]);
-  // Add `loading` to the dependency array
   
 
 
   useEffect(() => {
-    console.log("invoice added executed");
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
      
       dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
-      console.log("MAnual invoice status code");
       setBills(state.InvoiceList.ManualInvoices)
-      // setLoading(true);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 1000);
@@ -1210,21 +1574,10 @@ console.log("newRows",newRows);
 
 
 
-
-
-
-
-  // console.log("InvoiceList", state.InvoiceList);
- 
-
   useEffect(() => {
-    console.log("statuscode", state.InvoiceList.message);
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
       dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
-      console.log("MAnual invoice update status code");
       setBills(state.InvoiceList.ManualInvoices)
-      // setLoading(true)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
       }, 100);
@@ -1236,8 +1589,6 @@ console.log("newRows",newRows);
   const optionsone = {
     dateFormat: 'd/m/Y',
     defaultDate: null,
-    // defaultDate: selectedDate,
-    // maxDate: new Date(),
     minDate: null,
   };
 
@@ -1256,50 +1607,6 @@ console.log("newRows",newRows);
     }
 }, [startdate, enddate , invoicedate, invoiceduedate ])
 
-
-  const handleCustomerName = (e) => {
-    setCustomerName(e.target.value)
-    setAllFieldErrmsg('')
-    if(!e.target.value){
-      setCustomerErrmsg("Please Select Name")
-    }
-    else{
-      setCustomerErrmsg('')
-    }
-    setStartDate('');
-    setEndDate('');
-    setSelectedData('');
-    // setAvailableOptions('');
-    setBillAmounts('')
-    setTotalAmount('')
-  }
-
-
-
-
-  const handleBackBill = () => {
-    setShowManualInvoice(false)
-    setShowRecurringBillForm(false)
-    setShowAllBill(true)
-    setCustomerName('');
-    setInvoiceNumber('');
-    setStartDate('');
-    setEndDate('');
-    setInvoiceDate('');
-    setInvoiceDueDate('');
-    setSelectedData('');
-    setAvailableOptions('');
-    setBillAmounts('')
-    setTotalAmount('')
-
-
-    setCustomerErrmsg('')
-    setStartdateErrmsg('')
-    setInvoiceDateErrmsg('')
-    setInvoiceDueDateErrmsg('')
-    setAllFieldErrmsg('')
-    
-  }
   
 
   useEffect(() => {
@@ -1352,212 +1659,6 @@ console.log("newRows",newRows);
   // }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
 
     
-
-
-  const formatDateForPayloadmanualinvoice = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split('T')[0]; 
-  };
-
-
-  const handlestartDate = (selectedDates) => {
-        setAllFieldErrmsg('')
-        const date = selectedDates
-        setStartDate(date);
-
-           if(!selectedDates){
-            setStartdateErrmsg("Please Select Date")
-           }
-           else{
-            setStartdateErrmsg('')
-            setEnddateErrmsg('')
-           }
-       
-       const formattedDate = formatDateForPayloadmanualinvoice(date);    
-       setFormatStartDate(formattedDate)
-
-  }
-
-  const handleEndDate = (selectedDates) => {
-       setAllFieldErrmsg('')
-       const date = selectedDates
-       setEndDate(date);
-       if(!selectedDates){
-        setEnddateErrmsg("Please Select Date")
-       }
-       else{
-        setEnddateErrmsg('')
-        setStartdateErrmsg('')
-       }
-
-      const formattedDate = formatDateForPayloadmanualinvoice(date);
-      setFormatEndDate(formattedDate)
-  }
-
-  const handleInvoiceDate = (selectedDates) => {
-       setAllFieldErrmsg('')
-       const date = selectedDates
-       setInvoiceDate(date);
-       if(!selectedDates){
-        setInvoiceDateErrmsg("Please Select Date")
-       }
-       else{
-        setInvoiceDateErrmsg('')
-        setEnddateErrmsg('')
-        setStartdateErrmsg('')
-       }
-
-       const formattedDate = formatDateForPayloadmanualinvoice(date);
-       setFormatInvoiceDate(formattedDate)
-  }
-
-
-  const handleDueDate = (selectedDates) => {
-        setAllFieldErrmsg('')
-        const date = selectedDates
-        setInvoiceDueDate(date);
-        if(!selectedDates){
-          setInvoiceDueDateErrmsg("Please Select Date")
-         }
-         else{
-          setInvoiceDueDateErrmsg('')
-         }
-
-        const formattedDate = formatDateForPayloadmanualinvoice(date);
-        setFormatDueDate(formattedDate)
-  }
-
-  const customStartDateInput = (props) => {
-    return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
-    );
-};
-
-const customEndDateInput = (props) => {
-  return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-          <FormControl
-              type="text"
-              className='date_input'
-              value={props.value || 'DD/MM/YYYY'}
-              readOnly
-              
-              style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: 8,
-                  padding: 9,
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: props.value ? 600 : 500,
-                                         width: "100%", 
-                                         height: 50,
-                  boxSizing: "border-box",
-                  boxShadow:"none" 
-              }}
-          />
-          <img 
-              src={Calendars} 
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-              alt="Calendar" 
-              onClick={props.onClick} 
-          />
-      </div>
-  );
-};
-  
-const customInvoiceDateInput = (props) => {
-  return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-          <FormControl
-              type="text"
-              className='date_input'
-              value={props.value || 'DD/MM/YYYY'}
-              readOnly
-              
-              style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: 8,
-                  padding: 9,
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: props.value ? 600 : 500,
-                                         width: "100%", 
-                                         height: 50,
-                  boxSizing: "border-box",
-                  boxShadow:"none" 
-              }}
-          />
-          <img 
-              src={Calendars} 
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-              alt="Calendar" 
-              onClick={props.onClick} 
-          />
-      </div>
-  );
-};
-
-
-const customInvoiceDueDateInput = (props) => {
-  return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-          <FormControl
-              type="text"
-              className='date_input'
-              value={props.value || 'DD/MM/YYYY'}
-              readOnly
-              
-              style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: 8,
-                  padding: 9,
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: props.value ? 600 : 500,
-                                         width: "100%", 
-                                         height: 50,
-                  boxSizing: "border-box",
-                  boxShadow:"none" 
-              }}
-          />
-          <img 
-              src={Calendars} 
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-              alt="Calendar" 
-              onClick={props.onClick} 
-          />
-      </div>
-  );
-};
-
  
 
 
@@ -1565,65 +1666,29 @@ const customInvoiceDueDateInput = (props) => {
                  if (invoicetotalamounts && invoicetotalamounts.length > 0) {
                  setBillAmounts(invoicetotalamounts);
                  } 
-                 else {
-                 console.error("No data from API or empty array");
-                      }
-       }, [invoicetotalamounts]);
-
- 
+                 
+             }, [invoicetotalamounts]);
 
 
+          useEffect(()=> {
 
-
-         const handleSelectChange = (e) => {
-               const selectedDescription = e.target.value;  
-               const selectedOption = invoicetotalamounts.find(opt => opt.description === selectedDescription);
-  
-               if (selectedOption) {
-                 setBillAmounts([...billamounts, selectedOption]);
-                 setAvailableOptions(availableOptions.filter(opt => opt.description !== selectedDescription));
-                   }
-              };
-  
-
-
-
-         const handleAmountChange = (index, value) => {
-              const updatedData = [...billamounts];
-              updatedData[index] = { ...updatedData[index], amount: value }; 
-              setBillAmounts(updatedData);                                  
-              };
-
-
-
-          const handleDelete = (item) => {
-             setBillAmounts(billamounts.filter(bill => bill.description !== item.description));
-             setAvailableOptions([...availableOptions, item]);
-              };
-
-  
-
-       useEffect(()=> {
+        //future purpose commenting this lines ==> 
 
         //   if(billamounts && billamounts.length > 0){
-        //       console.log("billamounts",billamounts);
     
         //   const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
         //   const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
-        //    console.log("RoomRentItem",RoomRentItem);
   
   
         //   setEBAmount(EbAmount)
         //   setRentAmount(RoomRentItem)
 
         //   var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
-        //   console.log("amenities",amenities);
 
         //  const AmenityDetails = amenities.map(item => ({
         //     am_name: item.description,   
         //     amount: item.amount
         //     }));
-        //     console.log("AmenityDetails",AmenityDetails);
             
         //     setAmenityDetails(AmenityDetails)
 
@@ -1631,18 +1696,15 @@ const customInvoiceDueDateInput = (props) => {
         //       am_name: detail.am_name, 
         //       amount: Number(detail.amount)
         //     })).filter(detail => detail.am_name && detail.amount); 
-        //     console.log("allRows", allRows);
             
         //     const amenityArray = AmenityDetails.map(detail => ({
         //       am_name: detail.am_name, 
         //       amount: detail.amount
         //     })).filter(detail => detail.am_name && detail.amount); 
-        //     console.log("amenityArray", amenityArray);
             
             
         //     // Combine allRows and amenityArray
         //     const combinedRows = [...amenityArray, ...allRows];
-        //     console.log("combinedRows", combinedRows);
           
         //     setamenityArray(combinedRows)
   
@@ -1653,7 +1715,6 @@ const customInvoiceDueDateInput = (props) => {
         //     );
             
         //     setTotalAmount(totalAmount);  // Set the total amount in the state
-        //     console.log("TotalAmount:", totalAmount);
 
         //           }
 
@@ -1666,189 +1727,14 @@ const customInvoiceDueDateInput = (props) => {
                     
                     setamenityArray(allRows)
                     
-                    console.log("allRows", allRows);
                       const Total_amout =  allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) 
                       setTotalAmount(Total_amout);
                   }
-                  else {
-                    console.log("data not fetched");
-                    
-                  }
+                  
 
-    },[newRows])
-
-
-       const handleNewRowChange = (index, field, value) => {
-           const updatedRows = [...newRows];
-           updatedRows[index][field] = value;
-            setNewRows(updatedRows);
-           };
-
-
-       const handleDeleteNewRow = (index) => {
-             const updatedRows = newRows.filter((_, i) => i !== index);
-             setNewRows(updatedRows);
-            };
-
-
-
-
-            const [tableErrmsg, setTableErrmsg] = useState('');
-
-
-
-      const handleCreateBill = () => {
-
-               // Validate if all rows in the table have the description and amount
-  const incompleteRows = newRows.some(row => !row.am_name || !row.amount);
-  if (incompleteRows) {
-    setTableErrmsg('Please fill all details in the table before generating the bill');
-    return;
-  }
-
-               if(!customername){
-                setCustomerErrmsg('Please Select Customer')
-               }
-               
-              //  if(!startdate){
-              //   setStartdateErrmsg('Please Select Date')
-              //  }
-
-              //  if(!enddate){
-              //   setEnddateErrmsg('Please Select Date')
-              //  }
-
-              //  if(!formatinvoicedate){
-              //   setInvoiceDateErrmsg('Please Select Date')
-              //  }
-
-              //  if(!formatduedate){
-              //   setInvoiceDueDateErrmsg('Please Select Date')
-              //  }
-              
-               if(!customername && !invoicenumber ){
-                setAllFieldErrmsg('Please Enter All Field')
-                 return;
-               }
-            
-
-              
-               if(customername && invoicenumber ){
-                dispatch({
-                  type: 'MANUAL-INVOICE-ADD',
-                  payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-                  invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
-                  amenity: amenityArray.length > 0 ? amenityArray : []
-                  }
-                  });
-                  setShowManualInvoice(false)
-                  setShowRecurringBillForm(false)
-                  setShowAllBill(true)
-                  setCustomerName('');
-                  setInvoiceNumber('');
-                  setStartDate('');
-                  setEndDate('');
-                  setInvoiceDate('')
-                  setInvoiceDueDate('')
-                  setSelectedData('')
-                  setAvailableOptions('');
-                  setTotalAmount('')
-                  setBillAmounts([]);
-                  setNewRows([]);
-
-                  setCustomerErrmsg('')
-                  setStartdateErrmsg('')
-                  setInvoiceDateErrmsg('')
-                  setInvoiceDueDateErrmsg('')
-                  setAllFieldErrmsg('')
-               }
-
-            // setShowManualInvoice(true)
-         
-            }
-
-
-            const rowsPerPage = 5;
-            const [currentPage, setCurrentPage] = useState(1);
-          
-            const indexOfLastRow = currentPage * rowsPerPage;
-            const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-            const currentRows = bills.slice(
-              indexOfFirstRow,
-              indexOfLastRow
-            );
-
-            const handlePageChange = (pageNumber) => {
-              setCurrentPage(pageNumber);
-            };
-          
-            const itemsPerPage = 5;
-            const indexOfLastItem = currentPage * itemsPerPage;
-            const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-            const currentItems = bills.slice(
-              indexOfFirstItem,
-              indexOfLastItem
-            );
-
-            const currentItem = recurringbills.slice(
-              indexOfFirstItem,                      //recurring pagination
-              indexOfLastItem
-            );
-          
-            const totalPages = Math.ceil(bills.length / itemsPerPage);
-            const totalPage = Math.ceil(recurringbills.length / itemsPerPage);  //recurring pagination
-
-            const renderPageNumbers = () => {
-              const pageNumbers = [];
-              for (let i = 1; i <= totalPages; i++) {
-                pageNumbers.push(
-                  <li key={i} style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        color: i === currentPage ? "#007bff" : "#000",
-                        cursor: "pointer",
-                        border: i === currentPage ? "1px solid #ddd" : "none",
-                        backgroundColor:
-                          i === currentPage ? "transparent" : "transparent",
-                      }}
-                      onClick={() => handlePageChange(i)}
-                    >
-                      {i}
-                    </button>
-                  </li>
-                );
-              }
-              return pageNumbers;
-            };
-
-
-            const renderPageNumber = () => {
-              const pageNumbers = [];
-              for (let i = 1; i <= totalPage; i++) {
-                pageNumbers.push(
-                  <li key={i} style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        color: i === currentPage ? "#007bff" : "#000",
-                        cursor: "pointer",
-                        border: i === currentPage ? "1px solid #ddd" : "none",
-                        backgroundColor:
-                          i === currentPage ? "transparent" : "transparent",
-                      }}
-                      onClick={() => handlePageChange(i)}
-                    >
-                      {i}
-                    </button>
-                  </li>
-                );
-              }
-              return pageNumbers;
-            };
+          },[newRows])
 
             
-
             useEffect(()=> {
               dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
             },[])
@@ -1879,58 +1765,6 @@ const customInvoiceDueDateInput = (props) => {
               }
             }, [state.InvoiceList.RecurringBillAddStatusCode , state.InvoiceList.deleterecurringbillsStatuscode]); 
 
-
-
-
-
-            const handleDeleteRecurringbills = (item) => {
-              console.log("deleteitem", item);
-               if(item){
-                 dispatch({
-                     type: 'DELETE-RECURRING-BILLS',
-                     payload: {id: item.recuire_id , user_id : item.user_id}
-                   });
-               }
-         };
-
- 
-
-  const [value, setValue] = React.useState('1');
-
-
-  const handleChanges = (event, newValue) => {
-    setValue(newValue);
-    console.log("newValue", newValue)
-
-
-  }
-
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [DownloadInvoice, setDownloadInvoice] = useState(false)
-
-  const [showPdfModal, setShowPdfModal] = useState(false)
-  const [rowData, setRowData] = useState('')
-
-  const handleDisplayInvoiceDownload = (isVisible, rowData) => {
-    setDownloadInvoice(isVisible)
-    setShowPdfModal(true)
-    setRowData(rowData)
-    // console.log("rowData",rowData)
-  }
-
-  const handleBackClose = () => {
-    setDownloadInvoice(false)
-  }
-
-  const handleClosePdfModal = () => {
-    // setShowPdfModal(false)
-    setDownloadInvoice(false)
-  }
-
-
-let serialNumber = 1;
 
 
   return (
@@ -1985,13 +1819,14 @@ let serialNumber = 1;
       <Image src={Sort} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
     </div>
     <div className='me-4'>
-      {value == 1 ?
+      {value == 1 && 
         <Button
         disabled={billAddPermission}
           onClick={handleManualShow}
           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }} > + Create Bill
         </Button>
-        :
+}
+{value == 2 && 
         <Button
         disabled={recuringbillAddPermission}
           onClick={handleRecurrBillShow}
@@ -1999,6 +1834,13 @@ let serialNumber = 1;
         </Button>
 
 
+      }
+
+      {
+        value == 3 && 
+        <Button
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 230, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Receipt
+        </Button>
       }
     </div>
   </div>
@@ -3079,6 +2921,20 @@ let serialNumber = 1;
   }
 
 
+</TabPanel>
+
+<TabPanel value="3">
+
+<div>
+                  <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Receipt available </div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no receipt added </div>
+              
+               <div style={{ textAlign: "center"}}>
+                           <Button
+                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 240, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}  > + Create Receipt</Button>
+                         </div>
+             </div> 
 </TabPanel>
 
 </TabContext>

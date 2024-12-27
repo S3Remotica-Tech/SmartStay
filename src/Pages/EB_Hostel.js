@@ -664,7 +664,9 @@ function EB_Hostel(props) {
 
   return (
     <div style={{ paddingLeft: 15, marginTop: 8 }}>
-      <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
+      <div className="d-flex justify-content-between align-items-center ms-3 mb-3"
+       style={{position:'sticky' , top:10, backgroundColor:'white'}}
+       >
         <div style={{ padding: 15 }}>
           <label
             style={{
