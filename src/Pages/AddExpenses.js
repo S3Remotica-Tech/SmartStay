@@ -54,7 +54,10 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const [isChangedError, setIsChangedError] = useState("");
   const [account, setAccount] = useState("");
   const [accountError, setAccountError] = useState("");
-
+  const [purchaseDateError, setPurchaseDateError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [formattedDate, setFormattedDate] = useState("");
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -75,104 +78,23 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setIsChangedError("");
   };
 
-   useEffect(()=> {
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: state.login.selectedHostel_Id} })
-   },[])
-
-   useEffect(() => {
-       dispatch({ type: 'ASSETLIST', payload: {hostel_id: state.login.selectedHostel_Id}  })
-     }, [])
-
-  const [errors, setErrors] = useState({});
-
-  const handleCountChange = (e) => {
-    setGeneralError("");
-    setCountError("");
-    setIsChangedError("");
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setCount(value);
-    }
-  };
-
-  const handleAssetNameChange = (e) => {
-    setAssetName(e.target.value);
-    setGeneralError("");
-    setAssetError("");
-    setIsChangedError("");
-  };
-
-  const handleVendorNameChange = (e) => {
-    setVendorName(e.target.value);
-    setGeneralError("");
-    setVendorError("");
-    setIsChangedError("");
-  };
-
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-    setGeneralError("");
-    setCategoryError("");
-    setIsChangedError("");
-  };
-  const handleAccount = (e) => {
-    setAccount(e.target.value);
-    setAccountError("");
-    setIsChangedError("");
-  };
-
-
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setGeneralError("");
-    setPaymentError("");
-    setIsChangedError("");
-  };
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST",hostel_id:state.login.selectedHostel_Id  });
+    dispatch({
+      type: "EXPENCES-CATEGORY-LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
   }, []);
 
-  const handlePurchaseDateChange = (e) => {
-    setPurchaseDate(e.target.value);
-    setGeneralError("");
-    setIsChangedError("");
-  };
+  useEffect(() => {
+    dispatch({
+      type: "ASSETLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, []);
 
-  const handlePriceChange = (e) => {
-    const value = e.target.value;
-    setGeneralError("");
-    setPriceError("");
-    setIsChangedError("");
-    if (/^\d*$/.test(value)) {
-      setPrice(value);
-    }
-  };
-
-  const handleDescriptionChange = (e) => {
-    const value = e.target.value;
-    setIsChangedError("");
-    setGeneralError("");
-
-    if (value === "") {
-      setDescription(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        Description: "Description cannot be empty or spaces only",
-      }));
-      return;
-    }
-
-    if (value.trim() !== "") {
-      setDescription(value);
-      setErrors((prevErrors) => ({ ...prevErrors, Description: "" }));
-    } else {
-      setDescription(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        Description: "Description cannot be empty or spaces only",
-      }));
-    }
-  };
+  useEffect(() => {
+    dispatch({ type: "BANKINGLIST", hostel_id: state.login.selectedHostel_Id });
+  }, []);
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -217,6 +139,101 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
       });
     }
   }, [currentItem]);
+
+  useEffect(() => {
+    if (customContainerRef.current && calendarRef.current) {
+      calendarRef.current.flatpickr.set({
+        dateFormat: "d/m/Y",
+        defaultDate: selectedDate || new Date(),
+        // maxDate: "today",
+        appendTo: customContainerRef.current, // Append to custom container
+      });
+    }
+  }, [customContainerRef.current, selectedDate]);
+  const handleCountChange = (e) => {
+    setGeneralError("");
+    setCountError("");
+    setIsChangedError("");
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setCount(value);
+    }
+  };
+
+  const handleAssetNameChange = (e) => {
+    setAssetName(e.target.value);
+    setGeneralError("");
+    setAssetError("");
+    setIsChangedError("");
+  };
+
+  const handleVendorNameChange = (e) => {
+    setVendorName(e.target.value);
+    setGeneralError("");
+    setVendorError("");
+    setIsChangedError("");
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+    setGeneralError("");
+    setCategoryError("");
+    setIsChangedError("");
+  };
+  const handleAccount = (e) => {
+    setAccount(e.target.value);
+    setAccountError("");
+    setIsChangedError("");
+  };
+
+  const handleModeOfPaymentChange = (e) => {
+    setModeOfPayment(e.target.value);
+    setGeneralError("");
+    setPaymentError("");
+    setIsChangedError("");
+  };
+
+  const handlePurchaseDateChange = (e) => {
+    setPurchaseDate(e.target.value);
+    setGeneralError("");
+    setIsChangedError("");
+  };
+
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    setGeneralError("");
+    setPriceError("");
+    setIsChangedError("");
+    if (/^\d*$/.test(value)) {
+      setPrice(value);
+    }
+  };
+
+  const handleDescriptionChange = (e) => {
+    const value = e.target.value;
+    setIsChangedError("");
+    setGeneralError("");
+
+    if (value === "") {
+      setDescription(value);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        Description: "Description cannot be empty or spaces only",
+      }));
+      return;
+    }
+
+    if (value.trim() !== "") {
+      setDescription(value);
+      setErrors((prevErrors) => ({ ...prevErrors, Description: "" }));
+    } else {
+      setDescription(value);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        Description: "Description cannot be empty or spaces only",
+      }));
+    }
+  };
 
   const handleAddExpenses = () => {
     setHostelError("");
@@ -287,7 +304,14 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     }
 
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-    if (hostelId && modeOfPayment && count && price && category && selectedDate) {
+    if (
+      hostelId &&
+      modeOfPayment &&
+      count &&
+      price &&
+      category &&
+      selectedDate
+    ) {
       dispatch({
         type: "ADDEXPENSE",
         payload: {
@@ -299,17 +323,16 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
           unit_amount: price,
           description: description,
           payment_mode: modeOfPayment,
-          hostel_id: hostelId ,
+          hostel_id: hostelId,
           id: currentItem ? currentItem.id : null,
           bank_id: account,
-          hostel_id: state.login.selectedHostel_Id
+          hostel_id: state.login.selectedHostel_Id,
         },
       });
     }
     // handleClose();
   };
 
-  const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
   const customContainerRef = useRef();
 
@@ -326,17 +349,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   //     }
   // }, [selectedDate])
 
-  useEffect(() => {
-    if (customContainerRef.current && calendarRef.current) {
-      calendarRef.current.flatpickr.set({
-        dateFormat: "d/m/Y",
-        defaultDate: selectedDate || new Date(),
-        // maxDate: "today",
-        appendTo: customContainerRef.current, // Append to custom container
-      });
-    }
-  }, [customContainerRef.current, selectedDate]);
-
   const formatDateForPayload = (date) => {
     if (!date) return null;
     const offset = date.getTimezoneOffset();
@@ -344,16 +356,12 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     return date.toISOString().split("T")[0];
   };
 
-  const [formattedDate, setFormattedDate] = useState("");
-
   const handleDateChange = (selectedDates) => {
     setDateError("");
     setGeneralError("");
     setIsChangedError("");
     setSelectedDate(selectedDates[0]);
   };
-
-  const [purchaseDateError, setPurchaseDateError] = useState("");
 
   const customDateInput = (props) => {
     return (
@@ -645,7 +653,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                                             ))
                                         }
                                     </Form.Select> */}
-                {/* </Form.Group>
+              {/* </Form.Group>
                 {assetError && (
                   <div className="d-flex align-items-center p-1 mb-2">
                     <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -691,7 +699,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                     
                     }}
                   >
                     Category{" "}
@@ -707,8 +714,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     className=""
                     id="vendor-select"
                     style={{
-                       marginTop:"5px",
-                      fontSize: '16px',
+                      marginTop: "5px",
+                      fontSize: "16px",
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: category ? 600 : 500,
@@ -716,7 +723,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                   >
                     <option>Select a Category</option>
                     {state.Settings.Expences.data &&
-                     state.Settings.Expences.data.map((view) => (
+                      state.Settings.Expences.data.map((view) => (
                         <>
                           <option
                             key={view.category_Id}
@@ -993,7 +1000,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
-                      backgroundColor:"#E7F1FF"
+                      backgroundColor: "#E7F1FF",
                     }}
                   />
                 </Form.Group>
@@ -1011,7 +1018,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       fontWeight: 500,
                     }}
                   >
-                   Mode of transaction{" "}
+                    Mode of transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -1106,21 +1113,21 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     ))}
                   </Form.Select>
                   {accountError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {accountError}
-                    </label>
-                  </div>
-                )}
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {accountError}
+                      </label>
+                    </div>
+                  )}
                 </div>
               )}
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
