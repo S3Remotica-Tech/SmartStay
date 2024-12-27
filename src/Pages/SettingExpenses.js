@@ -386,7 +386,7 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
 
     return(
         <div className="container"> 
-             <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between"}}>
+             <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",position:'sticky',top:20,backgroundColor: "white"}} >
         <h3> Expences Category</h3>
         <div></div>
         <Button  onClick={handleShow} style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,
