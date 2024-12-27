@@ -26,10 +26,6 @@ function Asset() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("state asset //////////////////////////", state)
-
-console.log("hostel-id",state.login.selectedHostel_Id)
-
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
@@ -43,15 +39,20 @@ console.log("hostel-id",state.login.selectedHostel_Id)
   const [assetEditPermission,setAssetEditPermission]=useState("")
   const [excelDownload,setExcelDownload]=useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropDown, setShowDropDown] = useState(false)
+  const [showFilterData, setShowFilterData] = useState(false)
+  
+  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportAssetsDetail?.response?.fileUrl);
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
  
-console.log("excelDownload",excelDownload)
 const handleAssetsExcel = () => {
     dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id}});
     setIsDownloadTriggered(true); 
@@ -82,7 +83,6 @@ useEffect(()=>{
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===assetrolePermission[0]", assetrolePermission);
     if (
       assetrolePermission[0]?.is_owner == 1 ||
       assetrolePermission[0]?.role_permissions[8]?.per_view == 1
@@ -96,7 +96,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===assetrolePermission[0]", assetrolePermission);
     if (
       assetrolePermission[0]?.is_owner == 1 ||
       assetrolePermission[0]?.role_permissions[8]?.per_create == 1
@@ -109,7 +108,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===assetrolePermission[0]", assetrolePermission);
     if (
       assetrolePermission[0]?.is_owner == 1 ||
       assetrolePermission[0]?.role_permissions[8]?.per_delete == 1
@@ -120,7 +118,6 @@ useEffect(()=>{
     }
   }, [assetrolePermission]);
   useEffect(() => {
-    console.log("===assetrolePermission[0]", assetrolePermission);
     if (
       assetrolePermission[0]?.is_owner == 1 ||
       assetrolePermission[0]?.role_permissions[8]?.per_edit == 1
@@ -141,7 +138,6 @@ useEffect(()=>{
 
   }
 
-  console.log("getData", getData)
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST', payload:{ hostel_id: state.login.selectedHostel_Id }})
@@ -196,10 +192,8 @@ useEffect(()=>{
     position: 'relative',
   };
 
-  console.log("selectedPriceRange", selectedPriceRange)
 
   const filterByPriceRange = (data) => {
-    console.log("data", data)
     switch (selectedPriceRange) {
       case '0-100':
         return data.filter(item => item.total_price <= 100);
@@ -231,17 +225,13 @@ useEffect(()=>{
 
 
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(7);
-
-  const [currentItem, setCurrentItem] = useState(null);
+  
+  const [itemsPerPage] = useState(7); 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("currentItems", currentItems)
-  console.log("filteredData", filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -290,17 +280,12 @@ useEffect(()=>{
   };
 
   const handleEditAsset = (item) => {
-    console.log("item for props", item)
     setShow(true)
     setCurrentItem(item);
   }
 
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-
-  const [showDropDown, setShowDropDown] = useState(false)
-  const [showFilterData, setShowFilterData] = useState(false)
+  
 
 
   const handleShowSearch = () => {
@@ -353,10 +338,6 @@ useEffect(()=>{
 
 
   const stateAccount = useSelector(state => state.createAccount)
-
-
-  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
-
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {

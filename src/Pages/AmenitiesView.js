@@ -12,13 +12,11 @@ import Image from 'react-bootstrap/Image';
 function AmenitiesView(props) {
 
     const state = useSelector(state => state)
+    const [showDots, setShowDots] = useState(false)
 
     const handleEditAmenities = (item) => {
         props.modalEditAmenities(item)
     }
-
-    const [showDots, setShowDots] = useState(false)
-
     const handleShowDots = () => {
         setShowDots(!showDots)
         console.log("handle edit works");

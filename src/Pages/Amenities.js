@@ -40,7 +40,6 @@ function Amenities() {
   const [showModal, setShowModal] = useState(false);
   const [id, setID] = useState('')
   const [amenitiesName, setAmenitiesName] = useState('')
-  console.log("amenitiesName", amenitiesName);
   const [amount, setAmount] = useState('')
   const [active, setActive] = useState(false)
   const [edit, setEdit] = useState('')
@@ -48,18 +47,19 @@ function Amenities() {
   const [status, setStatus] = useState('')
   const [showTable, setShowTable] = useState(false)
   const [filteredamenities, setFilteredAmenities] = useState([])
-
   const [hostelerrormsg, setHostelErrmsg] = useState('');
   const [amenityerrormsg, setAmenityErrmsg] = useState('');
   const [amounterrormsg, setAmountErrmsg] = useState('');
   const [totalErrormsg ,setTotalErrmsg]= useState('')
-
   const [amenitiesrolePermission, setAmenitiesRolePermission] = useState("");
-
   const [amenitiespermissionError, setAmenitiesPermissionError] = useState("");
   const [amenitiesAddPermission,setAmenitiesAddPermission]= useState("")
   const [amenitiesDeletePermission,setAmenitiesDeletePermission]=useState("")
   const [amenitiesEditPermission,setAmenitiesEditPermission]=useState("")
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedhostel, setSelecteDHostel] = useState('');
+  const [show, setShow] = useState(false);
+  const [edithostelId, setEdithostelId] = useState()
 
 
   useEffect(() => {
@@ -67,7 +67,6 @@ function Amenities() {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
     if (
       amenitiesrolePermission[0]?.is_owner == 1 ||
       amenitiesrolePermission[0]?.role_permissions[18]?.per_view == 1
@@ -81,7 +80,6 @@ function Amenities() {
 
 
   useEffect(() => {
-    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
     if (
       amenitiesrolePermission[0]?.is_owner == 1 ||
       amenitiesrolePermission[0]?.role_permissions[18]?.per_create == 1
@@ -94,7 +92,6 @@ function Amenities() {
 
 
   useEffect(() => {
-    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
     if (
       amenitiesrolePermission[0]?.is_owner == 1 ||
       amenitiesrolePermission[0]?.role_permissions[18]?.per_delete == 1
@@ -105,7 +102,6 @@ function Amenities() {
     }
   }, [amenitiesrolePermission]);
   useEffect(() => {
-    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
     if (
       amenitiesrolePermission[0]?.is_owner == 1 ||
       amenitiesrolePermission[0]?.role_permissions[18]?.per_edit == 1
@@ -123,9 +119,7 @@ function Amenities() {
       id: e.target.value,
       name: e.target.options[selectedIndex].text
     });
-    // const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == e.target.value);
-    // console.log('filteredamenities', filteredamenities);
-    // setFilteredAmenities(filteredamenities);
+   
   };
 
 
@@ -212,10 +206,7 @@ function Amenities() {
 
 
   // }
-  const [selectedhostel, setSelecteDHostel] = useState('');
-  // const [unit , setUnit] = useState('');
-  // const [amount , setAmount] = useState('')
-  console.log("selectedHostel", selectedhostel);
+  
 
   const handleHostelClick = (e) => {
     setTotalErrmsg('')
@@ -229,7 +220,6 @@ function Amenities() {
 
 
   const handleEdit = (item) => {
-    console.log("item", item);
     setShow(true);
 
     setEdit('EDIT')
@@ -257,7 +247,7 @@ function Amenities() {
                    active !== initialValuesRef.current.Active || 
                    status !== initialValuesRef.current.Status 
 
-  const [show, setShow] = useState(false);
+  
 
   const handleShow = () => {
     // setEdit(false)
@@ -265,14 +255,13 @@ function Amenities() {
   }
 
 
-  const [edithostelId, setEdithostelId] = useState()
+ 
 
 
 
 
 
   const handleClose = () => {
-    console.log("edit closed");
     setShow(false)
     setSelecteDHostel('')
     setAmenitiesName('');
@@ -322,12 +311,7 @@ function Amenities() {
       setActive('');
     }
 
-
   }
-
-
-
-
 
   useEffect(() => {
     if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
@@ -351,15 +335,8 @@ function Amenities() {
 
   const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
 
-  //     const[ hostelname , setHostelname] = useState([])
-  //    const  Hostelnamefilterlist = state.UsersList.hostelList.filter((u)=> u.id == state?.InvoiceList?.AmenitiesList.id )
-  //     setHostelname(Hostelnamefilterlist)
-  //     console.log("Hostelnamefilterlist", hostelname);
-
-
-
   const rowsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
+  
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
