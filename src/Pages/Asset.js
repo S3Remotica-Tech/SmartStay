@@ -44,7 +44,7 @@ function Asset() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
-  
+  const stateAccount = useSelector(state => state.createAccount)
   const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
 
   useEffect(() => {
@@ -337,7 +337,7 @@ useEffect(()=>{
 
 
 
-  const stateAccount = useSelector(state => state.createAccount)
+  
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
