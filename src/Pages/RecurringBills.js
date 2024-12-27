@@ -30,51 +30,41 @@ import 'react-datepicker/dist/react-datepicker.css';
 const RecurringBills = (props) => {
 
 
-    const state = useSelector(state => state)
-    console.log("state",state);
-    
-    console.log("props",props);
-    
-    const dispatch = useDispatch()
+      const state = useSelector(state => state)
+      const dispatch = useDispatch()
 
-      useEffect(()=> {
-        dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
-      },[])
-
-      useEffect(()=> {
-        dispatch({type: "RECURRING-BILLS-LIST"})
-      },[])
-    
+   
       const [selectedHostel, setSelectedHostel] = useState('');
       const [customername , setCustomerName] =  useState ('');
-      console.log("customername",customername);
-
       const [customernamefilter , setCustomerFilter] = useState([])
-      
-      const [invoicenumber , setInvoiceNumber] =  useState ('');
-    
+      const [invoicenumber , setInvoiceNumber] =  useState ('')
       const [invoicedate , setInvoiceDate] =  useState (null);
       const [invoiceduedate , setInvoiceDueDate] =  useState (null);
-    
       const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
       const [formatduedate, setFormatDueDate] = useState(null)
-      console.log("formatinvoicedate",formatduedate);
-    
       const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
       const [billamounts, setBillAmounts] = useState([])
       const [deleteShow,setDeleteShow] = useState(false)
-      console.log("billamounts",billamounts);
-      console.log("invoicetotalamounts",invoicetotalamounts);
-    
-      
-    const [ebamount, setEBAmount] = useState('')
-    const [rentamount , setRentAmount] = useState('')
-    const [advanceAmount,setAdvanceAmount] = useState('')
-    const [amenityDetail , setAmenityDetails] = useState([])
-    console.log("amenityDetail",amenityDetail);
-    
-    const [totalAmount , setTotalAmount] = useState('')
-    
+      const [hostelerrormsg, setHostelErrmsg] = useState('');
+      const [customererrmsg , setCustomerErrmsg] = useState('')
+      const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
+      const [startdateerrmsg , setStartdateErrmsg] = useState('')
+      const [enddateerrmsg , setEnddateErrmsg] = useState('')
+      const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
+      const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
+      const [allfielderrmsg , setAllFieldErrmsg] = useState('')
+      const [ebamount, setEBAmount] = useState('')
+      const [rentamount , setRentAmount] = useState('')
+      const [advanceAmount,setAdvanceAmount] = useState('')
+      const [amenityDetail , setAmenityDetails] = useState([])
+      const [totalAmount , setTotalAmount] = useState('')
+      const [recurringbills , setRecurringBills] = useState([])
+      const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
+      const [newRows, setNewRows] = useState([]);
+      const [dataFetched, setDataFetched] = useState(false);
+      const [amenityArray,setamenityArray] = useState([])
+      const [allFieldErrmsg] = useState('');
+      let serialNumber = 1;
     
     
       const startRef = useRef(null);
@@ -83,12 +73,7 @@ const RecurringBills = (props) => {
       const dueRef = useRef(null);
     
     
-      const [recurringbills , setRecurringBills] = useState([])
-      const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
-      console.log("availableOptions",availableOptions);
-      
     
-      const [newRows, setNewRows] = useState([]);
     
     const handleAddColumn = () => {
       const newRow = {
@@ -101,69 +86,8 @@ const RecurringBills = (props) => {
       setNewRows([...newRows, newRow]);
     };
     
-    console.log("newRows",newRows);
     
-        const [hostelerrormsg, setHostelErrmsg] = useState('');
-        const [customererrmsg , setCustomerErrmsg] = useState('')
-        const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-        const [startdateerrmsg , setStartdateErrmsg] = useState('')
-        const [enddateerrmsg , setEnddateErrmsg] = useState('')
-        const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
-        const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
-        const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-
-
-      
-    
-      useEffect(() => {
-        if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
-          setRecurringBills(state.InvoiceList.RecurringBills);
-      
-          setTimeout(() => {
-            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
-          }, 100);
-        }
-      }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
-      
-
-      useEffect(() => {
-        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
-          dispatch({ type: 'RECURRING-BILLS-LIST' });
-          setRecurringBills(state.InvoiceList.RecurringBills);
-      
-          setTimeout(() => {
-            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
-          }, 1000);
-        }
-      }, [state.InvoiceList.RecurringBillAddStatusCode]); 
-      
-    
- 
-   
-      
-    
-      
-
-
-      const options = {
-        dateFormat: 'd/m/Y',
-        defaultDate: null,
-        // defaultDate: selectedDate,
-        // maxDate: new Date(),
-        minDate: null,
-      };
-    
-      useEffect(() => {
-        if (invoiceRef.current) {
-          invoiceRef.current.flatpickr.set(options);
-        }
-        if (dueRef.current) {
-          dueRef.current.flatpickr.set(options);
-        }
-    }, [ invoicedate, invoiceduedate ])
-
     const handleHostelChange = (e) => {
-      console.log("hostel",e.target.value);
       
       setSelectedHostel(e.target.value)
       setAllFieldErrmsg('')
@@ -193,12 +117,270 @@ const RecurringBills = (props) => {
         setBillAmounts('')
         setTotalAmount('')
       }
+
+
+      const handleBackBill = () => {
+        props.onhandleback()
+   }
+ 
+   const formatDateForPayloadmanualinvoice = (date) => {
+     if (!date) return null;
+     const offset = date.getTimezoneOffset();
+     date.setMinutes(date.getMinutes() - offset);
+     return date.toISOString().split('T')[0]; 
+   };
+ 
+ 
+   
+ 
+   const handleInvoiceDate = (selectedDates) => {
+  
+        const date = selectedDates;
+
+        setInvoiceDate(date);
+        setAllFieldErrmsg('')
+        if(!selectedDates){
+         setInvoiceDateErrmsg("Please Select Date")
+        }
+        else{
+         setInvoiceDateErrmsg('')
+        }
+ 
+        const formattedDate = formatDateForPayloadmanualinvoice(date);
+        setFormatInvoiceDate(formattedDate)
+   }
+ 
+ 
+   const handleDueDate = (selectedDates) => {
+         const date = selectedDates;
+         setInvoiceDueDate(date);
+         setAllFieldErrmsg('')
+         if(!selectedDates){
+           setInvoiceDueDateErrmsg("Please Select Date")
+          }
+          else{
+           setInvoiceDueDateErrmsg('')
+          }
+ 
+         const formattedDate = formatDateForPayloadmanualinvoice(date);
+         setFormatDueDate(formattedDate)
+   }
+
+
+   const handleSelectChange = (e) => {
+    const selectedDescription = e.target.value;  
+    const selectedOption = invoicetotalamounts.find(opt => opt.name === selectedDescription);
+
+    if (selectedOption) {
+      setBillAmounts([...billamounts, selectedOption]);
+      setAvailableOptions(availableOptions.filter(opt => opt.name !== selectedDescription));
+        }
+   };
+
+
+
+
+const handleAmountChange = (index, value) => {
+   const updatedData = [...billamounts];
+   updatedData[index] = { ...updatedData[index], amount: value }; 
+   setBillAmounts(updatedData);                                  
+   };
+
+
+
+const handleDelete = (item) => {
+  setBillAmounts(billamounts.filter(bill => bill.name !== item.name));
+  setAvailableOptions([...availableOptions, item]);
+   };
+
+
+   const handleNewRowChange = (index, field, value) => {
+    const updatedRows = [...newRows];
+    updatedRows[index][field] = value;
+     setNewRows(updatedRows);
+    };
+
+
+const handleDeleteNewRow = (index) => {
+      const updatedRows = newRows.filter((_, i) => i !== index);
+      setNewRows(updatedRows);
+     };
+
+
+
+     const handleCreateBill = () => {
     
-    
-    
-    
+      const allRows = [...billamounts, ...newRows];
+      const incompleteRow = allRows.find(row => !row.description || !row.amount);
+
+      const amenityArray = amenityDetail.map(detail => ({
+         am_name: detail.am_name,
+         amount: detail.amount
+          })).filter(detail => detail.am_name && detail.amount);
+
+
+          if(!customername){
+           setCustomerErrmsg('Please Select  Customer')
+          }
+        
+          if(!formatinvoicedate){
+           setInvoiceDateErrmsg('Please Select Invoice Date')
+          }
+
+          if(!formatduedate){
+           setInvoiceDueDateErrmsg('Please Select DueDate')
+          }
+        
+
+          if(!customername && !invoicenumber &&  !formatinvoicedate && !formatduedate){
+           setAllFieldErrmsg('Please Enter All Field')
+           return;
+          }
+         
+          if(customername && invoicenumber  && formatinvoicedate && formatduedate){
+           dispatch({
+             type: 'RECURRING-BILLS-ADD',
+             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+             invoice_id: invoicenumber, room_rent : rentamount?.amount || 0 , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+             advance_amount:advanceAmount?.amount || 0,    amenity: amenityArray.length > 0 ? amenityArray : []
+             }
+             });
+
+             props.onhandleback()
+             setCustomerName('');
+             setInvoiceNumber('');
+             setInvoiceDate('')
+             setInvoiceDueDate('')
+             setAvailableOptions('');
+             setTotalAmount('')
+             setBillAmounts([]);
+             setNewRows([]);
+          }
+
+       // setShowManualInvoice(true)
      
+     }
+
+
+  
+     const customDateInputInvoiceDate = (props) => {
+      return (
+          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+              <FormControl
+                  type="text"
+                  className='date_input'
+                  value={props.value || 'DD/MM/YYYY'}
+                  readOnly
+                                      style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 9,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: props.value ? 600 : 500,
+                                             width: "100%", 
+                                             height: 50,
+                      boxSizing: "border-box",
+                      boxShadow:"none" 
+                  }}
+              />
+              <img 
+                  src={Calendars} 
+              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                  alt="Calendar" 
+                  onClick={props.onClick} 
+              />
+          </div>
+      );
+  };
+
+
+  const customDateInputDueDate = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                                    style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                                           width: "100%", 
+                                           height: 50,
+                    boxSizing: "border-box",
+                    boxShadow:"none" 
+                }}
+            />
+            <img 
+                src={Calendars} 
+            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
+
+
+
+     
+
+    useEffect(()=> {
+      dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
+    },[])
+
+    useEffect(()=> {
+      dispatch({type: "RECURRING-BILLS-LIST"})
+    },[])
+    
+    useEffect(() => {
+        if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
+          setRecurringBills(state.InvoiceList.RecurringBills);
       
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
+          }, 100);
+        }
+      }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
+      
+
+      useEffect(() => {
+        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
+          dispatch({ type: 'RECURRING-BILLS-LIST' });
+          setRecurringBills(state.InvoiceList.RecurringBills);
+      
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
+          }, 1000);
+        }
+      }, [state.InvoiceList.RecurringBillAddStatusCode]); 
+      
+    
+
+
+      const options = {
+        dateFormat: 'd/m/Y',
+        defaultDate: null,
+        // defaultDate: selectedDate,
+        // maxDate: new Date(),
+        minDate: null,
+      };
+    
+      useEffect(() => {
+        if (invoiceRef.current) {
+          invoiceRef.current.flatpickr.set(options);
+        }
+        if (dueRef.current) {
+          dueRef.current.flatpickr.set(options);
+        }
+    }, [ invoicedate, invoiceduedate ])
+
+  
     
       useEffect(() => {
         if (customername) {
@@ -218,11 +400,8 @@ const RecurringBills = (props) => {
       }, [state.InvoiceList.ManualInvoiceNUmber.invoice_number, state.InvoiceList.Manulainvoicenumberstatuscode]); 
             
     
-      const [dataFetched, setDataFetched] = useState(false);
-
     
       useEffect(() => {
-        console.log("getamountuseffect");
         
         if (  !dataFetched ) {
           // dispatch({ type: 'MANUAL-INVOICE-NUMBER-GET', payload: {user_id: customername } });
@@ -230,7 +409,6 @@ const RecurringBills = (props) => {
     
           if (state.InvoiceList.recurrbillamountgetStatuscode === 200) {
             const totalArray = state?.InvoiceList?.Recurringbillamounts;
-            console.log("state?.InvoiceList?.Recurringbillamounts",state?.InvoiceList?.Recurringbillamounts);
             
             
             if (totalArray) {
@@ -246,122 +424,17 @@ const RecurringBills = (props) => {
     
         
     
-
-      const handleBackBill = () => {
-           props.onhandleback()
-      }
-    
-      const formatDateForPayloadmanualinvoice = (date) => {
-        if (!date) return null;
-        const offset = date.getTimezoneOffset();
-        date.setMinutes(date.getMinutes() - offset);
-        return date.toISOString().split('T')[0]; 
-      };
-    
-    
-      
-    
-      const handleInvoiceDate = (selectedDates) => {
-     
-           const date = selectedDates;
-
-           console.log("Mathubala",date)
-           setInvoiceDate(date);
-           setAllFieldErrmsg('')
-           if(!selectedDates){
-            setInvoiceDateErrmsg("Please Select Date")
-           }
-           else{
-            setInvoiceDateErrmsg('')
-           }
-    
-           const formattedDate = formatDateForPayloadmanualinvoice(date);
-           setFormatInvoiceDate(formattedDate)
-      }
-    
-    
-      const handleDueDate = (selectedDates) => {
-            const date = selectedDates;
-            setInvoiceDueDate(date);
-            setAllFieldErrmsg('')
-            if(!selectedDates){
-              setInvoiceDueDateErrmsg("Please Select Date")
-             }
-             else{
-              setInvoiceDueDateErrmsg('')
-             }
-    
-            const formattedDate = formatDateForPayloadmanualinvoice(date);
-            setFormatDueDate(formattedDate)
-      }
-    
-      
-      
-    
-     
-    
-    
-               useEffect(() => {
-                     if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-                     setBillAmounts(invoicetotalamounts);
-                     } 
-                     else {
-                     console.error("No data from API or empty array");
-                          }
+      useEffect(() => {
+             if (invoicetotalamounts && invoicetotalamounts.length > 0) {
+                setBillAmounts(invoicetotalamounts);
+                }      
            }, [invoicetotalamounts]);
-    
-     
-    
-    
-    
-    
-             const handleSelectChange = (e) => {
-                   const selectedDescription = e.target.value;  
-                   const selectedOption = invoicetotalamounts.find(opt => opt.name === selectedDescription);
-      
-                   if (selectedOption) {
-                     setBillAmounts([...billamounts, selectedOption]);
-                     setAvailableOptions(availableOptions.filter(opt => opt.name !== selectedDescription));
-                       }
-                  };
-      
-    
-    
-    
-             const handleAmountChange = (index, value) => {
-                  const updatedData = [...billamounts];
-                  updatedData[index] = { ...updatedData[index], amount: value }; 
-                  setBillAmounts(updatedData);                                  
-                  };
-    
-    
-    
-              const handleDelete = (item) => {
-                 setBillAmounts(billamounts.filter(bill => bill.name !== item.name));
-                 setAvailableOptions([...availableOptions, item]);
-                  };
-    
-    
-                  const [amenityArray,setamenityArray] = useState([])
-                  console.log("amenityArray",amenityArray);
-
-                  const handleNewRowChange = (index, field, value) => {
-                    const updatedRows = [...newRows];
-                    updatedRows[index][field] = value;
-                     setNewRows(updatedRows);
-                    };
-         
-         
-                const handleDeleteNewRow = (index) => {
-                      const updatedRows = newRows.filter((_, i) => i !== index);
-                      setNewRows(updatedRows);
-                     };
+        
          
 
            useEffect(()=> {
     
               if(billamounts && billamounts.length > 0){
-                  console.log("billamounts",billamounts);
         
               const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 1); // Room Rent with id 1
               const  AdvanceAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 2); // Adavance amount with id 2
@@ -372,7 +445,6 @@ const RecurringBills = (props) => {
               setEBAmount(EbAmount)
     
               var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 1 && item.id != 2 && item.id != 3);
-              console.log("amenities",amenities);
     
               const AmenityDetails = amenities.map(item => ({
                 am_name: item.name,   
@@ -385,18 +457,15 @@ const RecurringBills = (props) => {
                   am_name: detail.description, 
                   amount: Number(detail.amount)
                 })).filter(detail => detail.am_name && detail.amount); 
-                console.log("allRows", allRows);
                 
                 const amenityArray = AmenityDetails.map(detail => ({
                   am_name: detail.am_name, 
                   amount: detail.amount
                 })).filter(detail => detail.am_name && detail.amount); 
-                console.log("amenityArray", amenityArray);
                 
                 
                 // Combine allRows and amenityArray
                 const combinedRows = [...amenityArray, ...allRows];
-                console.log("combinedRows", combinedRows);
               
                 setamenityArray(combinedRows)
     
@@ -411,83 +480,9 @@ const RecurringBills = (props) => {
     
         },[billamounts,newRows])
     
-    
-          
-    
-    
-    
-        const [allFieldErrmsg] = useState('');
+   
 
-    
-    
-          const handleCreateBill = () => {
-    
-               const allRows = [...billamounts, ...newRows];
-    
-                
-  // Validate each row to ensure all fields are filled
-  const incompleteRow = allRows.find(row => !row.description || !row.amount);
-
-  // if (incompleteRow) {
-  //   setAllFieldErrmsg('Please fill all the details in the table.');
-  //   return;
-  // }
-
-
-
-               const amenityArray = amenityDetail.map(detail => ({
-                  am_name: detail.am_name,
-                  amount: detail.amount
-                   })).filter(detail => detail.am_name && detail.amount);
-
-    
-                   if(!customername){
-                    setCustomerErrmsg('Please Select  Customer')
-                   }
-                  //  if(!invoicenumber){
-                  //     setInvoicenumberErrmsg("Please Update customer name")
-                  //     return;
-                  //   }
-                   
-    
-                   if(!formatinvoicedate){
-                    setInvoiceDateErrmsg('Please Select Invoice Date')
-                   }
-    
-                   if(!formatduedate){
-                    setInvoiceDueDateErrmsg('Please Select DueDate')
-                   }
-                 
-    
-                   if(!customername && !invoicenumber &&  !formatinvoicedate && !formatduedate){
-                    setAllFieldErrmsg('Please Enter All Field')
-                    return;
-                   }
-                  
-                   if(customername && invoicenumber  && formatinvoicedate && formatduedate){
-                    dispatch({
-                      type: 'RECURRING-BILLS-ADD',
-                      payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-                      invoice_id: invoicenumber, room_rent : rentamount?.amount || 0 , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
-                      advance_amount:advanceAmount?.amount || 0,    amenity: amenityArray.length > 0 ? amenityArray : []
-                      }
-                      });
-
-                      props.onhandleback()
-                      setCustomerName('');
-                      setInvoiceNumber('');
-                      setInvoiceDate('')
-                      setInvoiceDueDate('')
-                      setAvailableOptions('');
-                      setTotalAmount('')
-                      setBillAmounts([]);
-                      setNewRows([]);
-                   }
-    
-                // setShowManualInvoice(true)
-              
-              }
-    
+        
     
     
     
@@ -507,7 +502,6 @@ const RecurringBills = (props) => {
                 // };
               
                 // const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
-                // console.log("invoicedetails", bills);
               
               
                 // const renderPageNumbersInvoice = () => {
@@ -637,72 +631,10 @@ const RecurringBills = (props) => {
       // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
       // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
     
-    
-      const customDateInputInvoiceDate = (props) => {
-        return (
-            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-                <FormControl
-                    type="text"
-                    className='date_input'
-                    value={props.value || 'DD/MM/YYYY'}
-                    readOnly
-                                        style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: props.value ? 600 : 500,
-                                               width: "100%", 
-                                               height: 50,
-                        boxSizing: "border-box",
-                        boxShadow:"none" 
-                    }}
-                />
-                <img 
-                    src={Calendars} 
-                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                    alt="Calendar" 
-                    onClick={props.onClick} 
-                />
-            </div>
-        );
-    };
-
-
-    const customDateInputDueDate = (props) => {
-      return (
-          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-              <FormControl
-                  type="text"
-                  className='date_input'
-                  value={props.value || 'DD/MM/YYYY'}
-                  readOnly
-                                      style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 9,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: props.value ? 600 : 500,
-                                             width: "100%", 
-                                             height: 50,
-                      boxSizing: "border-box",
-                      boxShadow:"none" 
-                  }}
-              />
-              <img 
-                  src={Calendars} 
-              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                  alt="Calendar" 
-                  onClick={props.onClick} 
-              />
-          </div>
-      );
-  };
+  
 
     
-  let serialNumber = 1;
+ 
 
 
     return(

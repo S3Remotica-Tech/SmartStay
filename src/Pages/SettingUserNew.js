@@ -137,7 +137,8 @@ console.log("state",state)
     return (
 
         <div className="container">
-            <div className='d-flex justify-content-between align-items-center'>
+            <div className='d-flex justify-content-between align-items-center'
+          style={{position:'sticky' , top:20, backgroundColor:'white'}}   >
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>

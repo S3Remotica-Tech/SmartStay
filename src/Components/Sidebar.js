@@ -29,7 +29,8 @@ import Cookies from 'universal-cookie';
 import Smartstay from '../Assets/Images/New_images/LogoSmart.svg';
 import Smarts from '../Assets/Images/Smartstaysm1.png';
 import Dash from '../Assets/Images/New_images/home.svg';
-
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import Manage from '../Assets/Images/New_images/category.png';
 
 import Paying from '../Assets/Images/New_images/house.png';
@@ -67,6 +68,8 @@ import sidebarOne from '../Assets/Images/sidebariconOne.svg';
 import sidebarTwo from '../Assets/Images/sidebariconTwo.svg';
 import sidebarThree from '../Assets/Images/sidebariconThree.svg';
 import sidebarFour from '../Assets/Images/sidebariconFour.svg';
+import Logout from "../Assets/Images/turn-off.png"
+
 
 
 function Sidebar() {
@@ -314,6 +317,32 @@ console.log("allPageHostel_Id",allPageHostel_Id)
   }, []);
 
 
+    const [logoutformshow,setLogoutformshow] = useState(false)
+  
+    const handleShowLogout = () => {
+      setLogoutformshow(true)
+    }
+  
+    const handleCloseLogout = () => {
+      setLogoutformshow(false)
+    }
+  
+    
+  
+    const handleLogout = () => {
+   
+          dispatch({ type: 'LOG_OUT' })
+  
+          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
+          localStorage.setItem("login", encryptData.toString())
+          localStorage.setItem("loginId", '')
+          localStorage.setItem("NameId", '')
+          localStorage.setItem("phoneId", '')
+          localStorage.setItem("emilidd", '')
+          // localStorage.setItem('currentPage', 'dashboard');
+        
+     
+    }
 
 
 
@@ -767,7 +796,7 @@ useEffect(()=>{
                 <img src={sidebarOne} onClick={handleSettingspage}/>
                 </div>
           <div>
-          <img src={sidebarTwo}/>
+          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}}/>
           </div>
 
 <div>
@@ -856,12 +885,83 @@ useEffect(()=>{
             {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'profile' && <Profilesettings allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'banking' && <Banking allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-          {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName = {payingGuestName} settignspgshow={settignspgshow} />}
+            {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName = {payingGuestName} settignspgshow={settignspgshow} />}
           </Col>
         </Row>
       </Container>
 
-
+      <Modal
+  show={logoutformshow}
+  onHide={handleCloseLogout}
+  centered
+  backdrop="static"
+  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
+>
+  <Modal.Header style={{ borderBottom: 'none' }}> 
+    <Modal.Title 
+      style={{
+        fontSize: '18px',
+        fontFamily: 'Gilroy',
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#222222',
+        flex: 1
+      }}
+    >
+      Logout?
+    </Modal.Title>
+  </Modal.Header>
+  
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: 'Gilroy',
+      color: '#646464',
+      textAlign: 'center',
+      marginTop: '-20px'
+    }}
+  >
+    Are you sure you want Logout?
+  </Modal.Body>
+  
+  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#fff',
+        color: '#1E45E1',
+        border: '1px solid #1E45E1',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px',
+        marginRight: 10
+      }}
+      onClick={handleCloseLogout}   
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#1E45E1',
+        color: '#FFFFFF',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px'
+      }}
+      onClick={handleLogout} 
+    >
+      Logout
+    </Button>
+  </Modal.Footer>
+</Modal>
 
 
     </>

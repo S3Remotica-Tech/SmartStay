@@ -577,7 +577,7 @@ useEffect(() => {
 
   return (
     <div className="container">
-      <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between"}}>
+      <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,position:'sticky',top:20,backgroundColor: "white"}}>
         <h3>Invoice</h3>
         <div></div>
         <Button onClick={handleShow} style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,borderRadius: 12,width: 180,padding: "18px, 20px, 18px, 20px", color: "#FFF",fontFamily: "Montserrat"}}>+ Add Invoice</Button>
