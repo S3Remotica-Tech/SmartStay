@@ -14,9 +14,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
 
     const state = useSelector(state => state)
-    console.log("Add Amenities", state)
-
-    console.log("editDetails", editDetails)
+  
 
     const dispatch = useDispatch();
     const [amenity, setAmenity] = useState('');
@@ -28,8 +26,6 @@ const [initialState, setInitialState] = useState(null)
     const [hostelError, setHostelError] = useState('')
     const [errorAmenity, setErrorAmenity] = useState('');
     const [errorAmount, setErrorAmount] = useState('');
-
-    console.log("isChecked", isChecked)
 
     const handleAmenityChange = (e) => {
         setAmenity(e.target.value);

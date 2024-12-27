@@ -27,10 +27,6 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   const [errorUnAssign, setUnErrorAssign] = useState('')
 
 
-  console.log("state", state)
-
-  console.log("assignAmenitiesDetails", assignAmenitiesDetails)
-
   const handleUnassignedCheckboxChange = (user_id) => {
     setUnErrorAssign('')
     setUnassignedCheckedUsers((prevChecked) =>
@@ -129,11 +125,6 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
 
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
-
-
-  console.log("unAssignedCheckedUsers", unAssignedCheckedUsers)
-
-  console.log("assignedCheckedUsers", assignedCheckedUsers)
 
 
   return (

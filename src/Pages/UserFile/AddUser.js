@@ -42,9 +42,6 @@ function User({ show, handleClose, editDetails ,hostelid}) {
   const [initialState, setInitialState] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const [error, setError] = useState("");
-  console.log("editDetails", editDetails)
-
- // ////////// UseEffect
 
 
  
@@ -139,7 +136,6 @@ useEffect(() => {
   const handleCountryCodeChange = (e) => {
     setCountryCodeError('')
     setError('')
-    console.log("country", e.target.value)
     setCountryCode(e.target.value)
   }
   const handleRoleChange = (e) => {
@@ -160,9 +156,6 @@ useEffect(() => {
   }
 
 
-
-
-  console.log("country code", countryCode)
 
 
 
@@ -210,8 +203,6 @@ useEffect(() => {
     countryCode !== initialState.countryCode ||
     role !== initialState.role ||
     description !== initialState.description;
-
-console.log("hasChanges",hasChanges)
 
 if (editDetails && !hasChanges) {
   setError("No changes detected. Please update the fields.");

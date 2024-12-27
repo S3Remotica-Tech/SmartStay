@@ -48,7 +48,6 @@ const Accountsettings = () => {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===settingGeneral[0]", settingGeneral);
     if (
       settingGeneral[0]?.is_owner == 1 ||
       settingGeneral[0]?.role_permissions[17]?.per_view == 1
@@ -61,7 +60,6 @@ const Accountsettings = () => {
 
 
   useEffect(() => {
-    console.log("===settingGeneral[0]", settingGeneral);
     if (
       settingGeneral[0]?.is_owner == 1 ||
       settingGeneral[0]?.role_permissions[17]?.per_edit == 1
@@ -1179,11 +1177,9 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
     >
     {
         state.UsersList?.countrycode?.country_codes?.map((item)=>{
-          console.log("itemImage",item);
           
           return(
-            console.log("item.country_flag",item.country_flag),
-            
+           
             <>
            
             <option value={item.country_code}>

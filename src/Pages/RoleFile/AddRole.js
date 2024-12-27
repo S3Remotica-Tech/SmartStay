@@ -15,10 +15,8 @@ import Form from 'react-bootstrap/Form';
 
 function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
-    console.log("editRoleDetails", editRoleDetails)
 
     const state = useSelector(state => state)
-    console.log("Add role", state)
     const dispatch = useDispatch();
     const [permissionRole, setPermissionRole] = useState([])
     const [roleName, setRoleName] = useState('')
@@ -85,7 +83,6 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
     useEffect(() => {
         if (!checkboxValues || typeof checkboxValues !== 'object') {
-            console.error("checkboxValues is undefined or not an object:", checkboxValues);
             return;
         }
 
@@ -108,7 +105,6 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             };
         }).filter(Boolean);
 
-        // console.log(JSON.stringify(permissions, null, 4));
 
 
         setPermissionRole(prev => {
@@ -136,8 +132,6 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
     }, [state.Settings.editStatusCosePermission])
 
-
-    console.log("editPermissionDetails", editPermissionDetails)
 
     useEffect(() => {
         if (editPermissionDetails) {
@@ -216,8 +210,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
         }
         const hasPermissionSelected = permissionRole.some(permission =>
             permission.per_create !== 0 || permission.per_delete !== 0 || permission.per_edit !== 0 || permission.per_view !== 0
-        );
-        console.log("Permission Role:", permissionRole);
+        )
 
         if (!hasPermissionSelected) {
             setErrorPermission("At least one permission must be selected.");
@@ -231,13 +224,10 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
         const hasChanges  = initialFormState.current.roleName !== currentState.roleName
 
-        console.log("hasChanges",hasChanges, )
 
         const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
         const normalizedCurrent = normalizePermissions(currentState.permissionRole);
     
-        console.log("Normalized Initial:", normalizedInitial);
-        console.log("Normalized Current:", normalizedCurrent);
     
         if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
             setErrorIsChanged("No changes detected in the form.");

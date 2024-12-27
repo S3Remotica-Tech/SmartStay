@@ -16,8 +16,6 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
 
     const dispatch = useDispatch();
 
-    console.log("state", state)
-    console.log("amenityDetails", amenityDetails)
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');

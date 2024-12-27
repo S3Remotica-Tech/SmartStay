@@ -474,37 +474,11 @@ const mergedData = months.map((monthData) => {
     <>
 
 
-      <div className="cotainer  p-4">
-     
-      {/* <div className="texxttt">
-        <div style={{ flex: 1 }}>
-          <lable
-            style={{
-              fontFamily: "Montserrat",
-              fontWeight: 600,
-              fontSize: "24px",
-              lineHeight: "28.63px",
-            }}
-          >
-            Welcome back {" "}
-            {first_name != null ? first_name.toLocaleString() : ""}{" "}
-            {last_name != null ? last_name.toLocaleString() : ""}!
-          </lable>
-          <p
-            style={{
-              fontFamily: "Montserrat",
-              fontWeight: 400,
-              fontSize: "16px",
-              color: "#4B4B4B",
-            }}
-          >
-            Manage all the inventory and analytics form here
-          </p>
-        </div>
-      </div> */}
+      <div className="cotainer  p-4 ">
+
 
       <TabContext value={value}>
-        <div style={{position:"sticky",top:0,right:0,left:0,zIndex:1000,backgroundColor:"#FFFFFF"}}>
+        <div style={{position:"sticky",top:25,right:0,left:0,zIndex:1000,backgroundColor:"#FFFFFF"}}>
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
