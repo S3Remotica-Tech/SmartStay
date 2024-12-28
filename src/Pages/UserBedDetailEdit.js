@@ -255,7 +255,6 @@ function UserBedDetailsEdit(props) {
 
   };
 
-  console.log("props",props);
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {

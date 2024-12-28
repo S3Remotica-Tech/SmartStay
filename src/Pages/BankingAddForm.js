@@ -8,7 +8,6 @@ import { MdError } from "react-icons/md";
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
-  console.log("stateBankingAddForm", state);
   const dispatch = useDispatch();
   const [accountName, setAccountName] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -25,7 +24,6 @@ function BankingAddForm(props) {
    const [hostel_id,setHostel_Id]=useState("")
   
    useEffect(() => {
-      console.log('Current_hostelid', state.login.selectedHostel_Id);
       setHostel_Id(state.login.selectedHostel_Id)
     }, [state?.login?.selectedHostel_Id]);
 
@@ -57,7 +55,6 @@ function BankingAddForm(props) {
     setDescriptionError("")
   };
 
-console.log("props.editAddBank",props.editAddBank)
 useEffect(()=>{
   if(props.editAddBank && props.editAddBank.id){
 

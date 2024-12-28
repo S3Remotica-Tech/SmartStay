@@ -445,9 +445,7 @@ setAdditionalForm(true)
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
-  console.log(
-    state.UsersList?.bednumberdetails?.bed_details
-  );
+
   useEffect(()=>{
     const selectedHostel=  state.UsersList.hostelList &&
     state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);

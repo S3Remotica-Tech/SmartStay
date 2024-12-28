@@ -30,7 +30,6 @@ function SettingInvoice({hostelid}) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  console.log("state for invoice settings", state);
   const [invoice, setSetinvoice] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState(null);
@@ -76,7 +75,6 @@ function SettingInvoice({hostelid}) {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
     if (
       billrolePermission[0]?.is_owner == 1 ||
       billrolePermission[0]?.role_permissions[10]?.per_view == 1
@@ -88,7 +86,6 @@ function SettingInvoice({hostelid}) {
   }, [billrolePermission]);
 
   useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
     if (
       billrolePermission[0]?.is_owner == 1 ||
       billrolePermission[0]?.role_permissions[10]?.per_create == 1
@@ -100,7 +97,6 @@ function SettingInvoice({hostelid}) {
   }, [billrolePermission]);
 
   useEffect(() => {
-    console.log("===billrolePermission[0]", billrolePermission);
     if (
       billrolePermission[0]?.is_owner == 1 ||
       billrolePermission[0]?.role_permissions[10]?.per_edit == 1
@@ -208,7 +204,6 @@ function SettingInvoice({hostelid}) {
 
 
   const handleEdit = (item) => {
-    console.log("item", item);
     setShow(true);
     setEditPrefix(item.prefix);
     setEditStartnumber(item.suffix);
@@ -274,7 +269,6 @@ function SettingInvoice({hostelid}) {
       const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');    
       const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');    
 
-      console.log("add_success")
       dispatch({ type: "INVOICESETTINGS",
         payload: {hostel_Id: hostelid,prefix: prefix,suffix: startNumber , inv_date :formattedInvoiceDate , due_date: formattedDueDate }});
       
@@ -320,7 +314,6 @@ function SettingInvoice({hostelid}) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_SETTINS_STATUSCODE" });
-        console.log("clear", state.InvoiceList?.invoiceSettingsStatusCode);
       }, 1000);
     }
   }, [state.InvoiceList]);
@@ -333,7 +326,6 @@ function SettingInvoice({hostelid}) {
       (item) => item.id === Number(selectedHostel.id)
     );
 
-    console.log("filteredHostels", filteredHostels);
 
     if (filteredHostels.length > 0) {
       const profileURL = filteredHostels[0]?.profile;
@@ -497,7 +489,6 @@ function SettingInvoice({hostelid}) {
 
 
   const handleEditInvoice = (editData) => {
-    console.log("editData", editData);
   
     setEdit(true);
     setShowForm(true);

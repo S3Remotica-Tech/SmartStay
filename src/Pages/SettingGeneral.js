@@ -23,7 +23,6 @@ import { MdError } from "react-icons/md";
 
 function SettingGeneral(){
   const state = useSelector((state) => state);
-  console.log("SettingGeneral...", state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   // useState
@@ -62,7 +61,6 @@ useEffect(() => {
 }, []);
 
 const handlegeneralform = (id) => {
-  // console.log("id",id)
   setGeneralEdit((prevId) => (prevId === id ? null : id));
 };
 useEffect(() => {
@@ -234,7 +232,6 @@ const handleImageChange = async (event) => {
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
     setEdit(true)
-console.log("user",user);
 setShowFormGeneral(true)
 
 setFirstName(user.first_name)
@@ -255,14 +252,7 @@ setInitialStateAssign({
   address: user.Address || "",
   file: user.profile === "0" ? null : user.profile || null,
 });
-console.log("Initial state assigned:", {
-  firstName: user.first_name || "",
-  lastName: user.last_name || "",
-  Phone: user.mobileNo || "",
-  emilId: user.email_Id || "",
-  address: user.Address || "",
-  file: user.profile === "0" ? null : user.profile || null,
-});
+
 
 
 
@@ -325,23 +315,7 @@ console.log("Initial state assigned:", {
 
   
     if(edit && editId){
-      console.log("Current First Name:", firstName);
-      console.log("Initial First Name:", initialStateAssign.firstName);
-    
-      console.log("Current Last Name:", lastName);
-      console.log("Initial Last Name:", initialStateAssign.lastName);
-    
-      console.log("Current Phone Number:", normalizedPhoneNumber);
-      console.log("Initial Phone Number:", initialStateAssign.Phone);
-    
-      console.log("Current Email ID:", emilId);
-      console.log("Initial Email ID:", initialStateAssign.emilId);
-    
-      console.log("Current Address:", address);
-      console.log("Initial Address:", initialStateAssign.address);
-    
-      console.log("Current File:", file);
-      console.log("Initial File:", initialStateAssign.file);
+
       const isChanged = 
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
@@ -1133,10 +1107,7 @@ useEffect(() => {
                           {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
                               return (
-                                console.log(
-                                  "item.country_flag",
-                                  item.country_flag
-                                ),
+                              
                                 (
                                   <>
                                     <option value={item.country_code}>

@@ -62,7 +62,6 @@ function UserListKyc(props) {
   // state.UsersList.kycValidateSendOtpSuccess
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess === 200) {
-      console.log("state.UsersList.kycValidateSendOtpSuccess");
 
       setRefId(state.UsersList.Kyc_Ref_Id)
       // setTimeout(() => {

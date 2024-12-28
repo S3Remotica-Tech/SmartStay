@@ -43,7 +43,6 @@ function Expenses({allPageHostel_Id}) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("state expense//////////////////////////", state)
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
@@ -70,13 +69,11 @@ function Expenses({allPageHostel_Id}) {
 
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportExpenceDetails?.response?.fileUrl);
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportExpenceDetails?.response?.fileUrl);
     }
   }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
  
-console.log("excelDownload",excelDownload)
 const handleExpenceExcel = () => {
     dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses",hostel_id :state.login.selectedHostel_Id} });
     setIsDownloadTriggered(true)
@@ -110,7 +107,6 @@ useEffect(()=>{
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_view == 1
@@ -124,7 +120,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_create == 1
@@ -137,7 +132,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
@@ -148,7 +142,6 @@ useEffect(()=>{
     }
   }, [expencerolePermission]);
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
@@ -208,7 +201,6 @@ useEffect(()=>{
   const [dates, setDates] = useState([]);
   const startDate = formatDate(dates[0] ? dates[0] : '')
   const endDate = formatDate(dates[1] ? dates[1] : '')
-  // console.log("startDate", startDate, endDate)
 
 
   function formatDate(dateString) {
@@ -228,7 +220,6 @@ useEffect(()=>{
 
 
 
-  console.log("getData", getData)
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST',  payload:{ hostel_id: state.login.selectedHostel_Id }   })
@@ -357,13 +348,10 @@ useEffect(()=>{
   }, [selectedValue, categoryValue, assetValue, vendorValue, modeValue, dates, minAmount, maxAmount, formattedDates])
 
 
-  console.log("formattedDates", formattedDates)
-  // console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
 
 
   const [loading, setLoading] = useState(true)
 
-  console.log("getData", getData)
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
@@ -431,10 +419,8 @@ useEffect(()=>{
     position: 'relative',
   };
 
-  // console.log("selectedPriceRange", selectedPriceRange)
 
   const filterByPriceRange = (data) => {
-    console.log("data", data)
     switch (selectedPriceRange) {
       case '0-100':
         return data.filter(item => item.price <= 100);
@@ -479,8 +465,7 @@ useEffect(()=>{
   // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((filteredData && filteredData.length > 0) && filteredData.length / itemsPerPage);
 
-  console.log("currentItems", currentItems)
-  console.log("filteredData", filteredData)
+
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -545,7 +530,6 @@ useEffect(()=>{
 
   const handleEditExpen = (item) => {
     setShowModal(true)
-    console.log("item for", item)
     setCurrentItem(item);
   }
 
@@ -599,7 +583,6 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
 
  const  ConfirmDeleteExpense = () =>{
   if(deleteExpenseRowData){
-    console.log("deleteExpenseRowData",deleteExpenseRowData)
     dispatch({
       type: 'DELETEEXPENSE',
       payload: {
@@ -663,9 +646,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
   };
 
 
-  // console.log("mode", modeValue, vendorValue, assetValue, categoryValue)
 
-  console.log("selectedValue,", selectedValue)
 
 
 

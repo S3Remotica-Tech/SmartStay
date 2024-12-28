@@ -178,7 +178,6 @@ function BedDetails(props) {
   useEffect(()=> {
     const currentDate = moment().format('YYYY-MM-DD');
     const joinDate = moment(currentDate).format('YYYY-MM-DD');
-    console.log("joindate",joinDate);
     const currentMonth = moment(currentDate).month() + 1;
     const currentYear = moment(currentDate).year();
     const createdAtMonth = moment(joinDate).month() + 1;
@@ -192,25 +191,20 @@ function BedDetails(props) {
       var dueDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
       var invoiceDate = moment(currentDate).startOf('month').format('YYYY-MM-DD');
    }
-       console.log("due_date",dueDate);
-       console.log("invoiceDate",invoiceDate);
+     
  
    const formattedJoinDate = moment(invoiceDate).format('YYYY-MM-DD');
    const formattedDueDate = moment(dueDate).format('YYYY-MM-DD');
    const numberOfDays = moment(formattedDueDate).diff(moment(formattedJoinDate), 'days') + 1;
-   console.log("numberOfDays",numberOfDays);
 
    const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
-   console.log("Total days in current month:", totalDaysInCurrentMonth);
 
    const oneday_amount = props.bedDetailsSendThePage.Room_Rent /totalDaysInCurrentMonth
-   console.log("oneday_amount",oneday_amount);
 
    const payableamount = oneday_amount * numberOfDays
    const This_month_payableamount = Math.round(payableamount);
    setPayableamount(This_month_payableamount)
 
-   console.log("This_month_payableamount",This_month_payableamount);
 
   },[props.bedDetailsSendThePage.Room_Rent])
 
@@ -500,7 +494,6 @@ function BedDetails(props) {
 
   let ParticularUserId = " "
 
-console.log("props",props);
 
   const handleDisplayBedDetailUser = (bedId) => {
     dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -535,7 +528,6 @@ console.log("props",props);
       // props.showBedDetail(false);
     }
 
-    console.log("ParticularUserId", ParticularUserId.length)
 
   }
 
@@ -602,15 +594,7 @@ console.log("props",props);
       return;
     }
 
-    console.log('firstname:', firstname);
-    console.log('lastname:', lastname);
-    console.log('Phone:', Phone);
-    console.log('Email:', Email);
-    console.log('Address:', Address);
-    console.log('AdvanceAmount:', AdvanceAmount);
-    console.log('RoomRent:', props.bedDetailsSendThePage.Room_Rent);
-    console.log('paid_advance:', paid_advance);
-    console.log('paid_rent:', paid_rent);
+   
     if (
       firstname &&
       lastname &&
@@ -700,7 +684,6 @@ console.log("props",props);
 
   const handleDeleteRoom = () => {
 
-    console.log("bedDetailsSendThePage", bedDetailsSendThePage);
     if (bedDetailsSendThePage.Number_Of_Beds > 0) {
       Swal.fire({
         icon: 'warning',
@@ -712,10 +695,8 @@ console.log("props",props);
       });
     }
     else {
-      console.log("dleteRoom", RoomName);
       // let roomID = RoomName.replace(/\D/g, "")
       let roomID = bedDetailsSendThePage.Room_Id
-      console.log("roomID", roomID);
       Swal.fire({
         icon: 'warning',
         title: 'Do you want to delete the Room ?',

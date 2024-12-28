@@ -46,7 +46,6 @@ function SettingAmenities({ hostelid }) {
         setOpenAmenitiesForm(true)
     }
 
-    console.log("switchStates", switchStates)
 
     // const handleToggle = (amenity) => {
     //     setIsChecked(!isChecked);
@@ -55,7 +54,6 @@ function SettingAmenities({ hostelid }) {
     //         [amenity.id]: !prev[amenity.id],
     //     }));
     //     setAmenityDetails(amenity)
-    //     console.log(`Switch toggled for amenity ID ${amenity.id}:`, !switchStates[amenity.id]);
     // };
 
 
@@ -63,12 +61,7 @@ function SettingAmenities({ hostelid }) {
         setSwitchStates((prevSwitchStates) => {
             const newChecked = !prevSwitchStates[amenity.id];
 
-
-            // Update the isChecked state to reflect the new value
             setIsChecked(newChecked);
-
-            console.log(`Switch toggled for amenity ID ${amenity.id}:`, newChecked);
-
             return {
                 ...prevSwitchStates,
                 [amenity.id]: newChecked,
@@ -88,7 +81,6 @@ function SettingAmenities({ hostelid }) {
         }
         if (!isChecked) {
 
-console.log("che",isChecked)
 
             dispatch({
                 type: 'RECURRINGROLE',
@@ -106,7 +98,6 @@ console.log("che",isChecked)
         }
     }, [isChecked]);
 
-    console.log("isChecked", isChecked)
 
 
 
@@ -151,7 +142,6 @@ console.log("che",isChecked)
 
 
     const handleDeleteAmenities = (amen) => {
-        console.log("amen", amen)
         setDeleteID(amen.id)
         setDeleteAmenities(true)
     }

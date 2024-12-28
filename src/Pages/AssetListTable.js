@@ -14,7 +14,6 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash,Pro
 import Button from 'react-bootstrap/Button';
 function AssetListTable(props) {
 
-console.log("props asste",props)
 
     const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -29,7 +28,6 @@ const [assign, setAssign] = useState('')
 
 
     const handleShowDots = (id) => {
-      console.log("id",id, showDots)
         setShowDots(!showDots)
       }
 
@@ -47,7 +45,6 @@ const [assign, setAssign] = useState('')
 
 
       const handleEdit = (item) => {
-console.log("item",item)
 props.OnEditAsset(item)
 
       }

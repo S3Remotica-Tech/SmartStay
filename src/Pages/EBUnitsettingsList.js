@@ -13,7 +13,6 @@ const EBBillingUnitlist = (props) => {
 
     const handleShowDots = () => {
         setShowDots(!showDots)
-        console.log("handle edit works");
 
     }
 

@@ -35,13 +35,11 @@ import {
 
 function CheckOut(props) {
 
-  console.log("props",props);
   
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log("state for cHECKoUT", state);
 
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -61,7 +59,6 @@ function CheckOut(props) {
     useState("");
 
   useEffect(() => {
-    console.log("===customerrolePermission[0]", props.customerrolePermission);
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
       props.customerrolePermission[0]?.role_permissions[6]?.per_view == 1
@@ -73,7 +70,6 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
 
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -86,7 +82,6 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    console.log("===rolePermission", props.customerrolePermission[0]);
 
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -198,14 +193,12 @@ function CheckOut(props) {
   }
 
   const handleDelete = (checkout) => {
-    console.log("Delete clicked for card", checkout);
     setActiveDotsId(null);
     setDeleteCheckOutCustomer(checkout);
     setModalType("delete");
   };
 
   const confirmDelete = () => {
-    console.log("Confirmed deletion");
     if (deleteCheckOutCustomer.ID) {
       dispatch({
         type: "DELETECHECKOUTCUSTOMER",
@@ -218,15 +211,13 @@ function CheckOut(props) {
     setModalType(null);
   };
 
-  console.log("checkoutcus",currentCustomers);
   
 
   const [activeRow,setActiveRow]= useState(null)
 
   const toggleMoreOptions = (id,checkout) => {
    
-    console.log("checkout",checkout);
-    console.log("checkout",id);
+  
     
     setCheckOutConfirm(checkout)
     if (activeDotsId === id) {
@@ -550,7 +541,6 @@ function CheckOut(props) {
               <tbody>
                 {checkOutCustomer && checkOutCustomer.length > 0 && checkOutCustomer.map((checkout,index) => {
                   //  let Dated = new Date(customer.joining_date);
-                  //  console.log("Dated..?", Dated);
 
                   //  let day = Dated.getDate();
                   //  let month = Dated.getMonth() + 1;
@@ -558,7 +548,6 @@ function CheckOut(props) {
                   // let formattedDate = `${year}/${month}/${day}`;
 
                   let Dated = new Date(checkout.CheckoutDate);
-                  console.log("Dated..?", Dated);
 
                   let day = Dated.getDate();
                   let month = Dated.getMonth(); // Get the zero-indexed month
@@ -586,10 +575,8 @@ function CheckOut(props) {
                   // Format the date as YYYY Mon DD
                   let formattedDate = `${year} ${formattedMonth} ${day}`;
 
-                  console.log("Formatted Date:", formattedDate);
 
                   let createDated = new Date(checkout.createdat);
-                  console.log("Dated..?", Dated);
 
                   let day1 = createDated.getDate();
                   let month1 = createDated.getMonth() + 1;

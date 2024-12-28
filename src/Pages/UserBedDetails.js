@@ -99,7 +99,6 @@ const [showLoaders, setShowLoaders] = useState(false)
 const [selectedItems, setSelectedItems] = useState('')
 
 const handleInvoiceDetail = (item) => {
-  console.log("item invoice", item)
   setSelectedItems(item)
   if (item.User_Id) {
     const originalDate = new Date(item.Date);
@@ -394,12 +393,10 @@ useEffect(() => {
   const itemsPerPages = 7;
   const totalPagesFor = Math.ceil(filteredDatas.length / itemsPerPages);
 
-  // console.log("totalPagesFor", totalPagesFor)
   const indexOfLastItems = currentPages * itemsPerPages;
   const indexOfFirstItems = indexOfLastItems - itemsPerPages;
   const currentItemsForInvoice = filteredDatas.slice(indexOfFirstItems, indexOfLastItems);
 
-  // console.log("currentItemsForInvoice", currentItemsForInvoice)
 
 
   const handleNextInvoice = () => {

@@ -74,7 +74,6 @@ function Settings() {
     setEbRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1) {
         setSettingRole("");
@@ -85,7 +84,6 @@ function Settings() {
 
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_view == 1
@@ -99,7 +97,6 @@ function Settings() {
 
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_create == 1
@@ -112,7 +109,6 @@ function Settings() {
 
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_delete == 1
@@ -123,7 +119,6 @@ function Settings() {
     }
   }, [ebrolePermission]);
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_edit == 1
@@ -135,7 +130,6 @@ function Settings() {
   }, [ebrolePermission]);
 
 
-  console.log("filterall",state.UsersList.hostelList);
   
   const handleTabClick = (tabName) => {
     setSelectedTab(tabName);
@@ -341,12 +335,10 @@ setunitError(state.Settings.ebUnitError)
   const tokenCookies = cookies.get('token');
 
 
-  // console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
 
   const [editunit, setEditUnit] = useState('')
   const [editamount, setEditAmount] = useState('')
   const [editHostel, setEditHostel] = useState({ id: '', name: '' })
-  console.log("editHostel", editHostel);
   const [isModified, setIsModified] = useState(false);
   const [editamounterrormsg,setEditAmountErrmsg] = useState('')
   const [show, setShow] = useState(false);
@@ -363,7 +355,6 @@ setunitError(state.Settings.ebUnitError)
   }, [])
 
   const [data, setData] = useState([])
-  console.log("dataforeb",data);
   
 
   useEffect(() => {
@@ -376,7 +367,6 @@ setunitError(state.Settings.ebUnitError)
       setTimeout(() => {
         dispatch({ type: 'EB-BILLING-UNIT-LIST' })
         setData(state.Settings.EBBillingUnitlist.eb_settings) 
-        console.log("get ebamount list executed",state.Settings.addEbbillingUnitStatuscode)
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_EB_BILLING_STATUS_CODE' })
@@ -387,7 +377,6 @@ setunitError(state.Settings.ebUnitError)
 
   // useEffect(() => {
   //   if (state.Settings.getebStatuscode === 200) {
-  //     console.log("getexcuted");
       
   //     setData(state.Settings.EBBillingUnitlist.eb_settings) 
   //     setTimeout(() => {
@@ -403,7 +392,6 @@ setunitError(state.Settings.ebUnitError)
 
 
   const handleEdit = (item) => {
-    console.log("item", item);
     setShow(true);
     setEditUnit(item.unit)
     setEditAmount(item.amount)
@@ -411,7 +399,6 @@ setunitError(state.Settings.ebUnitError)
   }
 
   const handleClose = () => {
-    console.log("edit closed");
     setShow(false)
   }
 
@@ -472,7 +459,6 @@ setunitError(state.Settings.ebUnitError)
     }
   }, [state.createAccount?.statusCodeForAccount])
 
-  console.log("state for settings", state)
 
 
   const [value, setValue] = React.useState('1');
@@ -484,7 +470,6 @@ setunitError(state.Settings.ebUnitError)
   const [selectedHostel, setSelectedHostel] = useState('');
   const [unit, setUnit] = useState(1);
   const [amount, setAmount] = useState(0)
-  console.log("selectedHostel", selectedHostel);
 
   const [hostelerrormsg, setHostelErrmsg] = useState('');
   const [amounterrormsg, setAmountErrmsg] = useState('');
@@ -613,7 +598,6 @@ if(!amount){
     return pageNumbers;
   };
 
-  console.log("state.UsersList.hostelList",state.Settings.EBBillingUnitlist.eb_settings);
   
 
   const theme = useTheme();

@@ -12,13 +12,10 @@ import { CloseCircle } from "iconsax-react";
 function AssignBooking (props){
 
   const state = useSelector((state) => state);
-  console.log("state...",state)
-  console.log("propss",props);
-  
+
   const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState('');
-  console.log("firstName",firstName)
   const [lastName, setLastName] = useState('');
   const [mobileno, setMobileNo] = useState('');
   const [email, setEmail] = useState('');
@@ -51,9 +48,7 @@ const[advanceError,setAdavanceError] = useState("")
 
  const [bedDetails, setBedDetails] = useState([]);
 
-  console.log(props.assignBooking,"?????????");
 
-console.log("assigning", props.uniqueostel_Id);
   useEffect(() => {
     dispatch({ type: "COUNTRYLIST" });
   }, [])
@@ -170,7 +165,6 @@ const MobileNumber = `${countryCode}${mobileno}`;
 
 //   //   const newdate = props.assignBooking.joining_date
 //   //  const joiningdate =  newdate.toLocaleDateString('en-GB') 
-//   //   console.log("dateee",joiningdate);
 //   const newdate = props.assignBooking.joining_date;
 
 // if (newdate) {
@@ -181,12 +175,9 @@ const MobileNumber = `${countryCode}${mobileno}`;
 //         const joiningdate = dateObject.toLocaleDateString('en-GB');
 //         setJoiningDate (joiningdate)
      
-//         console.log("dateee", joiningdate);
 //     } else {
-//         console.error("Invalid date format:", newdate);
 //     }
 // } else {
-//     console.error("Joining date is missing!");
 // }
 
     
@@ -213,18 +204,14 @@ useEffect(() => {
     //   if (!isNaN(dateObject)) {
     //     const formattedDate = dateObject.toLocaleDateString('en-GB'); // Format the date
     //     setJoiningDate(formattedDate); // Update the state
-    //     console.log('Formatted Date:', formattedDate);
     //   } else {
-    //     console.error('Invalid date format:', newdate);
     //   }
     // } else {
-    //   console.error('Joining date is missing!');
     // }
   }
 }, [props.assignBooking]);
 
 
-console.log("props.assignBooking",props.assignBooking)
 
 // const validateAssignField = (value, fieldName) => {
 //   const stringValue = String(value).trim();
@@ -313,10 +300,7 @@ const validateAssignField = (value, fieldName) => {
   }
 };
 
-console.log('MobileNumber',MobileNumber)
 
-
-console.log("checkin",props.uniqueostel_Id)
 
   
 const handleSubmit = (event) => {
@@ -350,7 +334,6 @@ const handleSubmit = (event) => {
     formattedDate = date.toISOString().split("T")[0];
   } catch (error) {
     setDateError("Date is required.");
-    console.error(error);
     return;
   }
   const payload = {
@@ -364,17 +347,7 @@ const handleSubmit = (event) => {
       rent_amount: rentamount,
       id: props.assignBooking.id,
   };
-  console.log("Floor:", floor);
-console.log("Room:", room);
-console.log("Bed:", bed);
-console.log("Hostel ID:", hostalId);
-console.log("Joining Date:", formattedDate);
-console.log("Advance Amount:", Advanceamount);
-console.log("Rent Amount:", rentamount);
-console.log("Booking ID:", props.assignBooking.id);
 
-
-  console.log("Payload", payload); // Log the payload to the console
 
   dispatch({
       type: "ASSIGN_BOOKING",
@@ -412,13 +385,11 @@ console.log("Booking ID:", props.assignBooking.id);
       }
     }
   };
-  // console.log("floorids",state.UsersList.hosteldetailslist.floor_id)
   const handleFloor = (e) => {
     const selectedFloor = e.target.value; // Get the selected floor ID
   setFloor(selectedFloor);
     
     if (selectedFloor) {
-      console.log("selectedfloor",selectedFloor);
       
       // Dispatch the action to fetch room details based on floor ID and hostel ID
       // dispatch({
@@ -429,7 +400,6 @@ console.log("Booking ID:", props.assignBooking.id);
         type: "ROOMCOUNT",
         payload: { floor_Id: selectedFloor, hostel_Id: hostalId },
       });
-      console.log("statuss",state)
       setfloorError(""); // Clear any existing floor error
     } else {
       setfloorError("Please select a valid floor."); // Set an error if no floor is selected
@@ -455,7 +425,6 @@ console.log("Booking ID:", props.assignBooking.id);
     formattedDate = date.toISOString().split("T")[0];
   } catch (error) {
     setDateError("Date is required.");
-    console.error(error);
     return;
   }
   
@@ -467,7 +436,6 @@ console.log("Booking ID:", props.assignBooking.id);
         joining_date: formattedDate, 
       };
   
-      console.log("Dispatching Payload:", payload); // Log payload to console for debugging
   
       dispatch({
         type: "BOOKINGBEDDETAILS",
@@ -500,7 +468,6 @@ console.log("Booking ID:", props.assignBooking.id);
     
   //   if (Roomamountfilter.length !=0) {
   //     setAdvanceamount(Roomamountfilter[0].bed_amount)
-  //     console.log("Roomamountfilter",Roomamountfilter[0].bed_amount);
   //   }
   //   setBedError("");
   //   setamountError('')
@@ -1032,13 +999,9 @@ console.log("Booking ID:", props.assignBooking.id);
 //                                         >
 //                                           {state.UsersList?.countrycode?.country_codes?.map(
 //                                             (item) => {
-//                                               console.log("itemImage", item);
 
 //                                               return (
-//                                                 console.log(
-//                                                   "item.country_flag",
-//                                                   item.country_flag
-//                                                 ),
+//                                                ,
 //                                                 (
 //                                                   <>
 //                                                     <option

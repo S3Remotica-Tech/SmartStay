@@ -11,7 +11,6 @@ import Skeleton from "react-loading-skeleton";
 
 function UserListCompliants(props){
     const state = useSelector(state => state)
-    console.log("state.Compliant",state)
   
   const [loading, setLoading] = useState(false);
  
@@ -212,7 +211,6 @@ function UserListCompliants(props){
                      currentRowTransaction && currentRowTransaction?.map((user) => {
                      
                         let Dated = new Date(user.complaint_date);
-                            console.log("Dated..?", Dated);
 
                             let day = Dated.getDate();
                             let month = Dated.getMonth() + 1; 

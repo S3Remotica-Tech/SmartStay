@@ -19,7 +19,6 @@ import { propsToClassKey } from "@mui/styles";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log("state,,,,", state);
   const dispatch = useDispatch();
 
   const invoicerowsPerPage = 10;
@@ -198,24 +197,20 @@ function UserListInvoice(props) {
           >
             {currentRowinvoice?.map((view) => {
               let Dated = new Date(view.Date);
-              console.log("Dated..?", Dated);
 
               let day = Dated.getDate();
               let month = Dated.getMonth() + 1; // Months are zero-based
               let year = Dated.getFullYear();
 
               let formattedDate = `${day}/${month}/${year}`;
-              console.log("Formatted Date:", formattedDate);
 
               let dueDated = new Date(view.DueDate);
-              console.log("dueDated..?", dueDated);
 
               let daydue = dueDated.getDate();
               let monthdue = dueDated.getMonth() + 1; // Months are zero-based
               let yeardue = dueDated.getFullYear();
 
               let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
-              console.log("DueformattedDate:", DueformattedDate);
 
               return (
                 <tr key={view.id} style={{ marginTop: "20px" }}>

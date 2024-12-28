@@ -72,7 +72,6 @@ function UserlistForm(props) {
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
-  console.log("RoomRent", RoomRent);
 
   const [BalanceDue, setBalanceDue] = useState("");
   const [PaymentType, setPaymentType] = useState("");
@@ -109,14 +108,12 @@ function UserlistForm(props) {
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
 
-  console.log("selectedDate", selectedDate);
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
 
   const state = useSelector((state) => state);
-  console.log("state...", state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
 
@@ -315,7 +312,6 @@ function UserlistForm(props) {
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   },[])
-  console.log("selectedHostel",hostel_Id)
 
   // const handleHostelId = (e) => {
   //   const selectedHostelId = e.target.value;
@@ -413,14 +409,10 @@ function UserlistForm(props) {
     setRoomError("");
   };
 
-  console.log(
-    "state.UsersList.roomdetails[0].bed_details",
-    state.UsersList.roomdetails
-  );
+ 
 
   const handleBed = (e) => {
     setBed(e.target.value);
-    console.log("e", e.target.value);
 
     const Bedfilter =
       state?.UsersList?.roomdetails &&
@@ -436,7 +428,6 @@ function UserlistForm(props) {
 
     if (Roomamountfilter.length != 0) {
       setRoomRent(Roomamountfilter[0].bed_amount);
-      console.log("Roomamountfilter", Roomamountfilter[0].bed_amount);
     }
 
     setBedError("");
@@ -451,7 +442,6 @@ function UserlistForm(props) {
   //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == Bed)
 
   //   if (Roomamountfilter.length !=0) {
-  //     console.log("Roomamountfilter",Roomamountfilter);
   //   }
   //   setRoomRent(Roomamountfilter)
   //  },[hostel_Id,Floor,Rooms, Bed])
@@ -459,7 +449,6 @@ function UserlistForm(props) {
   const handleRoomRent = (e) => {
     const value = e.target.value;
     setRoomRent(e.target.value);
-    console.log("roomrentvalue", value);
     setRoomRentError("");
   };
 
@@ -1035,10 +1024,7 @@ function UserlistForm(props) {
                           {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
                               return (
-                                console.log(
-                                  "item.country_flag",
-                                  item.country_flag
-                                ),
+                             
                                 (
                                   <>
                                     <option value={item.country_code}>

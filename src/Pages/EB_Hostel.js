@@ -422,7 +422,6 @@ function EB_Hostel(props) {
     ) {
       return;
     }
-    console.log("selectedDate", selectedDate);
     if ( Floor && Rooms && endmeter && selectedDate) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
@@ -529,10 +528,7 @@ function EB_Hostel(props) {
     return pageNumberselectricity;
   };
 
-  console.log(
-    "state.PgList?.EB_customerTable?.eb_details",
-    state.PgList?.EB_customerTable?.eb_details
-  );
+ 
 
   const transactionrowsPerPage = 10;
 

@@ -39,10 +39,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
 
-    console.log("state for walk in", state)
 
 
-    console.log("initialData", initialData)
 
 
 
@@ -165,12 +163,10 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     //             comments
     //         };
 
-    //         console.log('Submitting Customer Data:', updatedCustomer);
 
     //         if (onSubmit) {
     //             onSubmit(updatedCustomer);
     //         } else {
-    //             console.error('onSubmit prop is not provided.');
     //         }
 
     //         if (modalType === 'add') {
@@ -212,7 +208,6 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         );
 
 
-        console.log("isChanged", isChanged)
 
         if (initialData && !isChanged) {
             setIsChangedError('No changes detected in the form.');
@@ -276,7 +271,6 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
     };
 
-    console.log("countryCode", countryCode)
 
     const handleNameChange = (e) => {
         const value = e.target.value;
@@ -335,7 +329,6 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const handleCountryCodeChange = (e) => {
         const value = e.target.value;
         setIsChangedError('');
-        console.log("countryValue", value)
         setCountryCode(value);
         setGeneralError('');
         setCountryCodeError('');

@@ -59,7 +59,6 @@ function getFormattedRoomId(floor_Id, room_Id) {
         //     return `T${roomIdString.padStart(3, '0')}`;
         default:
             const floorAbbreviation = getFloorAbbreviation(floor_Id-1);
-            console.log("floorAbbreviation",floorAbbreviation,floor_Id );
             // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
             return `${roomIdString.padStart(3, '0')}`;
     }
@@ -311,12 +310,10 @@ function DashboardRoom(props) {
                     return item.Floor_Id == props.floorID && item.Hostel_Id == props.hostel_Id
                 })
             }
-            console.log("tempArray", tempArray);
             if (tempArray.length > 0) {
                 mergeArray = [...mergeArray, ...tempArray]
             }
         }
-        console.log("mergeArray", mergeArray);
         if (mergeArray.length > 0) {
             Swal.fire({
                 icon: 'warning',

@@ -16,7 +16,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 function SettingNewRole({ hostelid }) {
 
     const state = useSelector(state => state)
-    console.log("RolePage", state)
     const dispatch = useDispatch();
     const popupRef = useRef(null);
     const [showRole, setShowRole] = useState(false);

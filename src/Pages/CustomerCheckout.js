@@ -28,7 +28,6 @@ function CustomerCheckout(props){
     const [comments, setComments] = useState('');
     const [checkoUtDateError, setCheckOutDateError] = useState('')
     const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
-    console.log("dateDifference",dateDifference)
 
     const handleCloseCheckout=()=>{
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR'})
@@ -64,7 +63,6 @@ function CustomerCheckout(props){
 
         const formattedDate = moment(selectedDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const formattedrequestDate = moment(requestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-        // console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
     
         // if ( !setUniqostel_Id && !checkOutDate && !requestDate) {
         //   setGeneralError('Please select all mandatory fields');

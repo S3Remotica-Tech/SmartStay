@@ -75,7 +75,6 @@ useEffect(() => {
 }, []);
  
   useEffect(()=>{
-    console.log("setHostelId..?",state.login.selectedHostel_Id)
     setHostelId(state.login.selectedHostel_Id);
   },[state.login.selectedHostel_Id])
   
@@ -91,10 +90,8 @@ useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
       (item) => item.hostel_id == hostelId
     );
-    console.log("FilteredEBAmount:", FilterEbAmount);
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
-      console.log("unitAmount..123?", FilterEbAmount[0]?.amount);
       setUnitAmount(FilterEbAmount[0]?.amount);
     } else {
       console.log("unitAmount is not a valid array or is empty.");
@@ -157,13 +154,11 @@ useEffect(() => {
   };
 
   const handleDeleteShow = (item) => {
-    console.log("itemhhjhj",item)
     setDeleteShow(true);
     setDeleteId(item.eb_Id)
   };
   
 
-  console.log("state", state);
   useEffect(() => {
     dispatch({ type: "EBLIST" });
    
@@ -193,18 +188,15 @@ useEffect(()=>{
     selectedDate: "", 
   });
   const handleEditRoomReading = (item) => {
-    console.log("item123", item);
     setUnitAmount('')
     setebEditShow(true);
     setSelectedHostel(item.hostel_Id);
     setFloor(item.floor_id);
     setRooms(item.room_id);
 
-    console.log(Rooms,"Rooms----------------------");
     
     setReading(item.reading);
     const formattedJoiningDate = item.date ? new Date(item.date) : null;
-    console.log("itemEdit...///", formattedJoiningDate);
     setSelectedDate(formattedJoiningDate);
     setId(item.eb_Id)
     setRoomId(item.Room_Id) 
@@ -318,13 +310,7 @@ useEffect(()=>{
     : selectedDate !== initialStateAssign.selectedDate)  ||
     String(reading) !== String(initialStateAssign.reading) 
 
-    console.log("Comparison Results:", {
-      selectedHostelComparison: selectedHostel !== initialStateAssign.selectedHostel,
-      FloorComparison: Floor !== initialStateAssign.Floor,
-      RoomsComparison: Rooms !== initialStateAssign.Rooms,
-      selectedDateComparison: selectedDate !== initialStateAssign.selectedDate,
-      readingComparison: reading !== initialStateAssign.reading,
-    });
+   
 
     if (!isChangedBed) {
       setFormError("No changes detected.");
@@ -340,7 +326,6 @@ try {
   formattedDate = date.toISOString().split("T")[0];
 } catch (error) {
   setDateError("Date is required.");
-  console.error(error);
   return;
 }
     dispatch({
@@ -741,7 +726,6 @@ if (v.date && v.date != '0000-00-00') {
     formattedDate = `${day}/${month}/${year}`;
 }
 
-console.log('Formatted Date:', formattedDate);
 
 
                   return (

@@ -27,9 +27,6 @@ function StaticExample({ show, handleClose, currentItem }) {
     const dispatch = useDispatch();
 
 
-    console.log("state", state)
-
-    console.log("currentItem", currentItem)
 
     const [initialState, setInitialState] = useState({
         pglist: '',
@@ -200,7 +197,6 @@ function StaticExample({ show, handleClose, currentItem }) {
         } else {
             formattedInitialDate = '';
         }
-        console.log("initialState",initialState);
         
 
         const isChanged =
@@ -209,7 +205,6 @@ function StaticExample({ show, handleClose, currentItem }) {
             formattedInitialDate !== formattedSelectedDate ||
             Number(initialState.floor_id) !== Number(Floor);
 
-        console.log("isChanged", isChanged, initialState, pglist, room, Floor, selectedDate)
 
         if (!isChanged) {
             setNoChangeError('No changes detected');
@@ -284,7 +279,6 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
 
-    console.log("pglist", room)
     return (
         <div
             className="modal show"

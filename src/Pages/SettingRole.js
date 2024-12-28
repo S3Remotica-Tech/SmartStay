@@ -18,7 +18,6 @@ import Modal from "react-bootstrap/Modal";
 
 function RolePage(){
   const state = useSelector(state => state)
-console.log("RolePage",state)
 const dispatch = useDispatch();
 const popupRef = useRef(null);
 
@@ -45,7 +44,6 @@ const popupRef = useRef(null);
   }
 };
 const handleEditUserRole =(item)=>{
-  console.log("item...?",item)
   setEditPage(item)
   setRoleEdit(true)
   setActiveRow(null)
