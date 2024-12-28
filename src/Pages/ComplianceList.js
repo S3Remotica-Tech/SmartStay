@@ -21,6 +21,20 @@ const ComplianceList = (props) => {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
 
+  const [showDots, setShowDots] = useState(false)
+  const [status, setStatus] = useState('')
+  const [statusError, setStatusError] = useState('')
+  const [compliant, setCompliant] = useState('')
+  const [complianceError, setComplianceError] = useState('')
+  const [showCard, setShowCard] = useState(false);
+  const [showChangeStatus, setShowChangeStatus] = useState(false);
+  const [showAssignComplaint, setShowAssignComplaint] = useState(false);
+
+  const popupRef = useRef(null);
+
+
+
+
   function getFloorName(floor_Id) {
     if (floor_Id === 1) {
       return 'Ground Floor';
@@ -69,7 +83,6 @@ const ComplianceList = (props) => {
         return `T${roomIdString.padStart(3, '0')}`;
       default:
         const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-        console.log("floorAbbreviation", floorAbbreviation, floor_Id);
         // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
         return `${roomIdString.padStart(3, '0')}`;
     }
@@ -95,12 +108,7 @@ const ComplianceList = (props) => {
   }
 
 
-  const [showDots, setShowDots] = useState(false)
-  const [status, setStatus] = useState('')
-  const [statusError, setStatusError] = useState('')
-  const [compliant, setCompliant] = useState('')
-  const [complianceError, setComplianceError] = useState('')
-   const popupRef = useRef(null);
+
   const handleShowDots = () => {
     setShowDots(!showDots)
   }
@@ -110,54 +118,21 @@ const ComplianceList = (props) => {
   };
 
   const handleassignshow = () => {
-    console.log('Assign button clicked'); // Add a log here
     props.onAssignshow()
   }
-
-  console.log("handleSow props", props)
-
-  useEffect(() => {
-    dispatch({ type: 'GETUSERSTAFF' })
-  }, [])
-
-  useEffect(() => {
-    const appearOptions = {
-      threshold: 0.5
-    };
-    const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-        else {
-          entry.target.classList.add('appear');
-          appearOnScro1l.unobserve(entry.target);
-        }
-      })
-    }, appearOptions)
-    faders.forEach(fader => {
-      appearOnScro1l.observe(fader);
-    })
-  });
-  //commentcard
-  const [showCard, setShowCard] = useState(false);
 
   const handleIconClick = () => {
     setShowCard(!showCard);
   };
 
-  //change status
-  const [showChangeStatus, setShowChangeStatus] = useState(false);
+
+
+
 
   const handleChangeStatusClick = (complaints) => {
-    console.log("compliancesss", complaints);
-    // props.onEditComplaints(complaints)
-    // setShowChangeStatus(!showChangeStatus); 
     if (status === '') {
       setComplianceError('Please Select Compliant')
     } else {
-      console.log("COMPLIANCE");
 
       dispatch({ type: 'COMPLIANCE-CHANGE-STATUS', payload: { type: 'status_change', assigner: compliant, status: status, id: complaints.ID, hostel_id: complaints.Hostel_id } })
     }
@@ -170,10 +145,8 @@ const ComplianceList = (props) => {
   }
 
   //assign complaint
-  const [showAssignComplaint, setShowAssignComplaint] = useState(false);
 
   const handleAssignComplaintClick = (Compliance) => {
-    console.log("compliancesss", Compliance);
     if (compliant === '') {
       setStatusError('Please Select status')
     }
@@ -204,8 +177,36 @@ const ComplianceList = (props) => {
       setStatusError("")
     }
   }
-  // state.Settings.addSettingStaffList
-  console.log("state.Settings.addSettingStaffList", state.Settings.addSettingStaffList);
+
+
+
+  useEffect(() => {
+    dispatch({ type: 'GETUSERSTAFF' })
+  }, [])
+
+  useEffect(() => {
+    const appearOptions = {
+      threshold: 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        else {
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader => {
+      appearOnScro1l.observe(fader);
+    })
+  });
+ 
+
+ 
 
   useEffect(() => {
     if (state.ComplianceList.complianceChangeStatus === 200) {
@@ -233,6 +234,10 @@ const ComplianceList = (props) => {
           };
         }, []);
 
+
+
+
+
   return (
     <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
       <Card.Body style={{ padding: 20 }}>
@@ -246,9 +251,7 @@ const ComplianceList = (props) => {
                 <label style={{ fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                   <div style={{ marginTop: 5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px', borderRadius: '60px', marginRight: '10px', fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints && props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
-                  <div style={{ marginTop: 5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px', borderRadius: '60px', fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
-                    {/* {props.complaints && props.complaints.Floor_id} */}
-                    {/* Ground floor */}
+                  <div style={{ marginTop: 5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px', borderRadius: '60px', fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}        
                   </div>
                 </div>
               </div>
@@ -265,7 +268,6 @@ const ComplianceList = (props) => {
                   style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                   <div >
 
-                    {/* Change status */}
                     <div
                       className={"mb-2"}
                       onClick={handleChangeStatusOpenClose}
@@ -298,7 +300,6 @@ const ComplianceList = (props) => {
                     </div>
 
 
-                    {/* Assign Complaint */}
                     <div
                       className={"mb-2"}
                       onClick={handleAssignOpenClose}
@@ -341,7 +342,6 @@ const ComplianceList = (props) => {
                         }
                       }}
                       style={{
-                        // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
                         cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
                       }}
                     >
@@ -446,7 +446,6 @@ const ComplianceList = (props) => {
               <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>
                 {props.complaints.Assign === '' || props.complaints.Assign == null ? (
                   <p
-                    // onClick={handleassignshow}
                     style={{ color: '#1E45E1', fontSize: '16px' }}>+ Assign</p>
                 ) : (
                   props.complaints.Assign

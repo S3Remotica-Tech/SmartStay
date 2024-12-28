@@ -116,7 +116,7 @@ function SettingCompliance({ hostelid }) {
 
     return (
         <div className="container">
-            <div className='d-flex row mb-4 mt-4'>
+            <div className='d-flex row mb-4 mt-4'  style={{position:'sticky' , top:20, backgroundColor:'white'}}>
                 <Col>
                     <h4 style={{
                         fontSize: 18,

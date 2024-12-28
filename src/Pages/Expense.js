@@ -789,7 +789,15 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
       <div className='container'>
 
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex justify-content-between align-items-center mb-3"
+           style={{
+            position: 'sticky',
+            top: 25,
+            backgroundColor: 'white',
+            zIndex: 10, 
+            padding: '10px',
+          }}
+        >
           <div className='d-flex align-items-center'>
             <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
         

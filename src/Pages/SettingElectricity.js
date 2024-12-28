@@ -210,7 +210,7 @@ const SettingElectricity = ({ hostelid }) => {
   }, [state.PgList.checkEBList])
   return (
     <Container className="mt-4">
-      <div className='d-flex row mb-4'>
+      <div className='d-flex row mb-4'   style={{position:'sticky' , top:20, backgroundColor:'white'}} >
         <Col>
           <h4 style={{
             fontSize: 18,

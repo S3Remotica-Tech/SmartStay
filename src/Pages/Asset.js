@@ -426,7 +426,16 @@ useEffect(()=>{
       <div className='container mt-3'>
 
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex justify-content-between align-items-center mb-3"
+            style={{
+              position: 'sticky',
+              top: 25,
+              backgroundColor: 'white',
+              zIndex: 10, 
+              padding: '10px',
+              height:83
+            }}
+        >
           <div>
             <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
           </div>
