@@ -2,14 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Table,Button} from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import Image from "react-bootstrap/Image";
 import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
-import CryptoJS from "crypto-js";
 import Filters from "../Assets/Images/Filters.svg";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Modal from "react-bootstrap/Modal";
@@ -17,10 +16,9 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
-import Booking from "./UserlistBookings";
 import excelimg from "../Assets/Images/New_images/excel (5).png";
 import CustomerReAssign from "./CustomerReAssign";
-import {Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -78,16 +76,16 @@ function UserList(props) {
   const [createby, setcreateby] = useState("");
   const [amnityEdit, setamnityEdit] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
- 
-   useEffect(() => {
-      setUniqostel_Id(state.login.selectedHostel_Id)
-    }, [state?.login?.selectedHostel_Id]);
+
+  useEffect(() => {
+    setUniqostel_Id(state.login.selectedHostel_Id);
+  }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
     setLoading(true);
     dispatch({
       type: "USERLIST",
-      payload: { hostel_id:uniqueostel_Id},
+      payload: { hostel_id: uniqueostel_Id },
     });
   }, [uniqueostel_Id]);
 
@@ -126,7 +124,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[4]?.per_edit == 1
@@ -137,7 +134,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[4]?.per_delete == 1
@@ -149,7 +145,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[5]?.per_create == 1
@@ -161,7 +156,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[7]?.per_create == 1
@@ -172,7 +166,6 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
   useEffect(() => {
-
     if (
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[6]?.per_create == 1
@@ -184,7 +177,6 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-   
     // Only filter when value is "1"
     if (value === "1") {
       const FilterUser = state.UsersList.Users.filter((item) => {
@@ -218,7 +210,7 @@ function UserList(props) {
   ]);
   // useEffect(() => {
   //   let FilterUser = [];
-  
+
   //   if (value === "1") {
   //     FilterUser = Array.isArray(state.UsersList?.Users)
   //       ? state.UsersList.Users?.filter((item) =>
@@ -238,23 +230,21 @@ function UserList(props) {
   //         )
   //       : [];
   //   }
-  
+
   //   setFilteredUsers(FilterUser)
   // }, [
-  //   filterInput, 
-  //   state.UsersList?.Users, 
-  //   value, 
+  //   filterInput,
+  //   state.UsersList?.Users,
+  //   value,
   //   state?.Booking?.CustomerBookingList?.bookings,
   //   state.UsersList?.hostelList,
   // ]);
-  
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
   };
 
- 
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user.Name);
@@ -282,8 +272,6 @@ function UserList(props) {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
- 
-
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
@@ -309,7 +297,6 @@ function UserList(props) {
     setSearch(false);
   };
 
-
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -323,49 +310,47 @@ function UserList(props) {
     };
   }, []);
 
- 
-
-  const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const itemsPerPage = 7;
+  // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  console.log("currentItems",currentItems)
+  console.log("currentItems", currentItems);
 
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li key={i} style={{ margin: "0 5px" }}>
-          <button
-            style={{
-              padding: "5px 10px",
-              color: i === currentPage ? "#007bff" : "#000",
-              cursor: "pointer",
-              border: i === currentPage ? "1px solid #ddd" : "none",
-              backgroundColor:
-                i === currentPage ? "transparent" : "transparent",
-            }}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </button>
-        </li>
-      );
-    }
-    return pageNumbers;
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
   };
+
+  // const renderPageNumbers = () => {
+  //   const pageNumbers = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     pageNumbers.push(
+  //       <li key={i} style={{ margin: "0 5px" }}>
+  //         <button
+  //           style={{
+  //             padding: "5px 10px",
+  //             color: i === currentPage ? "#007bff" : "#000",
+  //             cursor: "pointer",
+  //             border: i === currentPage ? "1px solid #ddd" : "none",
+  //             backgroundColor:
+  //               i === currentPage ? "transparent" : "transparent",
+  //           }}
+  //           onClick={() => handlePageChange(i)}
+  //         >
+  //           {i}
+  //         </button>
+  //       </li>
+  //     );
+  //   }
+  //   return pageNumbers;
+  // };
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -377,7 +362,7 @@ function UserList(props) {
     setShowMenu(true);
     setAddBasicDetail(true);
     setEditObj(u);
-    setemail_id(u.Email)
+    setemail_id(u.Email);
   };
 
   const [showInput, setShowInput] = useState(false);
@@ -393,21 +378,17 @@ function UserList(props) {
     setIsDownloadTriggered(false);
   };
 
-
-
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       setFilteredUsers(state.UsersList.Users);
 
-      const uniqueUsersList = Array.isArray(state.UsersList?.Users)
+      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
-
- 
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
@@ -487,38 +468,37 @@ function UserList(props) {
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   useEffect(() => {
-    const users = Array.isArray(state.UsersList?.Users) ? state.UsersList.Users : [];
-    
+    const users = Array.isArray(state.UsersList?.Users)
+      ? state.UsersList.Users
+      : [];
+
     // Filter Particular User Details
     const ParticularUserDetails = users.filter((item) => {
-      return item.User_Id == customerUser_Id; 
+      return item.User_Id == customerUser_Id;
     });
-  
+
     setUserDetails(ParticularUserDetails);
-  
+
     if (ParticularUserDetails.length > 0) {
       const User_Id = ParticularUserDetails[0]?.User_Id;
-  
-      const invoices = Array.isArray(state.InvoiceList?.Invoice) ? state.InvoiceList.Invoice : [];
-    
+
+      const invoices = Array.isArray(state.InvoiceList?.Invoice)
+        ? state.InvoiceList.Invoice
+        : [];
+
       const filteredData = invoices.filter((user) => user.User_Id == User_Id);
-  
+
       setFilteredDataForUser(filteredData);
     } else {
-      setFilteredDataForUser([]); 
+      setFilteredDataForUser([]);
     }
-  }, [
-    customerUser_Id, 
-    state.UsersList?.Users, 
-    state.InvoiceList?.Invoice, 
-  ]);
- 
+  }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id:uniqueostel_Id},
+        payload: { hostel_id: uniqueostel_Id },
       });
 
       setHostelIds(propsHostel);
@@ -673,7 +653,6 @@ function UserList(props) {
     }
   }, [id]);
 
-  
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
@@ -708,7 +687,6 @@ function UserList(props) {
       state.UsersList.customerdetails.all_amenities.length > 0 &&
       selectAmneties
     ) {
-     
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities?.filter((item) => {
           return item.Amnities_Id == selectAmneties;
@@ -787,7 +765,7 @@ function UserList(props) {
       setselectAmneties("");
     }
   };
- 
+
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false);
@@ -802,7 +780,6 @@ function UserList(props) {
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
- 
   const handleEdit = (v) => {
     setamnityEdit(v);
     setaddamenityShow(true);
@@ -850,30 +827,7 @@ function UserList(props) {
 
   const [ref_id, setRef_Id] = useState("");
 
-  const handleVerifyOtp = (customer_Id) => {
-    if (!kycOtpValue || !/^\d+$/.test(kycOtpValue)) {
-      Swal.fire({
-        icon: "warning",
-        title: "Please enter a valid otp",
-      });
-      return;
-    }
-    if (kycOtpValue) {
-      dispatch({
-        type: "KYCVALIDATEOTPVERIFY",
-        payload: {
-          user_id: id,
-          aadhar_number: aadhaarNo,
-          ref_id: ref_id,
-          otp: kycOtpValue,
-        },
-      });
-
-      setKycOtpValue("");
-      setAdhaarNo("");
-      setShowOtpValidation(false);
-    }
-  };
+  
 
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
@@ -891,7 +845,6 @@ function UserList(props) {
   const handleKycOtpChange = (e) => {
     setKycOtpValue(e.target.value);
   };
-  // Add form
   const [showbookingForm, setShowbookingForm] = useState(false);
   const toggleForm = () => {
     setShowbookingForm(!showbookingForm);
@@ -935,11 +888,9 @@ function UserList(props) {
     if (state.UsersList?.exportDetails?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
     }
-    
   }, [state.UsersList?.exportDetails?.response?.fileUrl]);
 
   useEffect(() => {
-   
     if (state.UsersList?.exportBookingDetails?.response?.fileUrl) {
       setExcelDownloadBooking(
         state.UsersList?.exportBookingDetails?.response?.fileUrl
@@ -948,8 +899,6 @@ function UserList(props) {
   }, [state.UsersList?.exportBookingDetails?.response?.fileUrl]);
 
   useEffect(() => {
-    
-    
     if (state.UsersList?.exportCheckoutDetails?.response?.fileUrl) {
       setExcelDownloadCheckout(
         state.UsersList?.exportCheckoutDetails?.response?.fileUrl
@@ -958,23 +907,20 @@ function UserList(props) {
   }, [state.UsersList?.exportCheckoutDetails?.response?.fileUrl]);
 
   useEffect(() => {
-    
     if (state.UsersList?.exportWalkinDetails?.response?.fileUrl) {
       setExcelDownloadChecIn(
         state.UsersList?.exportWalkinDetails?.response?.fileUrl
       );
     }
-    
   }, [state.UsersList?.exportWalkinDetails?.response?.fileUrl]);
 
- 
   const handleCustomerExcel = () => {
     if (value === "1") {
       dispatch({
         type: "EXPORTDETAILS",
         payload: {
           type: "customers",
-          hostel_id:uniqueostel_Id,
+          hostel_id: uniqueostel_Id,
         },
       });
       setIsDownloadTriggered(true);
@@ -985,7 +931,7 @@ function UserList(props) {
     if (value === "2") {
       dispatch({
         type: "EXPORTBOOKINGDETAILS",
-        payload: { type: "booking", hostel_id:uniqueostel_Id},
+        payload: { type: "booking", hostel_id: uniqueostel_Id },
       });
       setIsDownloadTriggered(true);
     }
@@ -1011,14 +957,11 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-   
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
       link.href = excelDownload;
       link.download = "smartstay_file.xlsx";
       link.click();
-
-      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownload("");
@@ -1109,7 +1052,6 @@ function UserList(props) {
         show={showbookingForm}
         handleClose={closeModal}
         setShowbookingForm={setShowbookingForm}
-        // allhost_id={allhost_id}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
       />
@@ -1139,6 +1081,9 @@ function UserList(props) {
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
+                  marginLeft:20,
+                  marginRight:20
+
                 }}
               >
                 Customers
@@ -1647,436 +1592,613 @@ function UserList(props) {
                       )}
 
                       {currentItems && currentItems.length > 0 && (
-                        <div style={{
-                          height: "410px",
-                          overflowY: "auto", 
-                          borderRadius: "24px",
-                          border: "1px solid #DCDCDC",
-                          // borderBottom:"none"
-                        }}>
-                        <Table
-                          responsive="md"
-                          className="Table_Design"
-                          style={{ border: "1px solid #DCDCDC",height: "400px",}}
+                        <div
+                          style={{
+                            // height: "400px",
+                            height: currentItems.length >= 6 ? "400px" : "auto",
+                            overflowY: "auto",
+                            borderRadius: "24px",
+                            border: "1px solid #DCDCDC",
+                            // borderBottom:"none"
+                          }}
                         >
-                          <thead
-                            style={{
-                              backgroundColor: "#E7F1FF",
-                            }}
+                          <Table
+                            responsive="md"
+                            className="Table_Design"
+                            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
                           >
-                            <tr>
-                              <th
-                                style={{
-                                  textAlign: "center",
-                                  fontFamily: "Gilroy",
-                                  color: "rgba(34, 34, 34, 1)",
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  borderTopLeftRadius: 24,
-                                }}
-                              >
-                                <img src={squre} height={20} width={20} />
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Name
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Paying Guest
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Email ID
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Mobile no
-                              </th>
+                            <thead
+                              style={{
+                                backgroundColor: "#E7F1FF",
+                              }}
+                            >
+                              <tr>
+                                <th
+                                  style={{
+                                    textAlign: "center",
+                                    fontFamily: "Gilroy",
+                                    color: "rgba(34, 34, 34, 1)",
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    borderTopLeftRadius: 24,
+                                  }}
+                                >
+                                  <img src={squre} height={20} width={20} />
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Name
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Paying Guest
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Email ID
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Mobile no
+                                </th>
 
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Room
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Bed
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "center",
-                                  fontFamily: "Gilroy",
-                                  color: "rgba(34, 34, 34, 1)",
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  borderTopRightRadius: 24,
-                                }}
-                              >
-                                {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Room
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Bed
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "center",
+                                    fontFamily: "Gilroy",
+                                    color: "rgba(34, 34, 34, 1)",
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    borderTopRightRadius: 24,
+                                  }}
+                                >
+                                  {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
         </div> */}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody style={{ textAlign: "center" }}>
-                            {loading
-                              ? Array.from({
-                                  length: currentItems?.length || 5,
-                                }).map((_, index) => (
-                                  <tr key={index}>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton
-                                        circle={true}
-                                        height={40}
-                                        width={40}
-                                      />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={80} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={50} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={50} />
-                                    </td>
-                                  </tr>
-                                ))
-                              : currentItems.map((user) => {
-                                  const imageUrl = user.profile || Profile;
-                                  return (
-                                    <tr
-                                      key={user.ID}
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: 600,
-                                        textAlign: "center",
-                                        marginTop: 10,
-                                      }}
-                                    >
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ textAlign: "center" }}>
+                              {loading
+                                ? Array.from({
+                                    length: currentItems?.length || 5,
+                                  }).map((_, index) => (
+                                    <tr key={index}>
                                       <td
                                         style={{
-                                          padding: "10px",
-                                          border: "none",
+                                          borderBottom:
+                                            index === 0
+                                              ? "none"
+                                              : "1px solid #DCDCDC",
                                         }}
                                       >
-                                        <img
-                                          src={squre}
-                                          height={20}
-                                          width={20}
-                                          style={{ marginTop: 10 }}
+                                        <Skeleton
+                                          circle={true}
+                                          height={40}
+                                          width={40}
                                         />
                                       </td>
                                       <td
                                         style={{
-                                          border: "none",
-                                          display: "flex",
                                           padding: "10px",
+                                          border: "none",
                                         }}
                                       >
-                                        <Image
-                                          src={imageUrl}
-                                          alt={user.Name || "Default Profile"}
-                                          roundedCircle
+                                        <Skeleton width={80} />
+                                      </td>
+                                      <td
+                                        style={{
+                                          padding: "10px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        <Skeleton width={120} />
+                                      </td>
+                                      <td
+                                        style={{
+                                          padding: "10px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        <Skeleton width={120} />
+                                      </td>
+                                      <td
+                                        style={{
+                                          padding: "10px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        <Skeleton width={120} />
+                                      </td>
+                                      <td
+                                        style={{
+                                          padding: "10px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        <Skeleton width={50} />
+                                      </td>
+                                      <td
+                                        style={{
+                                          padding: "10px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        <Skeleton width={50} />
+                                      </td>
+                                    </tr>
+                                  ))
+                                : currentItems.map((user) => {
+                                    const imageUrl = user.profile || Profile;
+                                    return (
+                                      <tr
+                                        key={user.ID}
+                                        style={{
+                                          fontSize: "16px",
+                                          fontWeight: 600,
+                                          textAlign: "center",
+                                          marginTop: 10,
+                                        }}
+                                      >
+                                        <td
                                           style={{
-                                            height: "40px",
-                                            width: "40px",
-                                            marginRight: "10px",
+                                            padding: "10px",
+                                            border: "none",
                                           }}
-                                          onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = Profile;
-                                          }}
-                                        />
-                                        <span
-                                          className="Customer_Name_Hover"
+                                        >
+                                          <img
+                                            src={squre}
+                                            height={20}
+                                            width={20}
+                                            style={{ marginTop: 10 }}
+                                          />
+                                        </td>
+                                        <td
                                           style={{
+                                            border: "none",
+                                            display: "flex",
+                                            padding: "10px",
+                                          }}
+                                        >
+                                          <Image
+                                            src={imageUrl}
+                                            alt={user.Name || "Default Profile"}
+                                            roundedCircle
+                                            style={{
+                                              height: "40px",
+                                              width: "40px",
+                                              marginRight: "10px",
+                                            }}
+                                            onError={(e) => {
+                                              e.target.onerror = null;
+                                              e.target.src = Profile;
+                                            }}
+                                          />
+                                          <span
+                                            className="Customer_Name_Hover"
+                                            style={{
+                                              fontSize: "16px",
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: "#1E45E1",
+                                              cursor: "pointer",
+                                              marginTop: 10,
+                                            }}
+                                            onClick={() =>
+                                              handleRoomDetailsPage(user)
+                                            }
+                                          >
+                                            {user.Name}
+                                          </span>
+                                        </td>
+
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "16px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "start",
+                                              fontSize: "14px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            {user.HostelName}
+                                          </span>
+                                        </td>
+                                        <td
+                                          style={{
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "16px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            paddingTop: 15,
+                                          }}
+                                        >
+                                          {user.Email}
+                                        </td>
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "16px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            whiteSpace: "nowrap",
+                                          }}
+                                        >
+                                          +
+                                          {user &&
+                                            String(user.Phone)?.slice(
+                                              0,
+                                              String(user.Phone).length - 10
+                                            )}{" "}
+                                          {user &&
+                                            String(user.Phone)?.slice(-10)}
+                                        </td>
+
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
                                             fontSize: "16px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
-                                            color: "#1E45E1",
+                                          }}
+                                        >
+                                          {" "}
+                                          {!user.Rooms ? "-" : user.Rooms}
+                                        </td>
+
+                                        <td
+                                          // className={user.Bed === 0 ? 'assign-bed' : ''}
+                                          // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
                                             cursor: "pointer",
+                                            textAlign: "start",
+                                            fontSize: "16px",
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
                                             marginTop: 10,
                                           }}
-                                          onClick={() =>
-                                            handleRoomDetailsPage(user)
-                                          }
                                         >
-                                          {user.Name}
-                                        </span>
-                                      </td>
-
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "16px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                        }}
-                                      >
-                                        <span
+                                          {!user.Bed ? "-" : user.Bed}
+                                        </td>
+                                        <td
                                           style={{
-                                            paddingTop: "3px",
-                                            paddingLeft: "10px",
-                                            paddingRight: "10px",
-                                            paddingBottom: "3px",
-                                            borderRadius: "60px",
-                                            backgroundColor: "#FFEFCF",
-                                            textAlign: "start",
-                                            fontSize: "14px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
+                                            paddingTop: 12,
+                                            border: "none",
                                           }}
                                         >
-                                          {user.HostelName}
-                                        </span>
-                                      </td>
-                                      <td
-                                        style={{
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "16px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          paddingTop: 15,
-                                        }}
-                                      >
-                                        {user.Email}
-                                      </td>
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "16px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                          whiteSpace: "nowrap",
-                                        }}
-                                      >
-                                        +
-                                        {user &&
-                                          String(user.Phone)?.slice(
-                                            0,
-                                            String(user.Phone).length - 10
-                                          )}{" "}
-                                        {user && String(user.Phone)?.slice(-10)}
-                                      </td>
+                                          {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "16px",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        {" "}
-                                        {!user.Rooms ? "-" : user.Rooms}
-                                      </td>
-
-                                      <td
-                                        // className={user.Bed === 0 ? 'assign-bed' : ''}
-                                        // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          cursor: "pointer",
-                                          textAlign: "start",
-                                          fontSize: "16px",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                        }}
-                                      >
-                                        {!user.Bed ? "-" : user.Bed}
-                                      </td>
-                                      <td
-                                        style={{
-                                          paddingTop: 12,
-                                          border: "none",
-                                        }}
-                                      >
-                                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
-
-                                        <div
-                                          style={{
-                                            cursor: "pointer",
-                                            height: 40,
-                                            width: 40,
-                                            borderRadius: 100,
-                                            border: "1px solid #EFEFEF",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            position: "relative",
-                                            zIndex: 1000,
-                                          }}
-                                          onClick={() =>
-                                            handleShowDots(user.ID)
-                                          }
-                                        >
-                                          <PiDotsThreeOutlineVerticalFill
-                                            style={{ height: 20, width: 20 }}
-                                          />
-                                          {activeRow === user.ID && (
-                                            <>
-                                              <div
-                                                ref={popupRef}
-                                                style={{
-                                                  cursor: "pointer",
-                                                  backgroundColor: "#fff",
-                                                  position: "absolute",
-                                                  right: 50,
-                                                  top: 20,
-                                                  width: 163,
-                                                  height: "auto",
-                                                  border: "1px solid #EBEBEB",
-                                                  borderRadius: 10,
-                                                  display: "flex",
-                                                  justifyContent: "start",
-                                                  padding: 10,
-                                                  alignItems: "center",
-                                                  zIndex: showDots
-                                                    ? 1000
-                                                    : "auto",
-                                                }}
-                                              >
+                                          <div
+                                            style={{
+                                              cursor: "pointer",
+                                              height: 40,
+                                              width: 40,
+                                              borderRadius: 100,
+                                              border: "1px solid #EFEFEF",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              position: "relative",
+                                              zIndex: 1000,
+                                            }}
+                                            onClick={() =>
+                                              handleShowDots(user.ID)
+                                            }
+                                          >
+                                            <PiDotsThreeOutlineVerticalFill
+                                              style={{ height: 20, width: 20 }}
+                                            />
+                                            {activeRow === user.ID && (
+                                              <>
                                                 <div
+                                                  ref={popupRef}
                                                   style={{
+                                                    cursor: "pointer",
                                                     backgroundColor: "#fff",
+                                                    position: "absolute",
+                                                    right: 50,
+                                                    top: 20,
+                                                    width: 163,
+                                                    height: "auto",
+                                                    border: "1px solid #EBEBEB",
+                                                    borderRadius: 10,
+                                                    display: "flex",
+                                                    justifyContent: "start",
+                                                    padding: 10,
+                                                    alignItems: "center",
+                                                    zIndex: showDots
+                                                      ? 1000
+                                                      : "auto",
                                                   }}
-                                                  className=""
                                                 >
-                                                  {!user.Bed && (
+                                                  <div
+                                                    style={{
+                                                      backgroundColor: "#fff",
+                                                    }}
+                                                    className=""
+                                                  >
+                                                    {!user.Bed && (
+                                                      <div
+                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                        onClick={() => {
+                                                          if (
+                                                            !customerAddPermission
+                                                          ) {
+                                                            handleShowAddBed(
+                                                              user
+                                                            );
+                                                          }
+                                                        }}
+                                                        style={{
+                                                          backgroundColor:
+                                                            "#fff",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                          opacity:
+                                                            customerAddPermission
+                                                              ? 0.6
+                                                              : 1,
+                                                        }}
+                                                      >
+                                                        <img
+                                                          src={addcircle}
+                                                          style={{
+                                                            height: 16,
+                                                            width: 16,
+                                                            filter:
+                                                              customerAddPermission
+                                                                ? "grayscale(100%)"
+                                                                : "none",
+                                                          }}
+                                                        />
+                                                        <label
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 500,
+                                                            fontFamily:
+                                                              "Gilroy, sans-serif",
+                                                            color:
+                                                              customerAddPermission
+                                                                ? "#888888"
+                                                                : "#222222",
+                                                            cursor:
+                                                              customerAddPermission
+                                                                ? "not-allowed"
+                                                                : "pointer",
+                                                          }}
+                                                        >
+                                                          Assign Bed
+                                                        </label>
+                                                      </div>
+                                                    )}
+
+                                                    {user.Bed && (
+                                                      <div
+                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                        // onClick={() => {
+                                                        //   if (!customerAddPermission) {
+                                                        //     handleShowAddBed(user);
+                                                        //   }
+                                                        // }}
+                                                        onClick={() =>
+                                                          handleCustomerCheckout(
+                                                            user
+                                                          )
+                                                        }
+                                                        style={{
+                                                          backgroundColor:
+                                                            "#fff",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                          opacity:
+                                                            customerAddPermission
+                                                              ? 0.6
+                                                              : 1,
+                                                        }}
+                                                      >
+                                                        <img
+                                                          src={addcircle}
+                                                          style={{
+                                                            height: 16,
+                                                            width: 16,
+                                                            filter:
+                                                              customerAddPermission
+                                                                ? "grayscale(100%)"
+                                                                : "none",
+                                                          }}
+                                                        />
+                                                        <label
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 500,
+                                                            fontFamily:
+                                                              "Gilroy, sans-serif",
+                                                            color:
+                                                              customerAddPermission
+                                                                ? "#888888"
+                                                                : "#222222",
+                                                            cursor:
+                                                              customerAddPermission
+                                                                ? "not-allowed"
+                                                                : "pointer",
+                                                          }}
+                                                        >
+                                                          Checkout
+                                                        </label>
+                                                      </div>
+                                                    )}
+                                                    {user.Bed && (
+                                                      <div
+                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                        // onClick={() => {
+                                                        //   if (!customerAddPermission) {
+                                                        //     handleShowAddBed(user);
+                                                        //   }
+                                                        // }}
+                                                        onClick={() =>
+                                                          handleCustomerReAssign(
+                                                            user
+                                                          )
+                                                        }
+                                                        style={{
+                                                          backgroundColor:
+                                                            "#fff",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                          opacity:
+                                                            customerAddPermission
+                                                              ? 0.6
+                                                              : 1,
+                                                        }}
+                                                      >
+                                                        <img
+                                                          src={addcircle}
+                                                          style={{
+                                                            height: 16,
+                                                            width: 16,
+                                                            filter:
+                                                              customerAddPermission
+                                                                ? "grayscale(100%)"
+                                                                : "none",
+                                                          }}
+                                                        />
+                                                        <label
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 500,
+                                                            fontFamily:
+                                                              "Gilroy, sans-serif",
+                                                            color:
+                                                              customerAddPermission
+                                                                ? "#888888"
+                                                                : "#222222",
+                                                            cursor:
+                                                              customerAddPermission
+                                                                ? "not-allowed"
+                                                                : "pointer",
+                                                          }}
+                                                        >
+                                                          Re Assign
+                                                        </label>
+                                                      </div>
+                                                    )}
+
                                                     <div
                                                       className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                      style={{
+                                                        backgroundColor: "#fff",
+                                                        cursor:
+                                                          customerEditPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                        opacity:
+                                                          customerEditPermission
+                                                            ? 0.6
+                                                            : 1,
+                                                      }}
                                                       onClick={() => {
                                                         if (
-                                                          !customerAddPermission
+                                                          !customerEditPermission
                                                         ) {
-                                                          handleShowAddBed(
+                                                          handleRoomDetailsPage(
                                                             user
                                                           );
                                                         }
                                                       }}
-                                                      style={{
-                                                        backgroundColor: "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
                                                     >
                                                       <img
-                                                        src={addcircle}
+                                                        src={Edit}
                                                         style={{
                                                           height: 16,
                                                           width: 16,
                                                           filter:
-                                                            customerAddPermission
+                                                            customerEditPermission
                                                               ? "grayscale(100%)"
                                                               : "none",
                                                         }}
@@ -2088,188 +2210,20 @@ function UserList(props) {
                                                           fontFamily:
                                                             "Gilroy, sans-serif",
                                                           color:
-                                                            customerAddPermission
+                                                            customerEditPermission
                                                               ? "#888888"
                                                               : "#222222",
                                                           cursor:
-                                                            customerAddPermission
+                                                            customerEditPermission
                                                               ? "not-allowed"
                                                               : "pointer",
                                                         }}
                                                       >
-                                                        Assign Bed
+                                                        Edit
                                                       </label>
                                                     </div>
-                                                  )}
 
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
-                                                      onClick={() =>
-                                                        handleCustomerCheckout(
-                                                          user
-                                                        )
-                                                      }
-                                                      style={{
-                                                        backgroundColor: "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
-                                                        }}
-                                                      >
-                                                        Checkout
-                                                      </label>
-                                                    </div>
-                                                  )}
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
-                                                      onClick={() =>
-                                                        handleCustomerReAssign(
-                                                          user
-                                                        )
-                                                      }
-                                                      style={{
-                                                        backgroundColor: "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
-                                                        }}
-                                                      >
-                                                        Re Assign
-                                                      </label>
-                                                    </div>
-                                                  )}
-
-                                                  <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    style={{
-                                                      backgroundColor: "#fff",
-                                                      cursor:
-                                                        customerEditPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerEditPermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
-                                                    onClick={() => {
-                                                      if (
-                                                        !customerEditPermission
-                                                      ) {
-                                                        handleRoomDetailsPage(
-                                                          user
-                                                        );
-                                                      }
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={Edit}
-                                                      style={{
-                                                        height: 16,
-                                                        width: 16,
-                                                        filter:
-                                                          customerEditPermission
-                                                            ? "grayscale(100%)"
-                                                            : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        color:
-                                                          customerEditPermission
-                                                            ? "#888888"
-                                                            : "#222222",
-                                                        cursor:
-                                                          customerEditPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                      }}
-                                                    >
-                                                      Edit
-                                                    </label>
-                                                  </div>
-
-                                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                    {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                 onClick={() => { handleShowform(props) }}
                                 style={{ backgroundColor: "#fff" }}
                             >
@@ -2277,170 +2231,269 @@ function UserList(props) {
 
                             </div> */}
 
-                                                  <div
-                                                    className={
-                                                      "mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                    }
-                                                    style={{
-                                                      backgroundColor: "#fff",
-                                                      cursor:
-                                                        customerDeletePermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerDeletePermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
-                                                    onClick={
-                                                      !customerDeletePermission
-                                                        ? handleDeleteShow
-                                                        : null
-                                                    }
-                                                  >
-                                                    <img
-                                                      src={Delete}
+                                                    <div
+                                                      className={
+                                                        "mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                      }
                                                       style={{
-                                                        height: 16,
-                                                        width: 16,
-                                                      }}
-                                                      alt="Delete Icon"
-                                                    />{" "}
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        color:
+                                                        backgroundColor: "#fff",
+                                                        cursor:
                                                           customerDeletePermission
-                                                            ? "#888888"
-                                                            : "#FF0000", // Greyed-out text if disabled
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                        opacity:
+                                                          customerDeletePermission
+                                                            ? 0.6
+                                                            : 1,
                                                       }}
+                                                      onClick={
+                                                        !customerDeletePermission
+                                                          ? handleDeleteShow
+                                                          : null
+                                                      }
                                                     >
-                                                      Delete
-                                                    </label>
+                                                      <img
+                                                        src={Delete}
+                                                        style={{
+                                                          height: 16,
+                                                          width: 16,
+                                                        }}
+                                                        alt="Delete Icon"
+                                                      />{" "}
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily:
+                                                            "Gilroy, sans-serif",
+                                                          color:
+                                                            customerDeletePermission
+                                                              ? "#888888"
+                                                              : "#FF0000", // Greyed-out text if disabled
+                                                        }}
+                                                      >
+                                                        Delete
+                                                      </label>
+                                                    </div>
                                                   </div>
                                                 </div>
-                                              </div>
-                                            </>
-                                          )}
-                                        </div>
+                                              </>
+                                            )}
+                                          </div>
 
-                                        {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                          </tbody>
-                        </Table>
+                                          {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                            </tbody>
+                          </Table>
                         </div>
                       )}
                     </div>
                     {currentItems?.length > 0 && (
-                      <nav>
-                        <ul
+                      // <nav>
+                      //   <ul
+                      //     style={{
+                      //       display: "flex",
+                      //       alignItems: "center",
+                      //       listStyleType: "none",
+                      //       padding: 0,
+                      //       justifyContent: "end",
+                      //     }}
+                      //   >
+                      //     <li style={{ margin: "0 5px" }}>
+                      //       <button
+                      //         style={{
+                      //           padding: "5px 10px",
+                      //           textDecoration: "none",
+                      //           color: currentPage === 1 ? "#ccc" : "#007bff",
+                      //           cursor:
+                      //             currentPage === 1 ? "not-allowed" : "pointer",
+                      //           borderRadius: "5px",
+                      //           display: "inline-block",
+                      //           minWidth: "30px",
+                      //           textAlign: "center",
+                      //           backgroundColor: "transparent",
+                      //           border: "none",
+                      //         }}
+                      //         onClick={() => handlePageChange(currentPage - 1)}
+                      //         disabled={currentPage === 1}
+                      //       >
+                      //         <ArrowLeft2 size="16" color="#1E45E1" />
+                      //       </button>
+                      //     </li>
+                      //     {currentPage > 3 && (
+                      //       <li style={{ margin: "0 5px" }}>
+                      //         <button
+                      //           style={{
+                      //             padding: "5px 10px",
+                      //             textDecoration: "none",
+                      //             color: "white",
+                      //             cursor: "pointer",
+                      //             borderRadius: "5px",
+                      //             display: "inline-block",
+                      //             minWidth: "30px",
+                      //             textAlign: "center",
+                      //             backgroundColor: "transparent",
+                      //             border: "none",
+                      //           }}
+                      //           onClick={() => handlePageChange(1)}
+                      //         >
+                      //           1
+                      //         </button>
+                      //       </li>
+                      //     )}
+                      //     {currentPage > 3 && <span>...</span>}
+                      //     {renderPageNumbers()}
+                      //     {currentPage < totalPages - 2 && <span>...</span>}
+                      //     {currentPage < totalPages - 2 && (
+                      //       <li style={{ margin: "0 5px" }}>
+                      //         <button
+                      //           style={{
+                      //             padding: "5px 10px",
+                      //             textDecoration: "none",
+                      //             cursor: "pointer",
+                      //             borderRadius: "5px",
+                      //             display: "inline-block",
+                      //             minWidth: "30px",
+                      //             textAlign: "center",
+                      //             backgroundColor: "transparent",
+                      //             border: "none",
+                      //           }}
+                      //           onClick={() => handlePageChange(totalPages)}
+                      //         >
+                      //           {totalPages}
+                      //         </button>
+                      //       </li>
+                      //     )}
+                      //     <li style={{ margin: "0 5px" }}>
+                      //       <button
+                      //         style={{
+                      //           padding: "5px 10px",
+                      //           textDecoration: "none",
+                      //           color:
+                      //             currentPage === totalPages
+                      //               ? "#ccc"
+                      //               : "#007bff",
+                      //           cursor:
+                      //             currentPage === totalPages
+                      //               ? "not-allowed"
+                      //               : "pointer",
+                      //           borderRadius: "5px",
+                      //           display: "inline-block",
+                      //           minWidth: "30px",
+                      //           textAlign: "center",
+                      //           backgroundColor: "transparent",
+                      //           border: "none",
+                      //         }}
+                      //         onClick={() => handlePageChange(currentPage + 1)}
+                      //         disabled={currentPage === totalPages}
+                      //       >
+                      //         <ArrowRight2 size="16" color="#1E45E1" />
+                      //       </button>
+                      //     </li>
+                      //   </ul>
+                      // </nav>
+
+                      <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end", // Align dropdown and pagination
+                        padding: "10px",
+                        // borderTop: "1px solid #ddd",
+                      }}
+                    >
+                      {/* Dropdown for Items Per Page */}
+                      <div>
+                        <select
+                          value={itemsPerPage}
+                          onChange={handleItemsPerPageChange}
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            listStyleType: "none",
-                            padding: 0,
-                            justifyContent: "end",
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                            
                           }}
                         >
-                          <li style={{ margin: "0 5px" }}>
-                            <button
-                              style={{
-                                padding: "5px 10px",
-                                textDecoration: "none",
-                                color: currentPage === 1 ? "#ccc" : "#007bff",
-                                cursor:
-                                  currentPage === 1 ? "not-allowed" : "pointer",
-                                borderRadius: "5px",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
-                              }}
-                              onClick={() => handlePageChange(currentPage - 1)}
-                              disabled={currentPage === 1}
-                            >
-                              <ArrowLeft2 size="16" color="#1E45E1" />
-                            </button>
-                          </li>
-                          {currentPage > 3 && (
-                            <li style={{ margin: "0 5px" }}>
-                              <button
-                                style={{
-                                  padding: "5px 10px",
-                                  textDecoration: "none",
-                                  color: "white",
-                                  cursor: "pointer",
-                                  borderRadius: "5px",
-                                  display: "inline-block",
-                                  minWidth: "30px",
-                                  textAlign: "center",
-                                  backgroundColor: "transparent",
-                                  border: "none",
-                                }}
-                                onClick={() => handlePageChange(1)}
-                              >
-                                1
-                              </button>
-                            </li>
-                          )}
-                          {currentPage > 3 && <span>...</span>}
-                          {renderPageNumbers()}
-                          {currentPage < totalPages - 2 && <span>...</span>}
-                          {currentPage < totalPages - 2 && (
-                            <li style={{ margin: "0 5px" }}>
-                              <button
-                                style={{
-                                  padding: "5px 10px",
-                                  textDecoration: "none",
-                                  cursor: "pointer",
-                                  borderRadius: "5px",
-                                  display: "inline-block",
-                                  minWidth: "30px",
-                                  textAlign: "center",
-                                  backgroundColor: "transparent",
-                                  border: "none",
-                                }}
-                                onClick={() => handlePageChange(totalPages)}
-                              >
-                                {totalPages}
-                              </button>
-                            </li>
-                          )}
-                          <li style={{ margin: "0 5px" }}>
-                            <button
-                              style={{
-                                padding: "5px 10px",
-                                textDecoration: "none",
-                                color:
-                                  currentPage === totalPages
-                                    ? "#ccc"
-                                    : "#007bff",
-                                cursor:
-                                  currentPage === totalPages
-                                    ? "not-allowed"
-                                    : "pointer",
-                                borderRadius: "5px",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
-                              }}
-                              onClick={() => handlePageChange(currentPage + 1)}
-                              disabled={currentPage === totalPages}
-                            >
-                              <ArrowRight2 size="16" color="#1E45E1" />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
+                           <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+                    
+                      {/* Pagination Controls */}
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
+                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                          </button>
+                        </li>
+                    
+                        {/* Current Page Indicator */}
+                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                          {currentPage} of {totalPages}
+                        </li>
+                    
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                    
+
                     )}
                   </div>
                 )}
@@ -2619,7 +2672,6 @@ function UserList(props) {
           kycOtpValue={kycOtpValue}
           handleKycOtpChange={handleKycOtpChange}
           showValidate={showValidate}
-          handleVerifyOtp={handleVerifyOtp}
           selectAmneties={selectAmneties}
           handleselect={handleselect}
           hostelName={hostelName}
