@@ -21,7 +21,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     const state = useSelector(state => state)
     const dispatch = useDispatch()
 
-    console.log("state", state);
 
     const [type, setType] = useState('');
     const [subType, setSubType] = useState('');
@@ -31,7 +30,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     const [types, setTypes] = useState([]);
     const [isSubCategory, setIsSubCategory] = useState(false);
     const [expences, setExpences] = useState([])
-    console.log("expences", expences);
 
     const [expencerolePermission, setExpenceRolePermission] = useState("");
 
@@ -48,7 +46,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_view == 1
@@ -62,7 +59,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_create == 1
@@ -75,7 +71,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
@@ -85,8 +80,8 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
       setExpenceDeletePermission("Permission Denied");
     }
   }, [expencerolePermission]);
+
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
@@ -103,7 +98,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         index === self.findIndex((e) => e.category_Id === expence.category_Id)
       );
      
-console.log("uniqueExpences",uniqueExpences);
 
       
 
@@ -127,7 +121,6 @@ console.log("uniqueExpences",uniqueExpences);
 
 
 
-console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
 
 
     const handleShow = () => {
@@ -143,7 +136,6 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
       };
 
       const handleEditCategory = (item) => {
-        console.log("item",item);
         
         setEdit(true);
         setShowForm(true);
@@ -159,9 +151,7 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
       
       }
 
-      console.log("subtype",subType);
-      // console.log("subtype",category_Id);
-      console.log("subtype",subcategory_Id);
+   
 
 
       const handleUpdateCategory = () => {
@@ -169,7 +159,6 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
       })}
 
     const handleDeleteExpensesCategory = (item) => {
-         console.log("deleteitem",item);
          
         setDeleteCategoryId(item.category_Id)
         const sub = item.subcategory[0]?.subcategory_Id
@@ -255,7 +244,6 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
                    return;
                 }
               else  if (subType.trim()) {
-                    console.log("subexecuted");
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
              
                     setSubType('');
@@ -305,7 +293,6 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
       if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
           setTimeout(() => {
               dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
-              console.log("get expense category list executed")
           }, 100)
           
           setTimeout(() => {
@@ -330,15 +317,11 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
         setType(e.target.value)
 
         if (state.Settings.Expences.data && e.target.value !== undefined) {
-            console.log("type", e.target.value);
             const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-                console.log("all", typename.id);
                 return typename.category_Id == e.target.value;
             });
-            console.log("Typeidnamefilter", Typeidnamefilter);
             setNamefilter(Typeidnamefilter[0].category_Name);
 
-            console.log("Typeidnamefilter", Typeidnamefilter);
         }
         setTotalErrmsg('')
 

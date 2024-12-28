@@ -21,12 +21,10 @@ import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 
 function EBHostelReading(props) {
-  console.log("priya",props);
   
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
    const popupRef = useRef(null);
-  console.log("EBHostelReading", state);
   const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [ebEditShow, setebEditShow] = useState(false);
@@ -75,7 +73,6 @@ function EBHostelReading(props) {
 const handleDeleteEb=(item)=>{
   setDeleteForm(true)
   setHostelDeleteId(item.eb_Id)
-console.log("itemEdit",item)
 }
 const handleCloseDelete=()=>{
   setDeleteForm(false)
@@ -100,7 +97,6 @@ useEffect(() => {
 },[state.PgList.statusCodeForDeleteHostelBased])
 
 const handleEditEb = (user) => {
-  console.log(user, "+++++++++++++++++=== user");
 
   setEditEb(true);
   props.setHostelBasedForm(true);
@@ -119,11 +115,9 @@ const handleEditEb = (user) => {
       formattedJoiningDate.getUTCDate()
     );
 
-    console.log("Local Date (Fixed to UTC):", localDate);
     setSelectedDate(localDate);
   }
 
-  console.log(formattedJoiningDate, "");
 
   setInitialStateAssign({
     // hos_Name: user.hoatel_Name || "",
@@ -131,7 +125,6 @@ const handleEditEb = (user) => {
     selectedDate: localDate || "",
   });
 
-  console.log("handleEditEb", user);
 };
 
 useEffect(()=>{
@@ -253,9 +246,7 @@ useEffect(()=>{
       const isValidDate = (date) => {
         return !isNaN(Date.parse(date));
       };
-      console.log("initialStateAssign.reading",initialStateAssign.reading)
-      console.log("initialStateAssign.selectedDate",initialStateAssign.selectedDate)
-      console.log("selectedDate",selectedDate)
+     
 
       const isChangedBed =
      
@@ -618,7 +609,6 @@ if (v.date && v.date !== "0000-00-00") {
   formattedDate = `${day}/${month}/${year}`;
 }
 
-console.log("formattedDate:", formattedDate);
 
 
 

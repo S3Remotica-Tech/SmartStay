@@ -8,7 +8,6 @@ import { MdError } from "react-icons/md";
 
 function UserAdditionalContact(props) {
   const state = useSelector((state) => state);
-  console.log("UserAdditionalContact...", state);
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState("");
@@ -26,8 +25,7 @@ function UserAdditionalContact(props) {
   const [userNameError,setUserNameError]=useState("")
   const [guardianError,setGuardianError] = useState("")
   const MobileNumber = `${countryCode}${Phone}`;
-  console.log("props.contactList", props.id);
-  console.log("props.contactEdit", props.contactEdit);
+ 
 
  
   const [initialState, setInitialState] = useState({
@@ -417,10 +415,7 @@ function UserAdditionalContact(props) {
                           {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
                               return (
-                                console.log(
-                                  "item.country_flag",
-                                  item.country_flag
-                                ),
+                              
                                 (
                                   <>
                                     <option value={item.country_code}>

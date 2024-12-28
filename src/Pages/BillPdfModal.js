@@ -27,8 +27,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-    console.log("rowData", rowData)
-    // console.log()
     const [isVisible, setIsVisible] = useState(true);
     const cardRef = useRef(null);
 

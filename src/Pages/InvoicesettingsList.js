@@ -18,7 +18,6 @@ const InvoiceSettingsList = (props) => {
   const dispatch = useDispatch();
    const state = useSelector((state) => state);
 
-   console.log("props",props);
    
    const [isChecked, setIsChecked] = useState(null);
    const [invoiceDetails, setInvoiceDetails] = useState('')
@@ -28,7 +27,6 @@ const InvoiceSettingsList = (props) => {
 
   const handleShowDots = () => {
     setShowDots(!showDots);
-    console.log("handle edit works");
   };
 
   const handleEditInvoice = (item) => {
@@ -41,10 +39,8 @@ const InvoiceSettingsList = (props) => {
     setSwitchStates((prevSwitchStates) => {
         const newChecked = !prevSwitchStates[item.id];
 
-          console.log("togglevalue",item);
         setIsChecked(newChecked);
 
-        console.log(`Switch toggled for invoice ID ${item.id}:`, newChecked);
 
         return {
             ...prevSwitchStates,
@@ -62,7 +58,6 @@ const InvoiceSettingsList = (props) => {
     }
         if (!isChecked ) {
        
-         console.log("ischecked", isChecked);
             dispatch({
               type: 'SETTINGSADDRECURRING',
               payload: {
@@ -76,7 +71,6 @@ const InvoiceSettingsList = (props) => {
           });
                 
         }else{
-          console.log("form closed");   
           props.handleRecurringFormShow();
         }
     }, [isChecked]);
@@ -84,7 +78,6 @@ const InvoiceSettingsList = (props) => {
     
     
 
-  console.log("props invoicesett***********", props);
 
   useEffect(() => {
     const appearOptions = {

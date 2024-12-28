@@ -43,7 +43,6 @@ function  SettingAllPages(props ) {
 
 
   useEffect(() => {
-    console.log('Current_hostelid', state.login.selectedHostel_Id);
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
   
@@ -51,15 +50,12 @@ function  SettingAllPages(props ) {
   const handleHostelId = (e) => {
     const selectedHostelId = e.target.value; 
     setHostel_Id(selectedHostelId); 
-    console.log("Selected Hostel ID:", selectedHostelId);
     setDisplayError('')
   };
 
 
-console.log("props",props)
 
 
-console.log("state",state)
 
 
   useEffect(()=> {
@@ -85,7 +81,6 @@ if(state.PgList.isManageEnable){
     setRolePageShow(false)
   };
 
-  console.log("settingsprops",props);
   
 
   const handleShowManagePage = () => {
@@ -269,14 +264,12 @@ useEffect(()=>{
 
 
 
-  console.log("hostelid",hostel_Id);
   
 
   useEffect(()=>{
     dispatch({type:'HOSTELLIST'})
   },[])
 
-console.log("state",state)
 
   return (
     <>

@@ -16,7 +16,6 @@ const OtpVerificationModal = ({ show, handleClose , Email_Id}) => {
     const [otpValue, setOtpValue] = useState('');
 
 
-console.log("state for opt verification",state)
 
 
   const inputRefs = [

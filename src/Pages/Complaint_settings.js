@@ -15,7 +15,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
       const state = useSelector(state => state)
       const dispatch = useDispatch()
 
-      console.log("state", state);
 
     const [type, setType] = useState('');
     const [typeerrmsg, setTypeErrmsg] = useState('')
@@ -32,7 +31,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_view == 1
@@ -46,7 +44,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_create == 1
@@ -59,7 +56,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_delete == 1
@@ -70,7 +66,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     }
   }, [compliancerolePermission]);
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_edit == 1
@@ -126,7 +121,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     if (state.Settings.addComplaintSuccessStatusCode === 200 || state.Settings.deletecomplaintStatuscode === 200) {
       setTimeout(() => {
         dispatch({ type: 'COMPLAINT-TYPE-LIST' })
-        console.log("get complainttype list executed")
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_COMPLAINT_STATUS_CODE' })
@@ -170,7 +164,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
   
 
   const [complainttypelist, setComplainttypelist] = useState([])
-  console.log("complainttypelist", complainttypelist);
 
   useEffect(() => {
     dispatch({ type: 'COMPLAINT-TYPE-LIST' })

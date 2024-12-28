@@ -30,7 +30,6 @@ function UserlistWalkin(props) {
 
 
 
-    console.log("state for walk in", state)
 
 
 
@@ -53,7 +52,6 @@ function UserlistWalkin(props) {
 
 
     useEffect(() => {
-        console.log("===customerrolePermission[0]", props.customerrolePermission);
         if (
             props.customerrolePermission[0]?.is_owner == 1 ||
             props.customerrolePermission[0]?.role_permissions[7]?.per_view == 1
@@ -66,7 +64,6 @@ function UserlistWalkin(props) {
 
 
     useEffect(() => {
-        console.log("===rolePermission", props.customerrolePermission[0]);
 
         if (
             props.customerrolePermission[0]?.is_owner == 1 ||
@@ -80,7 +77,6 @@ function UserlistWalkin(props) {
 
 
     useEffect(() => {
-        console.log("===rolePermission", props.customerrolePermission[0]);
 
         if (
             props.customerrolePermission[0]?.is_owner == 1 ||
@@ -148,7 +144,6 @@ function UserlistWalkin(props) {
 
     }, [state.UsersList.addWalkInCustomerStatusCode, state.UsersList.deleteWalkInCustomerStatusCode])
 
-    console.log("setShowForm(false);", showForm)
 
 
 
@@ -169,7 +164,6 @@ function UserlistWalkin(props) {
         }
     };
 
-    console.log("customerToDelete", customerToDelete)
 
     const cancelDelete = () => {
         setShowDeleteModal(false);
@@ -179,7 +173,6 @@ function UserlistWalkin(props) {
 
 
     const handleEdit = (customer) => {
-        console.log("customer", customer)
 
         setSelectedCustomer(customer);
         setShowForm(true);

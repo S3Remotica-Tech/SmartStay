@@ -11,7 +11,6 @@ import { propsToClassKey } from "@mui/styles";
 
 function UserEb(props) {
   const state = useSelector(state => state)
-  console.log("state123",state)
 
 
   const EbrowsPerPage = 10;
@@ -24,7 +23,6 @@ function UserEb(props) {
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
-  console.log("currentRowsEb", currentRowsEb)
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
   };
@@ -111,14 +109,12 @@ function UserEb(props) {
             <tbody style={{ height: "50px", fontSize: "11px" ,verticalAlign:'middle'}}>
               {currentRowsEb?.map((u) => {
                 let Dated = new Date(u.reading_date);
-                console.log("Dated..?", Dated);
 
                 let day = Dated.getDate();
                 let month = Dated.getMonth() + 1; // Months are zero-based
                 let year = Dated.getFullYear();
 
                 let formattedDate = `${day}/${month}/${year}`;
-                console.log("Formatted Date:", formattedDate);
                 return (
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 

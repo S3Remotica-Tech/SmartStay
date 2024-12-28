@@ -23,7 +23,6 @@ function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
 
-    console.log("state for invoice settings", state)
 
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [showTable, setShowTable] = useState(false)
@@ -40,7 +39,6 @@ function InvoiceSettings() {
       }, [state.createAccount.accountList]);
     
       useEffect(() => {
-        console.log("===billrolePermission[0]", billrolePermission);
         if (
           billrolePermission[0]?.is_owner == 1 ||
           billrolePermission[0]?.role_permissions[10]?.per_view == 1
@@ -51,7 +49,6 @@ function InvoiceSettings() {
         }
       }, [billrolePermission]);
       useEffect(() => {
-        console.log("===billrolePermission[0]", billrolePermission);
         if (
           billrolePermission[0]?.is_owner == 1 ||
           billrolePermission[0]?.role_permissions[10]?.per_create == 1
@@ -62,7 +59,6 @@ function InvoiceSettings() {
         }
       }, [billrolePermission]);
       useEffect(() => {
-        console.log("===billrolePermission[0]", billrolePermission);
         if (
           billrolePermission[0]?.is_owner == 1 ||
           billrolePermission[0]?.role_permissions[10]?.per_edit == 1
@@ -157,13 +153,11 @@ function InvoiceSettings() {
     const [editprefix, setEditPrefix] = useState('')
     const [editstartnumber, setEditStartnumber] = useState('')
     const [editHostel, setEditHostel] = useState({id : '', name :''})
-    console.log("editHostel",editHostel);
     
     const [show, setShow] = useState(false);
 
 
     const handleEdit = (item) => {
-        console.log("item", item);
         setShow(true);
         setEditPrefix(item.prefix)
         setEditStartnumber(item.suffix)
@@ -179,7 +173,6 @@ function InvoiceSettings() {
     let hasChanges = editprefix !== initialValuesRef.current.editprefix ||editstartnumber !== initialValuesRef.current.editstartnumber 
 
     const handleClose = () => {
-        console.log("edit closed");
         setShow(false)
         }
 
@@ -210,7 +203,6 @@ function InvoiceSettings() {
     }
     
 
-    console.log("prefix", prefix  , startNumber, )
 
     const handleInvoiceSettings = () => {
         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
@@ -225,7 +217,6 @@ function InvoiceSettings() {
             
         }
 
-        console.log("isPrefixValid",isPrefixValid,isStartNumberValid,isSelectedImageValid)
      
 
 
@@ -321,19 +312,16 @@ function InvoiceSettings() {
     const loginId = localStorage.getItem('loginId');
 
 
-    // console.log("state.InvoiceList?.invoiceSettingsStatusCode == 200", state.InvoiceList?.invoiceSettingsStatusCode === 200)
   
 
 
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
-            console.log("executed hostel list",state.InvoiceList?.invoiceSettingsStatusCode)
 
             dispatch({ type: 'HOSTELLIST' })
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
-                console.log("clear",state.InvoiceList?.invoiceSettingsStatusCode);
                 
             }, 1000);
         }
@@ -346,7 +334,6 @@ function InvoiceSettings() {
     const [logo, setLogo] = useState('')
 
 
-    console.log("logo for", logo)
 
     useEffect(() => {
 
@@ -354,7 +341,6 @@ function InvoiceSettings() {
             item.id === Number(selectedHostel.id)
         ));
 
-        console.log("filteredHostels", filteredHostels)
 
         if (filteredHostels.length > 0) {
             const profileURL = filteredHostels[0]?.profile;

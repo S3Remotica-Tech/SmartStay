@@ -13,7 +13,6 @@ import Modal from "react-bootstrap/Modal";
 
 function RolesDesign(props){
     const state = useSelector(state => state)
-    console.log("RolesDesign",state)
     const dispatch = useDispatch();
     const popupRef = useRef(null);
     const [roleName,setRoleNme]=useState('')
@@ -23,7 +22,6 @@ function RolesDesign(props){
     const [editRolePermission,setEditRolePermission] =useState("")
     const [roleinEdit,setroleinEdit] = useState("")
     const [rolepermissionId,setEditRolePermissionId]=useState("")
-    console.log("roleinEdit...?",roleinEdit);
     const [edit,setEdit]=useState(false)
     const [errorForm,setErrorForm] =useState("")
     const [errorPermission,setErrorPermission] =useState("")
@@ -65,7 +63,6 @@ const handlePrev=()=>{
    props.setRoleEdit(false)
 
 }
-console.log("editPage",props.editPage)
 
 useEffect(()=>{
     setRoleNme(props.editPage.role_name)
@@ -74,7 +71,6 @@ useEffect(()=>{
 
 const handleEditUserRole =(item)=>{
   setActiveRow(null)
-  console.log("handleEditUserRole",item)
   setEdit(true)
   setEditRolePermission(item.id)
   setRoleNme(item.role_name)  
@@ -117,14 +113,12 @@ useEffect(()=>{
   
 // }
 const RolePermission = state.Settings?.editRolePermission?.role_details;
-    console.log("RolePermission updated:", RolePermission);
    
     
 
 
 // useEffect(() => {
 //   if (RolePermission) {  
-//     console.log("RolePermission updated:", RolePermission);
 
 //     const updatedCheckboxValues = { ...checkboxValues };
 
@@ -233,18 +227,15 @@ const [checkboxValues, setCheckboxValues] = useState({
   };
   useEffect(() => {
     if (!checkboxValues || typeof checkboxValues !== 'object') {
-        console.error("checkboxValues is undefined or not an object:", checkboxValues);
         return;
     }
 
     // Map checkbox values to permissions
     const permissions = Object.entries(checkboxValues).map(([key, values]) => {
         if (!permissionMapping[key]) {
-            console.error(`Permission mapping for key "${key}" is missing.`);
             return null;
         }
         if (!Array.isArray(values)) {
-            console.error(`Values for key "${key}" are not an array:`, values);
             return null;
         }
 
@@ -257,7 +248,6 @@ const [checkboxValues, setCheckboxValues] = useState({
         };
     }).filter(Boolean); // Filter out any null values in case of errors
 
-    console.log("Processed Permissions:", JSON.stringify(permissions, null, 4));
 
     // Update permissionRole only if the permissions have changed
     setPermissionRole(prev => {
@@ -275,17 +265,14 @@ const [checkboxValues, setCheckboxValues] = useState({
 
   // useEffect(() => {
   //   if (!checkboxValues || typeof checkboxValues !== 'object') {
-  //     console.error("checkboxValues is undefined or not an object:", checkboxValues);
   //     return;
   //   }
   
   //   const permissions = Object.entries(checkboxValues).map(([key, values]) => {
   //     if (!permissionMapping[key]) {
-  //       console.error(`Permission mapping for key "${key}" is missing.`);
   //       return null;
   //     }
   //     if (!Array.isArray(values)) {
-  //       console.error(`Values for key "${key}" are not an array:`, values);
   //       return null;
   //     }
       
@@ -299,7 +286,6 @@ const [checkboxValues, setCheckboxValues] = useState({
 
   //   }).filter(Boolean); // Filter out any null values in case of errors
   
-  //   console.log(JSON.stringify(permissions, null, 4));
   
   //   // Set permissions only if they differ from the current permissionRole
   //   setPermissionRole(prev => {
@@ -315,7 +301,6 @@ const [checkboxValues, setCheckboxValues] = useState({
   // }, [checkboxValues, permissionMapping]); 
   
 
-  console.log('Checkbox values:', permissionRole);
 
 
   // Function to handle form submission
@@ -328,7 +313,6 @@ const [checkboxValues, setCheckboxValues] = useState({
     const hasPermissionSelected = permissionRole.some(permission => 
         permission.per_create !== 0 || permission.per_delete !== 0 || permission.per_edit !== 0 || permission.per_view !== 0
     ); 
-    console.log("Permission Role:", permissionRole); 
 
     if (!hasPermissionSelected) {
         setErrorPermission("At least one permission must be selected.");

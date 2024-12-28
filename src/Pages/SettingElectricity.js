@@ -36,9 +36,7 @@ const SettingElectricity = ({ hostelid }) => {
   }, [hostelid])
   // EBBillingUnitlist
   useEffect(() => {
-    console.log("addEbbillingUnitStatuscod", state.Settings.addEbbillingUnitStatuscode);
     if (state.Settings.addEbbillingUnitStatuscode === 200) {
-      console.log("addEbbillingUnitStatuscod", state.Settings.addEbbillingUnitStatuscode);
 
       dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
       handleClose()
@@ -82,7 +80,6 @@ const SettingElectricity = ({ hostelid }) => {
       setAmountErr('')
     }
   }
-  console.log("EBBillingUnitlist", state.Settings.EBBillingUnitlist);
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
@@ -92,7 +89,6 @@ const SettingElectricity = ({ hostelid }) => {
     // setCalculatedEnddate('')
   };
   const handleRecurringFormShow = (item) => {
-    console.log("itemmmmmmmm", item);
 
     setIsRecurring(!isRecurring)
     // if (!isRecurring === true) {
@@ -111,7 +107,6 @@ const SettingElectricity = ({ hostelid }) => {
     // }
     if (!isRecurring === false) {
       setRecurringForm(false);
-      console.log("isRecurring", isRecurring);
       dispatch({
         type: 'SETTINGSADDRECURRING',
         payload: {
@@ -125,7 +120,6 @@ const SettingElectricity = ({ hostelid }) => {
       });
 
     } else {
-      console.log("form closed");
       setRecurringForm(true);
     }
 
@@ -191,7 +185,6 @@ const SettingElectricity = ({ hostelid }) => {
   }
 
   useEffect(() => {
-    console.log("EEEEEEBBillingUnitlist", state.Settings.EBBillingUnitlist);
 
     if (state.Settings.EBBillingUnitlist.length > 0) {
       let temp = state.Settings.EBBillingUnitlist
@@ -202,7 +195,6 @@ const SettingElectricity = ({ hostelid }) => {
   }, [state.Settings.EBBillingUnitlist])
 
   useEffect(() => {
-    console.log("checkEBListtttt", state.PgList.checkEBList);
 
     if (state.PgList.checkEBList) {
       dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })

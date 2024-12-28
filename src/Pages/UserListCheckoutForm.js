@@ -23,15 +23,13 @@ import { InputGroup, FormControl } from 'react-bootstrap';
 
 const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,checkoutaction ,data ,checkouteditaction}) => {
 
-  console.log("uniqueostel_Id",uniqueostel_Id);
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
 
 
-  console.log("state for cHECKoUT", state)
-  console.log("currentItem", currentItem)
+
 
 
   const initialDate = new Date();
@@ -84,7 +82,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
     setCustomerError('');
   };
 
-  console.log("setSelectedCustomer", selectedCustomer)
 
 
 
@@ -98,7 +95,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   };
 
   const handleDateChange = (date) => {
-    console.log("Selected date from calendar:", date);
     setCheckOutDateError('')
     setGeneralError('')
     const formattedDate = moment(date[0]).format('DD-MM-YYYY');
@@ -125,7 +121,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
 
   useEffect(() => {
     if (currentItem) {
-      console.log("current_item",currentItem);
       
 
       setCheckOutDate(currentItem.CheckoutDate  ? new Date(currentItem.CheckoutDate) : null);
@@ -181,8 +176,7 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   useEffect(() => {
 
     if (selectedCustomer && !data && !currentItem) {
-      console.log("done", state.UsersList.Users);
-      console.log("done", selectedCustomer);
+     
   
     
       const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
@@ -197,7 +191,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   
 
 
-  console.log("checkOutDate", checkOutDate,)
 
 
 
@@ -212,7 +205,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
 
     const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
 
     if (!selectedCustomer && !uniqueostel_Id && !checkOutDate && !checkOutrequestDate) {
       setGeneralError('Please select all mandatory fields');
@@ -253,7 +245,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       noticeDays !== currentItem?.notice_period ||
       comments !== currentItem?.checkout_comment || formattedCheckOutRequestDate !== currentItem?.checkOutrequestDate
 
-      console.log("hasChanges",hasChanges, checkOutDate, currentItem?.CheckoutDate)
       
     if (!hasChanges) {
       setIsChangedError('No Changes detected');
@@ -275,7 +266,6 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   }
  
 
-  console.log("name",selectedCustomer);
   
 
 
@@ -347,11 +337,9 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
    
   },[state.UsersList.statusCodegetConfirmCheckout])
 
-  console.log("data",data);
 
   const handleCheckboxChange = (e) => {
     const checked = e.target.checked;
-    console.log("checked", checked);
     setIsChecked(checked);
   
     if (checked && dueamount > 0) {

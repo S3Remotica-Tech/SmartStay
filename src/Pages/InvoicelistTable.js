@@ -12,7 +12,6 @@ import Download from '../Assets/Images/New_images/download.png';
 
 const InvoiceTable = (props) => {
 
-    console.log("props", props);
 
     const Tablebodystyle = {
        
@@ -44,36 +43,30 @@ const InvoiceTable = (props) => {
 
 
     const handleShowform = (props) => {
-        // console.log("item", props.item)
         props.OnHandleshowform(props)
     }
 
 
     const handleInvoicepdf = (item) => {
-        console.log("invoicecall", item);
         props.OnHandleshowInvoicePdf(item)
     }
     let Dated = new Date(props.item.Date);
-    console.log("Dated..?", Dated);
 
     let day = Dated.getDate();
     let month = Dated.getMonth() + 1; // Months are zero-based
     let year = Dated.getFullYear();
 
     let formattedDate = `${day}/${month}/${year}`;
-    console.log("Formatted Date:", formattedDate);
 
 
 
     let dueDated = new Date(props.item.DueDate);
-    console.log("dueDated..?", dueDated);
 
     let daydue = dueDated.getDate();
     let monthdue = dueDated.getMonth() + 1; // Months are zero-based
     let yeardue = dueDated.getFullYear();
 
     let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-    console.log("Formatted Date:", formattedDueDate);
 
 
 
@@ -94,7 +87,6 @@ const InvoiceTable = (props) => {
 const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
 
       const handleDownload = (item) => {
-        console.log("handleDownload",item)
 
 props.DisplayInvoice(true, item)
 

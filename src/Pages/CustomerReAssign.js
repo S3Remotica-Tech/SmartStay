@@ -13,7 +13,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 function CustomerReAssign(props){
     const state = useSelector((state) => state);
-    console.log("state...", state);
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(null);
     const [dateError, setDateError] = useState("");
@@ -33,7 +32,6 @@ function CustomerReAssign(props){
       const [roomError, setRoomError] = useState("");
       const [bedError, setBedError] = useState("");
       const [rentError, setRentError] = useState("");
-    console.log("props.reAssignDetail",props.reAssignDetail)
 
     useEffect(()=>{
         setCurrentFloor(props.reAssignDetail.Floor)

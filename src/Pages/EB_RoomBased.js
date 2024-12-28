@@ -123,7 +123,6 @@ const EBROOM = (props) => {
    
     useEffect(() => {
         const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item =>  item.Floor ==0 && item.Room ==0 ? item?.hostel_Id == props?.hosteldetails.id : item?.hostel_Id == props?.hosteldetails.id && item.Floor == floorId  && item.Room == RoomId);
-      console.log("filter", filteredstartmeter );
         const lastItem = filteredstartmeter[filteredstartmeter.length - 1]; 
         setStartmeterData(lastItem);
     }, [props.hosteldetails.id, state.PgList.EB_startmeterlist,floorId ,RoomId]);

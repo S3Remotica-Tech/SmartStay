@@ -15,7 +15,6 @@ import { Modal, Button, Form } from "react-bootstrap";
 
 function ExpensesListTable(props) {
 
-console.log("mylist",props);
 
   const [showDots, setShowDots] = useState('')
   const popupRef = useRef(null);
@@ -100,7 +99,6 @@ useEffect(() => {
   }, []);
 
 
-  console.log("props ##############", props)
 
   //Tag Asset
   const [showTagAsset, setshowTagAsset] = useState();

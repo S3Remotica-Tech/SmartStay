@@ -13,7 +13,6 @@ const ExpencesSettings = () => {
     const state = useSelector(state => state)
     const dispatch = useDispatch()
 
-    console.log("state", state);
 
     const [type, setType] = useState('');
     const [subType, setSubType] = useState('');
@@ -23,7 +22,6 @@ const ExpencesSettings = () => {
     const [types, setTypes] = useState([]);
     const [isSubCategory, setIsSubCategory] = useState(false);
     const [expences, setExpences] = useState([])
-    console.log("expences", expences);
 
     const [expencerolePermission, setExpenceRolePermission] = useState("");
 
@@ -40,7 +38,6 @@ const ExpencesSettings = () => {
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_view == 1
@@ -54,7 +51,6 @@ const ExpencesSettings = () => {
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_create == 1
@@ -67,7 +63,6 @@ const ExpencesSettings = () => {
 
 
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
@@ -78,7 +73,6 @@ const ExpencesSettings = () => {
     }
   }, [expencerolePermission]);
   useEffect(() => {
-    console.log("===expencerolePermission[0]", expencerolePermission);
     if (
       expencerolePermission[0]?.is_owner == 1 ||
       expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
@@ -95,7 +89,6 @@ const ExpencesSettings = () => {
         index === self.findIndex((e) => e.category_Id === expence.category_Id)
       );
      
-console.log("uniqueExpences",uniqueExpences);
 
       
 
@@ -159,7 +152,6 @@ console.log("uniqueExpences",uniqueExpences);
                    return;
                 }
               else  if (subType.trim()) {
-                    console.log("subexecuted");
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
              
                     setSubType('');
@@ -206,7 +198,6 @@ console.log("uniqueExpences",uniqueExpences);
         if (state.Settings.addexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
             setTimeout(() => {
                 dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
-                console.log("get expense category list executed")
             }, 100)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
@@ -226,15 +217,11 @@ console.log("uniqueExpences",uniqueExpences);
         setType(e.target.value)
 
         if (state.Settings.Expences.data && e.target.value !== undefined) {
-            console.log("type", e.target.value);
             const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-                console.log("all", typename.id);
                 return typename.category_Id == e.target.value;
             });
-            console.log("Typeidnamefilter", Typeidnamefilter);
             setNamefilter(Typeidnamefilter[0].category_Name);
 
-            console.log("Typeidnamefilter", Typeidnamefilter);
         }
         setTotalErrmsg('')
 
