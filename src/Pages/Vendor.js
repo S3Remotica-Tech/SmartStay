@@ -44,15 +44,13 @@ function Vendor() {
   const [vendorDeletePermission,setVendorDeletePermission]=useState("")
   const [vendorEditPermission,setVendorEditPermission]=useState("")
 
-  console.log("/////////state for VEndor/////////////", state)
-
+ 
 
   useEffect(() => {
     setVendorRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===vendorrolePermission[0]", vendorrolePermission);
     if (
       vendorrolePermission[0]?.is_owner == 1 ||
       vendorrolePermission[0]?.role_permissions[9]?.per_view == 1
@@ -66,7 +64,6 @@ function Vendor() {
 
 
   useEffect(() => {
-    console.log("===vendorrolePermission[0]", vendorrolePermission);
     if (
       vendorrolePermission[0]?.is_owner == 1 ||
       vendorrolePermission[0]?.role_permissions[9]?.per_create == 1
@@ -79,7 +76,6 @@ function Vendor() {
 
 
   useEffect(() => {
-    console.log("===vendorrolePermission[0]", vendorrolePermission);
     if (
       vendorrolePermission[0]?.is_owner == 1 ||
       vendorrolePermission[0]?.role_permissions[9]?.per_delete == 1
@@ -90,7 +86,6 @@ function Vendor() {
     }
   }, [vendorrolePermission]);
   useEffect(() => {
-    console.log("===vendorrolePermission[0]", vendorrolePermission);
     if (
       vendorrolePermission[0]?.is_owner == 1 ||
       vendorrolePermission[0]?.role_permissions[9]?.per_edit == 1
@@ -130,8 +125,6 @@ function Vendor() {
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' ,payload:{hostel_id: state.login.selectedHostel_Id} })
 
-
-        console.log("get vendor list executed")
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_VENDOR_STATUS_CODE' })
@@ -169,7 +162,6 @@ function Vendor() {
 
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
-    console.log("searchItem",searchItem)
     setSearchQuery(searchItem);
     if (searchItem != '') {
       const filteredItems = state.ComplianceList.VendorList && state.ComplianceList.VendorList.filter((user) =>
@@ -268,7 +260,6 @@ function Vendor() {
 
 
   const handleEditVendor = (vendorData) => {
-    console.log("Edited vendor data:", vendorData);
     setCurrentItem(vendorData)
     setShow(true)
   };
@@ -308,7 +299,6 @@ function Vendor() {
   const [ showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
   const handleDeleteVendor = (item) => {
-    console.log("delete item", item);
     setShowDeleteVendor(true)
     setShowDeleteVendorDetails(item)
     // if (item) {

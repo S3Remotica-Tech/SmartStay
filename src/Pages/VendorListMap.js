@@ -37,7 +37,6 @@ const handleMouseLeave = () => {
                    props.onEditVendor(item); 
             };
 
-console.log("handleSow props",props)
 
 
 const handleDelete = (item) =>{
