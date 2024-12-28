@@ -31,20 +31,17 @@ const [hoverPgCard, setHoverPgCard] = useState(false)
     const [selectedHostelHover, setSelectedHostelHover] = useState(false)
     const [SaveHostel, setSaveHostel] = useState([])
 
-    console.log("popupRef", popupRef)
 
 
 
 
     const handleEdit = (item) => {
-        console.log("item", item)
         props.OnEditHostel(item)
     };
 
 
 
     const handleDeletePG = (item) => {
-        console.log("item", item)
         if (item) {
             dispatch({ type: 'DELETEPG', payload: { hostel_Id: item.id } })
         }
@@ -142,7 +139,6 @@ const handleMouseLeave = () =>{
 
 const handleSelectCard = (hostel) => {
  
-    console.log("Selected hostel:", hostel);
   
  
     setSelectedHostel(hostel); 
@@ -167,7 +163,6 @@ const handleSelectCard = (hostel) => {
   
 
 
-console.log("SaveHostel",SaveHostel)
 
 
 

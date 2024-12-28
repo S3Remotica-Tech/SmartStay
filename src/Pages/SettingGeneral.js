@@ -445,7 +445,15 @@ useEffect(() => {
     return(
         <>
             <div className="d-flex justify-content-between align-items-center settingGreneral  mb-3"
-            style={{position:'sticky' , top:20, backgroundColor:'white'}}>
+              style={{
+                position: "sticky",
+                top: 20,
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                height: 83,
+              }}>
         <div style={{ padding: 15 }}>
           <label
             style={{

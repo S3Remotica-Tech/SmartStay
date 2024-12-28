@@ -369,7 +369,14 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
     return(
         <div className="container"> 
-             <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",position:'sticky',top:20,backgroundColor: "white"}} >
+             <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",
+                position:'sticky',
+                top:20, 
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                height: 63,}} >
         <h3> Expences Category</h3>
         <div></div>
         <Button  onClick={handleShow} style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,

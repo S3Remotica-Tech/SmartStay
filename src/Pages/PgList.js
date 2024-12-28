@@ -132,7 +132,6 @@ function PgList(props) {
   const [customerAddPermission,setCustomerAddPermission]= useState("")
   const [customerDeletePermission,setCustomerDeletePermission]=useState("")
 
-  console.log("state for pgList", state);
 
   const popupRef = useRef(null);
 
@@ -158,7 +157,6 @@ function PgList(props) {
 
   const [selectedHostel, setSelectedHostel] = useState(false);
 
-  console.log("selectedHostel", selectedHostel);
   // showHostelDetails?.floorDetails?.[0]?.floor_name,showHostelDetails?.floorDetails?.[0]?.floor_id
 
   const [filteredData, setFilteredData] = useState([]);
@@ -169,7 +167,6 @@ function PgList(props) {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   }, [selectedHostel]);
 
-  console.log("FloorClick", floorClick, "floorName", floorName);
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
@@ -349,7 +346,6 @@ function PgList(props) {
 
   //  new Ui changes
 
-  console.log("showHostelDetails", showHostelDetails);
 
   const handleSelectedHostel = (selectedHostelId) => {
     const selected = state.UsersList.hostelList?.find((item, index) => {
@@ -573,7 +569,6 @@ function PgList(props) {
 
   const [visibleRange, setVisibleRange] = useState([0, 3]);
 
-  console.log("showHostelDetails", showHostelDetails);
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
@@ -603,12 +598,10 @@ function PgList(props) {
         return item.floor_id == floorClick;
       });
 
-      console.log("FloorNameData", FloorNameData);
       setFloorName(FloorNameData[0]?.floor_name);
     }
   }, [selectedHostel, floorClick]);
 
-  console.log("floorName", floorName);
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
@@ -658,7 +651,6 @@ function PgList(props) {
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
-    console.log("FloorNumber", FloorNumber);
 
     setShowDelete(true);
     setDeleteFloor({
@@ -677,7 +669,6 @@ function PgList(props) {
     setUpdate(true);
   };
 
-  console.log("key", key);
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -707,7 +698,6 @@ function PgList(props) {
 
 
   useEffect(() => {
-    console.log("===rolePermission[0]", rolePermission);
     if (
       rolePermission[0]?.is_owner == 1 ||
       rolePermission[0]?.role_permissions[3]?.per_view == 1
@@ -718,7 +708,6 @@ function PgList(props) {
     }
   }, [rolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", rolePermission[0]);
 
     if (
       rolePermission[0]?.is_owner == 1 ||
@@ -730,7 +719,6 @@ function PgList(props) {
     }
   }, [rolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", rolePermission[0]);
 
     if (
       rolePermission[0]?.is_owner == 1 ||
@@ -742,7 +730,6 @@ function PgList(props) {
     }
   }, [rolePermission]);
   useEffect(() => {
-    console.log("===rolePermission", rolePermission[0]);
 
     if (
       rolePermission[0]?.is_owner == 1 ||
