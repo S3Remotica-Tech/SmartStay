@@ -43,7 +43,6 @@ function getFloorName(floor_Id) {
 function DeleteFloor({ show, handleClose, currentItem}) {
 
   const state = useSelector(state => state)
-console.log("currentItem",currentItem)
 const dispatch = useDispatch();
 
 
@@ -117,7 +116,6 @@ if( currentItem.hostel_Id && currentItem.floor_Id){
     //   console.log("filtered",filtered);
     // }, [currentItem.hostel_Id, currentItem.floor_Id, state.PgList.roomCount]);
 
-console.log("state dlete floor",state)
 
 useEffect(() => {
   if (state.UsersList?.deleteFloorError) {

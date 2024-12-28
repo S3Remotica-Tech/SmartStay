@@ -15,7 +15,6 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 function DashboardAnnouncement(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log("DashboardAnnouncement", state);
   const [showMainModal, setShowMainModal] = useState(false);
   const [showLikeModal, setShowLikeModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -45,7 +44,6 @@ function DashboardAnnouncement(props) {
     setSelectedCard(card);
     setshowTittleModal(true);
   };
-  console.log("state.createAccount.accountList.user_details", createprofile);
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -61,7 +59,6 @@ function DashboardAnnouncement(props) {
   }, [state.createAccount.accountList[0].user_details]);
 
   useEffect(() => {
-    console.log("Current_hostelid", state.login.selectedHostel_Id);
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
