@@ -138,9 +138,9 @@ setAdditionalForm(true)
   }
 
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -2220,7 +2220,7 @@ useEffect(()=>{
                                         <Form.Select
                                           value={countryCode}
                                           id="vendor-select-pg"
-                                          onChange={handleCountryCodeChange}
+                                          // onChange={handleCountryCodeChange}
                                           style={{
                                             border: "1px solid #D9D9D9",
                                             borderRadius: "8px 0 0 8px",
@@ -2235,7 +2235,7 @@ useEffect(()=>{
                                             paddingRight: 10,
                                           }}
                                         >
-                                          {state.UsersList?.countrycode?.country_codes?.map(
+                                          {/* {state.UsersList?.countrycode?.country_codes?.map(
                                             (item) => {
 
                                               return (
@@ -2251,7 +2251,9 @@ useEffect(()=>{
                                                 )
                                               );
                                             }
-                                          )}
+                                          )} */}
+
+                                          <option> +{countryCode}</option>
                                         </Form.Select>
                                         <Form.Control
                                           value={Phone}

@@ -72,7 +72,6 @@ function UserlistForm(props) {
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
-
   const [BalanceDue, setBalanceDue] = useState("");
   const [PaymentType, setPaymentType] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -109,9 +108,9 @@ function UserlistForm(props) {
 
 
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -250,9 +249,9 @@ function UserlistForm(props) {
     setPaidAdvance(e.target.value);
   };
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   const handlePaidrent = (e) => {
     const value = e.target.value;
@@ -1005,7 +1004,7 @@ function UserlistForm(props) {
                         <Form.Select
                           value={countryCode}
                           id="vendor-select-pg"
-                          onChange={handleCountryCodeChange}
+                          // onChange={handleCountryCodeChange}
                           style={{
                             border: "1px solid #D9D9D9",
 
@@ -1021,20 +1020,21 @@ function UserlistForm(props) {
                             paddingRight: 10,
                           }}
                         >
-                          {state.UsersList?.countrycode?.country_codes?.map(
+                          {/* {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
                               return (
                              
                                 (
                                   <>
-                                    <option value={item.country_code}>
+                                    <option value={countryCode}>
                                       +{item.country_code}
                                     </option>
                                   </>
                                 )
                               );
                             }
-                          )}
+                          )} */}
+                          <option>{countryCode}</option>
                         </Form.Select>
                         <Form.Control
                           value={Phone}

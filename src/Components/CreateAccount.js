@@ -46,9 +46,9 @@ const [passwordError, setPasswordError] = useState([]);
 const [countryCode, setCountryCode] = useState('91');
 
 
-const handleCountryCodeChange = (e) => {
-  setCountryCode(e.target.value);
-};
+// const handleCountryCodeChange = (e) => {
+//   setCountryCode(e.target.value);
+// };
 
 
 const  handleFirstName = (e) => {
@@ -287,9 +287,9 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
   
   
 
-  useEffect(() => {
-    dispatch({ type: 'COUNTRYLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'COUNTRYLIST' })
+  // }, [])
  
 
   
@@ -620,7 +620,7 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
               <Form.Select
                 value={countryCode}
                 id="vendor-select-create_account"
-                onChange={handleCountryCodeChange}
+                // onChange={handleCountryCodeChange}
                 style={{
                   border: "1px solid rgba(224, 236, 255, 1)",
                   borderRadius: "8px 0 0 8px",
@@ -634,13 +634,14 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                   maxWidth:90
                 }}
               >
-                {
+                {/* {
     state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view)=>{
       return  <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
     })
 
 
-  }
+  } */}
+  <option>+{countryCode}</option>
 
        
               </Form.Select>
