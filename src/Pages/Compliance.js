@@ -88,8 +88,7 @@ const Compliance = ({allPageHostel_Id}) => {
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-  console.log("assign", Assign);
-  console.log("Complainttype", Complainttype);
+
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
@@ -125,13 +124,11 @@ const Compliance = ({allPageHostel_Id}) => {
 
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportComplianceDetails?.response?.fileUrl);
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportComplianceDetails?.response?.fileUrl);
     }
   }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
  
-console.log("excelDownload",excelDownload)
 const handleComplianceeExcel = () => {
     dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint",hostel_id :state.login.selectedHostel_Id} });
     setIsDownloadTriggered(true)
@@ -164,7 +161,6 @@ useEffect(()=>{
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_view == 1
@@ -178,7 +174,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_create == 1
@@ -191,7 +186,6 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_delete == 1
@@ -202,7 +196,6 @@ useEffect(()=>{
     }
   }, [compliancerolePermission]);
   useEffect(() => {
-    console.log("===compliancerolePermission[0]", compliancerolePermission);
     if (
       compliancerolePermission[0]?.is_owner == 1 ||
       compliancerolePermission[0]?.role_permissions[13]?.per_edit == 1
@@ -298,7 +291,6 @@ useEffect(()=>{
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const [hostelname, setHostelName] = useState('')
-  console.log("hostelname", hostelname);
 
 
   const [assignerrormsg, setAssignErrmsg] = useState('');
@@ -330,7 +322,6 @@ useEffect(()=>{
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    console.log("e,,,,", e.target.value);
     setDropdownVisible(e.target.value.length > 0);
   };
 
@@ -457,7 +448,6 @@ useEffect(()=>{
 
 
 
-  console.log("state.UsersList?.Users",state.UsersList?.Users);
   
 
   useEffect(() => {
@@ -481,18 +471,14 @@ useEffect(()=>{
   const [selectedUsername, setSelectedUserName] = useState('')
   const [filteredUserDetails, setFilteredUserDetails] = useState([]);
 
-  console.log("username", selectedUsername);
-  console.log("state", state);
-  console.log("filterdetails", filteredUserDetails);
+
 
   useEffect(() => {
     if (selectedUsername) {
-      console.log("state.UsersList.Users", state.UsersList.Users);
       const filteredDetails = state.UsersList.Users.filter(item => {
         return item.Name == selectedUsername
       }
       )
-      console.log("filteredDetails", filteredDetails);
       if (filteredDetails.length > 0) {
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
@@ -526,7 +512,6 @@ useEffect(()=>{
   }, [selectedUsername]);
 
   const handleCheckoutChange = (event, newValue) => {
-    console.log("clickeduser", event.target.value);
     setSelectedUserName(event.target.value);
     if(!event.target.value){
       setUserErrmsg("Please Select Name")
@@ -563,11 +548,9 @@ useEffect(()=>{
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
 
   const handleAssignShow = () => {
-    console.log('handleAssignShow called'); // Add a log here
     setAssignpopupshow(true);
   }
   const handleAssignClose = () => {
-    console.log('handleAssignClose called'); // Add a log here
     setAssignpopupshow(false);
   }
 
@@ -640,7 +623,6 @@ useEffect(()=>{
     setEdit(false)
 
     if (Complainttype  && selectedDate && hostelname && beds && Rooms) {
-      // console.log();
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id , Description:description} })
@@ -690,13 +672,11 @@ useEffect(()=>{
 
   const handleEditcomplaint = (Complaintdata) => {
 
-    console.log("edit works", Complaintdata);
     setEdit(true)
     if (Complaintdata) {
       setEditData(Complaintdata)
       setShow(true);
       // setCheck('EDIT')
-      console.log("Edited complaint data:", Complaintdata);
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
@@ -731,10 +711,10 @@ useEffect(()=>{
   //   handleEditcomplaint(editdata)
   // }, [editdata]);
 
+ 
   console.log("description", description);
   console.log("date", date);
   console.log("assign", Assign);
-
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -749,7 +729,6 @@ useEffect(()=>{
   }, []);
 
   const [complainttypelist, setComplainttypelist] = useState([])
-  console.log("complainttypelist", state);
 
   useEffect(() => {
     dispatch({ type: 'COMPLAINT-TYPE-LIST', payload:{hostel_id:allPageHostel_Id} })
@@ -757,7 +736,6 @@ useEffect(()=>{
   }, [])
 
   useEffect(() => {
-console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Complainttypelist);
 
     setComplainttypelist(state.Settings.Complainttypelist)
 
@@ -862,7 +840,7 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
       ):
       <>
       <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
-      <div className='m-4'>
+      <div className='m-4' >
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
           <div>
@@ -884,7 +862,14 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
           </div>
         </div> */}
 
-        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3" 
+         style={{
+          position: 'sticky',
+          top: 25,
+          backgroundColor: 'white',
+          zIndex: 10, 
+          padding: '10px',
+        }}>
           <div>
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
           </div>
