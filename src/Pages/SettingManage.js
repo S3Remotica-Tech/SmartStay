@@ -777,13 +777,13 @@ function SettingManage() {
               <div
                 className="container justify-content-between d-flex align-items-center "
                 style={{
-                  height: 83,
                   position: "sticky",
                   top: 20,
-                  left: 0,
                   right: 0,
+                  left: 0,
                   zIndex: 1000,
-                  backgroundColor: "#fff",
+                  backgroundColor: "#FFFFFF",
+                  height: 83,
                 }}
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}

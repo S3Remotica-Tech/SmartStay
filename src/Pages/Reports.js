@@ -32,7 +32,6 @@ function Reports() {
   const dispatch = useDispatch()
   const state = useSelector(state => state.createAccount)
 
-  console.log("Reports....?", state)
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -42,7 +41,6 @@ function Reports() {
 
 
   const [reportrolePermission, setReportRolePermission] = useState("");
-  console.log("reportrolePermission",reportrolePermission)
 
   const [reportpermissionError, setReportPermissionError] = useState("");
   const [reportAddPermission,setReportAddPermission]= useState("")
@@ -154,7 +152,6 @@ function Reports() {
     setShowReport(false)
   }
 
-  console.log("profile", profile)
 
 
   useEffect(() => {
@@ -222,7 +219,6 @@ function Reports() {
 
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
-    console.log("searchItem", searchItem)
     setSearchQuery(searchItem);
     if (searchItem != '') {
       const filteredReports = reports.filter(report =>

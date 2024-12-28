@@ -116,26 +116,50 @@ function SettingCompliance({ hostelid }) {
 
     return (
         <div className="container">
-            <div className='d-flex row mb-4 mt-4'  style={{position:'sticky' , top:20, backgroundColor:'white'}}>
-                <Col>
-                    <h4 style={{
-                        fontSize: 18,
-                        color: "#000000",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                    }}>Complaint Type</h4>
-                </Col>
-                <Col>
+          <div
+  style={{
+    position: "sticky",
+    top: 0, // Distance from the top of the page
+    zIndex: 1000, // Ensures it stays above other content
+    // width: "100%", // Stretches across the viewport
+    backgroundColor: "white", // Keeps it distinct
+    // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Optional for better visibility
+  }}
+>
+  <div className="d-flex row mb-4 mt-4">
+    <Col>
+      <h4
+        style={{
+          fontSize: 18,
+          color: "#000000",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Complaint Type
+      </h4>
+    </Col>
+    <Col>
+      <div className="d-flex justify-content-end">
+        <Button
+          style={{
+            backgroundColor: "#1E45E1",
+            color: "#ffffff",
+            fontFamily: "Gilroy",
+            fontSize: 14,
+            fontWeight: 600,
+            borderRadius: 8,
+            padding: "16px 20px",
+          }}
+          onClick={handleShowForm}
+        >
+          + Add Complaint Type
+        </Button>
+      </div>
+    </Col>
+  </div>
+</div>
 
-                    <div className="d-flex justify-content-end">
-
-                                        <Button style={{ backgroundColor: "#1E45E1", color: '#ffffff',fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px"  }} onClick={handleShowForm}>
-    
-                            + Add Complaint Type
-                        </Button>
-                    </div>
-                </Col>
-            </div>
 
 
             <div>

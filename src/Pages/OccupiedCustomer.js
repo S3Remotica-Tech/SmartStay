@@ -22,9 +22,7 @@ function AddBed({ show, handleClose, currentItem }) {
     const dispatch = useDispatch();
 
 
-    console.log("currentItem Occupied", currentItem)
 
-    console.log("add bed state", state)
 
     const [customer, setCustomer] = useState([])
 
