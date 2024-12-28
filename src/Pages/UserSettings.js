@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-// import Button from 'react-bootstrap/Button';
 import { Table } from "react-bootstrap";
 import {
   Button,
@@ -39,7 +38,6 @@ function UserSettings() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -64,12 +62,38 @@ function UserSettings() {
   const [editId, setEditId] = useState("");
   const [formError, setFormError] = useState("");
   const [deleteId, setDeleteId] = useState("");
+  const [UserscurrentPage, setUserscurrentPage] = useState(1);
+  const [usersFilterddata, setUsersFilterddata] = useState([]);
 
   useEffect(() => {
     dispatch({ type: "SETTING_ROLE_LIST" });
     dispatch({ type: "COUNTRYLIST" });
     dispatch({ type: "GETUSERSTAFF" });
   }, []);
+
+  useEffect(() => {
+    setemailIdError(state.Settings.emailIdError);
+  }, [state.Settings.emailIdError]);
+
+  useEffect(() => {
+    setphonenumError(state.Settings.phoneNumError);
+  }, [state.Settings.phoneNumError]);
+
+  useEffect(() => {
+    setUsersFilterddata(
+      state.Settings?.addSettingStaffList?.response?.user_details
+    );
+  }, [state.Settings?.addSettingStaffList?.response?.user_details]);
+
+  useEffect(() => {
+    if (state.Settings.StatusForaddSettingUser === 200) {
+      handleStaffClose();
+      dispatch({ type: "GETUSERSTAFF" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_STAFF_USER" });
+      }, 200);
+    }
+  }, [state.Settings.StatusForaddSettingUser]);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -141,14 +165,6 @@ function UserSettings() {
     setFormError("");
   };
 
-  useEffect(() => {
-    setemailIdError(state.Settings.emailIdError);
-  }, [state.Settings.emailIdError]);
-
-  useEffect(() => {
-    setphonenumError(state.Settings.phoneNumError);
-  }, [state.Settings.phoneNumError]);
-
   const handleStaffClose = () => {
     setName("");
     setEmail("");
@@ -194,7 +210,7 @@ function UserSettings() {
     const phoneNumber = String(u.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
-    setEditShow(true)
+    setEditShow(true);
     setName(u.first_name);
     setEmail(u.email_Id);
     setCountryCode(countryCode);
@@ -324,19 +340,8 @@ function UserSettings() {
     //   payload: {user_name:name,phone:normalizedPhoneNumber,email_id:email,password:password,role_id:role,description:description},
     // });
   };
-  useEffect(() => {
-    if (state.Settings.StatusForaddSettingUser === 200) {
-      handleStaffClose();
-      dispatch({ type: "GETUSERSTAFF" });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_STAFF_USER" });
-      }, 200);
-    }
-  }, [state.Settings.StatusForaddSettingUser]);
 
   const usersPerPage = 5;
-  const [UserscurrentPage, setUserscurrentPage] = useState(1);
-  const [usersFilterddata, setUsersFilterddata] = useState([]);
   const indexOfLastRowUsers = UserscurrentPage * usersPerPage;
   const indexOfFirstRowUsers = indexOfLastRowUsers - usersPerPage;
   const currentRowUsers = usersFilterddata?.slice(
@@ -403,12 +408,6 @@ function UserSettings() {
 
     return pageNumbersUsers;
   };
-
-  useEffect(() => {
-    setUsersFilterddata(
-      state.Settings?.addSettingStaffList?.response?.user_details
-    );
-  }, [state.Settings?.addSettingStaffList?.response?.user_details]);
 
   return (
     <>
@@ -513,13 +512,11 @@ function UserSettings() {
                       {state.UsersList?.countrycode?.country_codes?.map(
                         (item) => {
                           return (
-                            (
-                              <>
-                                <option value={item.country_code}>
-                                  +{item.country_code}
-                                </option>
-                              </>
-                            )
+                            <>
+                              <option value={item.country_code}>
+                                +{item.country_code}
+                              </option>
+                            </>
                           );
                         }
                       )}
