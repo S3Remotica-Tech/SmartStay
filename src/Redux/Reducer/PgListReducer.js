@@ -83,7 +83,7 @@ const initialState = {
 }
 
 const PgListReducer = (state = initialState, action) => {
-    console.log("action.payload", action.payload);
+
     switch (action.type) {
  case 'MANAGE_PG':
             return { ...state, isManageEnable: true  }
@@ -145,14 +145,12 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
         case 'EB_LIST':
             return { ...state, EB_Customerlist: action.payload }
         case 'EB_STARTMETER_LIST':
-            console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload.response,statusCodeForEbRoomList:action.payload.statusCode }
             case 'CLEAR_EB_STARTMETER_LIST':
                 return { ...state, statusCodeForEbRoomList: 0 }
 
 
             case 'EB_CUSTOMER_EBLIST':
-                console.log("EB_CUSTOMER_EBLIST", action.payload)
                 return { ...state, EB_customerTable: action.payload,statusCodeforEbCustomer:action.payload.statusCode }
                 case 'CLEAR_EB_CUSTOMER_EBLIST':
                     return { ...state, statusCodeforEbCustomer: 0 }
@@ -395,7 +393,6 @@ case 'CLEAR_SAME_TITLE':
     return { ...state, TitleAlready: ''}
 
         //         case 'ROOM_COUNT':
-        // console.log("action.payload.response",action.payload.response)
         //             if (state.roomCount.length > 0) {
         //                 if (action.payload.response.length > 0) {
         //                     let floor = action.payload.response[0].Floor_Id

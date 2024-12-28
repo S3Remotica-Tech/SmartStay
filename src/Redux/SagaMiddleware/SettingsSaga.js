@@ -84,7 +84,6 @@ function* handleCategorylist(action) {
 }
 
 function* handleCategoryAdd(params) {
-   console.log("settings saga", params.payload);
    const response = yield call(AddExpencesCategory, params.payload);
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -136,7 +135,6 @@ function* handleCategoryAdd(params) {
 
 
 function* handleEditCategory(params) {
-   console.log("settings saga", params.payload);
    const response = yield call(EditExpencesCategory, params.payload);
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -159,7 +157,6 @@ function* handleEditCategory(params) {
 
 function* handleDeleteExpencescategory(action) {
    const response = yield call(DeleteExpencesCategoryList, action.payload);
-   console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_EXPENCES', payload: { response: response.data, statusCode: response.status ||  response.statusCode } })
      
@@ -341,7 +338,6 @@ function* handleDeleteComplainttype(action) {
 function* handleEBBillingUnitAdd(params) {
    
    const response = yield call(AddEBBillingUnit, params.payload);
-   console.log("settingssaga", response);
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
     
@@ -389,7 +385,6 @@ function* handleEBBillingUnitAdd(params) {
 
 function* handleEBBillingUnitGet(action) {
    const response = yield call(GetEBBillingUnit, action.payload);
-console.log("responsehandleEBBillingUnitGet",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode  } })
    }
@@ -403,7 +398,6 @@ console.log("responsehandleEBBillingUnitGet",response)
 
 function* handleGetAllRoles(action) {
    const response = yield call(GetAllRoles, action.payload)
-   console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROLE_LIST', payload:{response: response.data.roles, statusCode:response.status || response.statusCode}})
@@ -435,7 +429,6 @@ function* handleAddSettingRole(action) {
     
    };
 
-   console.log("handleAddSettingRole",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'ADD_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -463,7 +456,6 @@ function* handleAddSettingRole(action) {
 
 function* handlepermissionEdit(userDetails){
    const response = yield call(AddSettingPermission,userDetails.payload)
-   console.log("response...?",response)
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'EDIT_PERMISSION', payload: response.data,statusCode:response.status || response.statusCode })
    }
@@ -496,7 +488,6 @@ function* handleEditRolePermission(detail) {
     
    };
 
-   console.log("handleEditRolePermission",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'EDIT_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -541,7 +532,6 @@ function* handleDeleteRolePermission(detail) {
     
    };
 
-   console.log("handleDeleteRolePermission",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'DELETE_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -587,7 +577,6 @@ function* handleAddStaffUserPage(detail) {
     
    };
 
-   console.log("handleAddStaffUserPage",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'ADD_STAFF_USER' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -620,7 +609,6 @@ function* handleAddStaffUserPage(detail) {
 
 function* handleGetAllStaffs(action) {
    const response = yield call(GetAllStaff,action.payload)
-   console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.statusCode}})
@@ -634,7 +622,6 @@ function* handleGetAllStaffs(action) {
 }
 function* handleGetAllReports() {
    const response = yield call(GetAllReport)
-   console.log("handleGetAllReports.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'REPORT_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
@@ -666,9 +653,7 @@ function* handleAddGeneralPage(action) {
     
    };
 
-   // console.log("handleAddGeneralPage",response)
    if (response.statusCode === 200){
-      console.log("handleAddGeneralPage",response)
       yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.statusCode}})
       toast.success(`${response.message}`, {
         position: "bottom-center",
@@ -702,7 +687,6 @@ function* handleAddGeneralPage(action) {
 
 function* handleGetAllGeneral() {
    const response = yield call(GetAllGeneral)
-   console.log("handleGetAllGeneral.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data, statusCode:response.status || response.statusCode}})
@@ -737,7 +721,6 @@ function* handleChangePasswordinStaff(action) {
     
    };
 
-   console.log("handleChangePasswordinStaff",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'GENERAL_PASSWORD_CHANGES' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -762,7 +745,6 @@ function* handleChangePasswordinStaff(action) {
 }
 function* handleDeleteGenerlPage(action) {
    const response = yield call(generalDelete, action.payload);
-   console.log("handleDeleteGenerlPage", response);
  
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -814,7 +796,6 @@ function refreshToken(response) {
 
    if (response.data && response.data.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
-      console.log("refreshTokenGet", refreshTokenGet)
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
    } else if (response.status === 206) {

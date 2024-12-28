@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 
 function* handleGetCategory() {
    const response = yield call (GetExpenseCatogory);
-   console.log("response for get",response)
    if (response.status === 200 || response.statusCode === 200 ){
       yield put ({type : 'CATEGORY_LIST' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
 
@@ -24,7 +23,6 @@ function* handleGetCategory() {
 
 function* handleGetExpenses(action) {
     const response = yield call (GetExpense, action.payload);
-    console.log("response for getExpense",response.status)
     if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'EXPENSES_LIST' , payload:{response:response.data.data,  statusCode:response.status || response.statusCode}})
      }
@@ -54,7 +52,6 @@ function* handleAddExpense(action) {
      
     };
 
-    console.log("response",response)
     if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'ADD_EXPENSE' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
        toast.success(`${response.data.message}`, {
@@ -100,7 +97,6 @@ function* handleAddExpense(action) {
     
    };
 
-   console.log("response",response)
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'ADD_EXPENSE_TAG' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -127,7 +123,6 @@ function* handleAddExpense(action) {
 
  function* handleDeleteExpense(action) {
     const response = yield call ( DeleteExpense, action.payload);
-    console.log("response",response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -173,7 +168,6 @@ function* handleAddExpense(action) {
 function refreshToken(response){
 if(response.data && response.data.refresh_token){
    const refreshTokenGet = response.data.refresh_token
-   console.log("refreshTokenGet",refreshTokenGet)
    const cookies = new Cookies()
    cookies.set('token', refreshTokenGet, { path: '/' });
 }else if (response.status === 206) {
@@ -190,7 +184,6 @@ function* HandleTransactionHistory(action) {
    const response = yield call(transactionHistory, action.payload)
   
    if (response.status === 200 || response.statusCode === 200) {
-      console.log("TRANSACTIONHISTORY",response);
       
      yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode} })
  

@@ -23,7 +23,6 @@ const initialState = {
 }
 const CreateAccountReducer = (state = initialState, action) => {
 
-   console.log("action",action.payload)
 
      switch (action.type) {
       case 'ERROR':

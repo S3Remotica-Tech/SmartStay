@@ -198,9 +198,7 @@ function* handleUnAssignAmenities(action) {
 
 function* handleGetAssignAmenities(action) {
    const response = yield call(GetAssignAmenities, action.payload)
-  
-   console.log("assign",response)
-  
+    
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'GET_ASSIGN_AMENITIES', payload: {unAssigned : response.data.unselected, Assigned : response.data.selected, statusCode:response.status || response.statusCode} })
    }
@@ -236,8 +234,7 @@ function* handleGetAssignAmenities(action) {
 
 function* handleInvoiceList(action) {
    const response = yield call(invoiceList, action.payload)
-   console.log("response for invoice list",response)
-  
+
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'INVOICE_LIST', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
    }
@@ -251,7 +248,6 @@ function* handleInvoiceList(action) {
 
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
-   console.log("response.....>",response);
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response,statusCode:response.status || response.statusCode })
@@ -295,8 +291,8 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-     console.log("invoiceresponse",response)
-      if (response.statusCode === 200 || response.status === 200) {
+
+       if (response.statusCode === 200 || response.status === 200) {
          yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode || response.status} })
          
          
@@ -343,7 +339,6 @@ function* handleInvoiceSettings(param){
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
-   console.log("responseInvoice",response);
    
      if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status || response.statusCode}})
@@ -484,15 +479,12 @@ function* handleManualInvoice() {
       refreshToken(response)
    }
 }
+
 function* handleManualInvoiceNumber(params) {
    const response = yield call(ManualInvoiceNumber , params.payload)
-   console.log("response",response);
    
-  
    if (response.status === 200 || response.statusCode === 200){
-      yield put ({type : 'MANUAL_INVOICE_NUMBER_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
-      console.log("MANUAL_INVOICE_NUMBER_GET success");
-      
+      yield put ({type : 'MANUAL_INVOICE_NUMBER_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})      
       // Define the style
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -533,7 +525,6 @@ function* handleManualInvoiceNumber(params) {
 
 function* handleManualInvoiceGetData(params) {
    const response = yield call(ManualInvoiceUserData , params.payload)
-  console.log("response",response);
   
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_AMOUNT_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
@@ -577,7 +568,6 @@ function* handleManualInvoiceGetData(params) {
 
 function* handleRecurrbillamountData(params) {
    const response = yield call(RecurrInvoiceamountData , params.payload)
-  console.log("response",response);
   
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'RECURRING_BILL_GET_AMOUNT' , payload:{response:response.data.data, statusCode:response.status || response.statusCode }})
@@ -622,7 +612,6 @@ function* handleRecurrbillamountData(params) {
 function* handleManualInvoiceAdd (params) {
    const response = yield call (AddManualInvoiceBill,params.payload);
  
-   console.log("responseformanualinvoiceadd",response);
 
 
    if (response.status === 200 || response.statusCode === 200){
@@ -662,7 +651,6 @@ function* handleManualInvoiceAdd (params) {
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
  
-console.log("responseformanualinvoiceadd",response);
 
 
    if (response.status === 200 || response.statusCode === 200){
@@ -701,9 +689,7 @@ console.log("responseformanualinvoiceadd",response);
 
 
 function* handleGetManualInvoice(action) {
-   const response = yield call(GetManualInvoices,action.payload)
-   console.log("responseManual", response);
-   
+   const response = yield call(GetManualInvoices,action.payload)   
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.statusCode}})
@@ -718,7 +704,6 @@ function* handleGetManualInvoice(action) {
 
 function* handleGetRecurrbills(action) {
    const response = yield call(GetRecurrBills, action.payload)
-   console.log("responseManual", response);
    
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -734,7 +719,6 @@ function* handleGetRecurrbills(action) {
 
 function* handleDeleteRecuringBills(action) {
    const response = yield call(DeleteRecurrBills, action.payload);
-   console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_RECURRING_BILLS', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
      
@@ -826,7 +810,6 @@ function* handleAddInvoiceRecurringSettings (param){
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
-      console.log("refreshTokenGet",refreshTokenGet)
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
    }else if (response.status === 206) {

@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
 
-   console.log("response for user list", response)
    if (response.status === 200 ) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
    }
@@ -23,7 +22,6 @@ function* handleuserlist(user) {
 function* handleHostelList(hostel) {
    const response = yield call(hostelList, hostel.payload)
 
-   console.log("response hostel list", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
@@ -38,7 +36,6 @@ function* handleHostelList(hostel) {
 function* handleNumberOfRooms(ID) {
    const response = yield call(roomsCount, ID.payload)
 
-   console.log("response", response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROOM_COUNT', payload: { response: response.data.responseData, statusCode: response.status || response.statusCode } })
@@ -53,7 +50,6 @@ function* handleNumberOfRooms(ID) {
 
 function* handlehosteliddetail(data) {
    const response = yield call(hosteliddetail, data.payload);
-   console.log("response....Floor", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data, statusCode: response.status || response.statusCode })
 
@@ -81,7 +77,6 @@ function* handleUserBillPaymentHistory() {
 
 function* handleCreateFloor(data) {
    const response = yield call(createFloor, data.payload);
-   console.log("response floor", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -132,7 +127,6 @@ function* handleCreateFloor(data) {
 
 function* handleRoomsDetails(ID) {
    const response = yield call(roomsCount, ID.payload)
-   console.log("responsesss", response);
 
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -151,7 +145,6 @@ function* handleRoomsDetails(ID) {
 // function* handleAddUser(datum) {
 //    try {
 //      const response = yield call(addUser, datum.payload);
-//      console.log("Response:", response);
 
 //      // Define toastStyle within the try block to ensure it is accessible where needed
 //      const toastStyle = {
@@ -172,7 +165,6 @@ function* handleRoomsDetails(ID) {
 //          type: 'ADD_USER',
 //          payload: { response: response.message, statusCode: response.statusCode || response.status },
 //        });
-//        console.log("datum.payload..?", datum.payload);
 
 //        toast.success(response.message, {
 //          position: "top-right",
@@ -247,14 +239,12 @@ function* handleRoomsDetails(ID) {
 // function* handleAddUser(datum) {
 //    try {
 //      const response = yield call(addUser, datum.payload);
-//      console.log("Response:", response);
 
 //      if (response.statusCode === 200 || response.status === 200) {
 //        yield put({
 //          type: 'ADD_USER',
 //          payload: { response: response.message, statusCode: response.statusCode || response.status },
 //        });
-//        console.log("datum.payload..?", datum.payload);
 
 //        toast.success(response.message, {
 //          position: "top-right",
@@ -310,14 +300,12 @@ function* handleRoomsDetails(ID) {
 
 function* handleAddUser(datum) {
    const response = yield call(addUser, datum.payload);
-   console.log("responsetytytyytyyy", response);
 
    if (response.statusCode === 200 || response.status === 200) {
       yield put({
          type: 'ADD_USER',
          payload: { response: response.message, statusCode: response.statusCode || response.status },
       });
-      console.log("datum.payload..?", datum.payload);
 
       // Define the style
       var toastStyle = {
@@ -402,7 +390,6 @@ function* handleCheckOut(action) {
 
 function* handleDeleteFloor(hosteID) {
    const response = yield call(deleteFloor, hosteID.payload)
-   console.log("response", response);
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -505,7 +492,6 @@ function* handleDeleteRoom(roomDetails) {
 function refreshToken(response) {
    if (response.data && response.data.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
-      console.log("refreshTokenGet", refreshTokenGet)
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
    } else if (response.status === 206) {
@@ -520,7 +506,6 @@ function refreshToken(response) {
 
 function* handlecustomerdetails(userDetails) {
    const response = yield call(CustomerDetails, userDetails.payload)
-   console.log("response...?", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CUSTOMER_DETAILS', payload: response.data, statusCode: response.status || response.statusCode })
    }
@@ -548,7 +533,6 @@ function* handleAmnitiesName() {
 }
 function* handleamenityhistory(amnityDetails) {
    const response = yield call(amenitieshistory, amnityDetails.payload)
-   console.log("response...?12", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
@@ -563,9 +547,7 @@ function* handleamenityhistory(amnityDetails) {
 
 
 function* handleuserAddAmnitiesName(amnity) {
-   console.log("aminity add aminityuser", amnity);
    const response = yield call(amenitieAddUser, amnity.payload)
-   console.log("response...?", response)
    if (response.status == 200 || response.statusCode === 200) {
       yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
       var toastStyle = {
@@ -636,7 +618,6 @@ function* handleuserAddAmnitiesName(amnity) {
 
 function* handlebedNumberDetails(bedDetails) {
    const response = yield call(beddetailsNumber, bedDetails.payload)
-   console.log("response...?", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data, statusCode: response.status || response.statusCode })
    }
@@ -653,7 +634,6 @@ function* handlebedNumberDetails(bedDetails) {
 
 function* handleKYCValidate(action) {
    const response = yield call(KYCValidate, action.payload)
-   console.log("response...?", response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -710,7 +690,6 @@ function* handleKYCValidate(action) {
 
 function* handleKYCValidateOtpVerify(action) {
    const response = yield call(KYCValidateOtpVerify, action.payload)
-   console.log("response...?", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -797,7 +776,6 @@ function* handleGetWalkInCustomer(action) {
 
 function* handleAddWalkInCustomer(action) {
    const response = yield call(AddWalkInCustomer, action.payload);
-   console.log("response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -841,7 +819,6 @@ function* handleAddWalkInCustomer(action) {
 
 function* handleDeleteWalkInCustomer(action) {
    const response = yield call(DeleteWalkInCustomer, action.payload);
-   console.log("response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -897,7 +874,6 @@ function* handleCheckoutCustomer(action) {
 
 function* handleAddCheckoutCustomer(action) {
    const response = yield call(AddCheckOutCustomer, action.payload);
-   console.log("response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -943,7 +919,6 @@ function* handleAddCheckoutCustomer(action) {
 
 function* handleDeleteCheckOUtCustomer(action) {
    const response = yield call(DeleteCheckOutCustomer, action.payload);
-   console.log("response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -987,13 +962,9 @@ function* handleDeleteCheckOUtCustomer(action) {
 
 function* handleAvailableCheckOUtCustomer(action) {
    const response = yield call(AvailableCheckOutCustomer, action.payload);
-   console.log("response", response)
-
-
 
    if (response.statusCode === 200 || response.status === 200) {
       yield put({ type: 'AVAILABLE_CHECK_OUT_CUSTOMER', payload: { response: response.data.user_list } })
-
    }
 
    if (response) {
@@ -1004,7 +975,6 @@ function* handleAvailableCheckOUtCustomer(action) {
 
 function* handlegetConfirmCheckOUtCustomer(action) {
    const response = yield call(GetConfirmCheckOut, action.payload);
-   console.log("response", response)
 
    if (response.statusCode === 200 || response.status === 200) {
       yield put({ type: 'GET_CONFIRM_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
@@ -1017,7 +987,6 @@ function* handlegetConfirmCheckOUtCustomer(action) {
 
 function* handleAddConfirmCheckout(action) {
    const response = yield call(AddConfirmCheckOut, action.payload);
-   console.log("response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -1063,7 +1032,6 @@ function* handleAddConfirmCheckout(action) {
 
 function* handleExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1080,7 +1048,6 @@ function* handleExportDetails(action) {
 
 function* handleAssetsExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_ASSETS_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1097,7 +1064,6 @@ function* handleAssetsExportDetails(action) {
 
 function* handleElectricityExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_EB_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1113,7 +1079,6 @@ function* handleElectricityExportDetails(action) {
 
 function* handleExpenceExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_EXPENSE_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1128,7 +1093,6 @@ function* handleExpenceExportDetails(action) {
 }
 function* handleComplianceExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_COMPLIANCE_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1143,7 +1107,6 @@ function* handleComplianceExportDetails(action) {
 }
 function* handleBookingExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_BOOKING_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1159,7 +1122,6 @@ function* handleBookingExportDetails(action) {
 
 function* handleWalkinExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_WALKIN_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1174,7 +1136,6 @@ function* handleWalkinExportDetails(action) {
 }
 function* handleCheckoutExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   console.log("handleExportDetails", response)
    if (response.data.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EXPORT_CHECKOUT_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
@@ -1188,7 +1149,6 @@ function* handleCheckoutExportDetails(action) {
    }
 }
 function* handleReAssignPage(action) {
-console.log("actionassing",action)
    const response = yield call (customerReAssignBed, action.payload);
 
    var toastStyle = {
@@ -1206,8 +1166,6 @@ console.log("actionassing",action)
      padding: "10px",
     
    };
-   console.log("handleReAssignPage",response)
-   // console.log("handleAddGeneralPage",response)
    if (response.status === 200 ||response.data.statusCode === 200){
      
       yield put ({type : 'REASSIGN_BED' , payload: { response: response.data, statusCode: response.status || response.data.statusCode }})
@@ -1234,9 +1192,7 @@ console.log("actionassing",action)
 
 
 function* handleCustomerAddContact(action) {
-   console.log("handleCustomerAddContact",action)
       const response = yield call (customerAddContact, action.payload);
-      console.log("handleCustomerAddContact",response)
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
@@ -1252,8 +1208,7 @@ function* handleCustomerAddContact(action) {
         padding: "10px",
        
       };
-      // console.log("customerAddContact",response)
-      // console.log("handleAddGeneralPage",response)
+ 
       if (response.status === 200 ||response.data.statusCode === 200){
         
          yield put ({type : 'CUSTOMER_ADD_CONTACT' , payload: { response: response.data, statusCode: response.status || response.data.statusCode }})
@@ -1285,7 +1240,6 @@ function* handleCustomerAddContact(action) {
  function* handleCustomerAllDetails(action) {
    const response = yield call(customerAllContact,action.payload);
    if (response.status === 200 || response.data.statusCode === 200) {
-     console.log("....responsecus", response);
      yield put({ type: "CUSTOMER_ALL_DETAILS", payload: {response: response.data , statusCode: response.status || response.data.statusCode}  });
    } else {
      yield put({ type: "ERROR", payload: response.data.message });
@@ -1299,7 +1253,6 @@ function* handleCustomerAddContact(action) {
 
  function* handleDeleteContact(action) {
     const response = yield call(deleteContact, action.payload);
-    console.log("response delete Banking", response);
   
     var toastStyle = {
       backgroundColor: "#E6F6E6",

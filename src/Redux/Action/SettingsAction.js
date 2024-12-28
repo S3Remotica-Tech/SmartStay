@@ -1,15 +1,12 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
 
 export async function AddExpencesCategory(Expences) {
-
-    console.log("Expences",Expences);
     return await AxiosConfig.post('/add/expense-category',Expences,{
       data:Expences
     })
   }
 
   export async function EditExpencesCategory(Expences) {
-    console.log("Expences",Expences);
     return await AxiosConfig.post('/edit/expense_category',Expences,{
       data:Expences
     })
@@ -60,15 +57,12 @@ export async function DeleteExpencesCategoryList(expences) {
 }
 
 export async function Addcomplainttype(type) {
-  console.log("Expences", type);
   return await AxiosConfig.post("/complaint_types", type, {
     data: type,
   });
 }
 
-export async function Complainttypelist(hostelID) {
-    console.log("actionfortypelist",hostelID);
-    
+export async function Complainttypelist(hostelID) {    
     return await AxiosConfig.post('/all_complaint_types',hostelID,{
       data:hostelID
     })
@@ -81,7 +75,6 @@ export async function DeletecomplaintType(types) {
 }
 
 export async function AddEBBillingUnit(type) {
-  console.log("Expences", type);
   return await AxiosConfig.post("/add_ebbilling_settings", type, {
     data: type,
   });
@@ -95,43 +88,40 @@ export async function AddEBBillingUnit(type) {
 
 
 export async function GetAllRoles(payload) {
-  console.log("getRole",payload)
   return await AxiosConfig.post("/all_roles",payload, {
-data:payload
+     data:payload
   });
 }
+
 export async function AddSettingRole(datum) {
-  console.log("AddSettingRole", datum);
   return await AxiosConfig.post("/add_role", datum, {
     data: datum,
   });
 }
 
 export async function AddSettingPermission(datum) {
-  console.log("AddSettingPermission", datum);
   return await AxiosConfig.post("/role_permissions", datum, {
     data: datum,
   });
 }
 export async function editRolePermission(datum) {
-  console.log("editRolePermission", datum);
   return await AxiosConfig.post("/edit_role", datum, {
     data: datum,
   });
 }
 
 export async function deleteRolePermission(datum) {
-  console.log("deleteRolePermission", datum);
   return await AxiosConfig.post("/delete_role", datum, {
     data: datum,
   });
 }
+
 export async function addStaffUser(datum) {
-  console.log("addStaffUser", datum);
   return await AxiosConfig.post("/add_staff_user", datum, {
     data: datum,
   });
 }
+
 export async function GetAllStaff(staff) {
   return await AxiosConfig.post("/get_all_staffs",staff, {
     data:staff
@@ -143,7 +133,6 @@ export async function GetAllReport() {
 }
 
 export async function AddGeneral(params) {
-  console.log("paramAddGeneral", params);
 
   const formData = new FormData();
   if (params.f_name) formData.append("f_name", params.f_name);
@@ -169,7 +158,6 @@ export async function AddGeneral(params) {
         },
       }
     );
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -182,7 +170,6 @@ export async function GetAllGeneral() {
 
 
 export async function passwordChangesinstaff(datum) {
-  console.log("passwordChangesinstaff", datum);
   return await AxiosConfig.post("/settings/change_staff_password", datum, {
     data: datum,
   });
@@ -190,7 +177,6 @@ export async function passwordChangesinstaff(datum) {
 
 
 export async function generalDelete(datum) {
-  console.log("generalDelete", datum);
   return await AxiosConfig.post("/settings/delete_general_user", datum, {
     data: datum,
   });

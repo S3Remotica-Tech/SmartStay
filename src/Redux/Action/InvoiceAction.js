@@ -132,7 +132,6 @@ export async function InvoiceSettings(params) {
         console.log("event", event)
               }
     });
-    console.log("responseforApi", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);

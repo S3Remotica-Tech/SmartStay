@@ -14,7 +14,6 @@ export async function Compliancedetails(formDetails) {
 }
 
 export async function VendorList(vendor) {
-  console.log("vendor",vendor)
   return await AxiosConfig.post('/get/vendor_list', vendor, {
     data: vendor
   })
@@ -22,7 +21,6 @@ export async function VendorList(vendor) {
 
 
 export async function addVendor(params) {
-  console.log("param", params)
  
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
@@ -49,7 +47,6 @@ export async function addVendor(params) {
         console.log("event", event)
       }
     });
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -64,9 +61,7 @@ export async function addVendor(params) {
     })
   }
   
-  // /compliance/change_details
   export async function ComplianceChange(compliance) {
-    console.log("compliancessssssss",compliance)
     return await AxiosConfig.post('/compliance/change_details', compliance, {
       data: compliance
     })

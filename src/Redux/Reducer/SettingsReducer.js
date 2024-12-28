@@ -48,7 +48,7 @@ const initialState = {
 };
 
 const SettingsReducer = (state = initialState, action) => {
-  console.log("action for settings", action);
+
   switch (action.type) {
     //Expenses category for settings ==>
     case "EXPENCES_CATEGORY_LIST":
@@ -222,7 +222,6 @@ const SettingsReducer = (state = initialState, action) => {
     // general
 
     case "SETTING_GENERAL_ADD":
-      console.log("action.payload.statusCode",action.payload.statusCode)
       return {
         ...state,
         settingGeneralPage: action.payload.response,
@@ -233,7 +232,6 @@ const SettingsReducer = (state = initialState, action) => {
 
 
       case 'GENERAL_EMAIL_ERROR':
-        console.log("GENERAL_EMAIL_ERROR",action.payload)
         return { ...state, generalEmailError: action.payload }
 
     case 'CLEAR_GENERAL_EMAIL_ERROR':
