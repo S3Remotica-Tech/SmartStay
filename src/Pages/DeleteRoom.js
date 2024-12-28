@@ -14,9 +14,6 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails}) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-console.log("state for delete room",state)
-console.log("deleteRoomDetails",deleteRoomDetails)
-
 const [numberOfBeds, setNumberOfBeds] =useState([])
 
 useEffect(() => {

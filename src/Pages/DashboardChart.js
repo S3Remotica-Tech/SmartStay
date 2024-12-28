@@ -14,7 +14,6 @@ const DashboardChart = () => {
   var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const state = useSelector(state => state)
-  console.log("state", state)
   const dispatch = useDispatch();
   const [dashboardChart, setDashboardChart] = useState(state.PgList.dashboardDetails.Revenue_reports || []);
   const LoginId = localStorage.getItem("loginId")

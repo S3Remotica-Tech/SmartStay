@@ -183,38 +183,70 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
 
-  
   useEffect(() => {
-    let FilterUser = [];
-  
+   
+    // Only filter when value is "1"
     if (value === "1") {
-      FilterUser = Array.isArray(state.UsersList?.Users)
-        ? state.UsersList.Users?.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
-        : [];
-    } else if (value === "2") {
-      FilterUser = Array.isArray(state?.Booking?.CustomerBookingList?.bookings)
-        ? state.Booking.CustomerBookingList.bookings?.filter((item) =>
-            item.first_name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
-        : [];
-    } else if (value === "4") {
-      FilterUser = Array.isArray(state.UsersList?.hostelList)
-        ? state.UsersList.hostelList?.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
-        : [];
+      const FilterUser = state.UsersList.Users.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      });
+
+      setFilteredUsers(FilterUser);
+      console.log("FilterUser", FilterUser);
     }
-  
-    setFilteredUsers(FilterUser)
+    if (value === "2") {
+      const FilterUsertwo =
+        state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
+          return item.first_name
+            .toLowerCase()
+            .includes(filterInput.toLowerCase());
+        });
+      setFilteredUsers(FilterUsertwo);
+    }
+    if (value === "4") {
+      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      });
+      setFilteredUsers(FilterUsertwo);
+      console.log("FilterUsertwo", FilterUsertwo);
+    }
   }, [
-    filterInput, 
-    state.UsersList?.Users, 
-    value, 
+    filterInput,
+    state.UsersList.Users,
+    value,
     state?.Booking?.CustomerBookingList?.bookings,
-    state.UsersList?.hostelList,
   ]);
+  // useEffect(() => {
+  //   let FilterUser = [];
+  
+  //   if (value === "1") {
+  //     FilterUser = Array.isArray(state.UsersList?.Users)
+  //       ? state.UsersList.Users?.filter((item) =>
+  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+  //         )
+  //       : [];
+  //   } else if (value === "2") {
+  //     FilterUser = Array.isArray(state?.Booking?.CustomerBookingList?.bookings)
+  //       ? state.Booking.CustomerBookingList.bookings?.filter((item) =>
+  //           item.first_name?.toLowerCase().includes(filterInput.toLowerCase())
+  //         )
+  //       : [];
+  //   } else if (value === "4") {
+  //     FilterUser = Array.isArray(state.UsersList?.hostelList)
+  //       ? state.UsersList.hostelList?.filter((item) =>
+  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+  //         )
+  //       : [];
+  //   }
+  
+  //   setFilteredUsers(FilterUser)
+  // }, [
+  //   filterInput, 
+  //   state.UsersList?.Users, 
+  //   value, 
+  //   state?.Booking?.CustomerBookingList?.bookings,
+  //   state.UsersList?.hostelList,
+  // ]);
   
 
   const handlefilterInput = (e) => {
@@ -309,6 +341,7 @@ function UserList(props) {
   const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
+  console.log("currentItems",currentItems)
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -1614,16 +1647,17 @@ function UserList(props) {
                       )}
 
                       {currentItems && currentItems.length > 0 && (
+                        <div style={{
+                          height: "410px",
+                          overflowY: "auto", 
+                          borderRadius: "24px",
+                          border: "1px solid #DCDCDC",
+                          // borderBottom:"none"
+                        }}>
                         <Table
                           responsive="md"
                           className="Table_Design"
-                          style={{
-                            height: "auto",
-                            overflow: "visible",
-                            tableLayout: "auto",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                          }}
+                          style={{ border: "1px solid #DCDCDC",height: "400px",}}
                         >
                           <thead
                             style={{
@@ -2300,6 +2334,7 @@ function UserList(props) {
                                 })}
                           </tbody>
                         </Table>
+                        </div>
                       )}
                     </div>
                     {currentItems?.length > 0 && (

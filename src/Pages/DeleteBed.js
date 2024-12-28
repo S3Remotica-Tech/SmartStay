@@ -14,10 +14,6 @@ function DeleteBed({ show, handleClose,deleteBedDetails}) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-console.log("state ",state)
-
-console.log("deleteBedDetails",deleteBedDetails)
-
 const [actionType, setActionType] = useState('addCustomer');
 const [showAddCustomer, setShowAddCustomer] = useState(false)
 const [rolePermission, setRolePermission] = useState("");
@@ -25,7 +21,6 @@ const [customerAddPermission,setCustomerAddPermission]= useState("")
 const [customerDeletePermission,setCustomerDeletePermission]=useState("")
 const {bed, room } = deleteBedDetails
 
-console.log("showAddCustomer",showAddCustomer)
 
 useEffect(() => {
   setRolePermission(state.createAccount.accountList);
@@ -33,8 +28,6 @@ useEffect(() => {
 
 
 useEffect(() => {
-  console.log("===rolePermission4", rolePermission[0]);
-
   if (
     rolePermission[0]?.is_owner == 1 ||
     rolePermission[0]?.role_permissions[4]?.per_create == 1
@@ -46,7 +39,6 @@ useEffect(() => {
 }, [rolePermission]);
 
 useEffect(() => {
-  console.log("===rolePermission4", rolePermission[0]);
   if (
     rolePermission[0]?.is_owner == 1 ||
     rolePermission[0]?.role_permissions[4]?.per_delete == 1
