@@ -184,7 +184,6 @@ function UserList(props) {
       });
 
       setFilteredUsers(FilterUser);
-      console.log("FilterUser", FilterUser);
     }
     if (value === "2") {
       const FilterUsertwo =
@@ -200,7 +199,6 @@ function UserList(props) {
         return item.Name.toLowerCase().includes(filterInput.toLowerCase());
       });
       setFilteredUsers(FilterUsertwo);
-      console.log("FilterUsertwo", FilterUsertwo);
     }
   }, [
     filterInput,
@@ -322,7 +320,6 @@ function UserList(props) {
   const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  console.log("currentItems", currentItems);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
