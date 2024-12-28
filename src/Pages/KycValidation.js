@@ -29,7 +29,6 @@ const MyComponent = () => {
     };
 
 
-    console.log("state for kyc", state)
 
 
     const handleValidate = () => {

@@ -24,7 +24,6 @@ import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
        
 
     useEffect(() => {
-            console.log("===billrolePermission[0]", props.billrolePermission);
             if (
                 props.billrolePermission[0]?.is_owner == 1 ||
                 props.billrolePermission[0]?.role_permissions[11]?.per_delete == 1
@@ -35,7 +34,6 @@ import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
             }
           }, [ props.billrolePermission]);
           useEffect(() => {
-            console.log("=== props.billrolePermission[0]",  props.billrolePermission);
             if (
                 props.billrolePermission[0]?.is_owner == 1 ||
                 props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
@@ -45,7 +43,6 @@ import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
                 setRecurringBillEditPermission("Permission Denied");
             }
           }, [ props.billrolePermission]);
-        console.log("props",props);
 
         const [showDots, setShowDots] = useState('')
 
@@ -67,42 +64,35 @@ import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
     
     
         const handleInvoicepdf = (item) => {
-            console.log("invoicecall", item);
             props.OnHandleshowInvoicePdf(item)
         }
 
 
         let Dated = new Date(props.item.invoice_date);
-        console.log("Dated..?", Dated);
     
         let day = Dated.getDate();
         let month = Dated.getMonth() + 1; // Months are zero-based
         let year = Dated.getFullYear();
     
         let formattedDate = `${day}/${month}/${year}`;
-        console.log("Formatted Date:", formattedDate);
     
     
     
         let dueDated = new Date(props.item.DueDate);
-        console.log("dueDated..?", dueDated);
     
         let daydue = dueDated.getDate();
         let monthdue = dueDated.getMonth() + 1; // Months are zero-based
         let yeardue = dueDated.getFullYear();
     
         let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-        console.log("Formatted Date:", formattedDueDate);
     
         let nextinvoiceDated = new Date(props.item.next_invoice_date);
-        console.log("dueDated..?", nextinvoiceDated);
     
         let nextinvoiceday = nextinvoiceDated.getDate();
         let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
         let nextinvoiceyear = nextinvoiceDated.getFullYear();
     
         let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
-        console.log("Formatted next invoice Date:", formattedNextInvoiceDate);
     
     
         const popupRef = useRef(null);

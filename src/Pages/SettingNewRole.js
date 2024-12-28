@@ -146,7 +146,15 @@ const handleEditForm = (view) =>{
     return (
         <div className="container">
             <div className='d-flex justify-content-between align-items-center'
-               style={{position:'sticky' , top:20, backgroundColor:'white'}}>
+                style={{
+                    position: "sticky",
+                    top: 20,
+                    right: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#FFFFFF",
+                    height: 83,
+                  }}>
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 

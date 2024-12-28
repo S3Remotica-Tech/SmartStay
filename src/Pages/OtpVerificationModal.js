@@ -18,7 +18,6 @@ const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
     const [otpValue, setOtpValue] = useState('');
 
 
-console.log("state for opt verification",state)
 
 
   const inputRefs = [
@@ -60,10 +59,8 @@ useEffect(()=>{
     const cookies = new Cookies()
     cookies.set('token', token, { path: '/' });
 
-    // console.log("tokenverification",token)
 
     // dispatch({ type: 'ACCOUNTDETAILS'})
-    //   console.log("executed account details")
     //   setTimeout(()=>{
     //     dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
     //     },2000)
@@ -74,7 +71,6 @@ useEffect(()=>{
           },1000)
 
       } else {
-  console.error("Login information not available.");
 }
  },[state.login.OtpVerifyStatusCode])
 

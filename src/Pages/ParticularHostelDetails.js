@@ -41,7 +41,6 @@ function getFormattedRoomId(floor_Id, room_Id) {
       return `T${roomIdString}`;
     default:
       const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-      console.log("floorAbbreviation", floorAbbreviation, floor_Id);
       return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
   }
 }
@@ -70,7 +69,6 @@ function ParticularHostelDetails(props) {
 
 
 
-  console.log("Props", props)
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -131,7 +129,6 @@ function ParticularHostelDetails(props) {
   const handleShowDots = (roomId) => {
     setShowDots(!showDots)
     setActiveRoomId(activeRoomId == roomId ? null : roomId);
-    console.log("roomId",roomId,activeRoomId)
   }
 
   useEffect(() => {
@@ -154,7 +151,6 @@ function ParticularHostelDetails(props) {
   const [loader, setLoader] = useState(true)
 
 
-console.log("roomCountData",roomCountData)
 
 
   useEffect(() => {
@@ -235,7 +231,6 @@ console.log("roomCountData",roomCountData)
 
 
 
-  console.log("roomCountData", roomCountData)
 
   useEffect(() => {
     dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
@@ -267,7 +262,6 @@ console.log("roomCountData",roomCountData)
   },[roomCountData])
 
 
-console.log("currentItems Room", currentItems);
 
 
 
@@ -320,7 +314,6 @@ console.log("currentItems Room", currentItems);
 
   const handleShowAddRoom = (floor_Id, hostel_Id) => {
     setShowRoom(true)
-    console.log("add room", floor_Id, hostel_Id)
     setHostelDetails({ hostel_Id, floor_Id });
     setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null ,Room_Name: null})
 
@@ -357,7 +350,6 @@ console.log("currentItems Room", currentItems);
 
 
 
-  // console.log("currentItems",currentItems)
 
   const [showDeleteBed, setShowDeleteBed] = useState(false)
   const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
@@ -390,7 +382,6 @@ console.log("currentItems Room", currentItems);
   }
 
 
-  console.log("state", state)
 
   useEffect(() => {
     if (state.PgList.statusCodeDeleteBed == 200) {
@@ -426,7 +417,6 @@ console.log("currentItems Room", currentItems);
     })
   });
  
-console.log("loader",loader)
 
 
 const popupRef = useRef(null);
