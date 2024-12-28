@@ -19,16 +19,7 @@ import { Mobile } from "iconsax-react";
 import { Email } from "@material-ui/icons";
 import { MdError } from "react-icons/md";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
+import {Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
