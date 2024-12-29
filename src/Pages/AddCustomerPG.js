@@ -82,9 +82,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   const handleFirstName = (e) => {
     const value = e.target.value;
@@ -136,11 +136,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
   };
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-    setGeneralError("");
-    setCountryCodeError("");
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  //   setGeneralError("");
+  //   setCountryCodeError("");
+  // };
 
   const handleEmail = (e) => {
     const email = e.target.value;
@@ -611,7 +611,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         <Form.Select
                           value={countryCode}
                           id="vendor-select-pg"
-                          onChange={handleCountryCodeChange}
+                          // onChange={handleCountryCodeChange}
                           style={{
                             border: "1px solid #D9D9D9",
                             borderRadius: "8px 0 0 8px",
@@ -625,19 +625,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                             maxWidth: 90,
                           }}
                         >
-                          {state.UsersList?.countrycode &&
-                            state.UsersList?.countrycode?.country_codes?.map(
-                              (view) => {
-                                return (
-                                  <option
-                                    key={view.country_code}
-                                    value={view.country_code}
-                                  >
-                                    +{view.country_code}
-                                  </option>
-                                );
-                              }
-                            )}
+                        <option>+{countryCode}</option>
                         </Form.Select>
                         <Form.Control
                           value={phone}

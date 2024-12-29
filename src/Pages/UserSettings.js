@@ -58,7 +58,7 @@ function UserSettings() {
 
   useEffect(() => {
     dispatch({ type: "SETTING_ROLE_LIST" });
-    dispatch({ type: "COUNTRYLIST" });
+    // dispatch({ type: "COUNTRYLIST" });
     dispatch({ type: "GETUSERSTAFF" });
   }, []);
 
@@ -137,9 +137,9 @@ function UserSettings() {
     setFormError("");
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
 
   const handleRole = (e) => {
     setRole(e.target.value);
@@ -484,7 +484,7 @@ function UserSettings() {
                     <Form.Select
                       value={countryCode}
                       id="vendor-select-pg"
-                      onChange={handleCountryCodeChange}
+                      // onChange={handleCountryCodeChange}
                       style={{
                         border: "1px solid #D9D9D9",
 
@@ -500,17 +500,7 @@ function UserSettings() {
                         paddingRight: 10,
                       }}
                     >
-                      {state.UsersList?.countrycode?.country_codes?.map(
-                        (item) => {
-                          return (
-                            <>
-                              <option value={item.country_code}>
-                                +{item.country_code}
-                              </option>
-                            </>
-                          );
-                        }
-                      )}
+                      <option>+{countryCode}</option>
                     </Form.Select>
                     <Form.Control
                       value={phone}

@@ -45,9 +45,9 @@ function AddPg({ show, handleClose, currentItem }) {
   const [isChangedError, setIsChangedError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -134,12 +134,12 @@ function AddPg({ show, handleClose, currentItem }) {
     setIsChangedError("");
   };
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-    setGeneralError("");
-    setCountryCodeError("");
-    setIsChangedError("");
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  //   setGeneralError("");
+  //   setCountryCodeError("");
+  //   setIsChangedError("");
+  // };
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -617,7 +617,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    onChange={handleCountryCodeChange}
+                    // onChange={handleCountryCodeChange}
                     style={{
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px 0 0 8px",
@@ -631,19 +631,7 @@ function AddPg({ show, handleClose, currentItem }) {
                       maxWidth: 90,
                     }}
                   >
-                    {state.UsersList?.countrycode &&
-                      state.UsersList?.countrycode?.country_codes?.map(
-                        (view) => {
-                          return (
-                            <option
-                              key={view.country_code}
-                              value={view.country_code}
-                            >
-                              +{view.country_code}
-                            </option>
-                          );
-                        }
-                      )}
+                   <option>+{countryCode}</option>
                   </Form.Select>
                   <Form.Control
                     value={mobile}

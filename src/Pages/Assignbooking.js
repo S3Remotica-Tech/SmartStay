@@ -49,9 +49,9 @@ const[advanceError,setAdavanceError] = useState("")
  const [bedDetails, setBedDetails] = useState([]);
 
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, [])
 
 
   useEffect(() => {
@@ -84,9 +84,9 @@ const handleAssignClose =()=>{
 
 
 
-const handleCountryCodeChange = (e) => {
-  setCountryCode(e.target.value);
-};
+// const handleCountryCodeChange = (e) => {
+//   setCountryCode(e.target.value);
+// };
 
 const handleMobile=(e)=>{
   setMobileNo(e.target.value)

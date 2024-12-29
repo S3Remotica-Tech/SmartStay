@@ -118,9 +118,9 @@ const Accountsettings = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
@@ -140,9 +140,9 @@ const Accountsettings = () => {
     }
   }, [state.login.UpdateNotificationMessage]);
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
 
   const MobileNumber = `${countryCode}${phone}`;
 
@@ -1351,7 +1351,7 @@ const Accountsettings = () => {
                       <Form.Select
                         value={countryCode}
                         id="vendor-select-pg"
-                        onChange={handleCountryCodeChange}
+                        // onChange={handleCountryCodeChange}
                         style={{
                           border: "1px solid #D9D9D9",
                           borderRadius: "8px 0 0 8px",
@@ -1368,21 +1368,24 @@ const Accountsettings = () => {
                           marginTop: "10px",
                         }}
                       >
-                        {state.UsersList?.countrycode?.country_codes?.map(
+                        {/* {state.UsersList?.countrycode?.country_codes?.map(
                           (item) => {
                             return (
                               <>
                                 <option value={item.country_code}>
                                   +{item.country_code}
-                                  {/* {item.country_flag} */}
-                                  {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+                                 
                                 </option>
-                                {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                                {/* {item.country_code} */}
+                               
                               </>
                             );
                           }
-                        )}
+                        )} */}
+                         <option >
+                                  +{countryCode}
+                                 
+                                </option>
+
                       </Form.Select>
                       <Form.Control
                         style={{

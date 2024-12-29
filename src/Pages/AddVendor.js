@@ -64,12 +64,12 @@ function AddVendor({ show, handleClose, currentItem }) {
     setPinCodeError("");
   };
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-    setGeneralError("");
-    setIsChangedError("");
-    setCountryCodeError("");
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   setCountryCodeError("");
+  // };
 
   const handleBusinessChange = (e) => {
     const value = e.target.value;
@@ -404,9 +404,9 @@ function AddVendor({ show, handleClose, currentItem }) {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   useEffect(() => {
     if (currentItem) {
@@ -753,7 +753,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                     <Form.Select
                       value={countryCode}
                       id="vendor-select-pg"
-                      onChange={handleCountryCodeChange}
+                      // onChange={handleCountryCodeChange}
                       style={{
                         border: "1px solid #D9D9D9",
                         borderRadius: "8px 0 0 8px",
@@ -767,19 +767,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                         maxWidth: 90,
                       }}
                     >
-                      {state.UsersList?.countrycode &&
-                        state.UsersList?.countrycode?.country_codes?.map(
-                          (view) => {
-                            return (
-                              <option
-                                key={view.country_code}
-                                value={view.country_code}
-                              >
-                                +{view.country_code}
-                              </option>
-                            );
-                          }
-                        )}
+                     <option>+{countryCode}</option>
                     </Form.Select>
                     <Form.Control
                       value={vendor_Mobile}
