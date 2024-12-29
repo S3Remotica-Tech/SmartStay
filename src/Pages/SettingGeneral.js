@@ -56,7 +56,7 @@ const [password,setPassword]=useState("")
 // useEffect
 
 useEffect(() => {
-  dispatch({ type: "COUNTRYLIST" });
+  // dispatch({ type: "COUNTRYLIST" });
   dispatch({ type: "GETALLGENERAL"});
 }, []);
 
@@ -172,10 +172,10 @@ const handleImageChange = async (event) => {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
 
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-    setFormError("")
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  //   setFormError("")
+  // };
   // const handleEmailId=(e)=>{
   //   setEmailId(e.target.value)
   //   setEmailError("")
@@ -1096,7 +1096,7 @@ useEffect(() => {
                         <Form.Select
                           value={countryCode}
                           id="vendor-select-pg"
-                          onChange={handleCountryCodeChange}
+                          // onChange={handleCountryCodeChange}
                           style={{
                             border: "1px solid #D9D9D9",
 
@@ -1112,20 +1112,7 @@ useEffect(() => {
                             paddingRight: 10,
                           }}
                         >
-                          {state.UsersList?.countrycode?.country_codes?.map(
-                            (item) => {
-                              return (
-                              
-                                (
-                                  <>
-                                    <option value={item.country_code}>
-                                      +{item.country_code}
-                                    </option>
-                                  </>
-                                )
-                              );
-                            }
-                          )}
+                        <option>+{countryCode}</option>
                         </Form.Select>
                         <Form.Control
                           value={Phone}

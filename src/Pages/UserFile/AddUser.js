@@ -46,7 +46,7 @@ function User({ show, handleClose, editDetails ,hostelid}) {
 
 useEffect(() => {
   dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
-  dispatch({ type: "COUNTRYLIST" });
+  // dispatch({ type: "COUNTRYLIST" });
 }, [])
 
 useEffect(() => {
@@ -131,11 +131,11 @@ useEffect(() => {
 
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
-  const handleCountryCodeChange = (e) => {
-    setCountryCodeError('')
-    setError('')
-    setCountryCode(e.target.value)
-  }
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCodeError('')
+  //   setError('')
+  //   setCountryCode(e.target.value)
+  // }
   const handleRoleChange = (e) => {
     setRoleError('')
     setError('')
@@ -317,7 +317,7 @@ if (editDetails && !hasChanges) {
                   <InputGroup>
                     <Form.Select
                       value={countryCode}
-                      onChange={handleCountryCodeChange}
+                      // onChange={handleCountryCodeChange}
                       id="vendor-select-pg"
                       style={{
                         border: "1px solid #D9D9D9",
@@ -333,20 +333,7 @@ if (editDetails && !hasChanges) {
                         paddingRight: 10,
                       }}
                     >
-                      {state.UsersList?.countrycode?.country_codes?.map(
-                        (item) => {
-                          return (
-
-                            (
-                              <>
-                                <option value={item.country_code} key={item.country_code}>
-                                  +{item.country_code}
-                                </option>
-                              </>
-                            )
-                          );
-                        }
-                      )}
+                     <option>+{countryCode}</option>
                     </Form.Select>
                     <Form.Control
                       value={mobile}

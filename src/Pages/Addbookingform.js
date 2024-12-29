@@ -357,9 +357,9 @@ function BookingModal(props) {
       return true;
     }
   };
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSubmit = () => {
@@ -682,7 +682,7 @@ function BookingModal(props) {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    onChange={handleCountryCodeChange}
+                    // onChange={handleCountryCodeChange}
                     style={{
                       border: "1px solid #D9D9D9",
 
@@ -698,7 +698,7 @@ function BookingModal(props) {
                       paddingRight: 10,
                     }}
                   >
-                    {state.UsersList?.countrycode?.country_codes?.map(
+                    {/* {state.UsersList?.countrycode?.country_codes?.map(
                       (item) => {
                         return (
                           <>
@@ -708,7 +708,11 @@ function BookingModal(props) {
                           </>
                         );
                       }
-                    )}
+                    )} */}
+                     <option >
+                              +{countryCode}
+                            </option>
+
                   </Form.Select>
                   <Form.Control
                     value={Phone}

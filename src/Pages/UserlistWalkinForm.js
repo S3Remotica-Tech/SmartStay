@@ -326,13 +326,13 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
 
-    const handleCountryCodeChange = (e) => {
-        const value = e.target.value;
-        setIsChangedError('');
-        setCountryCode(value);
-        setGeneralError('');
-        setCountryCodeError('');
-    };
+    // const handleCountryCodeChange = (e) => {
+    //     const value = e.target.value;
+    //     setIsChangedError('');
+    //     setCountryCode(value);
+    //     setGeneralError('');
+    //     setCountryCodeError('');
+    // };
 
 
     const handleWalkInDateChange = (selectedDates) => {
@@ -581,7 +581,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                     <Form.Select
                                         value={countryCode}
                                         id="vendor-select-pg"
-                                        onChange={handleCountryCodeChange}
+                                        // onChange={handleCountryCodeChange}
                                         style={{
                                             border: "1px solid #D9D9D9",
                                             borderRadius: "8px 0 0 8px",
@@ -596,14 +596,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                             paddingRight: 10
                                         }}
                                     >
-                                        {
-                                            state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view) => {
-                                                return <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
-                                            })
-
-
-                                        }
-
+                                        <option>+{countryCode}</option>
                                     </Form.Select>
                                     <Form.Control
                                         value={mobile}

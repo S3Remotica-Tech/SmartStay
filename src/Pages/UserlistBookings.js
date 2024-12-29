@@ -356,9 +356,9 @@ useEffect(() => {
     setBedError("");
     setFormError("");
   };
-  const handleCountryCodeChange = (e) => {
-    setCountryCode(e.target.value);
-  };
+  // const handleCountryCodeChange = (e) => {
+  //   setCountryCode(e.target.value);
+  // };
   const handlePhone = (e) => {
     setPhone(e.target.value);
     const pattern = /^\d{1,10}$/;
@@ -1696,7 +1696,7 @@ const handleSubmit = () => {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    onChange={handleCountryCodeChange}
+                    // onChange={handleCountryCodeChange}
                     style={{
                       border: "1px solid #D9D9D9",
 
@@ -1712,19 +1712,7 @@ const handleSubmit = () => {
                       paddingRight: 10,
                     }}
                   >
-                    {state.UsersList?.countrycode?.country_codes?.map(
-                      (item) => {
-                        return (
-                          (
-                            <>
-                              <option value={item.country_code}>
-                                +{item.country_code}
-                              </option>
-                            </>
-                          )
-                        );
-                      }
-                    )}
+                  <option>+{countryCode}</option>
                   </Form.Select>
                   <Form.Control
                     value={Phone}

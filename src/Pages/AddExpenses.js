@@ -30,6 +30,7 @@ import { FormControl } from "react-bootstrap";
 function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
   const [vendorName, setVendorName] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
@@ -41,7 +42,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const [count, setCount] = useState("");
   const [id, setId] = useState("");
   const [hostelName, setHostelName] = useState("");
-
   const [hostelError, setHostelError] = useState("");
   const [vendorError, setVendorError] = useState("");
   const [assetError, setAssetError] = useState("");
@@ -334,7 +334,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   };
 
   const calendarRef = useRef(null);
-  const customContainerRef = useRef();
+  
 
   const options = {
     dateFormat: "d/m/Y",
