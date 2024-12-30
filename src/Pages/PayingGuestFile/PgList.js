@@ -45,78 +45,7 @@ import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import SettingManage from "../../Pages/SettingManage";
-// function getFloorName(floor_Id) {
 
-//   const numberToWord = {
-//     1: 'Ground',
-//     2: 'First',
-//     3: 'Second',
-//     4: 'Third',
-//     5: 'Fourth',
-//     6: 'Fifth',
-//     7: 'Sixth',
-//     8: 'Seventh',
-//     9: 'Eighth',
-//     10: 'Ninth',
-//     11: 'Tenth',
-//     12: 'Eleventh',
-//     13: 'Twelfth',
-//     14: 'Thirteenth',
-//   };
-
-//   if (floor_Id === 1) {
-//     return 'Ground Floor';
-//   } else if (numberToWord[floor_Id]) {
-//     return `${numberToWord[floor_Id]} Floor`;
-//   } else {
-
-//     const lastDigit = floor_Id % 10;
-//     let suffix = 'th';
-
-//     if (floor_Id % 100 < 11 || floor_Id % 100 > 13) {
-//       switch (lastDigit) {
-//         case 1:
-//           suffix = 'st';
-//           break;
-//         case 2:
-//           suffix = 'nd';
-//           break;
-//         case 3:
-//           suffix = 'rd';
-//           break;
-//       }
-//     }
-
-//     return `${floor_Id}${suffix} Floor`;
-//   }
-// }
-
-function getFloorName(floor_Id) {
-  const adjustedFloorNumber = floor_Id;
-
-  if (adjustedFloorNumber === 0) {
-    return "Ground Floor";
-  } else {
-    const lastDigit = adjustedFloorNumber % 10;
-    let suffix = "th";
-
-    if (adjustedFloorNumber % 100 < 11 || adjustedFloorNumber % 100 > 13) {
-      switch (lastDigit) {
-        case 1:
-          suffix = "st";
-          break;
-        case 2:
-          suffix = "nd";
-          break;
-        case 3:
-          suffix = "rd";
-          break;
-      }
-    }
-
-    return `${adjustedFloorNumber}${suffix} Floor`;
-  }
-}
 
 function PgList(props) {
   const dispatch = useDispatch();
@@ -135,15 +64,12 @@ function PgList(props) {
 
   const popupRef = useRef(null);
 
-  const [pgList, setPgList] = useState({
-    Name: "",
-    phoneNumber: "",
-    email_Id: "",
-    location: "",
-    // number_Of_Floor: '',
-    // number_Of_Rooms: '',
-    // floorDetails: [],
-  });
+  // const [pgList, setPgList] = useState({
+  //   Name: "",
+  //   phoneNumber: "",
+  //   email_Id: "",
+  //   location: "",
+  //    });
 
   let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
@@ -152,16 +78,62 @@ function PgList(props) {
   const [roomDetails, setRoomDetails] = useState("");
 
   const [floorClick, setFloorClick] = useState("");
-
+  const [addhostelForm, setAddhostelForm] = useState(false);
   const [floorName, setFloorName] = useState("");
-
+  const [show, setShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState(false);
 
-  // showHostelDetails?.floorDetails?.[0]?.floor_name,showHostelDetails?.floorDetails?.[0]?.floor_id
-
-  const [filteredData, setFilteredData] = useState([]);
+   const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(true);
+  const [showMore, setShowMore] = useState(false);
+  const [editHostelDetails, setEditHostelDetails] = useState("");
+  const [showAddPg, setShowAddPg] = useState(false);
+
+  const [settingsshow, setSettingsShow]= useState(false)
+  const stateAccount = useSelector((state) => state.createAccount);
+
+  const [profile, setProfile] = useState(
+    stateAccount.accountList[0]?.user_details.profile
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentItem, setCurrentItem] = useState("");
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const [showFloor, setShowFloor] = useState(false);
+  const [showRoom, setShowRoom] = useState(false);
+  const [hostelFloor, setHostelFloor] = useState("");
+  const [hostelDetails, setHostelDetails] = useState({
+    room: null,
+    selectedFloor: null,
+  });
+  const [editFloor, setEditFloor] = useState({
+    hostel_Id: null,
+    floor_Id: null,
+    floorName: null,
+  });
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropDown, setShowDropDown] = useState(false);
+
+
+
+
+//  useEffect
+
+  useEffect(() => {
+    dispatch({ type: "HOSTELLIST" });
+  }, []);
+
+
+
 
   useEffect(() => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -193,11 +165,7 @@ function PgList(props) {
     }
   }, [filteredData]);
 
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setShowDots(false);
-    }
-  };
+ 
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -215,21 +183,14 @@ function PgList(props) {
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
-  const [floorDetails, setFloorDetails] = useState([
-    { number_of_floor: "" },
-    // , { number_of_floor: '' }, { number_of_floor: '' }
-  ]);
-
+ 
   useEffect(() => {
     if (
       state.UsersList.createFloorSuccessStatusCode == 200 ||
       state.PgList.updateFloorSuccessStatusCode == 200
     ) {
       dispatch({ type: "HOSTELLIST" });
-      // setTimeout(()=>{
-      //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-      // },3000)
-
+      
       setShowFloor(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_FLOOR_STATUS_CODE" });
@@ -247,8 +208,7 @@ function PgList(props) {
       setShowDelete(false);
 
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-      // setFloorName(showHostelDetails?.floorDetails?.[0]?.floor_name)
-
+   
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
       }, 4000);
@@ -284,12 +244,12 @@ function PgList(props) {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
       }, 4000);
 
-      setPgList({
-        Name: "",
-        phoneNumber: "",
-        email_Id: "",
-        location: "",
-      });
+      // setPgList({
+      //   Name: "",
+      //   phoneNumber: "",
+      //   email_Id: "",
+      //   location: "",
+      // });
     }
   }, [state.PgList.createPgStatusCode]);
 
@@ -302,203 +262,6 @@ function PgList(props) {
     }
   }, [state.UsersList.hostelList]);
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setFloorDetails([{ number_of_floor: "" }]);
-    setShow(false);
-  };
-  const handleShow = () => setShow(true);
-
-  const handleCancels = () => {
-    handlecloseHostelForm();
-  };
-  const [addhostelForm, setAddhostelForm] = useState(false);
-  const handleshowHostelForm = () => {
-    setAddhostelForm(true);
-  };
-  const handlecloseHostelForm = () => {
-    setPgList({
-      Name: "",
-      phoneNumber: "",
-      email_Id: "",
-      location: "",
-    });
-    setEmailError("");
-    setAddhostelForm(false);
-  };
-
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
-
-  const [emailError, setEmailError] = useState("");
-
-  const validateEmail = (email) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (pattern.test(email)) {
-      setEmailError("");
-      return true;
-    } else {
-      setEmailError("Please Enter a Valid Email");
-      return false;
-    }
-  };
-
-  //  new Ui changes
-
-
-  const handleSelectedHostel = (selectedHostelId) => {
-    const selected = state.UsersList.hostelList?.find((item, index) => {
-      setHostelIndex(index);
-      return item.id == selectedHostelId;
-    });
-    setSelectedHostel(true);
-    setShowHostelDetails(selected);
-  };
-
-  const [showAddPg, setShowAddPg] = useState(false);
-
-  const handleCloses = () => {
-    setShowAddPg(false);
-  };
-  const handleShowAddPg = () => {
-    setShowAddPg(true);
-    setEditHostelDetails("");
-  };
-
-  const [settingsshow, setSettingsShow]= useState(false)
-
- 
-
-  const handleShowsettingsPG = (settingNewDesign) => {
-    props.displaysettings(settingNewDesign);
-    dispatch({ type: 'MANAGE_PG'})
-  };
-
-  const handleDisplayPgList = (isVisible) => {
-    setHidePgList(isVisible);
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItem, setCurrentItem] = useState("");
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-  };
-
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={1}
-  //         active={1 === currentPage}
-  //         onClick={() => paginate(1)}
-  //       >
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={i}
-  //         active={i === currentPage}
-  //         onClick={() => paginate(i)}
-  //       >
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={totalPages}
-  //         active={totalPages === currentPage}
-  //         onClick={() => paginate(totalPages)}
-  //       >
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
-
-  const [showFloor, setShowFloor] = useState(false);
-  const [showRoom, setShowRoom] = useState(false);
-  const [hostelFloor, setHostelFloor] = useState("");
-  const [hostelDetails, setHostelDetails] = useState({
-    room: null,
-    selectedFloor: null,
-  });
-  const [editFloor, setEditFloor] = useState({
-    hostel_Id: null,
-    floor_Id: null,
-    floorName: null,
-  });
-
-  const handleAddFloors = (hostel_Id) => {
-    setShowFloor(true);
-    setHostelFloor(hostel_Id);
-    setUpdate(false);
-    setEditFloor({ hostel_Id: null, floor_Id: null, floorName: null });
-  };
-
-  const handleCloseFloor = () => {
-    setShowFloor(false);
-  };
-
-  const handleShowAddRoom = (room, selectedFloor) => {
-    setShowRoom(true);
-
-    setHostelDetails({ room, selectedFloor });
-  };
-
-  const handlecloseRoom = () => {
-    setShowRoom(false);
-  };
-
-  const handlebackToPG = () => {
-    setSelectedHostel(false);
-    setFloorClick("");
-
-    setFloorName("");
-
-    setHidePgList(true);
-  };
-
-  const handleDIsplayFloorClick = (floorNo) => {
-    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-  };
-
-  const stateAccount = useSelector((state) => state.createAccount);
-
-  const [profile, setProfile] = useState(
-    stateAccount.accountList[0]?.user_details.profile
-  );
-
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
       const loginProfile = stateAccount.accountList[0].user_details.profile;
@@ -507,93 +270,6 @@ function PgList(props) {
     }
   }, [stateAccount.statusCodeForAccountList]);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [showDropDown, setShowDropDown] = useState(false);
-
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem != "") {
-      const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hostelList);
-    }
-    setCurrentPage(1);
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem != "") {
-      const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hostelList);
-    }
-    setCurrentPage(1);
-    setShowDropDown(false);
-  };
-
-  const [showMore, setShowMore] = useState(false);
-  const [editHostelDetails, setEditHostelDetails] = useState("");
-
-  const handleMoreClick = () => setShowMore(!showMore);
-
-  const visibleFloors =
-    showHostelDetails.number_Of_Floor > 5
-      ? 5
-      : showHostelDetails.number_Of_Floor;
-  const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
-
-  const handleEditHostel = (hostelDetails) => {
-    setShowAddPg(true);
-    setEditHostelDetails(hostelDetails);
-  };
-
-  const [key, setKey] = useState("1");
-
-  const [visibleRange, setVisibleRange] = useState([0, 3]);
-
-
-  const numberOfFloors =
-    showHostelDetails && showHostelDetails?.floorDetails?.length;
-  const floorsPerPage = 5;
-
-  const handlePrev = () => {
-    if (visibleRange[0] > 0) {
-      setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
-    }
-  };
-
-  const handleNext = () => {
-    if (visibleRange[1] < numberOfFloors - 1) {
-      setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
-    }
-  };
-
-  const handleFloorClick = (floorNumber, floorName) => {
-    setFloorClick(floorNumber);
-    setKey(floorNumber.toString());
-    setFloorName(floorName);
-  };
 
   useEffect(() => {
     if (floorClick) {
@@ -629,48 +305,6 @@ function PgList(props) {
     }
   }, [state.PgList.statusCodeCreateRoom]);
 
-  const handleShowDots = (id) => {
-    setShowDots(!showDots);
-  };
-
-  const [showDelete, setShowDelete] = useState(false);
-  const [deleteFloor, setDeleteFloor] = useState({
-    floor_Id: null,
-    hostel_Id: null,
-    floor_Name: null,
-  });
-  const [showFilter, setShowFilter] = useState(false);
-
-  const handleShowSearch = () => {
-    setShowFilter(!showFilter);
-  };
-
-  const handleCloseSearch = () => {
-    setShowFilter(false);
-    setFilteredData(state.UsersList.hostelList);
-    setSearchQuery("");
-  };
-
-  const handleCloseDelete = () => setShowDelete(false);
-
-  const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
-
-    setShowDelete(true);
-    setDeleteFloor({
-      floor_Id: FloorNumber,
-      hostel_Id: hostel_Id,
-      floor_Name: floorName,
-    });
-    // setFloorClick(1)
-  };
-
-  const [update, setUpdate] = useState(false);
-
-  const handleEditFloor = (floor_Id, hostel_Id, floorName) => {
-    setShowFloor(true);
-    setEditFloor({ hostel_Id, floor_Id, floorName });
-    setUpdate(true);
-  };
 
   useEffect(() => {
     const appearOptions = {
@@ -746,6 +380,272 @@ function PgList(props) {
 
 
 
+  
+
+
+
+
+
+  // const handleClose = () => {
+  //   setFloorDetails([{ number_of_floor: "" }]);
+  //   setShow(false);
+  // };
+  // const handleShow = () => setShow(true);
+
+  // const handleCancels = () => {
+  //   handlecloseHostelForm();
+  // };
+ 
+  // const handleshowHostelForm = () => {
+  //   setAddhostelForm(true);
+  // };
+  // const handlecloseHostelForm = () => {
+  //   setPgList({
+  //     Name: "",
+  //     phoneNumber: "",
+  //     email_Id: "",
+  //     location: "",
+  //   });
+  //   setEmailError("");
+  //   setAddhostelForm(false);
+  // };
+
+  
+
+  // const [emailError, setEmailError] = useState("");
+
+  // const validateEmail = (email) => {
+  //   const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (pattern.test(email)) {
+  //     setEmailError("");
+  //     return true;
+  //   } else {
+  //     setEmailError("Please Enter a Valid Email");
+  //     return false;
+  //   }
+  // };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
+
+  const handleSelectedHostel = (selectedHostelId) => {
+    const selected = state.UsersList.hostelList?.find((item, index) => {
+      setHostelIndex(index);
+      return item.id == selectedHostelId;
+    });
+    setSelectedHostel(true);
+    setShowHostelDetails(selected);
+  };
+
+  
+
+  const handleCloses = () => {
+    setShowAddPg(false);
+  };
+
+  const handleShowAddPg = () => {
+    setShowAddPg(true);
+    setEditHostelDetails("");
+  };
+
+ 
+
+ 
+
+  const handleShowsettingsPG = (settingNewDesign) => {
+    props.displaysettings(settingNewDesign);
+    dispatch({ type: 'MANAGE_PG'})
+  };
+
+  const handleDisplayPgList = (isVisible) => {
+    setHidePgList(isVisible);
+  };
+
+ 
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+  };
+
+  
+ 
+
+ 
+
+  const handleAddFloors = (hostel_Id) => {
+    setShowFloor(true);
+    setHostelFloor(hostel_Id);
+    setUpdate(false);
+    setEditFloor({ hostel_Id: null, floor_Id: null, floorName: null });
+  };
+
+  const handleCloseFloor = () => {
+    setShowFloor(false);
+  };
+
+  const handleShowAddRoom = (room, selectedFloor) => {
+    setShowRoom(true);
+    setHostelDetails({ room, selectedFloor });
+  };
+
+  const handlecloseRoom = () => {
+    setShowRoom(false);
+  };
+
+  const handlebackToPG = () => {
+    setSelectedHostel(false);
+    setFloorClick("");
+    setFloorName("");
+    setHidePgList(true);
+  };
+
+  const handleDIsplayFloorClick = (floorNo) => {
+    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
+  };
+
+ 
+ 
+
+  
+
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value;
+    setSearchQuery(searchItem);
+    if (searchItem != "") {
+      const filteredItems =
+        state.UsersList.hostelList &&
+        state.UsersList.hostelList.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+
+      setFilteredData(filteredItems);
+      setShowDropDown(true);
+    } else {
+      setFilteredData(state.UsersList.hostelList);
+    }
+    setCurrentPage(1);
+  };
+
+  const handleDropDown = (value) => {
+    const searchItem = value;
+    setSearchQuery(searchItem);
+    if (searchItem != "") {
+      const filteredItems =
+        state.UsersList.hostelList &&
+        state.UsersList.hostelList.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+
+      setFilteredData(filteredItems);
+      setShowDropDown(true);
+    } else {
+      setFilteredData(state.UsersList.hostelList);
+    }
+    setCurrentPage(1);
+    setShowDropDown(false);
+  };
+
+ 
+
+  const handleMoreClick = () => setShowMore(!showMore);
+
+  const visibleFloors =
+    showHostelDetails.number_Of_Floor > 5
+      ? 5
+      : showHostelDetails.number_Of_Floor;
+  const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
+
+  const handleEditHostel = (hostelDetails) => {
+    setShowAddPg(true);
+    setEditHostelDetails(hostelDetails);
+  };
+
+  const [key, setKey] = useState("1");
+
+  const [visibleRange, setVisibleRange] = useState([0, 3]);
+
+
+  const numberOfFloors =
+    showHostelDetails && showHostelDetails?.floorDetails?.length;
+  const floorsPerPage = 5;
+
+  const handlePrev = () => {
+    if (visibleRange[0] > 0) {
+      setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+    }
+  };
+
+  const handleNext = () => {
+    if (visibleRange[1] < numberOfFloors - 1) {
+      setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+    }
+  };
+
+  const handleFloorClick = (floorNumber, floorName) => {
+    setFloorClick(floorNumber);
+    setKey(floorNumber.toString());
+    setFloorName(floorName);
+  };
+
+ 
+
+  const handleShowDots = (id) => {
+    setShowDots(!showDots);
+  };
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [deleteFloor, setDeleteFloor] = useState({
+    floor_Id: null,
+    hostel_Id: null,
+    floor_Name: null,
+  });
+  const [showFilter, setShowFilter] = useState(false);
+
+  const handleShowSearch = () => {
+    setShowFilter(!showFilter);
+  };
+
+  const handleCloseSearch = () => {
+    setShowFilter(false);
+    setFilteredData(state.UsersList.hostelList);
+    setSearchQuery("");
+  };
+
+  const handleCloseDelete = () => setShowDelete(false);
+
+  const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
+
+    setShowDelete(true);
+    setDeleteFloor({
+      floor_Id: FloorNumber,
+      hostel_Id: hostel_Id,
+      floor_Name: floorName,
+    });
+    // setFloorClick(1)
+  };
+
+  const [update, setUpdate] = useState(false);
+
+  const handleEditFloor = (floor_Id, hostel_Id, floorName) => {
+    setShowFloor(true);
+    setEditFloor({ hostel_Id, floor_Id, floorName });
+    setUpdate(true);
+  };
+
+ 
+
+
+
 
   return (
     <>
@@ -789,7 +689,7 @@ function PgList(props) {
           {hidePgList && (
             <>
               <div
-                className="container justify-content-between d-flex align-items-center"
+                className="container justify-content-between d-flex align-items-center flex-wrap"
                 style={{
                   height: 83,
                   position: "sticky",
@@ -815,15 +715,19 @@ function PgList(props) {
                   </label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
                       <SearchNormal1 size="26" color="#222" />
                     </div>
                   )}
                   {showFilter && (
-                    <div className="me-3 " style={{ position: "relative" }}>
-                      <InputGroup>
+                    <div className="me-3 flex flex-wrap" style={{ position: "relative" }}>
+                      <InputGroup  style={{
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          width: '100%',
+                        }}>
                         <FormControl
                           size="lg"
                           value={searchQuery}
@@ -1103,40 +1007,23 @@ function PgList(props) {
                 </div>
               </div>
               {currentItems.length > 0 && (
-                // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-                //   <Pagination.Prev
-                //     style={{ visibility: "visible", color: "#1E45E1" }}
-                //     onClick={() => paginate(currentPage - 1)}
-                //     disabled={currentPage === 1}
-                //   ></Pagination.Prev>
-
-                //   {renderPagination()}
-
-                //   <Pagination.Next
-                //     style={{ visibility: "visible", color: "#1E45E1" }}
-                //     onClick={() => paginate(currentPage + 1)}
-                //     disabled={currentPage === totalPages}
-                //   ></Pagination.Next>
-                // </Pagination>
-
-
+              
                                       <nav
                                       style={{
                                         display: "flex",
                                         alignItems: "center",
-                                        justifyContent: "end", // Align dropdown and pagination
+                                        justifyContent: "end", 
                                         padding: "10px",
-                                        // borderTop: "1px solid #ddd",
-                                      }}
+                                                                              }}
                                     >
-                                      {/* Dropdown for Items Per Page */}
+                                    
                                       <div>
                                         <select
                                           value={itemsPerPage}
                                           onChange={handleItemsPerPageChange}
                                           style={{
                                             padding: "5px",
-                                            border: "1px solid #1E45E1",
+                                            border: "1px solid #DCDCDC",
                                             borderRadius: "5px",
                                             color: "#1E45E1",
                                             fontWeight: "bold",

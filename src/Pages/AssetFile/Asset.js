@@ -421,7 +421,7 @@ const handleItemsPerPageChange = (event) => {
         )}
       </div></>
       ):
-      <div style={{ padding:25 }}>
+      <div className='m-4'>
       {/* <div className='m-4'> */}
 
 
@@ -429,7 +429,7 @@ const handleItemsPerPageChange = (event) => {
       <div className='mt-3'>
 
 
-        <div className="d-flex justify-content-between align-items-center mb-3"
+        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap "
             style={{
               position: 'sticky',
               top: 25,
@@ -443,7 +443,7 @@ const handleItemsPerPageChange = (event) => {
             <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center flex-wrap ">
 
             {
               !showFilterData &&
@@ -457,8 +457,17 @@ const handleItemsPerPageChange = (event) => {
             }
             {
               showFilterData &&
-              <div className='me-3 ' style={{ position: 'relative' }}>
-                <InputGroup>
+              <div className='me-3 flex flex-wrap ' style={{ position: 'relative' }}>
+                <InputGroup
+                style={{
+                  display: 'flex',
+                  flexWrap: 'nowrap',
+                  width: '100%',
+                }}
+                
+                
+                
+                >
 
                   <FormControl size="lg"
                     value={searchQuery}

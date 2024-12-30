@@ -10,7 +10,7 @@ import AddVendor from './AddVendor';
 import Spinner from 'react-bootstrap/Spinner';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import {ArrowLeft2,ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 
 
@@ -23,19 +23,19 @@ function Vendor() {
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  
+
   const [searchQuery, setSearchQuery] = useState('')
- const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(true)
 
 
- const [vendorrolePermission, setVendorRolePermission] = useState("");
+  const [vendorrolePermission, setVendorRolePermission] = useState("");
 
   const [vendorpermissionError, setVendorPermissionError] = useState("");
-  const [vendorAddPermission,setVendorAddPermission]= useState("")
-  const [vendorDeletePermission,setVendorDeletePermission]=useState("")
-  const [vendorEditPermission,setVendorEditPermission]=useState("")
+  const [vendorAddPermission, setVendorAddPermission] = useState("")
+  const [vendorDeletePermission, setVendorDeletePermission] = useState("")
+  const [vendorEditPermission, setVendorEditPermission] = useState("")
 
- 
+
 
   useEffect(() => {
     setVendorRolePermission(state.createAccount.accountList);
@@ -88,7 +88,7 @@ function Vendor() {
   }, [vendorrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: 'VENDORLIST' , payload:{hostel_id: state.login.selectedHostel_Id} })
+    dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     setLoader(true)
   }, [state.login.selectedHostel_Id])
 
@@ -114,7 +114,7 @@ function Vendor() {
       setShow(false);
       setShowDeleteVendor(false)
       setTimeout(() => {
-        dispatch({ type: 'VENDORLIST' ,payload:{hostel_id: state.login.selectedHostel_Id} })
+        dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
       }, 100)
       setTimeout(() => {
@@ -168,7 +168,7 @@ function Vendor() {
     setCurrentPage(1);
   };
 
-  const handleDropDown = (value)=>{
+  const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
     if (searchItem != '') {
@@ -177,7 +177,7 @@ function Vendor() {
       );
 
       setFilteredData(filteredItems);
-    
+
     }
     else {
       setFilteredData(state.ComplianceList.VendorList)
@@ -290,7 +290,7 @@ function Vendor() {
   //   }
 
   const [showDeleteVendor, setShowDeleteVendor] = useState(false)
-  const [ showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
+  const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
   const handleDeleteVendor = (item) => {
     setShowDeleteVendor(true)
@@ -347,22 +347,22 @@ function Vendor() {
     // }
   };
 
-  const handleCloseForDeleteVendor = () =>{
+  const handleCloseForDeleteVendor = () => {
     setShowDeleteVendor(false)
   }
-  
-  
-  const ConfirmDeleteVendor = () =>{
-  if(showDeleteVendorDetails){
-    dispatch({
-      type: 'DELETEVENDOR',
-      payload: {
-        id: showDeleteVendorDetails.id,
-        Status: 0,
-      },
-    });
-    setCurrentPage(1);
-  }
+
+
+  const ConfirmDeleteVendor = () => {
+    if (showDeleteVendorDetails) {
+      dispatch({
+        type: 'DELETEVENDOR',
+        payload: {
+          id: showDeleteVendorDetails.id,
+          Status: 0,
+        },
+      });
+      setCurrentPage(1);
+    }
   }
 
   const stateAccount = useSelector(state => state.createAccount)
@@ -407,422 +407,402 @@ function Vendor() {
 
   return (
     <>
-{
-  vendorpermissionError ? (
-    <>
-    <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-    }}
-  >
-    {/* Image */}
-    <img
-      src={EmptyState}
-      alt="Empty State"
-      style={{ maxWidth: "100%", height: "auto" }}
-    />
+      {
+        vendorpermissionError ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100vh",
+              }}
+            >
+              {/* Image */}
+              <img
+                src={EmptyState}
+                alt="Empty State"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
 
-    {/* Permission Error */}
-    {vendorpermissionError && (
-      <div
-        style={{
-          color: "red",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          marginTop: "1rem",
-        }}
-      >
-        <MdError size={20} />
-        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{vendorpermissionError}</span>
-      </div>
-    )}
-  </div></>
-  ):
-  <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
-     
-  <div className='container mt-3'     
-  
-  style={{
-    height: 83,
-    position: "sticky",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    backgroundColor: "#fff"
-  }}>
-  
-  
-  
-  
-        <div className=" d-flex justify-content-between align-items-center  mb-3"
-            style={{
-              position: 'sticky',
-              top: 25,
-              backgroundColor: 'white',
-              zIndex: 10, 
-              padding: '10px',
-            }}
-        >
-
-          <div>
-            <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
-          </div>
-  
-          <div className="d-flex justify-content-between align-items-center">
-  
-  
-  
-          {
-                  !showFilterData &&
-  
-                  <div className='me-3' onClick={handleShowSearch}>
-                    <SearchNormal1
-                      size="26"
-                      color="#222"
-                    />
-                  </div>
-                }
-                {
-                  showFilterData &&
-                  <div className='me-3 'style={{position:'relative'}}>
-                    <InputGroup>
-  
-                      <FormControl size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-  
-                        style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
-                          //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                          }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                      </InputGroup.Text>
-                    </InputGroup>
-  
-  
-  
-                    {
-              filteredData.length > 0 && searchQuery !== '' && showDropDown && (
-              
-                            <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                              <ul className='show-scroll' style={{
-                                // position: 'absolute',
-                                // top: '50px',
-                                // left: 0,
-                                width: 260,
-                                backgroundColor: '#fff',
-                                // border: '1px solid #D9D9D9',
-                                borderRadius: '4px',
-                                maxHeight: 174,
-                                minHeight: 100,
-                                overflowY: 'auto',
-                                padding: '5px 10px',
-                                margin: '0',
-                                listStyleType: 'none',
-  
-                                borderRadius: 8,
-                                boxSizing: 'border-box'
-                              }}>
-                                {
-                                  filteredData.map((user, index) => (
-                                    
-  
-  
-  
-  
-  <li
-                                      key={index}
-                                      onClick={() => {
-                                        handleDropDown(user.Vendor_Name);
-  
-                                      }}
-                                      style={{
-                                        padding: '10px',
-                                        cursor: 'pointer',
-                                        borderBottom: '1px solid #dcdcdc',
-                                        fontSize: '14px',
-                                        fontFamily: 'Gilroy',
-                                        fontWeight: 500,
-  
-                                      }}
-                                    >
-                                     <span>
-                <Image
-                  src={user.Vendor_profile && user.Vendor_profile !== 'undefined' ? user.Vendor_profile : Profile2}
-                  style={{ height: 20, width: 20 }}
-                  roundedCircle
-                />
-              </span>
-              <span className='ps-4'>{user.Vendor_Name}</span>
-                                    </li>
-  
-                                
-                                  ))
-                                }
-                              </ul>
-                            </div>
-                          )
-            }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-                  </div>
-  
-  
-                }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-            <div className='me-3'>
-            <Sort
-                    Size="24"
-                    color="#222"
-                     variant="Outline"
-                  />
-            </div>
-  
-            <div>
-              <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px" }}> + Add Vendor</Button>
-            </div>
-          </div>
-        </div>
-  
-        </div>
-  
-        {searchQuery && (
-          <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-            {filteredData.length > 0 ? (
-              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-              </span>
-            ) : (
-              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
-            )}
-          </div>
-        )}
-  
-  <div className='container'>
-  
-        <div className='row row-gap-3'>
-          {currentItems && currentItems.map((vendor) => (
-            <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-              <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-               onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
-                />
-            </div>
-          ))
-          }
-  
-          {!loader && currentItems.length == 0 &&
-  
-            <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "100vh", margin: "0px auto" }}>
-  
-  
-              <div>
-                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
-                <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-                <div className='d-flex  justify-content-center mt-3' >
-                  <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px" }}> + Add Vendor</Button>
+              {/* Permission Error */}
+              {vendorpermissionError && (
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <MdError size={20} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{vendorpermissionError}</span>
                 </div>
-              </div>
-              <div>
-  
-              </div>
-            </div>
-            // <div style={{ width:"100%", fontWeight:600, fontFamily:"Gilroy" }} className='d-flex justify-content-center align-items-center fade-in'>
-            //   <Alert variant="warning"  >
-            //     Currently, no vendors are available.
-            //   </Alert>
-  
-            // </div>
-          }
-          {loader &&
-            <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-  
-  
-  
-              <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
-  
-  
-            </div>
-          }
-  
-  
-  
-  
-  
-        </div>
-          
-  </div>
-        {
-          currentItems.length > 0 && 
-            <nav
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "end", // Align dropdown and pagination
-                                  padding: "10px",
-                                  // borderTop: "1px solid #ddd",
-                                }}
-                              >
-                                {/* Dropdown for Items Per Page */}
-                                <div>
-                                  <select
-                                    value={itemsPerPage}
-                                    onChange={handleItemsPerPageChange}
+              )}
+            </div></>
+        ) :
+          <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
+
+            <div className='container mt-3'
+
+              style={{
+                height: 83,
+                position: "sticky",
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+                backgroundColor: "#fff"
+              }}>
+
+
+
+
+              <div className=" d-flex justify-content-between align-items-center flex-wrap  mb-3"
+                style={{
+                  position: 'sticky',
+                  top: 25,
+                  backgroundColor: 'white',
+                  zIndex: 10,
+                  padding: '10px',
+                }}
+              >
+
+                <div>
+                  <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center flex-wrap">
+
+
+
+                  {
+                    !showFilterData &&
+
+                    <div className='me-3' onClick={handleShowSearch}>
+                      <SearchNormal1
+                        size="26"
+                        color="#222"
+                      />
+                    </div>
+                  }
+                  {
+                    showFilterData &&
+                    <div className=' me-3  flex flex-wrap'
+                      style={{ position: 'relative' }}
+                    >
+
+                      <div className=''>
+                        <InputGroup 
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          width: '100%',
+                        }}>
+
+                          <FormControl size="lg"
+                            value={searchQuery}
+                            onChange={handleInputChange}
+
+                            style={{
+                              width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                              //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                            }}
+                            placeholder="Search..."
+                          />
+                          <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                            <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                          </InputGroup.Text>
+                        </InputGroup>
+                      </div>
+
+
+                      {
+                        filteredData.length > 0 && searchQuery !== '' && showDropDown && (
+
+                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                            <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
+                              width: 260,
+                              backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              borderRadius: '4px',
+                              maxHeight: 174,
+                              minHeight: 100,
+                              overflowY: 'auto',
+                              padding: '5px 10px',
+                              margin: '0',
+                              listStyleType: 'none',
+
+                              borderRadius: 8,
+                              boxSizing: 'border-box'
+                            }}>
+                              {
+                                filteredData.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      handleDropDown(user.Vendor_Name);
+
+                                    }}
                                     style={{
-                                      padding: "5px",
-                                      border: "1px solid #1E45E1",
-                                      borderRadius: "5px",
-                                      color: "#1E45E1",
-                                      fontWeight: "bold",
-                                      cursor: "pointer",
-                                      outline: "none",
-                                      boxShadow: "none",
-                                      
+                                      padding: '10px',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #dcdcdc',
+                                      fontSize: '14px',
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: 500,
+
                                     }}
                                   >
-                                     <option value={5}>5</option>
-                                    <option value={10}>10</option>
-                                    <option value={50}>50</option>
-                                    <option value={100}>100</option>
-                                  </select>
-                                </div>
-                              
-                                {/* Pagination Controls */}
-                                <ul
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    listStyleType: "none",
-                                    margin: 0,
-                                    padding: 0,
-                                  }}
-                                >
-                                  {/* Previous Button */}
-                                  <li style={{ margin: "0 10px" }}>
-                                    <button
-                                      style={{
-                                        padding: "5px",
-                                        textDecoration: "none",
-                                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                                        borderRadius: "50%",
-                                        display: "inline-block",
-                                        minWidth: "30px",
-                                        textAlign: "center",
-                                        backgroundColor: "transparent",
-                                        border: "none",
-                                      }}
-                                      onClick={() => handlePageChange(currentPage - 1)}
-                                      disabled={currentPage === 1}
-                                    >
-                                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                                    </button>
-                                  </li>
-                              
-                                  {/* Current Page Indicator */}
-                                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                                    {currentPage} of {totalPages}
-                                  </li>
-                              
-                                  {/* Next Button */}
-                                  <li style={{ margin: "0 10px" }}>
-                                    <button
-                                      style={{
-                                        padding: "5px",
-                                        textDecoration: "none",
-                                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                                        borderRadius: "50%",
-                                        display: "inline-block",
-                                        minWidth: "30px",
-                                        textAlign: "center",
-                                        backgroundColor: "transparent",
-                                        border: "none",
-                                      }}
-                                      onClick={() => handlePageChange(currentPage + 1)}
-                                      disabled={currentPage === totalPages}
-                                    >
-                                      <ArrowRight2
-                                        size="16"
-                                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                    <span>
+                                      <Image
+                                        src={user.Vendor_profile && user.Vendor_profile !== 'undefined' ? user.Vendor_profile : Profile2}
+                                        style={{ height: 20, width: 20 }}
+                                        roundedCircle
                                       />
-                                    </button>
+                                    </span>
+                                    <span className='ps-4'>{user.Vendor_Name}</span>
                                   </li>
-                                </ul>
-                              </nav>
-        }
-  
-        {/* </div> */}
-  
-        {show &&
-          <AddVendor show={show} handleClose={handleClose} currentItem={currentItem} />
-        }
-  
-  
-  
-  <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static">
-  <Modal.Header style={{display:"flex", justifyContent:"center"}} >
-    <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy",textAlign:"center", }}>Delete Vendor?</Modal.Title>
-    {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
-  </Modal.Header>
-  
-  
-  
-  
-    <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center"}}>
-    Are you sure you want to delete this vendor?
+
+
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        )
+                      }
+                    </div>
+                  }
+
+
+
+                  <div className='me-3'>
+                    <Sort
+                      Size="24"
+                      color="#222"
+                      variant="Outline"
+                    />
+                  </div>
+
+                  <div>
+                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px" }}> + Add Vendor</Button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {searchQuery && (
+              <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+                {filteredData.length > 0 ? (
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                    {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                  </span>
+                ) : (
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                )}
+              </div>
+            )}
+
+            <div className='container'>
+
+              <div className='row row-gap-3'>
+                {currentItems && currentItems.map((vendor) => (
+                  <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                    <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
+                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
+                    />
+                  </div>
+                ))
+                }
+
+                {!loader && currentItems.length == 0 &&
+
+                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "100vh", margin: "0px auto" }}>
+
+
+                    <div>
+                      <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
+                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
+                      <div className='d-flex  justify-content-center mt-3' >
+                        <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px" }}> + Add Vendor</Button>
+                      </div>
+                    </div>
+                    <div>
+
+                    </div>
+                  </div>
+                  // <div style={{ width:"100%", fontWeight:600, fontFamily:"Gilroy" }} className='d-flex justify-content-center align-items-center fade-in'>
+                  //   <Alert variant="warning"  >
+                  //     Currently, no vendors are available.
+                  //   </Alert>
+
+                  // </div>
+                }
+                {loader &&
+                  <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+
+
+
+                    <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
+
+
+                  </div>
+                }
+
+
+
+
+
+              </div>
+
+            </div>
+            {
+              currentItems.length > 0 &&
+              <nav
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end", // Align dropdown and pagination
+                  padding: "10px",
+                  // borderTop: "1px solid #ddd",
+                }}
+              >
+                {/* Dropdown for Items Per Page */}
+                <div>
+                  <select
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                    style={{
+                      padding: "5px",
+                      border: "1px solid #1E45E1",
+                      borderRadius: "5px",
+                      color: "#1E45E1",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxShadow: "none",
+
+                    }}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
+
+                {/* Pagination Controls */}
+                <ul
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                >
+                  {/* Previous Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    </button>
+                  </li>
+
+                  {/* Current Page Indicator */}
+                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                    {currentPage} of {totalPages}
+                  </li>
+
+                  {/* Next Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight2
+                        size="16"
+                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            }
+
+            {/* </div> */}
+
+            {show &&
+              <AddVendor show={show} handleClose={handleClose} currentItem={currentItem} />
+            }
+
+
+
+            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static">
+              <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
+                <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete Vendor?</Modal.Title>
+                {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
+              </Modal.Header>
+
+
+
+
+              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>
+                Are you sure you want to delete this vendor?
               </Modal.Body>
-  
-  
-  <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
-  <Button  onClick={handleCloseForDeleteVendor} style={{borderRadius:8, padding:"16px 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
-          Cancel
-        </Button>
-       
-        <Button style={{borderRadius:8, padding:"16px 45px ",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={ConfirmDeleteVendor}>
-          Delete
-        </Button>
-  
-  </Modal.Footer>
-  </Modal>
-  
-      </div>
-  
-}
-   
-</>
-  
+
+
+              <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
+                <Button onClick={handleCloseForDeleteVendor} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                  Cancel
+                </Button>
+
+                <Button style={{ borderRadius: 8, padding: "16px 45px ", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={ConfirmDeleteVendor}>
+                  Delete
+                </Button>
+
+              </Modal.Footer>
+            </Modal>
+
+          </div>
+
+      }
+
+    </>
+
 
 
   )
