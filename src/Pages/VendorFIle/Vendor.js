@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
-import Filter from '../Assets/Images/New_images/Group 13.png';
-import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
-import { CiSearch } from "react-icons/ci";
 import { useDispatch, useSelector } from 'react-redux';
-import Alert from 'react-bootstrap/Alert';
 import VendorListMap from './VendorListMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Profile2 from '../Assets/Images/New_images/profile-picture.png'
+import Profile2 from '../../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
-import Plus from '../Assets/Images/New_images/add-circle.png'
-import Form from 'react-bootstrap/Form';
-import Swal from 'sweetalert2';
-import imageCompression from 'browser-image-compression';
 import AddVendor from './AddVendor';
 import Spinner from 'react-bootstrap/Spinner';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 import { MdError } from "react-icons/md";
 
