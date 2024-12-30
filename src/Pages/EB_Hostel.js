@@ -77,13 +77,15 @@ function EB_Hostel(props) {
   const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
   const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST",payload:{hostel_id :selectedHostel} });
-  }, [selectedHostel]);
+ 
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    dispatch({ type: "HOSTELLIST",payload:{hostel_id :selectedHostel} });
+  }, [selectedHostel]);
 
   const handleHostelForm = () => {
     setHostelBasedForm(true);
@@ -295,15 +297,15 @@ function EB_Hostel(props) {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
-  const totalMeterReading =
-    endmeter -
-    (startmeter && startmeter.end_Meter_Reading
-      ? parseFloat(startmeter.end_Meter_Reading)
-      : 0);
+  // const totalMeterReading =
+  //   endmeter -
+  //   (startmeter && startmeter.end_Meter_Reading
+  //     ? parseFloat(startmeter.end_Meter_Reading)
+  //     : 0);
 
-  const totalAmountRead =
-    (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
-  console.log("totalAmountRead", totalAmountRead);
+  // const totalAmountRead =
+  //   (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
+  // console.log("totalAmountRead", totalAmountRead);
 
   useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
@@ -314,6 +316,19 @@ function EB_Hostel(props) {
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
+  useEffect(()=>{
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+        dispatch({
+          type: "EBSTARTMETERLIST",
+          payload: { hostel_id: selectedHostel },
+        });
+       
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST"});
+        }, 200);
+      }
+    },[state.PgList.statusCodeForEbRoomList])
+  
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
@@ -455,7 +470,8 @@ function EB_Hostel(props) {
     }
   }, [state.PgList?.AddEBstatusCode]);
 
-  const electricityrowsPerPage = 5;
+  // const electricityrowsPerPage = 5;
+   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
@@ -465,144 +481,71 @@ function EB_Hostel(props) {
     indexOfLastRowelectricity
   );
 
-  const handleElectricityPageChange = (InvoicepageNumber) => {
-    setelectricitycurrentPage(InvoicepageNumber);
+  const handlePageChange = (pageNumber) => {
+    setelectricitycurrentPage(pageNumber);
   };
-
+  const handleItemsPerPageChange = (event) => {
+    setElectricityrowsPerPage(Number(event.target.value));
+  };
   const totalPagesinvoice = Math.ceil(
     electricityFilterddata?.length / electricityrowsPerPage
   );
 
-  const renderPageNumberselectricity = () => {
-    const pageNumberselectricity = [];
-    let startPageelectricity = electricitycurrentPage - 1;
-    let endPageelectricity = electricitycurrentPage + 1;
+  // const renderPageNumberselectricity = () => {
+  //   const pageNumberselectricity = [];
+  //   let startPageelectricity = electricitycurrentPage - 1;
+  //   let endPageelectricity = electricitycurrentPage + 1;
 
-    if (electricitycurrentPage === 1) {
-      startPageelectricity = 1;
-      endPageelectricity = 3;
-    }
+  //   if (electricitycurrentPage === 1) {
+  //     startPageelectricity = 1;
+  //     endPageelectricity = 3;
+  //   }
 
-    if (electricitycurrentPage === totalPagesinvoice) {
-      startPageelectricity = totalPagesinvoice - 2;
-      endPageelectricity = totalPagesinvoice;
-    }
+  //   if (electricitycurrentPage === totalPagesinvoice) {
+  //     startPageelectricity = totalPagesinvoice - 2;
+  //     endPageelectricity = totalPagesinvoice;
+  //   }
 
-    if (electricitycurrentPage === 2) {
-      startPageelectricity = 1;
-      endPageelectricity = 3;
-    }
+  //   if (electricitycurrentPage === 2) {
+  //     startPageelectricity = 1;
+  //     endPageelectricity = 3;
+  //   }
 
-    if (electricitycurrentPage === totalPagesinvoice - 1) {
-      startPageelectricity = totalPagesinvoice - 2;
-      endPageelectricity = totalPagesinvoice;
-    }
+  //   if (electricitycurrentPage === totalPagesinvoice - 1) {
+  //     startPageelectricity = totalPagesinvoice - 2;
+  //     endPageelectricity = totalPagesinvoice;
+  //   }
 
-    for (let i = startPageelectricity; i <= endPageelectricity; i++) {
-      if (i > 0 && i <= totalPagesinvoice) {
-        pageNumberselectricity.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === electricitycurrentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === electricitycurrentPage ? "transparent" : "transparent",
-                border:
-                  i === electricitycurrentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handleElectricityPageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
+  //   for (let i = startPageelectricity; i <= endPageelectricity; i++) {
+  //     if (i > 0 && i <= totalPagesinvoice) {
+  //       pageNumberselectricity.push(
+  //         <li key={i} style={{ margin: "0 5px" }}>
+  //           <button
+  //             style={{
+  //               padding: "5px 10px",
+  //               textDecoration: "none",
+  //               color: i === electricitycurrentPage ? "#007bff" : "#000000",
+  //               cursor: "pointer",
+  //               borderRadius: "5px",
+  //               display: "inline-block",
+  //               minWidth: "30px",
+  //               textAlign: "center",
+  //               backgroundColor:
+  //                 i === electricitycurrentPage ? "transparent" : "transparent",
+  //               border:
+  //                 i === electricitycurrentPage ? "1px solid #ddd" : "none",
+  //             }}
+  //             onClick={() => handleElectricityPageChange(i)}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //   }
 
-    return pageNumberselectricity;
-  };
-
- 
-
-  const transactionrowsPerPage = 10;
-
-  const indexOfLastRowtransaction =
-    tranactioncurrentPage * transactionrowsPerPage;
-  const indexOfFirstRowtranaction =
-    indexOfLastRowtransaction - transactionrowsPerPage;
-  const currentRowtransaction = TransactionFilterddata?.slice(
-    indexOfFirstRowtranaction,
-    indexOfLastRowtransaction
-  );
-  const totalPagestransaction = Math.ceil(
-    TransactionFilterddata?.length / transactionrowsPerPage
-  );
-
-  const handleTransactionPageChange = (transpageNumber) => {
-    settranactioncurrentPage(transpageNumber);
-  };
-
-  const renderPageNumberstransaction = () => {
-    const pageNumberstransaction = [];
-    let startPagetransaction = tranactioncurrentPage - 1;
-    let endPagetransaction = tranactioncurrentPage + 1;
-
-    if (tranactioncurrentPage === 1) {
-      startPagetransaction = 1;
-      endPagetransaction = 3;
-    }
-
-    if (tranactioncurrentPage === totalPagestransaction) {
-      startPagetransaction = totalPagestransaction - 2;
-      endPagetransaction = totalPagestransaction;
-    }
-
-    if (tranactioncurrentPage === 2) {
-      startPagetransaction = 1;
-      endPagetransaction = 3;
-    }
-
-    if (tranactioncurrentPage === totalPagestransaction - 1) {
-      startPagetransaction = totalPagestransaction - 2;
-      endPagetransaction = totalPagestransaction;
-    }
-
-    for (let i = startPagetransaction; i <= endPagetransaction; i++) {
-      if (i > 0 && i <= totalPagestransaction) {
-        pageNumberstransaction.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === tranactioncurrentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === tranactioncurrentPage ? "transparent" : "transparent",
-                border: i === tranactioncurrentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handleTransactionPageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumberstransaction;
-  };
+  //   return pageNumberselectricity;
+  // };
 
   useEffect(() => {
     seteleTransactionFilterddata(state.ExpenseList.transactionHistory);
@@ -662,7 +605,7 @@ function EB_Hostel(props) {
   return (
     <div style={{ paddingLeft: 15, marginTop: 8 }}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3"
-       style={{position:'sticky' , top:10, backgroundColor:'white'}}
+      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
        >
         <div style={{ padding: 15 }}>
           <label
@@ -864,16 +807,19 @@ function EB_Hostel(props) {
               <>
                 <div>
                   {currentRoomelectricity?.length > 0 ? (
+                    <div
+                     style={{
+                      // height: "400px",
+                      height: currentRoomelectricity.length >= 6 ? "400px" : "auto",
+                      overflowY: "auto",
+                      borderRadius: "24px",
+                      border: "1px solid #DCDCDC",
+                      // borderBottom:"none"
+                    }}>
                     <Table
                       responsive="md"
                       className="Table_Design"
-                      style={{
-                        height: "auto",
-                        overflow: "visible",
-                        tableLayout: "auto",
-                        borderRadius: "24px",
-                        border: "1px solid #DCDCDC",
-                      }}
+                      style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
                     >
                       <thead
                         style={{
@@ -1253,6 +1199,7 @@ function EB_Hostel(props) {
                         })}
                       </tbody>
                     </Table>
+                    </div>
                   ) : (
                     <div>
                       <div style={{ textAlign: "center" }}>
@@ -1353,128 +1300,227 @@ function EB_Hostel(props) {
                 </div>
 
                 {currentRoomelectricity?.length > 0 && (
-                  <nav>
-                    <ul
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        listStyleType: "none",
-                        padding: 0,
-                        justifyContent: "end",
-                      }}
-                    >
-                      <li style={{ margin: "0 5px" }}>
-                        <button
-                          style={{
-                            padding: "5px 10px",
-                            textDecoration: "none",
-                            color:
-                              electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                            cursor:
-                              electricitycurrentPage === 1
-                                ? "not-allowed"
-                                : "pointer",
-                            borderRadius: "5px",
-                            display: "inline-block",
-                            minWidth: "30px",
-                            textAlign: "center",
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          onClick={() =>
-                            handleElectricityPageChange(
-                              electricitycurrentPage - 1
-                            )
-                          }
-                          disabled={electricitycurrentPage === 1}
-                        >
-                          {" "}
-                          <ArrowLeft2 size="16" color="#1E45E1" />
-                        </button>
-                      </li>
-                      {electricitycurrentPage > 3 && (
-                        <li style={{ margin: "0 5px" }}>
-                          <button
-                            style={{
-                              padding: "5px 10px",
-                              textDecoration: "none",
-                              color: "white",
-                              cursor: "pointer",
-                              borderRadius: "5px",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handleElectricityPageChange(1)}
-                          >
-                            1
-                          </button>
-                        </li>
-                      )}
-                      {electricitycurrentPage > 3 && <span>...</span>}
-                      {renderPageNumberselectricity()}
-                      {electricitycurrentPage < totalPagesinvoice - 2 && (
-                        <span>...</span>
-                      )}
-                      {electricitycurrentPage < totalPagesinvoice - 2 && (
-                        <li style={{ margin: "0 5px" }}>
-                          <button
-                            style={{
-                              padding: "5px 10px",
-                              textDecoration: "none",
+                  // <nav>
+                  //   <ul
+                  //     style={{
+                  //       display: "flex",
+                  //       alignItems: "center",
+                  //       listStyleType: "none",
+                  //       padding: 0,
+                  //       justifyContent: "end",
+                  //     }}
+                  //   >
+                  //     <li style={{ margin: "0 5px" }}>
+                  //       <button
+                  //         style={{
+                  //           padding: "5px 10px",
+                  //           textDecoration: "none",
+                  //           color:
+                  //             electricitycurrentPage === 1 ? "#ccc" : "#007bff",
+                  //           cursor:
+                  //             electricitycurrentPage === 1
+                  //               ? "not-allowed"
+                  //               : "pointer",
+                  //           borderRadius: "5px",
+                  //           display: "inline-block",
+                  //           minWidth: "30px",
+                  //           textAlign: "center",
+                  //           backgroundColor: "transparent",
+                  //           border: "none",
+                  //         }}
+                  //         onClick={() =>
+                  //           handleElectricityPageChange(
+                  //             electricitycurrentPage - 1
+                  //           )
+                  //         }
+                  //         disabled={electricitycurrentPage === 1}
+                  //       >
+                  //         {" "}
+                  //         <ArrowLeft2 size="16" color="#1E45E1" />
+                  //       </button>
+                  //     </li>
+                  //     {electricitycurrentPage > 3 && (
+                  //       <li style={{ margin: "0 5px" }}>
+                  //         <button
+                  //           style={{
+                  //             padding: "5px 10px",
+                  //             textDecoration: "none",
+                  //             color: "white",
+                  //             cursor: "pointer",
+                  //             borderRadius: "5px",
+                  //             display: "inline-block",
+                  //             minWidth: "30px",
+                  //             textAlign: "center",
+                  //             backgroundColor: "transparent",
+                  //             border: "none",
+                  //           }}
+                  //           onClick={() => handleElectricityPageChange(1)}
+                  //         >
+                  //           1
+                  //         </button>
+                  //       </li>
+                  //     )}
+                  //     {electricitycurrentPage > 3 && <span>...</span>}
+                  //     {renderPageNumberselectricity()}
+                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
+                  //       <span>...</span>
+                  //     )}
+                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
+                  //       <li style={{ margin: "0 5px" }}>
+                  //         <button
+                  //           style={{
+                  //             padding: "5px 10px",
+                  //             textDecoration: "none",
 
-                              cursor: "pointer",
-                              borderRadius: "5px",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handleElectricityPageChange(totalPagesinvoice)
-                            }
-                          >
-                            {totalPagesinvoice}
-                          </button>
-                        </li>
-                      )}
-                      <li style={{ margin: "0 5px" }}>
-                        <button
-                          style={{
-                            padding: "5px 10px",
-                            textDecoration: "none",
-                            color:
-                              electricitycurrentPage === electricitycurrentPage
-                                ? "#ccc"
-                                : "#007bff",
-                            cursor:
-                              electricitycurrentPage === electricitycurrentPage
-                                ? "not-allowed"
-                                : "pointer",
-                            borderRadius: "5px",
-                            display: "inline-block",
-                            minWidth: "30px",
-                            textAlign: "center",
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          onClick={() =>
-                            handleElectricityPageChange(
-                              electricitycurrentPage + 1
-                            )
-                          }
-                          disabled={
-                            electricitycurrentPage === totalPagesinvoice
-                          }
-                        >
-                          <ArrowRight2 size="16" color="#1E45E1" />
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
+                  //             cursor: "pointer",
+                  //             borderRadius: "5px",
+                  //             display: "inline-block",
+                  //             minWidth: "30px",
+                  //             textAlign: "center",
+                  //             backgroundColor: "transparent",
+                  //             border: "none",
+                  //           }}
+                  //           onClick={() =>
+                  //             handleElectricityPageChange(totalPagesinvoice)
+                  //           }
+                  //         >
+                  //           {totalPagesinvoice}
+                  //         </button>
+                  //       </li>
+                  //     )}
+                  //     <li style={{ margin: "0 5px" }}>
+                  //       <button
+                  //         style={{
+                  //           padding: "5px 10px",
+                  //           textDecoration: "none",
+                  //           color:
+                  //             electricitycurrentPage === electricitycurrentPage
+                  //               ? "#ccc"
+                  //               : "#007bff",
+                  //           cursor:
+                  //             electricitycurrentPage === electricitycurrentPage
+                  //               ? "not-allowed"
+                  //               : "pointer",
+                  //           borderRadius: "5px",
+                  //           display: "inline-block",
+                  //           minWidth: "30px",
+                  //           textAlign: "center",
+                  //           backgroundColor: "transparent",
+                  //           border: "none",
+                  //         }}
+                  //         onClick={() =>
+                  //           handleElectricityPageChange(
+                  //             electricitycurrentPage + 1
+                  //           )
+                  //         }
+                  //         disabled={
+                  //           electricitycurrentPage === totalPagesinvoice
+                  //         }
+                  //       >
+                  //         <ArrowRight2 size="16" color="#1E45E1" />
+                  //       </button>
+                  //     </li>
+                  //   </ul>
+                  // </nav>
+
+
+
+                   <nav
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "end", // Align dropdown and pagination
+                                          padding: "10px",
+                                          // borderTop: "1px solid #ddd",
+                                        }}
+                                      >
+                                        {/* Dropdown for Items Per Page */}
+                                        <div>
+                                          <select
+                                            value={electricityrowsPerPage}
+                                            onChange={handleItemsPerPageChange}
+                                            style={{
+                                              padding: "5px",
+                                              border: "1px solid #1E45E1",
+                                              borderRadius: "5px",
+                                              color: "#1E45E1",
+                                              fontWeight: "bold",
+                                              cursor: "pointer",
+                                              outline: "none",
+                                              boxShadow: "none",
+                                              
+                                            }}
+                                          >
+                                             <option value={5}>5</option>
+                                            <option value={10}>10</option>
+                                            <option value={50}>50</option>
+                                            <option value={100}>100</option>
+                                          </select>
+                                        </div>
+                                      
+                                        {/* Pagination Controls */}
+                                        <ul
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            listStyleType: "none",
+                                            margin: 0,
+                                            padding: 0,
+                                          }}
+                                        >
+                                          {/* Previous Button */}
+                                          <li style={{ margin: "0 10px" }}>
+                                            <button
+                                              style={{
+                                                padding: "5px",
+                                                textDecoration: "none",
+                                                color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                                cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                                                borderRadius: "50%",
+                                                display: "inline-block",
+                                                minWidth: "30px",
+                                                textAlign: "center",
+                                                backgroundColor: "transparent",
+                                                border: "none",
+                                              }}
+                                              onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                                              disabled={electricitycurrentPage === 1}
+                                            >
+                                              <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                            </button>
+                                          </li>
+                                      
+                                          {/* Current Page Indicator */}
+                                          <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                            {electricitycurrentPage} of {totalPagesinvoice}
+                                          </li>
+                                      
+                                          {/* Next Button */}
+                                          <li style={{ margin: "0 10px" }}>
+                                            <button
+                                              style={{
+                                                padding: "5px",
+                                                textDecoration: "none",
+                                                color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
+                                                cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                                                borderRadius: "50%",
+                                                display: "inline-block",
+                                                minWidth: "30px",
+                                                textAlign: "center",
+                                                backgroundColor: "transparent",
+                                                border: "none",
+                                              }}
+                                              onClick={() => handlePageChange(electricitycurrentPage + 1)}
+                                              disabled={electricitycurrentPage === totalPagesinvoice}
+                                            >
+                                              <ArrowRight2
+                                                size="16"
+                                                color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                                              />
+                                            </button>
+                                          </li>
+                                        </ul>
+                                      </nav>
                 )}
               </>
             )}
