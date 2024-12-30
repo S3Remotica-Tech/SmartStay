@@ -165,9 +165,9 @@ function* handleCheckEbStartmeterlist(action) {
 }
 function* handleCustomerEblist(action) {
   const response = yield call(EB_CustomerListTable,action.payload);
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response.status === 200 || response.data.statusCode === 200) {
     console.log("....responsecus", response);
-    yield put({ type: "EB_CUSTOMER_EBLIST", payload: response.data });
+    yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data , statusCode:response.status || response.data.statusCode } });
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }

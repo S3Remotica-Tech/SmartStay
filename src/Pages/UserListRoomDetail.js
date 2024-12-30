@@ -1197,7 +1197,7 @@ useEffect(()=>{
                               textTransform: "none",
                             }}
                           />
-                          <Tab
+                          {/* <Tab
                             label="Compliants"
                             value="4"
                             style={{
@@ -1209,10 +1209,10 @@ useEffect(()=>{
                               fontWeight: 500,
                               textTransform: "none",
                             }}
-                          />
+                          /> */}
                           <Tab
                             label="Amenities"
-                            value="5"
+                            value="4"
                             style={{
                               fontSize: 16,
                               fontFamily: "Gilroy",
@@ -2981,10 +2981,10 @@ useEffect(()=>{
                       <UserListInvoice id={props.id} />
                     </TabPanel>
 
-                    <TabPanel value="4">
+                    {/* <TabPanel value="4">
                       <UserListCompliants id={props.id} />
-                    </TabPanel>
-                    <TabPanel value="5">
+                    </TabPanel> */}
+                    <TabPanel value="4">
                       <UserListAmenities
                         id={props.id}
                         setcustomerUser_Id={props.setcustomerUser_Id}

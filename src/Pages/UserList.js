@@ -185,18 +185,26 @@ function UserList(props) {
 
       setFilteredUsers(FilterUser);
     }
+    // if (value === "2") {
+    //   const FilterUsertwo =
+    //     state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
+    //       return item.first_name
+    //         .toLowerCase()
+    //         .includes(filterInput.toLowerCase());
+    //     });
+    //   setFilteredUsers(FilterUsertwo);
+    // }
     if (value === "2") {
       const FilterUsertwo =
         state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
-          return item.first_name
-            .toLowerCase()
-            .includes(filterInput.toLowerCase());
+          const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
+          return fullName.includes(filterInput.toLowerCase());
         });
       setFilteredUsers(FilterUsertwo);
     }
     if (value === "4") {
-      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
-        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
+        return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
       });
       setFilteredUsers(FilterUsertwo);
     }
@@ -204,7 +212,7 @@ function UserList(props) {
     filterInput,
     state.UsersList.Users,
     value,
-    state?.Booking?.CustomerBookingList?.bookings,
+    state?.Booking?.CustomerBookingList?.bookings,state.UsersList.WalkInCustomerList
   ]);
   // useEffect(() => {
   //   let FilterUser = [];
@@ -238,21 +246,35 @@ function UserList(props) {
   //   state.UsersList?.hostelList,
   // ]);
 
+
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
   };
-
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user.Name);
     } else if (value === "2") {
-      setFilterInput(user.first_name);
+      setFilterInput(`${user.first_name} ${user.last_name}`);
+    } else if (value === "4") {
+      setFilterInput(user.customer_Name);
     }
-
+  
     setFilteredUsers([]);
     setDropdownVisible(false);
   };
+  
+
+  // const handleUserSelect = (user) => {
+  //   if (value === "1") {
+  //     setFilterInput(user.Name);
+  //   } else if (value === "2") {
+  //     setFilterInput(user.first_name);
+  //   }
+
+  //   setFilteredUsers([]);
+  //   setDropdownVisible(false);
+  // };
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -373,6 +395,7 @@ function UserList(props) {
     setExcelDownloadChecIn("");
     setExcelDownloadCheckout("");
     setIsDownloadTriggered(false);
+    setFilterInput("")
   };
 
   useEffect(() => {
@@ -1213,13 +1236,23 @@ function UserList(props) {
                                   }}
                                 />
                                 {/* <span>{user.Name}</span> */}
-                                <span>
+                                {/* <span>
                                   {value === "1"
                                     ? user.Name
                                     : value === "2"
                                     ? user.first_name
                                     : ""}
-                                </span>
+                                </span> */}
+                                <span>
+  {value === "1"
+    ? user.Name
+    : value === "2"
+    ? `${user.first_name} ${user.last_name}`
+    : value === "4"
+    ? user.customer_Name
+    : ""}
+</span>
+  
                               </li>
                             );
                           })}
@@ -2542,6 +2575,7 @@ function UserList(props) {
                   customerWalkInAddPermission={customerWalkInAddPermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
+                  filteredUsers={filteredUsers}
                 />
               </TabPanel>
             </TabContext>
