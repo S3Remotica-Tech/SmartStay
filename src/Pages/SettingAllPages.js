@@ -489,7 +489,7 @@ useEffect(()=>{
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 marginTop: 20,
                 marginLeft: 30,
-                width:221,
+                width:201,
                 height:302
               }}
             >
@@ -693,7 +693,7 @@ useEffect(()=>{
 
             
           </div>
-          <div className="col-12 col-md-12 col-lg-9" style={{ padding: "15px"}}>
+          <div className="container col-12 col-md-12 col-lg-9">
             {generalPageShow && <SettingGeneral />}
             {managePageShow && <SettingManage />}
             {securityPageShow && <SettingSecurity />}

@@ -43,6 +43,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
+import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 
 // function getFloorName(floor_Id) {
 
@@ -369,7 +370,7 @@ function SettingManage() {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1);
+   const [itemsPerPage, setItemsPerPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -378,59 +379,62 @@ function SettingManage() {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const paginate = (pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const renderPagination = () => {
-    const pageNumbers = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
-
-    if (startPage > 1) {
-      pageNumbers.push(
-        <Pagination.Item
-          key={1}
-          active={1 === currentPage}
-          onClick={() => paginate(1)}
-        >
-          1
-        </Pagination.Item>
-      );
-      if (startPage > 2) {
-        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => paginate(i)}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-      }
-      pageNumbers.push(
-        <Pagination.Item
-          key={totalPages}
-          active={totalPages === currentPage}
-          onClick={() => paginate(totalPages)}
-        >
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
-
-    return pageNumbers;
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
   };
+
+  // const renderPagination = () => {
+  //   const pageNumbers = [];
+  //   let startPage = Math.max(1, currentPage - 2);
+  //   let endPage = Math.min(totalPages, currentPage + 2);
+
+  //   if (startPage > 1) {
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={1}
+  //         active={1 === currentPage}
+  //         onClick={() => paginate(1)}
+  //       >
+  //         1
+  //       </Pagination.Item>
+  //     );
+  //     if (startPage > 2) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+  //     }
+  //   }
+
+  //   for (let i = startPage; i <= endPage; i++) {
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={i}
+  //         active={i === currentPage}
+  //         onClick={() => paginate(i)}
+  //       >
+  //         {i}
+  //       </Pagination.Item>
+  //     );
+  //   }
+
+  //   if (endPage < totalPages) {
+  //     if (endPage < totalPages - 1) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+  //     }
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={totalPages}
+  //         active={totalPages === currentPage}
+  //         onClick={() => paginate(totalPages)}
+  //       >
+  //         {totalPages}
+  //       </Pagination.Item>
+  //     );
+  //   }
+
+  //   return pageNumbers;
+  // };
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
@@ -775,10 +779,10 @@ function SettingManage() {
           {hidePgList && (
             <>
               <div
-                className="container justify-content-between d-flex align-items-center "
+                className="container justify-content-between d-flex align-items-center"
                 style={{
                   position: "sticky",
-                  top: 20,
+                  top: 0,
                   right: 0,
                   left: 0,
                   zIndex: 1000,
@@ -976,7 +980,7 @@ function SettingManage() {
                   )}
                 </div>
               )} */}
-              <div className="container mt-2" >
+              <div className="mt-2" >
                 <div className="row row-gap-3">
                   {currentItems.length > 0 &&
                     currentItems.map((hostel) => {
@@ -1087,21 +1091,104 @@ function SettingManage() {
                 </div>
               </div>
               {currentItems.length > 0 && (
-                <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-                  <Pagination.Prev
-                    style={{ visibility: "visible", color: "#1E45E1" }}
-                    onClick={() => paginate(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  ></Pagination.Prev>
-
-                  {renderPagination()}
-
-                  <Pagination.Next
-                    style={{ visibility: "visible", color: "#1E45E1" }}
-                    onClick={() => paginate(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  ></Pagination.Next>
-                </Pagination>
+              <nav
+                                                   style={{
+                                                     display: "flex",
+                                                     alignItems: "center",
+                                                     justifyContent: "end", // Align dropdown and pagination
+                                                     padding: "10px",
+                                                     // borderTop: "1px solid #ddd",
+                                                   }}
+                                                 >
+                                                   {/* Dropdown for Items Per Page */}
+                                                   <div>
+                                                     <select
+                                                       value={itemsPerPage}
+                                                       onChange={handleItemsPerPageChange}
+                                                       style={{
+                                                         padding: "5px",
+                                                         border: "1px solid #1E45E1",
+                                                         borderRadius: "5px",
+                                                         color: "#1E45E1",
+                                                         fontWeight: "bold",
+                                                         cursor: "pointer",
+                                                         outline: "none",
+                                                         boxShadow: "none",
+                                                         
+                                                       }}
+                                                     >
+                                                      <option value={1}>1</option>
+                                                      <option value={2}>2</option>
+                                                        <option value={5}>5</option>
+                                                       <option value={10}>10</option>
+                                                       <option value={50}>50</option>
+                                                       <option value={100}>100</option>
+                                                     </select>
+                                                   </div>
+                                                 
+                                                   {/* Pagination Controls */}
+                                                   <ul
+                                                     style={{
+                                                       display: "flex",
+                                                       alignItems: "center",
+                                                       listStyleType: "none",
+                                                       margin: 0,
+                                                       padding: 0,
+                                                     }}
+                                                   >
+                                                     {/* Previous Button */}
+                                                     <li style={{ margin: "0 10px" }}>
+                                                       <button
+                                                         style={{
+                                                           padding: "5px",
+                                                           textDecoration: "none",
+                                                           color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                                           cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                                           borderRadius: "50%",
+                                                           display: "inline-block",
+                                                           minWidth: "30px",
+                                                           textAlign: "center",
+                                                           backgroundColor: "transparent",
+                                                           border: "none",
+                                                         }}
+                                                         onClick={() => handlePageChange(currentPage - 1)}
+                                                         disabled={currentPage === 1}
+                                                       >
+                                                         <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                                       </button>
+                                                     </li>
+                                                 
+                                                     {/* Current Page Indicator */}
+                                                     <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                                       {currentPage} of {totalPages}
+                                                     </li>
+                                                 
+                                                     {/* Next Button */}
+                                                     <li style={{ margin: "0 10px" }}>
+                                                       <button
+                                                         style={{
+                                                           padding: "5px",
+                                                           textDecoration: "none",
+                                                           color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                                           cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                                           borderRadius: "50%",
+                                                           display: "inline-block",
+                                                           minWidth: "30px",
+                                                           textAlign: "center",
+                                                           backgroundColor: "transparent",
+                                                           border: "none",
+                                                         }}
+                                                         onClick={() => handlePageChange(currentPage + 1)}
+                                                         disabled={currentPage === totalPages}
+                                                       >
+                                                         <ArrowRight2
+                                                           size="16"
+                                                           color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                                         />
+                                                       </button>
+                                                     </li>
+                                                   </ul>
+                                                 </nav>
               )}
 
               {/* <Pagination className="mt-4 d-flex justify-content-end">
