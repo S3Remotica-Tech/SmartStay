@@ -75,8 +75,8 @@ useEffect(() => {
 }, []);
  
   useEffect(()=>{
-    setHostelId(state.login.selectedHostel_Id);
-  },[state.login.selectedHostel_Id])
+    setHostelId(props.selectedHostel);
+  },[props])
   
 
   const handleReadingChange = (e) => {

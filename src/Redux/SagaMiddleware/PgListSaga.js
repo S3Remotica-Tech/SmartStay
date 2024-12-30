@@ -166,7 +166,7 @@ function* handleCustomerEblist(action) {
 
   if (response.status === 200 || response.data.statusCode === 200) {
     console.log("....responsecus", response);
-    yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data , statusCode:response.status || response.data.statusCode } });
+    yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data.eb_details,statusCode:response.status || response.data.statusCode } });
 
   } else {
     yield put({ type: "ERROR", payload: response.data.message });

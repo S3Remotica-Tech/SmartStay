@@ -151,7 +151,7 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
 
 
             case 'EB_CUSTOMER_EBLIST':
-                return { ...state, EB_customerTable: action.payload,statusCodeforEbCustomer:action.payload.statusCode }
+                return { ...state, EB_customerTable: action.payload.response,statusCodeforEbCustomer:action.payload.statusCode}
                 case 'CLEAR_EB_CUSTOMER_EBLIST':
                     return { ...state, statusCodeforEbCustomer: 0 }
 

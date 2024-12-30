@@ -307,7 +307,7 @@ function EB_Hostel(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      setelectricityFilterddata(state.PgList?.EB_customerTable?.eb_details);
+      setelectricityFilterddata(state.PgList?.EB_customerTable);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
@@ -1731,6 +1731,7 @@ function EB_Hostel(props) {
             ebpermissionError={ebpermissionError}
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
+            selectedHostel={selectedHostel}
           />
         </TabPanel>
 
