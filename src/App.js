@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-// import FrontPage from "./Components/FrontPage"
 import FrontPage from './LandingPage/All_Landing_pages';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
@@ -9,15 +8,9 @@ import ForgetPassword from "./Components/Forgetpass";
 import Hostel from './Components/Hostel_Management';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import BedDetails from './Pages/Bed';
-import DashboardRoomList from './Pages/DashBoardRoomsList';
 import CryptoJS from "crypto-js";
-import InvoiceDetail from './Pages/InvoiceDetails';
 import { useDispatch, useSelector } from 'react-redux';
-import { Token } from '@mui/icons-material';
 import Cookies from 'universal-cookie';
-import Spinner from 'react-bootstrap/Spinner';
-import KYC from './Pages/KycValidation'
 import { Circles } from 'react-loader-spinner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,7 +54,6 @@ function App() {
           const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable;
 
 
-          console.log("login", parseData)
 
           if (is_Enable === 1 || !parseData) {
             setData(false);
@@ -69,16 +61,12 @@ function App() {
             setData(true);
           }
         }
-        //  else if (state.login?.isLoggedIn) {
-        //   setData(true);
-        // } else {
-        //   setData(false);
-        // }
+      
       } catch (error) {
         console.error('Error during login validation:', error);
         setData(false);
       } finally {
-        setLoading(false); // Stop loading regardless of the result
+        setLoading(false); 
       }
     };
 
@@ -111,8 +99,6 @@ function App() {
         {data || state.login?.isLoggedIn ? (
           <>
             <Route path="/" element={<Hostel />} />
-            {/* <Route path="/bed" element={<BedDetails />} />
-            <Route path="/roomList" element={<DashboardRoomList />} /> */}
             <Route path="*" element={<Navigate to="/" replace />} />
            
           </>

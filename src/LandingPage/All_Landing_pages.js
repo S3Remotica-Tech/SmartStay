@@ -123,7 +123,6 @@ function All_landing_pages() {
     const [activeLink, setActiveLink] = useState('');
 
 
-    console.log("activeLink", activeLink)
 
 
 

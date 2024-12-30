@@ -95,6 +95,14 @@ function SettingCompliance({ hostelid }) {
         }
     }
     useEffect(() => {
+        if (state.Settings.getcomplainttypeStatuscode === 200) {
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_GET_COMPLAINTTYPE_STATUS_CODE' })
+            }, 1000);
+        }
+    }, [state.Settings.getcomplainttypeStatuscode])
+
+    useEffect(() => {
         if (state.Settings.addComplaintSuccessStatusCode === 200) {
             dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
             handleClose()
@@ -159,6 +167,7 @@ function SettingCompliance({ hostelid }) {
     </Col>
   </div>
 </div>
+
 
 
 
@@ -284,6 +293,7 @@ function SettingCompliance({ hostelid }) {
     </div>
   )}
 </div>
+
 
 
             <Modal

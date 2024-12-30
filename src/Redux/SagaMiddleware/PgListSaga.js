@@ -18,7 +18,6 @@ import {
 
 function* handlePgList(datum) {
   const response = yield call(createPgList, datum.payload);
-  console.log("response PG", response);
 
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -73,7 +72,6 @@ function* handlePgList(datum) {
 
 function* handleCreateRoom(datum) {
   const response = yield call(createRoom, datum.payload);
-  console.log("response createroom", response);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
     color: "black",
@@ -140,7 +138,6 @@ function* handleCheckRoom() {
 
 function* handleCheckEblist() {
   const response = yield call(EB_Customerlist);
-  console.log("response for eb list", response);
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "EB_LIST", payload: response.data.data });
   } else {
@@ -153,10 +150,11 @@ function* handleCheckEblist() {
 
 function* handleCheckEbStartmeterlist(action) {
   const response = yield call(EB_startmeterlist,action.payload);
+
   if (response.status === 200 || response.statusCode === 200) {
-    console.log("....responsePG", response);
     yield put({ type: "EB_STARTMETER_LIST", payload:{response :response.data.data , statusCode:response.status || response.data.statusCode }  });
-  } else {
+  }
+   else {
     yield put({ type: "ERROR", payload: response.data.message});
   }
   if (response) {
@@ -165,9 +163,11 @@ function* handleCheckEbStartmeterlist(action) {
 }
 function* handleCustomerEblist(action) {
   const response = yield call(EB_CustomerListTable,action.payload);
+
   if (response.status === 200 || response.data.statusCode === 200) {
     console.log("....responsecus", response);
     yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data , statusCode:response.status || response.data.statusCode } });
+
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
@@ -216,7 +216,6 @@ function* handleCheckEB(action) {
 
 function* handleCreateEB(action) {
   const response = yield call(CreateEbbill, action.payload);
-  console.log("responseEb", response);
 
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
@@ -262,7 +261,6 @@ function* handleCreateEB(action) {
 }
 // function* handleCreateEB(action) {
 //   const response = yield call(CreateEbbill, action.payload);
-//   console.log("responseEb", response);
 
 //   if (response.status === 200 || response.statusCode === 200) {
 //     yield put({
@@ -311,9 +309,7 @@ function* handleCreateEB(action) {
 // }
 
 function* handleCreatePGDashboard(action) {
-  console.log("action dashboard", action.payload);
   const response = yield call(createAllPGDetails, action.payload);
-  console.log("response for dashboard", response);
 
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "CREATE_PG_DASHBOARD", payload: response.data });
@@ -351,7 +347,6 @@ function* handleCheckBedDetails(action) {
 
 function* handleCreateBed(action) {
   const response = yield call(createBed, action.payload);
-  console.log("response create Bed", response.status);
 
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -408,7 +403,6 @@ function* handleCreateBed(action) {
 
 function* handleDeleteBed(action) {
   const response = yield call(DeleteBed, action.payload);
-  console.log("response delete Bed", response);
 
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -461,7 +455,6 @@ function* handleDeleteBed(action) {
 
 function* handleDeletePG(action) {
   const response = yield call(DeletePG, action.payload);
-  console.log("response delete PG", response);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
     color: "black",
@@ -511,7 +504,6 @@ function* handleDeletePG(action) {
 
 function* handleUpdateFloor(action) {
   const response = yield call(UpdateFloor, action.payload);
-  console.log("response update floor", response);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
     color: "black",
@@ -557,7 +549,6 @@ function* handleUpdateFloor(action) {
 
 function* handleOccupiedCustomer(action) {
   const response = yield call(OccupiedCustomer, action.payload);
-  console.log("response update floor", response);
  
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
@@ -642,7 +633,6 @@ function* handleEditElectricity(action) {
    
   };
 
-  console.log("handleEditElectricity",response)
   if (response.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'EDIT_ELECTRICITY' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -685,7 +675,6 @@ function* handleDeleteElectricity(action) {
    
   };
 
-  console.log("handleDeleteElectricity",response)
   if (response.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DELETE_ELECTRICITY' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -713,7 +702,6 @@ function* handleDeleteElectricity(action) {
 function* handleDropFilter(action) {
   const response = yield call (dashboardFilter, action.payload);
 
-  console.log("handleDropFilter",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DASHBOARD_FILTER_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
  
@@ -729,7 +717,6 @@ function* handleDropFilter(action) {
 function* handleDropFilterCashBack(action) {
   const response = yield call (dashboardFilter, action.payload);
 
-  console.log("handleDropFilter",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DASHBOARD_FILTER_CASHBACK' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
  
@@ -748,7 +735,6 @@ function* handleDropFilterCashBack(action) {
 function* handleDropFilterRevenue(action) {
   const response = yield call (dashboardFilter, action.payload);
 
-  console.log("handleDropFilter",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DASHBOARD_FILTER_REVENUE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
  
@@ -784,7 +770,6 @@ function* handleAddHostelElectricity(action) {
    
   };
 
-  console.log("handleAddHostelElectricity",response)
   if (response.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -827,7 +812,6 @@ function* handleHostelEditElectricity(action) {
    
   };
 
-  console.log("handleHostelEditElectricity",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'EDIT_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -870,7 +854,6 @@ function* handleHostelDeleteElectricity(action) {
    
   };
 
-  console.log("handleHostelDeleteElectricity",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DELETE_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -896,7 +879,6 @@ function* handleHostelDeleteElectricity(action) {
 function* handleHostelBasedEblist(action) {
   const response = yield call(ebHostelBasedRead,action.payload);
   if (response.status === 200 || response.statusCode === 200) {
-    console.log("....handleHostelBasedEblist", response);
     yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
@@ -911,9 +893,7 @@ function* handleHostelBasedEblist(action) {
 
 
 function* handleAnnouncementList(action) {
-  console.log("action dashboard", action.payload);
   const response = yield call(announcement_list, action.payload);
-  console.log("responseforannouncement", response);
 
   if (response.status === 200 || response.data.statusCode === 200) {
     yield put({ type: "ANNOUNCEMENT_LIST",payload:{response:response.data, statusCode:response.status || response.data.statusCode} });
@@ -946,7 +926,6 @@ function* handleAddAnnounce(action) {
    
   };
 
-  console.log("handleAddAnnounce",response)
   if (response.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'ADD_ANNOUNCEMENT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
@@ -975,7 +954,6 @@ function* handleAddAnnounce(action) {
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
-    console.log("refreshTokenGet", refreshTokenGet);
     const cookies = new Cookies();
     cookies.set("token", refreshTokenGet, { path: "/" });
   } else if (response.status === 206) {

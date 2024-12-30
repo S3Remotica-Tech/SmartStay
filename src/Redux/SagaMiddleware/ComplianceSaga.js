@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
  function* handlecompliancelist (action){
     const response = yield call (compliance, action.payload);
-    console.log("response for compliance",response)
     
     if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'COMPLIANCE_LIST' , payload:response.data.hostelData})
@@ -88,7 +87,6 @@ function* handleVendorGet(action) {
 
 function* handleAddVendor(action) {
    const response = yield call (addVendor,action.payload);
- console.log("response", response)
 
  var toastStyle = {
    backgroundColor: "#E6F6E6",
@@ -144,7 +142,6 @@ function* handleAddVendor(action) {
 
 function* handleComplianceChange(action) {
    const response = yield call (ComplianceChange,action.payload);
- console.log("response", response)
 
  var toastStyle = {
    backgroundColor: "#E6F6E6",
@@ -188,7 +185,6 @@ function* handleComplianceChange(action) {
 
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
- console.log(" response", response)
 
  var toastStyle = {
    backgroundColor: "#E6F6E6",
@@ -237,7 +233,6 @@ function refreshToken(response){
 
 if(response.data && response.data.refresh_token){
    const refreshTokenGet = response.data.refresh_token
-   console.log("refreshTokenGet",refreshTokenGet)
    const cookies = new Cookies()
    cookies.set('token', refreshTokenGet, { path: '/' });
 }else if (response.status === 206) {

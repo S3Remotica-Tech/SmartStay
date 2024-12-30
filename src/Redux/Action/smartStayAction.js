@@ -33,7 +33,6 @@ export async function CreateAccountAction(params) {
        
               }
     });
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -70,7 +69,6 @@ export async function UpdateProfile (params) {
        
               }
     });
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -106,7 +104,6 @@ export async function TwoStepVerification(datum) {
 
 
 export async function AccountDetails(user) {
-  // console.log("user",user)
    return await AxiosConfig.post('/get_user_details',user,{
     data:user
    
@@ -132,7 +129,7 @@ export async function UpdateNotification(message) {
    
   })
 }
-// http://localhost:2001
+
 
 export const StoreSelectedHostelAction = (data) => {
   return {

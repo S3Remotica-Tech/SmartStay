@@ -7,7 +7,6 @@ import AxiosConfig from "../../WebService/AxiosConfig";
 //   }
 
 export async function createPgList(params) {
-  console.log("param pg List", params);
 
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
@@ -31,7 +30,6 @@ export async function createPgList(params) {
         console.log("event", event);
       },
     });
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -55,13 +53,11 @@ export async function EB_Customerlist() {
 }
 
 export async function EB_startmeterlist(datum) {
-  console.log("EB_startmeterlist",datum)
   return await AxiosConfig.post("/list/Ebstartmeter",datum, {
     data:datum,
   });
 }
 export async function EB_CustomerListTable(datum) {
-  console.log("EB_CustomerListTable",datum)
   return await AxiosConfig.post("/customer_readings",datum, {
 data:datum,
   });
@@ -84,7 +80,6 @@ export async function CheckBedDetails(datum) {
 }
 
 export async function createAllPGDetails(datum) {
-  console.log("datum", datum);
   return await AxiosConfig.post("/list/dashboard", datum, {
     data: datum,
   });
@@ -126,7 +121,6 @@ export async function deleteHostelImages(datum) {
   });
 }
 export async function editElectricity(datum) {
-  console.log("editElectricity",datum)
   return await AxiosConfig.post("/edit_room_reading", datum, {
     data: datum,
   });
@@ -146,14 +140,12 @@ export async function dashboardFilter(datum) {
 // Hostel_based
 
 export async function ebHostelBasedRead(datum) {
-  console.log("ebHostelBasedRead",datum)
   return await AxiosConfig.post("/get_hostel_reading", datum, {
     data: datum,
   });
 }
 
 export async function ebAddHostelReading(datum) {
-  console.log("ebAddHostelReading",datum)
   return await AxiosConfig.post("/add_hostel_reading", datum, {
     data: datum,
   });
@@ -161,20 +153,17 @@ export async function ebAddHostelReading(datum) {
 
 
 export async function ebAddHostelEdit(datum) {
-  console.log("ebAddHostelEdit",datum)
   return await AxiosConfig.post("/edit_hostel_reading", datum, {
     data: datum,
   });
 }
 export async function ebAddHostelDelete(datum) {
-  console.log("ebAddHostelDelete",datum)
   return await AxiosConfig.post("/delete_hostel_reading", datum, {
     data: datum,
   });
 }
 
 export async function announcement_list(datum) {
-  console.log("announcement_list",datum)
   return await AxiosConfig.post("/announcement/all_announcement", datum, {
     data: datum,
   });
@@ -183,7 +172,6 @@ export async function announcement_list(datum) {
 
 
 export async function add_announcement(datum) {
-  console.log("add_announcement",datum)
   return await AxiosConfig.post("/add/announcement",datum, {
     data: datum,
   });

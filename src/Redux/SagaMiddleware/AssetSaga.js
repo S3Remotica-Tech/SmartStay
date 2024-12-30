@@ -7,9 +7,7 @@ import { toast } from 'react-toastify';
 
 
 function* handleGetAsset(action) {
-   console.log("asset action", action)
    const response = yield call(GetAsset, action.payload);
-   console.log("response for get", response.status)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
    }
@@ -24,7 +22,6 @@ function* handleGetAsset(action) {
 
 function* handleAddAsset(action) {
    const response = yield call(AddAsset, action.payload);
-   console.log("response add", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -71,7 +68,6 @@ function* handleAddAsset(action) {
 
 function* handleDeleteAsset(action) {
    const response = yield call(DeleteAssetList, action.payload);
-   console.log(" response", response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -119,7 +115,6 @@ function* handleDeleteAsset(action) {
 
 function* handleGetHostelRooms(action) {
    const response = yield call(getHostelRooms, action.payload);
-   console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'GET_ROOMS', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
@@ -134,7 +129,6 @@ function* handleGetHostelRooms(action) {
 
 function* handleAssignAsset(action) {
    const response = yield call(AssignAsset, action.payload);
-   console.log(" response", response)
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -191,7 +185,6 @@ function* handleAssignAsset(action) {
 function refreshToken(response) {
    if (response.data && response.data.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
-      console.log("refreshTokenGet", refreshTokenGet)
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
    } else if (response.status === 206) {
