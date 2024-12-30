@@ -92,7 +92,6 @@ const handleLastName = (e) => {
     setShowpassword(!showPassword);
   };
 
-  console.log("state", state)
 
 
 const handleConfirmPassword = (e) =>{

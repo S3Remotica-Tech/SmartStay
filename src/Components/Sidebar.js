@@ -85,14 +85,12 @@ function Sidebar() {
   const [currentPageDrop, setCurrentPageDrop] = useState('settingNewDesign');
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState('payingGuest');
-console.log("allPageHostel_Id",allPageHostel_Id)
  
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  console.log("state for side bar", stateData)
 
    
 
@@ -110,7 +108,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState([]);
-  console.log("notification", notification);
 
   useEffect(() => {
     dispatch({ type: 'ALL-NOTIFICATION-LIST' })
@@ -123,7 +120,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
 
   const newNotificationsCount = newNotificationIDs.length;
-  console.log("id", newNotificationIDs);
 
 
   const handleClosepopup = () => setShow(false);
@@ -156,7 +152,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
       const loginInfo = stateData.accountList[0].user_details
 
-      console.log("loginInfo", loginInfo)
       if (loginInfo) {
         const LoginId = loginInfo.id;
         const NameId = loginInfo.Name;
@@ -179,7 +174,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
         localStorage.setItem("IsEnable", encryptIsEnable);
         localStorage.setItem("Password", encryptPassword);
 
-        // console.log("Is_Enable *****", Is_Enable)
 
         if (Is_Enable == 0) {
           const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
@@ -230,7 +224,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
         const profileName = FilteredProfile.first_name;
         setProfiles(profilePictures);
         setProfileArray(profileName);
-        console.log("profileName", profileName);
       }
 
       catch (error) {
@@ -242,7 +235,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
   }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount])
 
 
-  console.log("profile*****", profiles)
 
 
 
@@ -266,7 +258,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
   const [currentPage, setCurrentPage] = useState('dashboard');
 
 
-  console.log("currentPage", currentPage)
 
   const [pgList, setPgList] = useState({
     Name: '',
@@ -283,7 +274,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     setCurrentPage(localStorage.getItem('currentPage'));
   }, [currentPage]);
 
-  console.log("currentPage", localStorage.getItem("currentPage"))
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -383,7 +373,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
  
   const [selectedProfileImage,setSelectedProfileImage] = useState("")
   const handleHostelId = (id,name,profile) => {
-    console.log("Selected Hostel ID:", id);
     setPayingGuestName(name); 
     setAllPageHostel_Id(id);  
 

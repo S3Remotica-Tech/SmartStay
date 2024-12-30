@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
-    console.log("response",response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -91,10 +90,8 @@ function* CreateNewAccount(args) {
 
 
 function* CreateAccountPage(action) {
-  console.log("action create account",action)
   try {
     const response = yield call(CreateAccountAction, action.payload);
-    console.log("response for ca",response.statusCode)
        
     if (response.statusCode === 200 || response.status === 200) {
       yield put({
@@ -113,10 +110,8 @@ function* CreateAccountPage(action) {
 }
 
 function* ProfileUpdate(action) {
-  console.log("action create account",action)
   try {
     const response = yield call(UpdateProfile, action.payload);
-    console.log("response for ca",response.statusCode)
        
 
     if (response.statusCode === 200 || response.status === 200) {
@@ -165,10 +160,8 @@ function* ProfileUpdate(action) {
 
 
 function* handlepasswordUpdate(action) {
-  console.log("action create account",action)
   try {
     const response = yield call(UpdatePassword, action.payload);
-    console.log("response for ca",response.statusCode)
        
 
     if (response.statusCode === 200 || response.status === 200 ) {
@@ -261,7 +254,6 @@ function* HandleTwoStepVerification(action) {
 function* handleAccountDetails(args) {
   try {
    const response = yield call(AccountDetails,args.payload)
-// console.log("Response for account",response)
 
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode}})
@@ -281,7 +273,6 @@ function* handleAccountDetails(args) {
 
 function* handlenotificationlist (action){
   const response = yield call (GetAllNotification, action.payload);
-  console.log("response for notification",response)
   
   if (response.status === 200 || response.statusCode === 200){
      yield put ({type : 'ALL_NOTIFICATION_LIST' , payload:response.data.notification})
@@ -318,7 +309,6 @@ function* HandleUpdateNotification(action) {
 function refreshToken(response){
   if(response.data && response.data.refresh_token){
      const refreshTokenGet = response.data.refresh_token
-     console.log("refreshTokenGet",refreshTokenGet)
      const cookies = new Cookies()
      cookies.set('token', refreshTokenGet, { path: '/' });
   }else if (response.status === 206) {

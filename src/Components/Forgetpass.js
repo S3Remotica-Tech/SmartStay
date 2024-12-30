@@ -50,7 +50,6 @@ function ForgetPasswordPage() {
   //   setSendMailError('')
   // };
 
-  // console.log("email***********", email)
 
   const handleEmailid = (e) => {
     const email = e.target.value;
@@ -85,7 +84,6 @@ function ForgetPasswordPage() {
 
 
 
-  console.log("state forgot", state)
   const toastStyle = {
 
     backgroundColor: 'green',
@@ -201,7 +199,6 @@ function ForgetPasswordPage() {
   // },[showOtpVerification])
 
 
-  console.log("NewPass", state)
 
 
 
@@ -329,7 +326,6 @@ function ForgetPasswordPage() {
   // const otpResponse = state.NewPass?.OTP?.response;
   // const otp = otpResponse?.otp
 
-  // console.log("otp for get backend", otp)
 
   const handleOtpVerify = () => {
     if (otpValue) {
@@ -410,7 +406,6 @@ function ForgetPasswordPage() {
     setShowOtpVerification(false);
   };
 
-  console.log("emailError", emailError)
 
 
   useEffect(() => {
@@ -450,7 +445,6 @@ function ForgetPasswordPage() {
     navigate("/All_Landing_pages"); 
   }
  
-  console.log("newpassword", newPassword, " setShowEmailSend", showEmailSend)
 
   return (
 

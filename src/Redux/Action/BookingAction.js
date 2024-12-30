@@ -9,7 +9,6 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 //   }
 
 export async function AddBooking(datum) {
-  console.log("Booking data:", datum);
 
   const formData = new FormData();
 
@@ -37,11 +36,10 @@ export async function AddBooking(datum) {
       },
     });
 
-    console.log("Response from API:", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error:", error);
-    throw error; // Optionally rethrow to handle it in the calling code
+    throw error; 
   }
 }
 
@@ -56,19 +54,16 @@ export async function AddBooking(datum) {
       data: datum,
     });
   }
+
   export async function assignBooking(datum){
-   
       const response =  await AxiosConfig.post('/assign_booking',datum,{
         data:datum
-      })
-      console.log('assignbookinggg',response);
-      
+      }) 
       return response
     }
 
 
     export async function assignBookingBed(datum){
-      console.log("Bookingassignbooking",datum)
         return await AxiosConfig.post('/available_beds',datum,{
           data:datum
         })

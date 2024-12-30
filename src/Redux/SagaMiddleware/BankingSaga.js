@@ -23,7 +23,6 @@ function* handleAddBanking(action) {
     
    };
 
-   console.log("handleAddBanking",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'ADD_USER_BANKING' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -49,7 +48,6 @@ function* handleAddBanking(action) {
 
 function* handleGetBanking(action) {
    const response = yield call(GetAddBanking,action.payload)
-   console.log("response.....///",response)
    
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'BANKING_LIST', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
@@ -82,7 +80,6 @@ function* handleDefaultAccount(action) {
     
    };
 
-   console.log("handleDefaultAccount",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'DEFAULT_ACCOUNT' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -127,7 +124,6 @@ function* handleAddBankAmount(action) {
     
    };
 
-   console.log("handleAddBankAmount",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'ADD_BANK_AMOUNT' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -171,7 +167,6 @@ function* handleEditBankTrans(action) {
     
    };
 
-   console.log("handleEditBankTrans",response)
    if (response.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'EDIT_BANK_TRANSACTION' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -198,7 +193,6 @@ function* handleEditBankTrans(action) {
 
 function* handleDeleteBanking(action) {
    const response = yield call(DeleteBanking, action.payload);
-   console.log("response delete BOOKING", response);
  
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -248,7 +242,6 @@ function* handleDeleteBanking(action) {
 
  function* handleDeleteBankTransaction(action) {
    const response = yield call(DeleteTransactionId, action.payload);
-   console.log("response delete BOOKING", response);
  
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -297,7 +290,6 @@ function* handleDeleteBanking(action) {
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
-      console.log("refreshTokenGet",refreshTokenGet)
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
    }else if (response.status === 206) {

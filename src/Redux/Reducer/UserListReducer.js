@@ -86,7 +86,7 @@ const initialState = {
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("actionredu", action.payload)
+
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
@@ -122,14 +122,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'AMNITIES_NAME':
             return { ...state, amnitiesnamelist: action.payload };
         case 'ADD_USER_AMENITIES':
-            console.log("ADD_USER_AMENITIES", action.payload);
             return { ...state, addUserAmnities: action.payload.message,statusCustomerAddUser:action.payload.statusCode }
 
         case 'CLEAR_ADDUSER_AMNETIES':
             return { ...state, statusCustomerAddUser:0 }
 
         case 'BED_NUMBER_DETAILS':
-            console.log("BED_NUMBER_DETAILS", action.payload.message);
             return { ...state, bednumberdetails: action.payload, statushostelbedstatuscode: action.payload.statusCode }
 
         case 'BED_DETAILS':
@@ -154,7 +152,6 @@ const UserListReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'ADD_USER':
-            console.log("ADD_USER", action.payload)
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
@@ -172,7 +169,6 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, noHosteListStatusCode: 0 }
 
         case 'HOSTEL_DETAIL_LIST':
-            console.log("HOSTEL_DETAIL_LIST", action.payload)
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }

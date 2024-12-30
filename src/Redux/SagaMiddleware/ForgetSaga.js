@@ -112,7 +112,6 @@ function* handleSendOtp(action) {
 
 function* handleOtpVerifyforForgotPassword(action) {
      const response = yield call(OTPverificationForForgotPassword, action.payload);
-        console.log("response for  otp VERIFY",response)
     if (response.status === 200 || response.statusCode === 200) {
         yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload:{ response:response.data,statusCode:response.status || response.statusCode}})
     }else if(response.status === 201 || response.statusCode === 201){
@@ -133,7 +132,6 @@ function* handleOtpVerifyforForgotPassword(action) {
 function refreshToken(response){
     if(response.data.refresh_token){
        const refreshTokenGet = response.data.refresh_token
-       console.log("refreshTokenGet",refreshTokenGet)
        const cookies = new Cookies()
        cookies.set('token', refreshTokenGet, { path: '/' });
     }else if (response.status === 206) {

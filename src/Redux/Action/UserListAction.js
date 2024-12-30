@@ -12,7 +12,6 @@ export async function userlist(users) {
 //   })
 // }
 export async function addUser(params) {
-  console.log("param", params)
 
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
@@ -42,7 +41,6 @@ export async function addUser(params) {
         console.log("event", event)
       }
     });
-    console.log("response for Api", response);
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
@@ -64,7 +62,6 @@ export async function roomsCount(floorAndHostelID){
 }
 
 export async function hosteliddetail(id) {
-  console.log("Floor_id",id)
   return await AxiosConfig.post('/floor_list', id,{
     data:id
   })
@@ -112,21 +109,18 @@ export async function deleteBed(bedDetails){
 
 
 // export async function CustomerDetails(datum){
-//   console.log("Useraction",UserDetails)
 //   return await AxiosConfig.post('/customer_details',datum,{
 //     data:datum
 //   })
 // }
 
 export async function CustomerDetails (datum) {
-  console.log("datum,,,,,,",datum)
   return await AxiosConfig.post('/customer_details',datum,{
     data:datum
   })
 }
 
 export async function amenitieshistory (datum) {
-  console.log("datum,,,,,,his",datum)
   return await AxiosConfig.post('/user_amenities_history',datum,{
     data:datum
   })
@@ -137,7 +131,6 @@ export async function amnitiesnameList() {
   })
 }
 export async function amenitieAddUser (datum) {
-  console.log("datum,,,,,,",datum)
   return await AxiosConfig.post('/add/amenity-history',datum,{
     data:datum
   })
@@ -145,7 +138,6 @@ export async function amenitieAddUser (datum) {
 
 
 export async function beddetailsNumber (bednum) {
-  console.log("bednum,,,,,,",bednum)
   return await AxiosConfig.post('/bed_details',bednum,{
     data:bednum
   })
@@ -253,21 +245,18 @@ export async function exportDetails(datum) {
 
 
 export async function customerReAssignBed(datum) {
-  console.log("reassign",datum)
   return await AxiosConfig.post('/users/reassign_bed',datum,{
     data:datum
   })
 }
 
 export async function customerAddContact(datum) {
-  console.log("customerAddContact",datum)
   return await AxiosConfig.post('/contacts/add_contact',datum,{
     data:datum
   })
 }
 
 export async function customerAllContact(datum) {
-  console.log("customerAllContact",datum)
   return await AxiosConfig.post('/users/all_contacts',datum,{
     data:datum
   })

@@ -23,7 +23,6 @@ function* handleAddBooking(action) {
      
     };
 
-    console.log("responseinggggg",response)
     if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.status ||  response.statusCode}})
       toast.success(`${response.message}`, {
@@ -60,7 +59,6 @@ function* handleAddBooking(action) {
 
  function* handleGetBooking(action) {
    const response = yield call(GetAddBooking, action.payload)
-   console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'BOOKING_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
@@ -78,7 +76,6 @@ function* handleAddBooking(action) {
 
 function* handleDeleteBooking(action) {
    const response = yield call(DeleteBooking, action.payload);
-   console.log("response delete BOOKING", response);
  
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -127,7 +124,6 @@ function* handleDeleteBooking(action) {
 
 
  function* handleAsignBooking(action) {
-   console.log("dataaa");
    
    const response = yield call (assignBooking, action.payload);
    var toastStyle = {
@@ -146,7 +142,6 @@ function* handleDeleteBooking(action) {
     
    };
 
-   console.log("responseinggggg",response)
    if (response.data.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
       toast.success(`${response.data.message}`, {
@@ -175,7 +170,6 @@ function* handleDeleteBooking(action) {
 
 function* handleBookingBed(userDetails){
    const response = yield call(assignBookingBed,userDetails.payload)
-   console.log("response...?",response)
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'BOOKING_BED_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
    }
@@ -191,7 +185,6 @@ function* handleBookingBed(userDetails){
  function refreshToken(response){
     if(response.data && response.data.refresh_token){
        const refreshTokenGet = response.data.refresh_token
-       console.log("refreshTokenGet",refreshTokenGet)
        const cookies = new Cookies()
        cookies.set('token', refreshTokenGet, { path: '/' });
     }else if (response.status === 206) {

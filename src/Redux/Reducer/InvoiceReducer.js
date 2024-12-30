@@ -43,7 +43,6 @@ const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
-    console.log("action", action.payload);
     switch (action.type) {
 
         case 'DELETE_USER':
