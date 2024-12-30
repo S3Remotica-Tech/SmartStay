@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormControl, InputGroup, Pagination, Table, DropdownButton, Dropdown, Form } from 'react-bootstrap';
-import Filter from '../Assets/Images/New_images/Group 13.png';
+import Filter from '../../Assets/Images/New_images/Group 13.png';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,14 +9,14 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import AddAsset from './AddAsset'
 import { CiSearch } from "react-icons/ci";
-import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
-import AssetListTable from './AssetListTable'
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import Notify from '../../Assets/Images/New_images/notify.png';
+import Profile from '../../Assets/Images/New_images/profile.png';
+import AssetListTable from '../../Pages/AssetFile/AssetListTable'
+import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash,ArrowLeft2,ArrowRight2,} from 'iconsax-react';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
-import excelimg from "../Assets/Images/New_images/excel (5).png";
+import excelimg from "../../Assets/Images/New_images/excel (5).png";
 
 function Asset() {
 

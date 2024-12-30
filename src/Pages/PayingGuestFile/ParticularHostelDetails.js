@@ -1,19 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Filter from '../Assets/Images/New_images/Group 13.png';
+import Filter from '../../Assets/Images/New_images/Group 13.png';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
-import Green from '../Assets/Images/New_images/Frame.png'
-import White from '../Assets/Images/New_images/Frame (1).png'
-import AddBed from '../Assets/Images/New_images/add.png';
+import Green from '../../Assets/Images/New_images/Frame.png'
+import White from '../../Assets/Images/New_images/Frame (1).png'
+import AddBed from '../../Assets/Images/New_images/add.png';
 import AddRoom from './AddRoom';
 import AddBedUI from './AddBed';
 import AddFloor from './AddFloor';
 import { FaSquarePlus } from "react-icons/fa6";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from '../Assets/Images/New_images/trash.png';
+import Delete from '../../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { FormControl, InputGroup, Pagination, Dropdown } from 'react-bootstrap';
@@ -25,7 +25,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EmptyState  from '../Assets/Images/New_images/empty_image.png';
+import EmptyState  from '../../Assets/Images/New_images/empty_image.png';
 import {Edit,Trash} from 'iconsax-react';
 
 function getFormattedRoomId(floor_Id, room_Id) {

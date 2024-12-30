@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../Assets/Images/New_images/trash.png';
-import Assign from '../Assets/Images/New_images/assign.png';
-import Profile from '../Assets/Images/New_images/profile-picture.png';
+import Delete from '../../Assets/Images/New_images/trash.png';
+import Assign from '../../Assets/Images/New_images/assign.png';
+import Profile from '../../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
-import TagAsset from '../Assets/Images/TagAsset.svg';
-import closeicon from '../Assets/Images/close.svg';
+import TagAsset from '../../Assets/Images/TagAsset.svg';
+import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button, Form } from "react-bootstrap";
 
 function ExpensesListTable(props) {
