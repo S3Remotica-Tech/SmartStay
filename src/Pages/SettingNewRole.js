@@ -145,10 +145,10 @@ const handleEditForm = (view) =>{
 
     return (
         <div className="container">
-            <div className='d-flex justify-content-between align-items-center'
+            <div className='container d-flex justify-content-between align-items-center'
                 style={{
                     position: "sticky",
-                    top: 20,
+                    top: 0,
                     right: 0,
                     left: 0,
                     zIndex: 1000,
