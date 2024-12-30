@@ -14,7 +14,7 @@ import UserAccesss from '../Pages/UserAccess';
 import Report from '../Pages/Reports';
 import Setting from '../Pages/Settings';
 import Supports from '../Pages/Support';
-import VendorComponent from '../Pages/Vendor';
+import VendorComponent from '../Pages/VendorFIle/Vendor';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputGroup, FormControl, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";

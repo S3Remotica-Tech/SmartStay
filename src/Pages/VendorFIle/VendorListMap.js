@@ -1,10 +1,10 @@
 import React, { useState, useEffect ,useRef} from 'react';
 // import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../Assets/Images/New_images/trash.png';
+import Delete from '../../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
-import Vendors from '../Assets/Images/New_images/profile-picture.png';
+import Vendors from '../../Assets/Images/New_images/profile-picture.png';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash,ProfileAdd} from 'iconsax-react';
