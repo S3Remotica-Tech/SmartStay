@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import "./addAsset.css";
+import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import { MdError } from "react-icons/md";
 import {

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { StoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
 import '../Components/Sidebar.css'
 import Dashboards from '../Pages/Dashboard';
-import PgLists from '../Pages/PgList';
+import PgLists from '../Pages/PayingGuestFile/PgList';
 import UserLists from '../Pages/UserList';
 import EbHostel from '../Pages/EB_Hostel';
 import Checkout from '../Pages/Checkout';
@@ -11,7 +11,7 @@ import Invoices from '../Pages/Invoice';
 import Compliances from '../Pages/Compliance';
 import Payments from '../Pages/Payment';
 import UserAccesss from '../Pages/UserAccess';
-import Report from '../Pages/Reports';
+import Report from '../Reports/Reports';
 import Setting from '../Pages/Settings';
 import Supports from '../Pages/Support';
 import VendorComponent from '../Pages/VendorFIle/Vendor';
@@ -43,8 +43,8 @@ import Compl from '../Assets/Images/New_images/messages-3.png';
 import Expense from '../Assets/Images/New_images/expenses.png';
 import Repo from '../Assets/Images/New_images/reports.png';
 import Sett from '../Assets/Images/New_images/settings.png';
-import Assets from '../Pages/Asset'
-import Expenses from '../Pages/Expense'
+import Assets from '../Pages/AssetFile/Asset'
+import Expenses from '../Pages/ExpenseFile/Expense'
 import Dash2 from '../Assets/Images/New_images/category-active.png';
 import Paying2 from '../Assets/Images/New_images/housepay.png';
 import Custom2 from '../Assets/Images/New_images/profile-2user.png';

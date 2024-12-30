@@ -5,23 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Swal from 'sweetalert2';
 import AddExpenses from './AddExpenses';
-import Profile from '../Assets/Images/New_images/profile-picture.png'
+import Profile from '../../Assets/Images/New_images/profile-picture.png'
 // import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../Assets/Images/New_images/trash.png';
+import Delete from '../../Assets/Images/New_images/trash.png';
 import ExpensesListTable from './ExpensesListTable';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Calendar } from 'react-bootstrap-icons';
-import Calendars from '../Assets/Images/New_images/calendar.png'
+import Calendars from '../../Assets/Images/New_images/calendar.png'
 import moment from 'moment';
 import Image from 'react-bootstrap/Image';
-import Filter from '../Assets/Images/New_images/Group 13.png';
+import Filter from '../../Assets/Images/New_images/Group 13.png';
 import './Expenses.css'
 import { CiSearch } from "react-icons/ci";
-import Notify from '../Assets/Images/New_images/notify.png';
-import Profiles from '../Assets/Images/New_images/profile.png';
+import Notify from '../../Assets/Images/New_images/notify.png';
+import Profiles from '../../Assets/Images/New_images/profile.png';
 import { Dropdown, NavDropdown, Container } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { AllInbox, TextDecreaseRounded } from '@mui/icons-material';
@@ -30,10 +30,10 @@ import { format } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
-import excelimg from "../Assets/Images/New_images/excel (5).png";
+import excelimg from "../../Assets/Images/New_images/excel (5).png";
 
 
 

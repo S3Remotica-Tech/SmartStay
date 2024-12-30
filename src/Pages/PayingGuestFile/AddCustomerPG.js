@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaPlusCircle } from "react-icons/fa";
 import { InputGroup, Pagination } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../Assets/Images/New_images/addplus-circle.svg";
+import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import {
   ArrowUp2,
   ArrowDown2,
@@ -21,7 +21,7 @@ import {
 } from "iconsax-react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
-import Calendars from "../Assets/Images/New_images/calendar.png";
+import Calendars from "../../Assets/Images/New_images/calendar.png";
 
 import { MdError } from "react-icons/md";
 

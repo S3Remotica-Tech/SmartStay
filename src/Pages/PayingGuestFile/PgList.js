@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SettingAllPages from "./SettingAllPages"
-import Plus from "../Assets/Images/Create-button.png";
+import SettingAllPages from "../../Pages/SettingAllPages"
+import Plus from "../../Assets/Images/Create-button.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-import CreatePG from "../Components/CreatePG";
-import "../Pages/Dashboard.css";
+import CreatePG from "../../Components/CreatePG";
+import "../../Pages/Dashboard.css";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import Filter from "../Assets/Images/New_images/Group 13.png";
-import PayingGuest from "../Pages/PayingGuestMap";
+import Filter from "../../Assets/Images/New_images/Group 13.png";
+import PayingGuest from "../../Pages/PayingGuestFile/PayingGuestMap";
 import Alert from "react-bootstrap/Alert";
-import ParticularHostelDetails from "../Pages/ParticularHostelDetails";
+import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "./AddPg";
 import AddFloor from "./AddFloor";
 import "./PgList.css";
@@ -21,8 +21,8 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import { ArrowLeft } from "iconsax-react";
 import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
-import Notify from "../Assets/Images/New_images/notify.png";
-import Profile from "../Assets/Images/New_images/profile.png";
+import Notify from "../../Assets/Images/New_images/notify.png";
+import Profile from "../../Assets/Images/New_images/profile.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {
   ArrowUp2,
@@ -35,17 +35,16 @@ import {
 } from "iconsax-react";
 import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
-import Delete from "../Assets/Images/New_images/trash.png";
+import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import Spinner from "react-bootstrap/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Edit from '../Assets/Images/New_images/edit.png';
-import EmptyState from "../Assets/Images/New_images/empty_image.png";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import SettingManage from "./SettingManage";
+import SettingManage from "../../Pages/SettingManage";
 // function getFloorName(floor_Id) {
 
 //   const numberToWord = {

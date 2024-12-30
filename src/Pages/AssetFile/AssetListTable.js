@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../Assets/Images/New_images/trash.png';
-import Assign from '../Assets/Images/New_images/assign.png'
+import Delete from '../../Assets/Images/New_images/trash.png';
+import Assign from '../../Assets/Images/New_images/assign.png'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import AssignAsset from './AssignAsset'
+import AssignAsset from '../../Pages/AssetFile/AssignAsset'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FormControl, InputGroup, Pagination, Table, DropdownButton, Dropdown, Form ,Modal} from 'react-bootstrap';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash,ProfileAdd} from 'iconsax-react';
 import Button from 'react-bootstrap/Button';
+
+
 function AssetListTable(props) {
 
 
