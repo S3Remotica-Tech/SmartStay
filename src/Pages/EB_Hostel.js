@@ -31,6 +31,7 @@ import EBHostelReading from "./EB_Hostel_Based";
 function EB_Hostel(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  console.log("EB_Hostel",state)
   const theme = useTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -77,12 +78,12 @@ function EB_Hostel(props) {
   const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+    dispatch({ type: "HOSTELLIST",payload:{hostel_id :selectedHostel} });
+  }, [selectedHostel]);
 
   useEffect(() => {
-    setUniqostel_Id(props.allPageHostel_Id);
-  }, [props.allPageHostel_Id]);
+    setSelectedHostel(state.login.selectedHostel_Id);
+  }, [state.login.selectedHostel_Id]);
 
   const handleHostelForm = () => {
     setHostelBasedForm(true);
@@ -97,7 +98,7 @@ function EB_Hostel(props) {
   const handleEbExcel = () => {
     dispatch({
       type: "EXPORTEBSDETAILS",
-      payload: { type: "customer_readings",hostel_id :state.login.selectedHostel_Id },
+      payload: { type: "customer_readings",hostel_id :selectedHostel },
     });
     setIsDownloadTriggered(true);
   };

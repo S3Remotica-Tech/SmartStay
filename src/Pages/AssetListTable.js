@@ -239,7 +239,7 @@ const handleCloseForDeleteAsset = () =>{
     </td>
     {/* <td style={{ border: "none" , textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td> */}
     <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>₹{props.item.price.toLocaleString('en-IN')}</td>
-    <td style={{border: "none", textAlign: 'center', verticalAlign: 'middle' }}>
+    <td style={{border: "none", textAlign: 'center', verticalAlign: 'middle' ,whiteSpace:"nowrap"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content",fontFamily: "Gilroy" }} >
           {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}

@@ -325,7 +325,8 @@ useEffect(() => {
 
 
 
-  const transactionrowsPerPage = 5;
+  // const transactionrowsPerPage = 5;
+    const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(10);
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
@@ -333,66 +334,72 @@ useEffect(() => {
   const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
 
-  const handleTransactionPageChange = (transactionpageNumber) => {
-    settransactioncurrentPage(transactionpageNumber);
+  // const handleTransactionPageChange = (transactionpageNumber) => {
+  //   settransactioncurrentPage(transactionpageNumber);
+  // };
+  const handlePageChange = (pageNumber) => {
+    settransactioncurrentPage(pageNumber);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setTransactionrowsPerPage(Number(event.target.value));
   };
 
 
   const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
 
-  const renderPageNumbersTransaction = () => {
-    const pageNumbersTransaction = [];
-    let startPageTransaction = transactioncurrentPage - 1;
-    let endPageTransaction = transactioncurrentPage + 1;
+  // const renderPageNumbersTransaction = () => {
+  //   const pageNumbersTransaction = [];
+  //   let startPageTransaction = transactioncurrentPage - 1;
+  //   let endPageTransaction = transactioncurrentPage + 1;
 
-    if (transactioncurrentPage === 1) {
-      startPageTransaction = 1;
-      endPageTransaction = 3;
-    }
+  //   if (transactioncurrentPage === 1) {
+  //     startPageTransaction = 1;
+  //     endPageTransaction = 3;
+  //   }
 
-    if (transactioncurrentPage === totalPagesTransaction) {
-      startPageTransaction = totalPagesTransaction - 2;
-      endPageTransaction = totalPagesTransaction;
-    }
+  //   if (transactioncurrentPage === totalPagesTransaction) {
+  //     startPageTransaction = totalPagesTransaction - 2;
+  //     endPageTransaction = totalPagesTransaction;
+  //   }
 
-    if (transactioncurrentPage === 2) {
-      startPageTransaction = 1;
-      endPageTransaction = 3;
-    }
+  //   if (transactioncurrentPage === 2) {
+  //     startPageTransaction = 1;
+  //     endPageTransaction = 3;
+  //   }
 
-    if (transactioncurrentPage === totalPagesTransaction - 1) {
-      startPageTransaction = totalPagesTransaction - 2;
-      endPageTransaction = totalPagesTransaction;
-    }
+  //   if (transactioncurrentPage === totalPagesTransaction - 1) {
+  //     startPageTransaction = totalPagesTransaction - 2;
+  //     endPageTransaction = totalPagesTransaction;
+  //   }
 
-    for (let i = startPageTransaction; i <= endPageTransaction; i++) {
-      if (i > 0 && i <= totalPagesTransaction) {
-        pageNumbersTransaction.push(
-          <li key={i} style={{ margin: '0 5px' }}>
-            <button
-              style={{
-                padding: '5px 10px',
-                textDecoration: 'none',
-                color: i === transactioncurrentPage ? '#007bff' : '#000000',
-                cursor: 'pointer',
-                borderRadius: '5px',
-                display: 'inline-block',
-                minWidth: '30px',
-                textAlign: 'center',
-                backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
-                border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
-              }}
-              onClick={() => handleTransactionPageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
+  //   for (let i = startPageTransaction; i <= endPageTransaction; i++) {
+  //     if (i > 0 && i <= totalPagesTransaction) {
+  //       pageNumbersTransaction.push(
+  //         <li key={i} style={{ margin: '0 5px' }}>
+  //           <button
+  //             style={{
+  //               padding: '5px 10px',
+  //               textDecoration: 'none',
+  //               color: i === transactioncurrentPage ? '#007bff' : '#000000',
+  //               cursor: 'pointer',
+  //               borderRadius: '5px',
+  //               display: 'inline-block',
+  //               minWidth: '30px',
+  //               textAlign: 'center',
+  //               backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
+  //               border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
+  //             }}
+  //             onClick={() => handleTransactionPageChange(i)}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //   }
 
-    return pageNumbersTransaction;
-  };
+  //   return pageNumbersTransaction;
+  // };
 
   useEffect(() => {
     settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
@@ -1036,16 +1043,18 @@ useEffect(() => {
 
       <div style={{ marginTop: 30 }}>
       {currentRowTransaction?.length > 0 ? (
+        <div  style={{
+          // height: "400px",
+          height: currentRowTransaction.length >= 4 ? "280px" : "auto",
+          overflowY: "auto",
+          borderRadius: "24px",
+          border: "1px solid #DCDCDC",
+          // borderBottom:"none"
+        }}>
          <Table
          responsive="md"
          className="Table_Design"
-         style={{
-           height: "auto",
-           overflow: "visible",
-           tableLayout: "auto",
-           borderRadius: "24px",
-           border: "1px solid #DCDCDC",
-         }}
+         style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
          
        >
          <thead
@@ -1412,6 +1421,7 @@ useEffect(() => {
            })}
          </tbody>
        </Table>
+       </div>
       ):(
         <div>
         <div style={{ textAlign: "center" }}>
@@ -1452,107 +1462,102 @@ useEffect(() => {
       )}
        
         {currentRowTransaction?.length > 0 && (
-                        <nav>
-                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
-                                  cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
-                                disabled={transactioncurrentPage === 1}
-                              >
-                               
-                                <ArrowLeft2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                              </button>
-                              
-                            </li>
-                            {transactioncurrentPage > 3 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-
-                                  }}
-                                  onClick={() => handleTransactionPageChange(1)}
-                                >
-                                  1
-                                </button>
-                              </li>
-                            )}
-                            {transactioncurrentPage > 3 && <span>...</span>}
-                            {renderPageNumbersTransaction()}
-                            {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
-                            {transactioncurrentPage < totalPagesTransaction - 2 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-
-                                  }}
-                                  onClick={() => handleTransactionPageChange(totalPagesTransaction)}
-                                >
-                                  {totalPagesTransaction}
-                                </button>
-                              </li>
-                            )}
-                            <li style={{ margin: '0 5px' }}>
-                             
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
-                                  cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
-                                disabled={transactioncurrentPage === totalPagesTransaction}
-                              >
-                               
-                                <ArrowRight2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                              </button>
-                            </li>
-                          </ul>
-                        </nav>
+                          <nav
+                                              style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "end", // Align dropdown and pagination
+                                                padding: "10px",
+                                                // borderTop: "1px solid #ddd",
+                                              }}
+                                            >
+                                              {/* Dropdown for Items Per Page */}
+                                              <div>
+                                                <select
+                                                  value={transactionrowsPerPage}
+                                                  onChange={handleItemsPerPageChange}
+                                                  style={{
+                                                    padding: "5px",
+                                                    border: "1px solid #1E45E1",
+                                                    borderRadius: "5px",
+                                                    color: "#1E45E1",
+                                                    fontWeight: "bold",
+                                                    cursor: "pointer",
+                                                    outline: "none",
+                                                    boxShadow: "none",
+                                                    
+                                                  }}
+                                                >
+                                                   <option value={5}>5</option>
+                                                  <option value={10}>10</option>
+                                                  <option value={50}>50</option>
+                                                  <option value={100}>100</option>
+                                                </select>
+                                              </div>
+                                            
+                                              {/* Pagination Controls */}
+                                              <ul
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  listStyleType: "none",
+                                                  margin: 0,
+                                                  padding: 0,
+                                                }}
+                                              >
+                                                {/* Previous Button */}
+                                                <li style={{ margin: "0 10px" }}>
+                                                  <button
+                                                    style={{
+                                                      padding: "5px",
+                                                      textDecoration: "none",
+                                                      color: transactioncurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                                      cursor: transactioncurrentPage === 1 ? "not-allowed" : "pointer",
+                                                      borderRadius: "50%",
+                                                      display: "inline-block",
+                                                      minWidth: "30px",
+                                                      textAlign: "center",
+                                                      backgroundColor: "transparent",
+                                                      border: "none",
+                                                    }}
+                                                    onClick={() => handlePageChange(transactioncurrentPage - 1)}
+                                                    disabled={transactioncurrentPage === 1}
+                                                  >
+                                                    <ArrowLeft2 size="16" color={transactioncurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                                  </button>
+                                                </li>
+                                            
+                                                {/* Current Page Indicator */}
+                                                <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                                  {transactioncurrentPage} of {totalPagesTransaction}
+                                                </li>
+                                            
+                                                {/* Next Button */}
+                                                <li style={{ margin: "0 10px" }}>
+                                                  <button
+                                                    style={{
+                                                      padding: "5px",
+                                                      textDecoration: "none",
+                                                      color: transactioncurrentPage === totalPagesTransaction ? "#ccc" : "#1E45E1",
+                                                      cursor: transactioncurrentPage === totalPagesTransaction ? "not-allowed" : "pointer",
+                                                      borderRadius: "50%",
+                                                      display: "inline-block",
+                                                      minWidth: "30px",
+                                                      textAlign: "center",
+                                                      backgroundColor: "transparent",
+                                                      border: "none",
+                                                    }}
+                                                    onClick={() => handlePageChange(transactioncurrentPage + 1)}
+                                                    disabled={transactioncurrentPage === totalPagesTransaction}
+                                                  >
+                                                    <ArrowRight2
+                                                      size="16"
+                                                      color={transactioncurrentPage === totalPagesTransaction ? "#ccc" : "#1E45E1"}
+                                                    />
+                                                  </button>
+                                                </li>
+                                              </ul>
+                                            </nav>
                       )}
       </div>
       <Modal

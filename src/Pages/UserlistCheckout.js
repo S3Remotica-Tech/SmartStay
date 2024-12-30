@@ -48,15 +48,14 @@ function CheckOut(props) {
   const [modalType, setModalType] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  // const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const datePickerRef = useRef(null);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
-  const [checkOutEditPermissionError, setcheckOutEditPermissionError] =
-    useState("");
-  const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] =
-    useState("");
+  const [checkOutEditPermissionError, setcheckOutEditPermissionError] =useState("");
+  const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
 
   useEffect(() => {
     if (
@@ -154,21 +153,16 @@ function CheckOut(props) {
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = checkOutCustomer.slice(
-    indexOfFirstCustomer,
-    indexOfLastCustomer
-  );
-  const totalPages = Math.ceil(checkOutCustomer.length / itemsPerPage);
+  const currentCustomers = checkOutCustomer?.slice(indexOfFirstCustomer,indexOfLastCustomer);
+  const totalPages = Math.ceil(checkOutCustomer?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+  };
 
-  useEffect(() => {
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
-    }
-  }, [checkOutCustomer, currentPage, totalPages]);
 
   const [checkOutEdit, setCheckOutEdit] = useState("");
   const [checkouteditaction , setCheckoutEditAction] = useState(false)
@@ -294,55 +288,55 @@ function CheckOut(props) {
     setCurrentPage(pageNumber);
   };
 
-  const renderPagination = () => {
-    const pageNumbers = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
+  // const renderPagination = () => {
+  //   const pageNumbers = [];
+  //   let startPage = Math.max(1, currentPage - 2);
+  //   let endPage = Math.min(totalPages, currentPage + 2);
 
-    if (startPage > 1) {
-      pageNumbers.push(
-        <Pagination.Item
-          key={1}
-          active={1 === currentPage}
-          onClick={() => paginate(1)}
-        >
-          1
-        </Pagination.Item>
-      );
-      if (startPage > 2) {
-        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-      }
-    }
+  //   if (startPage > 1) {
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={1}
+  //         active={1 === currentPage}
+  //         onClick={() => paginate(1)}
+  //       >
+  //         1
+  //       </Pagination.Item>
+  //     );
+  //     if (startPage > 2) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+  //     }
+  //   }
 
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => paginate(i)}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
+  //   for (let i = startPage; i <= endPage; i++) {
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={i}
+  //         active={i === currentPage}
+  //         onClick={() => paginate(i)}
+  //       >
+  //         {i}
+  //       </Pagination.Item>
+  //     );
+  //   }
 
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-      }
-      pageNumbers.push(
-        <Pagination.Item
-          key={totalPages}
-          active={totalPages === currentPage}
-          onClick={() => paginate(totalPages)}
-        >
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
+  //   if (endPage < totalPages) {
+  //     if (endPage < totalPages - 1) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+  //     }
+  //     pageNumbers.push(
+  //       <Pagination.Item
+  //         key={totalPages}
+  //         active={totalPages === currentPage}
+  //         onClick={() => paginate(totalPages)}
+  //       >
+  //         {totalPages}
+  //       </Pagination.Item>
+  //     );
+  //   }
 
-    return pageNumbers;
-  };
+  //   return pageNumbers;
+  // };
 
   return (
 
@@ -389,21 +383,25 @@ function CheckOut(props) {
       
       <div className="p-10" style={{ marginLeft: "-20px" }}>
       <div>
-        {checkOutCustomer?.length > 0 ? (
+        {currentCustomers?.length > 0 ? (
           <div
             className="p-10 booking-table-userlist"
             style={{ paddingBottom: "20px" }}
           >
+             <div
+                          style={{
+                            // height: "400px",
+                            height: currentCustomers.length >= 6 ? "380px" : "auto",
+                            overflowY: "auto",
+                            borderRadius: "24px",
+                            border: "1px solid #DCDCDC",
+                            // borderBottom:"none"
+                          }}
+                        >
             <Table
-              className="Table_Design"
               responsive="md"
-              style={{
-                height: "auto",
-                overflow: "visible",
-                tableLayout: "auto",
-                borderRadius: "24px",
-                border: "1px solid #DCDCDC",
-              }}
+              className="Table_Design"
+              style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
             >
               <thead>
                 <tr>
@@ -539,7 +537,7 @@ function CheckOut(props) {
                 </tr>
               </thead>
               <tbody>
-                {checkOutCustomer && checkOutCustomer.length > 0 && checkOutCustomer.map((checkout,index) => {
+                {currentCustomers && currentCustomers.length > 0 && currentCustomers.map((checkout,index) => {
                   //  let Dated = new Date(customer.joining_date);
 
                   //  let day = Dated.getDate();
@@ -990,23 +988,121 @@ function CheckOut(props) {
                 })}
               </tbody>
             </Table>
-
+</div>
             {currentCustomers.length > 0 && (
-           <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-               <Pagination.Prev
-                style={{ visibility: "visible" }}
-                 onClick={() => paginate(currentPage - 1)}
-                 disabled={currentPage === 1}
-               />
-               {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
-               {renderPagination()}
-              {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
-              <Pagination.Next
-                 style={{ visibility: "visible" }}
-                 onClick={() => paginate(currentPage + 1)}
-                 disabled={currentPage === totalPages}
-            />
-            </Pagination>
+          //  <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+          //      <Pagination.Prev
+          //       style={{ visibility: "visible" }}
+          //        onClick={() => paginate(currentPage - 1)}
+          //        disabled={currentPage === 1}
+          //      />
+          //      {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+          //      {renderPagination()}
+          //     {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+          //     <Pagination.Next
+          //        style={{ visibility: "visible" }}
+          //        onClick={() => paginate(currentPage + 1)}
+          //        disabled={currentPage === totalPages}
+          //   />
+          //   </Pagination>
+
+
+            <nav
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "end", // Align dropdown and pagination
+                                  padding: "10px",
+                                  // borderTop: "1px solid #ddd",
+                                }}
+                              >
+                                {/* Dropdown for Items Per Page */}
+                                <div>
+                                  <select
+                                    value={itemsPerPage}
+                                    onChange={handleItemsPerPageChange}
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid #1E45E1",
+                                      borderRadius: "5px",
+                                      color: "#1E45E1",
+                                      fontWeight: "bold",
+                                      cursor: "pointer",
+                                      outline: "none",
+                                      boxShadow: "none",
+                                      
+                                    }}
+                                  >
+                                     <option value={5}>5</option>
+                                    <option value={10}>10</option>
+                                    <option value={50}>50</option>
+                                    <option value={100}>100</option>
+                                  </select>
+                                </div>
+                              
+                                {/* Pagination Controls */}
+                                <ul
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    listStyleType: "none",
+                                    margin: 0,
+                                    padding: 0,
+                                  }}
+                                >
+                                  {/* Previous Button */}
+                                  <li style={{ margin: "0 10px" }}>
+                                    <button
+                                      style={{
+                                        padding: "5px",
+                                        textDecoration: "none",
+                                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                        borderRadius: "50%",
+                                        display: "inline-block",
+                                        minWidth: "30px",
+                                        textAlign: "center",
+                                        backgroundColor: "transparent",
+                                        border: "none",
+                                      }}
+                                      onClick={() => handlePageChange(currentPage - 1)}
+                                      disabled={currentPage === 1}
+                                    >
+                                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                    </button>
+                                  </li>
+                              
+                                  {/* Current Page Indicator */}
+                                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                    {currentPage} of {totalPages}
+                                  </li>
+                              
+                                  {/* Next Button */}
+                                  <li style={{ margin: "0 10px" }}>
+                                    <button
+                                      style={{
+                                        padding: "5px",
+                                        textDecoration: "none",
+                                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                        borderRadius: "50%",
+                                        display: "inline-block",
+                                        minWidth: "30px",
+                                        textAlign: "center",
+                                        backgroundColor: "transparent",
+                                        border: "none",
+                                      }}
+                                      onClick={() => handlePageChange(currentPage + 1)}
+                                      disabled={currentPage === totalPages}
+                                    >
+                                      <ArrowRight2
+                                        size="16"
+                                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                      />
+                                    </button>
+                                  </li>
+                                </ul>
+                              </nav>
            )}
 
           </div>
