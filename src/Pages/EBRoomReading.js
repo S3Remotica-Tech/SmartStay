@@ -164,8 +164,8 @@ useEffect(() => {
    
   }, []);
   useEffect(()=>{
-    dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId }});
-  },[hostelId])
+    dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel }});
+  },[props])
 
 useEffect(()=>{
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -342,7 +342,8 @@ try {
 
   };
 
-  const electricityrowsPerPage = 5;
+  // const electricityrowsPerPage = 5;
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
@@ -354,69 +355,72 @@ try {
     indexOfLastRowelectricity
   );
 
-  const handleElectricityPageChange = (InvoicepageNumber) => {
-    setelectricitycurrentPage(InvoicepageNumber);
+  const handlePageChange = (pageNumber) => {
+    setelectricitycurrentPage(pageNumber);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setElectricityrowsPerPage(Number(event.target.value));
   };
 
   const totalPagesinvoice = Math.ceil(
     electricityFilterddata?.length / electricityrowsPerPage
   );
 
-  const renderPageNumberselectricity = () => {
-    const pageNumberselectricity = [];
-    let startPageelectricity = electricitycurrentPage - 1;
-    let endPageelectricity = electricitycurrentPage + 1;
+  // const renderPageNumberselectricity = () => {
+  //   const pageNumberselectricity = [];
+  //   let startPageelectricity = electricitycurrentPage - 1;
+  //   let endPageelectricity = electricitycurrentPage + 1;
 
-    if (electricitycurrentPage === 1) {
-      startPageelectricity = 1;
-      endPageelectricity = 3;
-    }
+  //   if (electricitycurrentPage === 1) {
+  //     startPageelectricity = 1;
+  //     endPageelectricity = 3;
+  //   }
 
-    if (electricitycurrentPage === totalPagesinvoice) {
-      startPageelectricity = totalPagesinvoice - 2;
-      endPageelectricity = totalPagesinvoice;
-    }
+  //   if (electricitycurrentPage === totalPagesinvoice) {
+  //     startPageelectricity = totalPagesinvoice - 2;
+  //     endPageelectricity = totalPagesinvoice;
+  //   }
 
-    if (electricitycurrentPage === 2) {
-      startPageelectricity = 1;
-      endPageelectricity = 3;
-    }
+  //   if (electricitycurrentPage === 2) {
+  //     startPageelectricity = 1;
+  //     endPageelectricity = 3;
+  //   }
 
-    if (electricitycurrentPage === totalPagesinvoice - 1) {
-      startPageelectricity = totalPagesinvoice - 2;
-      endPageelectricity = totalPagesinvoice;
-    }
+  //   if (electricitycurrentPage === totalPagesinvoice - 1) {
+  //     startPageelectricity = totalPagesinvoice - 2;
+  //     endPageelectricity = totalPagesinvoice;
+  //   }
 
-    for (let i = startPageelectricity; i <= endPageelectricity; i++) {
-      if (i > 0 && i <= totalPagesinvoice) {
-        pageNumberselectricity.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === electricitycurrentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === electricitycurrentPage ? "transparent" : "transparent",
-                border:
-                  i === electricitycurrentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handleElectricityPageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
+  //   for (let i = startPageelectricity; i <= endPageelectricity; i++) {
+  //     if (i > 0 && i <= totalPagesinvoice) {
+  //       pageNumberselectricity.push(
+  //         <li key={i} style={{ margin: "0 5px" }}>
+  //           <button
+  //             style={{
+  //               padding: "5px 10px",
+  //               textDecoration: "none",
+  //               color: i === electricitycurrentPage ? "#007bff" : "#000000",
+  //               cursor: "pointer",
+  //               borderRadius: "5px",
+  //               display: "inline-block",
+  //               minWidth: "30px",
+  //               textAlign: "center",
+  //               backgroundColor:
+  //                 i === electricitycurrentPage ? "transparent" : "transparent",
+  //               border:
+  //                 i === electricitycurrentPage ? "1px solid #ddd" : "none",
+  //             }}
+  //             onClick={() => handleElectricityPageChange(i)}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //   }
 
-    return pageNumberselectricity;
-  };
+  //   return pageNumberselectricity;
+  // };
 
   // useEffect(() => {
   //   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
@@ -436,8 +440,8 @@ try {
   useEffect(()=>{
     if(state.PgList.statusCodeForDeleteElectricity === 200){
       handleCloseDelete()
-      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId}});
-      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:hostelId}});
+      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}});
+      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}});
     
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
@@ -497,8 +501,8 @@ try {
 useEffect(()=>{
 if(state.PgList.statusCodeForEditElectricity === 200){
   handleClose()
-  dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId}})
-  dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:hostelId}})
+  dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}})
+  dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}})
   
   setTimeout(() => {
     dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
@@ -549,16 +553,19 @@ if(state.PgList.statusCodeForEditElectricity === 200){
       <>
       <div>
         {currentRowelectricity.length > 0 && (
+          <div 
+           style={{
+            // height: "400px",
+            height: currentRowelectricity.length >= 6 ? "400px" : "auto",
+            overflowY: "auto",
+            borderRadius: "24px",
+            border: "1px solid #DCDCDC",
+            // borderBottom:"none"
+          }}>
           <Table
-            responsive="md"
-            className="Table_Design"
-            style={{
-              height: "auto",
-              overflow: "visible",
-              tableLayout: "auto",
-              borderRadius: "24px",
-              border: "1px solid #DCDCDC",
-            }}
+             responsive="md"
+             className="Table_Design"
+             style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
           >
             <thead
               style={{
@@ -992,6 +999,7 @@ if (v.date && v.date != '0000-00-00') {
                 })}
             </tbody>
           </Table>
+          </div>
         )}
 
         {currentRowelectricity?.length === 0 && (
@@ -1047,115 +1055,102 @@ if (v.date && v.date != '0000-00-00') {
       </div>
 
       {currentRowelectricity.length > 0 && (
-        <nav>
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              padding: 0,
-              justifyContent: "end",
-            }}
-          >
-            <li style={{ margin: "0 5px" }}>
-              <button
-                style={{
-                  padding: "5px 10px",
-                  textDecoration: "none",
-                  color: electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                  cursor:
-                    electricitycurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "5px",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() =>
-                  handleElectricityPageChange(electricitycurrentPage - 1)
-                }
-                disabled={electricitycurrentPage === 1}
-              >
-                {" "}
-                <ArrowLeft2 size="16" color="#1E45E1" />
-              </button>
-            </li>
-            {electricitycurrentPage > 3 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                    color: "white",
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleElectricityPageChange(1)}
-                >
-                  1
-                </button>
-              </li>
-            )}
-            {electricitycurrentPage > 3 && <span>...</span>}
-            {renderPageNumberselectricity()}
-            {electricitycurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-            {electricitycurrentPage < totalPagesinvoice - 2 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleElectricityPageChange(totalPagesinvoice)}
-                >
-                  {totalPagesinvoice}
-                </button>
-              </li>
-            )}
-            <li style={{ margin: "0 5px" }}>
-              <button
-                style={{
-                  padding: "5px 10px",
-                  textDecoration: "none",
-                  color:
-                    electricitycurrentPage === electricitycurrentPage
-                      ? "#ccc"
-                      : "#007bff",
-                  cursor:
-                    electricitycurrentPage === electricitycurrentPage
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "5px",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() =>
-                  handleElectricityPageChange(electricitycurrentPage + 1)
-                }
-                disabled={electricitycurrentPage === totalPagesinvoice}
-              >
-                <ArrowRight2 size="16" color="#1E45E1" />
-              </button>
-            </li>
-          </ul>
-        </nav>
+         <nav
+                                               style={{
+                                                 display: "flex",
+                                                 alignItems: "center",
+                                                 justifyContent: "end", // Align dropdown and pagination
+                                                 padding: "10px",
+                                                 // borderTop: "1px solid #ddd",
+                                               }}
+                                             >
+                                               {/* Dropdown for Items Per Page */}
+                                               <div>
+                                                 <select
+                                                   value={electricityrowsPerPage}
+                                                   onChange={handleItemsPerPageChange}
+                                                   style={{
+                                                     padding: "5px",
+                                                     border: "1px solid #1E45E1",
+                                                     borderRadius: "5px",
+                                                     color: "#1E45E1",
+                                                     fontWeight: "bold",
+                                                     cursor: "pointer",
+                                                     outline: "none",
+                                                     boxShadow: "none",
+                                                     
+                                                   }}
+                                                 >
+                                                    <option value={5}>5</option>
+                                                   <option value={10}>10</option>
+                                                   <option value={50}>50</option>
+                                                   <option value={100}>100</option>
+                                                 </select>
+                                               </div>
+                                             
+                                               {/* Pagination Controls */}
+                                               <ul
+                                                 style={{
+                                                   display: "flex",
+                                                   alignItems: "center",
+                                                   listStyleType: "none",
+                                                   margin: 0,
+                                                   padding: 0,
+                                                 }}
+                                               >
+                                                 {/* Previous Button */}
+                                                 <li style={{ margin: "0 10px" }}>
+                                                   <button
+                                                     style={{
+                                                       padding: "5px",
+                                                       textDecoration: "none",
+                                                       color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                                       cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                                                       borderRadius: "50%",
+                                                       display: "inline-block",
+                                                       minWidth: "30px",
+                                                       textAlign: "center",
+                                                       backgroundColor: "transparent",
+                                                       border: "none",
+                                                     }}
+                                                     onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                                                     disabled={electricitycurrentPage === 1}
+                                                   >
+                                                     <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                                   </button>
+                                                 </li>
+                                             
+                                                 {/* Current Page Indicator */}
+                                                 <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                                   {electricitycurrentPage} of {totalPagesinvoice}
+                                                 </li>
+                                             
+                                                 {/* Next Button */}
+                                                 <li style={{ margin: "0 10px" }}>
+                                                   <button
+                                                     style={{
+                                                       padding: "5px",
+                                                       textDecoration: "none",
+                                                       color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
+                                                       cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                                                       borderRadius: "50%",
+                                                       display: "inline-block",
+                                                       minWidth: "30px",
+                                                       textAlign: "center",
+                                                       backgroundColor: "transparent",
+                                                       border: "none",
+                                                     }}
+                                                     onClick={() => handlePageChange(electricitycurrentPage + 1)}
+                                                     disabled={electricitycurrentPage === totalPagesinvoice}
+                                                   >
+                                                     <ArrowRight2
+                                                       size="16"
+                                                       color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                                                     />
+                                                   </button>
+                                                 </li>
+                                               </ul>
+                                             </nav>
       )}
       </>
     }
