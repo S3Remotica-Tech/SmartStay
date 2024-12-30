@@ -767,10 +767,10 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
 </>
       ): <div className='container' style={{ width: "100%" }} >
 
-      <div className='container'>
+      <div >
 
 
-        <div className="d-flex justify-content-between align-items-center mb-3"
+        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
            style={{
             position: 'sticky',
             top: 25,
@@ -779,7 +779,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
             padding: '10px',
           }}
         >
-          <div className='d-flex align-items-center'>
+          <div className='d-flex align-items-center flex-wrap'>
             <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
         
 
@@ -838,7 +838,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
             </div>
 
             </div>
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex  flex-wrap justify-content-between align-items-center">
 
            
           {
@@ -854,7 +854,11 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
             {
               showFilterExpense &&
               <div className='me-3 'style={{position:'relative'}}>
-                <InputGroup>
+                <InputGroup  style={{
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          width: '100%',
+                        }}>
 
                   <FormControl size="lg"
                     value={searchQuery}

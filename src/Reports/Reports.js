@@ -259,7 +259,7 @@ function Reports() {
     <div className='container mt-3' style={{ width: "100%" }}>
 
 <div className='container'>
-<div className="d-flex justify-content-between mb-2">
+<div className="d-flex justify-content-between mb-2 flex-wrap">
               <div>
                 <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy" }}>Reports</label>
 
@@ -280,7 +280,11 @@ function Reports() {
                 {
                   showFilterData &&
                   <div className='me-3 ' style={{ position: 'relative' }}>
-                    <InputGroup>
+                    <InputGroup  style={{
+                  display: 'flex',
+                  flexWrap: 'nowrap',
+                  width: '100%',
+                }}>
 
                       <FormControl size="lg"
                         value={searchQuery}
