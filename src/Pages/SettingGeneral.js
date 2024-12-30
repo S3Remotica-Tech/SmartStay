@@ -368,7 +368,8 @@ setInitialStateAssign({
 
 // pagination
 
-const generalrowsPerPage = 2;
+
+const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
 const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
 const [generalFilterddata, setGeneralFilterddata] = useState([]);
 const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
@@ -376,66 +377,70 @@ const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
 const currentRowGeneral = generalFilterddata?.slice(indexOfFirstRowGeneral, indexOfLastRowGeneral);
 
 
-const handleGeneralPageChange = (generalpageNumber) => {
+const handlePageChange = (generalpageNumber) => {
   setGeneralcurrentPage(generalpageNumber);
+};
+
+const handleItemsPerPageChange = (event) => {
+  setGeneralrowsPerPage(Number(event.target.value));
 };
 
 
 const totalPagesGeneral = Math.ceil(generalFilterddata?.length / generalrowsPerPage);
 
-const renderPageNumbersGeneral = () => {
-  const pageNumbersGeneral = [];
-  let startPageGeneral = generalcurrentPage - 1;
-  let endPageGeneral = generalcurrentPage + 1;
+// const renderPageNumbersGeneral = () => {
+//   const pageNumbersGeneral = [];
+//   let startPageGeneral = generalcurrentPage - 1;
+//   let endPageGeneral = generalcurrentPage + 1;
 
-  if (generalcurrentPage === 1) {
-    startPageGeneral = 1;
-    endPageGeneral = 3;
-  }
+//   if (generalcurrentPage === 1) {
+//     startPageGeneral = 1;
+//     endPageGeneral = 3;
+//   }
 
-  if (generalcurrentPage === totalPagesGeneral) {
-    startPageGeneral = totalPagesGeneral - 2;
-    endPageGeneral = totalPagesGeneral;
-  }
+//   if (generalcurrentPage === totalPagesGeneral) {
+//     startPageGeneral = totalPagesGeneral - 2;
+//     endPageGeneral = totalPagesGeneral;
+//   }
 
-  if (generalcurrentPage === 2) {
-    startPageGeneral = 1;
-    endPageGeneral = 3;
-  }
+//   if (generalcurrentPage === 2) {
+//     startPageGeneral = 1;
+//     endPageGeneral = 3;
+//   }
 
-  if (generalcurrentPage === totalPagesGeneral - 1) {
-    startPageGeneral = totalPagesGeneral - 2;
-    endPageGeneral = totalPagesGeneral;
-  }
+//   if (generalcurrentPage === totalPagesGeneral - 1) {
+//     startPageGeneral = totalPagesGeneral - 2;
+//     endPageGeneral = totalPagesGeneral;
+//   }
 
-  for (let i = startPageGeneral; i <= endPageGeneral; i++) {
-    if (i > 0 && i <= totalPagesGeneral) {
-      pageNumbersGeneral.push(
-        <li key={i} style={{ margin: '0 5px' }}>
-          <button
-            style={{
-              padding: '5px 10px',
-              textDecoration: 'none',
-              color: i === generalcurrentPage ? '#007bff' : '#000000',
-              cursor: 'pointer',
-              borderRadius: '5px',
-              display: 'inline-block',
-              minWidth: '30px',
-              textAlign: 'center',
-              backgroundColor: i === generalcurrentPage ? 'transparent' : 'transparent',
-              border: i === generalcurrentPage ? '1px solid #ddd' : 'none'
-            }}
-            onClick={() => handleGeneralPageChange(i)}
-          >
-            {i}
-          </button>
-        </li>
-      );
-    }
-  }
+//   for (let i = startPageGeneral; i <= endPageGeneral; i++) {
+//     if (i > 0 && i <= totalPagesGeneral) {
+//       pageNumbersGeneral.push(
+//         <li key={i} style={{ margin: '0 5px' }}>
+//           <button
+//             style={{
+//               padding: '5px 10px',
+//               textDecoration: 'none',
+//               color: i === generalcurrentPage ? '#007bff' : '#000000',
+//               cursor: 'pointer',
+//               borderRadius: '5px',
+//               display: 'inline-block',
+//               minWidth: '30px',
+//               textAlign: 'center',
+//               backgroundColor: i === generalcurrentPage ? 'transparent' : 'transparent',
+//               border: i === generalcurrentPage ? '1px solid #ddd' : 'none'
+//             }}
+//             onClick={() => handleGeneralPageChange(i)}
+//           >
+//             {i}
+//           </button>
+//         </li>
+//       );
+//     }
+//   }
 
-  return pageNumbersGeneral;
-};
+//   return pageNumbersGeneral;
+// };
 
 useEffect(() => {
   setGeneralFilterddata( state.Settings?.settingGetGeneralData.response?.general_users)
@@ -444,17 +449,17 @@ useEffect(() => {
 
     return(
         <>
-            <div className="d-flex justify-content-between align-items-center settingGreneral  mb-3"
+            <div className="container d-flex justify-content-between align-items-center settingGreneral "
               style={{
                 position: "sticky",
-                top: 20,
+                top: 0,
                 right: 0,
                 left: 0,
                 zIndex: 1000,
                 backgroundColor: "#FFFFFF",
                 height: 83,
               }}>
-        <div style={{ padding: 15 }}>
+        <div className="container">
           <label
             style={{
               fontSize: 18,
@@ -500,7 +505,7 @@ useEffect(() => {
 
 
 
-      <div class="container mt-4">
+      <div class="container ">
        {
   currentRowGeneral && currentRowGeneral.length > 0 ? (
     currentRowGeneral.map((item) => {
@@ -759,107 +764,103 @@ useEffect(() => {
 
   
   {currentRowGeneral?.length > 0 && (
-                        <nav>
-                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end',marginTop:10 }}>
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: generalcurrentPage === 1 ? '#ccc' : '#007bff',
-                                  cursor: generalcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleGeneralPageChange(generalcurrentPage - 1)}
-                                disabled={generalcurrentPage === 1}
-                              >
-                               
-                                <ArrowLeft2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                              </button>
-                              
-                            </li>
-                            {generalcurrentPage > 3 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-
-                                  }}
-                                  onClick={() => handleGeneralPageChange(1)}
-                                >
-                                  1
-                                </button>
-                              </li>
-                            )}
-                            {generalcurrentPage > 3 && <span>...</span>}
-                            {renderPageNumbersGeneral()}
-                            {generalcurrentPage < totalPagesGeneral - 2 && <span>...</span>}
-                            {generalcurrentPage < totalPagesGeneral - 2 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-
-                                  }}
-                                  onClick={() => handleGeneralPageChange(totalPagesGeneral)}
-                                >
-                                  {totalPagesGeneral}
-                                </button>
-                              </li>
-                            )}
-                            <li style={{ margin: '0 5px' }}>
-                             
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: generalcurrentPage === generalcurrentPage ? '#ccc' : '#007bff',
-                                  cursor: generalcurrentPage === generalcurrentPage ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleGeneralPageChange(generalcurrentPage + 1)}
-                                disabled={generalcurrentPage === totalPagesGeneral}
-                              >
-                               
-                                <ArrowRight2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                              </button>
-                            </li>
-                          </ul>
-                        </nav>
+                          <nav
+                                             style={{
+                                               display: "flex",
+                                               alignItems: "center",
+                                               justifyContent: "end", // Align dropdown and pagination
+                                               padding: "10px",
+                                               // borderTop: "1px solid #ddd",
+                                             }}
+                                           >
+                                             {/* Dropdown for Items Per Page */}
+                                             <div>
+                                               <select
+                                                 value={generalrowsPerPage}
+                                                 onChange={handleItemsPerPageChange}
+                                                 style={{
+                                                   padding: "5px",
+                                                   border: "1px solid #1E45E1",
+                                                   borderRadius: "5px",
+                                                   color: "#1E45E1",
+                                                   fontWeight: "bold",
+                                                   cursor: "pointer",
+                                                   outline: "none",
+                                                   boxShadow: "none",
+                                                   
+                                                 }}
+                                               >
+                                                 <option value={2}>2</option>
+                                                  <option value={5}>5</option>
+                                                 <option value={10}>10</option>
+                                                 <option value={50}>50</option>
+                                                 <option value={100}>100</option>
+                                               </select>
+                                             </div>
+                                           
+                                             {/* Pagination Controls */}
+                                             <ul
+                                               style={{
+                                                 display: "flex",
+                                                 alignItems: "center",
+                                                 listStyleType: "none",
+                                                 margin: 0,
+                                                 padding: 0,
+                                               }}
+                                             >
+                                               {/* Previous Button */}
+                                               <li style={{ margin: "0 10px" }}>
+                                                 <button
+                                                   style={{
+                                                     padding: "5px",
+                                                     textDecoration: "none",
+                                                     color: generalcurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                                     cursor: generalcurrentPage === 1 ? "not-allowed" : "pointer",
+                                                     borderRadius: "50%",
+                                                     display: "inline-block",
+                                                     minWidth: "30px",
+                                                     textAlign: "center",
+                                                     backgroundColor: "transparent",
+                                                     border: "none",
+                                                   }}
+                                                   onClick={() => handlePageChange(generalcurrentPage - 1)}
+                                                   disabled={generalcurrentPage === 1}
+                                                 >
+                                                   <ArrowLeft2 size="16" color={generalcurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                                 </button>
+                                               </li>
+                                           
+                                               {/* Current Page Indicator */}
+                                               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                                 {generalcurrentPage} of {totalPagesGeneral}
+                                               </li>
+                                           
+                                               {/* Next Button */}
+                                               <li style={{ margin: "0 10px" }}>
+                                                 <button
+                                                   style={{
+                                                     padding: "5px",
+                                                     textDecoration: "none",
+                                                     color: generalcurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1",
+                                                     cursor: generalcurrentPage === totalPagesGeneral ? "not-allowed" : "pointer",
+                                                     borderRadius: "50%",
+                                                     display: "inline-block",
+                                                     minWidth: "30px",
+                                                     textAlign: "center",
+                                                     backgroundColor: "transparent",
+                                                     border: "none",
+                                                   }}
+                                                   onClick={() => handlePageChange(generalcurrentPage + 1)}
+                                                   disabled={generalcurrentPage === totalPagesGeneral}
+                                                 >
+                                                   <ArrowRight2
+                                                     size="16"
+                                                     color={generalcurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1"}
+                                                   />
+                                                 </button>
+                                               </li>
+                                             </ul>
+                                           </nav>
                       )}
 
   <Modal

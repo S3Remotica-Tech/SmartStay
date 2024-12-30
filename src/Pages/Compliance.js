@@ -25,6 +25,7 @@ import { format } from 'date-fns';
 import '../Pages/Compliance.css'
 import CryptoJS from "crypto-js";
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 
 
 import Notify from '../Assets/Images/New_images/notify.png';
@@ -268,7 +269,8 @@ useEffect(()=>{
 
 
 
-  const itemsPerPage = 7;
+  // const itemsPerPage = 7;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -286,9 +288,14 @@ useEffect(()=>{
 
 
 
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+  };
 
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const [hostelname, setHostelName] = useState('')
 
@@ -839,8 +846,8 @@ useEffect(()=>{
 </>
       ):
       <>
-      <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
-      <div className='m-4' >
+      <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
+      <div >
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
           <div>
@@ -862,14 +869,18 @@ useEffect(()=>{
           </div>
         </div> */}
 
-        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3" 
-         style={{
-          position: 'sticky',
-          top: 25,
-          backgroundColor: 'white',
-          zIndex: 10, 
-          padding: '10px',
-        }}>
+<div
+            className="container justify-content-between d-flex align-items-center"
+            style={{
+              position: "sticky",
+              top: 0,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: 83,
+            }}
+          >
           <div>
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
           </div>
@@ -972,7 +983,7 @@ useEffect(()=>{
                             boxSizing: "border-box",
                           }}
                         >
-                          {filteredUsers?.map((user, index) => {
+                          {currentItems?.map((user, index) => {
                             const imagedrop = user.profile || Profile;
                             return (
                               <li
@@ -1039,23 +1050,23 @@ useEffect(()=>{
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-            <div style={{paddingRight:"10px"}}>
+            <div style={{paddingRight:"15px"}}>
              <img src={excelimg} width={38} height={38}  
              onClick={handleComplianceeExcel}
              />
             </div>
 
-            <div>
+            <div style={{paddingRight:"15px"}}>
               <Button
               disabled={complianceAddPermission}
                 onClick={handleShow}
-                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Complaint</Button>
+                style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 12,  width: 152, padding: "16px, 24px, 16px, 24px", color: '#FFF', fontFamily: 'Montserrat',whiteSpace:"nowrap" }}> + Add Complaint</Button>
             </div>
           </div>
         </div>
 
-        <div className='row row-gap-3'>
-          {filteredUsers.length > 0 && filteredUsers.map((complaints) => (
+        <div className='row row-gap-3 p-4'>
+          {currentItems.length > 0 && currentItems.map((complaints) => (
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
               <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission}/>
             </div>
@@ -1063,7 +1074,7 @@ useEffect(()=>{
           }
 
 
-          {filteredUsers.length == 0 &&
+          {currentItems.length == 0 &&
 
 <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 <div>
@@ -1086,13 +1097,104 @@ useEffect(()=>{
           }
 
         </div>
-        <Pagination className="mt-4 d-flex justify-content-end">
-          {[...Array(Math.ceil(filteredUsers.length / itemsPerPage)).keys()].map(number => (
-            <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-              {number + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
+        {currentItems?.length > 0 && (
+       <nav
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "end", // Align dropdown and pagination
+                              padding: "10px",
+                              // borderTop: "1px solid #ddd",
+                            }}
+                          >
+                            {/* Dropdown for Items Per Page */}
+                            <div>
+                              <select
+                                value={itemsPerPage}
+                                onChange={handleItemsPerPageChange}
+                                style={{
+                                  padding: "5px",
+                                  border: "1px solid #1E45E1",
+                                  borderRadius: "5px",
+                                  color: "#1E45E1",
+                                  fontWeight: "bold",
+                                  cursor: "pointer",
+                                  outline: "none",
+                                  boxShadow: "none",
+                                  
+                                }}
+                              >
+                                 <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                              </select>
+                            </div>
+                          
+                            {/* Pagination Controls */}
+                            <ul
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                listStyleType: "none",
+                                margin: 0,
+                                padding: 0,
+                              }}
+                            >
+                              {/* Previous Button */}
+                              <li style={{ margin: "0 10px" }}>
+                                <button
+                                  style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                  }}
+                                  onClick={() => handlePageChange(currentPage - 1)}
+                                  disabled={currentPage === 1}
+                                >
+                                  <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                </button>
+                              </li>
+                          
+                              {/* Current Page Indicator */}
+                              <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                {currentPage} of {totalPages}
+                              </li>
+                          
+                              {/* Next Button */}
+                              <li style={{ margin: "0 10px" }}>
+                                <button
+                                  style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                    cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                  }}
+                                  onClick={() => handlePageChange(currentPage + 1)}
+                                  disabled={currentPage === totalPages}
+                                >
+                                  <ArrowRight2
+                                    size="16"
+                                    color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                  />
+                                </button>
+                              </li>
+                            </ul>
+                          </nav>
+        )}
       </div>
 
       {show &&
