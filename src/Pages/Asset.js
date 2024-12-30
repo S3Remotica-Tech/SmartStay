@@ -13,7 +13,7 @@ import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash,ArrowLeft2,ArrowRight2,} from 'iconsax-react';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
 import excelimg from "../Assets/Images/New_images/excel (5).png";
@@ -226,58 +226,61 @@ useEffect(()=>{
 
 
   
-  const [itemsPerPage] = useState(7); 
+ const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
+const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+  };
 
-  const paginate = (pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  }
+  };
 
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
-  const renderPagination = () => {
-    const pageNumbers = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
+  // const renderPagination = () => {
+  //   const pageNumbers = [];
+  //   let startPage = Math.max(1, currentPage - 2);
+  //   let endPage = Math.min(totalPages, currentPage + 2);
 
-    if (startPage > 1) {
-      pageNumbers.push(
-        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
-          1
-        </Pagination.Item>
-      );
-      if (startPage > 2) {
-        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-      }
-    }
+  //   if (startPage > 1) {
+  //     pageNumbers.push(
+  //       <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+  //         1
+  //       </Pagination.Item>
+  //     );
+  //     if (startPage > 2) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+  //     }
+  //   }
 
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
-          {i}
-        </Pagination.Item>
-      );
-    }
+  //   for (let i = startPage; i <= endPage; i++) {
+  //     pageNumbers.push(
+  //       <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+  //         {i}
+  //       </Pagination.Item>
+  //     );
+  //   }
 
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-      }
-      pageNumbers.push(
-        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
+  //   if (endPage < totalPages) {
+  //     if (endPage < totalPages - 1) {
+  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+  //     }
+  //     pageNumbers.push(
+  //       <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+  //         {totalPages}
+  //       </Pagination.Item>
+  //     );
+  //   }
 
-    return pageNumbers;
-  };
+  //   return pageNumbers;
+  // };
 
   const handleEditAsset = (item) => {
     setShow(true)
@@ -418,12 +421,12 @@ useEffect(()=>{
         )}
       </div></>
       ):
-      <div className='container ' style={{ width: "100%" }} >
+      <div style={{ padding:25 }}>
       {/* <div className='m-4'> */}
 
 
 
-      <div className='container mt-3'>
+      <div className='mt-3'>
 
 
         <div className="d-flex justify-content-between align-items-center mb-3"
@@ -595,7 +598,7 @@ useEffect(()=>{
 
 
       {searchQuery && (
-        <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+        <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
           {getData.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
               {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
@@ -622,18 +625,19 @@ useEffect(()=>{
 
 
       {currentItems && currentItems.length > 0 && (
-        <div className='container'>
+        <div  style={{
+          // height: "400px",
+          height: currentItems.length >= 6 ? "380px" : "auto",
+          overflowY: "auto",
+          borderRadius: "24px",
+          border: "1px solid #DCDCDC",
+          // borderBottom:"none"
+        }}>
 
           <Table
             responsive="md"
-            className='Table_Design'
-            style={{
-              height: "auto",
-              tableLayout: "auto",
-              overflow: "visible",
-              borderRadius: "24px",
-              border: "1px solid #DCDCDC"
-            }}
+            className="Table_Design"
+            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
           // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
           >
 
@@ -740,17 +744,114 @@ useEffect(()=>{
       {/* </div>  */}
       {/*  Pagination code */}
       {currentItems.length > 0 &&
-        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-          <Pagination.Prev style={{ visibility: "visible" }}
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          />
-          {renderPagination()}
-          <Pagination.Next style={{ visibility: "visible" }}
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          />
-        </Pagination>
+        // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        //   <Pagination.Prev style={{ visibility: "visible" }}
+        //     onClick={() => paginate(currentPage - 1)}
+        //     disabled={currentPage === 1}
+        //   />
+        //   {renderPagination()}
+        //   <Pagination.Next style={{ visibility: "visible" }}
+        //     onClick={() => paginate(currentPage + 1)}
+        //     disabled={currentPage === totalPages}
+        //   />
+        // </Pagination>
+
+          <nav
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "end", // Align dropdown and pagination
+                                padding: "10px",
+                                // borderTop: "1px solid #ddd",
+                              }}
+                            >
+                              {/* Dropdown for Items Per Page */}
+                              <div>
+                                <select
+                                  value={itemsPerPage}
+                                  onChange={handleItemsPerPageChange}
+                                  style={{
+                                    padding: "5px",
+                                    border: "1px solid #1E45E1",
+                                    borderRadius: "5px",
+                                    color: "#1E45E1",
+                                    fontWeight: "bold",
+                                    cursor: "pointer",
+                                    outline: "none",
+                                    boxShadow: "none",
+                                    
+                                  }}
+                                >
+                                   <option value={5}>5</option>
+                                  <option value={10}>10</option>
+                                  <option value={50}>50</option>
+                                  <option value={100}>100</option>
+                                </select>
+                              </div>
+                            
+                              {/* Pagination Controls */}
+                              <ul
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  listStyleType: "none",
+                                  margin: 0,
+                                  padding: 0,
+                                }}
+                              >
+                                {/* Previous Button */}
+                                <li style={{ margin: "0 10px" }}>
+                                  <button
+                                    style={{
+                                      padding: "5px",
+                                      textDecoration: "none",
+                                      color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                      borderRadius: "50%",
+                                      display: "inline-block",
+                                      minWidth: "30px",
+                                      textAlign: "center",
+                                      backgroundColor: "transparent",
+                                      border: "none",
+                                    }}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                  >
+                                    <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                  </button>
+                                </li>
+                            
+                                {/* Current Page Indicator */}
+                                <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                  {currentPage} of {totalPages}
+                                </li>
+                            
+                                {/* Next Button */}
+                                <li style={{ margin: "0 10px" }}>
+                                  <button
+                                    style={{
+                                      padding: "5px",
+                                      textDecoration: "none",
+                                      color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                      cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                      borderRadius: "50%",
+                                      display: "inline-block",
+                                      minWidth: "30px",
+                                      textAlign: "center",
+                                      backgroundColor: "transparent",
+                                      border: "none",
+                                    }}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                  >
+                                    <ArrowRight2
+                                      size="16"
+                                      color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                    />
+                                  </button>
+                                </li>
+                              </ul>
+                            </nav>
 
       }
 
