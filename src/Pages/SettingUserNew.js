@@ -23,7 +23,6 @@ function SettingNewUser({hostelid}) {
 
     /////////////////////////// state
     const state = useSelector((state) => state);
-    console.log("UserSettings...", state);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
     const [usersFilterddata, setUsersFilterddata] = useState([]);
@@ -63,7 +62,6 @@ const  handleEditForm = (item) =>{
 }
 
 const handleDeleteForm = (item) =>{
-    console.log("item",item)
 setDeleteId(item.id)
 setIsConfirmDelete(true)
 }
@@ -122,7 +120,6 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
         setUsersFilterddata(state.Settings?.addSettingStaffList)
     }, [state.Settings?.addSettingStaffList])
 
-console.log("state",state)
 
     useEffect(()=>{
         if(state.Settings.StatusForaddSettingUser === 200){

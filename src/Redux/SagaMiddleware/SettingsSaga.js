@@ -202,8 +202,10 @@ function* handleDeleteExpencescategory(action) {
 
 function* handleComplainttypelist(action) {
    const response = yield call(Complainttypelist, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.statusCode, message: response.data.message } })
+   console.log("response",response);
+   
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.data.statusCode, message: response.data.message } })
    } else if (response.status === 401 || response.statusCode === 401) {
       Swal.fire({
          icon: 'warning',
