@@ -1020,7 +1020,16 @@ useEffect(()=>{
                   className="container"
                   style={{ marginLeft: "-20px" }}
                 >
-                  <div style={{ marginLeft: 25, paddingBottom: 20 }}>
+                  <div  className="container justify-content-start  d-flex align-items-start"
+            style={{
+              position: "sticky",
+              top: 0,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: 60,
+            }}>
                     <img
                       src={leftarrow}
                       width={20}
@@ -1039,7 +1048,7 @@ useEffect(()=>{
                       Cutomer Profile
                     </span>{" "}
                   </div>
-                  <div className="card" style={{ borderRadius: "24px" }}>
+                  <div className="card mt-1" style={{ borderRadius: "24px" }}>
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image
