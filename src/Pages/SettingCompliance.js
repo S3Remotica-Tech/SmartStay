@@ -76,24 +76,24 @@ function SettingCompliance({ hostelid }) {
     const handleShowForm = () => {
         setShowForm(true)
     }
+
     const handleAddComplaintType = () => {
         if (!complaintTypeName) {
             setComplaintError('Please enter Complaint Type')
         }
-        // else if(id){
-        //     dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id :id } })
-        // }
         else {
             dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: complaintTypeName, hostel_id: hostelid } })
             setComplaintError('')
         }
     }
+
     const handleComplaintType = (e) => {
         setComplaintTypeName(e.target.value)
         if (e.target.value) {
             setComplaintError('')
         }
     }
+
     useEffect(() => {
         if (state.Settings.getcomplainttypeStatuscode === 200) {
             setTimeout(() => {
@@ -122,51 +122,29 @@ function SettingCompliance({ hostelid }) {
         }
     }, [state.Settings.deletecomplaintStatuscode])
 
+
+
     return (
         <div className="container">
-          <div
-  style={{
-    position: "sticky",
-    top: 0, // Distance from the top of the page
-    zIndex: 1000, // Ensures it stays above other content
-    // width: "100%", // Stretches across the viewport
-    backgroundColor: "white", // Keeps it distinct
-    // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Optional for better visibility
-  }}
->
-  <div className="d-flex row mb-4 mt-4">
-    <Col>
-      <h4
-        style={{
-          fontSize: 18,
-          color: "#000000",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-        }}
-      >
-        Complaint Type
-      </h4>
-    </Col>
-    <Col>
-      <div className="d-flex justify-content-end">
-        <Button
-          style={{
-            backgroundColor: "#1E45E1",
-            color: "#ffffff",
-            fontFamily: "Gilroy",
-            fontSize: 14,
-            fontWeight: 600,
-            borderRadius: 8,
-            padding: "16px 20px",
-          }}
-          onClick={handleShowForm}
-        >
-          + Add Complaint Type
-        </Button>
-      </div>
-    </Col>
-  </div>
-</div>
+          <div style={{ position: "sticky",top: 0, zIndex: 1000,backgroundColor: "white" }}>
+               <div className="d-flex row mb-4 mt-4">
+                 <Col>
+                   <h4 style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy"}}>
+                    Complaint Type
+                     </h4>
+                 </Col>
+                 
+                <Col>
+                  <div className="d-flex justify-content-end">
+                    <Button  style={{ backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
+                                     fontSize: 14,  fontWeight: 600,  borderRadius: 8,  padding: "16px 20px"}}
+                               onClick={handleShowForm}>
+                           + Add Complaint Type
+                             </Button>
+                                    </div>
+                </Col>
+                </div>
+                </div>
 
 
 

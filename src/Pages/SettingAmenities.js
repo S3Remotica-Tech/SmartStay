@@ -1,24 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react'
-import CryptoJS from "crypto-js";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import { MdError } from "react-icons/md";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import {  Edit, Trash, ProfileAdd } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 
+
+
 function SettingAmenities({ hostelid }) {
-
-
-    
-    // state declare//////////////////////////////////////////
 
 
     const state = useSelector(state => state)
@@ -39,7 +35,6 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
 
-    // function declare///////////////////////////////////////////////////////////
 
     const handleEditAmenities = (amenity) => {
         setEditDetails(amenity)
@@ -68,7 +63,6 @@ function SettingAmenities({ hostelid }) {
             };
         });
 
-
         setAmenityDetails(amenity);
     };
 
@@ -80,8 +74,6 @@ function SettingAmenities({ hostelid }) {
             return; 
         }
         if (!isChecked) {
-
-
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
@@ -158,18 +150,12 @@ function SettingAmenities({ hostelid }) {
         }
     }
 
-
-    // Useeffect Declare /////////////////////////////////
-
     useEffect(() => {
         const initialSwitchStates = amenitiesList.reduce((acc, amenity) => {
             acc[amenity.id] = amenity.recuring === 1;
             return acc;
         }, {})
-
-
         setSwitchStates(initialSwitchStates);
-
     }, [amenitiesList])
 
 
@@ -178,9 +164,7 @@ function SettingAmenities({ hostelid }) {
     useEffect(() => {
         if(state.login.Settings_Hostel_Id){
             dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
-
         }
-
     }, [state.login.Settings_Hostel_Id])
 
 
@@ -191,9 +175,7 @@ function SettingAmenities({ hostelid }) {
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
             }, 2000)
-
         }
-
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
 
@@ -270,16 +252,12 @@ function SettingAmenities({ hostelid }) {
             style={{position:'sticky',top:20,backgroundColor: "white"}}>
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
-
-
                 </div>
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
                     >
-
-
                         {" "}
                         + Add Amenities
                     </Button>
@@ -577,14 +555,6 @@ function SettingAmenities({ hostelid }) {
                     </Modal.Footer>
                 </Modal>
             }
-
-
-
-
-
-
-
-
 
 
         </div>

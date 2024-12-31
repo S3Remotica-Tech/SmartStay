@@ -59,12 +59,10 @@ function Settings() {
   const [login_Password, setLogin_Password] = useState("")
   const [unitError, setunitError] = useState("")
   const [ebrolePermission, setEbRolePermission] = useState("");
-
   const [ebpermissionError, setEbPermissionError] = useState("");
   const [ebAddPermission,setEbAddPermission]= useState("")
   const [ebDeletePermission,setEbDeletePermission]=useState("")
   const [ebEditPermission,setEbEditPermission]=useState("")
-
   const [settingRole,setSettingRole]=useState("")
 
 
@@ -73,9 +71,9 @@ function Settings() {
   useEffect(() => {
     setEbRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
+
   useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner == 1) {
+    if (ebrolePermission[0]?.is_owner == 1) {
         setSettingRole("");
     } else {
       setSettingRole("Permission Denied");
@@ -84,10 +82,7 @@ function Settings() {
 
 
   useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_view == 1
-    ) {
+    if (ebrolePermission[0]?.is_owner == 1 || ebrolePermission[0]?.role_permissions[12]?.per_view == 1) {
       setEbPermissionError("");
     } else {
       setEbPermissionError("Permission Denied");
@@ -97,10 +92,7 @@ function Settings() {
 
 
   useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_create == 1
-    ) {
+    if (ebrolePermission[0]?.is_owner == 1 || ebrolePermission[0]?.role_permissions[12]?.per_create == 1) {
       setEbAddPermission("");
     } else {
       setEbAddPermission("Permission Denied");
@@ -134,6 +126,8 @@ function Settings() {
   const handleTabClick = (tabName) => {
     setSelectedTab(tabName);
   };
+
+
   const LoginId = localStorage.getItem("loginId")
   const Loginname = localStorage.getItem("NameId")
   const Loginemail = localStorage.getItem("emilidd")
@@ -210,6 +204,7 @@ function Settings() {
   const handleState = (e) => {
     setStatee(e.target.value)
   }
+
   const handleSaveUpdate = () => {
     if (selectedImage) {
       dispatch({
@@ -270,8 +265,9 @@ function Settings() {
   const handleTwoStepVerify = () => {
     dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
     dispatch({ type: 'CLEAR_ERROR' })
-
   }
+
+
 useEffect(()=>{
 setunitError(state.Settings.ebUnitError)
 },[state.Settings.ebUnitError])
@@ -295,7 +291,7 @@ setunitError(state.Settings.ebUnitError)
     const isEnableInitialValue = UserIsEnable === 1;
 
     setIsChecked(isEnableInitialValue);
-    setInitialIsEnable(isEnableInitialValue); // Set the initial value
+    setInitialIsEnable(isEnableInitialValue);
 
     if (UserIsEnable === 1) {
       localStorage.setItem("IsEnable", '');
@@ -359,36 +355,20 @@ setunitError(state.Settings.ebUnitError)
 
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200) {
-
       setSelectedHostel('')
       setAmount("")
-      
 
       setTimeout(() => {
         dispatch({ type: 'EB-BILLING-UNIT-LIST' })
         setData(state.Settings.EBBillingUnitlist.eb_settings) 
       }, 100)
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_EB_BILLING_STATUS_CODE' })
       }, 1000)   
     }
   }, [state.Settings.addEbbillingUnitStatuscode])
 
-
-  // useEffect(() => {
-  //   if (state.Settings.getebStatuscode === 200) {
-      
-  //     setData(state.Settings.EBBillingUnitlist.eb_settings) 
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_GET_EBBILLINGS_STATUS_CODE' })
-  //     }, 100)
-  //   }
-  // }, [state.Settings.getebStatuscode])
-
-
-  // useEffect(() => {
-  //   setData(state.Settings.EBBillingUnitlist.eb_settings)   
-  // }, [state?.Settings?.EBBillingUnitlist?.eb_settings])
 
 
   const handleEdit = (item) => {
@@ -434,7 +414,6 @@ setunitError(state.Settings.ebUnitError)
 
     if (editHostel && editamount  && isModified) {
       dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: 1, amount: editamount } })
-      // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       handleClose();
       setEditHostel({ id: '', name: '' })
       setEditUnit('');
@@ -501,26 +480,20 @@ setunitError(state.Settings.ebUnitError)
 
 
   const handlesaveEbbill = () => {
-
     if (!selectedHostel && !amount ) {
-        setTotalErrmsg('Please enter all field')
-               
+        setTotalErrmsg('Please enter all field')          
       return; 
     }
 
-if(!selectedHostel){
-  setHostelErrmsg("Please select hostel");
-}
-if(!amount){
-  setAmountErrmsg('Please enter amount')
-}
-
-
+   if(!selectedHostel){
+    setHostelErrmsg("Please select hostel");
+    }
+   if(!amount){
+    setAmountErrmsg('Please enter amount')
+    }
 
    if (selectedHostel && amount ) {
-      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: 1, amount: amount } })
-      // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
-      
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: 1, amount: amount } })      
     }
   }
 
@@ -611,7 +584,6 @@ if(!amount){
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
         <div className='col-lg-8 col-md-6 col-sm-12 mb-4'>
           <h1 style={{ fontSize: 24, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Settings</h1>
-          {/* <p>Manage your account settings</p> */}
         </div>
 
 
@@ -621,73 +593,18 @@ if(!amount){
         <div >
           <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
             <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
-              {/* <Tab label="Security" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
               <Tab label="EB Billing" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "1" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Invoice" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "2" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Expences" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "3" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "4" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "5" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               {!settingRole && ( <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />)}
-              {/* <Tab label="Roles" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
               {!settingRole && (
   <Tab label="Roles" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "7" ? "#222222" : "#4B4B4B", lineHeight: "normal", fontStyle: "normal", fontWeight: 500, textTransform: "none" }} />)}
 
             </TabList>
           </Box>
         </div>
-        {/* <TabPanel value="1">
-          <>
-
-            <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Enable Two-factor Authentication</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={isChecked}
-                  onChange={handleChange}
-                />
-
-              </div>
-            </div>
-
-
-            <div className='d-flex  justify-content-between me-2 mb-3 '>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Email Setup</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" />
-
-              </div>
-            </div>
-
-
-            <div className='d-flex  justify-content-between me-2'>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>SMS Setup</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" />
-              </div>
-            </div>
-
-            <div className='justify-content-end mt-3'>
-              <Button onClick={handleTwoStepVerify} disabled={!isChanged} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save Changes</Button>
-
-            </div>
-
-
-
-          </>
-        </TabPanel> */}
-
-
 
         <TabPanel value="1">
           <>
@@ -703,14 +620,12 @@ if(!amount){
       // height: "100vh",
     }}
   >
-    {/* Image */}
     <img
       src={EmptyState}
       alt="Empty State"
       style={{ maxWidth: "100%", height: "auto" }}
     />
 
-    {/* Permission Error */}
     {ebpermissionError && (
       <div
         style={{
@@ -739,13 +654,12 @@ if(!amount){
                     className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
                     <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
-                    {state.UsersList.hostelList && state.UsersList.hostelList
-  .filter((item) => !item.eb_amount) // Exclude items with eb_amount
-  .map((item) => (
-    <option key={item.id} value={item.id}>
-      {item.Name}
-    </option>
-  ))}
+                    {state.UsersList.hostelList && state.UsersList.hostelList.filter((item) => !item.eb_amount) 
+                            .map((item) => (
+                   <option key={item.id} value={item.id}>
+                        {item.Name}
+                   </option>
+                      ))}
 
 
                   </Form.Select>
@@ -840,7 +754,6 @@ if(!amount){
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Unit</th>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Amount </th>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
-                    {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
 
                   </tr>
                 </thead>
@@ -848,8 +761,6 @@ if(!amount){
 
                   {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings?.length > 0 && state.Settings.EBBillingUnitlist.eb_settings?.map((item) => (
                     <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} ebEditPermission={ebEditPermission}/>
-
-
                   ))}
                   {currentRows?.length === 0 && (
                     <tr>
@@ -1095,230 +1006,7 @@ if(!amount){
         <TabPanel value="7"><RolePage /> </TabPanel>
       </TabContext>
 
-      {/* <div className='mt-0 ' style={{}}>
-        <div className='d-flex flex-column flex-md-row Page_Content g-0' >
-          <div className="col-12 col-md-4 col-lg-3 pt-5 sidebar ">
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'Personal' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('Personal')}
-            >
-              <FaCircleExclamation style={{ fontSize: '16px', marginRight: '8px' ,color:"gray"}} />  Personal Information
-            </div>
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'Security' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('Security')}
-            >
-              <SecurityIcon style={{ fontSize: '16px', marginRight: '8px' ,color:"gray"}} />  Security
-            </div>
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'EB_Billings' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('EB_Billings')}
-            >
-              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px'  ,color:"gray"}} /> EB Billing
-            </div>
-           
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'Invoice_Settings' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('Invoice_Settings')}
-            >
-              <ShoppingBagIcon style={{ fontSize: '16px', marginRight: '8px',color:"gray" }} />  Invoice Settings
-            </div>
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'Amenities' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('Amenities')}
-            >
-              <EventNoteIcon style={{ fontSize: '16px', marginRight: '8px',color:"gray" }} />  Amenities
-            </div>
-
-          </div>
-          <hr class="vl" />
-
-          <div className="col-12 col-md-8 col-lg-9 pt-5 pe-3" style={{ width:"", backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
-            {selectedTab === 'Personal' &&
-              <div>
-
-                <div className='d-flex justify-content-between'>
-                  <div>
-                    <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
-                  </div>
-                  <div className='justify-content-end'>
-                    <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleSaveUpdate} >Save change</button>
-                    <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
-
-                  </div>
-
-                </div>
-
-                <hr style={{ opacity: 0.1 }} />
-                <h5 style={{ fontSize: '16px', fontWeight: 700 }}>Profile Picture</h5>
-
-               
-
-<div className='d-flex justify-content-start gap-3 align-items-center mt-3'>
-                    <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
-
-
-                       <Image
-                            src={selectedImage ? URL.createObjectURL(selectedImage): profilePicture == null ? Men : profilePicture
-                            }
-                            roundedCircle
-                            style={{
-                                height: 50,
-                                width: 50,
-                                borderRadius: '50%',
-                            }} 
-                        />
-
-                    </div>
-                    <label style={{fontSize:16, fontWeight:600}}>{Name} </label>
-                    <button type="button" className="mb-2 upload-button" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={() => document.getElementById('upload-photo').click()}>Change Photo</button>
-                    <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
-                    <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Delete</button>
-
-                </div>
-
-                <div class="mb-2 mt-3" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                  <label class="sr-only mb-0" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "350" }}><b>Name or Business Name </b></label>
-                  <input class="Name form-control mt-1" style={{ width: "100%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="name" id="name" placeholder="Royal Grand Hostel" name="name" value={Name} onChange={handleName} />
-                </div>
-
-                <div style={{ display: 'flex', width: "100%" }} >
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "350" }}><b>Phone Number</b></label>
-                    <input class="Phone form-control mt-1" maxLength={10} style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="phone" id="phone" placeholder="123-098-345-09" name="Phone" value={phone} onChange={handlePhone} />
-                    <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  </div>
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>Email Address</b></label>
-                    <input class="Email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="email" id="email" placeholder="XYZ@gmail.com" name="email" value={email} onChange={handleEmailId} />
-                    <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  </div>
-
-                </div>
-
-                <div style={{ display: 'flex', width: "100%" }} >
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>Address</b></label>
-                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="address" id="address" placeholder="Enter Address" name="address" value={Address} onChange={handleAddress} />
-
-                  </div>
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>Country</b></label>
-                    <select class="form-select" aria-label="Default select example" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} value={Country} onChange={handleCountry}>
-                      <option selected>Country</option>
-                      <option value="India">India</option>
-                      <option value="USA">USA</option>
-                      <option value="England">England</option>
-                    </select>
-                  </div>
-
-                </div>
-
-                <div style={{ display: 'flex', width: "100%", marginBottom: '20px' }} >
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>City</b></label>
-                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="city" id="city" placeholder="Enter City" name="city" value={City} onChange={handleCity} />
-
-                  </div>
-
-                  <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>State</b></label>
-                    <input class="Email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="state" id="state" placeholder="Enter State" name="state" value={statee} onChange={handleState} />
-
-                  </div>
-
-                </div>
-
-
-              </div>
-
-            }
-
-            {selectedTab === 'Security' &&
-              <div>
-                <div className='d-flex  justify-content-between'>
-                  <div>
-                    <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
-                  </div>
-                  <div className='justify-content-end'>
-                    <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
-                  </div>
-                </div>
-                <hr style={{ opacity: 0.1 }} />
-
-                <div className='mt-4 mb-5'>
-                  <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Management</h6>
-                </div>
-                <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
-                  <div>
-                    <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
-                  </div>
-                  <div>
-                  <Form.Check 
-        type="switch"
-        id="custom-switch"
-        checked={isChecked}
-        onChange={handleChange}
-      />
-                  
-                  </div>
-                </div>
-
-
-                <div className='d-flex  justify-content-between me-2 mb-3 '>
-                  <div>
-                    <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
-                  </div>
-                  <div>
-                    <Form.Check type="switch" id="custom-switch" />
-                 
-                  </div>
-                </div>
-
-
-                <div className='d-flex  justify-content-between me-2'>
-                  <div>
-                    <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
-                  </div>
-                  <div>
-                    <Form.Check type="switch" id="custom-switch" />
-                  </div>
-                </div>
-
-                <div className='mt-4 mb-4'>
-                  <h6 style={{ fontWeight: 650, textDecorationLine: 'underline' }}>Password Security</h6>
-                </div>
-
-                <div className='d-flex  justify-content-between '>
-                  <div>
-                    <h6 style={{ fontWeight: 650 }}>Password Change</h6>
-                  </div>
-                  <div>
-                    <button className='ChangePassword'>Change Password</button>
-                  </div>
-                </div>
-
-              </div>
-
-            }
-            {selectedTab === 'EB_Billings' && 
-            <Billings/>
-            }
-            {selectedTab === 'Amenities' && <Amenities />}
-            {selectedTab === 'Invoice_Settings' && <InvoiceSettings />}
-          </div>
-        </div>
-      </div> */}
+    
 
     </div>
   )
