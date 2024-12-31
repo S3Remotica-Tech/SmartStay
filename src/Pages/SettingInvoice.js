@@ -568,16 +568,16 @@ useEffect(() => {
 
   return (
     <div className="container">
-      <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
-                top: 20,
+      <div className="pt-4" style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
+                top: 0,
                 right: 0,
                 left: 0,
                 zIndex: 1000,
                 backgroundColor: "#FFFFFF",
                 height: 83,}}>
-        <h3>Invoice</h3>
+        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}>Invoice</h3>
         <div></div>
-        <Button onClick={handleShow} style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,borderRadius: 12,width: 180,padding: "18px, 20px, 18px, 20px", color: "#FFF",fontFamily: "Montserrat"}}>+ Add Invoice</Button>
+        <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}>+ Add Invoice</Button>
       </div>
 
       <div>

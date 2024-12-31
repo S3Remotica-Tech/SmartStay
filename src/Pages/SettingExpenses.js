@@ -348,14 +348,20 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
                 zIndex: 1000,
                 backgroundColor: "#FFFFFF",
                 height: 63,}} >
-        <h3> Expences Category</h3>
+        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}> Expences Category</h3>
         <div></div>
-        <Button  onClick={handleShow} style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,
-            borderRadius: 12,
-            width: 180,
-            padding: "18px, 20px, 18px, 20px",
-            color: "#FFF",
-            fontFamily: "Montserrat"}}>{" "}+ Add Category</Button>
+        <Button  onClick={handleShow} 
+        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 16px 16px 16px"}}
+        // style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,
+        //     borderRadius: 12,
+        //     width: 180,
+        //     padding: "18px, 20px, 18px, 20px",
+        //     color: "#FFF",
+        //     fontFamily: "Montserrat"}}
+            
+            
+            
+            >{" "}+ Add Category</Button>
       </div>
 
     

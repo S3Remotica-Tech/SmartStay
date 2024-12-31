@@ -135,7 +135,13 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
 
         <div className="container">
             <div className='d-flex justify-content-between align-items-center'
-          style={{position:'sticky' , top:20, backgroundColor:'white'}}   >
+          style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
+            top: 0,
+            right: 0,
+            left: 0,
+            zIndex: 1000,
+            backgroundColor: "#FFFFFF",
+            height: 83,}}  >
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
