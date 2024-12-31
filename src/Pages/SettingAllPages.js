@@ -275,7 +275,20 @@ useEffect(()=>{
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-12 col-md-12 col-lg-3 col-sm-12 col-xs-12">
+          <div className="col-lg-3 col-12 col-md-12  col-sm-12 col-xs-12" 
+          
+          style={{
+            position: "sticky",
+            top: "0",
+            height: "100vh",
+            overflowY: "auto",
+            
+          }}
+          
+          
+          
+          
+          >
             <div
               style={{
                 backgroundColor: "#E7F1FF",
@@ -428,54 +441,7 @@ useEffect(()=>{
 <div>
 
 <div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
-{/* <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12" style={{marginLeft:30}}>
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                       Select PG
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-                      <Form.Select
-  aria-label="Default select example"
-  className="border"
-  style={{
-    fontSize: 16,
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-    height: 47,
-    borderRadius: 8,
-  }}
-  value={state.login.selectedHostel_Id} 
-  onChange={(e) => handleHostelId(e)} 
->
-  <option value={state.login.selectedHostel_Id}>
-    {state.UsersList?.hostelList?.find((item) => item.id === state.login.selectedHostel_Id)?.Name || "Select a PG"}
-  </option>
-</Form.Select>
 
-
-                      {displayError && (
-                        <div className="d-flex gap-2 align-items-center p-2">
-                        
-                          <MdError  style={{ color: "red", fontSize:12}}/>
-                        <div style={{ color: "red", fontSize:12 , fontFamily:"Gilroy" }}>
-                         
-                          {displayError}
-                        </div>
-                        </div>
-                      )}
-                    </div> */}
                     {
                       state.login.selectedHostel_Id && 
                    
@@ -693,7 +659,17 @@ useEffect(()=>{
 
             
           </div>
-          <div className="container col-12 col-md-12 col-lg-9">
+          <div className="col-lg-9  col-12 col-md-12 col-sm-12 col-xs-12 "
+          
+          style={{
+            overflowY: "auto",
+            height: "100vh",
+          }}
+          
+          
+          
+          
+          >
             {generalPageShow && <SettingGeneral />}
             {managePageShow && <SettingManage />}
             {securityPageShow && <SettingSecurity />}
