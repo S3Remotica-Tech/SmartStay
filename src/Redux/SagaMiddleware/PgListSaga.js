@@ -150,8 +150,9 @@ function* handleCheckEblist() {
 
 function* handleCheckEbStartmeterlist(action) {
   const response = yield call(EB_startmeterlist,action.payload);
+console.log("response",response);
 
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response.status === 200 || response.data.statusCode === 200) {
     yield put({ type: "EB_STARTMETER_LIST", payload:{response :response.data.data , statusCode:response.status || response.data.statusCode }  });
   }
    else {

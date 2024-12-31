@@ -75,8 +75,8 @@ useEffect(() => {
 }, []);
  
   useEffect(()=>{
-    setHostelId(props.selectedHostel);
-  },[props])
+    setHostelId(state.login.selectedHostel_Id);
+  },[state.login.selectedHostel_Id])
   
 
   const handleReadingChange = (e) => {
@@ -164,8 +164,10 @@ useEffect(() => {
    
   }, []);
   useEffect(()=>{
-    dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel }});
-  },[props.selectedHostel])
+    if(props.selectedHostel){
+      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id:hostelId}});
+    }
+  },[hostelId])
 
 useEffect(()=>{
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -173,7 +175,7 @@ useEffect(()=>{
      
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_STARTMETER_LIST"});
-      }, 200);
+      }, 1000);
     }
   },[state.PgList.statusCodeForEbRoomList])
 
@@ -438,19 +440,32 @@ try {
   }
 
   useEffect(()=>{
-    if(state.PgList.statusCodeForDeleteElectricity === 200){
+    if(state.PgList.statusCodeForEditElectricity === 200 || state.PgList.statusCodeForDeleteElectricity === 200){
       handleCloseDelete()
-      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}});
-      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}});
+      handleClose()
+      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id:hostelId}});
+      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:hostelId}});
     
+      setTimeout(() => {
+      dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
+     }, 200);
+
+      
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
       }, 200);
     
     }
-    },[state.PgList.statusCodeForDeleteElectricity])
+    },[state.PgList.statusCodeForEditElectricity , state.PgList.statusCodeForDeleteElectricity])
 
-
+    useEffect(()=>{
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST"});
+        }, 200);
+      }
+    },[state.PgList.statusCodeForEbRoomList])
 
 
   const customDateInput = (props) => {
@@ -498,18 +513,18 @@ try {
     );
   };
 
-useEffect(()=>{
-if(state.PgList.statusCodeForEditElectricity === 200){
-  handleClose()
-  dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}})
-  dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}})
+// useEffect(()=>{
+// if(state.PgList.statusCodeForEditElectricity === 200){
+//   handleClose()
+//   dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}})
+//   dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}})
   
-  setTimeout(() => {
-    dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
-  }, 200);
+//   setTimeout(() => {
+//     dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
+//   }, 200);
 
-}
-},[state.PgList.statusCodeForEditElectricity])
+// }
+// },[state.PgList.statusCodeForEditElectricity])
 
   return (
 

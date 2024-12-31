@@ -31,7 +31,6 @@ import EBHostelReading from "./EB_Hostel_Based";
 function EB_Hostel(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log("EB_Hostel",state)
   const theme = useTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -297,16 +296,7 @@ function EB_Hostel(props) {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
-  // const totalMeterReading =
-  //   endmeter -
-  //   (startmeter && startmeter.end_Meter_Reading
-  //     ? parseFloat(startmeter.end_Meter_Reading)
-  //     : 0);
-
-  // const totalAmountRead =
-  //   (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
-  // console.log("totalAmountRead", totalAmountRead);
-
+ 
   useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
       setelectricityFilterddata(state.PgList?.EB_customerTable);
@@ -318,11 +308,6 @@ function EB_Hostel(props) {
   }, [state.PgList.statusCodeforEbCustomer]);
   useEffect(()=>{
       if (state.PgList?.statusCodeForEbRoomList === 200) {
-        dispatch({
-          type: "EBSTARTMETERLIST",
-          payload: { hostel_id: selectedHostel },
-        });
-       
         setTimeout(() => {
           dispatch({ type: "CLEAR_EB_STARTMETER_LIST"});
         }, 200);
