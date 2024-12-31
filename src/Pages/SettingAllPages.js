@@ -275,20 +275,17 @@ useEffect(()=>{
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-3 col-12 col-md-12  col-sm-12 col-xs-12" 
-          
-          style={{
-            position: "sticky",
-            top: "0",
-            height: "100vh",
-            overflowY: "auto",
-            
-          }}
-          
-          
-          
-          
-          >
+        <div
+  className="col-12 col-md-12 col-lg-3 col-sm-12 col-xs-12"
+  style={{
+    overflow: "hidden", 
+    height: "100vh", 
+    position: "sticky", 
+    top: 0,
+    left: 0,
+    
+  }}
+>
             <div
               style={{
                 backgroundColor: "#E7F1FF",

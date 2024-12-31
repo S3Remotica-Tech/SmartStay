@@ -8,11 +8,20 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import Flatpickr from "react-flatpickr";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
-import {Autobrightness,Call,Sms,House, Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import {
+  Autobrightness,
+  Call,
+  Sms,
+  House,
+  Buildings,
+  ArrowLeft2,
+  ArrowRight2,
+  MoreCircle,
+} from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
-import Carousel from 'react-bootstrap/Carousel'
+import Carousel from "react-bootstrap/Carousel";
 import {
   Button,
   Offcanvas,
@@ -41,8 +50,8 @@ import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import { Room } from "@material-ui/icons";
 import { style } from "@mui/system";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import editliner from "../Assets/Images/Edit-Linear-32px.png";
 import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
@@ -93,50 +102,46 @@ function UserListRoomDetail(props) {
   const [formError, setFormError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
-  const [editMode , seteditMode] = useState(false)
+  const [editMode, seteditMode] = useState(false);
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
-  const [kycdetailsForm,setKycDetailForm] = useState(false)
-  const [additionalForm,setAdditionalForm] = useState(false);
-  const [kycuserDetails, setkycuserDetails] = useState('')
-  const [contactList, setContactList] = useState('')
-  const [contactDetails,setContactDetails] = useState('')
-  const [contactEdit,setContactEdit] = useState("")
-  const [editAdditional,setEditAdditional]=useState(false)
-  const [deleteAdditional,setDeleteAdditional]=useState(false)
+  const [kycdetailsForm, setKycDetailForm] = useState(false);
+  const [additionalForm, setAdditionalForm] = useState(false);
+  const [kycuserDetails, setkycuserDetails] = useState("");
+  const [contactList, setContactList] = useState("");
+  const [contactDetails, setContactDetails] = useState("");
+  const [contactEdit, setContactEdit] = useState("");
+  const [editAdditional, setEditAdditional] = useState(false);
+  const [deleteAdditional, setDeleteAdditional] = useState(false);
 
+  useEffect(() => {
+    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+  }, [props.id]);
 
-useEffect(()=>{
-  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
-},[props.id])
+  useEffect(() => {
+    if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForCustomerAllDetails]);
 
-useEffect(()=>{
-  if(state.UsersList.statusCodeForCustomerAllDetails === 200){
-    
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS"});
-    }, 100);
-        
-  }
-},[state.UsersList.statusCodeForCustomerAllDetails])
-
-const handleContactEdit=(u)=>{
-  setEditAdditional(true)
-setContactEdit(u)
-setAdditionalForm(true)
-}
-  const handleKycdetailsForm =(item)=>{
-    setkycuserDetails(item)
-    setKycDetailForm(true)
-  }
-  const handleAdditionalForm =()=>{
-    setEditAdditional(false)
-    setAdditionalForm(true)
-  }
-
+  const handleContactEdit = (u) => {
+    setEditAdditional(true);
+    setContactEdit(u);
+    setAdditionalForm(true);
+  };
+  const handleKycdetailsForm = (item) => {
+    setkycuserDetails(item);
+    setKycDetailForm(true);
+  };
+  const handleAdditionalForm = () => {
+    setEditAdditional(false);
+    setAdditionalForm(true);
+  };
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -148,8 +153,8 @@ setAdditionalForm(true)
   };
   const options = {
     dateFormat: "Y/m/d",
-    maxDate: null, 
-    minDate:null, 
+    maxDate: null,
+    minDate: null,
   };
   useEffect(() => {
     if (calendarRef.current) {
@@ -174,7 +179,6 @@ setAdditionalForm(true)
 
   const handleShowEditBed = (item) => {
     if (item[0].ID) {
-     
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -196,7 +200,6 @@ setAdditionalForm(true)
         setFirstname("");
         setLastname("");
       }
-      
 
       setAddress(item[0].Address || "");
       setAadharNo(item[0].AadharNo || "");
@@ -211,14 +214,15 @@ setAdditionalForm(true)
       setBed(item[0].Bed || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
-     
-      const isValidDate = item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
+
+      const isValidDate =
+        item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
       const parsedDate = isValidDate ? new Date(item[0].user_join_date) : null;
 
       if (parsedDate && !isNaN(parsedDate.getTime())) {
-          setSelectedDate(parsedDate);
+        setSelectedDate(parsedDate);
       } else {
-          setSelectedDate(""); 
+        setSelectedDate("");
       }
       // setSelectedDate(item[0].user_join_date ? new Date(item[0].user_join_date) : "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
@@ -243,7 +247,6 @@ setAdditionalForm(true)
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEditUser = (item) => {
     if (item[0].ID) {
-     
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -289,7 +292,7 @@ setAdditionalForm(true)
         Email: item[0].Email || "",
         Address: item[0].Address || "",
         hostel_Id: item[0].Hostel_Id || "",
-       
+
         file: item[0].profile === "0" ? null : item[0].profile || null,
       });
     }
@@ -308,12 +311,10 @@ setAdditionalForm(true)
     setFirstname(e.target.value);
     setFirstnameError("");
     setFormError("");
-   
   };
   const handleLastName = (e) => {
     setLastname(e.target.value);
     setFormError("");
-    
   };
 
   useEffect(() => {
@@ -375,14 +376,11 @@ setAdditionalForm(true)
     const emailValue = e.target.value;
     setEmail(emailValue);
 
-    
     const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    
     const isValidEmail = emailRegex.test(emailValue);
 
-    
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -402,7 +400,6 @@ setAdditionalForm(true)
     // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
-
 
   const handleAddress = (e) => {
     // handleInputChange()
@@ -443,15 +440,21 @@ setAdditionalForm(true)
   }, [props.id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
+    dispatch({
+      type: "HOSTELDETAILLIST",
+      payload: { hostel_Id: state.login.selectedHostel_Id },
+    });
   }, [hostel_Id]);
 
-  useEffect(()=>{
-    const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
+  useEffect(() => {
+    const selectedHostel =
+      state.UsersList.hostelList &&
+      state.UsersList.hostelList.filter(
+        (item) => item.id == state.login.selectedHostel_Id
+      );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
-  },[])
+  }, []);
 
   // const handleHostelId = (e) => {
   //   const selectedHostelId = e.target.value;
@@ -489,13 +492,17 @@ setAdditionalForm(true)
     setFormError("");
     setRoomId("");
     setBedId("");
-    setRoomRent(0)
+    setRoomRent(0);
   };
 
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: state.login.selectedHostel_Id, floor_id: Floor, room_id: RoomId },
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        floor_id: Floor,
+        room_id: RoomId,
+      },
     });
   }, [Rooms]);
 
@@ -519,7 +526,7 @@ setAdditionalForm(true)
     setRoomError("");
     setFormError("");
     setBedId("");
-    setRoomRent(0)
+    setRoomRent(0);
     // handleInputChange()
   };
 
@@ -535,22 +542,27 @@ setAdditionalForm(true)
     // handleInputChange()
     setBedId(e.target.value);
 
-    const Bedfilter =state?.UsersList?.roomdetails && 
-    state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == RoomId )
-    
-    const Roomamountfilter = Bedfilter && 
-    Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
-    
-     
-  if (Roomamountfilter.length != 0) {
-    const selectedRoomRent = Roomamountfilter[0].bed_amount;
+    const Bedfilter =
+      state?.UsersList?.roomdetails &&
+      state.UsersList.roomdetails.filter(
+        (u) =>
+          u.Hostel_Id == hostel_Id && u.Floor_Id == Floor && u.Room_Id == RoomId
+      );
 
-    if (editMode && e.target.value === initialStateAssign.Bed) {
-      setRoomRent(initialStateAssign.RoomRent); // Set the initial RoomRent
-    } else {
-      setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
+    const Roomamountfilter =
+      Bedfilter &&
+      Bedfilter.length > 0 &&
+      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+
+    if (Roomamountfilter.length != 0) {
+      const selectedRoomRent = Roomamountfilter[0].bed_amount;
+
+      if (editMode && e.target.value === initialStateAssign.Bed) {
+        setRoomRent(initialStateAssign.RoomRent); // Set the initial RoomRent
+      } else {
+        setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
+      }
     }
-  }
 
     if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
@@ -559,7 +571,7 @@ setAdditionalForm(true)
     }
     setBedError("");
     setFormError("");
-    setRoomRentError("")
+    setRoomRentError("");
   };
 
   const handlePaymentType = (e) => {
@@ -574,8 +586,6 @@ setAdditionalForm(true)
     setFormError("");
   };
 
-  
-
   const handleCloseEditcustomer = () => {
     setFormShow(false);
     setFormError("");
@@ -589,8 +599,7 @@ setAdditionalForm(true)
     setEmailError("");
     setAddressError("");
     setPhoneError("");
-    setDateError('')
-    
+    setDateError("");
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -726,7 +735,6 @@ setAdditionalForm(true)
     RoomRent: "",
   });
 
-  
   const validateAssignField = (value, fieldName) => {
     // If the value is a string, trim it, otherwise check for non-empty or valid number
     const isValueEmpty =
@@ -795,7 +803,7 @@ setAdditionalForm(true)
     if (!validateAssignField(BedId, "BedId"));
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
     if (!validateAssignField(RoomRent, "RoomRent"));
-    
+
     // Validate date separately for clarity
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
@@ -844,15 +852,19 @@ setAdditionalForm(true)
       formattedDate = new Date(selectedDate).toISOString().split("T")[0];
     } catch (error) {
       setDateError("Invalid date format.");
-      return; 
+      return;
     }
 
     // Detect any changes
-    const isChangedBed = 
-      (String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase()) ||
-      (String(RoomId).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()) ||
-      (String(BedId).toLowerCase() !== String(initialStateAssign.Bed).toLowerCase()) ||
-      (formattedDate !== new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]) ||
+    const isChangedBed =
+      String(Floor).toLowerCase() !==
+        String(initialStateAssign.Floor).toLowerCase() ||
+      String(RoomId).toLowerCase() !==
+        String(initialStateAssign.Rooms).toLowerCase() ||
+      String(BedId).toLowerCase() !==
+        String(initialStateAssign.Bed).toLowerCase() ||
+      formattedDate !==
+        new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
@@ -900,112 +912,117 @@ setAdditionalForm(true)
 
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
-};
+  };
 
-useEffect(()=>{
-  if(state.UsersList.statusCodeForCustomerCoatact === 200){
-    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
-    }, 100);
-        
-  }
-},[state.UsersList.statusCodeForCustomerCoatact])
-
-
-  useEffect(()=>{
-    if(state.UsersList.statusCodeForAddUser === 200){
-   
-dispatch({type:"USERLIST",payload:{hostel_id:hostel_Id}})
-setTimeout(() => {
-  dispatch({ type: "CLEAR_STATUS_CODES" });
-}, 100);
+  useEffect(() => {
+    if (state.UsersList.statusCodeForCustomerCoatact === 200) {
+      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
+      }, 100);
     }
-  },[state.UsersList.statusCodeForAddUser,state.UsersList.Users])
+  }, [state.UsersList.statusCodeForCustomerCoatact]);
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeForAddUser === 200) {
+      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_STATUS_CODES" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
 
   const customDateInput = (props) => {
     return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                    width: "100%",
-                    height: 50,
-                    boxSizing: "border-box",
-                    boxShadow: "none"
-                }}
-            />
-            <img 
-                src={Calendars} 
-                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
     );
-}
+  };
 
-
-
-const handleAadharUploadClick = () => {
-  if (aadharInputRef.current) {
-    aadharInputRef.current.click();
-  }
-};
-
-// Handle Other Document upload click
-const handleOtherDocUploadClick = () => {
-  if (otherDocInputRef.current) {
-    otherDocInputRef.current.click();
-  }
-};
-
-// Handle file selection
-const handleFileChange = (e, type) => {
-  const file = e.target.files[0];
-  if (file) {
-    if (type === "aadhar") {
-      setAadharFile(file.name); // Store file name for Aadhar
-    } else if (type === "otherDoc") {
-      setOtherDocFile(file.name); // Store file name for Other Document
+  const handleAadharUploadClick = () => {
+    if (aadharInputRef.current) {
+      aadharInputRef.current.click();
     }
-  }
-};
+  };
 
-const [contactDeleteId,setContactDeleteId]=useState("")
-const handleContactDelete=(v)=>{
-  setDeleteAdditional(true)
-  setContactDeleteId(v.id)
+  // Handle Other Document upload click
+  const handleOtherDocUploadClick = () => {
+    if (otherDocInputRef.current) {
+      otherDocInputRef.current.click();
+    }
+  };
 
-}
-const handleCloseDelete=()=>{
-  setDeleteAdditional(false)
-}
+  // Handle file selection
+  const handleFileChange = (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (type === "aadhar") {
+        setAadharFile(file.name); // Store file name for Aadhar
+      } else if (type === "otherDoc") {
+        setOtherDocFile(file.name); // Store file name for Other Document
+      }
+    }
+  };
 
-const handleDeleteContact =()=>{
-  dispatch({type:"CONTACTDELETE",payload:{id:contactDeleteId}})
-}
+  const [contactDeleteId, setContactDeleteId] = useState("");
+  const handleContactDelete = (v) => {
+    setDeleteAdditional(true);
+    setContactDeleteId(v.id);
+  };
+  const handleCloseDelete = () => {
+    setDeleteAdditional(false);
+  };
 
+  const handleDeleteContact = () => {
+    dispatch({ type: "CONTACTDELETE", payload: { id: contactDeleteId } });
+  };
 
-useEffect(()=>{
-  if(state.UsersList.statusCodeDeleteContact === 200){
-    handleCloseDelete()
-    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_DELETE_CONTACT"});
-    }, 100);
-        
-  }
-},[state.UsersList.statusCodeDeleteContact])
+  useEffect(() => {
+    if (state.UsersList.statusCodeDeleteContact === 200) {
+      handleCloseDelete();
+      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_CONTACT" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeDeleteContact]);
 
   return (
     <>
@@ -1020,16 +1037,18 @@ useEffect(()=>{
                   className="container"
                   style={{ marginLeft: "-20px" }}
                 >
-                  <div  className="container justify-content-start  d-flex align-items-start"
-            style={{
-              position: "sticky",
-              top: 0,
-              right: 0,
-              left: 0,
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-              height: 60,
-            }}>
+                  <div
+                    className="container justify-content-start  d-flex align-items-start"
+                    style={{
+                      position: "sticky",
+                      top: 0,
+                      right: 0,
+                      left: 0,
+                      zIndex: 1000,
+                      backgroundColor: "#FFFFFF",
+                      height: 60,
+                    }}
+                  >
                     <img
                       src={leftarrow}
                       width={20}
@@ -1117,8 +1136,14 @@ useEffect(()=>{
                                 : "N/A"}
                             </span>
                           </p> */}
-                          <p style={{marginTop:8}} onClick={()=>{handleKycdetailsForm(item)}}>
-                          KYC Verified<img
+                          <p
+                            style={{ marginTop: 8 }}
+                            onClick={() => {
+                              handleKycdetailsForm(item);
+                            }}
+                          >
+                            KYC Verified
+                            <img
                               src={verify}
                               width={17}
                               height={17}
@@ -1132,26 +1157,29 @@ useEffect(()=>{
                         <img src={dots} width={40} height={40} />
                       </div> */}
                       <div
-  onClick={() => {
-    if (!props.customerEditPermission) {
-      handleShowEditBed(props.userDetails);
-    }
-  }}
-  style={{
-    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-    opacity: props.customerEditPermission ? 0.6 : 1,
-  }}
->
-  <img
-    src={dots}
-    width={40}
-    height={40}
-    style={{
-      filter: props.customerEditPermission ? "grayscale(100%)" : "none",
-    }}
-  />
-</div>
-
+                        onClick={() => {
+                          if (!props.customerEditPermission) {
+                            handleShowEditBed(props.userDetails);
+                          }
+                        }}
+                        style={{
+                          cursor: props.customerEditPermission
+                            ? "not-allowed"
+                            : "pointer",
+                          opacity: props.customerEditPermission ? 0.6 : 1,
+                        }}
+                      >
+                        <img
+                          src={dots}
+                          width={40}
+                          height={40}
+                          style={{
+                            filter: props.customerEditPermission
+                              ? "grayscale(100%)"
+                              : "none",
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -1237,740 +1265,867 @@ useEffect(()=>{
                     </div>
                     <TabPanel value="1" className="px-0">
                       <>
-<div className="roomdetailscard">
-  <div style={{flex:1}}>
-                        {/* <div className="mt-3 d-flex flex-column flex-md-row justify-content-end"> */}
-                          <div
-                            className="col-md-12 mb-3 mb-md-0"
-                           
-                          >
+                        <div className="roomdetailscard">
+                          <div style={{ flex: 1 }}>
+                            {/* <div className="mt-3 d-flex flex-column flex-md-row justify-content-end"> */}
+                            <div className="col-md-12 mb-3 mb-md-0">
+                              <div
+                                className="card"
+                                style={{
+                                  borderRadius: "20px",
+                                  padding: "20px",
+                                }}
+                              >
+                                <div
+                                  className="card-header d-flex justify-content-between align-items-center"
+                                  style={{ backgroundColor: "transparent" }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Basic Information
+                                  </div>
+                                  <div
+                                    style={{
+                                      cursor: props.customerEditPermission
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      opacity: props.customerEditPermission
+                                        ? 0.6
+                                        : 1,
+                                    }}
+                                  >
+                                    <div
+                                      onClick={() => {
+                                        if (!props.customerEditPermission) {
+                                          handleEditUser(props.userDetails);
+                                        }
+                                      }}
+                                      style={{
+                                        cursor: props.customerEditPermission
+                                          ? "not-allowed"
+                                          : "pointer",
+                                        height: 40,
+                                        width: 40,
+                                        borderRadius: 100,
+                                        border: "1px solid #EFEFEF",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        position: "relative",
+                                        zIndex: 1000,
+                                        backgroundColor:
+                                          props.customerEditPermission
+                                            ? "#F5F5F5"
+                                            : "#FFF",
+                                      }}
+                                    >
+                                      <PiDotsThreeOutlineVerticalFill
+                                        style={{
+                                          height: 20,
+                                          width: 20,
+                                          color: props.customerEditPermission
+                                            ? "#CCCCCC"
+                                            : "#000",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="card-body">
+                                  <div className="row">
+                                    <div className="col-sm-4 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Floor
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <Buildings size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginLeft: 5,
+                                          }}
+                                        >
+                                          {/* {item.HostelName} */}{" "}
+                                          {item.Floor &&
+                                          item.Floor !== "undefined" &&
+                                          item.Floor !== 0 &&
+                                          item.Floor !== "null"
+                                            ? item.Floor
+                                            : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-center">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Room
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission) {
+                                            handleShowEditBed(
+                                              props.userDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={Group}
+                                          style={{
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginTop: "-10px",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Rooms ? item.Rooms : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-end">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Bed
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission) {
+                                            handleShowEditBed(
+                                              props.userDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={Group}
+                                          style={{
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Bed ? item.Bed : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="row">
+                                    <div className="col-sm-4 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Email
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <Sms size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          {item.Email}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div
+                                      className="col-sm-4 d-flex flex-column align-items-center"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Mobile no.
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <Call size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            whiteSpace: "nowrap",
+                                          }}
+                                        >
+                                          +
+                                          {item &&
+                                            String(item.Phone).slice(
+                                              0,
+                                              String(item.Phone).length - 10
+                                            )}{" "}
+                                          {item &&
+                                            String(item.Phone).slice(-10)}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-end">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        RoomRent.
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        {/* <Call size="16" color="#1E45E1" /> */}
+                                        <img
+                                          src={Money}
+                                          width={16}
+                                          height={16}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          ₹ {props.userDetails[0].RoomRent}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="row">
+                                    <div className="col-sm-12">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Address
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <House size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          {item.Address}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                             <div
-                              className="card"
-                              style={{ borderRadius: "20px", padding: "20px" }}
+                              className="card col-lg-12 col-md-12  "
+                              style={{
+                                borderRadius: "20px",
+                                padding: "20px",
+                                marginTop: 30,
+                              }}
                             >
+                              {/* Header */}
                               <div
                                 className="card-header d-flex justify-content-between align-items-center"
-                                style={{ backgroundColor: "transparent" }}
+                                style={{
+                                  backgroundColor: "transparent",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  borderBottom: "1px solid #e0e0e0",
+                                  marginBottom: "15px",
+                                }}
                               >
                                 <div
                                   style={{
                                     fontSize: 16,
                                     fontWeight: 600,
-                                    fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy, sans-serif",
+                                    lineHeight: "40px",
                                   }}
                                 >
-                                  Basic Information
+                                  Document details
                                 </div>
-                                <div
-  style={{
-    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-    opacity: props.customerEditPermission ? 0.6 : 1,
-  }}
->
-  <div
-    onClick={() => {
-      if (!props.customerEditPermission) {
-        handleEditUser(props.userDetails);
-      }
-    }}
-    style={{
-      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-      height: 40,
-      width: 40,
-      borderRadius: 100,
-      border: "1px solid #EFEFEF",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative",
-      zIndex: 1000,
-      backgroundColor: props.customerEditPermission ? "#F5F5F5" : "#FFF",
-    }}
-  >
-    <PiDotsThreeOutlineVerticalFill
-      style={{
-        height: 20,
-        width: 20,
-        color: props.customerEditPermission ? "#CCCCCC" : "#000",
-      }}
-    />
-  </div>
-</div>
-
                               </div>
 
-                              <div className="card-body">
-                                <div className="row">
-                                  <div className="col-sm-4 d-flex flex-column align-items-start">
-                                    <p
+                              {/* Upload Section */}
+                              <div
+                                className="row"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                {/* Aadhar Card */}
+                                <div className="col-6 text-start">
+                                  <label
+                                    style={{
+                                      display: "block",
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      marginBottom: "10px",
+                                    }}
+                                  >
+                                    Aadhar Card
+                                  </label>
+                                  <button
+                                    className="btn "
+                                    style={{
+                                      borderRadius: "10px",
+                                      padding: "10px 20px",
+                                      fontSize: "14px",
+                                      border: "1px solid #D9D9D9",
+                                    }}
+                                    onClick={handleAadharUploadClick}
+                                  >
+                                    <img
+                                      src={upload}
+                                      width={20}
+                                      height={20}
+                                      style={{ marginRight: "8px" }}
+                                    />
+                                    Upload Document
+                                  </button>
+                                  <input
+                                    type="file"
+                                    ref={aadharInputRef}
+                                    style={{ display: "none" }}
+                                    onChange={(e) =>
+                                      handleFileChange(e, "aadhar")
+                                    }
+                                  />
+                                  {aadharFile && (
+                                    <div
                                       style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
+                                        marginTop: "10px",
+                                        fontSize: "14px",
+                                        color: "#555",
                                       }}
                                     >
-                                    Floor
-                                    </p>
-                                    <p style={{marginTop:"-10px"}}>
-                                      <Buildings size="16" color="#1E45E1" />
-                                      <span
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          marginLeft: 5,
-                                        }}
-                                      >
-                                        {/* {item.HostelName} */}  {item.Floor &&
-                              item.Floor !== "undefined" &&
-                              item.Floor !== 0 &&
-                              item.Floor !== "null"
-                                ? item.Floor
-                                : "N/A"}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="col-sm-4 d-flex flex-column align-items-center">
-                                    <p
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Room
-                                    </p>
-                                    <p
-  onClick={() => {
-    if (!props.customerEditPermission) {
-      handleShowEditBed(props.userDetails);
-    }
-  }}
-  style={{
-    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-    opacity: props.customerEditPermission ? 0.6 : 1,
-    marginTop:"-10px" 
-  }}
->
-  <img
-    src={Group}
-    style={{
-      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-      filter: props.customerEditPermission ? "grayscale(100%)" : "none",
-     
-    }}
-  />
-  <span
-    style={{
-      marginLeft: 5,
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      marginTop:"-10px",
-      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-      color: props.customerEditPermission ? "#888888" : "#000000",
-    }}
-  >
-    {item.Rooms ? item.Rooms : "N/A"}
-  </span>
-</p>
-
-                                  </div>
-                                  <div className="col-sm-4 d-flex flex-column align-items-end">
-                                    <p
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Bed
-                                    </p>
-                                    <p 
-
-  onClick={() => {
-    if (!props.customerEditPermission) {
-      handleShowEditBed(props.userDetails);
-    }
-  }}
-  style={{
-    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-    opacity: props.customerEditPermission ? 0.6 : 1,
-   marginTop:"-10px"  
-  }}
->
-  <img
-    src={Group}
-    style={{
-      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-      filter: props.customerEditPermission ? "grayscale(100%)" : "none",
-    }}
-  />
-  <span
-    style={{
-      marginLeft: 5,
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-      color: props.customerEditPermission ? "#888888" : "#000000",
-    }}
-  >
-    {item.Bed ? item.Bed : "N/A"}
-  </span>
-</p>
-
-                                  </div>
+                                      {aadharFile}
+                                    </div>
+                                  )}
                                 </div>
 
-                                <div className="row">
-                                  <div className="col-sm-4 d-flex flex-column align-items-start">
-                                    <p
+                                {/* Other Document */}
+                                <div className="col-6 text-start">
+                                  <label
+                                    style={{
+                                      display: "block",
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      marginBottom: "10px",
+                                    }}
+                                  >
+                                    Other Document
+                                  </label>
+                                  <button
+                                    className="btn "
+                                    style={{
+                                      borderRadius: "10px",
+                                      padding: "10px 20px",
+                                      fontSize: "14px",
+                                      border: "1px solid #D9D9D9",
+                                    }}
+                                    onClick={handleOtherDocUploadClick}
+                                  >
+                                    <img
+                                      src={upload}
+                                      width={20}
+                                      height={20}
+                                      style={{ marginRight: "8px" }}
+                                    />
+                                    Upload Document
+                                  </button>
+                                  <input
+                                    type="file"
+                                    ref={otherDocInputRef}
+                                    style={{ display: "none" }}
+                                    onChange={(e) =>
+                                      handleFileChange(e, "otherDoc")
+                                    }
+                                  />
+                                  {otherDocFile && (
+                                    <div
                                       style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
+                                        marginTop: "10px",
+                                        fontSize: "14px",
+                                        color: "#555",
                                       }}
                                     >
-                                      Email
-                                    </p>
-                                    <p style={{marginTop:"-10px" }}>
-                                      <Sms size="16" color="#1E45E1" />
-                                      <span
-                                        style={{
-                                          marginLeft: 5,
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        {item.Email}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="col-sm-4 d-flex flex-column align-items-center" style={{whiteSpace:"nowrap"}}>
-                                    <p
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        
-                                      }}
-                                    >
-                                      Mobile no.
-                                    </p>
-                                    <p style={{marginTop:"-10px" }}>
-                                      <Call size="16" color="#1E45E1" />
-                                      <span
-                                        style={{
-                                          marginLeft: 5,
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          whiteSpace:"nowrap"
-                                        }}
-                                      >
-                                        +
-                                        {item &&
-                                          String(item.Phone).slice(
-                                            0,
-                                            String(item.Phone).length - 10
-                                          )}{" "}
-                                        {item && String(item.Phone).slice(-10)}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="col-sm-4 d-flex flex-column align-items-end">
-                                    <p
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                RoomRent.
-                                    </p>
-                                    <p style={{marginTop:"-10px" }}>
-                                      {/* <Call size="16" color="#1E45E1" /> */}
-                                      <img src={Money} width={16} height={16}/>
-                                      <span
-                                        style={{
-                                          marginLeft: 5,
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                      ₹ {props.userDetails[0].RoomRent}
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-
-                                <div className="row">
-                                  <div className="col-sm-12">
-                                    <p
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Address
-                                    </p>
-                                    <p style={{marginTop:"-10px" }}>
-                                      <House size="16" color="#1E45E1" />
-                                      <span
-                                        style={{
-                                          marginLeft: 5,
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        {item.Address}
-                                      </span>
-                                    </p>
-                                  </div>
+                                      Selected File: {otherDocFile}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
                           </div>
 
-                          <div
-                          className="card col-lg-12 col-md-12  "
-                          style={{
-                            borderRadius: "20px",
-                            padding: "20px",
-                            marginTop: 30,
-                            
-                          
-                          }}
-                        >
-      {/* Header */}
-      <div
-        className="card-header d-flex justify-content-between align-items-center"
-        style={{
-          backgroundColor: "transparent",
-          display: "flex",
-          alignItems: "center",
-          borderBottom: "1px solid #e0e0e0",
-          marginBottom: "15px",
-        }}
-      >
-        <div
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-            lineHeight: "40px",
-          }}
-        >
-          Document details
-        </div>
-      </div>
+                          {/* </div> */}
+                          <div style={{ flex: 1 }}>
+                            <div>
+                              <div
+                                className="col-md-12 col-lg-12 mb-3 mb-md-0"
+                                style={{ paddingLeft: 20, paddingRight: 20 }}
+                              >
+                                {state.UsersList?.customerdetails?.data?.map(
+                                  (g) => (
+                                    <div
+                                      key={g.id}
+                                      className="card"
+                                      style={{
+                                        borderRadius: "20px",
+                                        padding: "10px",
+                                      }}
+                                    >
+                                      <div
+                                        className="card-header d-flex justify-content-between align-items-center"
+                                        style={{
+                                          backgroundColor: "transparent",
+                                          display: "flex",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            lineHeight: "40px",
+                                          }}
+                                        >
+                                          Advance Detail
+                                        </div>
+                                        <img
+                                          src={editliner}
+                                          alt="Edit Icon"
+                                          width={20}
+                                          height={20}
+                                        />
+                                      </div>
 
-      {/* Upload Section */}
-      <div
-        className="row"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        {/* Aadhar Card */}
-        <div className="col-6 text-start">
-          <label
-            style={{
-              display: "block",
-              fontSize: 14,
-              fontWeight: 500,
-              marginBottom: "10px",
-            }}
-          >
-            Aadhar Card
-          </label>
-          <button
-            className="btn "
-            style={{
-              borderRadius: "10px",
-              padding: "10px 20px",
-              fontSize: "14px",
-              border:"1px solid #D9D9D9"
-            }}
-            onClick={handleAadharUploadClick}
-          >
-            <img src={upload} width={20} height={20} style={{marginRight:"8px"}}/>
-            Upload Document
-          </button>
-          <input
-            type="file"
-            ref={aadharInputRef}
-            style={{ display: "none" }}
-            onChange={(e) => handleFileChange(e, "aadhar")}
-          />
-          {aadharFile && (
-            <div
-              style={{
-                marginTop: "10px",
-                fontSize: "14px",
-                color: "#555",
-              }}
-            >
-             {aadharFile}
-            </div>
-          )}
-        </div>
+                                      <div className="card-body">
+                                        <div className="row mb-3">
+                                          {/* Advance Amount */}
+                                          <div className="col-sm-4 d-flex flex-column align-items-start">
+                                            <div
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Advance Amount
+                                            </div>
+                                            <p
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              <img
+                                                src={Money}
+                                                alt="Money Icon"
+                                              />{" "}
+                                              ₹
+                                              {
+                                                props.userDetails[0]
+                                                  ?.AdvanceAmount
+                                              }
+                                            </p>
+                                          </div>
 
-        {/* Other Document */}
-        <div className="col-6 text-start">
-          <label
-            style={{
-              display: "block",
-              fontSize: 14,
-              fontWeight: 500,
-              marginBottom: "10px",
-            }}
-          >
-            Other Document
-          </label>
-          <button
-            className="btn "
-            style={{
-              borderRadius: "10px",
-              padding: "10px 20px",
-              fontSize: "14px",
-              border:"1px solid #D9D9D9"
-            }}
-            onClick={handleOtherDocUploadClick}
-          >
-           <img src={upload} width={20} height={20} style={{marginRight:"8px"}}/>
-            Upload Document
-          </button>
-          <input
-            type="file"
-            ref={otherDocInputRef}
-            style={{ display: "none" }}
-            onChange={(e) => handleFileChange(e, "otherDoc")}
-          />
-          {otherDocFile && (
-            <div
-              style={{
-                marginTop: "10px",
-                fontSize: "14px",
-                color: "#555",
-              }}
-            >
-              Selected File: {otherDocFile}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-</div>
+                                          {/* Bill Status - Generate */}
+                                          <div className="col-sm-4 d-flex flex-column align-items-center">
+                                            <strong
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Bill Status
+                                            </strong>
+                                            <Button
+                                              style={{
+                                                width: 102,
+                                                height: 31,
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                backgroundColor: "#1E45E1",
+                                                color: "#fff",
+                                                borderRadius: "5px",
+                                                marginTop: "5px",
+                                              }}
+                                            >
+                                              Generate
+                                            </Button>
+                                          </div>
 
-                        {/* </div> */}
-                        <div style={{flex:1}}>
-                        <div >
-     
+                                          {/* Bill Status - Paid */}
+                                          <div className="col-sm-4 d-flex flex-column align-items-end">
+                                            <strong
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Bill Status
+                                            </strong>
+                                            <p
+                                              style={{
+                                                backgroundColor: "#D9FFD9",
+                                                padding: "2px 12px",
+                                                borderRadius: "10px",
+                                                display: "inline-block",
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                fontWeight: "500",
+                                                marginTop: "5px",
+                                              }}
+                                            >
+                                              Paid
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                              </div>
 
+                              <div
+                                className="col-md-12 col-lg-12 mb-md-0"
+                                style={{
+                                  paddingLeft: 20,
+                                  paddingRight: 20,
+                                  marginTop: 30,
+                                }}
+                              >
+                                <div
+                                  className="card"
+                                  style={{
+                                    borderRadius: "20px",
+                                    padding: "20px",
+                                  }}
+                                >
+                                  <div
+                                    className="card-header d-flex justify-content-between align-items-center"
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      borderBottom: "1px solid #e0e0e0",
+                                      marginBottom: "15px",
+                                    }}
+                                  >
+                                    <div
+                                      className="fw-semibold"
+                                      style={{
+                                        fontSize: 16,
+                                        lineHeight: "40px",
+                                      }}
+                                    >
+                                      Additional Contact
+                                    </div>
+                                    <button
+                                      className="btn btn-link fw-medium text-decoration-none"
+                                      style={{ fontSize: 14 }}
+                                      onClick={handleAdditionalForm}
+                                    >
+                                      + Add Contact
+                                    </button>
+                                  </div>
 
+                                  <div className="card-body">
+                                    {state?.UsersList?.customerAllDetails
+                                      ?.contact_details?.length > 0 ? (
+                                      state.UsersList.customerAllDetails
+                                        .contact_details.length > 1 ? (
+                                        <Carousel interval={null} indicators>
+                                          {state.UsersList.customerAllDetails.contact_details.map(
+                                            (v, index) => (
+                                              <Carousel.Item key={index}>
+                                                <div>
+                                                  <p>
+                                                    Contact Info{" "}
+                                                    <img
+                                                      src={editliner}
+                                                      alt="Edit Icon"
+                                                      width={15}
+                                                      height={15}
+                                                      onClick={() =>
+                                                        handleContactEdit(v)
+                                                      }
+                                                    />
+                                                    <img
+                                                      src={trash}
+                                                      alt="Trash Icon"
+                                                      width={15}
+                                                      height={15}
+                                                      className="ms-2"
+                                                      onClick={() =>
+                                                        handleContactDelete(v)
+                                                      }
+                                                    />
+                                                  </p>
 
+                                                  <div className="row mb-3">
+                                                    <div className="col-sm-4">
+                                                      <p className="mb-1 small fw-medium">
+                                                        Contact Name
+                                                      </p>
+                                                      <p className="mb-0 fw-semibold">
+                                                        {v.user_name}
+                                                      </p>
+                                                    </div>
+                                                    <div className="col-sm-4 text-center">
+                                                      <p className="mb-1 small fw-medium">
+                                                        Mobile no.
+                                                      </p>
+                                                      <p className="mb-0 fw-semibold">
+                                                        +
+                                                        {v &&
+                                                          String(
+                                                            v.mob_no
+                                                          ).slice(
+                                                            0,
+                                                            String(v.mob_no)
+                                                              .length - 10
+                                                          )}{" "}
+                                                        {v &&
+                                                          String(
+                                                            v.mob_no
+                                                          ).slice(-10)}
+                                                      </p>
+                                                    </div>
+                                                    <div className="col-sm-4 text-end">
+                                                      <p className="mb-1 small fw-medium">
+                                                        Guardian
+                                                      </p>
+                                                      <p className="mb-0 fw-semibold">
+                                                        {v.guardian}
+                                                      </p>
+                                                    </div>
+                                                  </div>
 
+                                                  <div className="row">
+                                                    <div className="col-sm-12">
+                                                      <p className="mb-1 small fw-medium">
+                                                        Address
+                                                      </p>
+                                                      <p className="mb-0 fw-semibold">
+                                                        {v.address}
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </Carousel.Item>
+                                            )
+                                          )}
+                                        </Carousel>
+                                      ) : (
+                                        <div>
+                                          {state.UsersList.customerAllDetails.contact_details.map(
+                                            (v, index) => (
+                                              <div key={index}>
+                                                <p>
+                                                  Contact Info{" "}
+                                                  <img
+                                                    src={editliner}
+                                                    alt="Edit Icon"
+                                                    width={15}
+                                                    height={15}
+                                                    onClick={() =>
+                                                      handleContactEdit(v)
+                                                    }
+                                                  />
+                                                  <img
+                                                    src={trash}
+                                                    alt="Trash Icon"
+                                                    width={15}
+                                                    height={15}
+                                                    className="ms-2"
+                                                    onClick={() =>
+                                                      handleContactDelete(v)
+                                                    }
+                                                  />
+                                                </p>
 
-    <div
-  className="col-md-12 col-lg-12 mb-3 mb-md-0"
-  style={{ paddingLeft: 20, paddingRight: 20 }}
->
-  {state.UsersList?.customerdetails?.data?.map((g) => (
-    <div
-      key={g.id}
-      className="card"
-      style={{
-        borderRadius: "20px",
-        padding: "10px",
-      }}
-    >
-      <div
-        className="card-header d-flex justify-content-between align-items-center"
-        style={{
-          backgroundColor: "transparent",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            lineHeight: "40px",
-          }}
-        >
-          Advance Detail
-        </div>
-        <img src={editliner} alt="Edit Icon" width={20} height={20} />
-      </div>
+                                                <div className="row mb-3">
+                                                  <div className="col-sm-4">
+                                                    <p className="mb-1 small fw-medium">
+                                                      Contact Name
+                                                    </p>
+                                                    <p className="mb-0 fw-semibold">
+                                                      {v.user_name}
+                                                    </p>
+                                                  </div>
+                                                  <div className="col-sm-4 text-center">
+                                                    <p className="mb-1 small fw-medium">
+                                                      Mobile no.
+                                                    </p>
+                                                    <p className="mb-0 fw-semibold">
+                                                      +
+                                                      {v &&
+                                                        String(v.mob_no).slice(
+                                                          0,
+                                                          String(v.mob_no)
+                                                            .length - 10
+                                                        )}{" "}
+                                                      {v &&
+                                                        String(v.mob_no).slice(
+                                                          -10
+                                                        )}
+                                                    </p>
+                                                  </div>
+                                                  <div className="col-sm-4 text-end">
+                                                    <p className="mb-1 small fw-medium">
+                                                      Guardian
+                                                    </p>
+                                                    <p className="mb-0 fw-semibold">
+                                                      {v.guardian}
+                                                    </p>
+                                                  </div>
+                                                </div>
 
-      <div className="card-body">
-        <div className="row mb-3">
-          {/* Advance Amount */}
-          <div className="col-sm-4 d-flex flex-column align-items-start">
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-              }}
-            >
-              Advance Amount
-            </div>
-            <p
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-            >
-              <img src={Money} alt="Money Icon" /> ₹
-              {props.userDetails[0]?.AdvanceAmount}
-            </p>
-          </div>
+                                                <div className="row">
+                                                  <div className="col-sm-12">
+                                                    <p className="mb-1 small fw-medium">
+                                                      Address
+                                                    </p>
+                                                    <p className="mb-0 fw-semibold">
+                                                      {v.address}
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            )
+                                          )}
+                                        </div>
+                                      )
+                                    ) : (
+                                      <p>No data available</p>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
-          {/* Bill Status - Generate */}
-          <div className="col-sm-4 d-flex flex-column align-items-center">
-            <strong
-              style={{
-                fontSize: 12,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-              }}
-            >
-              Bill Status
-            </strong>
-            <Button
-              style={{
-                width: 102,
-                height: 31,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                fontWeight: 500,
-                backgroundColor: "#1E45E1",
-                color: "#fff",
-                borderRadius: "5px",
-                marginTop: "5px",
-              }}
-            >
-              Generate
-            </Button>
-          </div>
-
-          {/* Bill Status - Paid */}
-          <div className="col-sm-4 d-flex flex-column align-items-end">
-            <strong
-              style={{
-                fontSize: 12,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-              }}
-            >
-              Bill Status
-            </strong>
-            <p
-              style={{
-                backgroundColor: "#D9FFD9",
-                padding: "2px 12px",
-                borderRadius: "10px",
-                display: "inline-block",
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                fontWeight: "500",
-                marginTop: "5px",
-              }}
-            >
-              Paid
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  ))}
-</div>
-
-
-
-
-
-
-<div
-  className="col-md-12 col-lg-12 mb-md-0"
-  style={{ paddingLeft: 20, paddingRight: 20, marginTop: 30 }}
->
-  <div className="card" style={{ borderRadius: "20px", padding: "20px" }}>
-    <div
-      className="card-header d-flex justify-content-between align-items-center"
-      style={{
-        backgroundColor: "transparent",
-        borderBottom: "1px solid #e0e0e0",
-        marginBottom: "15px",
-      }}
-    >
-      <div className="fw-semibold" style={{ fontSize: 16, lineHeight: "40px" }}>
-        Additional Contact
-      </div>
-      <button
-        className="btn btn-link fw-medium text-decoration-none"
-        style={{ fontSize: 14 }}
-        onClick={handleAdditionalForm}
-      >
-        + Add Contact
-      </button>
-    </div>
-
-    <div className="card-body">
-      {state?.UsersList?.customerAllDetails?.contact_details?.length > 0 ? (
-        state.UsersList.customerAllDetails.contact_details.length > 1 ? (
-          <Carousel interval={null} indicators>
-            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
-              <Carousel.Item key={index}>
-                <div>
-                  <p>
-                    Contact Info{" "}
-                    <img
-                      src={editliner}
-                      alt="Edit Icon"
-                      width={15}
-                      height={15}
-                      onClick={() => handleContactEdit(v)}
-                    />
-                    <img
-                      src={trash}
-                      alt="Trash Icon"
-                      width={15}
-                      height={15}
-                      className="ms-2"
-                      onClick={() => handleContactDelete(v)}
-                    />
-                  </p>
-
-                  <div className="row mb-3">
-                    <div className="col-sm-4">
-                      <p className="mb-1 small fw-medium">Contact Name</p>
-                      <p className="mb-0 fw-semibold">{v.user_name}</p>
-                    </div>
-                    <div className="col-sm-4 text-center">
-                      <p className="mb-1 small fw-medium">Mobile no.</p>
-                      <p className="mb-0 fw-semibold">
-                        +
-                        {v &&
-                          String(v.mob_no).slice(
-                            0,
-                            String(v.mob_no).length - 10
-                          )}{" "}
-                        {v && String(v.mob_no).slice(-10)}
-                      </p>
-                    </div>
-                    <div className="col-sm-4 text-end">
-                      <p className="mb-1 small fw-medium">Guardian</p>
-                      <p className="mb-0 fw-semibold">{v.guardian}</p>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <p className="mb-1 small fw-medium">Address</p>
-                      <p className="mb-0 fw-semibold">{v.address}</p>
-                    </div>
-                  </div>
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        ) : (
-          <div>
-            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
-              <div key={index}>
-                <p>
-                  Contact Info{" "}
-                  <img
-                    src={editliner}
-                    alt="Edit Icon"
-                    width={15}
-                    height={15}
-                    onClick={() => handleContactEdit(v)}
-                  />
-                  <img
-                    src={trash}
-                    alt="Trash Icon"
-                    width={15}
-                    height={15}
-                    className="ms-2"
-                    onClick={() => handleContactDelete(v)}
-                  />
-                </p>
-
-                <div className="row mb-3">
-                  <div className="col-sm-4">
-                    <p className="mb-1 small fw-medium">Contact Name</p>
-                    <p className="mb-0 fw-semibold">{v.user_name}</p>
-                  </div>
-                  <div className="col-sm-4 text-center">
-                    <p className="mb-1 small fw-medium">Mobile no.</p>
-                    <p className="mb-0 fw-semibold">
-                      +
-                      {v &&
-                        String(v.mob_no).slice(
-                          0,
-                          String(v.mob_no).length - 10
-                        )}{" "}
-                      {v && String(v.mob_no).slice(-10)}
-                    </p>
-                  </div>
-                  <div className="col-sm-4 text-end">
-                    <p className="mb-1 small fw-medium">Guardian</p>
-                    <p className="mb-0 fw-semibold">{v.guardian}</p>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-sm-12">
-                    <p className="mb-1 small fw-medium">Address</p>
-                    <p className="mb-0 fw-semibold">{v.address}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )
-      ) : (
-        <p>No data available</p>
-      )}
-    </div>
-  </div>
-</div>
-
-
-
-
-
-</div>
-</div>
-</div>
-
-{
-  kycdetailsForm == true ? (
-<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm} kycuserDetails={kycuserDetails}/>
-  ) :null
-}
-{
-  additionalForm == true ? (
-<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id} contactEdit={contactEdit} editAdditional={editAdditional} setEditAdditional={setEditAdditional}/>
-  ) :null
-}
-  
+                        {kycdetailsForm == true ? (
+                          <UserListKyc
+                            kycdetailsForm={kycdetailsForm}
+                            setKycDetailForm={setKycDetailForm}
+                            kycuserDetails={kycuserDetails}
+                          />
+                        ) : null}
+                        {additionalForm == true ? (
+                          <UserAdditionalContact
+                            additionalForm={additionalForm}
+                            setAdditionalForm={setAdditionalForm}
+                            contactList={contactList}
+                            id={props.id}
+                            contactEdit={contactEdit}
+                            editAdditional={editAdditional}
+                            setEditAdditional={setEditAdditional}
+                          />
+                        ) : null}
                       </>
                     </TabPanel>
 
@@ -2158,10 +2313,17 @@ useEffect(()=>{
                                     {firstnameError && (
                                       <div style={{ color: "red" }}>
                                         {" "}
-                                        <MdError
-                                          style={{  }}
-                                        />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstnameError}</span>
+                                        <MdError style={{}} />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {firstnameError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -2175,10 +2337,16 @@ useEffect(()=>{
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Last Name <span style={{ color: "transparent", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                                        Last Name{" "}
+                                        <span
+                                          style={{
+                                            color: "transparent",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2302,13 +2470,31 @@ useEffect(()=>{
                                       {phonenumError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span>  
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {phonenumError}
+                                          </span>
                                         </div>
                                       )}
                                       {phoneErrorMessage && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>  
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {phoneErrorMessage}
+                                          </span>
                                         </div>
                                       )}
                                     </Form.Group>
@@ -2323,10 +2509,16 @@ useEffect(()=>{
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Email Id <span style={{ color: "transparent", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                                        Email Id{" "}
+                                        <span
+                                          style={{
+                                            color: "transparent",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2350,19 +2542,46 @@ useEffect(()=>{
                                       {emailError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>  
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {emailError}
+                                          </span>
                                         </div>
                                       )}
                                       {emailIdError && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span>  
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {emailIdError}
+                                          </span>
                                         </div>
                                       )}
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
                                           <MdError />
-                                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span> 
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {emailErrorMessage}
+                                          </span>
                                         </div>
                                       )}
                                     </Form.Group>
@@ -2473,7 +2692,16 @@ useEffect(()=>{
                                 {formError && (
                                   <div style={{ color: "red" }}>
                                     <MdError />
-                                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>  
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {formError}
+                                    </span>
                                   </div>
                                 )}
                                 <Button
@@ -2602,7 +2830,16 @@ useEffect(()=>{
                                     {floorError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>  
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {floorError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -2662,7 +2899,16 @@ useEffect(()=>{
                                     {roomError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>  
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {roomError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -2739,42 +2985,87 @@ useEffect(()=>{
                                     {bedError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>  
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {bedError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
 
-                                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
-                <DatePicker
-    selected={selectedDate}
-    onChange={(date) => {
-        setDateError('');
-        setSelectedDate(date);
-    }}
-    dateFormat="yyyy/MM/dd"
-    minDate={null}
-    maxDate={null} 
-    customInput={customDateInput({
-        value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
-            ? selectedDate.toLocaleDateString('en-GB')
-            : '', 
-    })}
-/>
-                </div>
-            </Form.Group>
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                      className="mb-2"
+                                      controlId="purchaseDate"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Joining date{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
+                                      <div
+                                        style={{
+                                          position: "relative",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        <DatePicker
+                                          selected={selectedDate}
+                                          onChange={(date) => {
+                                            setDateError("");
+                                            setSelectedDate(date);
+                                          }}
+                                          dateFormat="yyyy/MM/dd"
+                                          minDate={null}
+                                          maxDate={null}
+                                          customInput={customDateInput({
+                                            value:
+                                              selectedDate instanceof Date &&
+                                              !isNaN(selectedDate.getTime())
+                                                ? selectedDate.toLocaleDateString(
+                                                    "en-GB"
+                                                  )
+                                                : "",
+                                          })}
+                                        />
+                                      </div>
+                                    </Form.Group>
 
-            {dateError && (
-                <div style={{ color: "red" }}>
-                    <MdError />
-                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
-                </div>
-            )}
-        </div>
+                                    {dateError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {dateError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
 
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group className="">
@@ -2810,15 +3101,24 @@ useEffect(()=>{
                                           boxShadow: "none",
                                           border: "1px solid #D9D9D9",
                                           height: 50,
-                                        
-                                          borderRadius:8
+
+                                          borderRadius: 8,
                                         }}
                                       />
                                     </Form.Group>
                                     {advanceAmountError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{advanceAmountError}</span>  
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {advanceAmountError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -2863,7 +3163,16 @@ useEffect(()=>{
                                     {roomrentError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomrentError}</span>  
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {roomrentError}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -2871,7 +3180,16 @@ useEffect(()=>{
                                 {formError && (
                                   <div style={{ color: "red" }}>
                                     <MdError />
-                                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>  
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {formError}
+                                    </span>
                                   </div>
                                 )}
                                 <Button
@@ -2895,94 +3213,92 @@ useEffect(()=>{
                           </div>
                         </Modal.Body>
 
-
-
                         <Modal.Footer style={{ border: "none" }}></Modal.Footer>
                       </Modal.Dialog>
                     </Modal>
                     <Modal
-        show={deleteAdditional}
-        onHide={handleCloseDelete}
-        centered
-        backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
-        }}
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
-          >
-            Delete Contact?
-          </Modal.Title>
-        </Modal.Header>
+                      show={deleteAdditional}
+                      onHide={handleCloseDelete}
+                      centered
+                      backdrop="static"
+                      style={{
+                        width: 388,
+                        height: 250,
+                        marginLeft: "500px",
+                        marginTop: "200px",
+                      }}
+                    >
+                      <Modal.Header style={{ borderBottom: "none" }}>
+                        <Modal.Title
+                          style={{
+                            fontSize: "18px",
+                            fontFamily: "Gilroy",
+                            textAlign: "center",
+                            fontWeight: 600,
+                            color: "#222222",
+                            flex: 1,
+                          }}
+                        >
+                          Delete Contact?
+                        </Modal.Title>
+                      </Modal.Header>
 
-        <Modal.Body
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
-          }}
-        >
-          Are you sure you want to delete this Contact?
-        </Modal.Body>
+                      <Modal.Body
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "#646464",
+                          textAlign: "center",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Are you sure you want to delete this Contact?
+                      </Modal.Body>
 
-        <Modal.Footer
-          style={{
-            justifyContent: "center",
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseDelete}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleDeleteContact}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                      <Modal.Footer
+                        style={{
+                          justifyContent: "center",
+                          borderTop: "none",
+                          marginTop: "-10px",
+                        }}
+                      >
+                        <Button
+                          style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#fff",
+                            color: "#1E45E1",
+                            border: "1px solid #1E45E1",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            marginRight: 10,
+                          }}
+                          onClick={handleCloseDelete}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#1E45E1",
+                            color: "#FFFFFF",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                          }}
+                          onClick={handleDeleteContact}
+                        >
+                          Delete
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>

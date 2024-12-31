@@ -165,7 +165,7 @@ useEffect(() => {
   }, []);
   useEffect(()=>{
     dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel }});
-  },[props])
+  },[props.selectedHostel])
 
 useEffect(()=>{
     if (state.PgList?.statusCodeForEbRoomList === 200) {

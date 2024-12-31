@@ -761,11 +761,15 @@ useEffect(()=>{
 
 
             <ul className=" p-0" >
-              <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
+              <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`}
+              //  onClick={() => handlePageClick('profile')}
+                style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
                     src={(profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' || (profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
-                    roundedCircle style={{ height: "40px", width: "40px" }} onClick={() => handlePageClick('profile')} />
+                    roundedCircle style={{ height: "40px", width: "40px" }} 
+                    // onClick={() => handlePageClick('profile')}
+                     />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
