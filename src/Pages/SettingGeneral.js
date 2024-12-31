@@ -4,7 +4,6 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Offcanvas, Form, FormControl,InputGroup, Pagination  } from "react-bootstrap";
 import img1 from "../Assets/Images/Ellipse 1.png";
 import img2 from "../Assets/Images/New_images/settingeye.png";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import round from "../Assets/Images/Group 14.png"
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
@@ -16,25 +15,26 @@ import eye from '../Assets/Images/login-password.png'
 import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
-import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
+import { Autobrightness, Call, Sms, House, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 
 
 
 function SettingGeneral(){
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-  // useState
-const [showFormGeneral,setShowFormGeneral] = useState(false)
-const [file, setFile] = useState(null);
-const [firstName,setFirstName] = useState("")
-const [lastName,setLastName] = useState("")
-const [countryCode, setCountryCode] = useState("91");
-const [Phone,setPhone] = useState("")
-const [emilId,setEmailId] = useState("")
-const [address,setAddress] = useState("")
-const [password,setPassword]=useState("")
+
+  const [showFormGeneral,setShowFormGeneral] = useState(false)
+  const [file, setFile] = useState(null);
+  const [firstName,setFirstName] = useState("")
+  const [lastName,setLastName] = useState("")
+  const [countryCode, setCountryCode] = useState("91");
+  const [Phone,setPhone] = useState("")
+  const [emilId,setEmailId] = useState("")
+  const [address,setAddress] = useState("")
+  const [password,setPassword]=useState("")
   const [showPassword,setShowPassword]=useState('')
   const [generalEdit, setGeneralEdit] = useState(null);
   const[edit,setEdit]=useState(false)
@@ -53,77 +53,75 @@ const [password,setPassword]=useState("")
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
-// useEffect
 
-useEffect(() => {
-  // dispatch({ type: "COUNTRYLIST" });
-  dispatch({ type: "GETALLGENERAL"});
-}, []);
+      useEffect(() => {
+         dispatch({ type: "GETALLGENERAL"});
+      }, []);
 
-const handlegeneralform = (id) => {
-  setGeneralEdit((prevId) => (prevId === id ? null : id));
-};
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setGeneralEdit(null);
-    }
-  };
+      const handlegeneralform = (id) => {
+         setGeneralEdit((prevId) => (prevId === id ? null : id));
+       };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+      useEffect(() => {
+           const handleClickOutside = (event) => {
+          if (popupRef.current && !popupRef.current.contains(event.target)) {
+           setGeneralEdit(null);
+             }
+            };
 
-useEffect(()=>{
-setEmailAlready(state.Settings?.generalEmailError)
-},[state.Settings?.generalEmailError])
-
-useEffect(()=>{
-  setPhoneAlready(state.Settings?.generalMobileError)
-  },[state.Settings?.generalMobileError])
-
-// useEffect(()=>{
-// if(edit && editId){
-
-//   setFirstName()
+         document.addEventListener("mousedown", handleClickOutside);
+             return () => {
+         document.removeEventListener("mousedown", handleClickOutside);
+         };
+        }, []);
 
 
-// }
-// },[])
-// onchanges
-const handleDelete=(user)=>{
-  setDeleteId(user.id)
-  setDeleteForm(true)
-}
-const handleCloseDeleteFormShow=()=>{
-  setDeleteForm(false)
-}
-const handleConformDelete=()=>{
-  dispatch({ type: "GENERALDELETEGENERAL", payload: {id:deleteId}})
-}
-const handleShowFormGreneral=()=>{
-    setShowFormGeneral(true)
-    setEdit(false)
-}
-const handleClose=()=>{
-    setShowFormGeneral(false)
-    setFirstName("")
-    setLastName("")
-    setEmailId("")
-    setAddress("")
-    setFile("")
-    setPassword("")
-    setPhone("")
-    setFirstNameError("")
-    setLastNameError("")
-    setEmailError("")
-    setPhoneError("")
-    setAddressError("")
-    setPasswordError("")
-    setFormError("")
-}
+      useEffect(()=>{
+          setEmailAlready(state.Settings?.generalEmailError)
+      },[state.Settings?.generalEmailError])
+
+      useEffect(()=>{
+         setPhoneAlready(state.Settings?.generalMobileError)
+      },[state.Settings?.generalMobileError])
+
+
+      const handleDelete=(user)=>{
+         setDeleteId(user.id)
+         setDeleteForm(true)
+      }
+
+     const handleCloseDeleteFormShow=()=>{
+        setDeleteForm(false)
+       }
+
+
+     const handleConformDelete=()=>{
+        dispatch({ type: "GENERALDELETEGENERAL", payload: {id:deleteId}})
+        }
+
+    const handleShowFormGreneral=()=>{
+       setShowFormGeneral(true)
+       setEdit(false)
+          }
+
+    const handleClose  = () => {
+        setShowFormGeneral(false)
+        setFirstName("")
+        setLastName("")
+        setEmailId("")
+        setAddress("")
+        setFile("")
+        setPassword("")
+        setPhone("")
+        setFirstNameError("")
+        setLastNameError("")
+        setEmailError("")
+        setPhoneError("")
+        setAddressError("")
+        setPasswordError("")
+        setFormError("")
+     }
+
 const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
@@ -146,18 +144,13 @@ const handleImageChange = async (event) => {
     setFirstNameError("")
     setFormError("")
   }
+
   const handlelastName=(e)=>{
     setLastName(e.target.value)
     setLastNameError("")
     setFormError("")
   }
-  // const handlePhone=(e)=>{
-  //   setPhone(e.target.value)
-  //   setPhoneError("")
-  //   setPhoneAlready("")
-  //   setFormError("")
-  //   dispatch({ type: "CLEAR_MOBILE_ERROR"});
-  // }
+
   const handlePhone = (e) => {
     setPhone(e.target.value);
     const pattern = /^\d{1,10}$/;
@@ -172,27 +165,15 @@ const handleImageChange = async (event) => {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  //   setFormError("")
-  // };
-  // const handleEmailId=(e)=>{
-  //   setEmailId(e.target.value)
-  //   setEmailError("")
-  //   setEmailAlready("")
-  //   setFormError("")
-  //   dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR"});
-  // }
+ 
 
   const handleEmailId = (e) => {
     const emailValue = e.target.value;
     setEmailId(emailValue);
-
-    
+  
     const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-    
+ 
     const isValidEmail = emailRegex.test(emailValue);
 
     
@@ -212,9 +193,11 @@ const handleImageChange = async (event) => {
       setFormError("");
     }
 
-    // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
+
+
+
   const handleAddress=(e)=>{
     setAddress(e.target.value)
     setAddressError("")
@@ -226,23 +209,26 @@ const handleImageChange = async (event) => {
     // setPasswordError("")
   }
   const MobileNumber = `${countryCode}${Phone}`;
+
+
  
-  const handleEditGeneralUser = (user)=>{
+  const handleEditGeneralUser = (user)=> {
+
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
     setEdit(true)
-setShowFormGeneral(true)
+    setShowFormGeneral(true)
 
-setFirstName(user.first_name)
-setLastName(user.last_name)
-setPhone(mobileNumber)
-setCountryCode(countryCode)
-setAddress(user.Address)
-setEmailId(user.email_Id)
-setFile(user.profile === "0" ? null : user.profile);
-setEditId(user.id)
-setPassword(user.password)
+    setFirstName(user.first_name)
+    setLastName(user.last_name)
+    setPhone(mobileNumber)
+    setCountryCode(countryCode)
+    setAddress(user.Address)
+    setEmailId(user.email_Id)
+    setFile(user.profile === "0" ? null : user.profile);
+    setEditId(user.id)
+    setPassword(user.password)
 
 setInitialStateAssign({
   firstName: user.first_name || "",
@@ -250,27 +236,19 @@ setInitialStateAssign({
   Phone: user.mobileNo|| "",
   emilId: user.email_Id || "",
   address: user.Address || "",
-  file: user.profile === "0" ? null : user.profile || null,
-});
-
-
-
-
+  file: user.profile === "0" ? null : user.profile || null,});
   }
  
 
-  // valitation
  
 
   const validateField = (value, fieldName) => {
+
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
           setFirstNameError("firstName is required");
           break;
-        // case "lastName":
-        //   setLastNameError("lastName is required");
-        //   break;
         case "emilId":
           setEmailError("emilId is required");
           break;
@@ -301,18 +279,16 @@ setInitialStateAssign({
     countryCode: "",
     file: null,
   });
+
   // save
-  const handleSave=()=>{
+         const handleSave = () => {
+
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     if (!validateField(firstName, "firstName"));
     if (!validateField(emilId, "emilId"));
     if (!validateField(Phone, "Phone"));
     if (!validateField(password, "password"));
     if (!validateField(address, "address"));
-
-   
-
-
   
     if(edit && editId){
 

@@ -2,18 +2,19 @@ import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import role from "../Assets/Images/New_images/security-user.png"
 import "./Settings.css";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import round from "../Assets/Images/Group 14.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png"
-import {Button, Offcanvas,Form,FormControl,FormSelect,} from "react-bootstrap";
+import {Button, Form, FormControl} from "react-bootstrap";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import { MdError } from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
 
 function RolesDesign(props){
+
     const state = useSelector(state => state)
     const dispatch = useDispatch();
+
     const popupRef = useRef(null);
     const [roleName,setRoleNme]=useState('')
     const[permissionRole,setPermissionRole]=useState([])
@@ -22,7 +23,7 @@ function RolesDesign(props){
     const [editRolePermission,setEditRolePermission] =useState("")
     const [roleinEdit,setroleinEdit] = useState("")
     const [initialRoleName, setInitialRoleName] = useState('');
-const [initialPermissions, setInitialPermissions] = useState([]);
+    const [initialPermissions, setInitialPermissions] = useState([]);
     const [edit,setEdit]=useState(false)
     const [errorForm,setErrorForm] =useState("")
     const [errorPermission,setErrorPermission] =useState("")
@@ -37,20 +38,13 @@ const [initialPermissions, setInitialPermissions] = useState([]);
       } else {
         const rect = e.currentTarget.getBoundingClientRect();
         setPopupPosition({
-          top: rect.top + window.scrollY + 40, // Adjust this offset as needed
-          left: rect.left + window.scrollX + 10, // Adjust this offset as needed
+          top: rect.top + window.scrollY + 40, 
+          left: rect.left + window.scrollX + 10, 
         });
         setActiveRow(id);
       }
     };
 
-    // const handleShowDots = (id) => {
-    //   if (activeRow === id) {
-    //     setActiveRow(null);
-    //   } else {
-    //     setActiveRow(id);
-    //   }
-    // };
 
 const handleRoleName=(e)=>{
     setRoleNme(e.target.value)
@@ -81,9 +75,7 @@ useEffect(()=>{
     }, 1000);
   }
 },[state.Settings.StatusForDeletePermission])
-// const saveChanges=()=>{
-  
-// }
+
 const RolePermission = state.Settings?.editRolePermission?.role_details;
 
 
@@ -216,18 +208,16 @@ const [checkboxValues, setCheckboxValues] = useState({
         per_edit: values[2] ? 1 : 0,
         per_delete: values[3] ? 1 : 0
       };
-    }).filter(Boolean); // Filter out any null values in case of errors
+    }).filter(Boolean);
   
   
-    // Set permissions only if they differ from the current permissionRole
+    
     setPermissionRole(prev => {
       const prevPermissionsString = JSON.stringify(prev);
       const newPermissionsString = JSON.stringify(permissions);
       return prevPermissionsString !== newPermissionsString ? permissions : prev;
     });
-    
-    
-  }, [checkboxValues, permissionMapping]); // Add dependencies hered
+  }, [checkboxValues, permissionMapping]); 
   
 
 
@@ -249,7 +239,7 @@ const [checkboxValues, setCheckboxValues] = useState({
   useEffect(() => {
     if (edit && RolePermission) {
         setInitialRoleName(roleName);
-        setInitialPermissions([...permissionRole]); // Deep copy
+        setInitialPermissions([...permissionRole]); 
     }
 }, [edit, RolePermission]);
 
@@ -344,13 +334,12 @@ useEffect(()=>{
       ))}
     </tr>
   );
-  // const handleEditClick=()=>{
 
-  // }
-// useEffect(()=>{
-//     dispatch({ type: 'SETTING_ROLE_LIST' })
-// },[])
+
+
     return(
+
+
         <div className="container mt-4">
         <div className="row">
             
@@ -442,7 +431,6 @@ useEffect(()=>{
       </div>
     </div>
 
-    {/* Middle Divider Line */}
     <div className="col-md-1 d-none d-md-flex justify-content-center">
       <div className="border-left" style={{ height: '100%', borderLeft: '1px solid #E7F1FF' }}></div>
     </div>
@@ -491,13 +479,7 @@ useEffect(()=>{
                           }}
                         />
                       </Form.Group>
-                      {/* {firstnameError && (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
-                        </div>
-                      )} */}
+                  
                     </div>
                
                     
@@ -511,7 +493,6 @@ useEffect(()=>{
                                         {errorPermission}
                                       </div>
                                     )}
-                        {/* Scrollable Permissions Table */}
                         <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
                         <table className="table mb-0">
                         <thead style={{ backgroundColor: "#E7F1FF" }}>
@@ -643,16 +624,8 @@ useEffect(()=>{
           </Button>
         </Modal.Footer>
       </Modal>
-
-
     </div>
-    
-    
-    
-    
-    
-    
-      
+         
     )
 }
 export default RolesDesign;

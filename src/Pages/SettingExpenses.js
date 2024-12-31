@@ -13,10 +13,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
 
-       function SettingExpenses({hostelid}){
-
-
-
+    function SettingExpenses({hostelid}){
 
     const state = useSelector(state => state)
     const dispatch = useDispatch()
@@ -30,15 +27,24 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     const [types, setTypes] = useState([]);
     const [isSubCategory, setIsSubCategory] = useState(false);
     const [expences, setExpences] = useState([])
-
     const [expencerolePermission, setExpenceRolePermission] = useState("");
+    const [expencepermissionError, setExpencePermissionError] = useState("");
+    const [expenceAddPermission,setExpenceAddPermission]= useState("")
+    const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
+    const [expenceEditPermission,setExpenceEditPermission]=useState("")
+    const [showform, setShowForm] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [namefilter, setNamefilter] = useState()
+    const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
+    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
+    const [totalErrormsg,setTotalErrmsg]= useState('');
+    const [showModal, setShowModal] = useState(false);  
+    const [deleteItem, setDeleteItem] = useState(null);  
+    const [category_Id,setCategory_ID] = useState(null)
+    const [subcategory_Id,setSubCategory_ID] = useState(null)
+    const [deleteCategoryId, setDeleteCategoryId] = useState('')
+    const [subCategory_Id, setSubCategory_Id] = useState('')
 
-  const [expencepermissionError, setExpencePermissionError] = useState("");
-  const [expenceAddPermission,setExpenceAddPermission]= useState("")
-  const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
-  const [expenceEditPermission,setExpenceEditPermission]=useState("")
-  const [showform, setShowForm] = useState(false);
-  const [edit, setEdit] = useState(false);
 
 
   useEffect(() => {
@@ -99,30 +105,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
       );
      
 
-      
-
-    const [namefilter, setNamefilter] = useState()
-
-   
-
-    const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
-    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
-    const [totalErrormsg,setTotalErrmsg]= useState('');
-
-
-
-    const [showModal, setShowModal] = useState(false);  
-    const [deleteItem, setDeleteItem] = useState(null);  
-    const [category_Id,setCategory_ID] = useState(null)
-    const [subcategory_Id,setSubCategory_ID] = useState(null)
-
-    const [deleteCategoryId, setDeleteCategoryId] = useState('')
-    const [subCategory_Id, setSubCategory_Id] = useState('')
-
-
-
-
-
     const handleShow = () => {
         setShowForm(true);
         setEdit(false);
@@ -135,8 +117,9 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         setIsSubCategory(false)
       };
 
-      const handleEditCategory = (item) => {
-        
+
+
+      const handleEditCategory = (item) => {   
         setEdit(true);
         setShowForm(true);
         if(item.category_Id) { 
@@ -158,16 +141,13 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: 1 , hostel_id:hostelid, name: type, type:1}
       })}
 
-    const handleDeleteExpensesCategory = (item) => {
-         
+
+
+    const handleDeleteExpensesCategory = (item) => {   
         setDeleteCategoryId(item.category_Id)
         const sub = item.subcategory[0]?.subcategory_Id
-
-
         setSubCategory_Id(sub)
         setShowModal(true)  
-
-
     };
 
 
@@ -182,7 +162,8 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
                     sub_Category_Id: subCategory_Id
                 },
             });
-        } else {
+        }
+         else {
             dispatch({
                 type: 'DELETE-EXPENCES-CATEGORY',
                 payload: { id: deleteCategoryId,
@@ -212,25 +193,19 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
           setIsSubCategory(false) 
           setSubType('')
         }
-
       }
       else{
-        console.log("doesn't update ");
-        
+        console.log("doesn't update ");  
       }
     }
 
 
 
     const addType = () => {
-
-
-
         if( !type ){
             setCategoryErrmsg("Please Enter a Category")   
            return;
         }
-
 
         if (type.trim()) {
             if (isSubCategory) {
@@ -245,7 +220,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
                 }
               else  if (subType.trim()) {
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
-             
                     setSubType('');
                     setType('');
                     setShowForm(false);
@@ -254,7 +228,6 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
             
                 }
              else {
-              
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, category_Name: type, sub_Category: '' } });
                     setType('');  
                     setShowForm(false);  
@@ -277,6 +250,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
     useEffect(() => {
         dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
     }, [hostelid])
+
 
     useEffect(() => {
         if (state.Settings.getExpensesStatuscode === 200) {
@@ -315,16 +289,13 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
     const handleCategoryid = (e) => {
         setType(e.target.value)
-
         if (state.Settings.Expences.data && e.target.value !== undefined) {
             const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
                 return typename.category_Id == e.target.value;
             });
             setNamefilter(Typeidnamefilter[0].category_Name);
-
         }
         setTotalErrmsg('')
-
         if(!e.target.value){
             setCategoryErrmsg("Please Enter a Category")
         }
@@ -387,216 +358,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
             fontFamily: "Montserrat"}}>{" "}+ Add Category</Button>
       </div>
 
-      {/* <div className="mt-4 d-flex row">
-  {uniqueExpences.map((category) => (
-    <div key={category.category_Id} className="mb-3 col-lg-6">
-      <button
-  className="btn btn-white dropdown-toggle  w-100 border d-flex justify-between align-items-center"
-  type="button"
-  onClick={() => handleToggleDropdown(category.category_Id)}
-  style={{
-    fontFamily: "Gilroy",fontSize: 16, fontWeight: 500,
-  }}
->
-  <span style={{ textAlign:'left', marginRight:'150px' }}>
-  {category.category_Name}
-  </span>
- 
-  
-  <span  style={{ textAlign:'right' , marginRight:'50px'}}>
-    <img
-      src={Editbtn}
-      height={15}
-      width={15}
-      alt="edit"
-      style={{ marginRight: 10, cursor: "pointer" }}
-      onClick={()=>handleEditCategory(category)}
-    />
-    <img
-      src={Closebtn}
-      height={15}
-      width={15}
-      alt="delete"
-      style={{ cursor: "pointer" }}
-      onClick={(e) => {
-        e.stopPropagation(); 
-        handleDeleteExpensesCategory(category.category_Id);
-      }}
-    />
-  </span>
-</button>
-
- 
-
-      {expandedCategoryId === category.category_Id && (
-        <>
-        <hr/>
-        <ul
-          className="list-group mt-2 border"
-          style={{
-            padding: "10px",
-            borderRadius: "10px",
-            width: "100%", 
-          }}
-        >
-          {uniqueExpences
-            .filter((sub) => sub.category_Id === category.category_Id && sub.subcategory)
-            .map((sub, idx) => (
-              <li
-                key={idx}
-                className=" d-flex justify-content-between align-items-center"
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#222",
-                }}
-              >
-                {sub.subcategory}
-                <span style={{ cursor: "pointer", color: "red" }}>
-                  <img src={Editbtn} height={15} width={15} alt="edit"    onClick={()=>handleEditCategory(sub)}/>
-                  <img
-                    src={Closebtn}
-                    height={15}
-                    width={15}
-                    style={{marginLeft:'20px'}}
-                    alt="delete"
-                    onClick={() => handleDeleteExpensesCategory(sub)}
-                  />
-                </span>
-              </li>
-            ))}
-          {!uniqueExpences.some(
-            (sub) => sub.category_Id === category.category_Id && sub.subcategory
-          ) && (
-            <li
-              className="list-group-item"
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                fontWeight: 500,
-                color: "#555",
-              }}
-            >
-              No Subcategories Available
-            </li>
-          )}
-        </ul>
-        </>
-      )}
-    </div>
-  ))}
-</div> */}
-
-{/* <div className="mt-4 d-flex row">
-      {expences.map((category) => (
-        <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3">
-          <button
-            className="btn btn-white w-100  d-flex justify-content-between align-items-center"
-            type="button"
-            onClick={() => handleToggleDropdown(category.category_Id)}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 16,
-              fontWeight: 500,
-            }}
-          >
-            <span>{category.category_Name}</span>
-            <span className="d-flex align-items-center">
-          <img
-            src={Editbtn}
-            height={15}
-            width={15}
-            alt="edit"
-            style={{ marginRight: 10, cursor: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent dropdown toggle
-              handleEditCategory(category);
-            }}
-          />
-          <img
-            src={Closebtn}
-            height={15}
-            width={15}
-            alt="delete"
-            style={{ marginRight: 10, cursor: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent dropdown toggle
-              handleDeleteExpensesCategory(category);
-            }}
-          />
-          <i
-            className={`bi ${
-              expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
-            }`}
-            style={{ cursor: "pointer" }}
-          ></i>
-        </span>
-          </button>
-
-          {expandedCategoryId === category.category_Id && (
-            <>
-              <hr />
-              <ul
-                className="list-group mt-2"
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "100%",
-                }}
-              >
-                {category.subcategory && category.subcategory.length > 0 ? (
-                  category.subcategory.map((sub) => (
-                    <li
-                      key={sub.subcategory_Id}
-                      className="d-flex justify-content-between align-items-center"
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "#222",
-                      }}
-                    >
-                      {sub.subcategory}
-                      <span>
-                        <img
-                          src={Editbtn}
-                          height={15}
-                          width={15}
-                          alt="edit"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleEditCategory(sub)}
-                        />
-                        <img
-                          src={Closebtn}
-                          height={15}
-                          width={15}
-                          alt="delete"
-                          style={{ cursor: "pointer", marginLeft: 10 }}
-                          onClick={() => handleDeleteExpensesCategory(sub)}
-                        />
-                      </span>
-                    </li>
-                  ))
-                ) : (
-                  <li
-                    className="text-muted"
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      fontWeight: 500,
-                    }}
-                  >
-                    No Subcategories Available
-                  </li>
-                )}
-              </ul>
-            </>
-          )}
-        </div>
-      ))}
-    </div>
- */}
+    
 
 <div className="mt-4 d-flex row">
   {expences.length > 0 ? (
@@ -621,7 +383,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         alt="edit"
         style={{ marginRight: 10, cursor: "pointer" }}
         onClick={(e) => {
-          e.stopPropagation(); // Prevent dropdown toggle
+          e.stopPropagation(); 
           handleEditCategory(category);
         }}
       />
@@ -632,7 +394,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         alt="delete"
         style={{ marginRight: 10, cursor: "pointer" }}
         onClick={(e) => {
-          e.stopPropagation(); // Prevent dropdown toggle
+          e.stopPropagation();
           handleDeleteExpensesCategory(category);
         }}
       />

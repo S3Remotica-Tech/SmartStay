@@ -34,7 +34,7 @@ const SettingElectricity = ({ hostelid }) => {
       dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
     }
   }, [hostelid])
-  // EBBillingUnitlist
+
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200) {
 
@@ -51,6 +51,7 @@ const SettingElectricity = ({ hostelid }) => {
     setUnit('')
     setAmount('')
   }
+
   const handleShowFormElectricity = () => {
     setShowFormElectricity(true)
   }
@@ -83,28 +84,11 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    // setCalculatedstartdateErrmsg('')
-    // setCalculatedEnddateErrMsg('')
-    // setCalculatedstartdate('')
-    // setCalculatedEnddate('')
   };
+
   const handleRecurringFormShow = (item) => {
-
     setIsRecurring(!isRecurring)
-    // if (!isRecurring === true) {
-    //   setRecurringForm(true);
-    // } else {
-    //   setRecurringForm(false);
-    // }
-
-    // setCalculatedstartdate(item.inv_startdate || '')
-    // setCalculatedEnddate(item.inv_enddate || '')
-
-
-
-    //   if (isRecurring === null) {
-    //     return; 
-    // }
+ 
     if (!isRecurring === false) {
       setRecurringForm(false);
       dispatch({
@@ -147,7 +131,8 @@ const SettingElectricity = ({ hostelid }) => {
         setCalculatedEnddateErrMsg('Please Select date')
       }
       return;
-    } else {
+    } 
+    else {
       dispatch({
         type: "SETTINGSADDRECURRING",
         payload: { hostel_id: Number(hostelid), type: 'electricity', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
@@ -168,20 +153,14 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleHostelBased = (v) => {
     setHostelBasedCalculation(true)
-
-    // if (!hostelBasedCalculation === true) {
     setRoomBasedCalculation(false)
-    // dispatch({ type: 'CHECKEB', payload: [{ isHostelBased: 1, id: v.id }] })
     dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { id: v.id, hostel_id: hostelid, unit: v.unit, amount: v.amount, room_based: 0, hostel_based: 1 } })
-    // }
   }
+
   const handleRoomBased = (v) => {
     setRoomBasedCalculation(true)
-    // if (!roomBasedCalculation === true) {
     setHostelBasedCalculation(false)
-    // dispatch({ type: 'CHECKEB', payload: [{ isHostelBased: 0, id: v.id }] })
     dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { id: v.id, hostel_id: hostelid, unit: v.unit, amount: v.amount, room_based: 1, hostel_based: 0 } })
-    // }
   }
 
   useEffect(() => {
@@ -200,7 +179,10 @@ const SettingElectricity = ({ hostelid }) => {
       dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
     }
   }, [state.PgList.checkEBList])
+
+
   return (
+
     <Container className="mt-4">
       <div className='d-flex row mb-4'   style={{position:'sticky' , top:0,   right: 0,
                 left: 0,
@@ -338,7 +320,7 @@ const SettingElectricity = ({ hostelid }) => {
                 </div>
               </div>
             )          
-            }
+            } 
           </>
       }
 

@@ -302,7 +302,7 @@ useEffect(()=>{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "General" ? "#4a90e2" : "#000000", // Highlight active
+                  color: activeItem === "General" ? "#4a90e2" : "#000000", 
                   cursor: "pointer",
                 }}
               >
