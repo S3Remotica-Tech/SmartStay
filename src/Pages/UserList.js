@@ -811,16 +811,6 @@ function UserList(props) {
     setRoomDetail(false);
   };
 
-  const amentiesrowsPerPage = 10;
-  const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
-  const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
-  const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
-  const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(
-    indexOfFirstRowamnities,
-    indexOfLastRowamneties
-  );
-
   const [showOtpValidation, setShowOtpValidation] = useState(false);
   const [showValidate, setShowValidate] = useState(true);
   const [aadhaarNo, setAdhaarNo] = useState("");
@@ -2713,8 +2703,6 @@ function UserList(props) {
           statusAmni={statusAmni}
           handleStatusAmnities={handleStatusAmnities}
           handleAddUserAmnities={handleAddUserAmnities}
-          currentRowAmnities={currentRowAmnities}
-          amnitiescurrentPage={amnitiescurrentPage}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
           uniqueostel_Id={uniqueostel_Id}

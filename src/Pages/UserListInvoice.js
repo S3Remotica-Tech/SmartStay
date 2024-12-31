@@ -21,7 +21,8 @@ function UserListInvoice(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const invoicerowsPerPage = 10;
+  
+  const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(10);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
@@ -34,73 +35,85 @@ function UserListInvoice(props) {
   const handleInvoicePageChange = (InvoicepageNumber) => {
     setinvoicecurrentPage(InvoicepageNumber);
   };
+  const handleItemsPerPageChange = (event) => {
+    setInvoicerowsPerPage(Number(event.target.value));
+  };
 
   const totalPagesinvoice = Math.ceil(
     invoiceFilterddata?.length / invoicerowsPerPage
   );
 
-  const renderPageNumbersInvoice = () => {
-    const pageNumbersInvoice = [];
-    let startPageInvoice = invoicecurrentPage - 1;
-    let endPageInvoice = invoicecurrentPage + 1;
+  // const renderPageNumbersInvoice = () => {
+  //   const pageNumbersInvoice = [];
+  //   let startPageInvoice = invoicecurrentPage - 1;
+  //   let endPageInvoice = invoicecurrentPage + 1;
 
-    if (invoicecurrentPage === 1) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
+  //   if (invoicecurrentPage === 1) {
+  //     startPageInvoice = 1;
+  //     endPageInvoice = 3;
+  //   }
 
-    if (invoicecurrentPage === totalPagesinvoice) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
+  //   if (invoicecurrentPage === totalPagesinvoice) {
+  //     startPageInvoice = totalPagesinvoice - 2;
+  //     endPageInvoice = totalPagesinvoice;
+  //   }
 
-    if (invoicecurrentPage === 2) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
+  //   if (invoicecurrentPage === 2) {
+  //     startPageInvoice = 1;
+  //     endPageInvoice = 3;
+  //   }
 
-    if (invoicecurrentPage === totalPagesinvoice - 1) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
+  //   if (invoicecurrentPage === totalPagesinvoice - 1) {
+  //     startPageInvoice = totalPagesinvoice - 2;
+  //     endPageInvoice = totalPagesinvoice;
+  //   }
 
-    for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-      if (i > 0 && i <= totalPagesinvoice) {
-        pageNumbersInvoice.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === invoicecurrentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === invoicecurrentPage ? "transparent" : "transparent",
-                border: i === invoicecurrentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handleInvoicePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
+  //   for (let i = startPageInvoice; i <= endPageInvoice; i++) {
+  //     if (i > 0 && i <= totalPagesinvoice) {
+  //       pageNumbersInvoice.push(
+  //         <li key={i} style={{ margin: "0 5px" }}>
+  //           <button
+  //             style={{
+  //               padding: "5px 10px",
+  //               textDecoration: "none",
+  //               color: i === invoicecurrentPage ? "#007bff" : "#000000",
+  //               cursor: "pointer",
+  //               borderRadius: "5px",
+  //               display: "inline-block",
+  //               minWidth: "30px",
+  //               textAlign: "center",
+  //               backgroundColor:
+  //                 i === invoicecurrentPage ? "transparent" : "transparent",
+  //               border: i === invoicecurrentPage ? "1px solid #ddd" : "none",
+  //             }}
+  //             onClick={() => handleInvoicePageChange(i)}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //   }
 
-    return pageNumbersInvoice;
-  };
+  //   return pageNumbersInvoice;
+  // };
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details);
   }, [state.UsersList.customerdetails.invoice_details]);
 
   return (
     <>
-      <div>
-        <Table className="ebtable mt-3" responsive>
+      <div style={{
+                            // height: "400px",
+                            height: currentRowinvoice.length >= 3 ? "250px" : "auto",
+                            overflowY: "auto",
+                            borderRadius: "24px",
+                            border: "1px solid #DCDCDC",
+                            // borderBottom:"none"
+                          }}>
+        <Table  responsive="md"
+                            className="Table_Design"
+                            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}} >
           <thead
             style={{
               color: "gray",
@@ -335,138 +348,103 @@ function UserListInvoice(props) {
       </div>
 
       {currentRowinvoice?.length > 0 && (
-        <nav>
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              padding: 0,
-              justifyContent: "end",
-            }}
-          >
-            <li style={{ margin: "0 5px" }}>
-              <button
-                style={{
-                  padding: "5px 10px",
-                  textDecoration: "none",
-                  color: invoicecurrentPage === 1 ? "#ccc" : "#007bff",
-                  cursor: invoicecurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "5px",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                disabled={invoicecurrentPage === 1}
-              >
-                {" "}
-                <ArrowLeft2 size="16" color="#1E45E1" />
-                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-              </button>
-              <span
-                onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                style={{
-                  marginTop: "20px",
-                  cursor: invoicecurrentPage === 1 ? "not-allowed" : "pointer",
-                  color: invoicecurrentPage === 1 ? "#ccc" : "#007bff",
-                }}
-              >
-                Previous
-              </span>
-            </li>
-            {invoicecurrentPage > 3 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                    color: "white",
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleInvoicePageChange(1)}
-                >
-                  1
-                </button>
-              </li>
-            )}
-            {invoicecurrentPage > 3 && <span>...</span>}
-            {renderPageNumbersInvoice()}
-            {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-            {invoicecurrentPage < totalPagesinvoice - 2 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleInvoicePageChange(totalPagesinvoice)}
-                >
-                  {totalPagesinvoice}
-                </button>
-              </li>
-            )}
-            <li style={{ margin: "0 5px" }}>
-              <span
-                onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                style={{
-                  marginTop: "20px",
-                  cursor:
-                    invoicecurrentPage === totalPagesinvoice
-                      ? "not-allowed"
-                      : "pointer",
-                  color:
-                    invoicecurrentPage === totalPagesinvoice
-                      ? "#ccc"
-                      : "#007bff",
-                }}
-              >
-                Next
-              </span>
-              <button
-                style={{
-                  padding: "5px 10px",
-                  textDecoration: "none",
-                  color:
-                    invoicecurrentPage === invoicecurrentPage
-                      ? "#ccc"
-                      : "#007bff",
-                  cursor:
-                    invoicecurrentPage === invoicecurrentPage
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "5px",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                disabled={invoicecurrentPage === totalPagesinvoice}
-              >
-                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                <ArrowRight2 size="16" color="#1E45E1" />
-              </button>
-            </li>
-          </ul>
-        </nav>
+      
+                 <nav
+                                     style={{
+                                       display: "flex",
+                                       alignItems: "center",
+                                       justifyContent: "end", // Align dropdown and pagination
+                                       padding: "10px",
+                                       // borderTop: "1px solid #ddd",
+                                     }}
+                                   >
+                                     {/* Dropdown for Items Per Page */}
+                                     <div>
+                                       <select
+                                         value={invoicerowsPerPage}
+                                         onChange={handleItemsPerPageChange}
+                                         style={{
+                                           padding: "5px",
+                                           border: "1px solid #1E45E1",
+                                           borderRadius: "5px",
+                                           color: "#1E45E1",
+                                           fontWeight: "bold",
+                                           cursor: "pointer",
+                                           outline: "none",
+                                           boxShadow: "none",
+                                           
+                                         }}
+                                       >
+                                          <option value={5}>5</option>
+                                         <option value={10}>10</option>
+                                         <option value={50}>50</option>
+                                         <option value={100}>100</option>
+                                       </select>
+                                     </div>
+                                   
+                                     {/* Pagination Controls */}
+                                     <ul
+                                       style={{
+                                         display: "flex",
+                                         alignItems: "center",
+                                         listStyleType: "none",
+                                         margin: 0,
+                                         padding: 0,
+                                       }}
+                                     >
+                                       {/* Previous Button */}
+                                       <li style={{ margin: "0 10px" }}>
+                                         <button
+                                           style={{
+                                             padding: "5px",
+                                             textDecoration: "none",
+                                             color: invoicecurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                             cursor: invoicecurrentPage === 1 ? "not-allowed" : "pointer",
+                                             borderRadius: "50%",
+                                             display: "inline-block",
+                                             minWidth: "30px",
+                                             textAlign: "center",
+                                             backgroundColor: "transparent",
+                                             border: "none",
+                                           }}
+                                           onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
+                                           disabled={invoicecurrentPage === 1}
+                                         >
+                                           <ArrowLeft2 size="16" color={invoicecurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                         </button>
+                                       </li>
+                                   
+                                       {/* Current Page Indicator */}
+                                       <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                         {invoicecurrentPage} of {totalPagesinvoice}
+                                       </li>
+                                   
+                                       {/* Next Button */}
+                                       <li style={{ margin: "0 10px" }}>
+                                         <button
+                                           style={{
+                                             padding: "5px",
+                                             textDecoration: "none",
+                                             color: invoicecurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
+                                             cursor: invoicecurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                                             borderRadius: "50%",
+                                             display: "inline-block",
+                                             minWidth: "30px",
+                                             textAlign: "center",
+                                             backgroundColor: "transparent",
+                                             border: "none",
+                                           }}
+                                           onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
+                                           disabled={invoicecurrentPage === totalPagesinvoice}
+                                         >
+                                           <ArrowRight2
+                                             size="16"
+                                             color={invoicecurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                                           />
+                                         </button>
+                                       </li>
+                                     </ul>
+                                   </nav>
       )}
     </>
   );

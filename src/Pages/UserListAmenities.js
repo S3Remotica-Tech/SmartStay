@@ -28,22 +28,19 @@ function UserListAmenities(props) {
   useEffect(() => {
     if (props.id) {
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-      
     }
   }, [props.id]);
   const [selectAmneties, setselectAmneties] = useState("");
-  
-  const [selectedAmenityName, setSelectedAmenityName] = useState([])
+
+  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [active, setActive] = useState(false);
   const [status, setStatus] = useState("");
-  const [createby, setcreateby] = useState('');
+  const [createby, setcreateby] = useState("");
   const [amnityEdit, setamnityEdit] = useState("");
   const [filtshow, setFiltshow] = useState(false);
   const [amnitytableshow, setamnitytableshow] = useState(false);
   const [amnityError, setamnityError] = useState("");
-
- 
 
   const handleselect = (e) => {
     const value = e.target.value;
@@ -59,7 +56,6 @@ function UserListAmenities(props) {
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value;
-
     });
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
@@ -83,7 +79,7 @@ function UserListAmenities(props) {
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities.filter((item) => {
           return item.Amnities_Id == selectAmneties;
-        })
+        });
       setcreateby(AmnitiesNamelist);
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
@@ -99,9 +95,6 @@ function UserListAmenities(props) {
       }
     });
   }
-
-  
- 
 
   const amenities = state.UsersList?.amnetieshistory;
 
@@ -150,22 +143,21 @@ function UserListAmenities(props) {
       setselectAmneties("");
     }
   };
- 
-  useEffect(()=>{
-if(state.UsersList.statusCustomerAddUser === 200){
-  setaddamenityShow(false)
-}
-  },[state.UsersList.statusCustomerAddUser])
- 
-  const handleEdit = (v) => {
 
+  useEffect(() => {
+    if (state.UsersList.statusCustomerAddUser === 200) {
+      setaddamenityShow(false);
+    }
+  }, [state.UsersList.statusCustomerAddUser]);
+
+  const handleEdit = (v) => {
     setamnityEdit(v);
     setaddamenityShow(true);
     setstatusShow(true);
     setselectAmneties(v.amenity_Id);
   };
 
-  const amentiesrowsPerPage = 10;
+  const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(10);
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
@@ -173,10 +165,13 @@ if(state.UsersList.statusCustomerAddUser === 200){
   const currentRowAmnities = amnitiesFilterddata?.slice(
     indexOfFirstRowamnities,
     indexOfLastRowamneties
-  )
+  );
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setAmentiesrowsPerPage(Number(event.target.value));
   };
 
   const totalPagesAmnities = Math.ceil(
@@ -262,11 +257,11 @@ if(state.UsersList.statusCustomerAddUser === 200){
           </>
         )}
 
-      <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+      <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12" style={{marginTop:"-10px"}}>
         <Form.Label
           style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
         >
-          Amenities 
+          Amenities
         </Form.Label>
         <Form.Select
           aria-label="Default select example"
@@ -290,7 +285,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
             value=""
           >
             Select an Amenities
-          </option> 
+          </option>
           {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
             <option key={item.Amnities_Id} value={item.Amnities_Id}>
               {item.Amnities_Name}
@@ -300,8 +295,17 @@ if(state.UsersList.statusCustomerAddUser === 200){
         {amnityError && (
           <div style={{ color: "red" }}>
             {" "}
-            <MdError style={{  }} />
-            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amnityError}</span>
+            <MdError style={{}} />
+            <span
+              style={{
+                fontSize: "12px",
+                color: "red",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}
+            >
+              {amnityError}
+            </span>
           </div>
         )}
       </div>
@@ -317,14 +321,20 @@ if(state.UsersList.statusCustomerAddUser === 200){
           style={{ backgroundColor: "#F5F5FF" }}
           className="text-center"
         >
-          <Modal.Title  style={{fontSize: 20,fontWeight: 600,fontFamily: "Gilroy",}} className="text-center">
-            Add Amenities 
+          <Modal.Title
+            style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+            className="text-center"
+          >
+            Add Amenities
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy"}}>
-            AmenitiesName
+            <label
+              className="mb-1"
+              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+            >
+              AmenitiesName
             </label>
             <Form.Control
               placeholder="Amnities Name"
@@ -337,7 +347,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
                 fontWeight: "530",
                 opacity: 1,
                 borderRadius: "8px",
-                height:45,
+                height: 45,
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -346,13 +356,24 @@ if(state.UsersList.statusCustomerAddUser === 200){
           {amnityError && (
             <div style={{ color: "red" }}>
               {" "}
-              <MdError  />
-        
-              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amnityError}</span>
+              <MdError />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {amnityError}
+              </span>
             </div>
           )}
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500 ,fontFamily: "Gilroy"}}>
+            <label
+              className="mb-1"
+              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+            >
               HostelName
             </label>
             <Form.Control
@@ -374,7 +395,10 @@ if(state.UsersList.statusCustomerAddUser === 200){
           </div>
 
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy", }}>
+            <label
+              className="mb-1"
+              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+            >
               Amount
             </label>
             <Form.Control
@@ -388,7 +412,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
                 fontWeight: "530",
                 opacity: 1,
                 borderRadius: "8px",
-                height:45,
+                height: 45,
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -396,7 +420,10 @@ if(state.UsersList.statusCustomerAddUser === 200){
           </div>
           {statusShow && (
             <div className="mb-3 ps-2  pe-2">
-              <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily:"Gilroy" }}>
+              <label
+                className="mb-1"
+                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+              >
                 Select Status
               </label>
               <Form.Select
@@ -407,11 +434,17 @@ if(state.UsersList.statusCustomerAddUser === 200){
                   fontSize: 14,
                   fontWeight: 500,
                   backgroundColor: "#f8f9fa",
-                  height:45,
-                  borderRadius:8
+                  height: 45,
+                  borderRadius: 8,
                 }}
               >
-                <option style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy", }}>
+                <option
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
                   Select Status
                 </option>
 
@@ -475,211 +508,266 @@ if(state.UsersList.statusCustomerAddUser === 200){
             );
           })}
       </div>
-      <Table className="ebtable" responsive style={{ marginTop: 30 }}>
-        <thead style={{ backgroundColor: "#E7F1FF" }}>
-          <tr>
-            <th
-              scope="col"
-              style={{
-                textAlign: "center",
-                color: "#939393",
-                fontWeight: 500,
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              Amenities
-            </th>
-            <th
-              scope="col"
-              style={{
-                color: "#939393",
-                fontWeight: 500,
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              Date
-            </th>
-            <th
-              scope="col"
-              style={{
-                color: "#939393",
-                fontWeight: 500,
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              Subscription
-            </th>
-            <th
-              scope="col"
-              style={{
-                color: "#939393",
-                fontWeight: 500,
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              Amount
-            </th>
-            <th
-              scope="col"
-              style={{
-                color: "#939393",
-                fontWeight: 500,
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              Status
-            </th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
+      <div
+        style={{
+          // height: "400px",
+          height: currentRowAmnities.length >= 1 ? "100px" : "auto",
+          overflowY: "auto",
+          borderRadius: "24px",
+          border: "1px solid #DCDCDC",
+          // borderBottom:"none"
+        }}
+      >
+        <Table
+          responsive="md"
+          className="Table_Design"
+          style={{
+            border: "1px solid #DCDCDC",
+            borderBottom: "1px solid transparent",
+            borderEndStartRadius: 0,
+            borderEndEndRadius: 0,
+          }}
+        >
+          <thead style={{ backgroundColor: "#E7F1FF" }}>
+            <tr>
+              <th
+                scope="col"
+                style={{
+                  textAlign: "center",
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                Amenities
+              </th>
+              <th
+                scope="col"
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                Date
+              </th>
+              <th
+                scope="col"
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                Subscription
+              </th>
+              <th
+                scope="col"
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                Amount
+              </th>
+              <th
+                scope="col"
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+              >
+                Status
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
 
-        <tbody style={{ verticalAlign: "middle" }}>
-          {currentRowAmnities &&
-            currentRowAmnities?.map((v) => {
-              let Datform = new Date(v.created_At)
+          <tbody style={{ verticalAlign: "middle" }}>
+            {currentRowAmnities &&
+              currentRowAmnities?.map((v) => {
+                let Datform = new Date(v.created_At);
 
-              let day = Datform.getDate();
-              let month = Datform.getMonth() + 1;
-              let year = Datform.getFullYear();
+                let day = Datform.getDate();
+                let month = Datform.getMonth() + 1;
+                let year = Datform.getFullYear();
 
-              let formattedDate = `${day}/${month}/${year}`
+                let formattedDate = `${day}/${month}/${year}`;
 
-              return (
-                <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
-                  <td
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {v.Amnities_Name}
-                  </td>
-                  <td>
-                    <span
+                return (
+                  <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
+                    <td
                       style={{
-                        backgroundColor: "#EBEBEB",
-                        padding: "3px 3px 3px 3px",
-                        borderRadius: "10px",
-                        lineHeight: "1.5em",
-                        margin: "0",
-                        fontSize: 14,
+                        textAlign: "center",
                         fontWeight: 500,
+                        fontSize: "16px",
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {formattedDate}
-                    </span>
-                  </td>
-                  <td
-                    style={{
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {v.month_name}
-                  </td>
-                  <td
-                    style={{
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {v.Amount}
-                  </td>
-                  <td
-                    style={{
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    <span
+                      {v.Amnities_Name}
+                    </td>
+                    <td>
+                      <span
+                        style={{
+                          backgroundColor: "#EBEBEB",
+                          padding: "3px 3px 3px 3px",
+                          borderRadius: "10px",
+                          lineHeight: "1.5em",
+                          margin: "0",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        {formattedDate}
+                      </span>
+                    </td>
+                    <td
                       style={{
-                        color: "black",
-                        backgroundColor: v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                        paddingTop: "2px",
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
-                        paddingBottom: "2px",
-                        borderRadius: "5px",
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        fontFamily: "Gilroy",
                       }}
                     >
-                      {v.status == 1 ? "Active" : "Inactive"}
-                    </span>
-                  </td>
-                  <td>
-                    <div
-                      onClick={() => handleEdit(v)}
+                      {v.month_name}
+                    </td>
+                    <td
                       style={{
-                        cursor: "pointer",
-                        height: 40,
-                        width: 40,
-                        borderRadius: 100,
-                        border: "1px solid #EFEFEF",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position: "relative",
-                        zIndex: 1000,
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        fontFamily: "Gilroy",
                       }}
                     >
-                      <PiDotsThreeOutlineVerticalFill
-                        style={{ height: 20, width: 20 }}
-                      />
-                    </div>
+                      {v.Amount}
+                    </td>
+                    <td
+                      style={{
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "black",
+                          backgroundColor:
+                            v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
+                          paddingTop: "2px",
+                          paddingLeft: "10px",
+                          paddingRight: "10px",
+                          paddingBottom: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        {v.status == 1 ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+                    <td>
+                      <div
+                        onClick={() => handleEdit(v)}
+                        style={{
+                          cursor: "pointer",
+                          height: 40,
+                          width: 40,
+                          borderRadius: 100,
+                          border: "1px solid #EFEFEF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <PiDotsThreeOutlineVerticalFill
+                          style={{ height: 20, width: 20 }}
+                        />
+                      </div>
 
-                    {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
-                  </td>
-                </tr>
-              );
-            })}
-          {currentRowAmnities.length === 0 && (
-            <tr>
-              <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                No data found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+                      {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
+                    </td>
+                  </tr>
+                );
+              })}
+            {currentRowAmnities.length === 0 && (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
+                  No data found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
       {currentRowAmnities.length > 0 && (
-        <nav>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end", // Align dropdown and pagination
+            padding: "10px",
+            // borderTop: "1px solid #ddd",
+          }}
+        >
+          {/* Dropdown for Items Per Page */}
+          <div>
+            <select
+              value={amentiesrowsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+              }}
+            >
+              <option value={1}>1</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          {/* Pagination Controls */}
           <ul
             style={{
               display: "flex",
               alignItems: "center",
               listStyleType: "none",
+              margin: 0,
               padding: 0,
-              justifyContent: "end",
             }}
           >
-            <li style={{ margin: "0 5px" }}>
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
               <button
                 style={{
-                  padding: "5px 10px",
+                  padding: "5px",
                   textDecoration: "none",
-                  color: amnitiescurrentPage === 1 ? "#ccc" : "#007bff",
+                  color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
                   cursor: amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "5px",
+                  borderRadius: "50%",
                   display: "inline-block",
                   minWidth: "30px",
                   textAlign: "center",
@@ -691,99 +779,35 @@ if(state.UsersList.statusCustomerAddUser === 200){
                 }
                 disabled={amnitiescurrentPage === 1}
               >
-                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                <ArrowLeft2 size="16" color="#1E45E1" />
+                <ArrowLeft2
+                  size="16"
+                  color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                />
               </button>
-              <span
-                onClick={() =>
-                  handleAmnitiesPageChange(amnitiescurrentPage - 1)
-                }
-                style={{
-                  marginTop: "20px",
-                  cursor: amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                  color: amnitiescurrentPage === 1 ? "#ccc" : "#007bff",
-                }}
-              >
-                Previous
-              </span>
             </li>
-            {amnitiescurrentPage > 3 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                    color: "white",
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleAmnitiesPageChange(1)}
-                >
-                  1
-                </button>
-              </li>
-            )}
-            {amnitiescurrentPage > 3 && <span>...</span>}
-            {renderPageNumbersAmnities()}
-            {amnitiescurrentPage < totalPagesAmnities - 2 && <span>...</span>}
-            {amnitiescurrentPage < totalPagesAmnities - 2 && (
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
 
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleAmnitiesPageChange(totalPagesAmnities)}
-                >
-                  {totalPagesAmnities}
-                </button>
-              </li>
-            )}
-            <li style={{ margin: "0 5px" }}>
-              <span
-                onClick={() =>
-                  handleAmnitiesPageChange(amnitiescurrentPage + 1)
-                }
-                style={{
-                  marginTop: "20px",
-                  cursor:
-                    amnitiescurrentPage === totalPagesAmnities
-                      ? "not-allowed"
-                      : "pointer",
-                  color:
-                    amnitiescurrentPage === totalPagesAmnities
-                      ? "#ccc"
-                      : "#007bff",
-                }}
-              >
-                Next
-              </span>
+            {/* Current Page Indicator */}
+            <li
+              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+            >
+              {amnitiescurrentPage} of {totalPagesAmnities}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
               <button
                 style={{
-                  padding: "5px 10px",
+                  padding: "5px",
                   textDecoration: "none",
                   color:
-                    amnitiescurrentPage === amnitiescurrentPage
+                    amnitiescurrentPage === totalPagesAmnities
                       ? "#ccc"
-                      : "#007bff",
+                      : "#1E45E1",
                   cursor:
-                    amnitiescurrentPage === amnitiescurrentPage
+                    amnitiescurrentPage === totalPagesAmnities
                       ? "not-allowed"
                       : "pointer",
-                  borderRadius: "5px",
+                  borderRadius: "50%",
                   display: "inline-block",
                   minWidth: "30px",
                   textAlign: "center",
@@ -795,7 +819,14 @@ if(state.UsersList.statusCustomerAddUser === 200){
                 }
                 disabled={amnitiescurrentPage === totalPagesAmnities}
               >
-                <ArrowRight2 size="16" color="#1E45E1" />
+                <ArrowRight2
+                  size="16"
+                  color={
+                    amnitiescurrentPage === totalPagesAmnities
+                      ? "#ccc"
+                      : "#1E45E1"
+                  }
+                />
               </button>
             </li>
           </ul>
