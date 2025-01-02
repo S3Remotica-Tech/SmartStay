@@ -132,7 +132,7 @@ function DashboardAnnouncement(props) {
   }, [state.PgList.statuscodeForAddAnnouncement]);
   return (
     <>
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "flex-end", // Aligns content to the right
@@ -162,7 +162,36 @@ function DashboardAnnouncement(props) {
         >
           + Add Announcement
         </Button>
-      </div>
+      </div> */}
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "flex-end", 
+  }}
+>
+  <Button
+    style={{
+      fontFamily: "Gilroy",
+      fontSize: "14px",
+      backgroundColor: "#1E45E1",
+      color: "white",
+      fontWeight: 600,
+      borderRadius: "12px",
+      padding: "11px 24px",
+      width: "auto",
+      maxWidth: "100%",
+      marginBottom: "10px",
+     maxHeight:50,
+      marginTop: "-80px",
+  
+    }}
+    onClick={handleShowAnnouncement}
+    className="responsive-button"
+  >
+    + Add Announcement
+  </Button>
+</div>
+
 
       {props.announcePermissionError ? (
         <div
@@ -207,7 +236,8 @@ function DashboardAnnouncement(props) {
         </div>
       ) : (
         <div>
-          {state.PgList?.announcementList?.announcements?.map((data) => (
+          {state.PgList?.announcementList?.announcements?.length > 0 ? (
+          state.PgList?.announcementList?.announcements?.map((data) => (
             <Card
               className="card"
               key={data.id}
@@ -334,7 +364,56 @@ function DashboardAnnouncement(props) {
                 </div>
               </Card.Body>
             </Card>
-          ))}
+          ))
+        ) : (
+          <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+           
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <img src={Emptystate} alt="emptystate" />
+          </div>
+          <div
+            className="pb-1"
+            style={{
+              textAlign: "center",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: 20,
+              color: "rgba(75, 75, 75, 1)",
+              marginBottom: "16px", // Add some spacing between the text and button
+            }}
+          >
+            No announcements available.
+          </div>
+          <Button
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "12px",
+              padding: "11px 24px",
+              width: "auto",
+              maxWidth: "100%",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+            onClick={handleShowAnnouncement}
+            className="responsive-button"
+          >
+            + Add Announcement
+          </Button>
+        </div>
+        
+        )
+        }
 
           
           {selectedCard && (
