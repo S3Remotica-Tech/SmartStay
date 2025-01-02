@@ -161,9 +161,17 @@ export async function AddGeneral(params) {
 export async function GetAllGeneral() {
   return await AxiosConfig.get("/settings/all_general_users", {});
 }
-
+// passwordchange
 export async function passwordChangesinstaff(datum) {
   return await AxiosConfig.post("/settings/change_staff_password", datum, {
+    data: datum,
+  });
+}
+
+
+export async function passwordCheck(datum) {
+  console.log("passwordCheck",datum)
+  return await AxiosConfig.post("/settings/check_password", datum, {
     data: datum,
   });
 }

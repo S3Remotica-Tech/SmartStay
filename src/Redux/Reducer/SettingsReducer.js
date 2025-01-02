@@ -1,5 +1,4 @@
 const initialState = {
-
   Expences: [],
   message: "",
   getExpensesStatuscode: 0,
@@ -42,13 +41,16 @@ const initialState = {
   StatusCodeforGeneralPassword: 0,
   generalDelete: [],
   statusCodeForGeneralDelete: 0,
-  generalEmailError:'',
-  generalMobileError:'',
-  addRecurringRole:0
+  generalEmailError: "",
+  generalMobileError: "",
+  addRecurringRole: 0,
+  checkPassword: [],
+  statusCodeForCheckPassword: 0,
+  notmatchpass:"",
+  conformPassNotmatch:""
 };
 
 const SettingsReducer = (state = initialState, action) => {
-
   switch (action.type) {
     //Expenses category for settings ==>
     case "EXPENCES_CATEGORY_LIST":
@@ -60,14 +62,22 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_GET_EXPENSES_STATUS_CODE":
       return { ...state, getExpensesStatuscode: 0 };
     case "EXPENCES_ADD":
-      return {...state,message: action.payload.message,addexpencesStatuscode: action.payload.statusCode};
+      return {
+        ...state,
+        message: action.payload.message,
+        addexpencesStatuscode: action.payload.statusCode,
+      };
     case "CLEAR_ADD_EXPENCES_STATUS_CODE":
       return { ...state, addexpencesStatuscode: 0 };
 
-    case 'EDIT-EXPENCES-CATEGORY':
-        return { ...state, message: action.payload.message  , editexpencesStatuscode : action.payload.statusCode}
-    case 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE':
-        return { ...state, editexpencesStatuscode: 0 }
+    case "EDIT-EXPENCES-CATEGORY":
+      return {
+        ...state,
+        message: action.payload.message,
+        editexpencesStatuscode: action.payload.statusCode,
+      };
+    case "CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE":
+      return { ...state, editexpencesStatuscode: 0 };
     case "DELETE_EXPENCES":
       return { ...state, deleteexpencesStatusCode: action.payload.statusCode };
     case "CLEAR_DELETE_EXPENCES_STATUS_CODE":
@@ -228,20 +238,19 @@ const SettingsReducer = (state = initialState, action) => {
         StatusCodeForSettingGeneral: action.payload.statusCode,
       };
     case "CLEAR_SETTING_GENERAL_ADD":
-      return { ...state, StatusCodeForSettingGeneral:0};
+      return { ...state, StatusCodeForSettingGeneral: 0 };
 
+    case "GENERAL_EMAIL_ERROR":
+      return { ...state, generalEmailError: action.payload };
 
-      case 'GENERAL_EMAIL_ERROR':
-        return { ...state, generalEmailError: action.payload }
+    case "CLEAR_GENERAL_EMAIL_ERROR":
+      return { ...state, generalEmailError: "" };
 
-    case 'CLEAR_GENERAL_EMAIL_ERROR':
-        return { ...state, generalEmailError: '' }
+    case "MOBILE_ERROR":
+      return { ...state, generalMobileError: action.payload };
 
-        case 'MOBILE_ERROR':
-        return { ...state, generalMobileError: action.payload}
-
-    case 'CLEAR_MOBILE_ERROR':
-        return { ...state, generalMobileError: '' }
+    case "CLEAR_MOBILE_ERROR":
+      return { ...state, generalMobileError: "" };
 
     case "GET_ALL_GENERAL":
       return {
@@ -255,31 +264,54 @@ const SettingsReducer = (state = initialState, action) => {
     case "GENERAL_PASSWORD_CHANGES":
       return {
         ...state,
-        settingGeneraLPasswordChanges: action.payload,
+        settingGeneraLPasswordChanges: action.payload.response,
         StatusCodeforGeneralPassword: action.payload.statusCode,
       };
     case "CLEAR_GENERAL_PASSWORD_CHANGES":
       return { ...state, StatusCodeforGeneralPassword: 0 };
 
+    case "GENERAL_PASSWORD_CHECK":
+      return {
+        ...state,
+        checkPassword: action.payload.response,
+        statusCodeForCheckPassword: action.payload.statusCode,
+      };
+    case "CLEAR_GENERAL_PASSWORD_CHECK":
+      return { ...state, statusCodeForCheckPassword: 0 };
 
 
-      case "DELETE_GENERAL":
-        return {
-          ...state,
-          generalDelete: action.payload,
-          statusCodeForGeneralDelete: action.payload.statusCode,
-        };
-      case "CLEAR_DELETE_GENERAL":
-        return { ...state, statusCodeForGeneralDelete: 0 };
-case 'RECURRING_ROLE':
-  return {...state, addRecurringRole:action.payload.statusCode}
 
-  case 'REMOVE_RECURRING_ROLE':
-    return {...state, addRecurringRole:0}
+
+
+      case "PASSWORD_ERROR":
+      return { ...state, notmatchpass: action.payload };
+
+    case "CLEAR_PASSWORD_ERROR":
+      return { ...state, notmatchpass: "" };
+
+
+
+      case "CONFORM_PASSWORD_MATCHES":
+        return { ...state, conformPassNotmatch: action.payload };
+  
+      case "CLEAR_CONFORM_PASSWORD_MATCHES":
+        return { ...state, conformPassNotmatch: "" };
   
 
+    case "DELETE_GENERAL":
+      return {
+        ...state,
+        generalDelete: action.payload,
+        statusCodeForGeneralDelete: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_GENERAL":
+      return { ...state, statusCodeForGeneralDelete: 0 };
+    case "RECURRING_ROLE":
+      return { ...state, addRecurringRole: action.payload.statusCode };
+
+    case "REMOVE_RECURRING_ROLE":
+      return { ...state, addRecurringRole: 0 };
   }
   return state;
 };
 export default SettingsReducer;
-
