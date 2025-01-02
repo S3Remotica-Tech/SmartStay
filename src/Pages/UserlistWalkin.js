@@ -268,7 +268,7 @@ function UserlistWalkin(props) {
       ) : (
         <>
           <div style={{ marginLeft: "-20px" }}>
-            {currentCustomers.length > 0 ? (
+            {currentCustomers?.length > 0 ? (
               <div className=" walkin_table_custom">
                 <div   style={{
                             // height: "400px",

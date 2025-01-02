@@ -12,27 +12,34 @@ const initialState = {
    otpSuccessStatusCode: 0,
    sendOtpValue: [],
    OtpVerifyStatusCode: 0,
-   JWTtoken:'',
-   Notification:[],
-   UpdateNotificationMessage:'',
+   JWTtoken: '',
+   Notification: [],
+   UpdateNotificationMessage: '',
    twoStepOtpError: '',
    selectedHostel_Id: '',
-   Settings_Hostel_Id: ''
-   
+   Settings_Hostel_Id: '',
+   IsVisible: null,
+
 }
 const SmartStayReducer = (state = initialState, action) => {
 
    switch (action.type) {
-      case "STORE_HOSTEL_DATA": 
-      return { ...state, selectedHostel_Id: action.payload }; 
-      
-      case "SETTINGS_STORE_HOSTEL_DATA": 
-      return { ...state, Settings_Hostel_Id: action.payload }; 
+      case "STORE_HOSTEL_DATA":
+         return { ...state, selectedHostel_Id: action.payload };
 
-      case 'ERROR':
+      case "SETTINGS_STORE_HOSTEL_DATA":
+         return { ...state, Settings_Hostel_Id: action.payload };
+
+      case "TERMS_CONDITION":
+         return { ...state, IsVisible: true }
+      case "PRIVACY_POLICY":
+         return { ...state, IsVisible: false }
+         case "CLOSE_TERMS_PRIVACY":
+            return { ...state, IsVisible: null }
+                  case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
-         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
+         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
       case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload }
       case 'ERROR_PASSWORD':
@@ -52,20 +59,20 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'CLEAR_OTP_STATUSCODE':
          return { ...state, otpSuccessStatusCode: 0 }
       case 'OTP_VERIFY':
-         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
+         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
       case 'ALL_NOTIFICATION_LIST':
-         return { ...state, Notification: action.payload}
+         return { ...state, Notification: action.payload }
       case 'UPDATE_NOTIFICATION':
-         return { ...state, UpdateNotificationMessage: action.payload.response}
-         case 'AFTER_UPDATE_NOTIFICATION':
-            return { ...state, UpdateNotificationMessage: action.message}
+         return { ...state, UpdateNotificationMessage: action.payload.response }
+      case 'AFTER_UPDATE_NOTIFICATION':
+         return { ...state, UpdateNotificationMessage: action.message }
 
-            case 'ERROR_OTP_CODE' :
-               return { ...state, twoStepOtpError: action.payload}
-               case 'CLEAR_ERROR_OTP_CODE' :
-               return { ...state, twoStepOtpError: ''}
+      case 'ERROR_OTP_CODE':
+         return { ...state, twoStepOtpError: action.payload }
+      case 'CLEAR_ERROR_OTP_CODE':
+         return { ...state, twoStepOtpError: '' }
 
 
    }

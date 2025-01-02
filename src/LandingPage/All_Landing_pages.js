@@ -1,86 +1,3 @@
-// import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-// import Logo from '../Assets/Images/New_images/Group.png';
-// import Smart from '../Assets/Images/New_images/logo_front.png';
-// import Button from 'react-bootstrap/Button';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useNavigate } from "react-router-dom";
-// import React, { useState, useEffect } from 'react';
-// import NavBarIs from '../LandingPage/Navbar';
-// import FirstPage from './FirstPage';
-// import KeyFeature from './KeyFeature';
-// import WhySmartstay from './WhySmartstay';
-// import Testimonials from './Testimonials'
-
-// function All_landing_pages() {
-
-
-//     useEffect(() => {
-//         window.scrollTo(0, 0);
-//       }, []);
-
-
-//       const dispatch = useDispatch()
-//       const state = useSelector(state => state)
-
-//       let navigate = useNavigate();
-
-//       const handleSignIn = () => { 
-//         // alert('click sign in success')
-//         navigate('/login-Page')
-//       }
-
-//       const handleSignUp = () => {
-//         navigate('/create-account')
-//       }
-
-
-//     return (
-//         <>
-//             <div className=''>
-//             <Navbar collapseOnSelect expand="lg" className="" style={{backgroundColor:"#FFFFFF"}} transparent>
-//       <Container>
-//         <Navbar.Brand ><img src={Logo} style={{ height: 33, width: 33 }} /> <img src={Smart} style={{ height: 20, width: 133 }} />
-//        </Navbar.Brand>
-//         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-//         <Navbar.Collapse id="responsive-navbar-nav">
-
-//           <Nav className="mx-auto">
-//             <Nav.Link  style={{fontSize:16, fontWeight:600, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}}>Home</Nav.Link>
-//             <Nav.Link  style={{fontSize:16, fontWeight:600, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}}>Features</Nav.Link>
-//             <Nav.Link  style={{fontSize:16, fontWeight:600, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}}>Pricing</Nav.Link>
-//             <Nav.Link  style={{fontSize:16, fontWeight:600, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}}>Testimonials</Nav.Link>
-//           </Nav>
-//           <Nav className='align-items-center justi-content-start'>
-//             <Nav.Link  style={{fontSize:16, fontWeight:500, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}} onClick={handleSignIn}>Sign in</Nav.Link>
-//             <Button onClick={handleSignUp} variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat",width:161,height:60, borderRadius:16, padding:"20px 24px 20px 24px"}}>Get Started</Button>
-//           </Nav>
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-
-//             </div>
-//             <div>
-//                 <FirstPage />
-//             </div>
-//             <div>
-//                 <KeyFeature />
-//             </div>
-//             <div>
-//                 <WhySmartstay />
-//             </div>
-//             <div>
-//                 <Testimonials />
-//             </div>
-//         </>
-//     )
-// }
-
-// export default All_landing_pages
-
-
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -111,6 +28,9 @@ function All_landing_pages() {
     const state = useSelector(state => state);
     let navigate = useNavigate();
 
+
+    console.log("state",state)
+
     const handleSignIn = () => {
         navigate('/login-Page');
     };
@@ -121,8 +41,7 @@ function All_landing_pages() {
 
 
     const [activeLink, setActiveLink] = useState('');
-
-
+    
 
 
 
@@ -142,7 +61,7 @@ function All_landing_pages() {
 
                 <Navbar collapseOnSelect expand="lg" fixed="top" className="" style={{ backgroundColor: "#FFFFFF", }} transparent>
 
-                    <Container fluid  className="ms-5 me-5">
+                    <Container fluid className="ms-5 me-5">
                         <Navbar.Brand><img src={Logo} style={{ width: 176.45, height: 33 }} />
                             {/* <img src={Smart} style={{ height: 20, width: 133 }} /> */}
                         </Navbar.Brand>
@@ -226,6 +145,7 @@ function All_landing_pages() {
             </div>
 
 
+
             <Element name="firstPage" style={{ paddingTop: "90px" }}>
 
                 <FirstPage />
@@ -248,9 +168,13 @@ function All_landing_pages() {
             <div>
                 <GetAnswer />
             </div>
+
+
             <Element name="footer">
-                <Footer />
+                <Footer  />
             </Element>
+
+
         </>
     );
 }

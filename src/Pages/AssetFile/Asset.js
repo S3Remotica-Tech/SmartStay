@@ -69,6 +69,9 @@ useEffect(() => {
     }, 500);
   }
 }, [excelDownload,isDownloadTriggered]);
+
+
+
 useEffect(()=>{
   if(state.UsersList?.statusCodeforExportAssetsCode === 200){
     setIsDownloadTriggered(false);
@@ -77,6 +80,14 @@ useEffect(()=>{
     }, 200);
   }
   },[state.UsersList?.statusCodeforExportAssetsCode])
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     setAssetRolePermission(state.createAccount.accountList);
@@ -181,6 +192,27 @@ useEffect(()=>{
   }, [state.AssetList.getAssetStatusCode])
 
 
+  
+
+
+  useEffect(() => {
+    if (state.AssetList.NoDataAssetStatusCode === 201) {
+      setGetData([])
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_ASSET_LIST' })
+      }, 2000)
+    }
+
+  }, [state.AssetList.NoDataAssetStatusCode])
+
+
+
+
+
+
+
+
   const customCheckboxStyle = {
     appearance: 'none',
     width: '20px',
@@ -231,6 +263,7 @@ useEffect(()=>{
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  
 
 const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -624,9 +657,29 @@ const handleItemsPerPageChange = (event) => {
 
 
       {loading &&
-        <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-          <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
-        </div>
+        <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'white',
+          opacity: 0.75,
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>
       }
 
 

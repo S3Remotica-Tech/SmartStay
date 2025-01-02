@@ -149,5 +149,3 @@ export const SettingsStoreSelectedHostelAction = (data) => {
 
 
 
-
-

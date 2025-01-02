@@ -11,7 +11,9 @@ const initialState = {
     alreadyVendorHere: '',
     complianceChangeRes: "",
     complianceChangeStatus: 0,
-    complianceChangeError: ''
+    complianceChangeError: '',
+    noVendorStatusCode: 0,
+
 }
 
 const ComplianceReducer = (state = initialState, action) => {
@@ -31,6 +33,10 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, VendorList: action.payload.response, getVendorStatusCode: action.payload.statusCode }
         case 'CLEAR_GET_VENDOR_STATUS_CODE':
             return { ...state, getVendorStatusCode: 0 }
+        case 'ERROR_VENDOR_LIST':
+            return { ...state, noVendorStatusCode: action.payload.statusCode }
+        case 'CLEAR_ERROR_VENDOR_LIST':
+            return { ...state, noVendorStatusCode: 0 }
         case 'ADD_VENDOR':
             return { ...state, addVendorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_ADD_VENDOR_STATUS_CODE':
@@ -48,8 +54,8 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, complianceChangeRes: action.payload.response, complianceChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ERROR':
             return { ...state, complianceChangeError: action.payload }
-        case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE' :
-            return { ...state, complianceChangeStatus:0}
+        case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
+            return { ...state, complianceChangeStatus: 0 }
     }
     return state;
 }

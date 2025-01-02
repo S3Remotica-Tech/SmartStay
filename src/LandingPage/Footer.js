@@ -4,9 +4,29 @@ import Facebook from '../Assets/Images/New_images/facebook (1).png';
 import Twitter from '../Assets/Images/New_images/twitter.png';
 import Linkedin from '../Assets/Images/New_images/linkedin.png';
 import Instagram from '../Assets/Images/New_images/instagram.png';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 const Footer = () => {
+
+
+const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+   let navigate = useNavigate();
+
+    const handleNavigateTerms = () => {
+      dispatch({type: 'TERMS_CONDITION'})
+        navigate('/Terms-Condition');
+           };
+
+
+           const handleNavigatePrivacy = () =>{
+            dispatch({ type: 'PRIVACY_POLICY'})
+            navigate('/Privacy-Policy');
+
+           }
 
 
 
@@ -59,9 +79,9 @@ const Footer = () => {
 
                         <div className="col-lg-3 col-md-3 col-sm-10 col-xs-10 ms-2 fade-in">
                         <h5 style={{color:'#FFF', fontFamily:'Montserrat',fontSize:20,fontWeight:500,fontStyle:'normal',lineHeight:'160%'}} >Help</h5>
-                        <p style={{color:'#FFF', fontFamily:'Gilroy',fontSize:'16px',fontWeight:200,fontStyle:'normal',lineHeight:'160%'}}>Terms of use</p>
+                        <p style={{color:'#FFF', fontFamily:'Gilroy',fontSize:'16px',fontWeight:200,fontStyle:'normal',lineHeight:'160%',cursor:"pointer"}} onClick={handleNavigateTerms}>Terms of use</p>
                         <p style={{color:'#FFF', fontFamily:'Gilroy',fontSize:'16px',fontWeight:200,fontStyle:'normal',lineHeight:'160%'}}>Cookies</p>
-                        <p style={{color:'#FFF', fontFamily:'Gilroy',fontSize:'16px',fontWeight:200,fontStyle:'normal',lineHeight:'160%'}}>Privacy policy</p>
+                        <p style={{color:'#FFF', fontFamily:'Gilroy',fontSize:'16px',fontWeight:200,fontStyle:'normal',lineHeight:'160%',cursor:"pointer"}} onClick={handleNavigatePrivacy}>Privacy policy</p>
                         </div>
                     </div>
                 </div>

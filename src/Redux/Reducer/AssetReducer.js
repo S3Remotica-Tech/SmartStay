@@ -8,6 +8,7 @@ const initialState = {
     addAssignAssetStatusCode: 0,
     alreadySerialNumberHere: '',
     alreadyAssetNameHere: '',
+    NoDataAssetStatusCode: 0,
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -17,6 +18,10 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, assetList: action.payload.response, getAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_GET_ASSET_STATUS_CODE':
             return { ...state, getAssetStatusCode: 0 }
+        case 'NO_ASSET_LIST':
+            return { ...state, NoDataAssetStatusCode: action.payload.statusCode }
+        case 'CLEAR_NO_ASSET_LIST':
+            return { ...state, NoDataAssetStatusCode: 0 }
         case 'ADD_ASSET':
             return { ...state, addAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_ADD_ASSET_STATUS_CODE':
@@ -36,11 +41,11 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, alreadySerialNumberHere: action.payload }
         case 'CLEAR_SERIAL_NUMBER_ERROR':
             return { ...state, alreadySerialNumberHere: '' }
-          
-            case 'ASSET_NAME_ERROR':
-                return { ...state, alreadyAssetNameHere: action.payload }
-            case 'CLEAR_ASSET_NAME_ERROR':
-                return { ...state, alreadyAssetNameHere: '' }
+
+        case 'ASSET_NAME_ERROR':
+            return { ...state, alreadyAssetNameHere: action.payload }
+        case 'CLEAR_ASSET_NAME_ERROR':
+            return { ...state, alreadyAssetNameHere: '' }
     }
     return state;
 }
