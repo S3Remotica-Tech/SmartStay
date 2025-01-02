@@ -60,6 +60,7 @@ function Dashboard(props) {
   };
 
   const state = useSelector((state) => state);
+  console.log("dash",state)
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState([]);
@@ -83,7 +84,9 @@ function Dashboard(props) {
   const [hostel_id, setHostel_Id] = useState("");
 
   useEffect(() => {
-    setHostel_Id(state.login.selectedHostel_Id);
+    if(state.login.selectedHostel_Id){
+      setHostel_Id(state.login.selectedHostel_Id);
+    }    
   }, [state?.login?.selectedHostel_Id]);
 
   const handleSelectedReceived = (e) => {
@@ -245,6 +248,15 @@ function Dashboard(props) {
   useEffect(() => {
     dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
+
+
+  useState(()=>{
+if(state.PgList.statuscodeForDashboard === 200){
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
+  }, 200);
+}
+  },[state.PgList.statuscodeForDashboard])
 
   useEffect(() => {
     if (state.PgList?.dashboardDetails?.dashboardList) {

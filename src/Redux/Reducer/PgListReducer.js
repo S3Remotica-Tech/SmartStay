@@ -79,6 +79,7 @@ const initialState = {
     statuscodeForAddAnnouncement:0,
     addAnnounceMent:[],
     TitleAlready:'',
+    statuscodeForDashboard:0
 
 }
 
@@ -191,7 +192,10 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
         case 'CLEAR_STATUS_CODE_BED':
             return { ...state, statusCode: ' ' }
         case 'CREATE_PG_DASHBOARD':
-            return { ...state, dashboardDetails: action.payload }
+            return { ...state, dashboardDetails: action.payload.response,statuscodeForDashboard:action.payload.statusCode}
+        
+            case 'CLEAR_CREATE_PG_DASHBOARD':
+            return { ...state, statuscodeForDashboard:0}
         case 'CLEAR_STATUS_CODE_ROOM_COUNT':
             return { ...state, roomCountStatusCode: 0 }
         case 'ROOM_COUNT':

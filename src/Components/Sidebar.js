@@ -77,6 +77,7 @@ function Sidebar() {
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("sidebar",state)
   const stateData = useSelector(state => state.createAccount)
   const stateLogin = useSelector(state => state.login)
 
@@ -289,7 +290,16 @@ function Sidebar() {
     }
   }, [state.login?.isLoggedIn])
 
-
+  useEffect(() => {
+    if (state.login?.isLoggedIn === false) {
+      setAllPageHostel_Id("")
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_HOSTEL_LIST" });
+        dispatch({ type: "CLEAR_HOSTEL_DATA" });
+        dispatch({ type: "CLEAR_DASHBOARD_FILTER_REVENUE" });
+      }, 200);
+    }
+  }, [state.login?.isLoggedIn,state.login.selectedHostel_Id])
 
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
   const toggleSidebar = () => {
@@ -333,7 +343,6 @@ function Sidebar() {
         
      
     }
-
 
 
   const stateAccount = useSelector(state => state.createAccount)

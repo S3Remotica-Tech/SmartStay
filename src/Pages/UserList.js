@@ -399,7 +399,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode == 200) {
+    if (state.UsersList?.UserListStatusCode === 200) {
       setFilteredUsers(state.UsersList.Users);
 
       const uniqueUsersList = Array.isArray(state.UsersList?.Users);

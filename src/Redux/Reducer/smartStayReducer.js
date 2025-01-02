@@ -26,6 +26,8 @@ const SmartStayReducer = (state = initialState, action) => {
    switch (action.type) {
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
+         case "CLEAR_HOSTEL_DATA":
+            return { ...state, selectedHostel_Id: ''};
 
       case "SETTINGS_STORE_HOSTEL_DATA":
          return { ...state, Settings_Hostel_Id: action.payload };
