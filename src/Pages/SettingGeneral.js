@@ -1,128 +1,193 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
-import { Button, Offcanvas, Form, FormControl,InputGroup, Pagination  } from "react-bootstrap";
+import {
+  Button,
+  Offcanvas,
+  Form,
+  FormControl,
+  InputGroup,
+  Pagination,
+} from "react-bootstrap";
 import img1 from "../Assets/Images/Ellipse 1.png";
 import img2 from "../Assets/Images/New_images/settingeye.png";
-import round from "../Assets/Images/Group 14.png"
+import round from "../Assets/Images/Group 14.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import "./Settings.css";
-import eye from '../Assets/Images/login-password.png'
-import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
+import eye from "../Assets/Images/login-password.png";
+import eyeClosed from "../Assets/Images/pngaaa.com-6514750.png";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
-import { Autobrightness, Call, Sms, House, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import {
+  Autobrightness,
+  Call,
+  Sms,
+  House,
+  ArrowLeft2,
+  ArrowRight2,
+} from "iconsax-react";
 import { MdError } from "react-icons/md";
 
-
-
-function SettingGeneral(){
-
+function SettingGeneral() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
 
-  const [showFormGeneral,setShowFormGeneral] = useState(false)
+  const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
-  const [firstName,setFirstName] = useState("")
-  const [lastName,setLastName] = useState("")
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("91");
-  const [Phone,setPhone] = useState("")
-  const [emilId,setEmailId] = useState("")
-  const [address,setAddress] = useState("")
-  const [password,setPassword]=useState("")
-  const [showPassword,setShowPassword]=useState('')
+  const [Phone, setPhone] = useState("");
+  const [emilId, setEmailId] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState("");
   const [generalEdit, setGeneralEdit] = useState(null);
-  const[edit,setEdit]=useState(false)
-  const [editId,setEditId]=useState("")
-  const [deleteId,setDeleteId]=useState("")
-  const[deleteForm,setDeleteForm]=useState(false)
-  const [emailAlready,setEmailAlready]=useState("")
-  const [phoneAlready,setPhoneAlready]=useState("")
-  const [firstNameError,setFirstNameError] = useState("")
-  const [lastNameError,setLastNameError] = useState("")
-  const [emailError,setEmailError] = useState("")
-  const [phoneError,setPhoneError] = useState("")
-  const [addressError,setAddressError] = useState("")
-  const [passwordError,setPasswordError] = useState("")
+  const [edit, setEdit] = useState(false);
+  const [editId, setEditId] = useState("");
+  const [deleteId, setDeleteId] = useState("");
+  const [deleteForm, setDeleteForm] = useState(false);
+  const [emailAlready, setEmailAlready] = useState("");
+  const [phoneAlready, setPhoneAlready] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [formError, setFormError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [changePassword, setChangePassword] = useState(false);
+  const [passId, setPassId] = useState("");
+  const [confirmPass, setConfirmPass] = useState(false);
+  const [checkPassword, setCheckPassword] = useState("");
+  const [passError, setPassError] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [conformShowPassword, setConFormShowPassword] = useState("");
+  const [conformPasswordError, setConformPasswordError] = useState("");
+  const [CheckPasswordError,setCheckPasswordError] = useState("")
+  const [newPassError,setNewPassError]=useState("")
+  // const [conPassError,setConPassError]=useState("")
+  const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
+  const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
+  const [generalFilterddata, setGeneralFilterddata] = useState([]);
 
 
-      useEffect(() => {
-         dispatch({ type: "GETALLGENERAL"});
-      }, []);
+  const handleNewPassword = (e) => {
+    setNewPassword(e.target.value);
+    setNewPassError("")
+  };
 
-      const handlegeneralform = (id) => {
-         setGeneralEdit((prevId) => (prevId === id ? null : id));
-       };
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+    setConformPasswordError("")
+    dispatch({ type: "CLEAR_CONFORM_PASSWORD_MATCHES" });
+  };
 
-      useEffect(() => {
-           const handleClickOutside = (event) => {
-          if (popupRef.current && !popupRef.current.contains(event.target)) {
-           setGeneralEdit(null);
-             }
-            };
+  const handleConfirmPass = () => {
+    setConfirmPass(true);
+  };
+  const handleCloseConfirmPass = () => {
+    setConfirmPass(false);
+    setConformPasswordError("")
+    setConfirmPassword("")
+    setNewPassword("")
+    setNewPassError("")
+  };
 
-         document.addEventListener("mousedown", handleClickOutside);
-             return () => {
-         document.removeEventListener("mousedown", handleClickOutside);
-         };
-        }, []);
+  const handleChangePassword = (pass) => {
+    setChangePassword(true);
+    setPassId(pass.id);
+  };
+  const handleCloseChangepassword = () => {
+    setChangePassword(false);
+    setPassError("");
+    setCheckPassword("")
+    setCheckPasswordError("")
 
+  };
 
-      useEffect(()=>{
-          setEmailAlready(state.Settings?.generalEmailError)
-      },[state.Settings?.generalEmailError])
+  const handleCheckPassword = (e) => {
+    setCheckPassword(e.target.value);
+    setPassError("");
+    setCheckPasswordError("")
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+  };
 
-      useEffect(()=>{
-         setPhoneAlready(state.Settings?.generalMobileError)
-      },[state.Settings?.generalMobileError])
-
-
-      const handleDelete=(user)=>{
-         setDeleteId(user.id)
-         setDeleteForm(true)
+  const CheckvalidateField = (value, fieldName) => {
+    if (!value || (typeof value === "string" && value.trim() === "")) {
+      switch (fieldName) {
+        case "checkPassword":
+          setPassError("current Password is required");
+          break;
+      
+        default:
+          break;
       }
+      return false;
+    }
+    return true;
+  };
+  const handleCheckPasswordChange = () => {
+    if (!CheckvalidateField(checkPassword, "checkPassword"));
+    if(checkPassword){
+      dispatch({
+      
+        type: "CHECKPASSWORD",
+        payload: { id: passId, password: checkPassword },
+      });
+    }
+    
+  };
 
-     const handleCloseDeleteFormShow=()=>{
-        setDeleteForm(false)
-       }
+  const handlegeneralform = (id) => {
+    setGeneralEdit((prevId) => (prevId === id ? null : id));
+  };
 
+  const handleDelete = (user) => {
+    setDeleteId(user.id);
+    setDeleteForm(true);
+  };
 
-     const handleConformDelete=()=>{
-        dispatch({ type: "GENERALDELETEGENERAL", payload: {id:deleteId}})
-        }
+  const handleCloseDeleteFormShow = () => {
+    setDeleteForm(false);
+  };
 
-    const handleShowFormGreneral=()=>{
-       setShowFormGeneral(true)
-       setEdit(false)
-          }
+  const handleConformDelete = () => {
+    dispatch({ type: "GENERALDELETEGENERAL", payload: { id: deleteId } });
+  };
 
-    const handleClose  = () => {
-        setShowFormGeneral(false)
-        setFirstName("")
-        setLastName("")
-        setEmailId("")
-        setAddress("")
-        setFile("")
-        setPassword("")
-        setPhone("")
-        setFirstNameError("")
-        setLastNameError("")
-        setEmailError("")
-        setPhoneError("")
-        setAddressError("")
-        setPasswordError("")
-        setFormError("")
-     }
+  const handleShowFormGreneral = () => {
+    setShowFormGeneral(true);
+    setEdit(false);
+  };
 
-const handleImageChange = async (event) => {
+  const handleClose = () => {
+    setShowFormGeneral(false);
+    setFirstName("");
+    setLastName("");
+    setEmailId("");
+    setAddress("");
+    setFile("");
+    setPassword("");
+    setPhone("");
+    setFirstNameError("");
+    setLastNameError("");
+    setEmailError("");
+    setPhoneError("");
+    setAddressError("");
+    setPasswordError("");
+    setFormError("");
+  };
+
+  const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
       const options = {
@@ -139,17 +204,17 @@ const handleImageChange = async (event) => {
     }
   };
 
-  const handleFirstName=(e)=>{
-    setFirstName(e.target.value)
-    setFirstNameError("")
-    setFormError("")
-  }
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+    setFirstNameError("");
+    setFormError("");
+  };
 
-  const handlelastName=(e)=>{
-    setLastName(e.target.value)
-    setLastNameError("")
-    setFormError("")
-  }
+  const handlelastName = (e) => {
+    setLastName(e.target.value);
+    setLastNameError("");
+    setFormError("");
+  };
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -165,18 +230,15 @@ const handleImageChange = async (event) => {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
 
- 
-
   const handleEmailId = (e) => {
     const emailValue = e.target.value;
     setEmailId(emailValue);
-  
+
     const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
- 
+
     const isValidEmail = emailRegex.test(emailValue);
 
-    
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -196,54 +258,46 @@ const handleImageChange = async (event) => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-
-
-  const handleAddress=(e)=>{
-    setAddress(e.target.value)
-    setAddressError("")
-    setFormError("")
-  }
-  const handlePassword=(e)=>{
-    setPassword(e.target.value)
-    setPasswordError("")
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+    setAddressError("");
+    setFormError("");
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setPasswordError("");
     // setPasswordError("")
-  }
+  };
   const MobileNumber = `${countryCode}${Phone}`;
 
-
- 
-  const handleEditGeneralUser = (user)=> {
-
+  const handleEditGeneralUser = (user) => {
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
-    setEdit(true)
-    setShowFormGeneral(true)
+    setEdit(true);
+    setShowFormGeneral(true);
 
-    setFirstName(user.first_name)
-    setLastName(user.last_name)
-    setPhone(mobileNumber)
-    setCountryCode(countryCode)
-    setAddress(user.Address)
-    setEmailId(user.email_Id)
+    setFirstName(user.first_name);
+    setLastName(user.last_name);
+    setPhone(mobileNumber);
+    setCountryCode(countryCode);
+    setAddress(user.Address);
+    setEmailId(user.email_Id);
     setFile(user.profile === "0" ? null : user.profile);
-    setEditId(user.id)
-    setPassword(user.password)
+    setEditId(user.id);
+    setPassword(user.password);
 
-setInitialStateAssign({
-  firstName: user.first_name || "",
-  lastName: user.last_name ||"",
-  Phone: user.mobileNo|| "",
-  emilId: user.email_Id || "",
-  address: user.Address || "",
-  file: user.profile === "0" ? null : user.profile || null,});
-  }
- 
-
- 
+    setInitialStateAssign({
+      firstName: user.first_name || "",
+      lastName: user.last_name || "",
+      Phone: user.mobileNo || "",
+      emilId: user.email_Id || "",
+      address: user.Address || "",
+      file: user.profile === "0" ? null : user.profile || null,
+    });
+  };
 
   const validateField = (value, fieldName) => {
-
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
@@ -258,9 +312,9 @@ setInitialStateAssign({
         case "address":
           setAddressError("Address is required");
           break;
-          case "password":
-            setPasswordError("password is required");
-            break;
+        case "password":
+          setPasswordError("password is required");
+          break;
         default:
           break;
       }
@@ -268,7 +322,6 @@ setInitialStateAssign({
     }
     return true;
   };
-
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -281,160 +334,273 @@ setInitialStateAssign({
   });
 
   // save
-         const handleSave = () => {
-
+  const handleSave = () => {
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     if (!validateField(firstName, "firstName"));
     if (!validateField(emilId, "emilId"));
     if (!validateField(Phone, "Phone"));
     if (!validateField(password, "password"));
     if (!validateField(address, "address"));
-  
-    if(edit && editId){
 
-      const isChanged = 
+    if (edit && editId) {
+      const isChanged =
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
         lastName !== initialStateAssign.lastName ||
         emilId !== initialStateAssign.emilId ||
         address !== initialStateAssign.address ||
         // file === initialStateAssign.file
-        (file && initialStateAssign.file && file !== initialStateAssign.file) || 
-  (!file && initialStateAssign.file);
-      
+        (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+        (!file && initialStateAssign.file);
+
       if (!isChanged) {
         setFormError("No changes detected.");
         return;
-      }
-      else {
+      } else {
         setFormError("");
       }
-      dispatch({ type: "ADDGENERALSETTING", payload: {f_name:firstName,l_name:lastName,mob_no:normalizedPhoneNumber,email_id:emilId,address:address,profile:file,id:editId}});
+      dispatch({
+        type: "ADDGENERALSETTING",
+        payload: {
+          f_name: firstName,
+          l_name: lastName,
+          mob_no: normalizedPhoneNumber,
+          email_id: emilId,
+          address: address,
+          profile: file,
+          id: editId,
+        },
+      });
+    }    
+    else if(firstName && emilId && emilId && Phone && address && password) {
+      dispatch({
+        type: "ADDGENERALSETTING",
+        payload: {
+          f_name: firstName,
+          l_name: lastName,
+          mob_no: normalizedPhoneNumber,
+          email_id: emilId,
+          address: address,
+          password: password,
+          profile: file,
+        },
+      });
     }
-    else{
-      dispatch({ type: "ADDGENERALSETTING", payload: {f_name:firstName,l_name:lastName,mob_no:normalizedPhoneNumber,email_id:emilId,address:address,password:password,profile:file}});
+  };
 
+  useEffect(() => {
+    if (state.Settings.notmatchpass) {
+      setPassError(state.Settings.notmatchpass);
     }
-  }
-  useEffect(()=>{
-    if(state.Settings?.StatusCodeForSettingGeneral === 200){
-      handleClose()
-      dispatch({ type: "GETALLGENERAL"});
-      
+  }, [state.Settings.notmatchpass]);
+
+ 
+
+  useEffect(() => {
+    dispatch({ type: "GETALLGENERAL" });
+  }, []);
+
+  
+
+  useEffect(() => {
+    if (state.Settings.statusCodeForCheckPassword === 200) {
+      handleCloseChangepassword();
+      handleConfirmPass();
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHECK" });
+      }, 200);
+    }
+  }, [state.Settings.statusCodeForCheckPassword]);
+
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setGeneralEdit(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setEmailAlready(state.Settings?.generalEmailError);
+  }, [state.Settings?.generalEmailError]);
+
+  useEffect(() => {
+    setPhoneAlready(state.Settings?.generalMobileError);
+  }, [state.Settings?.generalMobileError]);
+
+ 
+  useEffect(() => {
+    if (state.Settings?.StatusCodeForSettingGeneral === 200) {
+      handleClose();
+      dispatch({ type: "GETALLGENERAL" });
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_GENERAL_ADD" });
       }, 200);
     }
-    },[state.Settings?.StatusCodeForSettingGeneral])
+  }, [state.Settings?.StatusCodeForSettingGeneral]);
+
+  useEffect(() => {
+    if (state.Settings?.statusCodeForGeneralDelete === 200) {
+      handleCloseDeleteFormShow();
+      dispatch({ type: "GETALLGENERAL" });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_GENERAL" });
+      }, 200);
+    }
+  }, [state.Settings?.statusCodeForGeneralDelete]);
+
+  // pagination
 
 
-    useEffect(()=>{
-      if(state.Settings?.statusCodeForGeneralDelete === 200){
-       handleCloseDeleteFormShow()
-        dispatch({ type: "GETALLGENERAL"});
-        
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_DELETE_GENERAL" });
-        }, 200);
+  const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
+  const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
+  const currentRowGeneral = generalFilterddata?.slice(
+    indexOfFirstRowGeneral,
+    indexOfLastRowGeneral
+  );
+
+  const handlePageChange = (generalpageNumber) => {
+    setGeneralcurrentPage(generalpageNumber);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setGeneralrowsPerPage(Number(event.target.value));
+  };
+
+  const totalPagesGeneral = Math.ceil(
+    generalFilterddata?.length / generalrowsPerPage
+  );
+
+  // const renderPageNumbersGeneral = () => {
+  //   const pageNumbersGeneral = [];
+  //   let startPageGeneral = generalcurrentPage - 1;
+  //   let endPageGeneral = generalcurrentPage + 1;
+
+  //   if (generalcurrentPage === 1) {
+  //     startPageGeneral = 1;
+  //     endPageGeneral = 3;
+  //   }
+
+  //   if (generalcurrentPage === totalPagesGeneral) {
+  //     startPageGeneral = totalPagesGeneral - 2;
+  //     endPageGeneral = totalPagesGeneral;
+  //   }
+
+  //   if (generalcurrentPage === 2) {
+  //     startPageGeneral = 1;
+  //     endPageGeneral = 3;
+  //   }
+
+  //   if (generalcurrentPage === totalPagesGeneral - 1) {
+  //     startPageGeneral = totalPagesGeneral - 2;
+  //     endPageGeneral = totalPagesGeneral;
+  //   }
+
+  //   for (let i = startPageGeneral; i <= endPageGeneral; i++) {
+  //     if (i > 0 && i <= totalPagesGeneral) {
+  //       pageNumbersGeneral.push(
+  //         <li key={i} style={{ margin: '0 5px' }}>
+  //           <button
+  //             style={{
+  //               padding: '5px 10px',
+  //               textDecoration: 'none',
+  //               color: i === generalcurrentPage ? '#007bff' : '#000000',
+  //               cursor: 'pointer',
+  //               borderRadius: '5px',
+  //               display: 'inline-block',
+  //               minWidth: '30px',
+  //               textAlign: 'center',
+  //               backgroundColor: i === generalcurrentPage ? 'transparent' : 'transparent',
+  //               border: i === generalcurrentPage ? '1px solid #ddd' : 'none'
+  //             }}
+  //             onClick={() => handleGeneralPageChange(i)}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //   }
+
+  //   return pageNumbersGeneral;
+  // };
+
+  useEffect(() => {
+    setGeneralFilterddata(
+      state.Settings?.settingGetGeneralData.response?.general_users
+    );
+  }, [state.Settings?.settingGetGeneralData.response?.general_users]);
+
+
+
+
+  const ConformvalidateField = (value, fieldName) => {
+    if (!value || (typeof value === "string" && value.trim() === "")) {
+      switch (fieldName) {
+        case "newPassword":
+          setNewPassError("New Password is required");
+          break;
+          case "confirmPassword":
+            setConformPasswordError("Confirm Password is required");
+            break;
+      
+        default:
+          break;
       }
-      },[state.Settings?.statusCodeForGeneralDelete])
+      return false;
+    }
+    return true;
+  };
 
+  const handleSavePassword = () => {
+    if (!ConformvalidateField(newPassword, "newPassword"));
+    if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
+    if (newPassword && confirmPassword){
+      dispatch({
+        type: "GENERALPASSWORDCHANGES",
+        payload: { id: passId, new_pass: newPassword, cn_pass: confirmPassword },
+      });
+    }
+   
+  };
+  useEffect(() => {
+    if (state.Settings.conformPassNotmatch) {
+      setConformPasswordError(state.Settings.conformPassNotmatch);
+    }
+  }, [state.Settings.conformPassNotmatch]);
 
-
-// pagination
-
-
-const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
-const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
-const [generalFilterddata, setGeneralFilterddata] = useState([]);
-const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
-const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
-const currentRowGeneral = generalFilterddata?.slice(indexOfFirstRowGeneral, indexOfLastRowGeneral);
-
-
-const handlePageChange = (generalpageNumber) => {
-  setGeneralcurrentPage(generalpageNumber);
-};
-
-const handleItemsPerPageChange = (event) => {
-  setGeneralrowsPerPage(Number(event.target.value));
-};
-
-
-const totalPagesGeneral = Math.ceil(generalFilterddata?.length / generalrowsPerPage);
-
-// const renderPageNumbersGeneral = () => {
-//   const pageNumbersGeneral = [];
-//   let startPageGeneral = generalcurrentPage - 1;
-//   let endPageGeneral = generalcurrentPage + 1;
-
-//   if (generalcurrentPage === 1) {
-//     startPageGeneral = 1;
-//     endPageGeneral = 3;
-//   }
-
-//   if (generalcurrentPage === totalPagesGeneral) {
-//     startPageGeneral = totalPagesGeneral - 2;
-//     endPageGeneral = totalPagesGeneral;
-//   }
-
-//   if (generalcurrentPage === 2) {
-//     startPageGeneral = 1;
-//     endPageGeneral = 3;
-//   }
-
-//   if (generalcurrentPage === totalPagesGeneral - 1) {
-//     startPageGeneral = totalPagesGeneral - 2;
-//     endPageGeneral = totalPagesGeneral;
-//   }
-
-//   for (let i = startPageGeneral; i <= endPageGeneral; i++) {
-//     if (i > 0 && i <= totalPagesGeneral) {
-//       pageNumbersGeneral.push(
-//         <li key={i} style={{ margin: '0 5px' }}>
-//           <button
-//             style={{
-//               padding: '5px 10px',
-//               textDecoration: 'none',
-//               color: i === generalcurrentPage ? '#007bff' : '#000000',
-//               cursor: 'pointer',
-//               borderRadius: '5px',
-//               display: 'inline-block',
-//               minWidth: '30px',
-//               textAlign: 'center',
-//               backgroundColor: i === generalcurrentPage ? 'transparent' : 'transparent',
-//               border: i === generalcurrentPage ? '1px solid #ddd' : 'none'
-//             }}
-//             onClick={() => handleGeneralPageChange(i)}
-//           >
-//             {i}
-//           </button>
-//         </li>
-//       );
-//     }
-//   }
-
-//   return pageNumbersGeneral;
-// };
-
-useEffect(() => {
-  setGeneralFilterddata( state.Settings?.settingGetGeneralData.response?.general_users)
-}, [ state.Settings?.settingGetGeneralData.response?.general_users])
-
-
-    return(
-        <>
-            <div className="container d-flex justify-content-between align-items-center settingGreneral "
-              style={{
-                position: "sticky",
-                top: 0,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 83,
-              }}>
+  useEffect(() => {
+    if (state.Settings.StatusCodeforGeneralPassword === 200) {
+      handleCloseConfirmPass();
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHANGES" });
+      }, 200);
+    }
+  }, [state.Settings.StatusCodeforGeneralPassword]);
+  return (
+    <>
+      <div
+        className="container d-flex justify-content-between align-items-center settingGreneral "
+        style={{
+          position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 1000,
+          backgroundColor: "#FFFFFF",
+          height: 83,
+        }}
+      >
         <div className="container">
           <label
             style={{
@@ -452,8 +618,6 @@ useEffect(() => {
           className="d-flex justify-content-between align-items-center"
           style={{ paddingRight: 25 }}
         >
-         
-
           <div>
             <Button
               style={{
@@ -469,7 +633,7 @@ useEffect(() => {
                 border: "none",
                 cursor: "pointer",
               }}
-            //   disabled={ebAddPermission}
+              //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
             >
               + Create Master
@@ -477,369 +641,383 @@ useEffect(() => {
           </div>
         </div>
       </div>
-
-
-
 
       <div class="container ">
-       {
-  currentRowGeneral && currentRowGeneral.length > 0 ? (
-    currentRowGeneral.map((item) => {
-      const imageUrl = item.profile || Profile;
-      return (
-        <div className="card p-3 settingGreneral mt-2" style={{ borderRadius: 16 }} key={item.id}>
-          <div className="d-flex flex-wrap justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <Image
-                src={imageUrl}
-                alt={item.first_name || "Default Profile"}
-                roundedCircle
-                style={{
-                  height: "50px",
-                  width: "50px",
-                }}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = Profile;
-                }}
-              />
-              <div className="ms-3">
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {item.first_name} {item.last_name}
-                </p>
-              </div>
-            </div>
-            <div className="d-flex align-items-center">
-              <img src={img2} width="20" height="20" alt="icon" />
-              <p
-                className="mb-0 mx-2"
-                style={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 600,
-                  fontSize: 14,
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }}
+        {currentRowGeneral && currentRowGeneral.length > 0 ? (
+          currentRowGeneral.map((item) => {
+            const imageUrl = item.profile || Profile;
+            return (
+              <div
+                className="card p-3 settingGreneral mt-2"
+                style={{ borderRadius: 16 }}
+                key={item.id}
               >
-                Change Password
-              </p>
-              <img
-                src={round}
-                width="30"
-                height="30"
-                alt="icon"
-                onClick={() => handlegeneralform(item.id)}
-              />
-              {generalEdit === item.id && (
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "absolute",
-                    right: 80,
-                    top: 8,
-                    width: 160,
-                    height: 70,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: 10,
-                    alignItems: "start",
-                  }}
-                >
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleEditGeneralUser(item)}
-                  >
-                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-                    <label
+                <div className="d-flex flex-wrap justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={imageUrl}
+                      alt={item.first_name || "Default Profile"}
+                      roundedCircle
                       style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#000000",
-                        cursor: "pointer",
+                        height: "50px",
+                        width: "50px",
                       }}
-                    >
-                      Edit
-                    </label>
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profile;
+                      }}
+                    />
+                    <div className="ms-3">
+                      <p
+                        className="mb-0"
+                        style={{
+                          fontSize: 16,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {item.first_name} {item.last_name}
+                      </p>
+                    </div>
                   </div>
-
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                    style={{ cursor: "pointer", pointerEvents: "auto" }}
-                    onClick={() => handleDelete(item)}
-                  >
-                    <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
-                    <label
+                  <div className="d-flex align-items-center">
+                    <img src={img2} width="20" height="20" alt="icon" />
+                    <p
+                      onClick={() => handleChangePassword(item)}
+                      className="mb-0 mx-2"
                       style={{
+                        fontFamily: "Montserrat",
+                        fontWeight: 600,
                         fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#FF0000",
+                        color: "#1E45E1",
                         cursor: "pointer",
                       }}
                     >
-                      Delete
-                    </label>
+                      Change Password
+                    </p>
+                    <img
+                      src={round}
+                      width="30"
+                      height="30"
+                      alt="icon"
+                      onClick={() => handlegeneralform(item.id)}
+                    />
+                    {generalEdit === item.id && (
+                      <div
+                        ref={popupRef}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#F9F9F9",
+                          position: "absolute",
+                          right: 80,
+                          top: 8,
+                          width: 160,
+                          height: 70,
+                          border: "1px solid #EBEBEB",
+                          borderRadius: 10,
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: 10,
+                          alignItems: "start",
+                        }}
+                      >
+                        <div
+                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleEditGeneralUser(item)}
+                        >
+                          <img
+                            src={Edit}
+                            style={{ height: 16, width: 16 }}
+                            alt="Edit"
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy, sans-serif",
+                              color: "#000000",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </label>
+                        </div>
+
+                        <div
+                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                          style={{ cursor: "pointer", pointerEvents: "auto" }}
+                          onClick={() => handleDelete(item)}
+                        >
+                          <img
+                            src={Delete}
+                            style={{ height: 16, width: 16 }}
+                            alt="Delete"
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy, sans-serif",
+                              color: "#FF0000",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Delete
+                          </label>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
+                <hr />
+                <div className="row">
+                  <div className="col-md-6">
+                    <p
+                      className="mb-1"
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "#939393",
+                      }}
+                    >
+                      Email ID
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {item.email_Id}
+                    </p>
+                  </div>
+                  <div className="col-md-6">
+                    <p
+                      className="mb-1"
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "#939393",
+                      }}
+                    >
+                      Contact Number
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      +
+                      {item &&
+                        String(item.mobileNo).slice(
+                          0,
+                          String(item.mobileNo).length - 10
+                        )}{" "}
+                      {item && String(item.mobileNo).slice(-10)}
+                    </p>
+                  </div>
+                  <div className="col-12">
+                    <p
+                      className="mb-1"
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "#939393",
+                      }}
+                    >
+                      Address
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {item.Address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <div style={{ textAlign: "center" }}>
+              <img src={EmptyState} width={240} height={240} alt="emptystate" />
             </div>
-          </div>
-          <hr />
-          <div className="row">
-            <div className="col-md-6">
-              <p
-                className="mb-1"
-                style={{
-                  fontSize: 12,
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  color: "#939393",
-                }}
-              >
-                Email ID
-              </p>
-              <p
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                }}
-              >
-                {item.email_Id}
-              </p>
-            </div>
-            <div className="col-md-6">
-              <p
-                className="mb-1"
-                style={{
-                  fontSize: 12,
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  color: "#939393",
-                }}
-              >
-                Contact Number
-              </p>
-              <p
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                }}
-              >
-                +
-                {item &&
-                  String(item.mobileNo).slice(
-                    0,
-                    String(item.mobileNo).length - 10
-                  )}{" "}
-                {item && String(item.mobileNo).slice(-10)}
-              </p>
-            </div>
-            <div className="col-12">
-              <p
-                className="mb-1"
-                style={{
-                  fontSize: 12,
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  color: "#939393",
-                }}
-              >
-                Address
-              </p>
-              <p
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                }}
-              >
-                {item.Address}
-              </p>
-            </div>
-          </div>
-        </div>
-      );
-    })
-  ) : (
-    <div>
-        <div style={{ textAlign: "center" }}>
-          <img
-            src={EmptyState}
-            width={240}
-            height={240}
-            alt="emptystate"
-          />
-        </div>
-        <div
-          className="pb-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: 20,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          No Profile{" "}
-        </div>
-        <div
-          className="pb-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            fontSize: 16,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          There are no Profile available.{" "}
-        </div>
-        <div style={{textAlign:"center"}}>
-            <Button
+            <div
+              className="pb-1"
               style={{
-                fontFamily: "Montserrat",
-                fontSize: 14,
-                backgroundColor: "#1E45E1",
-                color: "white",
-                height: 52,
+                textAlign: "center",
                 fontWeight: 600,
-                borderRadius: 8,
-                width: 160,
-                padding: "14px, 22px, 14px, 22px",
-                border: "none",
-                cursor: "pointer",
+                fontFamily: "Gilroy",
+                fontSize: 20,
+                color: "rgba(75, 75, 75, 1)",
               }}
-            //   disabled={ebAddPermission}
-              onClick={handleShowFormGreneral}
             >
-              + Create Master
-            </Button>
+              No Profile{" "}
+            </div>
+            <div
+              className="pb-1"
+              style={{
+                textAlign: "center",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                fontSize: 16,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              There are no Profile available.{" "}
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <Button
+                style={{
+                  fontFamily: "Montserrat",
+                  fontSize: 14,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  height: 52,
+                  fontWeight: 600,
+                  borderRadius: 8,
+                  width: 160,
+                  padding: "14px, 22px, 14px, 22px",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                //   disabled={ebAddPermission}
+                onClick={handleShowFormGreneral}
+              >
+                + Create Master
+              </Button>
+            </div>
           </div>
-        
+        )}
       </div>
-  )}
 
-         
-  </div>
+      {currentRowGeneral?.length > 0 && (
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end", // Align dropdown and pagination
+            padding: "10px",
+            // borderTop: "1px solid #ddd",
+          }}
+        >
+          {/* Dropdown for Items Per Page */}
+          <div>
+            <select
+              value={generalrowsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+              }}
+            >
+              <option value={2}>2</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
 
-  
-  {currentRowGeneral?.length > 0 && (
-                          <nav
-                                             style={{
-                                               display: "flex",
-                                               alignItems: "center",
-                                               justifyContent: "end", // Align dropdown and pagination
-                                               padding: "10px",
-                                               // borderTop: "1px solid #ddd",
-                                             }}
-                                           >
-                                             {/* Dropdown for Items Per Page */}
-                                             <div>
-                                               <select
-                                                 value={generalrowsPerPage}
-                                                 onChange={handleItemsPerPageChange}
-                                                 style={{
-                                                   padding: "5px",
-                                                   border: "1px solid #1E45E1",
-                                                   borderRadius: "5px",
-                                                   color: "#1E45E1",
-                                                   fontWeight: "bold",
-                                                   cursor: "pointer",
-                                                   outline: "none",
-                                                   boxShadow: "none",
-                                                   
-                                                 }}
-                                               >
-                                                 <option value={2}>2</option>
-                                                  <option value={5}>5</option>
-                                                 <option value={10}>10</option>
-                                                 <option value={50}>50</option>
-                                                 <option value={100}>100</option>
-                                               </select>
-                                             </div>
-                                           
-                                             {/* Pagination Controls */}
-                                             <ul
-                                               style={{
-                                                 display: "flex",
-                                                 alignItems: "center",
-                                                 listStyleType: "none",
-                                                 margin: 0,
-                                                 padding: 0,
-                                               }}
-                                             >
-                                               {/* Previous Button */}
-                                               <li style={{ margin: "0 10px" }}>
-                                                 <button
-                                                   style={{
-                                                     padding: "5px",
-                                                     textDecoration: "none",
-                                                     color: generalcurrentPage === 1 ? "#ccc" : "#1E45E1",
-                                                     cursor: generalcurrentPage === 1 ? "not-allowed" : "pointer",
-                                                     borderRadius: "50%",
-                                                     display: "inline-block",
-                                                     minWidth: "30px",
-                                                     textAlign: "center",
-                                                     backgroundColor: "transparent",
-                                                     border: "none",
-                                                   }}
-                                                   onClick={() => handlePageChange(generalcurrentPage - 1)}
-                                                   disabled={generalcurrentPage === 1}
-                                                 >
-                                                   <ArrowLeft2 size="16" color={generalcurrentPage === 1 ? "#ccc" : "#1E45E1"} />
-                                                 </button>
-                                               </li>
-                                           
-                                               {/* Current Page Indicator */}
-                                               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                                                 {generalcurrentPage} of {totalPagesGeneral}
-                                               </li>
-                                           
-                                               {/* Next Button */}
-                                               <li style={{ margin: "0 10px" }}>
-                                                 <button
-                                                   style={{
-                                                     padding: "5px",
-                                                     textDecoration: "none",
-                                                     color: generalcurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1",
-                                                     cursor: generalcurrentPage === totalPagesGeneral ? "not-allowed" : "pointer",
-                                                     borderRadius: "50%",
-                                                     display: "inline-block",
-                                                     minWidth: "30px",
-                                                     textAlign: "center",
-                                                     backgroundColor: "transparent",
-                                                     border: "none",
-                                                   }}
-                                                   onClick={() => handlePageChange(generalcurrentPage + 1)}
-                                                   disabled={generalcurrentPage === totalPagesGeneral}
-                                                 >
-                                                   <ArrowRight2
-                                                     size="16"
-                                                     color={generalcurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1"}
-                                                   />
-                                                 </button>
-                                               </li>
-                                             </ul>
-                                           </nav>
-                      )}
+          {/* Pagination Controls */}
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: generalcurrentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: generalcurrentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(generalcurrentPage - 1)}
+                disabled={generalcurrentPage === 1}
+              >
+                <ArrowLeft2
+                  size="16"
+                  color={generalcurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
 
-  <Modal
+            {/* Current Page Indicator */}
+            <li
+              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+            >
+              {generalcurrentPage} of {totalPagesGeneral}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color:
+                    generalcurrentPage === totalPagesGeneral
+                      ? "#ccc"
+                      : "#1E45E1",
+                  cursor:
+                    generalcurrentPage === totalPagesGeneral
+                      ? "not-allowed"
+                      : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(generalcurrentPage + 1)}
+                disabled={generalcurrentPage === totalPagesGeneral}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={
+                    generalcurrentPage === totalPagesGeneral
+                      ? "#ccc"
+                      : "#1E45E1"
+                  }
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      <Modal
         show={showFormGeneral}
         onHide={() => handleClose()}
         backdrop="static"
@@ -859,7 +1037,7 @@ useEffect(() => {
               fontFamily: "Gilroy",
             }}
           >
-           {/* {props.edit ? "Edit Bank" : "Add Bank"} */} General
+            {/* {props.edit ? "Edit Bank" : "Add Bank"} */} General
           </div>
           <button
             type="button"
@@ -893,74 +1071,74 @@ useEffect(() => {
             </span>
           </button>
         </Modal.Header>
-        <div className="d-flex align-items-center" style={{marginLeft:10}}>
-                    <div
-                      className=""
-                      style={{ height: 80, width: 80, position: "relative" }}
-                    >
-                      <Image
-                        src={
-                          file
-                            ? typeof file == "string"
-                              ? file
-                              : URL.createObjectURL(file)
-                            : Profile
-                        }
-                        roundedCircle
-                        style={{ height: 80, width: 80 }}
-                      />
+        <div className="d-flex align-items-center" style={{ marginLeft: 10 }}>
+          <div
+            className=""
+            style={{ height: 80, width: 80, position: "relative" }}
+          >
+            <Image
+              src={
+                file
+                  ? typeof file == "string"
+                    ? file
+                    : URL.createObjectURL(file)
+                  : Profile
+              }
+              roundedCircle
+              style={{ height: 80, width: 80 }}
+            />
 
-                      <label htmlFor="imageInput" className="">
-                        <Image
-                          src={Plus}
-                          roundedCircle
-                          style={{
-                            height: 20,
-                            width: 20,
-                            position: "absolute",
-                            top: 65,
-                            left: 70,
-                            transform: "translate(-50%, -50%)",
-                          }}
-                        />
-                        <input
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          className="sr-only"
-                          id="imageInput"
-                          onChange={handleImageChange}
-                          style={{ display: "none" }}
-                        />
-                      </label>
-                    </div>
-                    <div className="ps-3">
-                      <div>
-                        <label
-                          style={{
-                            fontSize: 16,
-                            fontWeight: 500,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Profile Photo
-                        </label>
-                      </div>
-                      <div>
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Max size of image 10MB
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+            <label htmlFor="imageInput" className="">
+              <Image
+                src={Plus}
+                roundedCircle
+                style={{
+                  height: 20,
+                  width: 20,
+                  position: "absolute",
+                  top: 65,
+                  left: 70,
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="sr-only"
+                id="imageInput"
+                onChange={handleImageChange}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+          <div className="ps-3">
+            <div>
+              <label
+                style={{
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Profile Photo
+              </label>
+            </div>
+            <div>
+              <label
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Max size of image 10MB
+              </label>
+            </div>
+          </div>
+        </div>
         <Modal.Body>
           <div className="row ">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -995,11 +1173,11 @@ useEffect(() => {
                 />
               </Form.Group>
               {firstNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {firstNameError}
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {firstNameError}
+                </div>
+              )}
               {/* {accountNameError && (
                   <div style={{ color: "red" }}>
                     <MdError />
@@ -1007,7 +1185,7 @@ useEffect(() => {
                   </div>
                 )} */}
             </div>
-            
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
                 <Form.Label
@@ -1019,7 +1197,7 @@ useEffect(() => {
                   }}
                 >
                   Last Name.{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>  </span>
+                  <span style={{ color: "red", fontSize: "20px" }}> </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1045,78 +1223,70 @@ useEffect(() => {
                     {lastNameError}
                   </div>
                 )} */}
-             
             </div>
-           
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            
-                <Form.Group
-                     
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Mobile number{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Mobile number{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
 
-                      <InputGroup>
-                        <Form.Select
-                          value={countryCode}
-                          id="vendor-select-pg"
-                          // onChange={handleCountryCodeChange}
-                          style={{
-                            border: "1px solid #D9D9D9",
+                <InputGroup>
+                  <Form.Select
+                    value={countryCode}
+                    id="vendor-select-pg"
+                    // onChange={handleCountryCodeChange}
+                    style={{
+                      border: "1px solid #D9D9D9",
 
-                            borderRadius: "8px 0 0 8px",
-                            height: 50,
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: countryCode ? 600 : 500,
-                            boxShadow: "none",
-                            backgroundColor: "#fff",
-                            maxWidth: 90,
-                            paddingRight: 10,
-                          }}
-                        >
-                        <option>+{countryCode}</option>
-                        </Form.Select>
-                        <Form.Control
-                          value={Phone}
-                          onChange={handlePhone}
-                          type="text"
-                          placeholder="9876543210"
-                          maxLength={10}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: Phone ? 600 : 500,
-                            boxShadow: "none",
-                            borderLeft: "unset",
-                            borderRight: "1px solid #D9D9D9",
-                            borderTop: "1px solid #D9D9D9",
-                            borderBottom: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: "0 8px 8px 0",
-                          }}
-                        />
-                      </InputGroup>
-                      <p
-                        id="MobileNumberError"
-                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
-                      ></p>
-                      {/* {phoneError && (
+                      borderRadius: "8px 0 0 8px",
+                      height: 50,
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: countryCode ? 600 : 500,
+                      boxShadow: "none",
+                      backgroundColor: "#fff",
+                      maxWidth: 90,
+                      paddingRight: 10,
+                    }}
+                  >
+                    <option>+{countryCode}</option>
+                  </Form.Select>
+                  <Form.Control
+                    value={Phone}
+                    onChange={handlePhone}
+                    type="text"
+                    placeholder="9876543210"
+                    maxLength={10}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: Phone ? 600 : 500,
+                      boxShadow: "none",
+                      borderLeft: "unset",
+                      borderRight: "1px solid #D9D9D9",
+                      borderTop: "1px solid #D9D9D9",
+                      borderBottom: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: "0 8px 8px 0",
+                    }}
+                  />
+                </InputGroup>
+                <p
+                  id="MobileNumberError"
+                  style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                ></p>
+                {/* {phoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {phoneError}
@@ -1134,27 +1304,27 @@ useEffect(() => {
                           {phoneErrorMessage}
                         </div>
                       )} */}
-                    </Form.Group>
-                    {phoneError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {phoneError}
-                  </div>
-                )}
-                 {phoneErrorMessage && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phoneErrorMessage}
-                        </div>
-                      )}
-                  {phoneAlready && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {phoneAlready}
-                  </div>
-                )}
+              </Form.Group>
+              {phoneError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {phoneError}
+                </div>
+              )}
+              {phoneErrorMessage && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {phoneErrorMessage}
+                </div>
+              )}
+              {phoneAlready && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {phoneAlready}
+                </div>
+              )}
             </div>
-           
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
                 <Form.Label
@@ -1187,27 +1357,26 @@ useEffect(() => {
                 />
               </Form.Group>
               {emailError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {emailError}
-                  </div>
-                )}
-                  {emailAlready && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {emailAlready}
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {emailError}
+                </div>
+              )}
+              {emailAlready && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {emailAlready}
+                </div>
+              )}
 
-{emailErrorMessage && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
-                                          {emailErrorMessage}
-                                        </div>
-                                      )}
+              {emailErrorMessage && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {emailErrorMessage}
+                </div>
+              )}
             </div>
 
-          
             {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   
     <Form.Group className="mb-3">
@@ -1262,70 +1431,79 @@ useEffect(() => {
     </Form.Group>
 
 </div> */}
-{!edit && (
-  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <Form.Group className="mb-3">
-      <Form.Label
-        style={{
-          fontSize: 14,
-          color: "#222222",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-        }}
-      >
-        Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
-      </Form.Label>
-      <InputGroup>
-        <FormControl
-          id="form-controls"
-          placeholder="Enter password"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => handlePassword(e)}
-          style={{
-            fontSize: 16,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            borderRight: "none", // Remove the right border
-            height: "50px",
-            borderRadius: "8px 0 0 8px",
-          }}
-        />
-        <InputGroup.Text
-          className="border-start-0"
-          onClick={() => setShowPassword(!showPassword)}
-          aria-label={showPassword ? "Hide Password" : "Show Password"}
-          style={{
-            backgroundColor: "#fff",
-            border: "1px solid #D9D9D9",
-            borderLeft: "none", // Ensure no overlap with the input
-            cursor: "pointer",
-            borderRadius: "0 8px 8px 0",
-          }}
-        >
-          {showPassword ? (
-            <img src={eye} alt="Hide Password" width={20} height={20} />
-          ) : (
-            <img src={eyeClosed} alt="Show Password" width={20} height={20} />
-          )}
-        </InputGroup.Text>
-      </InputGroup>
-    </Form.Group>
-    {!edit && passwordError && (
-      <div style={{ color: "red" }}>
-        <MdError />
-        {passwordError}
-      </div>
-    )}
-
-  </div>
-)}
-
-
-
+            {!edit && (
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Form.Group className="mb-3">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Password{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <InputGroup>
+                    <FormControl
+                      id="form-controls"
+                      placeholder="Enter password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => handlePassword(e)}
+                      style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        borderRight: "none", // Remove the right border
+                        height: "50px",
+                        borderRadius: "8px 0 0 8px",
+                      }}
+                    />
+                    <InputGroup.Text
+                      className="border-start-0"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={
+                        showPassword ? "Hide Password" : "Show Password"
+                      }
+                      style={{
+                        backgroundColor: "#fff",
+                        border: "1px solid #D9D9D9",
+                        borderLeft: "none", // Ensure no overlap with the input
+                        cursor: "pointer",
+                        borderRadius: "0 8px 8px 0",
+                      }}
+                    >
+                      {showPassword ? (
+                        <img
+                          src={eye}
+                          alt="Hide Password"
+                          width={20}
+                          height={20}
+                        />
+                      ) : (
+                        <img
+                          src={eyeClosed}
+                          alt="Show Password"
+                          width={20}
+                          height={20}
+                        />
+                      )}
+                    </InputGroup.Text>
+                  </InputGroup>
+                </Form.Group>
+                {!edit && passwordError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {passwordError}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -1359,28 +1537,27 @@ useEffect(() => {
                 />
               </Form.Group>
               {addressError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {addressError}
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {addressError}
+                </div>
+              )}
             </div>
-           
           </div>
         </Modal.Body>
-         {/* {error && (
+        {/* {error && (
                   <div style={{ color: "red" }}>
                     <MdError />
                     {error}
                   </div>
                 )}  */}
         <Modal.Footer className="d-flex justify-content-center">
-           {formError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {formError}
-                  </div>
-                )} 
+          {formError && (
+            <div style={{ color: "red" }}>
+              <MdError />
+              {formError}
+            </div>
+          )}
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -1398,9 +1575,6 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
 
       <Modal
         show={deleteForm}
@@ -1485,7 +1659,350 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
-        </>
-    )
+
+      <Modal
+        show={changePassword}
+        onHide={() => handleCloseChangepassword()}
+        backdrop="static"
+        centered
+        className="modal-dialog-centered"
+        style={{
+          maxWidth: "353px",
+          width: "80vw",
+        }}
+      >
+        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Current Password
+          </div>
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={handleCloseChangepassword}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "16px",
+              border: "1px solid black",
+              background: "transparent",
+              cursor: "pointer",
+              padding: "0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{ fontSize: "24px", paddingBottom: "4px" }}
+            >
+              &times;
+            </span>
+          </button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {/* {!editShow && ( */}
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Current Password{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <InputGroup>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter password"
+                  type={showPassword ? "text" : "password"}
+                  value={checkPassword}
+                  onChange={(e) => handleCheckPassword(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    borderRight: "none", // Remove the right border
+                    height: "50px",
+                    borderRadius: "8px 0 0 8px",
+                  }}
+                />
+                <InputGroup.Text
+                  className="border-start-0"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide Password" : "Show Password"}
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D9D9D9",
+                    borderLeft: "none", // Ensure no overlap with the input
+                    cursor: "pointer",
+                    borderRadius: "0 8px 8px 0",
+                  }}
+                >
+                  {showPassword ? (
+                    <img src={eye} alt="Hide Password" width={20} height={20} />
+                  ) : (
+                    <img
+                      src={eyeClosed}
+                      alt="Show Password"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+            {passError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                {passError}
+              </div>
+            )}
+            
+            {/* )} */}
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button
+            className="col-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: "50px",
+              borderRadius: "12px",
+              fontSize: "1rem",
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: "20px",
+            }}
+            onClick={handleCheckPasswordChange}
+          >
+            Verify
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* confirm */}
+      <Modal
+        show={confirmPass}
+        onHide={() => handleCloseConfirmPass()}
+        backdrop="static"
+        centered
+        className="modal-dialog-centered"
+        style={{
+          maxWidth: "353px",
+          width: "80vw",
+        }}
+      >
+        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Conform Password
+          </div>
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={handleCloseConfirmPass}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "16px",
+              border: "1px solid black",
+              background: "transparent",
+              cursor: "pointer",
+              padding: "0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{ fontSize: "24px", paddingBottom: "4px" }}
+            >
+              &times;
+            </span>
+          </button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {/* {!editShow && ( */}
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                New Password{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <InputGroup>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter password"
+                  type={showPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => handleNewPassword(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    borderRight: "none", // Remove the right border
+                    height: "50px",
+                    borderRadius: "8px 0 0 8px",
+                  }}
+                />
+                <InputGroup.Text
+                  className="border-start-0"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide Password" : "Show Password"}
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D9D9D9",
+                    borderLeft: "none", // Ensure no overlap with the input
+                    cursor: "pointer",
+                    borderRadius: "0 8px 8px 0",
+                  }}
+                >
+                  {showPassword ? (
+                    <img src={eye} alt="Hide Password" width={20} height={20} />
+                  ) : (
+                    <img
+                      src={eyeClosed}
+                      alt="Show Password"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+            {newPassError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                {newPassError}
+              </div>
+            )}
+            {/* )} */}
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Conform Password{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <InputGroup>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter password"
+                  type={conformShowPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => handleConfirmPassword(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    borderRight: "none", // Remove the right border
+                    height: "50px",
+                    borderRadius: "8px 0 0 8px",
+                  }}
+                />
+                <InputGroup.Text
+                  className="border-start-0"
+                  onClick={() => setConFormShowPassword(!conformShowPassword)}
+                  aria-label={
+                    conformShowPassword ? "Hide Password" : "Show Password"
+                  }
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D9D9D9",
+                    borderLeft: "none", // Ensure no overlap with the input
+                    cursor: "pointer",
+                    borderRadius: "0 8px 8px 0",
+                  }}
+                >
+                  {conformShowPassword ? (
+                    <img src={eye} alt="Hide Password" width={20} height={20} />
+                  ) : (
+                    <img
+                      src={eyeClosed}
+                      alt="Show Password"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+            {conformPasswordError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                {conformPasswordError}
+              </div>
+            )}
+            {/* )} */}
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button
+            className="col-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: "50px",
+              borderRadius: "12px",
+              fontSize: "1rem",
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: "20px",
+            }}
+            onClick={handleSavePassword}
+          >
+            Save Password
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
 export default SettingGeneral;
