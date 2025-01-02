@@ -1843,7 +1843,9 @@ setDownloadInvoice(false)
         <Button
         disabled={recuringbillAddPermission}
           onClick={handleRecurrBillShow}
-          style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 12, width: 180, padding: "9px, 10px, 9px, 10px", color: '#FFF', fontFamily: 'Montserrat',whiteSpace:"nowrap"}}> + Create Recurring Bill
+          style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, 
+          borderRadius: 12, width: 180, padding: "9px, 10px, 9px, 10px", color: '#FFF', fontFamily: 'Montserrat',
+          whiteSpace:"nowrap"}}> + Create Recurring Bill
         </Button>
 
 
@@ -1852,7 +1854,9 @@ setDownloadInvoice(false)
       {
         value == 3 && 
         <Button
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 230, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Receipt
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, 
+          fontWeight: 600, borderRadius: 12, width: 230, padding: "9px, 10px, 9px, 10px", color: '#FFF',
+           fontFamily: 'Montserrat',whiteSpace:"nowrap" }}> + Create Receipt
         </Button>
       }
     </div>
@@ -1863,10 +1867,12 @@ setDownloadInvoice(false)
 <TabContext value={value}>
 <div >
   <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-    <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
-      <Tab label="Bills" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      <Tab label="Recurring Bills" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      <Tab label="Receipt" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+    <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} 
+    onChange={handleChanges} aria-label="lab API tabs example"
+     style={{ marginLeft: '20px',  marginTop: 0 }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+      <Tab label="Bills" value="1" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Recurring Bills" value="2" style={{ marginTop: 0,fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Receipt" value="3" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
     </TabList>
   </Box>
 </div>

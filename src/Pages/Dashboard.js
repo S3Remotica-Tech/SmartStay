@@ -455,6 +455,7 @@ function Dashboard(props) {
     <>
       <div className="cotainer">
         <TabContext value={value}>
+
           <div
             className="container justify-content-between d-flex align-items-center"
             style={{
@@ -465,6 +466,8 @@ function Dashboard(props) {
               zIndex: 1000,
               backgroundColor: "#FFFFFF",
               height: 83,
+              width: "100%", 
+              touchAction: "none", 
             }}
           >
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
@@ -517,6 +520,8 @@ function Dashboard(props) {
               </TabList>
             </Box>
           </div>
+          
+          
           <TabPanel value="1">
             {permissionError ? (
               <div
@@ -642,7 +647,10 @@ function Dashboard(props) {
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm sixthcard">
                             <h6 class="text-muted">Next Month Projection</h6>
                             <h4 class="mb-0">
-                              {dashboardList[0]?.project_amount}
+                              {/* {dashboardList[0]?.project_amount} */}
+                              {dashboardList && dashboardList?.length > 0
+                                  ? dashboardList[0]?.project_amount
+                                  : 0}
                             </h4>
                           </div>
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm seventhcard">
