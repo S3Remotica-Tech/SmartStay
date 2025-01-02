@@ -11,8 +11,8 @@ function* handleGetAsset(action) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else if (response.status === 201 || response.statusCode === 201){
+      yield put({ type: 'NO_ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
    }
    if (response) {
       refreshToken(response)

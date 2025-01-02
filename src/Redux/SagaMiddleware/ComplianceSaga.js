@@ -76,8 +76,8 @@ function* handleVendorGet(action) {
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'VENDOR_LIST' , payload:{response:response.data.VendorList, statusCode:response.status || response.statusCode}})
    }
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'ERROR_VENDOR_LIST', payload:{ statusCode:response.status || response.statusCode}})
    }
    if(response){
       refreshToken(response)
