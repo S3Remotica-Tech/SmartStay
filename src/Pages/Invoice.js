@@ -1997,8 +1997,6 @@ setDownloadInvoice(false)
 
               <div className='row mt-2'>
 
-
-
                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
                     <Form.Label style={{ fontFamily: "Gilroy"}}
