@@ -471,7 +471,7 @@ if(state.PgList.statuscodeForDashboard === 200){
           <div
             className="container justify-content-between d-flex align-items-center"
             style={{
-              // position: "sticky",
+              position: "sticky",
               top: 0,
               right: 0,
               left: 0,
