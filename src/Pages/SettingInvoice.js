@@ -584,6 +584,7 @@ useEffect(() => {
      {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
       .filter(item => item.prefix || item.suffix) 
       .map((item) => (
+        
         <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
           <InvoiceSettingsList item={item}  handleRecurringFormShow={handleRecurringFormShow} 
             OnEditInvoice={handleEditInvoice}
