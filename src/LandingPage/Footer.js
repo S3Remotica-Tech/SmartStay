@@ -17,19 +17,14 @@ const Footer = () => {
   let navigate = useNavigate();
 
   const handleNavigateTerms = () => {
-    localStorage.setItem("IsVisible", JSON.stringify(true));
-
-    // dispatch({ type: 'TERMS_CONDITION' })
-    // navigate('/Terms-Condition');
-    window.open('/Terms-Condition', '_blank');
+    dispatch({ type: 'TERMS_CONDITION' })
+    navigate('/Terms-Condition');
   };
 
 
   const handleNavigatePrivacy = () => {
-    // dispatch({ type: 'PRIVACY_POLICY' })
-    localStorage.setItem("IsVisible", JSON.stringify(false));
-    window.open('/Privacy-Policy', '_blank');
-    // navigate('/Privacy-Policy');
+    dispatch({ type: 'PRIVACY_POLICY' })
+    navigate('/Privacy-Policy');
 
   }
 

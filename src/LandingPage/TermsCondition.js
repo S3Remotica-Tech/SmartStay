@@ -1,3 +1,4 @@
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -22,18 +23,12 @@ import Policy from './Policy';
 function All_landing_pages() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState('');
-
-
-  const isVisible = JSON.parse(localStorage.getItem("IsVisible"));
-  
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  
+  const navigate = useNavigate();
 
   const handleSignIn = () => {
     navigate('/login-Page');
@@ -43,7 +38,7 @@ function All_landing_pages() {
     navigate('/create-account');
   };
 
- 
+
 
   const linkStyle = (isActive) => ({
     cursor: 'pointer',
@@ -56,24 +51,23 @@ function All_landing_pages() {
 
 
   const hanldeDisplayLink = (linkName) => {
-    localStorage.setItem("IsVisible", JSON.stringify(null));
+
     setActiveLink(linkName)
     dispatch({ type: 'CLOSE_TERMS_PRIVACY' })
   }
 
 
-
+// console.log("state.login?.IsVisible",state.login?.IsVisible)
 useEffect(()=>{
- if(isVisible === true ){
+ if(state.login?.IsVisible === true){
   setActiveLink('')
- }else if (isVisible === false){
+ }else if(state.login?.IsVisible === false){
   setActiveLink('')
  }
 
-},[isVisible])
+},[state.login?.IsVisible])
 
-console.log("isVisible",isVisible)
-console.log("activeLink",activeLink)
+
 
   return (
     <>
@@ -139,9 +133,9 @@ console.log("activeLink",activeLink)
       </Navbar>
 
       <div style={{ marginTop: 100 }}>
-  {isVisible ? (
+  {state.login?.IsVisible === true ? (
     <Condition />
-  ) : isVisible === null || isVisible === "null" ? (
+  ) : state.login?.IsVisible === null || state.login?.IsVisible === "null" ? (
     "" 
   ) : (
     <Policy />
@@ -150,7 +144,7 @@ console.log("activeLink",activeLink)
 
 
 
-    
+      
       {activeLink === 'firstPage' && (
         <Element name="firstPage" style={{ paddingTop: '90px' }}>
           <FirstPage />
@@ -175,7 +169,7 @@ console.log("activeLink",activeLink)
         </Element>
       )}
 
-      {/* Footer always visible */}
+ 
 
       <Element name="footer">
         <Footer />
