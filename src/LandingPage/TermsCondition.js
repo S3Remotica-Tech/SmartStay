@@ -22,12 +22,18 @@ import Policy from './Policy';
 function All_landing_pages() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const navigate = useNavigate();
+  const [activeLink, setActiveLink] = useState('');
+
+
+  const isVisible = JSON.parse(localStorage.getItem("IsVisible"));
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const navigate = useNavigate();
+  
 
   const handleSignIn = () => {
     navigate('/login-Page');
@@ -37,7 +43,7 @@ function All_landing_pages() {
     navigate('/create-account');
   };
 
-  const [activeLink, setActiveLink] = useState('');
+ 
 
   const linkStyle = (isActive) => ({
     cursor: 'pointer',
@@ -50,23 +56,24 @@ function All_landing_pages() {
 
 
   const hanldeDisplayLink = (linkName) => {
-
+    localStorage.setItem("IsVisible", JSON.stringify(null));
     setActiveLink(linkName)
     dispatch({ type: 'CLOSE_TERMS_PRIVACY' })
   }
 
 
-console.log("state.login?.IsVisible",state.login?.IsVisible)
+
 useEffect(()=>{
- if(state.login?.IsVisible === true){
+ if(isVisible === true ){
   setActiveLink('')
- }else if(state.login?.IsVisible === false){
+ }else if (isVisible === false){
   setActiveLink('')
  }
 
-},[state.login?.IsVisible])
+},[isVisible])
 
-
+console.log("isVisible",isVisible)
+console.log("activeLink",activeLink)
 
   return (
     <>
@@ -132,9 +139,9 @@ useEffect(()=>{
       </Navbar>
 
       <div style={{ marginTop: 100 }}>
-  {state.login?.IsVisible === true ? (
+  {isVisible ? (
     <Condition />
-  ) : state.login?.IsVisible === null || state.login?.IsVisible === "null" ? (
+  ) : isVisible === null || isVisible === "null" ? (
     "" 
   ) : (
     <Policy />
@@ -143,7 +150,7 @@ useEffect(()=>{
 
 
 
-      {/* Conditionally Render Elements */}
+    
       {activeLink === 'firstPage' && (
         <Element name="firstPage" style={{ paddingTop: '90px' }}>
           <FirstPage />
