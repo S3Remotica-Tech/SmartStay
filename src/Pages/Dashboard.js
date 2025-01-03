@@ -471,15 +471,16 @@ if(state.PgList.statuscodeForDashboard === 200){
           <div
             className="container justify-content-between d-flex align-items-center"
             style={{
-              // position: "sticky",
+              position: "sticky",
               top: 0,
               right: 0,
               left: 0,
               zIndex: 1000,
               backgroundColor: "#FFFFFF",
-              height: 83,
+              // height: 83,
               width: "100%", 
               touchAction: "none", 
+              marginTop:20
             }}
           >
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
