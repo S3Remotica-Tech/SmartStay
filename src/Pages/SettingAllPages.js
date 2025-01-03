@@ -439,8 +439,8 @@ useEffect(()=>{
 
 <div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
 
-                    {
-                      state.login.selectedHostel_Id && 
+                    {/* {
+                      state.login.selectedHostel_Id &&  */}
                    
 
 <div
@@ -650,7 +650,7 @@ useEffect(()=>{
                
               </p>
             </div>
-}
+{/* } */}
 </div>
 
 
