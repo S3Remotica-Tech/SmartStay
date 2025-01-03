@@ -1,3 +1,4 @@
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -22,7 +23,7 @@ import Policy from './Policy';
 function All_landing_pages() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
+  const [activeLink, setActiveLink] = useState('');
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -37,7 +38,7 @@ function All_landing_pages() {
     navigate('/create-account');
   };
 
-  const [activeLink, setActiveLink] = useState('');
+
 
   const linkStyle = (isActive) => ({
     cursor: 'pointer',
@@ -56,7 +57,7 @@ function All_landing_pages() {
   }
 
 
-console.log("state.login?.IsVisible",state.login?.IsVisible)
+// console.log("state.login?.IsVisible",state.login?.IsVisible)
 useEffect(()=>{
  if(state.login?.IsVisible === true){
   setActiveLink('')
@@ -143,7 +144,7 @@ useEffect(()=>{
 
 
 
-      {/* Conditionally Render Elements */}
+      
       {activeLink === 'firstPage' && (
         <Element name="firstPage" style={{ paddingTop: '90px' }}>
           <FirstPage />
@@ -168,7 +169,7 @@ useEffect(()=>{
         </Element>
       )}
 
-      {/* Footer always visible */}
+ 
 
       <Element name="footer">
         <Footer />
