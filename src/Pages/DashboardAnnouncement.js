@@ -14,6 +14,8 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 
 function DashboardAnnouncement(props) {
   const state = useSelector((state) => state);
+ 
+  
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
   const [showLikeModal, setShowLikeModal] = useState(false);
@@ -27,11 +29,14 @@ function DashboardAnnouncement(props) {
   const [description, setDescrption] = useState("");
   const [titleError,setTitleError]=useState("")
   const [descriptionError,setDescriptionError]=useState("")
+  const [errors, setErrors] = useState({});
   const handleShowAnnouncement = () => setShowAnnouncement(true);
   const handleCloseAnnouncement = () => {
     setShowAnnouncement(false)
     setDescriptionError("")
     setTitleError("")
+    dispatch({ type: 'CLEAR_SAME_TITLE' });
+    dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
   }
 
   //  card click
@@ -46,9 +51,16 @@ function DashboardAnnouncement(props) {
   };
 
   const handleTitle = (e) => {
-    setTitle(e.target.value);
+    const inputValue = e.target.value;
+    dispatch({ type: 'CLEAR_SAME_TITLE' });
+    dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
+    setTitle(inputValue);
     setTitleError("")
+   
   };
+
+ 
+  
   const handleDescrpton = (e) => {
     setDescrption(e.target.value);
     setDescriptionError("")
@@ -116,6 +128,7 @@ function DashboardAnnouncement(props) {
       type: "ADDANNOUNCEMENT",
       payload: { hostel_id: hostel_id, title: title, description: description },
     });
+  
   };
 
   useEffect(() => {
@@ -182,7 +195,7 @@ function DashboardAnnouncement(props) {
       maxWidth: "100%",
       marginBottom: "10px",
      maxHeight:50,
-      marginTop: "-80px",
+      marginTop: "-20px",
   
     }}
     onClick={handleShowAnnouncement}
@@ -1160,6 +1173,7 @@ function DashboardAnnouncement(props) {
           <div className="row">
             {/* Title Field */}
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -1194,6 +1208,31 @@ function DashboardAnnouncement(props) {
                                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span> 
                                 </div>
                               )}
+    {state.PgList.TitleAlready && (
+    <label
+      style={{
+        color: "red",
+        fontSize: 12,
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      {state.PgList.TitleAlready}
+    </label>
+  )}             
+             {state.PgList.TittleUnique && (
+    <label
+      style={{
+        color: "red",
+        fontSize: 12,
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      {state.PgList.TittleUnique}
+    </label>
+  )}   
+              
             </div>
 
             {/* Description Field */}
