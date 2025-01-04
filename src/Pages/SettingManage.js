@@ -118,7 +118,7 @@ function getFloorName(floor_Id) {
   }
 }
 
-function SettingManage() {
+function SettingManage(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
@@ -359,7 +359,26 @@ function SettingManage() {
 
   const handleCloses = () => {
     setShowAddPg(false);
+    console.log("props:", props);
+    if (props.setPgshow) {
+      props.setPgshow(false);
+    } else {
+      console.error("setPgshow is not passed correctly.");
+    }
   };
+
+  console.log("props",props);
+  
+
+  useEffect(() => {
+    if (props.pgshow) {
+      setShowAddPg(true);
+      setEditHostelDetails("");
+    }
+  }, [props.pgshow]);
+  
+  
+
   const handleShowAddPg = () => {
     setShowAddPg(true);
     setEditHostelDetails("");

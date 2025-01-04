@@ -72,6 +72,21 @@ gap:10px !important;
 border-radius: 6px;
 margin-bottom: 2px;
 }
+.list-Button{
+  color: #FFFFFF !important;
+padding:8px 16px;
+max-width:200px !important;
+width:100%;
+gap:10px !important;
+border-radius: 6px;
+margin-bottom: 2px;
+background-color: #1E45E1 !important;
+}
+
+.list-Button:hover{
+  background-color: #FFFFFF !important;
+  color:gray !important;
+}
 
 .list-Item:hover{
   background-color: #FFFFFF !important;

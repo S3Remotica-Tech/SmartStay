@@ -69,6 +69,8 @@ import sidebarTwo from '../Assets/Images/sidebariconTwo.svg';
 import sidebarThree from '../Assets/Images/sidebariconThree.svg';
 import sidebarFour from '../Assets/Images/sidebariconFour.svg';
 import Logout from "../Assets/Images/turn-off.png"
+import AddPg from '../Pages/PayingGuestFile/AddPg';
+import SettingManage from '../Pages/SettingManage';
 
 
 
@@ -97,7 +99,7 @@ function Sidebar() {
 
   let LoginId = localStorage.getItem("loginId")
   let checkedValue = localStorage.getItem("checked")
-
+  const [hover, setHover] = useState(false);
 
   const loginId = localStorage.getItem('loginId');
 
@@ -433,6 +435,15 @@ useEffect(()=>{
       setIsInitialized(true); 
     }
   }, [state.UsersList.hostelList, isInitialized, Profile]);
+
+  const [pgshow, setPgshow] = useState(false)
+  const [pgformshow, setPgformshow] = useState(true)
+
+  const handleShowsettingsPG = (settingNewDesign) => {
+    handledisplaySettingsPG(settingNewDesign);
+    dispatch({ type: 'MANAGE_PG'})
+    setPgshow(true)
+  };
   return (
     <>
 
@@ -545,6 +556,8 @@ useEffect(()=>{
     </div>
   )}
 </li> */}
+
+{state.UsersList?.hostelList && state.UsersList?.hostelList?.length > 0 && (
 <li
   className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
   onClick={toggleDropdown}
@@ -640,8 +653,21 @@ useEffect(()=>{
     </div>
   )}
 </li>
+)}
 
-
+{state.UsersList?.hostelList && state.UsersList?.hostelList.length === 0 && (
+  <li
+      className="align-items-center list-Button"
+      style={{
+        listStyleType: "none",
+        display: "flex",
+       
+      }}
+      onClick={() => handleShowsettingsPG()}
+    >
+    + Add PG
+  </li>
+)}
 
               
               <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative",
@@ -887,10 +913,15 @@ useEffect(()=>{
             {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'profile' && <Profilesettings allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'banking' && <Banking allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName = {payingGuestName} settignspgshow={settignspgshow} />}
+          {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName = {payingGuestName} settignspgshow={settignspgshow} onhandleShowsettingsPG = {handleShowsettingsPG} />}
           </Col>
         </Row>
       </Container>
+{
+pgshow == true ? <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
+  : null
+}
+
 
       <Modal
   show={logoutformshow}
