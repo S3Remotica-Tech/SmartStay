@@ -24,6 +24,8 @@ import {
 import { ImagesearchRollerOutlined } from "@mui/icons-material";
 
 function AddPg({ show, handleClose, currentItem }) {
+
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -48,6 +50,12 @@ function AddPg({ show, handleClose, currentItem }) {
   // useEffect(() => {
   //   dispatch({ type: "COUNTRYLIST" });
   // }, []);
+// const [formshow,setFormShow] = useState (false)
+
+//   useEffect(()=> {
+//     // setFormShow(true)
+//     show=true;
+//   },[pgformshow])
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -422,7 +430,7 @@ function AddPg({ show, handleClose, currentItem }) {
       }}
     >
       <Modal
-        show={show}
+        show={show }
         onHide={handleClose}
         centered
         backdrop="static"

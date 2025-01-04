@@ -22,6 +22,9 @@ import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayActi
 
 
 function  SettingAllPages(props ) {
+
+  console.log("props",props);
+  
   
   const dispatch = useDispatch();
   const state = useSelector(state => state);
@@ -62,6 +65,7 @@ function  SettingAllPages(props ) {
 if(state.PgList.isManageEnable){
   setActiveItem("Manage PG")
   handleShowManagePage()
+  
 }
   },[state.PgList.isManageEnable])
   
@@ -97,6 +101,7 @@ if(state.PgList.isManageEnable){
     setAmnitiesPageShow(false)
     setUserPageShow(false)
     setRolePageShow(false)
+    // props.onhandleShowsettingsPG()
   };
   const handleShowSecurityPage = () => {
     setManagePageShow(false);
