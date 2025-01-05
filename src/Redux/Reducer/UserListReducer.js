@@ -81,7 +81,10 @@ const initialState = {
     customerAllDetails:[],
     statusCodeForCustomerAllDetails:0,
     deleteContact:[],
-    statusCodeDeleteContact:0
+    statusCodeDeleteContact:0,
+    hotelDetailsinPg:[],
+    statuscodeForhotelDetailsinPg:0,
+    noAllHosteListStatusCode:0
 
 }
 
@@ -163,12 +166,25 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hosteListStatusCode: 0 }
             case 'CLEAR_HOSTEL_LIST':
                 return { ...state, hostelList:''}
+                case 'NO_HOSTEL':
+                    return { ...state, noHosteListStatusCode: action.payload.statusCode }
+        
+                case 'CLEAR_NO_HOSTEL_STATUS_CODE':
+                    return { ...state, noHosteListStatusCode: 0 }
 
-        case 'NO_HOSTEL':
-            return { ...state, noHosteListStatusCode: action.payload.statusCode }
 
-        case 'CLEAR_NO_HOSTEL_STATUS_CODE':
-            return { ...state, noHosteListStatusCode: 0 }
+                case 'HOSTEL_LIST_All':
+                    return { ...state, hotelDetailsinPg: action.payload.response, statuscodeForhotelDetailsinPg: action.payload.statusCode }
+                case 'CLEAR_HOSTEL_LIST_All_CODE':
+                    return { ...state, statuscodeForhotelDetailsinPg: 0 }
+                    case 'CLEAR_HOSTEL_LIST_All':
+                        return { ...state, hotelDetailsinPg:[]}
+
+        case 'NO_HOSTEL_DETAILS':
+            return { ...state, noAllHosteListStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_NO_HOSTEL_DETAILS':
+            return { ...state, noAllHosteListStatusCode: 0 }
 
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }

@@ -73,7 +73,7 @@ function AddPg({ show, handleClose, currentItem }) {
       }
     }
   };
-
+  console.log('ADDList',state)
   const handleMobileChange = (e) => {
     const value = e.target.value;
 
@@ -278,7 +278,26 @@ function AddPg({ show, handleClose, currentItem }) {
     } else {
     }
   };
+  const [hostel_Id,setHostel_Id] = useState("")
+   useEffect(() => {
+    setHostel_Id(state.login.selectedHostel_Id);
+    }, [state?.login?.selectedHostel_Id]);
+useEffect(() => {
+    if (state.PgList.createPgStatusCode === 200) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
 
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_PG_STATUS_CODE" });
+      }, 4000);
+
+      // setPgList({
+      //   Name: "",
+      //   phoneNumber: "",
+      //   email_Id: "",
+      //   location: "",
+      // });
+    }
+  }, [state.PgList.createPgStatusCode,hostel_Id]);
   useEffect(() => {
     if (currentItem) {
       const phoneNumber = String(currentItem.hostel_PhoneNo || "");

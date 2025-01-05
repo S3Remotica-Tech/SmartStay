@@ -9,7 +9,7 @@ import "../../Pages/Dashboard.css";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import Filter from "../../Assets/Images/New_images/Group 13.png";
-import PayingGuest from "../../Pages/PayingGuestFile/PayingGuestMap";
+import PayingHostel from "./PayingHostel";
 import Alert from "react-bootstrap/Alert";
 import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "./AddPg";
@@ -50,6 +50,7 @@ import SettingManage from "../../Pages/SettingManage";
 function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  console.log('PgList',state)
   const [showHostelDetails, setShowHostelDetails] = useState("");
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
@@ -97,15 +98,15 @@ function PgList(props) {
     stateAccount.accountList[0]?.user_details.profile
   );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItem, setCurrentItem] = useState("");
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  // const [currentItem, setCurrentItem] = useState("");
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
@@ -122,15 +123,21 @@ function PgList(props) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
-
-
+const [hostel_Id,setHostel_Id] = useState("")
+ useEffect(() => {
+  if(state.login.selectedHostel_Id){
+    setHostel_Id(state.login.selectedHostel_Id);
+  } 
+  }, [state?.login?.selectedHostel_Id]);
 
 
 //  useEffect
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+    if(hostel_Id){
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} });
+    }  
+  }, [hostel_Id]);
 
 
 
@@ -140,32 +147,36 @@ function PgList(props) {
   }, [selectedHostel]);
 
 
-  useEffect(() => {
-    if (state.UsersList?.hosteListStatusCode == 200) {
-      setLoader(false);
-      setFilteredData(state.UsersList.hostelList);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
-      }, 4000);
-    }
-  }, [state.UsersList?.hosteListStatusCode]);
+
+
 
   useEffect(() => {
-    if (state.UsersList?.noHosteListStatusCode == 201) {
-      setFilteredData([]);
+
+    if (hostel_Id && state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+      setLoader(false);
+      setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
+        dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
       }, 4000);
     }
-  }, [state.UsersList?.noHosteListStatusCode]);
+  }, [state.UsersList?.statuscodeForhotelDetailsinPg]);
+
+  useEffect(() => {
+    if (state.UsersList?.noAllHosteListStatusCode === 201) {
+      setFilteredData([]);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
+      }, 4000);
+    }
+  }, [state.UsersList?.noAllHosteListStatusCode]);
 
   useEffect(() => {
     if (showHostelDetails?.floorDetails?.length == 1) {
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
     }
-  }, [filteredData]);
+  }, [filteredData[0]]);
 
- 
+ console.log("filteredData",filteredData[0])
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -175,7 +186,7 @@ function PgList(props) {
   }, []);
 
   useEffect(() => {
-    if (state.UsersList?.noHosteListStatusCode == 201) {
+    if (state.UsersList?.noHosteListStatusCode === 201) {
       setLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
@@ -186,9 +197,10 @@ function PgList(props) {
  
   useEffect(() => {
     if (
-      state.UsersList.createFloorSuccessStatusCode == 200 ||
-      state.PgList.updateFloorSuccessStatusCode == 200
+      state.UsersList.createFloorSuccessStatusCode === 200 ||
+      state.PgList.updateFloorSuccessStatusCode === 200
     ) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
       dispatch({ type: "HOSTELLIST" });
       
       setShowFloor(false);
@@ -203,7 +215,8 @@ function PgList(props) {
   ]);
 
   useEffect(() => {
-    if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
+    if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
       dispatch({ type: "HOSTELLIST" });
       setShowDelete(false);
 
@@ -217,9 +230,10 @@ function PgList(props) {
 
   useEffect(() => {
     if (
-      state.PgList.deletePgSuccessStatusCode == 200 ||
-      state.PgList.dleteHostelImagesStatusCode == 200
+      state.PgList.deletePgSuccessStatusCode === 200 ||
+      state.PgList.dleteHostelImagesStatusCode === 200
     ) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
       dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
@@ -236,8 +250,8 @@ function PgList(props) {
   ]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode == 200) {
-      dispatch({ type: "HOSTELLIST" });
+    if (state.PgList.createPgStatusCode === 200) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -255,15 +269,15 @@ function PgList(props) {
 
   useEffect(() => {
     if (selectedHostel) {
-      const selected = state.UsersList.hostelList?.find(
+      const selected = state.UsersList.hotelDetailsinPg?.find(
         (item) => item.id === showHostelDetails.id
       );
       setShowHostelDetails(selected);
     }
-  }, [state.UsersList.hostelList]);
+  }, [state.UsersList.hotelDetailsinPg]);
 
   useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
+    if (stateAccount.statusCodeForAccountList === 200) {
       const loginProfile = stateAccount.accountList[0].user_details.profile;
 
       setProfile(loginProfile);
@@ -283,12 +297,13 @@ function PgList(props) {
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeForDeleteRoom == 200) {
+    if (state.PgList.statusCodeForDeleteRoom === 200) {
       dispatch({
         type: "ROOMCOUNT",
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
 
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
       dispatch({ type: "HOSTELLIST" });
 
       setTimeout(() => {
@@ -432,7 +447,7 @@ function PgList(props) {
   };
 
   const handleSelectedHostel = (selectedHostelId) => {
-    const selected = state.UsersList.hostelList?.find((item, index) => {
+    const selected = state.UsersList.hotelDetailsinPg?.find((item, index) => {
       setHostelIndex(index);
       return item.id == selectedHostelId;
     });
@@ -466,12 +481,12 @@ function PgList(props) {
 
  
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+  // const handleItemsPerPageChange = (event) => {
+  //   setItemsPerPage(Number(event.target.value));
+  // };
 
   
  
@@ -519,8 +534,8 @@ function PgList(props) {
     setSearchQuery(searchItem);
     if (searchItem != "") {
       const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
+        state.UsersList.hotelDetailsinPg &&
+        state.UsersList.hotelDetailsinPg.filter(
           (user) =>
             user.Name &&
             user.Name.toLowerCase().includes(searchItem.toLowerCase())
@@ -529,9 +544,9 @@ function PgList(props) {
       setFilteredData(filteredItems);
       setShowDropDown(true);
     } else {
-      setFilteredData(state.UsersList.hostelList);
+      setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const handleDropDown = (value) => {
@@ -539,8 +554,8 @@ function PgList(props) {
     setSearchQuery(searchItem);
     if (searchItem != "") {
       const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
+        state.UsersList.hotelDetailsinPg &&
+        state.UsersList.hotelDetailsinPg.filter(
           (user) =>
             user.Name &&
             user.Name.toLowerCase().includes(searchItem.toLowerCase())
@@ -549,9 +564,9 @@ function PgList(props) {
       setFilteredData(filteredItems);
       setShowDropDown(true);
     } else {
-      setFilteredData(state.UsersList.hostelList);
+      setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
     setShowDropDown(false);
   };
 
@@ -560,10 +575,10 @@ function PgList(props) {
   const handleMoreClick = () => setShowMore(!showMore);
 
   const visibleFloors =
-    showHostelDetails.number_Of_Floor > 5
+    showHostelDetails?.number_Of_Floor > 5
       ? 5
-      : showHostelDetails.number_Of_Floor;
-  const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
+      : showHostelDetails?.number_Of_Floor;
+  const remainingFloors = showHostelDetails?.number_Of_Floor - visibleFloors;
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -617,7 +632,7 @@ function PgList(props) {
 
   const handleCloseSearch = () => {
     setShowFilter(false);
-    setFilteredData(state.UsersList.hostelList);
+    setFilteredData(state.UsersList.hotelDetailsinPg);
     setSearchQuery("");
   };
 
@@ -753,7 +768,7 @@ function PgList(props) {
                         </InputGroup.Text>
                       </InputGroup>
 
-                      {filteredData.length > 0 &&
+                      {filteredData[0]?.length > 0 &&
                         searchQuery !== "" &&
                         showDropDown && (
                           <div
@@ -789,11 +804,11 @@ function PgList(props) {
                                 boxSizing: "border-box",
                               }}
                             >
-                              {filteredData.map((user, index) => (
+                              {/* {filteredData.map((user, index) => ( */}
                                 <li
-                                  key={index}
+                                  // key={index}
                                   onClick={() => {
-                                    handleDropDown(user.Name);
+                                    handleDropDown(filteredData[0].Name);
                                   }}
                                   style={{
                                     padding: "10px",
@@ -804,9 +819,9 @@ function PgList(props) {
                                     fontWeight: 500,
                                   }}
                                 >
-                                  {user.Name}
+                                  {filteredData[0].Name}
                                 </li>
-                              ))}
+                              {/* ))} */}
                             </ul>
                           </div>
                         )}
@@ -846,7 +861,7 @@ function PgList(props) {
                   className="container ms-4 mb-4"
                   style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
                 >
-                  {filteredData.length > 0 ? (
+                  {filteredData[0]?.length > 0 ? (
                     <span
                       style={{
                         textAlign: "center",
@@ -856,8 +871,8 @@ function PgList(props) {
                         color: "rgba(100, 100, 100, 1)",
                       }}
                     >
-                      {filteredData.length} result
-                      {filteredData.length > 1 ? "s" : ""} found for{" "}
+                      {filteredData[0]?.length} result
+                      {filteredData[0]?.length > 1 ? "s" : ""} found for{" "}
                       <span
                         style={{
                           textAlign: "center",
@@ -898,29 +913,30 @@ function PgList(props) {
               )}
               <div className="container mt-2" style={{}}>
                 <div className="row row-gap-3">
-                  {currentItems.length > 0 &&
+                  {/* {currentItems.length > 0 &&
                     currentItems.map((hostel) => {
                       return (
-                        <>
+                        <> */}
                           <div
-                            key={hostel.id}
+                            // key={hostel.id}
                             className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
                           >
-                            <PayingGuest
-                              hostel={hostel}
-                              key={hostel.id}
+                            <PayingHostel
+                              // hostel={hostel}
+                              // key={hostel.id}
                               OnSelectHostel={handleSelectedHostel}
                               onRowVisiblity={handleDisplayPgList}
                               OnEditHostel={handleEditHostel}
                               editPermissionError={editPermissionError}
                               deletePermissionError={deletePermissionError}
+                              filteredData={filteredData}
                             />
                           </div>
-                        </>
+                        {/* </>
                       );
-                    })}
+                    })} */}
 
-                  {!loader && filteredData.length == 0 && (
+                  {!loader && filteredData[0]?.length === 0 && (
                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
@@ -1015,104 +1031,7 @@ function PgList(props) {
                   </div>
                 </div>
               </div>
-              {currentItems.length > 0 && (
-              
-                                      <nav
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "end", 
-                                        padding: "10px",
-                                                                              }}
-                                    >
-                                    
-                                      <div>
-                                        <select
-                                          value={itemsPerPage}
-                                          onChange={handleItemsPerPageChange}
-                                          style={{
-                                            padding: "5px",
-                                            border: "1px solid #DCDCDC",
-                                            borderRadius: "5px",
-                                            color: "#1E45E1",
-                                            fontWeight: "bold",
-                                            cursor: "pointer",
-                                            outline: "none",
-                                            boxShadow: "none",
-                                            
-                                          }}
-                                        >
-                                           <option value={5}>5</option>
-                                          <option value={10}>10</option>
-                                          <option value={50}>50</option>
-                                          <option value={100}>100</option>
-                                        </select>
-                                      </div>
-                                    
-                                      {/* Pagination Controls */}
-                                      <ul
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                          listStyleType: "none",
-                                          margin: 0,
-                                          padding: 0,
-                                        }}
-                                      >
-                                        {/* Previous Button */}
-                                        <li style={{ margin: "0 10px" }}>
-                                          <button
-                                            style={{
-                                              padding: "5px",
-                                              textDecoration: "none",
-                                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                                              borderRadius: "50%",
-                                              display: "inline-block",
-                                              minWidth: "30px",
-                                              textAlign: "center",
-                                              backgroundColor: "transparent",
-                                              border: "none",
-                                            }}
-                                            onClick={() => handlePageChange(currentPage - 1)}
-                                            disabled={currentPage === 1}
-                                          >
-                                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                                          </button>
-                                        </li>
-                                    
-                                        {/* Current Page Indicator */}
-                                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                                          {currentPage} of {totalPages}
-                                        </li>
-                                    
-                                        {/* Next Button */}
-                                        <li style={{ margin: "0 10px" }}>
-                                          <button
-                                            style={{
-                                              padding: "5px",
-                                              textDecoration: "none",
-                                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                                              borderRadius: "50%",
-                                              display: "inline-block",
-                                              minWidth: "30px",
-                                              textAlign: "center",
-                                              backgroundColor: "transparent",
-                                              border: "none",
-                                            }}
-                                            onClick={() => handlePageChange(currentPage + 1)}
-                                            disabled={currentPage === totalPages}
-                                          >
-                                            <ArrowRight2
-                                              size="16"
-                                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                                            />
-                                          </button>
-                                        </li>
-                                      </ul>
-                                    </nav>
-              )}
+             
 
               {/* <Pagination className="mt-4 d-flex justify-content-end">
         {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
