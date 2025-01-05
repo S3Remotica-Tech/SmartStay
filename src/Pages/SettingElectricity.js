@@ -54,6 +54,12 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleShowFormElectricity = () => {
     setShowFormElectricity(true)
+    if (!hostelid) {
+      alert("Please add a hostel before adding electricity information.");
+      return;
+    }
+    // Logic to open the electricity form
+    console.log("Opening Electricity Form...");
   }
 
   const handleAddElectricity = () => {
@@ -198,7 +204,8 @@ const SettingElectricity = ({ hostelid }) => {
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
-          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} onClick={handleShowFormElectricity}>
+          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} 
+          onClick={handleShowFormElectricity} >
             + Add Electricity
           </Button>
         </Col>
@@ -211,6 +218,7 @@ const SettingElectricity = ({ hostelid }) => {
             {state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.length > 0 ? (
               state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
                 return (
+                  
                   <Row>
                     <Col lg={8} md={12} sm={12}>
                       <Card className="p-2 border" style={{ borderRadius: 16 }}>
