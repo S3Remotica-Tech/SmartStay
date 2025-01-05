@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-
+import close from '../Assets/Images/close.svg';
 const SettingElectricity = ({ hostelid }) => {
 
   const dispatch = useDispatch();
@@ -52,15 +52,26 @@ const SettingElectricity = ({ hostelid }) => {
     setAmount('')
   }
 
+  //add electricity button
+  // const handleShowFormElectricity = () => {
+  //   setShowFormElectricity(true)
+  //   if (!hostelid) {
+  //     alert("Please add a hostel before adding electricity information.");
+  //     return;
+  //   }
+  //   console.log("Opening Electricity Form...");
+  // }
+  const [showPopup, setShowPopup] = useState(false);
   const handleShowFormElectricity = () => {
-    setShowFormElectricity(true)
     if (!hostelid) {
-      alert("Please add a hostel before adding electricity information.");
+      setShowPopup(true); 
       return;
     }
-    // Logic to open the electricity form
+    setShowFormElectricity(true);
     console.log("Opening Electricity Form...");
-  }
+  };
+
+
 
   const handleAddElectricity = () => {
     if (unit === '') {
@@ -209,6 +220,25 @@ const SettingElectricity = ({ hostelid }) => {
             + Add Electricity
           </Button>
         </Col>
+
+        {showPopup && (
+        <div className="d-flex flex-wrap">
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' }} 
+/>
+
+      </div>
+      
+      
+      )}
       </div>
       {
         tableShow ?
