@@ -661,7 +661,7 @@ useEffect(()=>{
 
               
               <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative", marginBottom:"20px",
-                maxHeight: manageOpen ? "370px" : "unset", 
+                maxHeight: manageOpen ? "360px" : "unset", 
                 overflowY: manageOpen ? "auto" : "hidden", 
                   paddingBottom: "30px"
                  
