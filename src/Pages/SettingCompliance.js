@@ -7,6 +7,7 @@ import { Button, Col, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import close from '../Assets/Images/close.svg';
 
 function SettingCompliance({ hostelid }) {
 
@@ -73,9 +74,21 @@ function SettingCompliance({ hostelid }) {
         setId('')
         setComplaintTypeName('')
     }
+
+    //add compliance 
+    // const handleShowForm = () => {
+    //     setShowForm(true)
+    // }
+      const [showPopupvalidation, setShowPopupValidation] = useState(false);
     const handleShowForm = () => {
-        setShowForm(true)
-    }
+        if (!hostelid) {
+          setShowPopupValidation(true); 
+          return;
+        }
+        setShowForm(true);
+        console.log("Opening Form...");
+      };
+      
 
     const handleAddComplaintType = () => {
         if (!complaintTypeName) {
@@ -138,14 +151,34 @@ function SettingCompliance({ hostelid }) {
                   <div className="d-flex justify-content-end">
                     <Button  style={{ backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
                                      fontSize: 14,  fontWeight: 600,  borderRadius: 8,  padding: "16px 20px"}}
-                               onClick={handleShowForm}>
+                               onClick={handleShowForm} disabled={showPopupvalidation}>
                            + Add Complaint Type
                              </Button>
                                     </div>
                 </Col>
                 </div>
                 </div>
+              
+                {showPopupvalidation && (
+        <div className="d-flex flex-wrap mt-3 align-items-center" 
+        style={{ gap: "10px" }} >
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopupValidation(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
 
+      </div>
+      
+      
+      )}
+    
 
 
 

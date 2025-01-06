@@ -8,7 +8,7 @@ import Closebtn from '../Assets/Images/Trash-Linear-32px.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-
+import close from '../Assets/Images/close.svg';
 
 
 
@@ -104,11 +104,18 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         index === self.findIndex((e) => e.category_Id === expence.category_Id)
       );
      
+//add electricity
+const [showPopup, setShowPopup] = useState(false);
+const handleShow = () => {
+  if (!hostelid) {
+    setShowPopup(true); 
+    return;
+  }
+  setShowForm(true);
+  setEdit(false);
+  console.log("Opening the form...");
+};
 
-    const handleShow = () => {
-        setShowForm(true);
-        setEdit(false);
-      };
     
       const handleCloseForm = () => {
         setShowForm(false);
@@ -351,19 +358,31 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
         <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}> Expences Category</h3>
         <div></div>
         <Button  onClick={handleShow} 
-        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 16px 16px 16px"}}
-        // style={{fontSize: 16,backgroundColor: "#1E45E1",color: "white",height: 46,fontWeight: 600,
-        //     borderRadius: 12,
-        //     width: 180,
-        //     padding: "18px, 20px, 18px, 20px",
-        //     color: "#FFF",
-        //     fontFamily: "Montserrat"}}
-            
-            
-            
-            >{" "}+ Add Category</Button>
+        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
+          fontWeight: 600, borderRadius: 8, padding: "16px 16px 16px 16px"}}
+          disabled={showPopup}
+          >{" "}+ Add Category</Button>
+           
       </div>
+      {showPopup && (
+        <div className="d-flex flex-wrap mt-3 align-items-center" 
+        style={{ gap: "10px" }} >
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
 
+      </div>
+      
+      
+      )}
     
 
 <div className="mt-4 d-flex row">

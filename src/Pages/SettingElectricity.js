@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import close from '../Assets/Images/close.svg';
 
 const SettingElectricity = ({ hostelid }) => {
 
@@ -52,9 +53,26 @@ const SettingElectricity = ({ hostelid }) => {
     setAmount('')
   }
 
+  //add electricity button
+  // const handleShowFormElectricity = () => {
+  //   setShowFormElectricity(true)
+  //   if (!hostelid) {
+  //     alert("Please add a hostel before adding electricity information.");
+  //     return;
+  //   }
+  //   console.log("Opening Electricity Form...");
+  // }
+  const [showPopup, setShowPopup] = useState(false);
   const handleShowFormElectricity = () => {
-    setShowFormElectricity(true)
-  }
+    if (!hostelid) {
+      setShowPopup(true); 
+      return;
+    }
+    setShowFormElectricity(true);
+    console.log("Opening Electricity Form...");
+  };
+
+
 
   const handleAddElectricity = () => {
     if (unit === '') {
@@ -198,10 +216,30 @@ const SettingElectricity = ({ hostelid }) => {
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
-          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} onClick={handleShowFormElectricity}>
+          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} 
+          onClick={handleShowFormElectricity}  disabled={showPopup}>
             + Add Electricity
           </Button>
         </Col>
+
+        {showPopup && (
+        <div className="d-flex flex-wrap">
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
+
+      </div>
+      
+      
+      )}
       </div>
       {
         tableShow ?
@@ -211,6 +249,7 @@ const SettingElectricity = ({ hostelid }) => {
             {state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.length > 0 ? (
               state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
                 return (
+                  
                   <Row>
                     <Col lg={8} md={12} sm={12}>
                       <Card className="p-2 border" style={{ borderRadius: 16 }}>
