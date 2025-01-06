@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
-
+import close from '../Assets/Images/close.svg';
 
 
 function SettingAmenities({ hostelid }) {
@@ -109,11 +109,23 @@ function SettingAmenities({ hostelid }) {
     };
 
 
+//add amentities
+    // const handleOpenAmenities = () => {
+    //     setOpenAmenitiesForm(true)
+    //     setEditDetails('')
+    // }
+    const [showPopup, setShowPopup] = useState(false);
 
-    const handleOpenAmenities = () => {
-        setOpenAmenitiesForm(true)
-        setEditDetails('')
-    }
+const handleOpenAmenities = () => {
+  if (!hostelid) { 
+    setShowPopup(true); 
+    return;
+  }
+  setOpenAmenitiesForm(true);
+  setEditDetails('');
+  console.log("Opening Amenities Form...");
+};
+
 
     const handleCloseAmenities = () => {
         setOpenAmenitiesForm(false)
@@ -263,12 +275,33 @@ function SettingAmenities({ hostelid }) {
                     <Button
                         onClick={handleOpenAmenities}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
+                        disabled={showPopup}
                     >
                         {" "}
                         + Add Amenities
                     </Button>
                 </div>
             </div>
+
+            {showPopup && (
+        <div className="d-flex flex-wrap">
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
+
+      </div>
+      
+      
+      )}
+
             <div className='container mt-4 mb-3'>
 
 
