@@ -1068,18 +1068,6 @@ useEffect(() => {
            <tr>
              <th
                style={{
-                 textAlign: "center",
-                 fontFamily: "Gilroy",
-                 color: "rgba(34, 34, 34, 1)",
-                 fontSize: 14,
-                 fontWeight: 600,
-                 borderTopLeftRadius: 24,
-               }}
-             >
-               <img src={squre} height={20} width={20} />
-             </th>
-             <th
-               style={{
                  textAlign: "start",
                  padding: "10px",
                  color: "#939393",
@@ -1201,14 +1189,7 @@ useEffect(() => {
                    marginTop: 10,
                  }}
                >
-                 <td style={{ padding: "10px", border: "none" }}>
-                   <img
-                     src={squre}
-                     height={20}
-                     width={20}
-                     style={{ marginTop: 10 }}
-                   />
-                 </td>
+
 
                  <td
                    style={{
