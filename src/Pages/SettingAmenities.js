@@ -110,10 +110,12 @@ function SettingAmenities({ hostelid }) {
 
 
 //add amentities
+
     // const handleOpenAmenities = () => {
     //     setOpenAmenitiesForm(true)
     //     setEditDetails('')
     // }
+    //add amentities
     const [showPopup, setShowPopup] = useState(false);
 
 const handleOpenAmenities = () => {
