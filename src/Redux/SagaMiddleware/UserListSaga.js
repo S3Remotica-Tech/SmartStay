@@ -22,6 +22,7 @@ function* handleuserlist(user) {
 }
 function* handleHostelList(hostel) {
    const response = yield call(hostelList, hostel.payload)
+   console.log("handleHostelList",response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
