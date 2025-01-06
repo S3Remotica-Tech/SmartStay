@@ -43,6 +43,13 @@ function All_landing_pages() {
     const [activeLink, setActiveLink] = useState('');
     
 
+    const handleSetActive = (linkName) => {
+        console.log('Active link:', linkName);
+             setActiveLink(linkName);
+    };
+
+     
+
 
 
     const linkStyle = (isActive) => ({
@@ -69,21 +76,22 @@ function All_landing_pages() {
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="mx-auto">
                                 <Nav.Link
-                                    // style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                   className="custom-link"
                                     as={Link}
                                     style={linkStyle(activeLink === 'firstPage')}
-                                    onSetActive={() => setActiveLink('firstPage')}
+                                    onSetActive={() => handleSetActive('firstPage')}
                                     to="firstPage"
                                     spy={true}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
                                     activeClass="active-link"
+                                    
                                 >
                                     Home
                                 </Nav.Link>
                                 <Nav.Link
-                                    // style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                  
                                     as={Link}
                                     to="keyFeature"
                                     spy={true}
@@ -92,12 +100,13 @@ function All_landing_pages() {
                                     duration={500}
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'keyFeature')}
-                                    onSetActive={() => setActiveLink('keyFeature')}
+                                    onSetActive={() => handleSetActive('keyFeature')}
+                                    
                                 >
                                     Features
                                 </Nav.Link>
                                 <Nav.Link
-                                    // style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                    
                                     as={Link}
                                     to="pricing"
                                     spy={true}
@@ -106,12 +115,13 @@ function All_landing_pages() {
                                     duration={500}
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'pricing')}
-                                    onSetActive={() => setActiveLink('pricing')}
+                                    onSetActive={() => handleSetActive('pricing')}
+                                    
                                 >
                                     Pricing
                                 </Nav.Link>
                                 <Nav.Link
-                                    // style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                   
                                     as={Link}
                                     to="testimonials"
                                     spy={true}
@@ -120,19 +130,14 @@ function All_landing_pages() {
                                     duration={500}
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'testimonials')}
-                                    onSetActive={() => setActiveLink('testimonials')}
+                                    onSetActive={() => handleSetActive('testimonials')}
+                                    
                                 >
                                     Testimonials
                                 </Nav.Link>
                             </Nav>
                             <Nav className=' justi-content-end'>
                                 <div className='d-lg-flex d-sm-block d-md-block align-items-center gap-3'>
-
-
-
-
-
-
                                     <Nav.Link style={{ fontSize: 16, fontWeight: 500, color: "#000", fontFamily: "Montserrat", marginRight: 20 }} onClick={handleSignIn}>Sign in</Nav.Link>
                                     <Button onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
                                 </div>
@@ -169,9 +174,15 @@ function All_landing_pages() {
                 <GetAnswer />
             </div>
 
+  
+
+
+
+
+
 
             <Element name="footer">
-                <Footer  />
+                <Footer  handleLinkName={handleSetActive}/>
             </Element>
 
 
@@ -180,3 +191,9 @@ function All_landing_pages() {
 }
 
 export default All_landing_pages;
+
+
+
+
+
+
