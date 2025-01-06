@@ -425,12 +425,6 @@ useEffect(()=>{
 },[allPageHostel_Id,state.UsersList.hosteListStatusCode])
 
 console.log("state.UsersList.hosteListStatusCode ",state.UsersList.hosteListStatusCode )
-// useEffect(()=>{
-// if(state.UsersList.hosteListStatusCode === 200){
-//   dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE'})
-// }
-// },[state.UsersList.hosteListStatusCode])
-
 
 
   const [isInitialized, setIsInitialized] = useState(false); 
