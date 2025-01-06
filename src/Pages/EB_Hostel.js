@@ -692,7 +692,7 @@ function EB_Hostel(props) {
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "20px", marginTop: "-30px" }}
+              style={{ marginLeft: "14px", marginTop: "-30px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab

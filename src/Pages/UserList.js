@@ -1449,7 +1449,7 @@ function UserList(props) {
           <div
             className="pl-4"
             style={{
-              paddingLeft: "20px",
+              paddingLeft: "7px",
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,

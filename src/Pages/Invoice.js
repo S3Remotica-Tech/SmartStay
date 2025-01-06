@@ -1869,7 +1869,7 @@ setDownloadInvoice(false)
   <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
     <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} 
     onChange={handleChanges} aria-label="lab API tabs example"
-     style={{ marginLeft: '20px',  marginTop: 0 }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+     style={{ marginLeft: '7px',  marginTop: 0 }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
       <Tab label="Bills" value="1" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
       <Tab label="Recurring Bills" value="2" style={{ marginTop: 0,fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
       <Tab label="Receipt" value="3" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
