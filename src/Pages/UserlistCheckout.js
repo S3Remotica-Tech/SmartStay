@@ -405,22 +405,7 @@ function CheckOut(props) {
             >
               <thead>
                 <tr>
-                  <th
-                    style={{
-                      textAlign: "center",
-                      padding: "10px",
-                      background: "#E7F1FF",
-                      border: "none",
-                      borderTopLeftRadius: "24px",
-                    }}
-                  >
-                    <img
-                      src={minus}
-                      height={20}
-                      width={20}
-                      alt="minus icon"
-                    />
-                  </th>
+
                   <th
                     style={{
                       textAlign: "start",
@@ -599,20 +584,7 @@ function CheckOut(props) {
 
                   return (
                     <tr key={checkout.ID} className="customer-row">
-                      <td
-                        style={{
-                          textAlign: "center",
-                          padding: "10px",
-                          border: "none",
-                        }}
-                      >
-                        <img
-                          src={minus}
-                          height={20}
-                          width={20}
-                          alt="minus icon"
-                        />
-                      </td>
+                     
                       <td>
                         <div className="d-flex align-items-center">
                           {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}

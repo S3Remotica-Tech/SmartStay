@@ -281,27 +281,7 @@ function UserlistWalkin(props) {
                 <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}>
                   <thead style={{ border: "none" }}>
                     <tr>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                          borderTopLeftRadius: "24px",
-                        }}
-                      >
-                        <img
-                          src={minus}
-                          height={20}
-                          width={20}
-                          alt="minus icon"
-                          style={{ textAlign: "start" }}
-                        />
-                      </th>
+
                       <th
                         style={{
                           textAlign: "start",
@@ -394,20 +374,7 @@ function UserlistWalkin(props) {
                   <tbody>
                     {currentCustomers?.map((customer) => (
                       <tr key={customer.id} className="customer-row">
-                        <td
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            border: "none",
-                          }}
-                        >
-                          <img
-                            src={minus}
-                            height={20}
-                            width={20}
-                            alt="minus icon"
-                          />
-                        </td>
+                       
                         <td>
                           <div className="d-flex align-items-center">
                             <Image

@@ -692,7 +692,7 @@ function EB_Hostel(props) {
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "20px", marginTop: "-30px" }}
+              style={{ marginLeft: "14px", marginTop: "-30px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
@@ -814,18 +814,7 @@ function EB_Hostel(props) {
                         }}
                       >
                         <tr style={{ height: "30px" }}>
-                          <th
-                            style={{
-                              textAlign: "center",
-                              fontFamily: "Gilroy",
-                              color: "rgba(34, 34, 34, 1)",
-                              fontSize: 14,
-                              fontWeight: 600,
-                              borderTopLeftRadius: 24,
-                            }}
-                          >
-                            <img src={squre} height={20} width={20} />
-                          </th>
+                          
                           <th
                             style={{
                               color: "#939393",
@@ -973,16 +962,7 @@ function EB_Hostel(props) {
 
                           return (
                             <tr key={v.id}>
-                              <td
-                                style={{
-                                  padding: "10px",
-                                  border: "none",
-                                  textAlign: "center",
-                                  verticalAlign: "middle",
-                                }}
-                              >
-                                <img src={squre} height={20} width={20} />
-                              </td>
+                             
                               <td
                                 style={{
                                   border: "none",

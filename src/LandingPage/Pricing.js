@@ -13,7 +13,9 @@ import Report from '../Assets/pricing/clipboard-text.png';
 
 function Pricing() {
 
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
    useEffect(() => {
       const appearOptions = {
         threshold : 0.5

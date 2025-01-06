@@ -18,6 +18,8 @@ import Pricing from './Pricing';
 import GetAnswer from './GetAnswer';
 import Condition from './Condition';
 import Policy from './Policy';
+import ContactUs from './ContactUs';
+import CookiesFooter from './Cookies';
 
 
 function All_landing_pages() {
@@ -58,16 +60,35 @@ function All_landing_pages() {
 
 
 // console.log("state.login?.IsVisible",state.login?.IsVisible)
-useEffect(()=>{
- if(state.login?.IsVisible === true){
-  setActiveLink('')
- }else if(state.login?.IsVisible === false){
-  setActiveLink('')
- }
+useEffect(() => {
+  if (
+    state.login?.IsVisible === 1 || 
+    state.login?.IsVisible === 2 || 
+    state.login?.IsVisible === 3 || 
+    state.login?.IsVisible === 4
+  ) {
+    setActiveLink('');
+  }
+}, [state.login?.IsVisible]);
 
-},[state.login?.IsVisible])
+console.log("state.login?.IsVisible",state.login?.IsVisible)
 
+console.log("state",state)
 
+const renderComponent = () => {
+  switch (state.login?.IsVisible) {
+    case 1:
+      return <Condition />;
+    case 2:
+      return <Policy />;
+    case 3:
+      return <ContactUs />;
+    case 4:
+      return <CookiesFooter />;
+    default:
+      return null;
+  }
+};
 
   return (
     <>
@@ -133,14 +154,17 @@ useEffect(()=>{
       </Navbar>
 
       <div style={{ marginTop: 100 }}>
-  {state.login?.IsVisible === true ? (
+  {state.login?.IsVisible === 1 ? (
     <Condition />
-  ) : state.login?.IsVisible === null || state.login?.IsVisible === "null" ? (
-    "" 
-  ) : (
+  ) : state.login?.IsVisible === 2 ? (
     <Policy />
-  )}
+  ) : state.login?.IsVisible === 3 ? (
+    <ContactUs />
+  ) : state.login?.IsVisible === 4 ? (
+    <CookiesFooter />
+  ) : null}
 </div>
+
 
 
 
@@ -172,7 +196,7 @@ useEffect(()=>{
  
 
       <Element name="footer">
-        <Footer />
+        <Footer handleLinkName={hanldeDisplayLink}/>
       </Element>
     </>
   );

@@ -64,10 +64,9 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import SettingAllPages from '../Pages/SettingAllPages';
 import hostelimage from '../Assets/Images/New_images/hostelImage.png';
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-import sidebarOne from '../Assets/Images/sidebariconOne.svg';
-import sidebarTwo from '../Assets/Images/sidebariconTwo.svg';
-import sidebarThree from '../Assets/Images/sidebariconThree.svg';
-import sidebarFour from '../Assets/Images/sidebariconFour.svg';
+import SettingIcon from '../Assets/Images/sidebariconOne.svg';
+import HelpDocumentIcon from '../Assets/Images/sidebariconThree.svg';
+import HelpVideoIcon from '../Assets/Images/sidebariconFour.svg';
 import Logout from "../Assets/Images/turn-off.png"
 import AddPg from '../Pages/PayingGuestFile/AddPg';
 import SettingManage from '../Pages/SettingManage';
@@ -696,10 +695,10 @@ console.log("lowestIdItem.Name",lowestIdItem.Name)
 )}
 
               
-              <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative",
-                maxHeight: manageOpen ? "400px" : "unset", 
+              <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative", marginBottom:"20px",
+                maxHeight: manageOpen ? "360px" : "unset", 
                 overflowY: manageOpen ? "auto" : "hidden", 
-                 
+                  paddingBottom: "30px"
                  
                 
               }}>
@@ -803,7 +802,7 @@ console.log("lowestIdItem.Name",lowestIdItem.Name)
                   <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Expenses</span></li>
 
-                <li className={` align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
+                <li className={` align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex"}}>
 
                   <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
@@ -847,17 +846,17 @@ console.log("lowestIdItem.Name",lowestIdItem.Name)
               <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-around'}} className=" w-100">
                 <div>
     
-                <img src={sidebarOne} onClick={handleSettingspage}/>
+                <img src={SettingIcon} onClick={handleSettingspage} title='Setting'/>
                 </div>
           <div>
-          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}}/>
+          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}} title='Log Out'/>
           </div>
 
 <div>
-<img src={sidebarThree}/>
+<img src={HelpDocumentIcon} title='Help Document'/>
 </div>
 <div>
-<img src={sidebarFour}/>
+<img src={HelpVideoIcon} title='Help Video'/>
 </div>
 
 </div>            
