@@ -86,10 +86,10 @@ const Footer = (props) => {
                   <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, fontStyle: 'normal', lineHeight: '25px', cursor: "pointer" }} onClick={() => hanldeLink('pricing')}>Pricing</p>
                   <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, fontStyle: 'normal', lineHeight: '25px', cursor: "pointer" }} onClick={() => hanldeLink('testimonials')}>Testimonials</p> */}
 
-<Link to="home" smooth={true} duration={500}>
+<Link to="firstPage" smooth={true} duration={500}>
                     <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, fontStyle: 'normal', lineHeight: '25px', cursor: "pointer" }} onClick={() => handleLink('firstPage')}>Home</p>
                   </Link>
-                  <Link to="features" smooth={true} duration={500}>
+                  <Link to="keyFeature" smooth={true} duration={500}>
                     <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, fontStyle: 'normal', lineHeight: '25px', cursor: "pointer" }} onClick={() => handleLink('keyFeature')}>Features</p>
                   </Link>
                   <Link to="pricing" smooth={true} duration={500}>
