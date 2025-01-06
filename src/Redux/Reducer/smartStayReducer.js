@@ -59,7 +59,7 @@ console.log("action",action)
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
-         return { ...state, isLoggedIn: false }
+         return { ...state, isLoggedIn: false  , selectedHostel_Id: null}
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
       case 'OTP_SUCCESS':

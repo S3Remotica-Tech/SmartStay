@@ -132,6 +132,7 @@ export async function UpdateNotification(message) {
 
 
 export const StoreSelectedHostelAction = (data) => {
+  console.log("StoreSelectedHostelAction",data)
   return {
     type: "STORE_HOSTEL_DATA", 
     payload: data,          

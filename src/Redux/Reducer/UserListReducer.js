@@ -165,7 +165,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
             case 'CLEAR_HOSTEL_LIST':
-                return { ...state, hostelList:''}
+                return { ...state, hostelList:[]}
                 case 'NO_HOSTEL':
                     return { ...state, noHosteListStatusCode: action.payload.statusCode }
         

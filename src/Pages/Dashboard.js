@@ -46,6 +46,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from "react-bootstrap/Image";
 
 function Dashboard(props) {
+  
   const formatYAxis = (tickItem) => {
     return `${tickItem}`;
   };
@@ -87,7 +88,10 @@ function Dashboard(props) {
     if(state.login.selectedHostel_Id){
       setHostel_Id(state.login.selectedHostel_Id);
     }    
-  }, [state?.login?.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id]);
+
+  console.log("state",state.login.selectedHostel_Id);
+  
 
   const handleSelectedReceived = (e) => {
     setSelectCashback(e.target.value);
@@ -125,7 +129,7 @@ function Dashboard(props) {
     if (state.PgList?.statusCodeForDashboardFilterRevenue === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_DASHBOARD_FILTER_REVENUE" });
-      }, 200);
+      }, 1000);
     }
   }, [state.PgList?.statusCodeForDashboardFilterRevenue]);
 
@@ -133,7 +137,7 @@ function Dashboard(props) {
     if (state.PgList?.statusCodeForDashboardFilterCashBack === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
-      }, 200);
+      }, 1000);
     }
   }, [state.PgList?.statusCodeForDashboardFilterCashBack]);
 
@@ -237,7 +241,7 @@ function Dashboard(props) {
     if (state.PgList?.statusCodeForDashboardFilter === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS" });
-      }, 200);
+      }, 1000);
     }
   }, [state.PgList?.statusCodeForDashboardFilter]);
 
@@ -249,6 +253,8 @@ function Dashboard(props) {
     dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
 
+  console.log("loginid",hostel_id);
+  
 
   useState(()=>{
 if(state.PgList.statuscodeForDashboard === 200){
