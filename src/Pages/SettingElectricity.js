@@ -216,7 +216,7 @@ const SettingElectricity = ({ hostelid }) => {
         </Col>
         <Col className="d-flex justify-content-end">
           <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} 
-          onClick={handleShowFormElectricity} >
+          onClick={handleShowFormElectricity}  disabled={showPopup}>
             + Add Electricity
           </Button>
         </Col>
@@ -232,7 +232,7 @@ const SettingElectricity = ({ hostelid }) => {
   alt="close icon" 
   onClick={() => setShowPopup(false)}
   className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' }} 
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
 />
 
       </div>
