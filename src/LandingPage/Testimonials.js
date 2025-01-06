@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import OwlCarousel from 'react-owl-carousel2';
 import 'react-owl-carousel2/lib/styles.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -13,6 +13,12 @@ import { ArrowLeft, ArrowRight } from 'iconsax-react';
 
 
 const MyCarousel = () => {
+
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   const options = {
     items: 1,
     nav: true,

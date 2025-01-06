@@ -15,6 +15,9 @@
   top: 50%;
  
 }
+.custom-link {
+  cursor: pointer !important;
+}
 
 .custom-owl-carousel   .owl-nav  .owl-prev {
   left: 50px !important;

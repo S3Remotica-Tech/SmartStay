@@ -15,6 +15,8 @@ import { Circles } from 'react-loader-spinner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndCondition from "./LandingPage/TermsCondition"
+import ContactUs from './LandingPage/ContactUs';
+import CookiesFooter from './LandingPage/Cookies'
 
 
 
@@ -108,6 +110,8 @@ function App() {
             <Route path="/" element={<FrontPage />} />
             <Route path="/Terms-Condition" element={ <TermsAndCondition />} />
             <Route path="/Privacy-Policy" element={ <TermsAndCondition />} />
+            <Route path="/Contact-Us" element={ <TermsAndCondition/>} />
+            <Route path="/Cookies" element={ <TermsAndCondition/>} />
             <Route path="/login-Page" element={<LoginPage />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
