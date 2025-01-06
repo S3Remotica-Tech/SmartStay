@@ -79,7 +79,8 @@ const initialState = {
     statuscodeForAddAnnouncement:0,
     addAnnounceMent:[],
     TitleAlready:'',
-    statuscodeForDashboard:0
+    statuscodeForDashboard:0,
+    TittleUnique:'',
 
 }
 
@@ -391,10 +392,18 @@ case 'CLEAR_EDIT_SAME_DATE_ALREADY':
 
 
             case 'SAME_TITLE':
-    return { ...state,TitleAlready: action.payload.response}
+               
+            return { ...state,TitleAlready: action.payload.response}
 
-case 'CLEAR_SAME_TITLE':
-    return { ...state, TitleAlready: ''}
+            case 'CLEAR_SAME_TITLE':
+            return { ...state, TitleAlready: ''}
+
+
+    case 'TITTLE_UNIQUE':
+     return {...state,TittleUnique: action.payload.response}
+    
+     case 'CLEAR_TITTLE_UNIQUE':
+        return {...state, TittleUnique: ''}   
 
         //         case 'ROOM_COUNT':
         //             if (state.roomCount.length > 0) {

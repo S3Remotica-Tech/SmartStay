@@ -24,6 +24,8 @@ import {
 import { ImagesearchRollerOutlined } from "@mui/icons-material";
 
 function AddPg({ show, handleClose, currentItem }) {
+
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -48,6 +50,12 @@ function AddPg({ show, handleClose, currentItem }) {
   // useEffect(() => {
   //   dispatch({ type: "COUNTRYLIST" });
   // }, []);
+// const [formshow,setFormShow] = useState (false)
+
+//   useEffect(()=> {
+//     // setFormShow(true)
+//     show=true;
+//   },[pgformshow])
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -65,7 +73,7 @@ function AddPg({ show, handleClose, currentItem }) {
       }
     }
   };
-
+  console.log('ADDList',state)
   const handleMobileChange = (e) => {
     const value = e.target.value;
 
@@ -270,7 +278,26 @@ function AddPg({ show, handleClose, currentItem }) {
     } else {
     }
   };
+  const [hostel_Id,setHostel_Id] = useState("")
+   useEffect(() => {
+    setHostel_Id(state.login.selectedHostel_Id);
+    }, [state?.login?.selectedHostel_Id]);
+useEffect(() => {
+    if (state.PgList.createPgStatusCode === 200) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
 
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_PG_STATUS_CODE" });
+      }, 4000);
+
+      // setPgList({
+      //   Name: "",
+      //   phoneNumber: "",
+      //   email_Id: "",
+      //   location: "",
+      // });
+    }
+  }, [state.PgList.createPgStatusCode,hostel_Id]);
   useEffect(() => {
     if (currentItem) {
       const phoneNumber = String(currentItem.hostel_PhoneNo || "");
@@ -422,7 +449,7 @@ function AddPg({ show, handleClose, currentItem }) {
       }}
     >
       <Modal
-        show={show}
+        show={show }
         onHide={handleClose}
         centered
         backdrop="static"

@@ -913,6 +913,7 @@ function* handleAnnouncementList(action) {
 function* handleAddAnnounce(action) {
   const response = yield call (add_announcement, action.payload);
 
+
   var toastStyle = {
     backgroundColor: "#E6F6E6",
     color: "black",
@@ -945,8 +946,12 @@ function* handleAddAnnounce(action) {
   }
 
   else if(response.data.statusCode === 201){
+    
     yield put({ type: 'SAME_TITLE', payload: {response:response.data.message}})
- }
+  } else if (response.data.statusCode === 202) {
+   
+    yield put({ type: 'TITTLE_UNIQUE', payload: { response: response.data.message } });
+  }
   if(response){
      refreshToken(response)
   }

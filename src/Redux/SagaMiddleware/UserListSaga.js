@@ -5,6 +5,7 @@ import { AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer,
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RepeatOneSharp } from "@mui/icons-material";
 
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
@@ -27,6 +28,21 @@ function* handleHostelList(hostel) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'NO_HOSTEL', payload: { statusCode: response.status || response.statusCode } })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+function* handleAllHostelList(action) {
+   const response = yield call(hostelList, action.payload)
+   console.log("handleAllHostelList",response)
+
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'NO_HOSTEL_DETAILS', payload: { statusCode: response.status || response.statusCode } })
    }
    if (response) {
       refreshToken(response)
@@ -1340,6 +1356,7 @@ function* UserListSaga() {
    yield takeEvery('CUSTOMERADDCONTACT', handleCustomerAddContact)
    yield takeEvery('CUSTOMERALLDETAILS', handleCustomerAllDetails)
    yield takeEvery('CONTACTDELETE', handleDeleteContact)
+   yield takeEvery('ALL_HOSTEL_DETAILS', handleAllHostelList)
 
 
 
