@@ -18,6 +18,7 @@ import Image from "react-bootstrap/Image";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import AddUser from '../Pages/UserFile/AddUser'
+import close from '../Assets/Images/close.svg';
 
 function SettingNewUser({hostelid}) {
 
@@ -48,10 +49,24 @@ const [isConfirmDelete, setIsConfirmDelete] = useState(false)
         }
     };
 
-const handleOpenAddUser = () =>{
+    //add user
+//       const [showPopup, setShowPopup] = useState(false);
+// const handleOpenAddUser = () =>{
   
-       setAddUserForm(true)
-}
+//        setAddUserForm(true)
+// }
+const [showPopup, setShowPopup] = useState(false);
+
+const handleOpenAddUser = () => {
+  if (!hostelid) { 
+    setShowPopup(true); 
+    return;
+  }
+  setAddUserForm(true);
+  console.log("Opening Add User Form...");
+};
+
+
 const handleCloseAddUser = () =>{
     setAddUserForm(false)
 }
@@ -148,7 +163,9 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                 <div>
                     <Button
                         onClick={handleOpenAddUser}
-                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
+                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
+                            fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
+                            disabled={showPopup}
                     >
 
 
@@ -157,7 +174,24 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                     </Button>
                 </div>
             </div>
+            {showPopup && (
+        <div className="d-flex flex-wrap">
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
 
+      </div>
+      
+      
+      )}
 
 
 

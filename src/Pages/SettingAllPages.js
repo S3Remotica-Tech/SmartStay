@@ -443,7 +443,6 @@ useEffect(()=>{
 <div>
 
 <div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
-
                     {/* {
                       state.login.selectedHostel_Id &&  */}
                    

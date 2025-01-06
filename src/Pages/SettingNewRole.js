@@ -12,6 +12,7 @@ import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import close from '../Assets/Images/close.svg';
 
 function SettingNewRole({ hostelid }) {
 
@@ -36,12 +37,25 @@ const [addRole, setAddRole] = useState(false)
         
 
     };
+    //add role
+
+    // const handleAddRole = () => {
+    //     setShowRole(true)
+    //     setAddRole(true)
+    //     setEditRoleDetails('')
+    // };
+      const [showPopup, setShowPopup] = useState(false);
     const handleAddRole = () => {
-        setShowRole(true)
-        setAddRole(true)
-        setEditRoleDetails('')
-    }
-        ;
+      if (!hostelid) {
+        setShowPopup(true); 
+        return;
+      }
+      setShowRole(true);
+      setAddRole(true);
+      setEditRoleDetails('');
+      console.log("Adding Role...");
+    };
+    
 
 
     const handleShowDots = (index) => {
@@ -164,15 +178,34 @@ const handleEditForm = (view) =>{
                     <Button
                         onClick={handleAddRole}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
-                    >
+                        disabled={showPopup}
+                  >
 
 
                         {" "}
                         + Add Role
                     </Button>
                 </div>
+                
             </div>
+            {showPopup && (
+        <div className="d-flex flex-wrap">
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding electricity information.
+        </p>
+        
+        <img 
+  src={close} 
+  alt="close icon" 
+  onClick={() => setShowPopup(false)}
+  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
+/>
 
+      </div>
+      
+      
+      )}
 
 
             <div className="row mt-3 mb-3">
