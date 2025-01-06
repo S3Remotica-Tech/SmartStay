@@ -64,10 +64,9 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import SettingAllPages from '../Pages/SettingAllPages';
 import hostelimage from '../Assets/Images/New_images/hostelImage.png';
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-import sidebarOne from '../Assets/Images/sidebariconOne.svg';
-import sidebarTwo from '../Assets/Images/sidebariconTwo.svg';
-import sidebarThree from '../Assets/Images/sidebariconThree.svg';
-import sidebarFour from '../Assets/Images/sidebariconFour.svg';
+import SettingIcon from '../Assets/Images/sidebariconOne.svg';
+import HelpDocumentIcon from '../Assets/Images/sidebariconThree.svg';
+import HelpVideoIcon from '../Assets/Images/sidebariconFour.svg';
 import Logout from "../Assets/Images/turn-off.png"
 import AddPg from '../Pages/PayingGuestFile/AddPg';
 import SettingManage from '../Pages/SettingManage';
@@ -812,17 +811,17 @@ useEffect(()=>{
               <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-around'}} className=" w-100">
                 <div>
     
-                <img src={sidebarOne} onClick={handleSettingspage}/>
+                <img src={SettingIcon} onClick={handleSettingspage} title='Setting'/>
                 </div>
           <div>
-          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}}/>
+          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}} title='Log Out'/>
           </div>
 
 <div>
-<img src={sidebarThree}/>
+<img src={HelpDocumentIcon} title='Help Document'/>
 </div>
 <div>
-<img src={sidebarFour}/>
+<img src={HelpVideoIcon} title='Help Video'/>
 </div>
 
 </div>            

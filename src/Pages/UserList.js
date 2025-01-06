@@ -1633,7 +1633,7 @@ function UserList(props) {
                               }}
                             >
                               <tr>
-                                <th
+                                {/* <th
                                   style={{
                                     textAlign: "center",
                                     fontFamily: "Gilroy",
@@ -1644,7 +1644,7 @@ function UserList(props) {
                                   }}
                                 >
                                   <img src={squre} height={20} width={20} />
-                                </th>
+                                </th> */}
                                 <th
                                   style={{
                                     textAlign: "start",
@@ -1816,7 +1816,7 @@ function UserList(props) {
                                           marginTop: 10,
                                         }}
                                       >
-                                        <td
+                                        {/* <td
                                           style={{
                                             padding: "10px",
                                             border: "none",
@@ -1828,7 +1828,7 @@ function UserList(props) {
                                             width={20}
                                             style={{ marginTop: 10 }}
                                           />
-                                        </td>
+                                        </td> */}
                                         <td
                                           style={{
                                             border: "none",
