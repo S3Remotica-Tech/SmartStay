@@ -8,6 +8,7 @@ import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
+
 const SettingElectricity = ({ hostelid }) => {
 
   const dispatch = useDispatch();
