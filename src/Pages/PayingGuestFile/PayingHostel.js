@@ -13,6 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 
 
 
@@ -177,8 +178,8 @@ const handleSelectCard = (hostel) => {
 
 
 
-
-
+{
+    props.filteredData[0] ? (
         <Card className="animated-text ms-0 h-100 "  style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
             height:"auto",
         }}
@@ -399,6 +400,50 @@ const handleSelectCard = (hostel) => {
             </Card.Body>
 
         </Card>
+    ): 
+    <>
+     <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            //   height: "100vh",
+            }}
+          >
+            {/* Image */}
+            <img
+              src={EmptyState}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+
+            {/* Permission Error */}
+           
+            <div>
+                    <Button
+                      onClick={props.handleShowsettingsPG}
+                    //   disabled={addPermissionError}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: 14,
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: 8,
+                        padding: "16px 20px 16px 20px",
+                      }}
+                    >
+                      {" "}
+                      + Manage PG
+                    </Button>
+                  </div>
+          
+          </div>
+    </>
+}
+
+      
 
 
         {show &&
