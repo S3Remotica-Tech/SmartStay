@@ -620,7 +620,7 @@ useEffect(() => {
       )}
 
 
-      <div>
+      {/* <div>
      {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
       .filter(item => item.prefix || item.suffix) 
       .map((item) => (
@@ -631,7 +631,43 @@ useEffect(() => {
           />
         </div>
       ))}
+</div> */}
+
+
+<div>
+  {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 ? (
+    state.UsersList.hostelList
+      .filter(item => {
+        const isValidPrefix = item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
+        const isValidSuffix = item.suffix && item.suffix !== 'null' && item.suffix !== null && item.suffix !== 0;
+        console.log('Item:', item, 'isValidPrefix:', isValidPrefix, 'isValidSuffix:', isValidSuffix);
+        return isValidPrefix || isValidSuffix;
+      })
+      .map((item) => (
+        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
+          <InvoiceSettingsList 
+            item={item}  
+            handleRecurringFormShow={handleRecurringFormShow} 
+            OnEditInvoice={handleEditInvoice} 
+          />
+        </div>
+      ))
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+      </div>
+      <div 
+        className="pb-1 mt-3" 
+        style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}
+      >
+        No Invoice available
+      </div>
+    </div>
+  )}
 </div>
+
+
 
 
 {showform ? (
