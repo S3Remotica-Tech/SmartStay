@@ -38,26 +38,13 @@ function App() {
 console.log("Token Access denied:", tokenAccessDenied);
 
   useEffect(() => {
-    const validateLogin = async () => {
+   
       try {
-        if (tokenAccessDenied === 206) {
-          setTimeout(() => {
-            dispatch({ type: 'LOG_OUT' });
-            setData(false);
-                   cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-            localStorage.setItem("loginId", '')
-            localStorage.setItem("NameId", '')
-            localStorage.setItem("phoneId", '')
-            localStorage.setItem("emilidd", '')
-            localStorage.setItem("Password", '');
-            localStorage.setItem("login", '')
-
-          }, 100);
-        } else if (login) {
+        if (login) {
           const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
           const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
           const parseData = JSON.parse(decryptedString);
-          const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable;
+          const is_Enable = state.createAccount?.accountList[0]?.user_details?.isEnable;
 
 
 
@@ -74,10 +61,32 @@ console.log("Token Access denied:", tokenAccessDenied);
       } finally {
         setLoading(false); 
       }
-    };
+    
 
-    validateLogin();
-  }, [login, state.createAccount, state.login?.isLoggedIn, tokenAccessDenied]);
+  
+  }, [login, state.createAccount, state.login?.isLoggedIn]);
+
+
+  useEffect(() => {
+    console.log('Current tokenAccessDenied:', tokenAccessDenied);
+    if (tokenAccessDenied == 206) {
+      setTimeout(() => {
+        dispatch({ type: 'LOG_OUT' });
+        setData(false);
+               cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+        localStorage.setItem("loginId", '')
+        localStorage.setItem("NameId", '')
+        localStorage.setItem("phoneId", '')
+        localStorage.setItem("emilidd", '')
+        localStorage.setItem("Password", '');
+        localStorage.setItem("login", '')
+
+      }, 100);
+    } 
+  }, [tokenAccessDenied]);
+  
+
+
 
 
   useEffect(() => {
