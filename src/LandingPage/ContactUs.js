@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import './ContactUs.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { send } from 'emailjs-com';
+import { send } from 'emailjs-com';
 // import Footer from './Footer';
 // import NeedFooter from './Need_Footer';
 import { Styles } from '../Styles/ContactUsStyles';
@@ -29,31 +29,31 @@ function ContactUs() {
         }));
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
     
-    //     send('service_12mjzrm', 'template_5i9w5vw', formData, 'k5FjQQAsBMk4I-pzB')
-    //         .then((response) => {
-    //             console.log('Email successfully sent:', response);
-    //             setStatus('Message sent successfully!');
-    //             setFormData({
-    //                 name: '',
-    //                 city: '',
-    //                 email: '',
-    //                 phone: '',
-    //                 message: ''
-    //             });
+        send('service_12mjzrm', 'template_5i9w5vw', formData, 'k5FjQQAsBMk4I-pzB')
+            .then((response) => {
+                console.log('Email successfully sent:', response);
+                setStatus('Message sent successfully!');
+                setFormData({
+                    name: '',
+                    city: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
     
                 
-    //             setTimeout(() => {
-    //                 setStatus('');
-    //             }, 1000);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Failed to send email:', error);
-    //             setStatus('Failed to send message. Please try again later.');
-    //         });
-    // };
+                setTimeout(() => {
+                    setStatus('');
+                }, 1000);
+            })
+            .catch((error) => {
+                console.error('Failed to send email:', error);
+                setStatus('Failed to send message. Please try again later.');
+            });
+    };
     
     return (
         <div>
@@ -138,7 +138,7 @@ function ContactUs() {
                         }}>Give us your contact details, and we will reach out to you as soon as possible!</p>
                         {status && <div className="alert alert-info">{status}</div>}
                         <form
-                        //  onSubmit={handleSubmit} 
+                         onSubmit={handleSubmit} 
                          style={{ paddingTop: "10px" }}>
                             <div className="row mb-3">
                                  <div className="col-md-12 col-lg-6 col-sm-12   mb-3">
