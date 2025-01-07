@@ -31,7 +31,7 @@ function SettingInvoice({hostelid}) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  const [invoice, setSetinvoice] = useState();
+  const [invoice, setSetinvoice] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState(null);
 
@@ -620,7 +620,33 @@ useEffect(() => {
       )}
 
 
-      <div>
+<div>
+  {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
+    <div className="emptystate">
+                <div className="d-flex justify-content-center">
+                  <img
+                    src={EmptyState}
+                    style={{ height: 240, width: 240 }}
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Electricity available
+                </div>
+              </div>
+  ) : null}
+</div>
+
+<div>
      {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
       .filter(item => item.prefix || item.suffix) 
       .map((item) => (
@@ -632,6 +658,22 @@ useEffect(() => {
         </div>
       ))}
 </div>
+
+
+      {/* <div className="invoice">
+     {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
+      .filter(item => item.prefix || item.suffix) 
+      .map((item) => (
+        
+        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
+          <InvoiceSettingsList item={item}  handleRecurringFormShow={handleRecurringFormShow} 
+            OnEditInvoice={handleEditInvoice}
+          />
+        </div>
+      ))}
+</div> */}
+
+
 
 
 {showform ? (
