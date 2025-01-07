@@ -23,7 +23,7 @@ function SettingCompliance({ hostelid }) {
     const [id, setId] = useState('');
     const [rowDetails, setRowDetails] = useState('');
     const [showPopup, setShowPopup] = useState(false);
-
+    const [showEditForm, setShowEditForm] = useState(false);
     const handleDeleteClick = () => {
         setShowPopup(true);
     };
@@ -61,9 +61,16 @@ function SettingCompliance({ hostelid }) {
         }
     };
 
+    // const handleEdit = () => {
+    //     setActiveRow(null)
+    //     setShowForm(true)
+    //     setEdit(true)
+    //     setId(rowDetails.id)
+    //     setComplaintTypeName(rowDetails.complaint_name)
+    // }
     const handleEdit = () => {
         setActiveRow(null)
-        setShowForm(true)
+        setShowEditForm(true)
         setEdit(true)
         setId(rowDetails.id)
         setComplaintTypeName(rowDetails.complaint_name)
@@ -73,6 +80,7 @@ function SettingCompliance({ hostelid }) {
         setShowForm(false)
         setId('')
         setComplaintTypeName('')
+        setShowEditForm(false)
     }
 
     //add compliance 
@@ -89,7 +97,7 @@ function SettingCompliance({ hostelid }) {
         console.log("Opening Form...");
       };
       
-
+//add complaint
     const handleAddComplaintType = () => {
         if (!complaintTypeName) {
             setComplaintError('Please enter Complaint Type')
@@ -100,6 +108,21 @@ function SettingCompliance({ hostelid }) {
         }
     }
 
+    //edit complaint type
+    //COMPLAINT-TYPE-LIST 
+            //COMPLAINT-TYPE-EDIT (complaint_name,id,hostel_id)
+    const handleEditType = () => {
+
+        if (!complaintTypeName) {
+            setComplaintError('Please enter Complaint Type')
+        }
+        else {
+            dispatch({ type: 'COMPLAINT-TYPE-EDIT', payload: { complaint_name: complaintTypeName, hostel_id: hostelid,id:id } })
+            setComplaintError('')
+        }
+    }
+
+    
     const handleComplaintType = (e) => {
         setComplaintTypeName(e.target.value)
         if (e.target.value) {
@@ -238,7 +261,7 @@ function SettingCompliance({ hostelid }) {
                                                 }}
                                             >
                                                 <div>
-                                                    {/* <div
+                                                    <div
                                                         className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                                         onClick={() => handleEdit(u)}
                                                     >
@@ -246,7 +269,7 @@ function SettingCompliance({ hostelid }) {
                                                         <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
                                                             Edit
                                                         </label>
-                                                    </div> */}
+                                                    </div>
                                                     <div
                                                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                                         style={{ backgroundColor: "#fff" }}
@@ -305,7 +328,112 @@ function SettingCompliance({ hostelid }) {
   )}
 </div>
 
+<Modal className="editform"
+show={showEditForm}
+onHide={() => handleClose()}
+backdrop="static"
+centered
+>
+<Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+    <div
+        style={{
+            fontSize: 20,
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+        }}
+    >
+        Edit Complaint Type
+    </div>
+    <button
+        type="button"
+        className="close"
+        aria-label="Close"
+        onClick={handleClose}
+        style={{
+            position: "absolute",
+            right: "10px",
+            top: "16px",
+            border: "1px solid black",
+            background: "transparent",
+            cursor: "pointer",
+            padding: "0",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+        }}
+    >
+        <span
+            aria-hidden="true"
+            style={{
+                fontSize: "30px",
+                paddingBottom: "6px",
+            }}
+        >
+            &times;
+        </span>
+    </button>
+</Modal.Header>
+<Modal.Body>
+    <div className="col">
+        <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+            <Form.Group className="mb-3">
+                <Form.Label
+                    style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                    }}
+                >
+                    Complain Type{" "}
+                    {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
+                </Form.Label>
+                <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Complaint Type"
+                    value={complaintTypeName}
+                    onChange={(e) => handleComplaintType(e)}
+                    style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                    }}
+                />
+            </Form.Group>
+            {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+        </div>
 
+
+    </div>
+</Modal.Body>
+
+<Modal.Footer className="d-flex justify-content-center">
+    <Button
+        className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+        style={{
+            backgroundColor: "#1E45E1",
+            fontWeight: 600,
+            height: 50,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Montserrat, sans-serif",
+            marginTop: 20,
+        }}
+        onClick={handleEditType}
+    >
+        Edit Complaint Type
+    </Button>
+</Modal.Footer>
+</Modal>
 
             <Modal
                 show={showForm}
