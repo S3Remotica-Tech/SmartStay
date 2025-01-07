@@ -108,7 +108,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_ADD_COMPLAINT_STATUS_CODE":
       return { ...state, addComplaintSuccessStatusCode: 0 };
 
-//edit complaint
+//edit complaintsettings
 case "COMPLAINT_TYPE_EDIT":
   return {
     ...state,
