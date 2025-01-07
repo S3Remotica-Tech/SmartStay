@@ -930,13 +930,14 @@ console.log("state",state)
                               editPermissionError={editPermissionError}
                               deletePermissionError={deletePermissionError}
                               filteredData={filteredData}
+                              handleShowsettingsPG = {handleShowsettingsPG}
                             />
                           </div>
                         {/* </>
                       );
                     })} */}
 
-                  {!loader && filteredData[0]?.length === 0 && (
+                  {filteredData[0]?.length === 0 && (
                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
