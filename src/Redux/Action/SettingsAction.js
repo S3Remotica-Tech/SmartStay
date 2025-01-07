@@ -58,6 +58,12 @@ export async function Addcomplainttype(type) {
   });
 }
 
+export async function Editcomplainttype(type) {
+  return await AxiosConfig.post("/edit_complaint_type", type, {
+    data: type,
+  });
+}
+
 export async function Complainttypelist(hostelID) {
   return await AxiosConfig.post("/all_complaint_types", hostelID, {
     data: hostelID,
