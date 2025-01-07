@@ -60,7 +60,8 @@ function ContactUs() {
             <div className="container">
                 <div className="row g-4 justify-content-center" style={{ paddingTop: "50px", gap: "24px" }}>
                     {/* Contact Details Section */}
-                    <div className="col-lg-5 col-md-12 col-sm-12" style={{ border: "1px solid #E2E2E2", borderRadius: "20px", padding: "30px" }}>
+                    <div className="col-lg-5 col-md-12 col-sm-12" style={{ border: "1px solid #E2E2E2", borderRadius: "20px",
+                         padding: "30px" }}>
                         <h3 style={{
                             fontWeight: Styles.FontBold,
                             fontFamily: Styles.fontFamilyMontserrat,
@@ -136,7 +137,9 @@ function ContactUs() {
                             paddingTop: "5px"
                         }}>Give us your contact details, and we will reach out to you as soon as possible!</p>
                         {status && <div className="alert alert-info">{status}</div>}
-                        <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
+                        <form
+                         onSubmit={handleSubmit} 
+                         style={{ paddingTop: "10px" }}>
                             <div className="row mb-3">
                                  <div className="col-md-12 col-lg-6 col-sm-12   mb-3">
                                     <input

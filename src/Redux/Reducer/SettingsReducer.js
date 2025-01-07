@@ -47,7 +47,8 @@ const initialState = {
   checkPassword: [],
   statusCodeForCheckPassword: 0,
   notmatchpass:"",
-  conformPassNotmatch:""
+  conformPassNotmatch:"",
+  editComplaintSuccessStatusCode:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -106,6 +107,17 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_COMPLAINT_STATUS_CODE":
       return { ...state, addComplaintSuccessStatusCode: 0 };
+
+//edit complaintsettings
+case "COMPLAINT_TYPE_EDIT":
+  return {
+    ...state,
+    message: action.payload.message,
+    editComplaintSuccessStatusCode: action.payload.statusCode,
+  };
+case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
+  return { ...state, editComplaintSuccessStatusCode: 0 };
+
     case "DELETE_COMPLAINT_TYPE":
       return { ...state, deletecomplaintStatuscode: action.payload.statusCode };
     case "CLEAR_DELETE_COMPLAINTTYPE_STATUS_CODE":
