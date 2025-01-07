@@ -460,14 +460,18 @@ function SettingInvoice({hostelid}) {
   //   setShowForm(true);
   //   setEdit(false);
   // };
-    const [showPopup, setShowPopup] = useState(false);
-
+  // useEffect(() => {
+  //   console.log("showForm state:", showform);
+  // }, [showform]);
+  
+  const [showPopup, setShowPopup] = useState(false);
     const handleShow = () => {
+      
       if (!hostelid) {
-        setShowPopup(true); // Show popup if the condition is not met
+        setShowPopup(true); 
         return;
       }
-      setShowForm(true); // Proceed only if the condition is met
+      setShowForm(true); 
       setEdit(false);
       console.log("Form is now showing...");
     };
@@ -591,7 +595,9 @@ useEffect(() => {
         <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}>Invoice</h3>
         <div></div>
         <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-          fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}  disabled={showPopup}>+ Add Invoice</Button>
+          fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}  
+          disabled={showPopup}
+          >+ Add Invoice</Button>
       </div>
 
       {showPopup && (
@@ -628,7 +634,6 @@ useEffect(() => {
 </div>
 
 {showform ? (
-  invoice.length === 0 ? (
     <div
   className="modal show"
   style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif"}}
@@ -947,118 +952,7 @@ value: invoicedueDate
   </Modal>
 </div>
 
-  ) : (
-    // <div
-    //   className="modal show"
-    //   style={{
-    //     display: "block",
-    //     position: "initial",
-    //     fontFamily: "Gilroy, sans-serif",
-    //   }}
-    // >
-    //   <Modal
-    //     show={showform}
-    //     onHide={handleCloseForm}
-    //     centered
-    //     backdrop="static"
-    //   >
-    //     <Modal.Dialog
-    //       style={{
-    //         maxWidth: 950,
-    //         paddingRight: "10px",
-    //         borderRadius: "30px",
-    //       }}
-    //       className="m-0 p-0"
-    //     >
-    //       <Modal.Body>
-    //         <div>
-    //           <Modal.Header
-    //             style={{ marginBottom: "30px", position: "relative" }}
-    //           >
-    //             <div
-    //               style={{
-    //                 fontSize: 20,
-    //                 fontWeight: 600,
-    //                 fontFamily: "Gilroy",
-    //               }}
-    //             >
-    //               {edit ? "Edit Invoice" : "Add Invoice "}
-    //             </div>
-    //             <button
-    //               type="button"
-    //               className="close"
-    //               aria-label="Close"
-    //               onClick={handleCloseForm}
-    //               style={{
-    //                 position: "absolute",
-    //                 right: "10px",
-    //                 top: "16px",
-    //                 border: "1px solid black",
-    //                 background: "transparent",
-    //                 cursor: "pointer",
-    //                 padding: "0",
-    //                 display: "flex",
-    //                 justifyContent: "center",
-    //                 alignItems: "center",
-    //                 width: "32px",
-    //                 height: "32px",
-    //                 borderRadius: "50%",
-    //               }}
-    //             >
-    //               <span
-    //                 aria-hidden="true"
-    //                 style={{ fontSize: "30px", paddingBottom: "6px" }}
-    //               >
-    //                 &times;
-    //               </span>
-    //             </button>
-    //           </Modal.Header>
-    //         </div>
-
-    //       </Modal.Body>
-    //       <Modal.Footer style={{ border: "none" }}>
-    //         <Button
-    //           className="w-100"
-    //           style={{
-    //             backgroundColor: "#1E45E1",
-    //             fontWeight: 500,
-    //             height: 50,
-    //             borderRadius: 12,
-    //             fontSize: 16,
-    //             fontFamily: "Gilroy",
-    //             fontStyle: "normal",
-    //             lineHeight: "normal",
-    //           }}
-    //           onClick={handleInvoiceSettings}
-    //         >
-    //           Add Invoice
-    //         </Button>
-    //       </Modal.Footer>
-    //     </Modal.Dialog>
-    //   </Modal>
-    // </div>
-    <div>
-    <div className="d-flex justify-content-center">
-      <img
-        src={EmptyState}
-        style={{ height: 240, width: 240 }}
-        alt="Empty state"
-      />
-    </div>
-    <div
-      className="pb-1 mt-3"
-      style={{
-        textAlign: "center",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: 20,
-        color: "rgba(75, 75, 75, 1)",
-      }}
-    >
-      No Invoice available
-    </div>
-  </div>
-  )
+  
 ) : null}
 
 
