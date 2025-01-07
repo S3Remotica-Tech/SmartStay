@@ -92,6 +92,7 @@ console.log("Token Access denied:", tokenAccessDenied);
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
             // dispatch({ type: 'CLEAR_HOSTEL_LIST' });
+            dispatch({type:'CLEAR_DASHBOARD'})
       dispatch(StoreSelectedHostelAction(""))
     }
   }, [state.login?.isLoggedIn]);
