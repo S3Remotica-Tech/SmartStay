@@ -147,7 +147,7 @@ const [hostel_Id,setHostel_Id] = useState("")
   }, [selectedHostel]);
 
 
-
+console.log("state",state)
 
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const [hostel_Id,setHostel_Id] = useState("")
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      }, 4000);
+      }, 1000);
     }
   }, [state.UsersList?.statuscodeForhotelDetailsinPg]);
 

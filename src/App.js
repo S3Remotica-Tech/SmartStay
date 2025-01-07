@@ -34,6 +34,9 @@ function App() {
   const login = localStorage.getItem("login");
   const tokenAccessDenied = cookies.get('access-denied');
 
+  
+console.log("Token Access denied:", tokenAccessDenied);
+
   useEffect(() => {
     const validateLogin = async () => {
       try {
@@ -41,19 +44,13 @@ function App() {
           setTimeout(() => {
             dispatch({ type: 'LOG_OUT' });
             setData(false);
-            // dispatch({ type: 'CLEAR_HOSTEL_DATA'});
-            // dispatch(StoreSelectedHostelAction(''))
-            cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-
+                   cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
             localStorage.setItem("loginId", '')
             localStorage.setItem("NameId", '')
             localStorage.setItem("phoneId", '')
             localStorage.setItem("emilidd", '')
             localStorage.setItem("Password", '');
             localStorage.setItem("login", '')
-
-           
-
 
           }, 100);
         } else if (login) {
@@ -84,10 +81,8 @@ function App() {
 
 
   useEffect(() => {
-    console.log("isLoggedIn:", state.login?.isLoggedIn);
     if (!state.login?.isLoggedIn && !data) {
-      console.log("Clearing hostel data...");
-      dispatch({ type: 'CLEAR_HOSTEL_LIST' });
+            // dispatch({ type: 'CLEAR_HOSTEL_LIST' });
       dispatch(StoreSelectedHostelAction(""))
     }
   }, [state.login?.isLoggedIn]);

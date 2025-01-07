@@ -24,7 +24,7 @@ const initialState = {
     amnitiesnamelist: [],
     addUserAmnities: '',
     usermessage: '',
-    statusCustomerAddUser:0,
+    statusCustomerAddUser: 0,
     CustomerdetailsgetStatuscode: 0,
     AmentiesHistorygetStatuscode: 0,
     bednumberdetails: [],
@@ -47,44 +47,44 @@ const initialState = {
     NoDataWalkInCustomerStatusCode: 0,
     addWalkInCustomerStatusCode: 0,
     alreadyHere: '',
-    deleteWalkInCustomerStatusCode:0,
+    deleteWalkInCustomerStatusCode: 0,
     GetCheckOutCustomerStatusCode: 0,
-    CheckOutCustomerList:[],
+    CheckOutCustomerList: [],
     addCheckoutCustomerStatusCode: 0,
-    deleteCheckoutCustomerStatusCode:0,
-    errorMessageAddCheckOut:'',
+    deleteCheckoutCustomerStatusCode: 0,
+    errorMessageAddCheckOut: '',
     availableCheckOutCustomerList: [],
-    exportDetails:[],
-    statusCodeForExportDetails:0,
-    exportAssetsDetail:[],
-    statusCodeforExportAssetsCode:0,
-    exportEbDetails:[],
-    statusCodeForExportEb:0,
-    exportExpenceDetails:[],
-    statusCodeForExportExpence:0,
-    exportComplianceDetails:[],
-    statusCodeForExportcompliance:0,
-    exportBookingDetails:[],
-    statusCodeForExportBooking:0,
-    exportWalkinDetails:[],
-    statusCodeForExportWalkin:0,
-    exportCheckoutDetails:[],
-    statusCodeForExportCheckout:0,
-    statusCodegetConfirmCheckout:0,
-    GetconfirmcheckoutBillDetails:[],
-    GetconfirmcheckoutUserDetails:'',
-    statusCodeAddConfirmCheckout:0,
-    reassignbeddetails:[],
-    statusCodeForReassinBed:0,
-    statusCodeForCustomerCoatact:0,
-    customerContact:[],
-    customerAllDetails:[],
-    statusCodeForCustomerAllDetails:0,
-    deleteContact:[],
-    statusCodeDeleteContact:0,
-    hotelDetailsinPg:[],
-    statuscodeForhotelDetailsinPg:0,
-    noAllHosteListStatusCode:0
+    exportDetails: [],
+    statusCodeForExportDetails: 0,
+    exportAssetsDetail: [],
+    statusCodeforExportAssetsCode: 0,
+    exportEbDetails: [],
+    statusCodeForExportEb: 0,
+    exportExpenceDetails: [],
+    statusCodeForExportExpence: 0,
+    exportComplianceDetails: [],
+    statusCodeForExportcompliance: 0,
+    exportBookingDetails: [],
+    statusCodeForExportBooking: 0,
+    exportWalkinDetails: [],
+    statusCodeForExportWalkin: 0,
+    exportCheckoutDetails: [],
+    statusCodeForExportCheckout: 0,
+    statusCodegetConfirmCheckout: 0,
+    GetconfirmcheckoutBillDetails: [],
+    GetconfirmcheckoutUserDetails: '',
+    statusCodeAddConfirmCheckout: 0,
+    reassignbeddetails: [],
+    statusCodeForReassinBed: 0,
+    statusCodeForCustomerCoatact: 0,
+    customerContact: [],
+    customerAllDetails: [],
+    statusCodeForCustomerAllDetails: 0,
+    deleteContact: [],
+    statusCodeDeleteContact: 0,
+    hotelDetailsinPg: [],
+    statuscodeForhotelDetailsinPg: 0,
+    noAllHosteListStatusCode: 0
 
 }
 
@@ -125,10 +125,10 @@ const UserListReducer = (state = initialState, action) => {
         case 'AMNITIES_NAME':
             return { ...state, amnitiesnamelist: action.payload };
         case 'ADD_USER_AMENITIES':
-            return { ...state, addUserAmnities: action.payload.message,statusCustomerAddUser:action.payload.statusCode }
+            return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
 
         case 'CLEAR_ADDUSER_AMNETIES':
-            return { ...state, statusCustomerAddUser:0 }
+            return { ...state, statusCustomerAddUser: 0 }
 
         case 'BED_NUMBER_DETAILS':
             return { ...state, bednumberdetails: action.payload, statushostelbedstatuscode: action.payload.statusCode }
@@ -164,21 +164,21 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
-            case 'CLEAR_HOSTEL_LIST':
-                return { ...state, hostelList:[]}
-                case 'NO_HOSTEL':
-                    return { ...state, noHosteListStatusCode: action.payload.statusCode }
-        
-                case 'CLEAR_NO_HOSTEL_STATUS_CODE':
-                    return { ...state, noHosteListStatusCode: 0 }
+        case 'CLEAR_HOSTEL_LIST':
+            return { ...state, hostelList: [] }
+        case 'NO_HOSTEL':
+            return { ...state, noHosteListStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_NO_HOSTEL_STATUS_CODE':
+            return { ...state, noHosteListStatusCode: 0 }
 
 
-                case 'HOSTEL_LIST_All':
-                    return { ...state, hotelDetailsinPg: action.payload.response, statuscodeForhotelDetailsinPg: action.payload.statusCode }
-                case 'CLEAR_HOSTEL_LIST_All_CODE':
-                    return { ...state, statuscodeForhotelDetailsinPg: 0 }
-                    case 'CLEAR_HOSTEL_LIST_All':
-                        return { ...state, hotelDetailsinPg:[]}
+        case 'HOSTEL_LIST_All':
+            return { ...state, hotelDetailsinPg: action.payload.response, statuscodeForhotelDetailsinPg: action.payload.statusCode }
+        case 'CLEAR_HOSTEL_LIST_All_CODE':
+            return { ...state, statuscodeForhotelDetailsinPg: 0 }
+        case 'CLEAR_HOSTEL_LIST_All':
+            return { ...state, hotelDetailsinPg: [] }
 
         case 'NO_HOSTEL_DETAILS':
             return { ...state, noAllHosteListStatusCode: action.payload.statusCode }
@@ -246,8 +246,8 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_ALREADY_EXIST_ERROR':
             return { ...state, alreadyHere: '' }
 
-            case 'DELETE_WALK_IN_CUSTOMER' :
-                return { ...state, deleteWalkInCustomerStatusCode:action.payload.statusCode}
+        case 'DELETE_WALK_IN_CUSTOMER':
+            return { ...state, deleteWalkInCustomerStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_WALK_IN_CUSTOMER':
             return { ...state, deleteWalkInCustomerStatusCode: 0 }
 
@@ -268,13 +268,13 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR _DELETE_CHECK_OUT_CUSTOMER':
             return { ...state, deleteCheckoutCustomerStatusCode: 0 }
         case 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
-            return { ...state, errorMessageAddCheckOut: action.payload}
-            case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
-                return { ...state, errorMessageAddCheckOut: ''}
+            return { ...state, errorMessageAddCheckOut: action.payload }
+        case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
+            return { ...state, errorMessageAddCheckOut: '' }
 
-case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
-    return { ...state, availableCheckOutCustomerList: action.payload.response}
-}
+        case 'AVAILABLE_CHECK_OUT_CUSTOMER': {
+            return { ...state, availableCheckOutCustomerList: action.payload.response }
+        }
 
 
 
@@ -286,129 +286,131 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
             }
 
 
-            case "EXPORT_DETAILS":
-      return {
-        ...state,
-        exportDetails: action.payload,
-        statusCodeForExportDetails: action.payload.statusCode,
-      };
-    case "CLEAR_EXPORT_DETAILS":
-      return { ...state, statusCodeForExportDetails: 0 };
-    //   export
-    case "EXPORT_ASSETS_DETAILS":
-        return {
-          ...state,
-          exportAssetsDetail: action.payload,
-          statusCodeforExportAssetsCode: action.payload.statusCode,
-        };
-      case "CLEAR_EXPORT_ASSETS_DETAILS":
-        return { ...state, statusCodeforExportAssetsCode: 0 };
+        case "EXPORT_DETAILS":
+            return {
+                ...state,
+                exportDetails: action.payload,
+                statusCodeForExportDetails: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_DETAILS":
+            return { ...state, statusCodeForExportDetails: 0 };
+        //   export
+        case "EXPORT_ASSETS_DETAILS":
+            return {
+                ...state,
+                exportAssetsDetail: action.payload,
+                statusCodeforExportAssetsCode: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_ASSETS_DETAILS":
+            return { ...state, statusCodeforExportAssetsCode: 0 };
 
 
         case "EXPORT_EB_DETAILS":
             return {
-              ...state,
-              exportEbDetails: action.payload,
-              statusCodeForExportEb: action.payload.statusCode,
+                ...state,
+                exportEbDetails: action.payload,
+                statusCodeForExportEb: action.payload.statusCode,
             };
-          case "CLEAR_EXPORT_EB_DETAILS":
+        case "CLEAR_EXPORT_EB_DETAILS":
             return { ...state, statusCodeForExportEb: 0 };
 
 
 
-            case "EXPORT_EXPENSE_DETAILS":
-                return {
-                  ...state,
-                  exportExpenceDetails: action.payload,
-                  statusCodeForExportExpence: action.payload.statusCode,
-                };
-              case "CLEAR_EXPORT_EXPENSE_DETAILS":
-                return { ...state, statusCodeForExportExpence: 0 };
+        case "EXPORT_EXPENSE_DETAILS":
+            return {
+                ...state,
+                exportExpenceDetails: action.payload,
+                statusCodeForExportExpence: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_EXPENSE_DETAILS":
+            return { ...state, statusCodeForExportExpence: 0 };
 
 
-                case "EXPORT_COMPLIANCE_DETAILS":
-                return {
-                  ...state,
-                  exportComplianceDetails: action.payload,
-                  statusCodeForExportcompliance: action.payload.statusCode,
-                };
-              case "CLEAR_EXPORT_COMPLIANCE_DETAILS":
-                return { ...state, statusCodeForExportcompliance: 0 };
+        case "EXPORT_COMPLIANCE_DETAILS":
+            return {
+                ...state,
+                exportComplianceDetails: action.payload,
+                statusCodeForExportcompliance: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_COMPLIANCE_DETAILS":
+            return { ...state, statusCodeForExportcompliance: 0 };
 
 
-                case "EXPORT_BOOKING_DETAILS":
-                    return {
-                      ...state,
-                      exportBookingDetails: action.payload,
-                      statusCodeForExportBooking: action.payload.statusCode,
-                    };
-                  case "CLEAR_EXPORT_BOOKING_DETAILS":
-                    return { ...state, statusCodeForExportBooking: 0 };
+        case "EXPORT_BOOKING_DETAILS":
+            return {
+                ...state,
+                exportBookingDetails: action.payload,
+                statusCodeForExportBooking: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_BOOKING_DETAILS":
+            return { ...state, statusCodeForExportBooking: 0 };
 
-                    case "EXPORT_WALKIN_DETAILS":
-                    return {
-                      ...state,
-                      exportWalkinDetails: action.payload,
-                      statusCodeForExportWalkin: action.payload.statusCode,
-                    };
-                  case "CLEAR_EXPORT_WALKIN_DETAILS":
-                    return { ...state, statusCodeForExportWalkin: 0 };
+        case "EXPORT_WALKIN_DETAILS":
+            return {
+                ...state,
+                exportWalkinDetails: action.payload,
+                statusCodeForExportWalkin: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_WALKIN_DETAILS":
+            return { ...state, statusCodeForExportWalkin: 0 };
 
-                    case "EXPORT_CHECKOUT_DETAILS":
-                        return {
-                          ...state,
-                          exportCheckoutDetails: action.payload,
-                          statusCodeForExportCheckout: action.payload.statusCode,
-                        };
-                      case "CLEAR_EXPORT_CHECKOUT_DETAILS":
-                        return { ...state, statusCodeForExportCheckout: 0 };
+        case "EXPORT_CHECKOUT_DETAILS":
+            return {
+                ...state,
+                exportCheckoutDetails: action.payload,
+                statusCodeForExportCheckout: action.payload.statusCode,
+            };
+        case "CLEAR_EXPORT_CHECKOUT_DETAILS":
+            return { ...state, statusCodeForExportCheckout: 0 };
 
-         case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
-             return { ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
-                                GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
-                                statusCodegetConfirmCheckout: action.payload.statusCode,};
+        case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
+            return {
+                ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
+                GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
+                statusCodegetConfirmCheckout: action.payload.statusCode,
+            };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
-             return { ...state, statusCodegetConfirmCheckout: 0 };
+            return { ...state, statusCodegetConfirmCheckout: 0 };
 
         case "ADD_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode};
+            return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode };
         case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeAddConfirmCheckout: 0 };
 
 
-            case "REASSIGN_BED":
-                return {
-                  ...state,
-                  reassignbeddetails: action.payload,
-                  statusCodeForReassinBed: action.payload.statusCode,
-                };
-              case "CLEAR_REASSIGN_BED":
-                return { ...state, statusCodeForReassinBed: 0 };
+        case "REASSIGN_BED":
+            return {
+                ...state,
+                reassignbeddetails: action.payload,
+                statusCodeForReassinBed: action.payload.statusCode,
+            };
+        case "CLEAR_REASSIGN_BED":
+            return { ...state, statusCodeForReassinBed: 0 };
 
-                case "CUSTOMER_ADD_CONTACT":
-                    return {
-                      ...state,
-                      customerContact: action.payload,
-                      statusCodeForCustomerCoatact: action.payload.statusCode,
-                    };
-                  case "CLEAR_CUSTOMER_ADD_CONTACT":
-                    return { ...state, statusCodeForCustomerCoatact: 0 };
-                    case "CUSTOMER_ALL_DETAILS":
-                        return {
-                          ...state,
-                          customerAllDetails: action.payload.response,
-                          statusCodeForCustomerAllDetails: action.payload.statusCode,
-                        };
-                      case "CLEAR_CUSTOMER_ALL_DETAILS":
-                        return { ...state, statusCodeForCustomerAllDetails: 0 };
+        case "CUSTOMER_ADD_CONTACT":
+            return {
+                ...state,
+                customerContact: action.payload,
+                statusCodeForCustomerCoatact: action.payload.statusCode,
+            };
+        case "CLEAR_CUSTOMER_ADD_CONTACT":
+            return { ...state, statusCodeForCustomerCoatact: 0 };
+        case "CUSTOMER_ALL_DETAILS":
+            return {
+                ...state,
+                customerAllDetails: action.payload.response,
+                statusCodeForCustomerAllDetails: action.payload.statusCode,
+            };
+        case "CLEAR_CUSTOMER_ALL_DETAILS":
+            return { ...state, statusCodeForCustomerAllDetails: 0 };
 
 
-                        case "DELETE_CONTACT":
-        return {
-          ...state,
-          deleteContact: action.payload,
-          statusCodeDeleteContact: action.payload.statusCode,
-        };
+        case "DELETE_CONTACT":
+            return {
+                ...state,
+                deleteContact: action.payload,
+                statusCodeDeleteContact: action.payload.statusCode,
+            };
         case "CLEAR_DELETE_CONTACT":
             return { ...state, statusCodeDeleteContact: 0 };
 
