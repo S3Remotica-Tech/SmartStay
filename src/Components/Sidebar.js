@@ -417,11 +417,11 @@ const handleSettingspage = () => {
 
 
 useEffect(()=>{
-  if(allPageHostel_Id && state.UsersList.hosteListStatusCode == 200){
+  if(allPageHostel_Id){
     dispatch(StoreSelectedHostelAction(allPageHostel_Id))
   }
 
-},[allPageHostel_Id,state.UsersList.hosteListStatusCode])
+},[allPageHostel_Id])
 
 console.log("state.UsersList.hosteListStatusCode ",state.UsersList.hosteListStatusCode )
 
@@ -455,11 +455,17 @@ console.log("lowestIdItem.Name",lowestIdItem.Name)
       }
 
       else if(state.UsersList.hosteListStatusCode === 0){
-        setPayingGuestName("");
-        setAllPageHostel_Id("");
+        // setPayingGuestName("");
+        // setAllPageHostel_Id("");
         setIsDropdownOpen("");
       }
     }, [state.UsersList.hostelList,state.UsersList.hosteListStatusCode, isInitialized, Profile]);
+
+
+
+console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
+
+
 
   const [pgshow, setPgshow] = useState(false)
   const [pgformshow, setPgformshow] = useState(true)

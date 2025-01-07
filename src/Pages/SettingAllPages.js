@@ -447,7 +447,25 @@ useEffect(()=>{
                       state.login.selectedHostel_Id &&  */}
                    
 
-<div 
+{/* <div 
+className="show-scrolls"
+              style={{
+                // backgroundColor: "#E7F1FF",
+                // borderRadius: "11px",
+                padding: "10px",
+                // marginBottom: "20px",
+                // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                // marginTop: 20,
+                // marginLeft: 30,
+                // maxWidth:'201px',
+                height:'350px',
+                overflowY: "auto",
+               WebkitOverflowScrolling:'touch'
+              }}
+            > */}
+              <div 
+              // className="show-scrolls"
+              
               style={{
                 backgroundColor: "#E7F1FF",
                 borderRadius: "11px",
@@ -457,11 +475,11 @@ useEffect(()=>{
                 marginTop: 20,
                 marginLeft: 30,
                 maxWidth:'201px',
-                height:'250px',
+                maxHeight:'250px',
+                height:"100%",
                 overflowY: "auto",
                WebkitOverflowScrolling:'touch'
-              }}
-            >
+              }} >
               <p
                 onClick={() => {
                     setActiveItem("Electricity");
@@ -656,6 +674,7 @@ useEffect(()=>{
                
               </p>
             </div>
+            {/* </div> */}
 {/* } */}
 </div>
 
