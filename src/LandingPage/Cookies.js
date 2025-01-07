@@ -165,7 +165,7 @@ const CookiesPolicy = () => {
             us:
           </p>
           <p style={paragraphStyle}>
-            <strong>QbatzClay (Owned by S3 Remotica Technologies)</strong>
+            <strong> Smartstay (Owned by S3 Remotica Technologies)</strong>
           </p>
           <p style={paragraphStyle}>Email: support@s3remotica.com</p>
           <p style={paragraphStyle}>Phone: +91 8344715078</p>

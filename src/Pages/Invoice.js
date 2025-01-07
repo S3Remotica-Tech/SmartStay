@@ -181,6 +181,15 @@ const InvoicePage = () => {
   const [DownloadInvoice, setDownloadInvoice] = useState(false)
   const [showPdfModal, setShowPdfModal] = useState(false)
   const [rowData, setRowData] = useState('')
+  const [showeditform,setShowEditform] = useState(false);
+  const [showdeleteform,setShowDeleteform] = useState(false)
+
+  const [name, setName] = useState("");
+  const [invoiceNumbers, setInvoiceNumbers] = useState("");
+  const [created, setCreated] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [amount, setAmount] = useState("");
+  const [due, setDue] = useState("");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let serialNumber = 1;
@@ -624,7 +633,13 @@ const InvoicePage = () => {
         setShowModal(!showModal);
       };
     
-    
+    const handleEdit = (props) => {
+      setShowEditform (true)
+    }
+
+    const handleBillDelete = (props) => {
+      setShowDeleteform (true)
+    }
     
     
       const handleShowForm = (props) => {
@@ -706,8 +721,14 @@ const InvoicePage = () => {
         })
     
       }
+
+      const handleCloseEditForm = () => {
+        setShowEditform(false)
+      }
     
-     
+     const handleCloseDeleteform = () => {
+      setShowDeleteform(false)
+     }
     
     
       const handleSaveInvoiceList = () => {
@@ -1968,7 +1989,218 @@ setDownloadInvoice(false)
 </div>
 </div> */}
 
+{showdeleteform && 
+<div>
+   <Modal
+          show={showdeleteform}
+          onHide={handleCloseDeleteform}
+          centered
+          backdrop="static"
+          style={{
+            width: 388,
+            height: 250,
+            marginLeft: "500px",
+            marginTop: "200px",
+          }}
+        >
+          <Modal.Header style={{ borderBottom: "none" }}>
+            <Modal.Title
+              style={{
+                fontSize: "18px",
+                fontFamily: "Gilroy",
+                textAlign: "center",
+                fontWeight: 600,
+                color: "#222222",
+                flex: 1,
+              }}
+            >
+              Delete Billing?
+            </Modal.Title>
+          </Modal.Header>
+  
+          <Modal.Body
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              color: "#646464",
+              textAlign: "center",
+              marginTop: "-20px",
+            }}
+          >
+            Are you sure you want to delete this Billing?
+          </Modal.Body>
+  
+          <Modal.Footer
+            style={{
+              justifyContent: "center",
+              borderTop: "none",
+              marginTop: "-10px",
+            }}
+          >
+            <Button
+              style={{
+                width: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#fff",
+                color: "#1E45E1",
+                border: "1px solid #1E45E1",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+                marginRight: 10,
+               
+              }}
+              onClick={handleCloseDeleteform}
+             
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{
+                width: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#1E45E1",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+ </div> 
+}
 
+{showeditform &&
+<div
+ className="modal show"
+ style={{
+   display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+ }}
+>
+  <Modal show={showeditform} onHide={handleCloseEditForm} backdrop="static"
+          centered>
+      <Modal.Dialog style={{ maxWidth: 850, width: '600px' }} className='m-0 p-0'>
+            <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+              <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Edit Billing</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+            <div className='row mt-2'>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+      Name
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter name"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      
+    />
+  </Form.Group>
+</div>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+      Invoice number
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter Invoice number"
+      value={invoiceNumbers}
+      onChange={(e) => setInvoiceNumbers(e.target.value)}
+    />
+  </Form.Group>
+</div>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+      Created
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter Created"
+      value={created}
+      onChange={(e) => setCreated(e.target.value)}
+    />
+  </Form.Group>
+</div>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+      Due Date
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter due date"
+      value={dueDate}
+      onChange={(e) => setDueDate(e.target.value)}
+    />
+  </Form.Group>
+</div>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+      Amount
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter amount"
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+    />
+  </Form.Group>
+</div>
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
+    <Form.Label style={{ fontFamily: "Gilroy"}}
+    >
+    Due
+    </Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Enter due"
+      value={due}
+      onChange={(e) => setDue(e.target.value)}
+    />
+  </Form.Group>
+</div>
+</div>
+              </Modal.Body>   
+              <Modal.Footer style={{ border: "none" }}>
+              <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
+               
+
+              >
+                Save Changes
+              </Button>
+            </Modal.Footer>     
+    </Modal.Dialog>
+  </Modal>
+
+  </div>
+}
 
 
 
@@ -2499,7 +2731,9 @@ setDownloadInvoice(false)
       key={item.id}
       item={item}
       OnHandleshowform={handleShowForm}
+      OnHandleshowEditform={handleEdit}
       OnHandleshowInvoicePdf={handleInvoiceDetail}
+      OnHandleshowDeleteform= {handleBillDelete}
       DisplayInvoice={handleDisplayInvoiceDownload}
       billAddPermission={billAddPermission}
       billEditPermission={billEditPermission}

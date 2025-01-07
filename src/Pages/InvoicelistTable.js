@@ -45,10 +45,16 @@ const InvoiceTable = (props) => {
     const handleShowform = (props) => {
         props.OnHandleshowform(props)
     }
-
+   const handleEdit = (props) => {
+    props.OnHandleshowEditform(props)
+   }
 
     const handleInvoicepdf = (item) => {
         props.OnHandleshowInvoicePdf(item)
+    }
+
+    const handleBillDelete = (props) => {
+      props.OnHandleshowDeleteform(props)
     }
     let Dated = new Date(props.item.Date);
 
@@ -152,11 +158,11 @@ setDownloadInvoiceTable(true)
     // backgroundColor: props.billEditPermission ? "#f9f9f9" : "#fff",
     cursor: props.billEditPermission ? "not-allowed" : "pointer",
   }}
-//   onClick={() => {
-//     if (!props.billEditPermission) {
-//       handleEdit();
-//     }
-//   }}
+  onClick={() => {
+    if (!props.billEditPermission) {
+      handleEdit(props);
+    }
+  }}
 >
   <img
     src={Edit}
@@ -229,11 +235,11 @@ setDownloadInvoiceTable(true)
     // backgroundColor: props.billDeletePermission ? "#f9f9f9" : "#fff",
     cursor: props.billDeletePermission ? "not-allowed" : "pointer",
   }}
-//   onClick={() => {
-//     if (!props.billDeletePermission) {
-//       handleDelete(props);
-//     }
-//   }}
+  onClick={() => {
+    if (!props.billDeletePermission) {
+      handleBillDelete(props);
+    }
+  }}
 >
   <img
     src={Delete}
