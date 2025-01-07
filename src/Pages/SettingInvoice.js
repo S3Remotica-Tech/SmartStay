@@ -622,7 +622,7 @@ useEffect(() => {
 
 <div>
   {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
-    <div className="empty-state">
+    <div className="emptystate">
                 <div className="d-flex justify-content-center">
                   <img
                     src={EmptyState}
