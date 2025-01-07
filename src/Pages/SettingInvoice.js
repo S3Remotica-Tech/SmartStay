@@ -31,7 +31,7 @@ function SettingInvoice({hostelid}) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  const [invoice, setSetinvoice] = useState();
+  const [invoice, setSetinvoice] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState(null);
 
@@ -619,6 +619,32 @@ useEffect(() => {
       
       )}
 
+
+<div>
+  {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
+    <div className="emptystate">
+                <div className="d-flex justify-content-center">
+                  <img
+                    src={EmptyState}
+                    style={{ height: 240, width: 240 }}
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Electricity available
+                </div>
+              </div>
+  ) : null}
+</div>
 
       {/* <div>
      {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
