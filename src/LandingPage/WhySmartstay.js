@@ -37,7 +37,9 @@ const steps = [
 
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     const appearOptions = {
       threshold : 0.5

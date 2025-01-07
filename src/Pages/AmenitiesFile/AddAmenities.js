@@ -282,7 +282,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   )}
                 </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <label
@@ -305,7 +305,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                       ></Form.Check>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </Modal.Body>
 

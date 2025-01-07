@@ -78,6 +78,7 @@ function Sidebar() {
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("state",state)
   const stateData = useSelector(state => state.createAccount)
   const stateLogin = useSelector(state => state.login)
 
@@ -102,6 +103,7 @@ function Sidebar() {
   const loginId = localStorage.getItem('loginId');
 
 
+
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
     dispatch({ type: 'ACCOUNTDETAILS' })
@@ -109,14 +111,19 @@ function Sidebar() {
 
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState([]);
+  const[hostel_Id,setHostel_Id] = useState("")
 
   useEffect(() => {
     dispatch({ type: 'ALL-NOTIFICATION-LIST' })
     setNotification(state.login.Notification)
   }, [])
 
-
-
+useEffect(()=>{
+if(state.login.selectedHostel_Id){
+  setHostel_Id(state.login.selectedHostel_Id)
+}
+},[state.login.selectedHostel_Id])
+console.log("state.login.selectedHostel_Id",state.login.selectedHostel_Id)
   let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
 
 
@@ -292,6 +299,22 @@ function Sidebar() {
 
 
 
+  console.log("StoreSelectedHostelAction",StoreSelectedHostelAction(allPageHostel_Id))
+  
+  useEffect(() => {
+    console.log("isLoggedIn:", state.login?.isLoggedIn);
+    if (state.login?.isLoggedIn === false) {
+      console.log("Clearing hostel data...");
+      dispatch({ type: 'CLEAR_HOSTEL_LIST'});
+      dispatch({type:'CLEAR_DASHBOARD'})
+      dispatch({type:'CLEAR_HOSTEL_DATA'})
+      setAllPageHostel_Id("")
+      dispatch(StoreSelectedHostelAction(''))
+      console.log("StoreSelectedHostelAction",StoreSelectedHostelAction(""))
+      setHostel_Id("");
+    }
+  }, [state.login?.isLoggedIn]);
+
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarMaximized(!isSidebarMaximized);
@@ -394,37 +417,49 @@ const handleSettingspage = () => {
 
 
 useEffect(()=>{
-  if(allPageHostel_Id){
+  if(allPageHostel_Id && state.UsersList.hosteListStatusCode == 200){
     dispatch(StoreSelectedHostelAction(allPageHostel_Id))
   }
 
-},[allPageHostel_Id])
+},[allPageHostel_Id,state.UsersList.hosteListStatusCode])
 
-
-
-
+console.log("state.UsersList.hosteListStatusCode ",state.UsersList.hosteListStatusCode )
 
 
   const [isInitialized, setIsInitialized] = useState(false); 
 
-  useEffect(() => {
-    if (!isInitialized && state.UsersList.hostelList.length > 0) {
-      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
-        prev.id < current.id ? prev : current
-      );
+    useEffect(() => {
 
-      setPayingGuestName(lowestIdItem.Name);
-      setAllPageHostel_Id(lowestIdItem.id);
-      setIsDropdownOpen(false);
-      setSelectedProfileImage(
-        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
-          ? lowestIdItem.profile
-          : Profile
-      );
+      console.log("state.UsersList.hosteListStatusCode:",state.UsersList.hosteListStatusCode);
+      
+      
+      if (!isInitialized && state.UsersList.hostelList.length > 0 && state.UsersList.hosteListStatusCode == 200) {
 
-      setIsInitialized(true); 
-    }
-  }, [state.UsersList.hostelList, isInitialized, Profile]);
+        console.log(state.UsersList.hostelList," state.UsersList.hostelList");
+        
+
+        const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
+          prev.id < current.id ? prev : current
+        );
+console.log("lowestIdItem.Name",lowestIdItem.Name)
+        setPayingGuestName(lowestIdItem.Name);
+        setAllPageHostel_Id(lowestIdItem.id);
+        setIsDropdownOpen(false);
+        setSelectedProfileImage(
+          lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
+            ? lowestIdItem.profile
+            : Profile
+        );
+
+        setIsInitialized(true); 
+      }
+
+      else if(state.UsersList.hosteListStatusCode === 0){
+        setPayingGuestName("");
+        setAllPageHostel_Id("");
+        setIsDropdownOpen("");
+      }
+    }, [state.UsersList.hostelList,state.UsersList.hosteListStatusCode, isInitialized, Profile]);
 
   const [pgshow, setPgshow] = useState(false)
   const [pgformshow, setPgformshow] = useState(true)
@@ -661,7 +696,7 @@ useEffect(()=>{
 
               
               <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative", marginBottom:"20px",
-                maxHeight: manageOpen ? "370px" : "unset", 
+                maxHeight: manageOpen ? "360px" : "unset", 
                 overflowY: manageOpen ? "auto" : "hidden", 
                   paddingBottom: "30px"
                  

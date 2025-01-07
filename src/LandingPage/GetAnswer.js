@@ -8,7 +8,9 @@ import Button from 'react-bootstrap/Button';
 function GetAnswer() {
 
 
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
 
   useEffect(() => {

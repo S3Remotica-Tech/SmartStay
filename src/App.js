@@ -16,6 +16,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndCondition from "./LandingPage/TermsCondition"
 
+import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
+
+import ContactUs from './LandingPage/ContactUs';
+import CookiesFooter from './LandingPage/Cookies'
+
+
 
 
 function App() {
@@ -35,6 +41,8 @@ function App() {
           setTimeout(() => {
             dispatch({ type: 'LOG_OUT' });
             setData(false);
+            // dispatch({ type: 'CLEAR_HOSTEL_DATA'});
+            // dispatch(StoreSelectedHostelAction(''))
             cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
 
             localStorage.setItem("loginId", '')
@@ -44,7 +52,7 @@ function App() {
             localStorage.setItem("Password", '');
             localStorage.setItem("login", '')
 
-
+           
 
 
           }, 100);
@@ -74,6 +82,16 @@ function App() {
     validateLogin();
   }, [login, state.createAccount, state.login?.isLoggedIn, tokenAccessDenied]);
 
+
+  useEffect(() => {
+    console.log("isLoggedIn:", state.login?.isLoggedIn);
+    if (!state.login?.isLoggedIn && !data) {
+      console.log("Clearing hostel data...");
+      dispatch({ type: 'CLEAR_HOSTEL_LIST' });
+      dispatch(StoreSelectedHostelAction(""))
+    }
+  }, [state.login?.isLoggedIn]);
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -90,6 +108,10 @@ function App() {
     );
   }
 
+
+
+   
+  
   return (
 
     <> <ToastContainer />
@@ -108,6 +130,8 @@ function App() {
             <Route path="/" element={<FrontPage />} />
             <Route path="/Terms-Condition" element={ <TermsAndCondition />} />
             <Route path="/Privacy-Policy" element={ <TermsAndCondition />} />
+            <Route path="/Contact-Us" element={ <TermsAndCondition/>} />
+            <Route path="/Cookies" element={ <TermsAndCondition/>} />
             <Route path="/login-Page" element={<LoginPage />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/forget-password" element={<ForgetPassword />} />

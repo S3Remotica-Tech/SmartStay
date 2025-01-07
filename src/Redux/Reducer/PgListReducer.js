@@ -302,7 +302,8 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
                             };
                           case "CLEAR_DASHBOARD_FILTER_REVENUE":
                             return { ...state, statusCodeForDashboardFilterRevenue: 0 };
-
+                            case "CLEAR_DASHBOARD":
+                                return { ...state,dashboardFilterCashback:[],dashboardFilter:[],dashboardFilterRevenu:[],dashboardDetails:[]};
 
 
 // HostelBased

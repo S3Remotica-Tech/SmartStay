@@ -9,7 +9,9 @@ import Card from 'react-bootstrap/Card';
 
 
 function KeyFeature() {
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [keyValue, setKeyValue] = useState([
     { id: 1, Heading: "Room Management", Title: "Easily manage room availability, bookings, and occupancy status.", KeyImage: Room },
     { id: 2, Heading: "Customer Management", Title: "Keep track of customer details, stay history, and preferences.", KeyImage: Custom },
@@ -52,7 +54,7 @@ function KeyFeature() {
         </div>
 
         {keyValue.map((item) => (
-          <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12' style={{padding:"40px 20px 40px 20px"}}>
+          <div key={item.id} className='col-lg-4 col-md-6 col-xs-12 col-sm-12' style={{padding:"40px 20px 40px 20px"}}>
             <Card className="h-100 fade-in" style={{ backgroundColor: "#e7f1ff", borderRadius: 24, border: "1px solid #e7f1ff" }}>
               <Card.Body>
 

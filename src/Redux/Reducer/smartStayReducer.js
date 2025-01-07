@@ -22,23 +22,29 @@ const initialState = {
 
 }
 const SmartStayReducer = (state = initialState, action) => {
-
+console.log("action",action)
    switch (action.type) {
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
-         case "CLEAR_HOSTEL_DATA":
-            return { ...state, selectedHostel_Id: ''};
+      case "CLEAR_HOSTEL_DATA":
+         return { ...state, selectedHostel_Id: '' };
 
       case "SETTINGS_STORE_HOSTEL_DATA":
          return { ...state, Settings_Hostel_Id: action.payload };
 
       case "TERMS_CONDITION":
-         return { ...state, IsVisible: true }
+         return { ...state, IsVisible: 1 }
       case "PRIVACY_POLICY":
-         return { ...state, IsVisible: false }
-         case "CLOSE_TERMS_PRIVACY":
-            return { ...state, IsVisible: null }
-                  case 'ERROR':
+         return { ...state, IsVisible: 2 }
+      case "CONTACT_US":
+         console.log("IsVisible updated to 3");
+         return { ...state, IsVisible: 3 }
+      case "COOKIES_FOOTER":
+         console.log("IsVisible updated to 4");
+         return { ...state, IsVisible: 4 }
+      case "CLOSE_TERMS_PRIVACY":
+         return { ...state, IsVisible: null }
+      case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
          return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
@@ -53,7 +59,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
-         return { ...state, isLoggedIn: false }
+         return { ...state, isLoggedIn: false  , selectedHostel_Id: null}
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
       case 'OTP_SUCCESS':
