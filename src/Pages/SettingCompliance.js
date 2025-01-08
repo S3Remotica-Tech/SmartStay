@@ -236,19 +236,19 @@ function SettingCompliance({ hostelid }) {
           style={{ gap: "10px" }}
         >
           <p
-            style={{ color: "red" }}
+            style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
             className="col-12 col-sm-6 col-md-6 col-lg-9"
           >
-            !Please add a hostel before adding electricity information.
+            Please add a hostel before adding compliance information.
           </p>
 
-          <img
+          {/* <img
             src={close}
             alt="close icon"
             onClick={() => setShowPopupValidation(false)}
             className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
             style={{ width: "20px", height: "auto", cursor: "pointer" }}
-          />
+          /> */}
         </div>
       )}
 
