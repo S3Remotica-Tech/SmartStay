@@ -356,19 +356,19 @@ const handleShow = () => {
                 backgroundColor: "#FFFFFF",
                 height: 63,}} >
         <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}> Expences Category</h3>
-        <div></div>
+        <div>
         <Button  onClick={handleShow} 
         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-          fontWeight: 600, borderRadius: 8, padding: "16px 16px 16px 16px"}}
+          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",width:140}}
           disabled={showPopup}
-          >{" "}+ Add Category</Button>
+          >{" "}+  Category</Button></div>
            
       </div>
       {showPopup && (
         <div className="d-flex flex-wrap mt-3 align-items-center" 
         style={{ gap: "10px" }} >
-        <p style={{color: "red", fontFamily: "Gilroy", fontSize: 14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Expense Category information.
+        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          !Please add a hostel before adding Expense information.
         </p>
         
         <img 
@@ -495,7 +495,7 @@ const handleShow = () => {
   ))
 
   ) : (
-    <div>
+    <div style={{marginTop:85,alignItems:"center",justifyContent:"center"}}>
       <div className="d-flex justify-content-center">
         <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
       </div>

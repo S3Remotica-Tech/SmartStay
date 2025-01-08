@@ -121,10 +121,10 @@ const handleHideTagAsset = () => {
 
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
-
+{/* 
       <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center",border: "none"}}>
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
-    </td>
+    </td> */}
 
       <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
 
