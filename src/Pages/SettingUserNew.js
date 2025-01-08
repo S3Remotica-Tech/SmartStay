@@ -176,17 +176,17 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
             </div>
             {showPopup && (
         <div className="d-flex flex-wrap">
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding electricity information.
+        <p style={{color: "red", fontFamily: "Gilroy", fontSize: 14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          Please add a hostel before adding User information.
         </p>
         
-        <img 
+        {/* <img 
   src={close} 
   alt="close icon" 
   onClick={() => setShowPopup(false)}
   className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
   style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+/> */}
 
       </div>
       
