@@ -121,7 +121,7 @@ function ParticularHostelDetails(props) {
 
 
   const [showDots, setShowDots] = useState('')
-  const [roomCountData, setRoomCountData] = useState('')
+  const [roomCountData, setRoomCountData] = useState([])
 
   const [activeRoomId, setActiveRoomId] = useState(null);
 
@@ -134,9 +134,9 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
 
     if (props.floorID && props.hostel_Id) {
-      setTimeout(()=>{
-        setLoader(true)
-      },100)
+      // setTimeout(()=>{
+      //   setLoader(true)
+      // },100)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
      
       
@@ -148,7 +148,7 @@ function ParticularHostelDetails(props) {
   }
 
 
-  const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(false)
 
 
 
@@ -163,7 +163,7 @@ function ParticularHostelDetails(props) {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 1000);
     }
-  }, [state.PgList.roomCountStatusCode])
+  }, [state.PgList?.roomCountStatusCode])
 
 
 
@@ -171,8 +171,8 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.noRoomsInFloorStatusCode === 201) {
-      setRoomCountData('')
-      setLoader(false)
+      setRoomCountData([])
+      // setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
       }, 2000);
@@ -249,17 +249,17 @@ function ParticularHostelDetails(props) {
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  useEffect(()=>{
-    if(roomCountData.length > 0 ){
-      setLoader(false)
-      // const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
-      // setCurrentItems(slicedItems);
-      }else{
-        setLoader(false);
-    // setCurrentItems([]); 
-      }
+  // useEffect(()=>{
+  //   if(roomCountData.length > 0 ){
+  //     setLoader(false)
+  //     // const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  //     // setCurrentItems(slicedItems);
+  //     }else{
+  //       setLoader(false);
+  //   // setCurrentItems([]); 
+  //     }
   
-  },[roomCountData])
+  // },[roomCountData])
 
 
 
@@ -434,6 +434,19 @@ useEffect(() => {
       document.removeEventListener('mousedown', handleClickOutside);
   };
 }, []);
+
+
+
+
+
+
+
+
+
+console.log("currentItems",currentItems)
+console.log("roomCountData",roomCountData)
+
+
 
   return (
     <> 
