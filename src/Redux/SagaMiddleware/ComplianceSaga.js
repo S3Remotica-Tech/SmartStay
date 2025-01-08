@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange} from "../Action/ComplianceAction"
+import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -8,16 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
  function* handlecompliancelist (action){
     const response = yield call (compliance, action.payload);
-    
-    if (response.status === 200 || response.statusCode === 200){
-       yield put ({type : 'COMPLIANCE_LIST' , payload:response.data.hostelData})
-    }
-    else if(response.status === 401 || response.statusCode === 401){
-      Swal.fire({
-         icon: 'warning',
-         title: 'Error',
-         text: response.data.message,
-       });
+    console.log("handlecompliancelist",response)
+    if (response.status === 200  || response.data.statusCode === 200){
+       yield put ({type : 'COMPLIANCE_LIST' , payload:{response:response.data.hostelData, statusCode:response.status || response.data.statusCode}})
     }
     else {
        yield put ({type:'ERROR', payload:response.data.message})
@@ -29,9 +22,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function* handleComplianceadd (params) {
    const response = yield call (Compliancedetails,params.payload);
- 
-   if (response.status === 200 || response.statusCode === 200){
-      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+ console.log("handleComplianceadd",response)
+   if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.data.statusCode }})
       // Define the style
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -226,7 +219,48 @@ function* handleDeleteVendor(action) {
 }
 
 
+function* handleDeleteCompliance(action) {
+   const response = yield call (complianceDelete,action.payload);
+   console.log("handleDeleteCompliance",response)
 
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
+
+   if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'DELETE_COMPLIANCE' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+       });
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
 
 function refreshToken(response){
@@ -254,7 +288,8 @@ function* ComplianceSaga() {
     yield takeEvery('VENDORLIST',handleVendorGet)
     yield takeEvery('ADDVENDOR',handleAddVendor)
     yield takeEvery('DELETEVENDOR',handleDeleteVendor)
-    yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)    
+    yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)
+    yield takeEvery('DELETECOMPLIANCE',handleDeleteCompliance)    
 
 }
 export default ComplianceSaga;

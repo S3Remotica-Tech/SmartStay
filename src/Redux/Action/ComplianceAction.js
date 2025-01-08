@@ -66,3 +66,9 @@ export async function addVendor(params) {
       data: compliance
     })
   }
+
+  export async function complianceDelete(datum) {
+    return await AxiosConfig.post('/complaint/delete_compliant', datum, {
+      data: datum
+    })
+  }
