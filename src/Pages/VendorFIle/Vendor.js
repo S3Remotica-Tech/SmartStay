@@ -22,7 +22,7 @@ function Vendor() {
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
   const [searchQuery, setSearchQuery] = useState('')
   const [loader, setLoader] = useState(true)
@@ -469,7 +469,7 @@ function Vendor() {
               )}
             </div></>
         ) :
-          <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
+          <div style={{ width: "100%", fontFamily: "Gilroy" ,position:"relative"}} className='container'>
 
             <div className='container mt-3'
 
@@ -708,10 +708,14 @@ function Vendor() {
               currentItems.length > 0 &&
               <nav
                 style={{
+                  marginBottom:20,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "end", // Align dropdown and pagination
                   padding: "10px",
+                  position:"sticky",
+                                  
+                  right:0,
                   // borderTop: "1px solid #ddd",
                 }}
               >

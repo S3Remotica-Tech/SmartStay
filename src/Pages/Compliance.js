@@ -1167,6 +1167,7 @@ console.log("state.ComplianceList.statusCodeForAddCompliance",state.ComplianceLi
                                 display: "flex",
                                 alignItems: "center",
                                 listStyleType: "none",
+                                     
                                 margin: 0,
                                 padding: 0,
                               }}
