@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
-import Room from "../Assets/Images/RoomImg.svg";
 import More from "../Assets/Images/more.svg";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
