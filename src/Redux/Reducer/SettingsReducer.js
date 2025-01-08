@@ -112,7 +112,7 @@ const SettingsReducer = (state = initialState, action) => {
 case "COMPLAINT_TYPE_EDIT":
   return {
     ...state,
-    message: action.payload.message,
+    message: action.payload.response,
     editComplaintSuccessStatusCode: action.payload.statusCode,
   };
 case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
