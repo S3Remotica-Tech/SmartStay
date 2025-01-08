@@ -46,7 +46,10 @@ function  SettingAllPages(props ) {
 
 
   useEffect(() => {
-    setHostel_Id(state.login.selectedHostel_Id)
+    if(state.login.selectedHostel_Id){
+      setHostel_Id(state.login.selectedHostel_Id)
+    }
+    
   }, [state?.login?.selectedHostel_Id]);
   
 
