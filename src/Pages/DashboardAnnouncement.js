@@ -261,37 +261,6 @@ function DashboardAnnouncement(props) {
 
   return (
     <>
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end", // Aligns content to the right
-          marginBottom: "10px",
-          marginTop: "-70px",
-          zIndex: 10,
-          position: "absolute",
-          right: 0,
-          marginRight: "50px",
-        }}
-      >
-        <Button
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            backgroundColor: "#1E45E1",
-            color: "white",
-            fontWeight: 600,
-            borderRadius: "12px",
-            padding: "11px 24px",
-            width: "auto",
-            maxWidth: "100%",
-            marginBottom: "10px",
-          }}
-          onClick={handleShowAnnouncement}
-          className="responsive-button"
-        >
-          + Add Announcement
-        </Button>
-      </div> */}
       <div
         style={{
           display: "flex",
