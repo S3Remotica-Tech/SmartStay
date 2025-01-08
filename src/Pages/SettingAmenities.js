@@ -292,13 +292,13 @@ const handleOpenAmenities = () => {
           !Please add a hostel before adding Amentities information.
         </p>
         
-        <img 
+        {/* <img 
   src={close} 
   alt="close icon" 
   onClick={() => setShowPopup(false)}
   className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
   style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+/> */}
 
       </div>
       

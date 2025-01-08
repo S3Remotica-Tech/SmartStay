@@ -113,10 +113,12 @@ function SettingInvoice({hostelid}) {
   // }, [])
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+    if(hostelid){
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
+    }  
+  }, [hostelid]);
 
-
+console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -273,7 +275,7 @@ function SettingInvoice({hostelid}) {
       dispatch({ type: "INVOICESETTINGS",
         payload: {hostel_Id: hostelid,prefix: prefix,suffix: startNumber , inv_date :formattedInvoiceDate , due_date: formattedDueDate }});
       
-        dispatch({ type: "HOSTELLIST" });
+        dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
 
       setShowForm(false);
       setPrefix("");
@@ -309,7 +311,7 @@ function SettingInvoice({hostelid}) {
   useEffect(() => {
     if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
 
-      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid}});
       setSelectedDate('')
       setInvoiceDueDate('')
 
@@ -323,7 +325,7 @@ function SettingInvoice({hostelid}) {
  
 
   useEffect(() => {
-    const filteredHostels = state.UsersList?.hostelList?.filter(
+    const filteredHostels = state.UsersList?.hotelDetailsinPg?.filter(
       (item) => item.id === Number(selectedHostel.id)
     );
 
@@ -341,9 +343,9 @@ function SettingInvoice({hostelid}) {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  if (state.UsersList.hostelList.length != 0) {
-    var currentRows = state?.UsersList?.hostelList.slice(indexOfFirstRow,indexOfLastRow);
-    var totalPages = Math.ceil(state?.UsersList?.hostelList.length / rowsPerPage);
+  if (state.UsersList.hotelDetailsinPg.length != 0) {
+    var currentRows = state?.UsersList?.hotelDetailsinPg.slice(indexOfFirstRow,indexOfLastRow);
+    var totalPages = Math.ceil(state?.UsersList?.hotelDetailsinPg.length / rowsPerPage);
   } else {
     var currentRows = 0;
     var totalPages = 0;
@@ -448,9 +450,9 @@ function SettingInvoice({hostelid}) {
     useEffect(() => {
       if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
        
-        dispatch({ type: "HOSTELLIST" });
+        dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
           setTimeout(() => {
-              dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
+              dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING'})
           }, 100)
       }
   }, [state.InvoiceList.settingsaddRecurringStatusCode])
@@ -606,14 +608,7 @@ useEffect(() => {
           !Please add a hostel before adding Invoice information.
         </p>
         
-        <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
-
+      
       </div>
       
       
@@ -694,8 +689,8 @@ useEffect(() => {
 </div> */}
 
 <div>
-  {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 ? (
-    state.UsersList.hostelList.every(
+  {state?.UsersList?.hotelDetailsinPg && state.UsersList.hotelDetailsinPg.length > 0 ? (
+    state.UsersList.hotelDetailsinPg.every(
       (item) =>
         (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
         (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
@@ -718,8 +713,7 @@ useEffect(() => {
         </div>
       </div>
     ) : (
-      state.UsersList.hostelList
-        .filter((item) => {
+      state.UsersList.hotelDetailsinPg.filter((item) => {
           const isValidPrefix =
             item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
           const isValidSuffix =

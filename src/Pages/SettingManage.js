@@ -224,7 +224,7 @@ function SettingManage(props) {
       state.UsersList.createFloorSuccessStatusCode == 200 ||
       state.PgList.updateFloorSuccessStatusCode == 200
     ) {
-      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELLIST"});
       // setTimeout(()=>{
       //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
       // },3000)

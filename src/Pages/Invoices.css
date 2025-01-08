@@ -172,18 +172,18 @@ line-height: normal;
   max-height: 5px !important;
 }
 
-.show-scrolls::-webkit-scrollbar {
+.show-scrollse::-webkit-scrollbar {
   width: 8px !important;
   
 }
  
-.show-scrolls::-webkit-scrollbar-track {
-  background: #fff;
+.show-scrollse::-webkit-scrollbar-track {
+  background: #fff !important;
   border-radius: 8px !important;
  
 }
  
-.show-scrolls::-webkit-scrollbar-thumb {
+.show-scrollse::-webkit-scrollbar-thumb {
   background: #bcd4f5 !important;
   border: 3px solid #bcd4f5 !important;
    border-radius: 8px;

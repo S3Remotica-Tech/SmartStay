@@ -186,7 +186,7 @@ function SettingCompliance({ hostelid }) {
         <div className="d-flex flex-wrap mt-3 align-items-center" 
         style={{ gap: "10px" }} >
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Complaints information.
+          !Please add a hostel before adding electricity information.
         </p>
         
         <img 
@@ -304,7 +304,7 @@ function SettingCompliance({ hostelid }) {
                 </div>
     </div>
   ) : (
-    <div style={{marginTop:100,alignItems:"center",justifyContent:"center"}}>
+    <div style={{marginTop:100}}>
       <div className="d-flex justify-content-center">
         <img
           src={EmptyState}
@@ -388,7 +388,7 @@ centered
                         fontWeight: 500,
                     }}
                 >
-                    Complain Type{" "}
+                    Complaint Type{" "}
                     {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                 </Form.Label>
                 <FormControl
@@ -495,7 +495,7 @@ centered
                                         fontWeight: 500,
                                     }}
                                 >
-                                    Complain Type{" "}
+                                    Complaint Type{" "}
                                     {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                                 </Form.Label>
                                 <FormControl
@@ -531,13 +531,14 @@ centered
                             fontWeight: 600,
                             height: 50,
                             borderRadius: 12,
-                            fontSize: 16,
+                            fontSize: 14,
+                            padding:"12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
                             marginTop: 20,
                         }}
                         onClick={handleAddComplaintType}
                     >
-                        + Add Complaint Type
+                        + Complaint Type
                     </Button>
                 </Modal.Footer>
             </Modal>

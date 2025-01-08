@@ -46,7 +46,10 @@ function  SettingAllPages(props ) {
 
 
   useEffect(() => {
-    setHostel_Id(state.login.selectedHostel_Id)
+    if(state.login.selectedHostel_Id){
+      setHostel_Id(state.login.selectedHostel_Id)
+    }
+    
   }, [state?.login?.selectedHostel_Id]);
   
 
@@ -464,7 +467,7 @@ className="show-scrolls"
               }}
             > */}
               <div 
-              // className="show-scrolls"
+              className="show-scrollse"
               
               style={{
                 backgroundColor: "#E7F1FF",
