@@ -183,13 +183,8 @@ const InvoicePage = () => {
   const [rowData, setRowData] = useState('')
   const [showeditform,setShowEditform] = useState(false);
   const [showdeleteform,setShowDeleteform] = useState(false)
-
-  const [name, setName] = useState("");
-  const [invoiceNumbers, setInvoiceNumbers] = useState("");
-  const [created, setCreated] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [amount, setAmount] = useState("");
-  const [due, setDue] = useState("");
+  const [billMode, setBillMode] = useState('New Bill')
+ 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let serialNumber = 1;
@@ -199,6 +194,7 @@ const InvoicePage = () => {
   const handleManualShow = () => {
     setShowAllBill(false)
     setShowManualInvoice(true)
+    setBillMode('New Bill');
   }
 
   const handleRecurrBillShow = () => {
@@ -634,7 +630,19 @@ const InvoicePage = () => {
       };
     
     const handleEdit = (props) => {
-      setShowEditform (true)
+      setShowManualInvoice(true)
+      setShowAllBill(false)
+      setBillMode('Edit Bill');
+      console.log('InvoiceValue', props.item);
+      setInvoiceValue(props.item);
+      setInvoiceList({
+        customername : props.item.Name,
+        invoicenumber : props.item.Invoices
+        
+        
+      })
+    
+      
     }
 
     const handleBillDelete = (props) => {
@@ -2079,137 +2087,10 @@ setDownloadInvoice(false)
  </div> 
 }
 
-{showeditform &&
-<div
- className="modal show"
- style={{
-   display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
- }}
->
-  <Modal show={showeditform} onHide={handleCloseEditForm} backdrop="static"
-          centered>
-      <Modal.Dialog style={{ maxWidth: 850, width: '600px' }} className='m-0 p-0'>
-            <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-              <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Edit Billing</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-            <div className='row mt-2'>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-      Name
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter name"
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-      
-    />
-  </Form.Group>
-</div>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-      Invoice number
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter Invoice number"
-      value={invoiceNumbers}
-      onChange={(e) => setInvoiceNumbers(e.target.value)}
-    />
-  </Form.Group>
-</div>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-      Created
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter Created"
-      value={created}
-      onChange={(e) => setCreated(e.target.value)}
-    />
-  </Form.Group>
-</div>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-      Due Date
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter due date"
-      value={dueDate}
-      onChange={(e) => setDueDate(e.target.value)}
-    />
-  </Form.Group>
-</div>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-      Amount
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter amount"
-      value={amount}
-      onChange={(e) => setAmount(e.target.value)}
-    />
-  </Form.Group>
-</div>
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-    <Form.Label style={{ fontFamily: "Gilroy"}}
-    >
-    Due
-    </Form.Label>
-    <Form.Control
-      type="text"
-      placeholder="Enter due"
-      value={due}
-      onChange={(e) => setDue(e.target.value)}
-    />
-  </Form.Group>
-</div>
-</div>
-              </Modal.Body>   
-              <Modal.Footer style={{ border: "none" }}>
-              <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
-               
-
-              >
-                Save Changes
-              </Button>
-            </Modal.Footer>     
-    </Modal.Dialog>
-  </Modal>
-
-  </div>
-}
 
 
 
-
-
-
-
-
-    {showform &&
+{showform &&
       <div
         className="modal show"
         style={{
@@ -3195,7 +3076,7 @@ setDownloadInvoice(false)
   <div style={{display:'flex',flexDirection:'row'}}>
   {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
   <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-  <p className='mt-1'>New Bill</p>
+  <p className="mt-1">{billMode}</p>
   </div>
 
   <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
