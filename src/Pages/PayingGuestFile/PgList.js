@@ -268,7 +268,7 @@ console.log("state",state)
   }, [state.PgList.createPgStatusCode]);
 
   useEffect(() => {
-    if (selectedHostel) {
+    if (selectedHostel && showHostelDetails) {
       const selected = state.UsersList.hotelDetailsinPg?.find(
         (item) => item.id === showHostelDetails.id
       );
@@ -1065,7 +1065,7 @@ console.log("state",state)
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {showHostelDetails.Name}
+                    {showHostelDetails?.Name}
                   </label>
                 </div>
 
