@@ -343,6 +343,7 @@ function DashboardAnnouncement(props) {
               </Card.Body>
             </Card>
           ))
+          
         ) : (
           <div
           style={{
