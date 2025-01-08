@@ -2416,102 +2416,200 @@ function UserList(props) {
                       //   </ul>
                       // </nav>
 
-                      <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end", // Align dropdown and pagination
-                        padding: "10px",
-                        // borderTop: "1px solid #ddd",
-                      }}
-                    >
-                      {/* Dropdown for Items Per Page */}
-                      <div>
-                        <select
-                          value={itemsPerPage}
-                          onChange={handleItemsPerPageChange}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
+                    //   <nav
+                    //   style={{
+                    //     display: "flex",
+                    //     alignItems: "center",
+                    //     justifyContent: "end", 
+                    //     padding: "10px",
+                    //   }}
+                    // >
+                    //   <div>
+                    //     <select
+                    //       value={itemsPerPage}
+                    //       onChange={handleItemsPerPageChange}
+                    //       style={{
+                    //         padding: "5px",
+                    //         border: "1px solid #1E45E1",
+                    //         borderRadius: "5px",
+                    //         color: "#1E45E1",
+                    //         fontWeight: "bold",
+                    //         cursor: "pointer",
+                    //         outline: "none",
+                    //         boxShadow: "none",
                             
-                          }}
-                        >
-                           <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
+                    //       }}
+                    //     >
+                    //        <option value={5}>5</option>
+                    //       <option value={10}>10</option>
+                    //       <option value={50}>50</option>
+                    //       <option value={100}>100</option>
+                    //     </select>
+                    //   </div>
+                    //   <ul
+                    //     style={{
+                    //       display: "flex",
+                    //       alignItems: "center",
+                    //       listStyleType: "none",
+                    //       margin: 0,
+                    //       padding: 0,
+                    //     }}
+                    //   >
+                    //     {/* Previous Button */}
+                    //     <li style={{ margin: "0 10px" }}>
+                    //       <button
+                    //         style={{
+                    //           padding: "5px",
+                    //           textDecoration: "none",
+                    //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                    //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    //           borderRadius: "50%",
+                    //           display: "inline-block",
+                    //           minWidth: "30px",
+                    //           textAlign: "center",
+                    //           backgroundColor: "transparent",
+                    //           border: "none",
+                    //         }}
+                    //         onClick={() => handlePageChange(currentPage - 1)}
+                    //         disabled={currentPage === 1}
+                    //       >
+                    //         <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    //       </button>
+                    //     </li>
                     
-                      {/* Pagination Controls */}
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        {/* Previous Button */}
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                          </button>
-                        </li>
+                    //     {/* Current Page Indicator */}
+                    //     <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                    //       {currentPage} of {totalPages}
+                    //     </li>
                     
-                        {/* Current Page Indicator */}
-                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                          {currentPage} of {totalPages}
-                        </li>
-                    
-                        {/* Next Button */}
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
+                    //     {/* Next Button */}
+                    //     <li style={{ margin: "0 10px" }}>
+                    //       <button
+                    //         style={{
+                    //           padding: "5px",
+                    //           textDecoration: "none",
+                    //           color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                    //           cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                    //           borderRadius: "50%",
+                    //           display: "inline-block",
+                    //           minWidth: "30px",
+                    //           textAlign: "center",
+                    //           backgroundColor: "transparent",
+                    //           border: "none",
+                    //         }}
+                    //         onClick={() => handlePageChange(currentPage + 1)}
+                    //         disabled={currentPage === totalPages}
+                    //       >
+                    //         <ArrowRight2
+                    //           size="16"
+                    //           color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                    //         />
+                    //       </button>
+                    //     </li>
+                    //   </ul>
+                    // </nav>
+
+                    <nav
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+    padding: "10px",
+    position: "fixed",
+    bottom: "10px",
+    right: "10px",
+    backgroundColor: "#fff", // Optional: to give a background for better visibility
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+    borderRadius: "5px", // Optional: to make edges rounded
+  }}
+>
+  {/* Dropdown for Items Per Page */}
+  <div>
+    <select
+      value={itemsPerPage}
+      onChange={handleItemsPerPageChange}
+      style={{
+        padding: "5px",
+        border: "1px solid #1E45E1",
+        borderRadius: "5px",
+        color: "#1E45E1",
+        fontWeight: "bold",
+        cursor: "pointer",
+        outline: "none",
+        boxShadow: "none",
+      }}
+    >
+      <option value={5}>5</option>
+      <option value={10}>10</option>
+      <option value={50}>50</option>
+      <option value={100}>100</option>
+    </select>
+  </div>
+
+  {/* Pagination Controls */}
+  <ul
+    style={{
+      display: "flex",
+      alignItems: "center",
+      listStyleType: "none",
+      margin: 0,
+      padding: 0,
+    }}
+  >
+    {/* Previous Button */}
+    <li style={{ margin: "0 10px" }}>
+      <button
+        style={{
+          padding: "5px",
+          textDecoration: "none",
+          color: currentPage === 1 ? "#ccc" : "#1E45E1",
+          cursor: currentPage === 1 ? "not-allowed" : "pointer",
+          borderRadius: "50%",
+          display: "inline-block",
+          minWidth: "30px",
+          textAlign: "center",
+          backgroundColor: "transparent",
+          border: "none",
+        }}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+      </button>
+    </li>
+
+    {/* Current Page Indicator */}
+    <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+      {currentPage} of {totalPages}
+    </li>
+
+    {/* Next Button */}
+    <li style={{ margin: "0 10px" }}>
+      <button
+        style={{
+          padding: "5px",
+          textDecoration: "none",
+          color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+          borderRadius: "50%",
+          display: "inline-block",
+          minWidth: "30px",
+          textAlign: "center",
+          backgroundColor: "transparent",
+          border: "none",
+        }}
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        <ArrowRight2
+          size="16"
+          color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+        />
+      </button>
+    </li>
+  </ul>
+</nav>
+
                     
 
                     )}

@@ -276,11 +276,12 @@ const handleOpenAmenities = () => {
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
-                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}
+                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
+                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}
                         disabled={showPopup}
                     >
                         {" "}
-                        + Add Amenities
+                        + Amenities
                     </Button>
                 </div>
             </div>
@@ -288,16 +289,16 @@ const handleOpenAmenities = () => {
             {showPopup && (
         <div className="d-flex flex-wrap">
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding electricity information.
+          !Please add a hostel before adding Amentities information.
         </p>
         
-        <img 
+        {/* <img 
   src={close} 
   alt="close icon" 
   onClick={() => setShowPopup(false)}
   className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
   style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+/> */}
 
       </div>
       
@@ -479,7 +480,7 @@ const handleOpenAmenities = () => {
                    
                         :
                         
-          <div>
+          <div style={{marginTop:65,alignItems:"center",justifyContent:"center"}}>
           <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
           <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
          

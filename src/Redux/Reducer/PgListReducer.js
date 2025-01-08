@@ -17,7 +17,7 @@ const initialState = {
     createEBList: [],
     EB_Customerlist: [],
     EB_startmeterlist: [],
-    statusCodeForEbRoomList:0,
+    statusCodeForEbRoomList: 0,
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -47,71 +47,77 @@ const initialState = {
     deleteBedError: '',
     updateFloorSuccessStatusCode: 0,
     alreadyfloorNameHere: '',
-    OccupiedCustomer:[],
-    OccupiedCustomerGetStatusCode:0,
-    EB_customerTable:[],
-    statusCodeforEbCustomer:0,
-    dleteHostelImagesStatusCode:0,
-    statusCodeForEditElectricity:0,
-    editElectricity:[],
-    statusCodeForDeleteElectricity:0,
-    deleteElectricity:[],
-    ebEditError:'',
-    dashboardFilter:[],
-    statusCodeForDashboardFilter:0,
-    dashboardFilterCashback:[],
-    statusCodeForDashboardFilterCashBack:0,
-    dashboardFilterRevenu:[],
-    statusCodeForDashboardFilterRevenue:0,
-    addHostelBasedReading:[],
-    statusCodeForAddHostelBased:0,
-    editHostelBasedReading:[],
-    statusCodeForEditHostelBased:0,
-    getHostelBasedRead:[],
-    getStatusCodeForHostelBased:0,
-    deleteHostelBasedReading:[],
-    statusCodeForDeleteHostelBased:0,
-    dateAlready:'',
-    editDateAlready:'',
+    OccupiedCustomer: [],
+    OccupiedCustomerGetStatusCode: 0,
+    EB_customerTable: [],
+    statusCodeforEbCustomer: 0,
+    dleteHostelImagesStatusCode: 0,
+    statusCodeForEditElectricity: 0,
+    editElectricity: [],
+    statusCodeForDeleteElectricity: 0,
+    deleteElectricity: [],
+    ebEditError: '',
+    dashboardFilter: [],
+    statusCodeForDashboardFilter: 0,
+    dashboardFilterCashback: [],
+    statusCodeForDashboardFilterCashBack: 0,
+    dashboardFilterRevenu: [],
+    statusCodeForDashboardFilterRevenue: 0,
+    addHostelBasedReading: [],
+    statusCodeForAddHostelBased: 0,
+    editHostelBasedReading: [],
+    statusCodeForEditHostelBased: 0,
+    getHostelBasedRead: [],
+    getStatusCodeForHostelBased: 0,
+    deleteHostelBasedReading: [],
+    statusCodeForDeleteHostelBased: 0,
+    dateAlready: '',
+    editDateAlready: '',
     isManageEnable: null,
-    announcementList:[],
-    statuscodeForAnnounceMentList:0,
-    statuscodeForAddAnnouncement:0,
-    addAnnounceMent:[],
-    TitleAlready:'',
-    statuscodeForDashboard:0,
-    TittleUnique:'',
+    announcementList: [],
+    statuscodeForAnnounceMentList: 0,
+    statuscodeForAddAnnouncement: 0,
+    addAnnounceMent: [],
+    TitleAlready: '',
+    statuscodeForDashboard: 0,
+    TittleUnique: '',
+    deleteAnnounmentSuccessStatus:0,
 
 }
 
 const PgListReducer = (state = initialState, action) => {
 
     switch (action.type) {
- case 'MANAGE_PG':
-            return { ...state, isManageEnable: true  }
+        case 'MANAGE_PG':
+            return { ...state, isManageEnable: true }
 
-            case 'REMOVE_MANAGE_PG':
-                return { ...state, isManageEnable: false  }
-    
-    
+        case 'REMOVE_MANAGE_PG':
+            return { ...state, isManageEnable: false }
+
+            case 'DELETE_ANNOUNCEMENT':
+                return { ...state, deleteAnnounmentSuccessStatus: action.payload.statusCode }
+
+                case 'REMOVE_DELETE_ANNOUNCEMENT':
+                    return { ...state, deleteAnnounmentSuccessStatus: 0 }
+
 
         case 'DELETE_FLOOR':
             return { ...state, deleteFloor: action.payload.message }
         case 'CLEAR_DELETE_FLOOR':
             return { ...state, deleteFloor: action.message }
 
-case 'DELETE_HOSTEL_IMAGES' : 
-return { ...state, dleteHostelImagesStatusCode:action.payload.statusCode}
+        case 'DELETE_HOSTEL_IMAGES':
+            return { ...state, dleteHostelImagesStatusCode: action.payload.statusCode }
 
-case 'CLEAR_DELETE_HOSTEL_IMAGES':
-    return { ...state, dleteHostelImagesStatusCode:0}
+        case 'CLEAR_DELETE_HOSTEL_IMAGES':
+            return { ...state, dleteHostelImagesStatusCode: 0 }
 
 
-case 'OCCUPIED_CUSTOMER':
-    return {...state, OccupiedCustomer:action.payload.response , OccupiedCustomerGetStatusCode:action.payload.statusCode}
+        case 'OCCUPIED_CUSTOMER':
+            return { ...state, OccupiedCustomer: action.payload.response, OccupiedCustomerGetStatusCode: action.payload.statusCode }
 
-case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
-    return {...state, OccupiedCustomerGetStatusCode: 0}
+        case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
+            return { ...state, OccupiedCustomerGetStatusCode: 0 }
 
 
         case 'DELETE_ROOM':
@@ -147,18 +153,18 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
         case 'EB_LIST':
             return { ...state, EB_Customerlist: action.payload }
         case 'EB_STARTMETER_LIST':
-            return { ...state, EB_startmeterlist: action.payload.response,statusCodeForEbRoomList:action.payload.statusCode }
-            case 'CLEAR_EB_STARTMETER_LIST':
-                return { ...state, statusCodeForEbRoomList: 0 }
+            return { ...state, EB_startmeterlist: action.payload.response, statusCodeForEbRoomList: action.payload.statusCode }
+        case 'CLEAR_EB_STARTMETER_LIST':
+            return { ...state, statusCodeForEbRoomList: 0 }
 
 
-            case 'EB_CUSTOMER_EBLIST':
-                return { ...state, EB_customerTable: action.payload.response,statusCodeforEbCustomer:action.payload.statusCode}
-                case 'CLEAR_EB_CUSTOMER_EBLIST':
-                    return { ...state, statusCodeforEbCustomer: 0 }
+        case 'EB_CUSTOMER_EBLIST':
+            return { ...state, EB_customerTable: action.payload.response, statusCodeforEbCustomer: action.payload.statusCode }
+        case 'CLEAR_EB_CUSTOMER_EBLIST':
+            return { ...state, statusCodeforEbCustomer: 0 }
 
         case 'EB_ERROR':
-            return { ...state,ebError: action.payload }
+            return { ...state, ebError: action.payload }
 
         case 'CLEAR_EB_ERROR':
             return { ...state, ebError: '' }
@@ -193,10 +199,10 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
         case 'CLEAR_STATUS_CODE_BED':
             return { ...state, statusCode: ' ' }
         case 'CREATE_PG_DASHBOARD':
-            return { ...state, dashboardDetails: action.payload.response,statuscodeForDashboard:action.payload.statusCode}
-        
-            case 'CLEAR_CREATE_PG_DASHBOARD':
-            return { ...state, statuscodeForDashboard:0}
+            return { ...state, dashboardDetails: action.payload.response, statuscodeForDashboard: action.payload.statusCode }
+
+        case 'CLEAR_CREATE_PG_DASHBOARD':
+            return { ...state, statuscodeForDashboard: 0 }
         case 'CLEAR_STATUS_CODE_ROOM_COUNT':
             return { ...state, roomCountStatusCode: 0 }
         case 'ROOM_COUNT':
@@ -231,7 +237,7 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             return { ...state, deleteBedError: '' }
 
 
-// UPDATE FLOOR
+        // UPDATE FLOOR
 
         case 'UPDATE_FLOOR':
             return { ...state, updateFloorSuccessStatusCode: action.payload.statusCode }
@@ -246,135 +252,135 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
 
 
 
-            // EB
+        // EB
 
-            case "EDIT_ELECTRICITY":
-                return {
-                  ...state,
-                  editElectricity: action.payload.response,
-                  statusCodeForEditElectricity: action.payload.statusCode,
-                };
-              case "CLEAR_EDIT_ELECTRICITY":
-                return { ...state, statusCodeForEditElectricity: 0 };
+        case "EDIT_ELECTRICITY":
+            return {
+                ...state,
+                editElectricity: action.payload.response,
+                statusCodeForEditElectricity: action.payload.statusCode,
+            };
+        case "CLEAR_EDIT_ELECTRICITY":
+            return { ...state, statusCodeForEditElectricity: 0 };
 
 
 
-                case 'ERROR_EDIT_ELECTRICITY':
-            return { ...state,ebEditError: action.payload }
+        case 'ERROR_EDIT_ELECTRICITY':
+            return { ...state, ebEditError: action.payload }
 
         case 'CLEAR_ERROR_EDIT_ELECTRICITY':
             return { ...state, ebEditError: '' }
 
-                case "DELETE_ELECTRICITY":
-                    return {
-                      ...state,
-                      deleteElectricity: action.payload.response,
-                      statusCodeForDeleteElectricity: action.payload.statusCode,
-                    };
-                  case "CLEAR_DELETE_ELECTRICITY":
-                    return { ...state, statusCodeForDeleteElectricity: 0 };
+        case "DELETE_ELECTRICITY":
+            return {
+                ...state,
+                deleteElectricity: action.payload.response,
+                statusCodeForDeleteElectricity: action.payload.statusCode,
+            };
+        case "CLEAR_DELETE_ELECTRICITY":
+            return { ...state, statusCodeForDeleteElectricity: 0 };
 
 
-                    case "DASHBOARD_FILTER_DETAILS":
-                        return {
-                          ...state,
-                          dashboardFilter: action.payload,
-                          statusCodeForDashboardFilter: action.payload.statusCode,
-                        };
-                      case "CLEAR_DASHBOARD_FILTER_DETAILS":
-                        return { ...state, statusCodeForDashboardFilter: 0 };
+        case "DASHBOARD_FILTER_DETAILS":
+            return {
+                ...state,
+                dashboardFilter: action.payload,
+                statusCodeForDashboardFilter: action.payload.statusCode,
+            };
+        case "CLEAR_DASHBOARD_FILTER_DETAILS":
+            return { ...state, statusCodeForDashboardFilter: 0 };
 
 
-                        case "DASHBOARD_FILTER_CASHBACK":
-                        return {
-                          ...state,
-                          dashboardFilterCashback: action.payload,
-                          statusCodeForDashboardFilterCashBack: action.payload.statusCode,
-                        };
-                      case "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK":
-                        return { ...state, statusCodeForDashboardFilterCashBack: 0 };
+        case "DASHBOARD_FILTER_CASHBACK":
+            return {
+                ...state,
+                dashboardFilterCashback: action.payload,
+                statusCodeForDashboardFilterCashBack: action.payload.statusCode,
+            };
+        case "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK":
+            return { ...state, statusCodeForDashboardFilterCashBack: 0 };
 
-                        case "DASHBOARD_FILTER_REVENUE":
-                            return {
-                              ...state,
-                              dashboardFilterRevenu: action.payload,
-                              statusCodeForDashboardFilterRevenue: action.payload.statusCode,
-                            };
-                          case "CLEAR_DASHBOARD_FILTER_REVENUE":
-                            return { ...state, statusCodeForDashboardFilterRevenue: 0 };
-                            case "CLEAR_DASHBOARD":
-                                return { ...state,dashboardFilterCashback:[],dashboardFilter:[],dashboardFilterRevenu:[],dashboardDetails:[]};
-
-
-// HostelBased
-case "ADD_HOSTEL_BASED":
-    return {
-      ...state,
-      addHostelBasedReading: action.payload,
-      statusCodeForAddHostelBased: action.payload.statusCode,
-    };
-  case "CLEAR_ADD_HOSTEL_BASED":
-    return { ...state, statusCodeForAddHostelBased: 0 };
+        case "DASHBOARD_FILTER_REVENUE":
+            return {
+                ...state,
+                dashboardFilterRevenu: action.payload,
+                statusCodeForDashboardFilterRevenue: action.payload.statusCode,
+            };
+        case "CLEAR_DASHBOARD_FILTER_REVENUE":
+            return { ...state, statusCodeForDashboardFilterRevenue: 0 };
+        case "CLEAR_DASHBOARD":
+            return { ...state, dashboardFilterCashback: [], dashboardFilter: [], dashboardFilterRevenu: [], dashboardDetails: [] };
 
 
-
-    case "EDIT_HOSTEL_BASED":
-    return {
-      ...state,
-      editHostelBasedReading: action.payload,
-      statusCodeForEditHostelBased: action.payload.statusCode,
-    };
-  case "CLEAR_EDIT_HOSTEL_BASED":
-    return { ...state, statusCodeForEditHostelBased: 0 };
+        // HostelBased
+        case "ADD_HOSTEL_BASED":
+            return {
+                ...state,
+                addHostelBasedReading: action.payload,
+                statusCodeForAddHostelBased: action.payload.statusCode,
+            };
+        case "CLEAR_ADD_HOSTEL_BASED":
+            return { ...state, statusCodeForAddHostelBased: 0 };
 
 
 
-    case "DELETE_HOSTEL_BASED":
-    return {
-      ...state,
-      deleteHostelBasedReading: action.payload,
-      statusCodeForDeleteHostelBased: action.payload.statusCode,
-    };
-  case "CLEAR_DELETE_HOSTEL_BASED":
-    return { ...state, statusCodeForDeleteHostelBased: 0 };
-
-
-    case "EB_CUSTOMER_HOSTEL_EBLIST":
-        return {
-          ...state,
-          getHostelBasedRead: action.payload,
-          getStatusCodeForHostelBased: action.payload.statusCode,
-        };
-      case "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST":
-        return { ...state, getStatusCodeForHostelBased: 0 };
-
-// ///////////////////////////////////////////////
-
-case 'SAME_DATE_ALREADY':
-    return { ...state,dateAlready: action.payload.response}
-
-case 'CLEAR_SAME_DATE_ALREADY':
-    return { ...state, dateAlready: ''}
+        case "EDIT_HOSTEL_BASED":
+            return {
+                ...state,
+                editHostelBasedReading: action.payload,
+                statusCodeForEditHostelBased: action.payload.statusCode,
+            };
+        case "CLEAR_EDIT_HOSTEL_BASED":
+            return { ...state, statusCodeForEditHostelBased: 0 };
 
 
 
-    case 'EDIT_SAME_DATE_ALREADY':
-    return { ...state,editDateAlready: action.payload.response}
+        case "DELETE_HOSTEL_BASED":
+            return {
+                ...state,
+                deleteHostelBasedReading: action.payload,
+                statusCodeForDeleteHostelBased: action.payload.statusCode,
+            };
+        case "CLEAR_DELETE_HOSTEL_BASED":
+            return { ...state, statusCodeForDeleteHostelBased: 0 };
 
-case 'CLEAR_EDIT_SAME_DATE_ALREADY':
-    return { ...state, editDateAlready: ''}
+
+        case "EB_CUSTOMER_HOSTEL_EBLIST":
+            return {
+                ...state,
+                getHostelBasedRead: action.payload,
+                getStatusCodeForHostelBased: action.payload.statusCode,
+            };
+        case "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST":
+            return { ...state, getStatusCodeForHostelBased: 0 };
+
+        // ///////////////////////////////////////////////
+
+        case 'SAME_DATE_ALREADY':
+            return { ...state, dateAlready: action.payload.response }
+
+        case 'CLEAR_SAME_DATE_ALREADY':
+            return { ...state, dateAlready: '' }
+
+
+
+        case 'EDIT_SAME_DATE_ALREADY':
+            return { ...state, editDateAlready: action.payload.response }
+
+        case 'CLEAR_EDIT_SAME_DATE_ALREADY':
+            return { ...state, editDateAlready: '' }
 
 
 
 
-    case "ANNOUNCEMENT_LIST":
-        return {
-          ...state,
-          announcementList: action.payload.response,
-          statuscodeForAnnounceMentList: action.payload.statusCode,
-        };
-      case "CLEAR_ANNOUNCEMENT_LIST":
-        return { ...state, statuscodeForAnnounceMentList: 0 };
+        case "ANNOUNCEMENT_LIST":
+            return {
+                ...state,
+                announcementList: action.payload.response,
+                statuscodeForAnnounceMentList: action.payload.statusCode,
+            };
+        case "CLEAR_ANNOUNCEMENT_LIST":
+            return { ...state, statuscodeForAnnounceMentList: 0 };
 
 
 
@@ -382,29 +388,29 @@ case 'CLEAR_EDIT_SAME_DATE_ALREADY':
 
         case "ADD_ANNOUNCEMENT":
             return {
-              ...state,
-              addAnnounceMent: action.payload.response,
-              statuscodeForAddAnnouncement: action.payload.statusCode,
+                ...state,
+                addAnnounceMent: action.payload.response,
+                statuscodeForAddAnnouncement: action.payload.statusCode,
             };
-          case "CLEAR_ADD_ANNOUNCEMENT":
+        case "CLEAR_ADD_ANNOUNCEMENT":
             return { ...state, statuscodeForAddAnnouncement: 0 };
 
 
 
 
-            case 'SAME_TITLE':
-               
-            return { ...state,TitleAlready: action.payload.response}
+        case 'SAME_TITLE':
 
-            case 'CLEAR_SAME_TITLE':
-            return { ...state, TitleAlready: ''}
+            return { ...state, TitleAlready: action.payload.response }
+
+        case 'CLEAR_SAME_TITLE':
+            return { ...state, TitleAlready: '' }
 
 
-    case 'TITTLE_UNIQUE':
-     return {...state,TittleUnique: action.payload.response}
-    
-     case 'CLEAR_TITTLE_UNIQUE':
-        return {...state, TittleUnique: ''}   
+        case 'TITTLE_UNIQUE':
+            return { ...state, TittleUnique: action.payload.response }
+
+        case 'CLEAR_TITTLE_UNIQUE':
+            return { ...state, TittleUnique: '' }
 
         //         case 'ROOM_COUNT':
         //             if (state.roomCount.length > 0) {

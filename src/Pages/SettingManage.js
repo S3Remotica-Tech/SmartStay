@@ -224,7 +224,7 @@ function SettingManage(props) {
       state.UsersList.createFloorSuccessStatusCode == 200 ||
       state.PgList.updateFloorSuccessStatusCode == 200
     ) {
-      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELLIST"});
       // setTimeout(()=>{
       //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
       // },3000)
@@ -933,11 +933,11 @@ function SettingManage(props) {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: 8,
-                        padding: "16px 20px 16px 20px",
+                        padding: "12px 16px 12px 16px",
                       }}
                     >
                       {" "}
-                      + Add PG
+                      + PG
                     </Button>
                   </div>
                 </div>
@@ -1030,6 +1030,8 @@ function SettingManage(props) {
                         width: "100%",
                         margin: "0px auto",
                         backgroundColor: "",
+                        marginTop:90,
+                        justifyContent:"center",alignItems:"center"
                       }}
                     >
                       <div>
@@ -1064,24 +1066,7 @@ function SettingManage(props) {
                         >
                           There are no Paying Guest added.
                         </div>
-                        <div className="d-flex justify-content-center pb-1 mt-3">
-                          {" "}
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              padding: "20px 40px",
-                              fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowAddPg}
-                          >
-                            {" "}
-                            + Add new PG
-                          </Button>
-                        </div>
+
                       </div>
                       <div></div>
                     </div>
