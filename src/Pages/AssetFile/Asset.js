@@ -664,7 +664,7 @@ const handleItemsPerPageChange = (event) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           opacity: 0.75,
           zIndex: 10,
         }}
