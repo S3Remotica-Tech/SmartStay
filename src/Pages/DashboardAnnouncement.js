@@ -145,37 +145,6 @@ function DashboardAnnouncement(props) {
   }, [state.PgList.statuscodeForAddAnnouncement]);
   return (
     <>
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end", // Aligns content to the right
-          marginBottom: "10px",
-          marginTop: "-70px",
-          zIndex: 10,
-          position: "absolute",
-          right: 0,
-          marginRight: "50px",
-        }}
-      >
-        <Button
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            backgroundColor: "#1E45E1",
-            color: "white",
-            fontWeight: 600,
-            borderRadius: "12px",
-            padding: "11px 24px",
-            width: "auto",
-            maxWidth: "100%",
-            marginBottom: "10px",
-          }}
-          onClick={handleShowAnnouncement}
-          className="responsive-button"
-        >
-          + Add Announcement
-        </Button>
-      </div> */}
       <div
   style={{
     display: "flex",
@@ -189,19 +158,15 @@ function DashboardAnnouncement(props) {
       backgroundColor: "#1E45E1",
       color: "white",
       fontWeight: 600,
-      borderRadius: "12px",
-      padding: "11px 24px",
+      borderRadius: "8px",
+      padding: "12px 16px 12px 16px",
       width: "auto",
-      maxWidth: "100%",
-      marginBottom: "10px",
-     maxHeight:50,
-      marginTop: "-20px",
   
     }}
     onClick={handleShowAnnouncement}
     className="responsive-button"
   >
-    + Add Announcement
+    + Announcement
   </Button>
 </div>
 
@@ -385,6 +350,7 @@ function DashboardAnnouncement(props) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            marginTop:60
            
           }}
         >
@@ -399,30 +365,12 @@ function DashboardAnnouncement(props) {
               fontFamily: "Gilroy",
               fontSize: 20,
               color: "rgba(75, 75, 75, 1)",
-              marginBottom: "16px", // Add some spacing between the text and button
+              marginBottom: "16px", 
             }}
           >
             No announcements available.
           </div>
-          <Button
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "12px",
-              padding: "11px 24px",
-              width: "auto",
-              maxWidth: "100%",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-            onClick={handleShowAnnouncement}
-            className="responsive-button"
-          >
-            + Add Announcement
-          </Button>
+
         </div>
         
         )
