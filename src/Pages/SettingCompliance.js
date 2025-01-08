@@ -186,7 +186,7 @@ function SettingCompliance({ hostelid }) {
         <div className="d-flex flex-wrap mt-3 align-items-center" 
         style={{ gap: "10px" }} >
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding electricity information.
+          !Please add a hostel before adding Complaints information.
         </p>
         
         <img 
