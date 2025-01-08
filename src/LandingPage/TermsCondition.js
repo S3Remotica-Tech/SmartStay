@@ -90,11 +90,16 @@ const renderComponent = () => {
   }
 };
 
+
+
+
+
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" fixed="top" style={{ backgroundColor: '#FFFFFF' }}>
         <Container fluid className="ms-5 me-5">
-          <Navbar.Brand>
+          <Navbar.Brand onClick={() => hanldeDisplayLink('firstPage')}>
             <img src={Logo} style={{ width: 176.45, height: 33 }} alt="Logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

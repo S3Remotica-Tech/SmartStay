@@ -86,7 +86,7 @@ function PgList(props) {
 
    const [filteredData, setFilteredData] = useState([]);
 
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
@@ -124,9 +124,15 @@ function PgList(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
 const [hostel_Id,setHostel_Id] = useState("")
+
+
  useEffect(() => {
   if(state.login.selectedHostel_Id){
     setHostel_Id(state.login.selectedHostel_Id);
+    setSelectedHostel(false);
+    setFloorClick("");
+    setFloorName("");
+    setHidePgList(true);
   } 
   }, [state?.login?.selectedHostel_Id]);
 
@@ -135,6 +141,7 @@ const [hostel_Id,setHostel_Id] = useState("")
 
   useEffect(() => {
     if(hostel_Id){
+      setLoader(true)
       dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} });
     }  
   }, [hostel_Id]);
@@ -164,6 +171,7 @@ console.log("state",state)
   useEffect(() => {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
       setFilteredData([]);
+      setLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 4000);
@@ -176,7 +184,7 @@ console.log("state",state)
     }
   }, [filteredData[0]]);
 
- console.log("filteredData",filteredData[0])
+ console.log("filteredData",filteredData)
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -285,15 +293,16 @@ console.log("state",state)
   }, [stateAccount.statusCodeForAccountList]);
 
 
-  useEffect(() => {
+  useEffect(() => { 
     if (floorClick) {
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
-      });
+        const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+            return item.floor_id == floorClick;
+        }) || []; 
 
-      setFloorName(FloorNameData[0]?.floor_name);
+        setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : ""); 
     }
-  }, [selectedHostel, floorClick]);
+}, [selectedHostel, floorClick]);
+
 
 
   useEffect(() => {
@@ -452,10 +461,14 @@ console.log("state",state)
       return item.id == selectedHostelId;
     });
     setSelectedHostel(true);
+    console.log("selected",selected)
     setShowHostelDetails(selected);
   };
 
-  
+
+
+
+  console.log("showHostelDetails",showHostelDetails)
 
   const handleCloses = () => {
     setShowAddPg(false);
@@ -937,7 +950,7 @@ console.log("state",state)
                       );
                     })} */}
 
-                  {filteredData[0]?.length === 0 && (
+                  {!loader && filteredData?.length === 0 && (
                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
@@ -993,7 +1006,7 @@ console.log("state",state)
                             onClick={handleShowsettingsPG}
                           >
                             {" "}
-                            + Add new PG
+                            + Manage PG
                           </Button>
                         </div>
                       </div>
@@ -1010,7 +1023,7 @@ console.log("state",state)
                          display: 'flex',
                          alignItems: 'center',
                          justifyContent: 'center',
-                         backgroundColor: 'white',
+                         backgroundColor: 'transparent',
                          opacity: 0.75,
                          zIndex: 10,
                        }}
@@ -1408,6 +1421,7 @@ console.log("state",state)
                         <ParticularHostelDetails
                           floorID={floorClick}
                           hostel_Id={showHostelDetails.id}
+                          // currentPage={1}
                           phoneNumber={showHostelDetails.hostel_PhoneNo}
                           editPermissionError={editPermissionError}
                           deletePermissionError={deletePermissionError}
