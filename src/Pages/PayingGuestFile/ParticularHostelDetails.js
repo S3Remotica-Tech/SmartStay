@@ -240,7 +240,7 @@ function ParticularHostelDetails(props) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(2);
 
   // const [currentItems, setCurrentItems] = useState([]); 
 
@@ -707,7 +707,7 @@ console.log("roomCountData",roomCountData)
 
       {
         currentItems.length > 0 &&
-        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination className="position-fixed bottom-0 end-0 mb-0 me-3 d-flex justify-content-end align-items-center">
           <Pagination.Prev style={{ visibility: "visible" }}
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
