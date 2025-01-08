@@ -1103,7 +1103,8 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
 
 
             <div>
-              <Button disabled={expenceAddPermission} onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px", fontFamily: "Gilroy" }}> + Add an expense</Button>
+              <Button disabled={expenceAddPermission} onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                 borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy" }}> + Expense</Button>
             </div>
           </div>
         </div>
@@ -1169,9 +1170,9 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
           >
           <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
             <tr>
-              <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
+              {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
                 <input type='checkbox' style={customCheckboxStyle} />
-              </th>
+              </th> */}
               <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
 
               {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
@@ -1277,7 +1278,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
             <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
             <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
            disabled={expenceAddPermission}   onClick={handleShow}
-            > + Add an expense</Button>
+            > + Expense</Button>
             </div>
           </div>
           <div>

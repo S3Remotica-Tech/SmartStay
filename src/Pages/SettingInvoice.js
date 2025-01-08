@@ -595,15 +595,15 @@ useEffect(() => {
         <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}>Invoice</h3>
         <div></div>
         <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-          fontWeight: 600, borderRadius: 8, padding: "16px 20px 16px 20px", }}  
+          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}  
           disabled={showPopup}
-          >+ Add Invoice</Button>
+          >+ Invoice</Button>
       </div>
 
       {showPopup && (
         <div className="d-flex flex-wrap">
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding electricity information.
+          !Please add a hostel before adding Invoice information.
         </p>
         
         <img 
@@ -700,7 +700,7 @@ useEffect(() => {
         (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
         (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
     ) ? (
-      <div>
+      <div style={{ alignItems: "center", justifyContent: "center", marginTop: 100 }}>
         <div className="d-flex justify-content-center">
           <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
         </div>
@@ -738,7 +738,7 @@ useEffect(() => {
         ))
     )
   ) : (
-    <div>
+    <div style={{alignItems:"center",justifyContent:"center",marginTop:"90px"}}>
       <div className="d-flex justify-content-center">
         <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
       </div>
