@@ -62,9 +62,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel (5).png";
 
-const Compliance = ({allPageHostel_Id}) => {
+const Compliance = () => {
 
   const state = useSelector(state => state)
+  console.log("Compliance",state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
 
@@ -100,6 +101,7 @@ const Compliance = ({allPageHostel_Id}) => {
   const [beds, setBeds] = useState('');
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
+  const [hosId,setHosId]=useState("")
 
 
   const [filterInput, setFilterInput] = useState("");
@@ -123,6 +125,11 @@ const Compliance = ({allPageHostel_Id}) => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
 
 
+  useEffect(()=>{
+if(state.login.selectedHostel_Id){
+  setHosId(state.login.selectedHostel_Id)
+}
+  },[state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
@@ -131,7 +138,7 @@ const Compliance = ({allPageHostel_Id}) => {
   }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
  
 const handleComplianceeExcel = () => {
-    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint",hostel_id :state.login.selectedHostel_Id} });
+    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint",hostel_id :hosId} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
@@ -155,7 +162,17 @@ useEffect(()=>{
     }, 200);
   }
   },[state.UsersList?.statusCodeForExportcompliance])
+console.log("state.UsersList?.statusCodeCompliance",state.UsersList?.statusCodeCompliance)
 
+useEffect(()=>{
+   if(state.ComplianceList?.statusCodeCompliance === 200){
+    setFilteredUsers(state.ComplianceList.Compliance);
+
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_COMPLIANCE_LIST" });
+  }, 1000);
+}
+  },[state.ComplianceList?.statusCodeCompliance,])
 
   useEffect(() => {
     setComplianceRolePermission(state.createAccount.accountList);
@@ -206,33 +223,41 @@ useEffect(()=>{
       setComplianceEditPermission("Permission Denied");
     }
   }, [compliancerolePermission]);
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
+   
+      dispatch({ type: 'COMPLIANCE-LIST',payload:{hostel_id:hosId}})
+  
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_COMPLIANCE'})
+      }, 1000);
+    }
+  }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:allPageHostel_Id} })
+    dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:hosId} })
     dispatch({
       type: "USERLIST",
-      payload: { hostel_id:allPageHostel_Id},
+      payload: { hostel_id:hosId},
     });
-  }, [allPageHostel_Id])
-
+  }, [hosId])
+console.log("state.ComplianceList.statusCodeForAddCompliance",state.ComplianceList.statusCodeForAddCompliance)
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:allPageHostel_Id} });
+      dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:hosId} });
   
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
-      }, 200);
+        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'});
+      }, 500);
     }
   
-    // Filter ComplianceList.Compliance based on filterInput and update filteredUsers
     if (state.ComplianceList.Compliance) {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
         user.Name.toLowerCase().includes(filterInput.toLowerCase())
       );
       setFilteredUsers(filteredItems);
     } else {
-      // If no filter applied or Compliance data is missing, set full Compliance list
       setFilteredUsers(state.ComplianceList.Compliance || []);
     }
   
@@ -263,11 +288,11 @@ useEffect(()=>{
 
 
 
-  useEffect(() => {
-    if (state?.ComplianceList?.Compliance && filteredUsers.length === 0) {
-      setFilteredUsers(state.ComplianceList.Compliance);
-    }
-  }, [state?.ComplianceList?.Compliance, filteredUsers]);
+  // useEffect(() => {
+  //   if (state?.ComplianceList?.Compliance && filteredUsers.length === 0) {
+  //     setFilteredUsers(state.ComplianceList.Compliance);
+  //   }
+  // }, [state?.ComplianceList?.Compliance, filteredUsers]);
   
 
 
@@ -690,7 +715,9 @@ useEffect(()=>{
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
+      console.log("Complaintdata.Complainttype",Complaintdata.Complainttype)
       setEditcomplainttype(Complaintdata.complaint_name)
+      console.log("Complaintdata.complaint_name",Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
@@ -741,7 +768,7 @@ useEffect(()=>{
   const [complainttypelist, setComplainttypelist] = useState([])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLAINT-TYPE-LIST', payload:{hostel_id:allPageHostel_Id} })
+    dispatch({ type: 'COMPLAINT-TYPE-LIST', payload:{hostel_id:hosId} })
 
   }, [])
 
@@ -1770,6 +1797,11 @@ Please add a 'ComplaintType' option in Settings, accessible after  adding an Com
     </div>
       </>
     }
+
+
+
+
+
    
   </>
 

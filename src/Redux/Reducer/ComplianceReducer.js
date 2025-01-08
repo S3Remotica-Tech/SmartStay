@@ -1,6 +1,6 @@
 const initialState = {
     Compliance: [],
-    message: '',
+    message: [],
     statusCodeForAddCompliance: 0,
     messageShow: false,
     errorMessage: '',
@@ -13,6 +13,9 @@ const initialState = {
     complianceChangeStatus: 0,
     complianceChangeError: '',
     noVendorStatusCode: 0,
+    deleteCompliance:[],
+    statusCodeForDeleteCompliance:0,
+    statusCodeCompliance:0
 
 }
 
@@ -20,9 +23,12 @@ const ComplianceReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'COMPLIANCE_LIST':
-            return { ...state, Compliance: action.payload }
+            return { ...state, Compliance: action.payload.response, statusCodeCompliance:action.payload.statusCode}
+            case 'CLEAR_COMPLIANCE_LIST':
+                return { ...state, statusCodeCompliance:0}
+
         case 'COMPLIANCE_ADD':
-            return { ...state, message: action.payload, messageShow: true, statusCodeForAddCompliance: action.payload.statusCode }
+            return { ...state, messageShow: true, statusCodeForAddCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_STATUS_CODE':
             return { ...state, statusCodeForAddCompliance: 0 }
         case 'ERROR':
@@ -56,6 +62,16 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, complianceChangeError: action.payload }
         case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
             return { ...state, complianceChangeStatus: 0 }
+
+
+            case "DELETE_COMPLIANCE":
+        return {
+          ...state,
+          deleteCompliance: action.payload.response,
+          statusCodeForDeleteCompliance: action.payload.statusCode,
+        };
+      case "CLEAR_DELETE_COMPLIANCE":
+        return { ...state, statusCodeForDeleteCompliance: 0 };
     }
     return state;
 }
