@@ -176,3 +176,11 @@ export async function add_announcement(datum) {
     data: datum,
   });
 }
+
+
+
+export async function delete_announcement(datum) {
+  return await AxiosConfig.post("/delete/announcement",datum, {
+    data: datum,
+  });
+}

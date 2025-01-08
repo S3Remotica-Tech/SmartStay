@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
 import Ellipse5 from "../Assets/Images/Group 1.png";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
-import { CloseCircle } from "iconsax-react";
 import Search_Team from "../Assets/Images/Search Team.png";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Modal, Button, Form, FormControl } from "react-bootstrap";
 import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import Delete from '../Assets/Images/New_images/trash.png';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+
 
 function DashboardAnnouncement(props) {
   const state = useSelector((state) => state);
- 
-  
+
+
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
   const [showLikeModal, setShowLikeModal] = useState(false);
@@ -27,13 +30,28 @@ function DashboardAnnouncement(props) {
   const [createprofile, setCreateProfile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescrption] = useState("");
-  const [titleError,setTitleError]=useState("")
-  const [descriptionError,setDescriptionError]=useState("")
+  const [titleError, setTitleError] = useState("")
+  const [descriptionError, setDescriptionError] = useState("")
   const [errors, setErrors] = useState({});
-  const handleShowAnnouncement = () => setShowAnnouncement(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showDots, setShowDots] = useState(null);
+  const [editDetails, setEditDetails] = useState('')
+  const [deletedID, setDeletedID] = useState('')
+  const [displayDeletePopUP, setDisplayDeletePopUP] = useState(false)
+  const popupRef = useRef(null);
+
+  const handleShowAnnouncement = () => {
+    setShowAnnouncement(true);
+    setEditDetails('')
+    setDescrption('');
+    setTitle('')
+  }
+
+
   const handleCloseAnnouncement = () => {
     setShowAnnouncement(false)
     setDescriptionError("")
+    setErrorMessage('')
     setTitleError("")
     dispatch({ type: 'CLEAR_SAME_TITLE' });
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
@@ -56,19 +74,21 @@ function DashboardAnnouncement(props) {
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
     setTitle(inputValue);
     setTitleError("")
-   
+    setErrorMessage('')
+
   };
 
- 
-  
+
+
   const handleDescrpton = (e) => {
     setDescrption(e.target.value);
     setDescriptionError("")
+    setErrorMessage('')
   };
 
   useEffect(() => {
-    setCreateProfile(state.createAccount.accountList[0].user_details);
-  }, [state.createAccount.accountList[0].user_details]);
+    setCreateProfile(state.createAccount?.accountList[0]?.user_details);
+  }, [state.createAccount.accountList[0]?.user_details]);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -93,7 +113,7 @@ function DashboardAnnouncement(props) {
   const handleCloseLike = () => setShowLikeModal(false);
   const handleCloseComment = () => setShowCommentModal(false);
   const handleCloseTittle = () => setshowTittleModal(false);
-  //  like and comment clicks
+
   const handleLikeClick = (card) => {
     setSelectedCard(card);
     setShowLikeModal(true);
@@ -103,10 +123,13 @@ function DashboardAnnouncement(props) {
     setSelectedCard(card);
     setShowCommentModal(true);
   };
+
+
+
   const validateField = (value, fieldName) => {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
-       
+
         case "title":
           setTitleError("title is required");
           break;
@@ -124,16 +147,37 @@ function DashboardAnnouncement(props) {
   const handleSaveAnnonce = () => {
     if (!validateField(title, "title"));
     if (!validateField(description, "description"));
-    dispatch({
-      type: "ADDANNOUNCEMENT",
-      payload: { hostel_id: hostel_id, title: title, description: description },
-    });
-  
+
+    const noChanges =
+      editDetails &&
+      title === editDetails.title &&
+      description === editDetails.description;
+
+    if (noChanges) {
+      setErrorMessage("No changes made to the announcement")
+      return;
+    }
+
+    if (title && description) {
+      if (editDetails) {
+        dispatch({
+          type: "ADDANNOUNCEMENT",
+          payload: { id: editDetails.id, hostel_id: hostel_id, title: title, description: description },
+        });
+      } else {
+        dispatch({
+          type: "ADDANNOUNCEMENT",
+          payload: { hostel_id: hostel_id, title: title, description: description },
+        });
+      }
+
+    }
   };
 
   useEffect(() => {
-    if (state.PgList.statuscodeForAddAnnouncement === 200) {
+    if (state.PgList.statuscodeForAddAnnouncement === 200 || state.PgList?.deleteAnnounmentSuccessStatus == 200) {
       handleCloseAnnouncement();
+      setDisplayDeletePopUP(false)
       dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
@@ -141,8 +185,80 @@ function DashboardAnnouncement(props) {
     }
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_ANNOUNCEMENT" });
+      dispatch({ type: 'REMOVE_DELETE_ANNOUNCEMENT' })
+
     }, 200);
-  }, [state.PgList.statuscodeForAddAnnouncement]);
+  }, [state.PgList.statuscodeForAddAnnouncement, state.PgList?.deleteAnnounmentSuccessStatus]);
+
+
+
+
+
+  const handleCloseDeletePopUP = () => {
+    setDisplayDeletePopUP(false)
+  }
+
+
+  const handleDeleteConfirm = () => {
+    if (deletedID) {
+      dispatch({ type: 'DELETEANNOUNCEMENT', payload: { id: deletedID } })
+    }
+  }
+
+  const handleShowDots = (id) => {
+    setShowDots((prevId) => (prevId === id ? null : id));
+  }
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+
+
+
+  const handleEdit = (editedItem) => {
+    console.log("editedItem", editedItem)
+    setShowAnnouncement(true);
+    setEditDetails(editedItem)
+
+
+  }
+
+  const handleDelete = (DeletedItem) => {
+    console.log("DeletedItem", DeletedItem)
+    setDeletedID(DeletedItem.id)
+    setDisplayDeletePopUP(true)
+
+  }
+
+
+
+  useEffect(() => {
+    if (editDetails) {
+      setTitle(editDetails.title)
+      setDescrption(editDetails.description)
+    }
+
+  }, [editDetails])
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       {/* <div
@@ -177,33 +293,33 @@ function DashboardAnnouncement(props) {
         </Button>
       </div> */}
       <div
-  style={{
-    display: "flex",
-    justifyContent: "flex-end", 
-  }}
->
-  <Button
-    style={{
-      fontFamily: "Gilroy",
-      fontSize: "14px",
-      backgroundColor: "#1E45E1",
-      color: "white",
-      fontWeight: 600,
-      borderRadius: "12px",
-      padding: "11px 24px",
-      width: "auto",
-      maxWidth: "100%",
-      marginBottom: "10px",
-     maxHeight:50,
-      marginTop: "-20px",
-  
-    }}
-    onClick={handleShowAnnouncement}
-    className="responsive-button"
-  >
-    + Add Announcement
-  </Button>
-</div>
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            backgroundColor: "#1E45E1",
+            color: "white",
+            fontWeight: 600,
+            borderRadius: "12px",
+            padding: "11px 24px",
+            width: "auto",
+            maxWidth: "100%",
+            marginBottom: "10px",
+            maxHeight: 50,
+            marginTop: "-20px",
+
+          }}
+          onClick={handleShowAnnouncement}
+          className="responsive-button"
+        >
+          + Add Announcement
+        </Button>
+      </div>
 
 
       {props.announcePermissionError ? (
@@ -250,185 +366,292 @@ function DashboardAnnouncement(props) {
       ) : (
         <div>
           {state.PgList?.announcementList?.announcements?.length > 0 ? (
-          state.PgList?.announcementList?.announcements?.map((data) => (
-            <Card
-              className="card"
-              key={data.id}
+            state.PgList?.announcementList?.announcements?.map((data) => (
+              <Card
+                className="card"
+                key={data.id}
+                style={{
+                  borderRadius: "16px",
+                  borderColor: "#DCDCDC",
+                  marginBottom: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                <Card.Body>
+                  <div className="d-flex bd-highlight align-items-center">
+                    <div className="p-2 flex-grow-1 bd-highlight">
+                      <p
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          color: "#4B4B4B",
+                          marginBottom: "0px",
+                        }}
+                      >
+                        {/* {data.createdat} */}
+                        {new Date(data.createdat).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                          fontSize: "16px",
+                          color: "#222222",
+                          marginBottom: "0px",
+                        }}
+                        onClick={() => handleCardTittleClick(data)}
+                      >
+                        {data.title}
+                      </p>
+                      <p style={{ marginBottom: "0px" }}>
+                        <img
+                          src={createprofile.profile || Profile}
+                          alt="Ellipse5"
+                          width={25}
+                          height={25}
+                          onClick={() => handleCardClick(data)}
+                        />
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            color: "#222222",
+                            paddingLeft: "6px",
+                          }}
+                        >
+                          {createprofile.first_name} {createprofile.last_name}
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      className="bd-highlight"
+                      style={{
+                        border: "1px solid #DCDCDC",
+                        borderRadius: "60px",
+                        height: "36px",
+                        width: "83px",
+                        marginTop: "6px",
+                        marginRight: "6px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLikeClick(data);
+                      }}
+                    >
+                      <p style={{ padding: "4px 10px" }}>
+                        <img src={like} alt="like" width={20} height={20} />
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            color: "#222222",
+                            paddingLeft: "4px",
+                          }}
+                        >
+                          {/* {data.likes.toLocaleString()} */}1
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      className="bd-highlight"
+                      style={{
+                        border: "1px solid #DCDCDC",
+                        borderRadius: "60px",
+                        height: "36px",
+                        width: "72px",
+                        marginTop: "6px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCommentClick(data);
+                      }}
+                    >
+                      <p style={{ padding: "4px 10px" }}>
+                        <img src={message} alt="message" width={20} height={20} />
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            color: "#222222",
+                            paddingLeft: "4px",
+                          }}
+                        >
+                          {/* {data.comments} */}1
+                        </span>
+                      </p>
+                    </div>
+
+
+
+                    <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(data.id)}>
+                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                      {showDots === data.id && (
+                        <div
+                          ref={popupRef}
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor: "#F9F9F9",
+                            position: "absolute",
+                            right: 0,
+                            top: 50,
+                            width: 163,
+                            height: 92,
+                            border: "1px solid #EBEBEB",
+                            borderRadius: 10,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            padding: "15px",
+                            alignItems: "flex-start"
+                          }}
+                        >
+                          <div
+                            className="mb-2 gap-2"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "20px",
+                              cursor: "pointer",
+                              pointerEvents: "auto",
+                              // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                              // pointerEvents: props.vendorEditPermission ? "none" : "auto",
+                              // opacity: props.vendorEditPermission ? 0.5 : 1,
+                            }}
+                            onClick={() => {
+                              // if (!props.vendorEditPermission) {
+                              handleEdit(data);
+                              // }
+                            }}
+                          >
+                            <Edit size="16" color="#1E45E1" />
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: "#222222",
+                                cursor: "pointer",
+                                // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                              }}
+                            >
+                              Edit
+                            </label>
+                          </div>
+
+
+                          <div
+                            className="mb-2 gap-2"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                              cursor: "pointer",
+                              pointerEvents: "auto",
+
+                              // cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                              // pointerEvents: props.vendorDeletePermission ? "none" : "auto",
+                              // opacity: props.vendorDeletePermission ? 0.5 : 1,
+                            }}
+                            onClick={() => {
+                              // if (!props.vendorDeletePermission) {
+                              handleDelete(data);
+                              // }
+                            }}
+                          >
+                            <img
+                              src={Delete}
+                              alt="Delete"
+                              style={{ height: 16, width: 16 }}
+                            />
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: "#FF0000",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Delete
+                            </label>
+                          </div>
+
+                        </div>
+                      )}
+
+
+                    </div>
+
+
+
+
+
+                  </div>
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <div
               style={{
-                borderRadius: "16px",
-                borderColor: "#DCDCDC",
-                marginBottom: "20px",
-                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+
               }}
             >
-              <Card.Body>
-                <div className="d-flex bd-highlight">
-                  <div className="p-2 flex-grow-1 bd-highlight">
-                    <p
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#4B4B4B",
-                        marginBottom: "0px",
-                      }}
-                    >
-                      {/* {data.createdat} */}
-                      {new Date(data.createdat).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                        fontSize: "16px",
-                        color: "#222222",
-                        marginBottom: "0px",
-                      }}
-                      onClick={() => handleCardTittleClick(data)}
-                    >
-                      {data.title}
-                    </p>
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={createprofile.profile || Profile}
-                        alt="Ellipse5"
-                        width={25}
-                        height={25}
-                        onClick={() => handleCardClick(data)}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        {createprofile.first_name} {createprofile.last_name}
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    className="bd-highlight"
-                    style={{
-                      border: "1px solid #DCDCDC",
-                      borderRadius: "60px",
-                      height: "36px",
-                      width: "83px",
-                      marginTop: "6px",
-                      marginRight: "6px",
-                      cursor: "pointer",
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLikeClick(data);
-                    }}
-                  >
-                    <p style={{ padding: "4px 10px" }}>
-                      <img src={like} alt="like" width={20} height={20} />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        {/* {data.likes.toLocaleString()} */}1
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    className="bd-highlight"
-                    style={{
-                      border: "1px solid #DCDCDC",
-                      borderRadius: "60px",
-                      height: "36px",
-                      width: "72px",
-                      marginTop: "6px",
-                      cursor: "pointer",
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCommentClick(data);
-                    }}
-                  >
-                    <p style={{ padding: "4px 10px" }}>
-                      <img src={message} alt="message" width={20} height={20} />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        {/* {data.comments} */}1
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-           
-          }}
-        >
-          <div style={{ textAlign: "center" }}>
-            <img src={Emptystate} alt="emptystate" />
-          </div>
-          <div
-            className="pb-1"
-            style={{
-              textAlign: "center",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: 20,
-              color: "rgba(75, 75, 75, 1)",
-              marginBottom: "16px", // Add some spacing between the text and button
-            }}
-          >
-            No announcements available.
-          </div>
-          <Button
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "12px",
-              padding: "11px 24px",
-              width: "auto",
-              maxWidth: "100%",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-            onClick={handleShowAnnouncement}
-            className="responsive-button"
-          >
-            + Add Announcement
-          </Button>
-        </div>
-        
-        )
-        }
+              <div style={{ textAlign: "center" }}>
+                <img src={Emptystate} alt="emptystate" />
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
+                  marginBottom: "16px", // Add some spacing between the text and button
+                }}
+              >
+                No announcements available.
+              </div>
+              <Button
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "12px",
+                  padding: "11px 24px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+                onClick={handleShowAnnouncement}
+                className="responsive-button"
+              >
+                + Add Announcement
+              </Button>
+            </div>
 
-          
+          )
+          }
+
+
           {selectedCard && (
             <Modal show={showMainModal} onHide={handleCloseMain} centered>
               <Modal.Header
@@ -554,7 +777,7 @@ function DashboardAnnouncement(props) {
             </Modal>
           )}
 
-         
+
           {selectedCard && (
             <Modal show={showLikeModal} onHide={handleCloseLike} centered>
               <Modal.Header
@@ -1043,90 +1266,106 @@ function DashboardAnnouncement(props) {
 
           }
 
-{selectedCard &&
-  state.PgList?.announcementList?.announcements?.map((data, index) => (
-    <Modal
-      key={index}
-      show={showTittleModal}
-      onHide={handleCloseTittle}
-      centered
-    >
-      <Modal.Header
-        className="d-flex justify-content-between align-items-center"
-        style={{ border: "none" }}
-      >
-        <p
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: "18px",
-            marginBottom: "0px",
-          }}
-        >
-          {data.title}
-        </p>
-        <CloseCircle
-          size="32"
-          color="#222222"
-          onClick={handleCloseTittle}
-          style={{ cursor: "pointer" }}
-        />
-      </Modal.Header>
-      <Modal.Body>
-        <div className="d-flex justify-content-between">
-          <p style={{ marginBottom: "0px" }}>
-            <img src={createprofile.profile || Profile} alt="Ellipse5" width={20} height={20} />
-            <span
-              style={{
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                fontSize: "12px",
-                color: "#222222",
-                paddingLeft: "6px",
-              }}
-            >
-                {createprofile.first_name} {createprofile.last_name}
-            </span>
-          </p>
-          <p
-            style={{
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-              fontSize: "12px",
-              color: "#4B4B4B",
-              paddingLeft: "6px",
-            }}
-          >
-             {new Date(data.createdat).toLocaleDateString("en-GB", {
+          {selectedCard &&
+            state.PgList?.announcementList?.announcements?.map((data, index) => (
+              <Modal
+                key={index}
+                show={showTittleModal}
+                onHide={handleCloseTittle}
+                centered
+              >
+                <Modal.Header
+                  className="d-flex justify-content-between align-items-center"
+                  style={{ border: "none" }}
+                >
+                  <p
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontWeight: 600,
+                      fontSize: "18px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    {data.title}
+                  </p>
+                  <CloseCircle
+                    size="32"
+                    color="#222222"
+                    onClick={handleCloseTittle}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="d-flex justify-content-between">
+                    <p style={{ marginBottom: "0px" }}>
+                      <img src={createprofile.profile || Profile} alt="Ellipse5" width={20} height={20} />
+                      <span
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          color: "#222222",
+                          paddingLeft: "6px",
+                        }}
+                      >
+                        {createprofile.first_name} {createprofile.last_name}
+                      </span>
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        fontSize: "12px",
+                        color: "#4B4B4B",
+                        paddingLeft: "6px",
+                      }}
+                    >
+                      {new Date(data.createdat).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "long",
                         year: "numeric",
                       })}
-          </p>
-        </div>
+                    </p>
+                  </div>
 
-        <p
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            fontSize: "14px",
-            color: "#222222",
-          }}
-        >
-          {data.description}
-        </p>
-      </Modal.Body>
-    </Modal>
-  ))}
+                  <p
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      color: "#222222",
+                    }}
+                  >
+                    {data.description}
+                  </p>
+                </Modal.Body>
+              </Modal>
+            ))}
 
         </div>
       )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <Modal
         show={showAnnouncement}
         onHide={handleCloseAnnouncement}
         centered
         dialogClassName="custom-modal"
       >
+
+
         <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
@@ -1135,7 +1374,7 @@ function DashboardAnnouncement(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Add Announcement
+            {editDetails ? 'Edit Announcement' : 'Add Announcement'}
           </div>
           <button
             type="button"
@@ -1169,11 +1408,22 @@ function DashboardAnnouncement(props) {
             </span>
           </button>
         </Modal.Header>
+        {errorMessage && (
+          <div style={{ color: "red" }}>
+            <MdError />
+            <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
+          </div>
+        )}
         <Modal.Body>
+
+
+
+
+
           <div className="row">
             {/* Title Field */}
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-             
+
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -1202,37 +1452,37 @@ function DashboardAnnouncement(props) {
                   borderRadius: 8,
                 }}
               />
-               {titleError && (
-                                <div style={{ color: "red" }}>
-                                  <MdError />
-                                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span> 
-                                </div>
-                              )}
-    {state.PgList.TitleAlready && (
-    <label
-      style={{
-        color: "red",
-        fontSize: 12,
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-      {state.PgList.TitleAlready}
-    </label>
-  )}             
-             {state.PgList.TittleUnique && (
-    <label
-      style={{
-        color: "red",
-        fontSize: 12,
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-      {state.PgList.TittleUnique}
-    </label>
-  )}   
-              
+              {titleError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span>
+                </div>
+              )}
+              {state.PgList.TitleAlready && (
+                <label
+                  style={{
+                    color: "red",
+                    fontSize: 12,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {state.PgList.TitleAlready}
+                </label>
+              )}
+              {state.PgList.TittleUnique && (
+                <label
+                  style={{
+                    color: "red",
+                    fontSize: 12,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {state.PgList.TittleUnique}
+                </label>
+              )}
+
             </div>
 
             {/* Description Field */}
@@ -1265,12 +1515,12 @@ function DashboardAnnouncement(props) {
                   borderRadius: 8,
                 }}
               />
-               {descriptionError && (
-                                <div style={{ color: "red" }}>
-                                  <MdError />
-                                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span> 
-                                </div>
-                              )}
+              {descriptionError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
+                </div>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -1283,16 +1533,116 @@ function DashboardAnnouncement(props) {
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: "Montserrat",
               marginTop: 20,
               width: "100%",
             }}
             onClick={handleSaveAnnonce}
           >
-            Add Announcement
+            {editDetails ? 'Save Changes' : 'Add Announcement'}
           </Button>
         </Modal.Footer>
       </Modal>
+
+
+
+
+
+
+      <Modal
+        show={displayDeletePopUP}
+        onHide={handleCloseDeletePopUP}
+        centered
+        backdrop="static"
+        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+      >
+        <Modal.Header style={{ borderBottom: 'none' }}>
+          <Modal.Title
+            style={{
+              fontSize: '18px',
+              fontFamily: 'Gilroy',
+              textAlign: 'center',
+              fontWeight: 600,
+              color: '#222222',
+              flex: 1
+            }}
+          >
+            Delete Announcement?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: 'Gilroy',
+            color: '#646464',
+            textAlign: 'center',
+            marginTop: '-20px'
+          }}
+        >
+          Are you sure you want Delete Announcement?
+        </Modal.Body>
+
+        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#fff',
+              color: '#1E45E1',
+              border: '1px solid #1E45E1',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px',
+              marginRight: 10
+            }}
+            onClick={handleCloseDeletePopUP}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#1E45E1',
+              color: '#FFFFFF',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px'
+            }}
+            onClick={handleDeleteConfirm}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   );
 }
