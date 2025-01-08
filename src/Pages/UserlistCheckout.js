@@ -1079,7 +1079,7 @@ function CheckOut(props) {
 
           </div>
         ) : (
-          <div>
+          <div style={{marginTop:30,height:"60vh" }}>
             <div style={{ textAlign: "center" }}>
               {" "}
               <img src={Emptystate} alt="emptystate" />
@@ -1108,29 +1108,7 @@ function CheckOut(props) {
             >
               There are no checkout List added.{" "}
             </div>
-            <div style={{ textAlign: "center" }}>
-              <Button
-                // onClick={props.toggleForm}
-                disabled={props.customerBookingAddPermission}
-                style={{
-                  fontSize: 16,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 59,
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  width: 190,
-                  padding: "18px, 20px, 18px, 20px",
-                  color: "#FFF",
-                  fontFamily: "Montserrat",
-                }}
 
-                onClick={checkOutForm}
-              >
-                {" "}
-                + Add Checkout
-              </Button>
-            </div>
           </div>
         )}
       </div>

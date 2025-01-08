@@ -1328,7 +1328,7 @@ function UserList(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    + Add Customer
+                    +  Customer
                   </Button>
                 )}
                 {value === "2" && (
@@ -1347,7 +1347,7 @@ function UserList(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    + Add Bookings
+                    + Bookings
                   </Button>
                 )}
                 {value === "3" && (
@@ -1366,7 +1366,7 @@ function UserList(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    + Add Check-out
+                    + Check-out
                   </Button>
                 )}
                 {value === "4" && (
@@ -1381,11 +1381,11 @@ function UserList(props) {
                       fontWeight: 600,
                       borderRadius: 12,
                       width: 152,
-                      padding: "16px, 24px, 16px, 24px",
+                      padding: "12px, 16px, 12px, 16px",
                       fontFamily: "Gilroy",
                     }}
                   >
-                    + Add Walkin
+                    +  Walk-in
                   </Button>
                 )}
               </div>
@@ -1555,7 +1555,7 @@ function UserList(props) {
                     </div>
                   </>
                 ) : (
-                  <div>
+                  <div style={{marginTop:30}}>
                     <div>
                       {currentItems?.length == 0 && (
                         <div>
@@ -1587,27 +1587,7 @@ function UserList(props) {
                           >
                             There are no active Customer{" "}
                           </div>
-                          <div style={{ textAlign: "center" }}>
-                            <Button
-                              onClick={handleShow}
-                              disabled={customerAddPermission}
-                              style={{
-                                fontSize: 16,
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                height: 56,
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                width: 200,
-                                padding: "18px, 20px, 18px, 20px",
-                                color: "#FFF",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              {" "}
-                              + Add Customer
-                            </Button>
-                          </div>
+
                         </div>
                       )}
 

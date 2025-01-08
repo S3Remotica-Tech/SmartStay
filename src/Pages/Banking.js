@@ -628,13 +628,13 @@ useEffect(() => {
                 fontWeight: 600,
                 borderRadius: 12,
                 width: 123,
-                padding: "16px, 24px, 16px, 24px",
+                padding: "12px, 16px, 12px, 16px",
                 color: "#FFF",
                 fontFamily: "Gilroy",
               }}
             >
               {" "}
-              + Add Bank
+              + Bank
             </Button>
           </div>
         </div>
@@ -1030,7 +1030,7 @@ useEffect(() => {
               }}
             >
               {" "}
-              + Add Bank
+              + Bank
             </Button>
                   </div>
         
@@ -1404,8 +1404,8 @@ useEffect(() => {
        </Table>
        </div>
       ):(
-        <div>
-        <div style={{ textAlign: "center" }}>
+        <div >
+        <div style={{ textAlign: "center",marginTop:-120 }}>
           <img
             src={emptyimg}
             width={240}

@@ -401,46 +401,44 @@ const handleSelectCard = (hostel) => {
 
         </Card>
     ): 
-    <>
-     <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            //   height: "100vh",
-            }}
-          >
-            {/* Image */}
-            <img
-              src={EmptyState}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
+    (
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center", 
+    justifyContent: "center", 
+    // marginTop: "90px", 
+    height:"60vh",
+     marginLeft:500,
 
-            {/* Permission Error */}
-           
-            <div>
-                    <Button
-                      onClick={props.handleShowsettingsPG}
-                    //   disabled={addPermissionError}
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: 8,
-                        padding: "16px 20px 16px 20px",
-                      }}
-                    >
-                      {" "}
-                      + Manage PG
-                    </Button>
-                  </div>
-          
-          </div>
-    </>
+  }}
+>
+  <div className="d-flex justify-content-center">
+    <img
+      src={EmptyState}
+      style={{ height: 240, width: 240 }}
+      alt="Empty state"
+    />
+  </div>
+  <div
+    className="pb-1 mt-3"
+    style={{
+      textAlign: "center",
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      fontSize: 20,
+      color: "rgba(75, 75, 75, 1)",
+      whiteSpace: "nowrap", 
+    }}
+  >
+    No PG available
+  </div>
+</div>
+
+
+
+)
 }
 
       

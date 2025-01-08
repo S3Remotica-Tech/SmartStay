@@ -1554,7 +1554,7 @@ const handleSubmit = () => {
               )}
             </div>
           ) : (
-            <div>
+            <div style={{marginTop:30}}>
               <div style={{ textAlign: "center" }}>
                 {" "}
                 <img src={Emptystate} alt="emptystate" />
@@ -1583,27 +1583,7 @@ const handleSubmit = () => {
               >
                 There are no Bookings added.{" "}
               </div>
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  onClick={props.toggleForm}
-                  disabled={props.customerBookingAddPermission}
-                  style={{
-                    fontSize: 16,
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    height: 59,
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    width: 190,
-                    padding: "18px, 20px, 18px, 20px",
-                    color: "#FFF",
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  {" "}
-                  + Add Booking
-                </Button>
-              </div>
+              
             </div>
           )}
         </div>
