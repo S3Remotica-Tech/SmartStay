@@ -209,7 +209,10 @@ useEffect(()=>{
 
   useEffect(() => {
     dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:allPageHostel_Id} })
-    dispatch({ type: 'USERLIST' });
+    dispatch({
+      type: "USERLIST",
+      payload: { hostel_id:allPageHostel_Id},
+    });
   }, [allPageHostel_Id])
 
   useEffect(() => {
