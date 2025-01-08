@@ -216,25 +216,27 @@ const SettingElectricity = ({ hostelid }) => {
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
-          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff' }} 
+          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
+          padding:"12px 16px 12px 16px"
+           }} 
           onClick={handleShowFormElectricity}  disabled={showPopup}>
-            + Add Electricity
+            + Electricity
           </Button>
         </Col>
 
         {showPopup && (
         <div className="d-flex flex-wrap">
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding electricity information.
+          !Please add a hostel before adding Electricity information.
         </p>
         
-        <img 
+        {/* <img 
   src={close} 
   alt="close icon" 
   onClick={() => setShowPopup(false)}
   className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
   style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+/> */}
 
       </div>
       
@@ -337,7 +339,7 @@ const SettingElectricity = ({ hostelid }) => {
                 )
               })
             ) : (
-              <div>
+              <div style={{alignItems:"center",justifyContent:"center",marginTop:100}}>
                 <div className="d-flex justify-content-center">
                   <img
                     src={EmptyState}

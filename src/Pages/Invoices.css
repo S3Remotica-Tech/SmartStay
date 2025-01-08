@@ -172,13 +172,15 @@ line-height: normal;
   max-height: 5px !important;
 }
 
+
+
 .show-scrolls::-webkit-scrollbar {
   width: 8px !important;
   
 }
  
 .show-scrolls::-webkit-scrollbar-track {
-  background: #fff;
+  background: #fff !important;
   border-radius: 8px !important;
  
 }
@@ -187,7 +189,7 @@ line-height: normal;
   background: #bcd4f5 !important;
   border: 3px solid #bcd4f5 !important;
    border-radius: 8px;
-  max-height: 5px !important;
+  min-height: 20px !important;
 }
 
 

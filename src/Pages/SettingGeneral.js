@@ -625,13 +625,14 @@ function SettingGeneral() {
                 fontSize: 14,
                 backgroundColor: "#1E45E1",
                 color: "white",
-                height: 52,
+                // height: 52,
                 fontWeight: 600,
                 borderRadius: 8,
-                width: 140,
-                padding: "14px, 22px, 14px, 22px",
+                width: "100%",
+                padding: "12px 16px 12px 16px",
                 border: "none",
                 cursor: "pointer",
+                width:"160px"
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
@@ -850,7 +851,7 @@ function SettingGeneral() {
             );
           })
         ) : (
-          <div>
+          <div style={{textAlign:"center",alignItems:"center",marginTop:90}}>
             <div style={{ textAlign: "center" }}>
               <img src={EmptyState} width={240} height={240} alt="emptystate" />
             </div>
@@ -877,27 +878,6 @@ function SettingGeneral() {
               }}
             >
               There are no Profile available.{" "}
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <Button
-                style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 14,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 52,
-                  fontWeight: 600,
-                  borderRadius: 8,
-                  width: 160,
-                  padding: "14px, 22px, 14px, 22px",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                //   disabled={ebAddPermission}
-                onClick={handleShowFormGreneral}
-              >
-                + Create Master
-              </Button>
             </div>
           </div>
         )}

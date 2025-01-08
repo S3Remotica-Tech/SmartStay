@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list,add_announcement} from "../Action/PgListAction";
+import {delete_announcement,deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list,add_announcement} from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -959,6 +959,51 @@ function* handleAddAnnounce(action) {
 
 
 
+function* handleDeleteAnnounce(action) {
+  const response = yield call (delete_announcement, action.payload);
+ var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'DELETE_ANNOUNCEMENT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
+     toast.success('Deleted Successfully', {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+ 
+  if(response){
+     refreshToken(response)
+  }
+}
+
+
+
+
+
+
+
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
@@ -999,6 +1044,7 @@ function* PgListSaga() {
   yield takeEvery("HOSTELBASEDADDEB", handleAddHostelElectricity);
   yield takeEvery("ANNOUNCEMENTLIST", handleAnnouncementList);
   yield takeEvery("ADDANNOUNCEMENT", handleAddAnnounce);
+  yield takeEvery("DELETEANNOUNCEMENT", handleDeleteAnnounce);
 
 
 }

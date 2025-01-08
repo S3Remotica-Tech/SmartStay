@@ -280,9 +280,9 @@ function* handleComplaintTypeAdd(params) {
 }
 
 //edit complaint
-function* handleComplaintTypeEdit(params) {
-   const response = yield call(Editcomplainttype, params.payload);
-
+function* handleComplaintTypeEdit(action) {
+   const response = yield call(Editcomplainttype, action.payload);
+console.log("handleComplaintTypeEdit",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_EDIT', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
      

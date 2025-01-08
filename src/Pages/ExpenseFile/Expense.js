@@ -1103,11 +1103,12 @@ function Expenses({ allPageHostel_Id }) {
                 </div>
 
 
-                <div>
-                  <Button disabled={expenceAddPermission} onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px", fontFamily: "Gilroy" }}> + Add an expense</Button>
-                </div>
-              </div>
+            <div>
+              <Button disabled={expenceAddPermission} onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                 borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy" }}> + Expense</Button>
             </div>
+          </div>
+        </div>
 
           </div>
 
@@ -1126,54 +1127,54 @@ function Expenses({ allPageHostel_Id }) {
           )}
 
 
-          {loading &&
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>
-          }
+      {loading &&
+          <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
 
 
 
-          {currentItems && currentItems.length > 0 && (
-            <div className='p-3'>
-              <div style={{
-                // height: "400px",
-                height: currentItems.length >= 6 ? "380px" : "auto",
-                overflowY: "auto",
-                borderRadius: "24px",
-                border: "1px solid #DCDCDC",
-                // borderBottom:"none"
-              }} >
-                <Table responsive="md"
-                  className="Table_Design"
-                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
-                >
-                  <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
-                    <tr>
-                      <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24 }}>
-                        <input type='checkbox' style={customCheckboxStyle} />
-                      </th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
+{currentItems && currentItems.length > 0 && (
+<div className='p-3'>
+      <div style={{
+        // height: "400px",
+        height: currentItems.length >= 6 ? "380px" : "auto",
+        overflowY: "auto",
+        borderRadius: "24px",
+        border: "1px solid #DCDCDC",
+        // borderBottom:"none"
+      }} >
+        <Table  responsive="md"
+                            className="Table_Design"
+                            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
+          >
+          <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
+            <tr>
+              {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
+                <input type='checkbox' style={customCheckboxStyle} />
+              </th> */}
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
 
                       {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
                       <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
@@ -1272,16 +1273,16 @@ function Expenses({ allPageHostel_Id }) {
 
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-              <div>
-                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
-                <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
-                <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
-                  disabled={expenceAddPermission} onClick={handleShow}
-                > + Add an expense</Button>
-                </div>
-              </div>
-              <div>
+          <div>
+            <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+            <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
+            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
+            <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+           disabled={expenceAddPermission}   onClick={handleShow}
+            > + Expense</Button>
+            </div>
+          </div>
+          <div>
 
               </div>
             </div>
