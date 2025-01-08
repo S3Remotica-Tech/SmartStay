@@ -196,7 +196,7 @@ function UserlistWalkin(props) {
 
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer,indexOfLastCustomer);
+  const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
   const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
 
@@ -270,447 +270,551 @@ function UserlistWalkin(props) {
           <div style={{ marginLeft: "-20px" }}>
             {currentCustomers?.length > 0 ? (
               <div className=" walkin_table_custom">
-                <div   style={{
-                            // height: "400px",
-                            height: currentCustomers.length >= 6 ? "380px" : "auto",
-                            overflowY: "auto",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            // borderBottom:"none"
-                          }}>
-                <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}>
-                  <thead style={{ border: "none" }}>
-                    <tr>
+                <div style={{
+                  // height: "400px",
+                  height: currentCustomers.length >= 6 ? "380px" : "auto",
+                  overflowY: "auto",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+                  // borderBottom:"none"
+                }}>
+                  <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
+                    <thead style={{ border: "none" }}>
+                      <tr>
 
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                        }}
-                      >
-                        Name
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                        }}
-                      >
-                        Email ID
-                      </th>
-
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                        }}
-                      >
-                        Mobile no
-                      </th>
-
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                        }}
-                      >
-                        Walkin date
-                      </th>
-
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                        }}
-                      >
-                        Address
-                      </th>
-
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "#4B4B4B",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          background: "#E7F1FF",
-                          border: "none",
-                          borderTopRightRadius: "24px",
-                        }}
-                      ></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentCustomers?.map((customer) => (
-                      <tr key={customer.id} className="customer-row">
-                       
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <Image
-                              src={Ellipse1}
-                              roundedCircle
-                              height={30}
-                              width={30}
-                              alt="avatar"
-                              style={{ textAlign: "start" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "#222222",
-                                textAlign: "start",
-                                paddingLeft: "10px",
-                              }}
-                              className=" customer-name"
-                            >
-                              {customer.customer_Name}
-                            </span>
-                          </div>
-                        </td>
-                        <td
+                        <th
                           style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#000000",
                             textAlign: "start",
-                          }}
-                        >
-                          {customer.email_Id || "-"}
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#000000",
-                            textAlign: "start",
-
                             padding: "10px",
-                          }}
-                        >
-                          {customer.mobile_Number}
-                        </td>
-
-                        <td
-                          style={{
-                            padding: "8px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
                             border: "none",
-
-                            textAlign: "start",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            padding: "10px",
                           }}
                         >
-                          <span
+                          Name
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                          }}
+                        >
+                          Email ID
+                        </th>
+
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                          }}
+                        >
+                          Mobile no
+                        </th>
+
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                          }}
+                        >
+                          Walkin date
+                        </th>
+
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                          }}
+                        >
+                          Address
+                        </th>
+
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "#4B4B4B",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            borderTopRightRadius: "24px",
+                          }}
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentCustomers?.map((customer) => (
+                        <tr key={customer.id} className="customer-row">
+
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <Image
+                                src={Ellipse1}
+                                roundedCircle
+                                height={30}
+                                width={30}
+                                alt="avatar"
+                                style={{ textAlign: "start" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#222222",
+                                  textAlign: "start",
+                                  paddingLeft: "10px",
+                                }}
+                                className=" customer-name"
+                              >
+                                {customer.customer_Name}
+                              </span>
+                            </div>
+                          </td>
+                          <td
                             style={{
-                              padding: "3px 7px",
-                              borderRadius: "60px",
-                              backgroundColor: "#EBEBEB",
-                              textAlign: "start",
                               fontSize: "16px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              padding: "2px",
+                              color: "#000000",
+                              textAlign: "start",
                             }}
                           >
-                            {moment(customer.walk_In_Date).format(
-                              "DD/MMM/YYYY"
-                            )}
-                          </span>
-                        </td>
-
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#000000",
-                            textAlign: "start",
-                            padding: "10px",
-                            whiteSpace:"nowrap"
-                          }}
-                        >
-                          {customer.comments || "-"}
-                        </td>
-
-                        <td>
-                          <div
+                            {customer.email_Id || "-"}
+                          </td>
+                          <td
                             style={{
-                              cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              borderRadius: "50%",
-                              border: "1px solid #EFEFEF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              zIndex:
-                                dotsButton === customer.id ? 1000 : "auto",
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: "#000000",
+                              textAlign: "start",
+
+                              padding: "10px",
                             }}
-                            onClick={() => handleDotsClick(customer.id)}
                           >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
-                            />
-                            {dotsButton === customer.id && (
-                              <div
-                                ref={popupRef}
-                                style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#F9F9F9",
-                                  position: "absolute",
-                                  left: -170,
-                                  // bottom:0,
-                                  top: 30,
-                                  overflow: "visible ! important",
-                                  marginButtom: "30px",
-                                  width: 163,
-                                  height: 92,
-                                  border: "1px solid #EBEBEB",
-                                  borderRadius: 10,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  padding: 15,
-                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                }}
-                              >
-                                <div
-                                  className="mb-2 d-flex align-items-center"
-                                  onClick={() => {
-                                    if (!walkInEditPermissionError) {
-                                      handleEdit(customer);
-                                    }
-                                  }}
-                                  style={{
-                                    cursor: walkInEditPermissionError
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    pointerEvents: walkInEditPermissionError
-                                      ? "none"
-                                      : "auto",
-                                    opacity: walkInEditPermissionError
-                                      ? 0.5
-                                      : 1,
-                                  }}
-                                >
-                                  <img
-                                    src={Edit}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      marginRight: "8px",
-                                    }}
-                                    alt="Edit icon"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: "#222222",
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
-                                </div>
+                            {customer.mobile_Number}
+                          </td>
 
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "none",
+
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              padding: "10px",
+                            }}
+                          >
+                            <span
+                              style={{
+                                padding: "3px 7px",
+                                borderRadius: "60px",
+                                backgroundColor: "#EBEBEB",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                padding: "2px",
+                              }}
+                            >
+                              {moment(customer.walk_In_Date).format(
+                                "DD/MMM/YYYY"
+                              )}
+                            </span>
+                          </td>
+
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: "#000000",
+                              textAlign: "start",
+                              padding: "10px",
+                              whiteSpace: "nowrap"
+                            }}
+                          >
+                            {customer.comments || "-"}
+                          </td>
+
+                          <td>
+                            <div
+                              style={{
+                                cursor: "pointer",
+                                height: 40,
+                                width: 40,
+                                borderRadius: "50%",
+                                border: "1px solid #EFEFEF",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                position: "relative",
+                                zIndex:
+                                  dotsButton === customer.id ? 1000 : "auto",
+                              }}
+                              onClick={() => handleDotsClick(customer.id)}
+                            >
+                              <PiDotsThreeOutlineVerticalFill
+                                style={{ height: 20, width: 20 }}
+                              />
+                              {dotsButton === customer.id && (
                                 <div
-                                  className="d-flex align-items-center"
-                                  onClick={() => {
-                                    if (!walkInDeletePermissionError) {
-                                      handleDelete(customer);
-                                    }
-                                  }}
+                                  ref={popupRef}
                                   style={{
-                                    cursor: walkInDeletePermissionError
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    pointerEvents: walkInDeletePermissionError
-                                      ? "none"
-                                      : "auto",
-                                    opacity: walkInDeletePermissionError
-                                      ? 0.5
-                                      : 1,
+                                    cursor: "pointer",
+                                    backgroundColor: "#F9F9F9",
+                                    position: "absolute",
+                                    left: -170,
+                                    // bottom:0,
+                                    top: 30,
+                                    overflow: "visible ! important",
+                                    marginButtom: "30px",
+                                    width: 163,
+                                    height: 92,
+                                    border: "1px solid #EBEBEB",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    padding: 15,
+                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                   }}
                                 >
-                                  <img
-                                    src={Delete}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      marginRight: "8px",
+                                  <div
+                                    className="mb-2 d-flex align-items-center"
+                                    onClick={() => {
+                                      if (!walkInEditPermissionError) {
+                                        handleEdit(customer);
+                                      }
                                     }}
-                                    alt="Delete icon"
-                                  />
-                                  <label
                                     style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: "#FF0000",
+                                      cursor: walkInEditPermissionError
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      pointerEvents: walkInEditPermissionError
+                                        ? "none"
+                                        : "auto",
+                                      opacity: walkInEditPermissionError
+                                        ? 0.5
+                                        : 1,
                                     }}
                                   >
-                                    Delete
-                                  </label>
+                                    <img
+                                      src={Edit}
+                                      style={{
+                                        height: 16,
+                                        width: 16,
+                                        marginRight: "8px",
+                                      }}
+                                      alt="Edit icon"
+                                    />
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        color: "#222222",
+                                      }}
+                                    >
+                                      Edit
+                                    </label>
+                                  </div>
+
+                                  <div
+                                    className="d-flex align-items-center"
+                                    onClick={() => {
+                                      if (!walkInDeletePermissionError) {
+                                        handleDelete(customer);
+                                      }
+                                    }}
+                                    style={{
+                                      cursor: walkInDeletePermissionError
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      pointerEvents: walkInDeletePermissionError
+                                        ? "none"
+                                        : "auto",
+                                      opacity: walkInDeletePermissionError
+                                        ? 0.5
+                                        : 1,
+                                    }}
+                                  >
+                                    <img
+                                      src={Delete}
+                                      style={{
+                                        height: 16,
+                                        width: 16,
+                                        marginRight: "8px",
+                                      }}
+                                      alt="Delete icon"
+                                    />
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        color: "#FF0000",
+                                      }}
+                                    >
+                                      Delete
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-</div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
                 {currentCustomers?.length > 0 && (
-                <nav
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "end", // Align dropdown and pagination
-                    padding: "10px",
-                    // borderTop: "1px solid #ddd",
-                  }}
-                >
-                  {/* Dropdown for Items Per Page */}
-                  <div>
-                    <select
-                      value={itemsPerPage}
-                      onChange={handleItemsPerPageChange}
-                      style={{
-                        padding: "5px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        color: "#1E45E1",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        outline: "none",
-                        boxShadow: "none",
-                      }}
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
-                    </select>
-                  </div>
+                  // <nav
+                  //   style={{
+                  //     display: "flex",
+                  //     alignItems: "center",
+                  //     justifyContent: "end", 
+                  //     padding: "10px",
 
-                  {/* Pagination Controls */}
-                  <ul
+                  //   }}
+                  // >
+
+                  //   <div>
+                  //     <select
+                  //       value={itemsPerPage}
+                  //       onChange={handleItemsPerPageChange}
+                  //       style={{
+                  //         padding: "5px",
+                  //         border: "1px solid #1E45E1",
+                  //         borderRadius: "5px",
+                  //         color: "#1E45E1",
+                  //         fontWeight: "bold",
+                  //         cursor: "pointer",
+                  //         outline: "none",
+                  //         boxShadow: "none",
+                  //       }}
+                  //     >
+                  //       <option value={5}>5</option>
+                  //       <option value={10}>10</option>
+                  //       <option value={50}>50</option>
+                  //       <option value={100}>100</option>
+                  //     </select>
+                  //   </div>
+
+
+                  //   <ul
+                  //     style={{
+                  //       display: "flex",
+                  //       alignItems: "center",
+                  //       listStyleType: "none",
+                  //       margin: 0,
+                  //       padding: 0,
+                  //     }}
+                  //   >
+
+                  //     <li style={{ margin: "0 10px" }}>
+                  //       <button
+                  //         style={{
+                  //           padding: "5px",
+                  //           textDecoration: "none",
+                  //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                  //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  //           borderRadius: "50%",
+                  //           display: "inline-block",
+                  //           minWidth: "30px",
+                  //           textAlign: "center",
+                  //           backgroundColor: "transparent",
+                  //           border: "none",
+                  //         }}
+                  //         onClick={() => handlePageChange(currentPage - 1)}
+                  //         disabled={currentPage === 1}
+                  //       >
+                  //         <ArrowLeft2
+                  //           size="16"
+                  //           color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                  //         />
+                  //       </button>
+                  //     </li>
+
+
+                  //     <li
+                  //       style={{
+                  //         margin: "0 10px",
+                  //         fontSize: "14px",
+                  //         fontWeight: "bold",
+                  //       }}
+                  //     >
+                  //       {currentPage} of {totalPages}
+                  //     </li>
+
+
+                  //     <li style={{ margin: "0 10px" }}>
+                  //       <button
+                  //         style={{
+                  //           padding: "5px",
+                  //           textDecoration: "none",
+                  //           color:
+                  //             currentPage === totalPages ? "#ccc" : "#1E45E1",
+                  //           cursor:
+                  //             currentPage === totalPages
+                  //               ? "not-allowed"
+                  //               : "pointer",
+                  //           borderRadius: "50%",
+                  //           display: "inline-block",
+                  //           minWidth: "30px",
+                  //           textAlign: "center",
+                  //           backgroundColor: "transparent",
+                  //           border: "none",
+                  //         }}
+                  //         onClick={() => handlePageChange(currentPage + 1)}
+                  //         disabled={currentPage === totalPages}
+                  //       >
+                  //         <ArrowRight2
+                  //           size="16"
+                  //           color={
+                  //             currentPage === totalPages ? "#ccc" : "#1E45E1"
+                  //           }
+                  //         />
+                  //       </button>
+                  //     </li>
+                  //   </ul>
+                  // </nav>
+
+                  <nav
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      listStyleType: "none",
-                      margin: 0,
-                      padding: 0,
+                      justifyContent: "end",
+                      padding: "10px",
+                      position: "fixed", // Keeps the nav fixed on the screen
+                      bottom: "10px", // Positions it 10px from the bottom
+                      right: "10px", // Positions it 10px from the right
+                      backgroundColor: "#fff", // Optional: Adds background for better visibility
+                      borderRadius: "5px", // Optional: Rounded corners
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: Adds a subtle shadow
+                      zIndex: 1000, // Ensures it stays above other elements
                     }}
                   >
-                    {/* Previous Button */}
-                    <li style={{ margin: "0 10px" }}>
-                      <button
+                    <div>
+                      <select
+                        value={itemsPerPage}
+                        onChange={handleItemsPerPageChange}
                         style={{
                           padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                          cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
+                          border: "1px solid #1E45E1",
+                          borderRadius: "5px",
+                          color: "#1E45E1",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          outline: "none",
+                          boxShadow: "none",
                         }}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
                       >
-                        <ArrowLeft2
-                          size="16"
-                          color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
+                        <option value={5}>5</option>
+                        <option value={10}>10</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </select>
+                    </div>
 
-                    {/* Current Page Indicator */}
-                    <li
+                    <ul
                       style={{
-                        margin: "0 10px",
-                        fontSize: "14px",
-                        fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        listStyleType: "none",
+                        margin: 0,
+                        padding: 0,
                       }}
                     >
-                      {currentPage} of {totalPages}
-                    </li>
+                      <li style={{ margin: "0 10px" }}>
+                        <button
+                          style={{
+                            padding: "5px",
+                            textDecoration: "none",
+                            color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                            cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                            borderRadius: "50%",
+                            display: "inline-block",
+                            minWidth: "30px",
+                            textAlign: "center",
+                            backgroundColor: "transparent",
+                            border: "none",
+                          }}
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        >
+                          <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                        </button>
+                      </li>
 
-                    {/* Next Button */}
-                    <li style={{ margin: "0 10px" }}>
-                      <button
+                      <li
                         style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color:
-                            currentPage === totalPages ? "#ccc" : "#1E45E1",
-                          cursor:
-                            currentPage === totalPages
-                              ? "not-allowed"
-                              : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
+                          margin: "0 10px",
+                          fontSize: "14px",
+                          fontWeight: "bold",
                         }}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
                       >
-                        <ArrowRight2
-                          size="16"
-                          color={
-                            currentPage === totalPages ? "#ccc" : "#1E45E1"
-                          }
-                        />
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
+                        {currentPage} of {totalPages}
+                      </li>
+
+                      <li style={{ margin: "0 10px" }}>
+                        <button
+                          style={{
+                            padding: "5px",
+                            textDecoration: "none",
+                            color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                            borderRadius: "50%",
+                            display: "inline-block",
+                            minWidth: "30px",
+                            textAlign: "center",
+                            backgroundColor: "transparent",
+                            border: "none",
+                          }}
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                        >
+                          <ArrowRight2
+                            size="16"
+                            color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                          />
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+
                 )}
               </div>
             ) : (
@@ -781,7 +885,7 @@ function UserlistWalkin(props) {
           handleClose={handleFormClose}
           // onSubmit={handleFormSubmit}
           initialData={selectedCustomer}
-          // modalType={modalType}
+        // modalType={modalType}
         />
       )}
 

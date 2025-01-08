@@ -2634,9 +2634,15 @@ setDownloadInvoice(false)
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "end", // Align dropdown and pagination
+                        justifyContent: "end", 
                         padding: "10px",
-                        // borderTop: "1px solid #ddd",
+                        position: "fixed", 
+                        bottom: "10px", 
+                        right: "10px", 
+                        backgroundColor: "#fff", 
+                        borderRadius: "5px", 
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+                        zIndex: 1000, 
                       }}
                     >
                       {/* Dropdown for Items Per Page */}
@@ -2936,9 +2942,15 @@ setDownloadInvoice(false)
   style={{
     display: "flex",
     alignItems: "center",
-    justifyContent: "end", // Align dropdown and pagination
+    justifyContent: "end", 
     padding: "10px",
-    // borderTop: "1px solid #ddd",
+    position: "fixed", 
+    bottom: "10px", 
+    right: "10px", 
+    backgroundColor: "#fff", 
+    borderRadius: "5px", 
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+    zIndex: 1000, 
   }}
 >
   {/* Dropdown for Items Per Page */}

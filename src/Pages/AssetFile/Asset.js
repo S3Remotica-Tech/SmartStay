@@ -13,7 +13,7 @@ import Notify from '../../Assets/Images/New_images/notify.png';
 import Profile from '../../Assets/Images/New_images/profile.png';
 import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash,ArrowLeft2,ArrowRight2,} from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel (5).png";
@@ -34,11 +34,11 @@ function Asset() {
   const [assetrolePermission, setAssetRolePermission] = useState("");
 
   const [assetpermissionError, setAssetPermissionError] = useState("");
-  const [assetAddPermission,setAssetAddPermission]= useState("")
-  const [assetDeletePermission,setAssetDeletePermission]=useState("")
-  const [assetEditPermission,setAssetEditPermission]=useState("")
-  const [excelDownload,setExcelDownload]=useState("")
-  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
+  const [assetAddPermission, setAssetAddPermission] = useState("")
+  const [assetDeletePermission, setAssetDeletePermission] = useState("")
+  const [assetEditPermission, setAssetEditPermission] = useState("")
+  const [excelDownload, setExcelDownload] = useState("")
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItem, setCurrentItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,34 +52,35 @@ function Asset() {
       setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
- 
-const handleAssetsExcel = () => {
-    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id}});
-    setIsDownloadTriggered(true); 
-};
-useEffect(() => {
-  if (excelDownload && isDownloadTriggered) {
-   
-    const link = document.createElement("a");
-    link.href = excelDownload;
-    link.download = "smartstay_file.xlsx"; 
-    link.click();
-    setTimeout(() => {;
-      setExcelDownload("");
-    }, 500);
-  }
-}, [excelDownload,isDownloadTriggered]);
+
+  const handleAssetsExcel = () => {
+    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id } });
+    setIsDownloadTriggered(true);
+  };
+  useEffect(() => {
+    if (excelDownload && isDownloadTriggered) {
+
+      const link = document.createElement("a");
+      link.href = excelDownload;
+      link.download = "smartstay_file.xlsx";
+      link.click();
+      setTimeout(() => {
+        ;
+        setExcelDownload("");
+      }, 500);
+    }
+  }, [excelDownload, isDownloadTriggered]);
 
 
 
-useEffect(()=>{
-  if(state.UsersList?.statusCodeforExportAssetsCode === 200){
-    setIsDownloadTriggered(false);
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPORT_ASSETS_DETAILS" });
-    }, 200);
-  }
-  },[state.UsersList?.statusCodeforExportAssetsCode])
+  useEffect(() => {
+    if (state.UsersList?.statusCodeforExportAssetsCode === 200) {
+      setIsDownloadTriggered(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPORT_ASSETS_DETAILS" });
+      }, 200);
+    }
+  }, [state.UsersList?.statusCodeforExportAssetsCode])
 
 
 
@@ -151,7 +152,7 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    dispatch({ type: 'ASSETLIST', payload:{ hostel_id: state.login.selectedHostel_Id }})
+    dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     setLoading(true)
   }, [state.login.selectedHostel_Id])
 
@@ -159,7 +160,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode == 200 || state.AssetList.deleteAssetStatusCode == 200 || state.AssetList.addAssignAssetStatusCode == 200) {
       setTimeout(() => {
-        dispatch({ type: 'ASSETLIST' ,  payload:{ hostel_id: state.login.selectedHostel_Id }})
+        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
@@ -192,7 +193,7 @@ useEffect(()=>{
   }, [state.AssetList.getAssetStatusCode])
 
 
-  
+
 
 
   useEffect(() => {
@@ -257,15 +258,15 @@ useEffect(()=>{
 
 
 
-  
- const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  
 
-const handleItemsPerPageChange = (event) => {
+
+  const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
   };
 
@@ -321,7 +322,7 @@ const handleItemsPerPageChange = (event) => {
   }
 
 
-  
+
 
 
   const handleShowSearch = () => {
@@ -373,7 +374,7 @@ const handleItemsPerPageChange = (event) => {
 
 
 
-  
+
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
@@ -418,510 +419,514 @@ const handleItemsPerPageChange = (event) => {
 
   return (
     <>
-    {
-      assetpermissionError ? (
-        <>
-        <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        {/* Image */}
-        <img
-          src={EmptyState}
-          alt="Empty State"
-          style={{ maxWidth: "100%", height: "auto" }}
-        />
-
-        {/* Permission Error */}
-        {assetpermissionError && (
-          <div
-            style={{
-              color: "red",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              marginTop: "1rem",
-            }}
-          >
-            <MdError size={20} />
-            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
-          </div>
-        )}
-      </div></>
-      ):
-      <div className='m-4'>
-      {/* <div className='m-4'> */}
-
-
-
-      <div className='mt-3'>
-
-
-        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap "
-            style={{
-              position: 'sticky',
-              top: 25,
-              backgroundColor: 'white',
-              zIndex: 10, 
-              padding: '10px',
-              height:83
-            }}
-        >
-          <div>
-            <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
-          </div>
-
-          <div className="d-flex justify-content-between align-items-center flex-wrap ">
-
-            {
-              !showFilterData &&
-
-              <div className='me-3' onClick={handleShowSearch}>
-                <SearchNormal1
-                  size="26"
-                  color="#222"
-                />
-              </div>
-            }
-            {
-              showFilterData &&
-              <div className='me-3 flex flex-wrap ' style={{ position: 'relative' }}>
-                <InputGroup
-                style={{
-                  display: 'flex',
-                  flexWrap: 'nowrap',
-                  width: '100%',
-                }}
-                
-                
-                
-                >
-
-                  <FormControl size="lg"
-                    value={searchQuery}
-                    onChange={handleInputChange}
-
-                    style={{
-                      width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                      //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                    }}
-                    placeholder="Search..."
-                  />
-                  <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                    <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                  </InputGroup.Text>
-                </InputGroup>
-
-
-
-                {
-                  getData.length > 0 && searchQuery !== '' && showDropDown && (
-
-                    <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                      <ul className='show-scroll' style={{
-                        // position: 'absolute',
-                        // top: '50px',
-                        // left: 0,
-                        width: 260,
-                        backgroundColor: '#fff',
-                        // border: '1px solid #D9D9D9',
-                        borderRadius: '4px',
-                        maxHeight: 174,
-                        minHeight: 100,
-                        overflowY: 'auto',
-                        padding: '5px 10px',
-                        margin: '0',
-                        listStyleType: 'none',
-
-                        borderRadius: 8,
-                        boxSizing: 'border-box'
-                      }}>
-                        {
-                          getData.map((user, index) => (
-                            <li
-                              key={index}
-                              onClick={() => {
-                                handleDropDown(user.asset_name);
-
-                              }}
-                              style={{
-                                padding: '10px',
-                                cursor: 'pointer',
-                                borderBottom: '1px solid #dcdcdc',
-                                fontSize: '14px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-
-                              }}
-                            >
-                              {user.asset_name}
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  )
-                }
-
-
-
-
-
-
-
-
-
-
-              </div>
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div className='me-3' onClick={handleFilterByPrice}>
-              <Sort
-                Size="24"
-                color="#222"
-                variant="Outline"
+      {
+        assetpermissionError ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100vh",
+              }}
+            >
+              {/* Image */}
+              <img
+                src={EmptyState}
+                alt="Empty State"
+                style={{ maxWidth: "100%", height: "auto" }}
               />
-            </div>
 
-            {
-              showFilter &&
+              {/* Permission Error */}
+              {assetpermissionError && (
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <MdError size={20} />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
+                </div>
+              )}
+            </div></>
+        ) :
+          <div className='m-4'>
+            {/* <div className='m-4'> */}
 
-              <div className='me-3'>
-                <Form.Select aria-label="Select Price Range"
-                  value={selectedPriceRange}
-                  onChange={handlePriceRangeChange}
-                  className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
-                  <option value="All">All</option>
-                  <option value="0-100">0-100</option>
-                  <option value="100-500">100-500</option>
-                  <option value="500-1000">500-1000</option>
-                  <option value="1000+">1000+</option>
-                </Form.Select>
+
+
+            <div className='mt-3'>
+
+
+              <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap "
+                style={{
+                  position: 'sticky',
+                  top: 25,
+                  backgroundColor: 'white',
+                  zIndex: 10,
+                  padding: '10px',
+                  height: 83
+                }}
+              >
+                <div>
+                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center flex-wrap ">
+
+                  {
+                    !showFilterData &&
+
+                    <div className='me-3' onClick={handleShowSearch}>
+                      <SearchNormal1
+                        size="26"
+                        color="#222"
+                      />
+                    </div>
+                  }
+                  {
+                    showFilterData &&
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative' }}>
+                      <InputGroup
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          width: '100%',
+                        }}
+
+
+
+                      >
+
+                        <FormControl size="lg"
+                          value={searchQuery}
+                          onChange={handleInputChange}
+
+                          style={{
+                            width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                            //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                          }}
+                          placeholder="Search..."
+                        />
+                        <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                          <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                        </InputGroup.Text>
+                      </InputGroup>
+
+
+
+                      {
+                        getData.length > 0 && searchQuery !== '' && showDropDown && (
+
+                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                            <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
+                              width: 260,
+                              backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              borderRadius: '4px',
+                              maxHeight: 174,
+                              minHeight: 100,
+                              overflowY: 'auto',
+                              padding: '5px 10px',
+                              margin: '0',
+                              listStyleType: 'none',
+
+                              borderRadius: 8,
+                              boxSizing: 'border-box'
+                            }}>
+                              {
+                                getData.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      handleDropDown(user.asset_name);
+
+                                    }}
+                                    style={{
+                                      padding: '10px',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #dcdcdc',
+                                      fontSize: '14px',
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: 500,
+
+                                    }}
+                                  >
+                                    {user.asset_name}
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        )
+                      }
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <div className='me-3' onClick={handleFilterByPrice}>
+                    <Sort
+                      Size="24"
+                      color="#222"
+                      variant="Outline"
+                    />
+                  </div>
+
+                  {
+                    showFilter &&
+
+                    <div className='me-3'>
+                      <Form.Select aria-label="Select Price Range"
+                        value={selectedPriceRange}
+                        onChange={handlePriceRangeChange}
+                        className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+                        <option value="All">All</option>
+                        <option value="0-100">0-100</option>
+                        <option value="100-500">100-500</option>
+                        <option value="500-1000">500-1000</option>
+                        <option value="1000+">1000+</option>
+                      </Form.Select>
+                    </div>
+                  }
+                  <div style={{ paddingRight: "10px" }}>
+                    <img src={excelimg} width={38} height={38} style={{ marginTop: 5 }}
+                      onClick={handleAssetsExcel}
+                    />
+                  </div>
+
+                  <div>
+                    <Button disabled={assetAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "16px 24px" }}> + Add an asset</Button>
+                  </div>
+                </div>
               </div>
-            }
-             <div  style={{paddingRight:"10px"}}>
-             <img src={excelimg} width={38} height={38} style={{marginTop:5}} 
-             onClick={handleAssetsExcel}
-             />
             </div>
 
-            <div>
-              <Button disabled={assetAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "16px 24px" }}> + Add an asset</Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div className='table-responsive' 
+            {/* <div className='table-responsive' 
         style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
          >  */}
 
 
-      {searchQuery && (
-        <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-          {getData.length > 0 ? (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-            </span>
-          ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
-          )}
-        </div>
-      )}
+            {searchQuery && (
+              <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+                {getData.length > 0 ? (
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                    {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                  </span>
+                ) : (
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                )}
+              </div>
+            )}
 
 
 
 
 
 
-      {loading &&
-        <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'transparent',
-          opacity: 0.75,
-          zIndex: 10,
-        }}
-      >
-        <div
-          style={{
-            borderTop: '4px solid #1E45E1',
-            borderRight: '4px solid transparent',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            animation: 'spin 1s linear infinite',
-          }}
-        ></div>
-      </div>
-      }
+            {loading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
 
 
 
 
 
-      {currentItems && currentItems.length > 0 && (
-        <div  style={{
-          // height: "400px",
-          height: currentItems.length >= 6 ? "380px" : "auto",
-          overflowY: "auto",
-          borderRadius: "24px",
-          border: "1px solid #DCDCDC",
-          // borderBottom:"none"
-        }}>
+            {currentItems && currentItems.length > 0 && (
+              <div style={{
+                // height: "400px",
+                height: currentItems.length >= 6 ? "380px" : "auto",
+                overflowY: "auto",
+                borderRadius: "24px",
+                border: "1px solid #DCDCDC",
+                // borderBottom:"none"
+              }}>
 
-          <Table
-            responsive="md"
-            className="Table_Design"
-            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
-          // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
-          >
+                <Table
+                  responsive="md"
+                  className="Table_Design"
+                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
+                >
 
-            <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
-              <tr>
-                {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
+                  <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+                    <tr>
+                      {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
                 <input type='checkbox' style={customCheckboxStyle} />
               </th> */}
 
 
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600, borderTopLeftRadius: 24, paddingLeft: 20 }}>Product Name</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600, borderTopLeftRadius: 24, paddingLeft: 20 }}>Product Name</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
 
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
+                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th> */}
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
+                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
+                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
               <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Room</th> */}
 
 
 
-                <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                loading ? (
-                  <>
-                    <tr>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      loading ? (
+                        <>
+                          <tr>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
         <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
         <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td> */}
-                    </tr>
-                  </>
-                )
+                          </tr>
+                        </>
+                      )
 
 
 
-                  : (
-                    currentItems && currentItems.length > 0 && (
-                      <>
-                        {currentItems.map((item) => (
-                          <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission}/>
-                        ))}
-                      </>
-                    )
+                        : (
+                          currentItems && currentItems.length > 0 && (
+                            <>
+                              {currentItems.map((item) => (
+                                <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
+                              ))}
+                            </>
+                          )
 
-                    // : (
-                    //   <tr style={{border:"none"}}>
-                    //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
-                    //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
-                    //   </td>
-                    // </tr>
+                          // : (
+                          //   <tr style={{border:"none"}}>
+                          //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
+                          //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
+                          //   </td>
+                          // </tr>
 
-                    // )
-                  )
-              }
-            </tbody>
+                          // )
+                        )
+                    }
+                  </tbody>
 
 
-          </Table>
-        </div>
+                </Table>
+              </div>
 
-      )}
-      {
-        !loading && currentItems && currentItems.length === 0 &&
+            )}
+            {
+              !loading && currentItems && currentItems.length === 0 &&
 
-        <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+              <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-          <div>
-            <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-            <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
-            <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
-            disabled={assetAddPermission}  onClick={handleShow} 
-            > + Add an asset</Button>
-            </div>
+                <div>
+                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                  <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+                  <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+                  <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+                    disabled={assetAddPermission} onClick={handleShow}
+                  > + Add an asset</Button>
+                  </div>
+                </div>
+                <div>
+
+                </div>
+              </div>
+
+
+            }
+
+
+
+
+
+
+
+            {/* </div>  */}
+            {/*  Pagination code */}
+            {currentItems.length > 0 &&
+              // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+              //   <Pagination.Prev style={{ visibility: "visible" }}
+              //     onClick={() => paginate(currentPage - 1)}
+              //     disabled={currentPage === 1}
+              //   />
+              //   {renderPagination()}
+              //   <Pagination.Next style={{ visibility: "visible" }}
+              //     onClick={() => paginate(currentPage + 1)}
+              //     disabled={currentPage === totalPages}
+              //   />
+              // </Pagination>
+
+              <nav
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "0",
+                  right: "0",
+                  backgroundColor: "white",
+                  zIndex: "1000",
+                }}
+              >
+                {/* Dropdown for Items Per Page */}
+                <div>
+                  <select
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                    style={{
+                      padding: "5px",
+                      border: "1px solid #1E45E1",
+                      borderRadius: "5px",
+                      color: "#1E45E1",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxShadow: "none",
+
+                    }}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
+
+                {/* Pagination Controls */}
+                <ul
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                >
+                  {/* Previous Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    </button>
+                  </li>
+
+                  {/* Current Page Indicator */}
+                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                    {currentPage} of {totalPages}
+                  </li>
+
+                  {/* Next Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight2
+                        size="16"
+                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+
+            }
+
+
+            {/* </div> */}
           </div>
-          <div>
-
-          </div>
-        </div>
-
-
       }
 
-
-
-
-
-
-
-      {/* </div>  */}
-      {/*  Pagination code */}
-      {currentItems.length > 0 &&
-        // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-        //   <Pagination.Prev style={{ visibility: "visible" }}
-        //     onClick={() => paginate(currentPage - 1)}
-        //     disabled={currentPage === 1}
-        //   />
-        //   {renderPagination()}
-        //   <Pagination.Next style={{ visibility: "visible" }}
-        //     onClick={() => paginate(currentPage + 1)}
-        //     disabled={currentPage === totalPages}
-        //   />
-        // </Pagination>
-
-          <nav
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "end", // Align dropdown and pagination
-                                padding: "10px",
-                                // borderTop: "1px solid #ddd",
-                              }}
-                            >
-                              {/* Dropdown for Items Per Page */}
-                              <div>
-                                <select
-                                  value={itemsPerPage}
-                                  onChange={handleItemsPerPageChange}
-                                  style={{
-                                    padding: "5px",
-                                    border: "1px solid #1E45E1",
-                                    borderRadius: "5px",
-                                    color: "#1E45E1",
-                                    fontWeight: "bold",
-                                    cursor: "pointer",
-                                    outline: "none",
-                                    boxShadow: "none",
-                                    
-                                  }}
-                                >
-                                   <option value={5}>5</option>
-                                  <option value={10}>10</option>
-                                  <option value={50}>50</option>
-                                  <option value={100}>100</option>
-                                </select>
-                              </div>
-                            
-                              {/* Pagination Controls */}
-                              <ul
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  listStyleType: "none",
-                                  margin: 0,
-                                  padding: 0,
-                                }}
-                              >
-                                {/* Previous Button */}
-                                <li style={{ margin: "0 10px" }}>
-                                  <button
-                                    style={{
-                                      padding: "5px",
-                                      textDecoration: "none",
-                                      color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                                      borderRadius: "50%",
-                                      display: "inline-block",
-                                      minWidth: "30px",
-                                      textAlign: "center",
-                                      backgroundColor: "transparent",
-                                      border: "none",
-                                    }}
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                  >
-                                    <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                                  </button>
-                                </li>
-                            
-                                {/* Current Page Indicator */}
-                                <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                                  {currentPage} of {totalPages}
-                                </li>
-                            
-                                {/* Next Button */}
-                                <li style={{ margin: "0 10px" }}>
-                                  <button
-                                    style={{
-                                      padding: "5px",
-                                      textDecoration: "none",
-                                      color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                      cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                                      borderRadius: "50%",
-                                      display: "inline-block",
-                                      minWidth: "30px",
-                                      textAlign: "center",
-                                      backgroundColor: "transparent",
-                                      border: "none",
-                                    }}
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                  >
-                                    <ArrowRight2
-                                      size="16"
-                                      color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                                    />
-                                  </button>
-                                </li>
-                              </ul>
-                            </nav>
-
-      }
-
-
-      {/* </div> */}
-    </div>
-    }
-     
       {show && <AddAsset show={show} handleClose={handleClose} currentItem={currentItem} />}
 
 
@@ -930,4 +935,4 @@ const handleItemsPerPageChange = (event) => {
   )
 }
 
-export default Asset
+export default Asset;
