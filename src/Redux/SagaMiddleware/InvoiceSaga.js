@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -648,6 +648,91 @@ function* handleManualInvoiceAdd (params) {
    }
 }
 
+
+function* handleManualInvoiceEdit (params) {
+   console.log("paramss",params);
+   
+   const response = yield call (EditManualInvoiceBill,params.payload);
+ 
+console.log("API response",response);
+
+
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'MANUAL_INVOICE_EDIT' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleManualInvoiceDelete (params) {
+   console.log("paramss",params);
+   
+   const response = yield call (DeleteManualInvoiceBill,params.payload);
+ 
+console.log("API response",response);
+
+
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'MANUAL_INVOICE_DELETE' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
  
@@ -836,6 +921,8 @@ function* InvoiceSaga() {
    yield takeEvery('GET-MANUAL-INVOICE-AMOUNTS',handleManualInvoiceGetData)
    yield takeEvery('GET-RECURRING-BILL-AMOUNTS',handleRecurrbillamountData)
    yield takeEvery('MANUAL-INVOICE-ADD',handleManualInvoiceAdd)
+   yield takeEvery('MANUAL-INVOICE-EDIT',handleManualInvoiceEdit)
+   yield takeEvery('MANUAL-INVOICE-DELETE',handleManualInvoiceDelete)
    yield takeEvery('RECURRING-BILLS-ADD',handleRecurrBillsAdd)
    yield takeEvery('MANUAL-INVOICES-LIST',handleGetManualInvoice)
    yield takeEvery('RECURRING-BILLS-LIST',handleGetRecurrbills)
