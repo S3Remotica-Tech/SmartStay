@@ -769,15 +769,13 @@ const Compliance = () => {
   const [complainttypelist, setComplainttypelist] = useState([])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hosId } })
-
-  }, [])
+    if(hosId){
+      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id:hosId} })
+    }
+  }, [hosId])
 
   useEffect(() => {
-
     setComplainttypelist(state.Settings.Complainttypelist)
-
-
   }, [state.Settings.Complainttypelist])
 
 

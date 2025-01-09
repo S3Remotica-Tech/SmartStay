@@ -135,7 +135,7 @@ function* handleAddVendor(action) {
 
 function* handleComplianceChange(action) {
    const response = yield call (ComplianceChange,action.payload);
-
+console.log("handleComplianceChange",response)
  var toastStyle = {
    backgroundColor: "#E6F6E6",
    color: "black",
@@ -176,6 +176,53 @@ function* handleComplianceChange(action) {
   
 }
 
+
+
+
+
+
+function* handleComplianceChangeAssign(action) {
+   const response = yield call (ComplianceChange,action.payload);
+console.log("handleComplianceChange",response)
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'COMPLIANCE_CHANGE_ASSIGN' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      // progress: undefined,
+      style: toastStyle,
+       });
+   }
+   else{
+      
+      yield put ({type:'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', payload:response.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
 
@@ -289,7 +336,8 @@ function* ComplianceSaga() {
     yield takeEvery('ADDVENDOR',handleAddVendor)
     yield takeEvery('DELETEVENDOR',handleDeleteVendor)
     yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)
-    yield takeEvery('DELETECOMPLIANCE',handleDeleteCompliance)    
+    yield takeEvery('DELETECOMPLIANCE',handleDeleteCompliance)
+    yield takeEvery('COMPLIANCEASSIGN',handleComplianceChangeAssign)      
 
 }
 export default ComplianceSaga;
