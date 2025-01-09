@@ -912,130 +912,136 @@ function Banking() {
                         )}
                       </div>
 
-                {/* Card Footer */}
-                <div
-                  className="card-footer d-flex justify-content-between align-items-center"
-                  style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-                >
-                  <span
-                    style={{
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                   <img src={money} width={18} height={18} style={{marginTop:"-5px"}}/> Balance
-                  </span>
-                  {item.balance === 0 ||
-                  item.balance === "" ||
-                  item.balance === null ? (
-                    <a
-                    href={bankingAddPermission ? "#" : undefined} 
-                    className={bankingAddPermission ? "text-muted" : "text-primary"} 
-                    style={{
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                      color: bankingAddPermission ? "gray" : "blue",
-                      textDecoration: "none",
-                      cursor: bankingAddPermission ? "not-allowed" : "pointer", 
-                    }}
-                    onClick={(e) => {
-                      if (bankingAddPermission) {
-                        e.preventDefault(); 
-                      } else {
-                        handleShowAddBalance(item); 
-                      }
-                    }}
-                  >
-                    +Add Amount
-                  </a>
-                  
-                  ) : (
-                    <span
-                      style={{
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                        color: "black",
-                      }}
-                    >
-                      ₹{item.balance}
-                    </span>
-                  )}
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <div
-            className="card mx-2"
-            style={{
-              minWidth: "280px",
-              borderRadius: "12px",
-              overflow: "visible",
-              height: 187,
-            }}
-          >
-            {/* Card Body */}
-            <div className="card-body">
-            <div>
-        <div style={{ textAlign: "center" }}>
-          <img
-            src={emptyimg}
-            width={50}
-            height={50}
-            alt="emptystate"
-          />
-        </div>
-        <div
-          className="pb-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: 20,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          No Bank{" "}
-        </div>
-        <div
-          className="pb-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            fontSize: 16,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          There are no Bank Details available.{" "}
-        </div>
-        <div style={{ textAlign: "center" }}>
-        {/* <Button
-              onClick={handleShowForm}
-              disabled={bankingAddPermission}
-              style={{
-                fontSize: 14,
-                backgroundColor: "#1E45E1",
-                color: "white",
-                height: 52,
-                fontWeight: 600,
-                borderRadius: 12,
-                width: 123,
-                padding: "10px, 20px, 10px, 20px",
-                color: "#FFF",
-                fontFamily: "Gilroy",
-              }}
-            >
-              {" "}
-              + Bank
-            </Button> */}
-                  </div>
-        
-      </div>
-             
+                      {/* Card Footer */}
+                      <div
+                        className="card-footer d-flex justify-content-between align-items-center"
+                        style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
+                      >
+                        <span
+                          style={{
+                            fontSize: 14,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          <img src={money} width={18} height={18} style={{ marginTop: "-5px" }} /> Balance
+                        </span>
+                        {item.balance === 0 ||
+                          item.balance === "" ||
+                          item.balance === null ? (
+                          <a
+                            href={bankingAddPermission ? "#" : undefined}
+                            className={bankingAddPermission ? "text-muted" : "text-primary"}
+                            style={{
+                              fontSize: 14,
+                              fontFamily: "Gilroy",
+                              fontWeight: 600,
+                              color: bankingAddPermission ? "gray" : "blue",
+                              textDecoration: "none",
+                              cursor: bankingAddPermission ? "not-allowed" : "pointer",
+                            }}
+                            onClick={(e) => {
+                              if (bankingAddPermission) {
+                                e.preventDefault();
+                              } else {
+                                handleShowAddBalance(item);
+                              }
+                            }}
+                          >
+                            +Add Amount
+                          </a>
+
+                        ) : (
+                          <span
+                            style={{
+                              fontSize: 14,
+                              fontFamily: "Gilroy",
+                              fontWeight: 600,
+                              color: "black",
+                            }}
+                          >
+                            ₹{item.balance}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <>
+                </>
+                // <div
+                //   className="card mx-2"
+                //   style={{
+                //     minWidth: "280px",
+                //     borderRadius: "12px",
+                //     overflow: "visible",
+                //     height: 187,
+                //   }}
+                // >
+                //   {/* Card Body */}
+                //   <div className="card-body">
+                //     <div>
+                //       <div style={{ textAlign: "center" }}>
+                //         <img
+                //           src={emptyimg}
+                //           width={50}
+                //           height={50}
+                //           alt="emptystate"
+                //         />
+                //       </div>
+                //       <div
+                //         className="pb-1"
+                //         style={{
+                //           textAlign: "center",
+                //           fontWeight: 600,
+                //           fontFamily: "Gilroy",
+                //           fontSize: 20,
+                //           color: "rgba(75, 75, 75, 1)",
+                //         }}
+                //       >
+                //         No Bank{" "}
+                //       </div>
+                //       <div
+                //         className="pb-1"
+                //         style={{
+                //           textAlign: "center",
+                //           fontWeight: 500,
+                //           fontFamily: "Gilroy",
+                //           fontSize: 16,
+                //           color: "rgba(75, 75, 75, 1)",
+                //         }}
+                //       >
+                //         There are no Bank Details available.{" "}
+                //       </div>
+                //       <div style={{ textAlign: "center" }}>
+                //         <Button
+                //           onClick={handleShowForm}
+                //           disabled={bankingAddPermission}
+                //           style={{
+                //             fontSize: 14,
+                //             backgroundColor: "#1E45E1",
+                //             color: "white",
+                //             height: 52,
+                //             fontWeight: 600,
+                //             borderRadius: 12,
+                //             width: 123,
+                //             padding: "10px, 20px, 10px, 20px",
+                //             color: "#FFF",
+                //             fontFamily: "Gilroy",
+                //           }}
+                //         >
+                //           {" "}
+                //           + Add Bank
+                //         </Button>
+                //       </div>
+
+                //     </div>
+
+                //   </div>
+                // </div>
+              )}
+
             </div>
           </div>
         )}

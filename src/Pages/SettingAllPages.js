@@ -15,6 +15,7 @@ import SettingAmenities from "./SettingAmenities";
 import SettingNewUser from "./SettingUserNew";
 import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
+import './SettingAll.css';
 import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
