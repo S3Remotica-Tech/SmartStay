@@ -666,7 +666,7 @@ function EB_Hostel(props) {
                   fontWeight: 600,
                   borderRadius: 8,
                   width: 162,
-                  padding: "5px 12px", // Corrected padding
+                  padding: "12px 16px", // Corrected padding
                   border: "none",
                   cursor: "pointer",
                   whiteSpace: "nowrap",
@@ -678,7 +678,7 @@ function EB_Hostel(props) {
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
               >
-                + Add RoomReading
+                + Room Reading
               </Button>
             </div>
           )}
@@ -1166,7 +1166,7 @@ function EB_Hostel(props) {
                       </Table>
                     </div>
                   ) : (
-                    <div>
+                    <div  style={{marginTop:40}}>
                       <div style={{ textAlign: "center" }}>
                         <img
                           src={emptyimg}
@@ -1219,7 +1219,7 @@ function EB_Hostel(props) {
                           + Add Reading
                         </Button>
                       </div> */}
-                      {hostelBased == 1 ? (
+                      {/* {hostelBased == 1 ? (
                         <div style={{ textAlign: "center" }}>
                           <Button
                             style={{
@@ -1259,7 +1259,7 @@ function EB_Hostel(props) {
                             + Add Room Reading
                           </Button>
                         </div>
-                      )}
+                      )} */}
                     </div>
                   )}
                 </div>

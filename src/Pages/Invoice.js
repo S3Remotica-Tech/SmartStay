@@ -2050,7 +2050,7 @@ setDownloadInvoice(false)
         <Button
         disabled={billAddPermission}
           onClick={handleManualShow}
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 12, width: 152, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }} > + Create Bill
+          style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152, padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat' }} > + Create Bill
         </Button>
 }
 {value == 2 && 
@@ -2058,7 +2058,7 @@ setDownloadInvoice(false)
         disabled={recuringbillAddPermission}
           onClick={handleRecurrBillShow}
           style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, 
-          borderRadius: 12, width: 180, padding: "9px, 10px, 9px, 10px", color: '#FFF', fontFamily: 'Montserrat',
+          borderRadius: 8, width: 200, padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat',
           whiteSpace:"nowrap"}}> + Create Recurring Bill
         </Button>
 
@@ -2068,8 +2068,8 @@ setDownloadInvoice(false)
       {
         value == 3 && 
         <Button
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, 
-          fontWeight: 600, borderRadius: 12, width: 230, padding: "9px, 10px, 9px, 10px", color: '#FFF',
+          style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, 
+          fontWeight: 600, borderRadius: 8, width: 180, padding: "12px, 16px, 12px, 16px", color: '#FFF',
            fontFamily: 'Montserrat',whiteSpace:"nowrap" }}> + Create Receipt
         </Button>
       }
@@ -2699,16 +2699,11 @@ setDownloadInvoice(false)
                   <>
 
 {state?.InvoiceList?.ManualInvoices && state?.InvoiceList?.ManualInvoices.length === 0 && !loading &&
-                <div>
+                <div style={{marginTop:20}}>
                 <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
                 <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
                 <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
             
-             <div style={{ textAlign: "center"}}>
-                         <Button
-                          //  onClick={handleShow}
-                           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }} disabled={billAddPermission} onClick={handleManualShow}> + Create Bill</Button>
-                       </div>
            </div>    
                 }
                  {currentItems && currentItems.length > 0 && (
@@ -3041,17 +3036,12 @@ setDownloadInvoice(false)
 </>
     ):<>
     {currentItem && currentItem.length === 0  &&
-                  <div>
+                  <div  style={{marginTop:20}}>
                   <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
               
-               <div style={{ textAlign: "center"}}>
-                           <Button
-                           disabled={recuringbillAddPermission}
-                             onClick={handleRecurrBillShow}
-                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 240, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}  > + Create Recurring Bill</Button>
-                         </div>
+              
              </div>    
                   }
             
@@ -3250,15 +3240,12 @@ setDownloadInvoice(false)
 
 <TabPanel value="3">
 
-<div>
+<div  style={{marginTop:20}}>
                   <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Receipt available </div>
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no receipt added </div>
               
-               <div style={{ textAlign: "center"}}>
-                           <Button
-                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 240, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}  > + Create Receipt</Button>
-                         </div>
+            
              </div> 
 </TabPanel>
 

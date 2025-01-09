@@ -1087,14 +1087,15 @@ const Compliance = () => {
                       />
                     </div>
 
-                    <div style={{ paddingRight: "15px" }}>
-                      <Button
-                        disabled={complianceAddPermission}
-                        onClick={handleShow}
-                        style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 12, width: 152, padding: "16px, 24px, 16px, 24px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap" }}> + Add Complaint</Button>
-                    </div>
-                  </div>
-                </div>
+            <div style={{paddingRight:"15px"}}>
+              <Button
+              disabled={complianceAddPermission}
+                onClick={handleShow}
+                style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8,  width: 152, 
+                padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat',whiteSpace:"nowrap" }}> + Complaint</Button>
+            </div>
+          </div>
+        </div>
 
                 <div className='row row-gap-3 p-4'>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
@@ -1107,19 +1108,16 @@ const Compliance = () => {
 
                   {currentItems.length == 0 &&
 
-                    <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-                      <div>
-                        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
-
-                        <div style={{ textAlign: "center" }}>
-                          <Button
-                            onClick={handleShow}
-                            style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Complaint</Button>
-                        </div>
-                      </div>
-                      <div>
+<div className='d-flex align-items-center justify-content-center fade-in' 
+style={{ width: "100%", height: 350, marginTop:40 }}>
+<div>
+     <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
+ 
+  
+</div>
+<div>
 
                       </div>
                     </div>

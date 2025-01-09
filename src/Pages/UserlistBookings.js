@@ -1450,161 +1450,140 @@ function Booking(props) {
                     //                     </nav>
 
                     <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed", // Makes the nav fixed on the screen
-                        bottom: "10px", // Positions it 10px from the bottom
-                        right: "10px", // Positions it 10px from the right
-                        backgroundColor: "#fff", // Optional: For better visibility
-                        borderRadius: "5px", // Optional: Rounded edges
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: Shadow for aesthetics
-                      }}
-                    >
-                      <div>
-                        <select
-                          value={itemsPerPage}
-                          onChange={handleItemsPerPageChange}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
-                          }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                          </button>
-                        </li>
-
-                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                          {currentPage} of {totalPages}
-                        </li>
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-
-
-                  )}
-                </div>
-              ) : (
-                <div>
-                  <div style={{ textAlign: "center" }}>
-                    {" "}
-                    <img src={Emptystate} alt="emptystate" />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 20,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No Bookings available{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no Bookings added.{" "}
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Button
-                      onClick={props.toggleForm}
-                      disabled={props.customerBookingAddPermission}
-                      style={{
-                        fontSize: 16,
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        height: 59,
-                        fontWeight: 600,
-                        borderRadius: 12,
-                        width: 190,
-                        padding: "18px, 20px, 18px, 20px",
-                        color: "#FFF",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      {" "}
-                      + Add Booking
-                    </Button>
-                  </div>
-                </div>
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "end", // Align dropdown and pagination
+                                        padding: "10px",
+                                        // borderTop: "1px solid #ddd",
+                                      }}
+                                    >
+                                      {/* Dropdown for Items Per Page */}
+                                      <div>
+                                        <select
+                                          value={itemsPerPage}
+                                          onChange={handleItemsPerPageChange}
+                                          style={{
+                                            padding: "5px",
+                                            border: "1px solid #1E45E1",
+                                            borderRadius: "5px",
+                                            color: "#1E45E1",
+                                            fontWeight: "bold",
+                                            cursor: "pointer",
+                                            outline: "none",
+                                            boxShadow: "none",
+                                            
+                                          }}
+                                        >
+                                           <option value={5}>5</option>
+                                          <option value={10}>10</option>
+                                          <option value={50}>50</option>
+                                          <option value={100}>100</option>
+                                        </select>
+                                      </div>
+                                    
+                                      {/* Pagination Controls */}
+                                      <ul
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          listStyleType: "none",
+                                          margin: 0,
+                                          padding: 0,
+                                        }}
+                                      >
+                                        {/* Previous Button */}
+                                        <li style={{ margin: "0 10px" }}>
+                                          <button
+                                            style={{
+                                              padding: "5px",
+                                              textDecoration: "none",
+                                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                              borderRadius: "50%",
+                                              display: "inline-block",
+                                              minWidth: "30px",
+                                              textAlign: "center",
+                                              backgroundColor: "transparent",
+                                              border: "none",
+                                            }}
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                          >
+                                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                                          </button>
+                                        </li>
+                                    
+                                        {/* Current Page Indicator */}
+                                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                                          {currentPage} of {totalPages}
+                                        </li>
+                                    
+                                        {/* Next Button */}
+                                        <li style={{ margin: "0 10px" }}>
+                                          <button
+                                            style={{
+                                              padding: "5px",
+                                              textDecoration: "none",
+                                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                              borderRadius: "50%",
+                                              display: "inline-block",
+                                              minWidth: "30px",
+                                              textAlign: "center",
+                                              backgroundColor: "transparent",
+                                              border: "none",
+                                            }}
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
+                                          >
+                                            <ArrowRight2
+                                              size="16"
+                                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                            />
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </nav>
               )}
             </div>
-          </div>
-      }
-
+          ) : (
+            <div style={{marginTop:30}}>
+              <div style={{ textAlign: "center" }}>
+                {" "}
+                <img src={Emptystate} alt="emptystate" />
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                No Bookings available{" "}
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 16,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                There are no Bookings added.{" "}
+              </div>
+              
+            </div>
+          )}
+        </div>
+      </div>
+   }
+      
 
       {/* Booking Modal (Add/Edit) */}
       <BookingModal

@@ -616,30 +616,30 @@ function Banking() {
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
 
-                <div>
-                  <Button
-                    disabled={bankingAddPermission}
-                    onClick={handleShowForm}
-                    style={{
-                      fontSize: 14,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 52,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 123,
-                      padding: "16px, 24px, 16px, 24px",
-                      color: "#FFF",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {" "}
-                    + Add Bank
-                  </Button>
-                </div>
-              </div>
-            </div>
-            {/* {filterInput && (
+          <div>
+            <Button
+            disabled={bankingAddPermission}
+              onClick={handleShowForm}
+              style={{
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                height: 52,
+                fontWeight: 600,
+                borderRadius: 12,
+                width: 123,
+                padding: "12px, 16px, 12px, 16px",
+                color: "#FFF",
+                fontFamily: "Gilroy",
+              }}
+            >
+              {" "}
+              + Bank
+            </Button>
+          </div>
+        </div>
+      </div>
+      {/* {filterInput && (
         <div  className='container ms-4 mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
           {filteredUsers.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
@@ -912,134 +912,134 @@ function Banking() {
                         )}
                       </div>
 
-                      {/* Card Footer */}
-                      <div
-                        className="card-footer d-flex justify-content-between align-items-center"
-                        style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          <img src={money} width={18} height={18} style={{ marginTop: "-5px" }} /> Balance
-                        </span>
-                        {item.balance === 0 ||
-                          item.balance === "" ||
-                          item.balance === null ? (
-                          <a
-                            href={bankingAddPermission ? "#" : undefined}
-                            className={bankingAddPermission ? "text-muted" : "text-primary"}
-                            style={{
-                              fontSize: 14,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              color: bankingAddPermission ? "gray" : "blue",
-                              textDecoration: "none",
-                              cursor: bankingAddPermission ? "not-allowed" : "pointer",
-                            }}
-                            onClick={(e) => {
-                              if (bankingAddPermission) {
-                                e.preventDefault();
-                              } else {
-                                handleShowAddBalance(item);
-                              }
-                            }}
-                          >
-                            +Add Amount
-                          </a>
-
-                        ) : (
-                          <span
-                            style={{
-                              fontSize: 14,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              color: "black",
-                            }}
-                          >
-                            ₹{item.balance}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
+                {/* Card Footer */}
                 <div
-                  className="card mx-2"
-                  style={{
-                    minWidth: "280px",
-                    borderRadius: "12px",
-                    overflow: "visible",
-                    height: 187,
-                  }}
+                  className="card-footer d-flex justify-content-between align-items-center"
+                  style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
                 >
-                  {/* Card Body */}
-                  <div className="card-body">
-                    <div>
-                      <div style={{ textAlign: "center" }}>
-                        <img
-                          src={emptyimg}
-                          width={50}
-                          height={50}
-                          alt="emptystate"
-                        />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 20,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Bank{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no Bank Details available.{" "}
-                      </div>
-                      <div style={{ textAlign: "center" }}>
-                        <Button
-                          onClick={handleShowForm}
-                          disabled={bankingAddPermission}
-                          style={{
-                            fontSize: 14,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            height: 52,
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            width: 123,
-                            padding: "10px, 20px, 10px, 20px",
-                            color: "#FFF",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {" "}
-                          + Add Bank
-                        </Button>
-                      </div>
-
-                    </div>
-
-                  </div>
+                  <span
+                    style={{
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                   <img src={money} width={18} height={18} style={{marginTop:"-5px"}}/> Balance
+                  </span>
+                  {item.balance === 0 ||
+                  item.balance === "" ||
+                  item.balance === null ? (
+                    <a
+                    href={bankingAddPermission ? "#" : undefined} 
+                    className={bankingAddPermission ? "text-muted" : "text-primary"} 
+                    style={{
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 600,
+                      color: bankingAddPermission ? "gray" : "blue",
+                      textDecoration: "none",
+                      cursor: bankingAddPermission ? "not-allowed" : "pointer", 
+                    }}
+                    onClick={(e) => {
+                      if (bankingAddPermission) {
+                        e.preventDefault(); 
+                      } else {
+                        handleShowAddBalance(item); 
+                      }
+                    }}
+                  >
+                    +Add Amount
+                  </a>
+                  
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        color: "black",
+                      }}
+                    >
+                      ₹{item.balance}
+                    </span>
+                  )}
                 </div>
-              )}
+              </div>
+            );
+          })
+        ) : (
+          <div
+            className="card mx-2"
+            style={{
+              minWidth: "280px",
+              borderRadius: "12px",
+              overflow: "visible",
+              height: 187,
+            }}
+          >
+            {/* Card Body */}
+            <div className="card-body">
+            <div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={emptyimg}
+            width={50}
+            height={50}
+            alt="emptystate"
+          />
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Bank{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Bank Details available.{" "}
+        </div>
+        <div style={{ textAlign: "center" }}>
+        {/* <Button
+              onClick={handleShowForm}
+              disabled={bankingAddPermission}
+              style={{
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                height: 52,
+                fontWeight: 600,
+                borderRadius: 12,
+                width: 123,
+                padding: "10px, 20px, 10px, 20px",
+                color: "#FFF",
+                fontFamily: "Gilroy",
+              }}
+            >
+              {" "}
+              + Bank
+            </Button> */}
+                  </div>
+        
+      </div>
+             
             </div>
+          </div>
+        )}
+      </div>
 
             <div style={{ marginTop: 30 }}>
               {currentRowTransaction?.length > 0 ? (
@@ -1394,49 +1394,49 @@ function Banking() {
                                     </label>
                                   </div>
 
-                                </div>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </div>
-              ) : (
-                <div>
-                  <div style={{ textAlign: "center" }}>
-                    <img
-                      src={emptyimg}
-                      width={240}
-                      height={240}
-                      alt="emptystate"
-                    />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 20,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No Transaction{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no Transaction available.{" "}
-                  </div>
+                     </div>
+                   )}
+                 </td>
+               </tr>
+             );
+           })}
+         </tbody>
+       </Table>
+       </div>
+      ):(
+        <div >
+        <div style={{ textAlign: "center",marginTop:-120 }}>
+          <img
+            src={emptyimg}
+            width={240}
+            height={240}
+            alt="emptystate"
+          />
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Transaction{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Transaction available.{" "}
+        </div>
 
 
                 </div>

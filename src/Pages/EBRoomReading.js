@@ -997,7 +997,7 @@ if (v.date && v.date != '0000-00-00') {
         )}
 
         {currentRowelectricity?.length === 0 && (
-          <div>
+          <div  style={{marginTop:40}}>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="emptystate" />
             </div>
@@ -1026,24 +1026,7 @@ if (v.date && v.date != '0000-00-00') {
               There are no room readings available.{" "}
             </div>
 
-            <div style={{ textAlign: "center" }}>
-              <Button
-                onClick={props.handleAddEbDetails}
-                style={{
-                  fontSize: 16,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 59,
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  width: 185,
-                  padding: "18px, 20px, 18px, 20px",
-                  fontFamily: "Gilroy",
-                }}
-              >
-                + Add Room Reading
-              </Button>
-            </div>
+           
           </div>
         )}
       </div>

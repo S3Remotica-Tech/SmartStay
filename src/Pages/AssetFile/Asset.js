@@ -628,12 +628,14 @@ function Asset() {
                     />
                   </div>
 
-                  <div>
-                    <Button disabled={assetAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "16px 24px" }}> + Add an asset</Button>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <Button disabled={assetAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14,
+                 backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "12px 16px" }}>
+                   + Asset</Button>
             </div>
+          </div>
+        </div>
+      </div>
 
             {/* <div className='table-responsive' 
         style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
@@ -781,16 +783,13 @@ function Asset() {
 
               <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-                <div>
-                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                  <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-                  <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
-                  <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
-                    disabled={assetAddPermission} onClick={handleShow}
-                  > + Add an asset</Button>
-                  </div>
-                </div>
-                <div>
+          <div>
+            <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+            <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+
+          </div>
+          <div>
 
                 </div>
               </div>

@@ -616,7 +616,8 @@ function Vendor() {
                   </div>
 
                   <div>
-                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px" }}> + Add Vendor</Button>
+                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
+                      fontWeight: 600, borderRadius: 12, padding: "12px 16px" }}> + Vendor</Button>
                   </div>
                 </div>
               </div>
@@ -649,16 +650,14 @@ function Vendor() {
 
                 {!loader && currentItems.length == 0 &&
 
-                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "100vh", margin: "0px auto" }}>
+                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
 
 
                     <div>
                       <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                       <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
                       <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-                      <div className='d-flex  justify-content-center mt-3' >
-                        <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px" }}> + Add Vendor</Button>
-                      </div>
+                    
                     </div>
                     <div>
 
