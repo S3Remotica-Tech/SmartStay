@@ -110,9 +110,9 @@ function Booking(props) {
     Email: "",
   });
 
-useEffect(() => {
-  setHostelIds(props.uniqueostel_Id); 
-}, [props.uniqueostel_Id]);
+  useEffect(() => {
+    setHostelIds(props.uniqueostel_Id);
+  }, [props.uniqueostel_Id]);
   useEffect(() => {
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -126,7 +126,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-  
+
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
       props.customerrolePermission[0]?.role_permissions[5]?.per_edit == 1
@@ -138,7 +138,7 @@ useEffect(() => {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-  
+
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
       props.customerrolePermission[0]?.role_permissions[5]?.per_delete == 1
@@ -152,10 +152,10 @@ useEffect(() => {
   const MobileNumber = `${countryCode}${Phone}`;
 
 
-  
 
-  
-  
+
+
+
 
 
   const handleEdit = (item) => {
@@ -188,7 +188,7 @@ useEffect(() => {
         joiningDate: formattedJoiningDate || "",
         amount: item.amount || "",
         paying: item.hostel_id || "",
-        file :item.profile || "",
+        file: item.profile || "",
       });
 
       seteditMode(true);
@@ -264,7 +264,7 @@ useEffect(() => {
     if (selectedDates.length > 0) {
       const localDate = new Date(
         selectedDates[0].getTime() -
-          selectedDates[0].getTimezoneOffset() * 60000
+        selectedDates[0].getTimezoneOffset() * 60000
       )
         .toISOString()
         .split("T")[0];
@@ -293,7 +293,7 @@ useEffect(() => {
     } else {
       setHostelIdError("");
     }
-   
+
     setHostelIdError("");
     setFormError("");
     setFloorIds("");
@@ -391,7 +391,7 @@ useEffect(() => {
   const validateAssignField = (value, fieldName) => {
     if (
       !value ||
-      value === "Select a PG" 
+      value === "Select a PG"
       // (value === "Select a floor" && value === "") ||
       // (value === "Select a room" && value === "") ||
       // (value === "Select a bed" && value === "")
@@ -465,96 +465,96 @@ useEffect(() => {
       return true;
     }
   };
-const handleSubmit = () => {
-  const isFirstnameValid = validateAssignField(firstName, "firstName");
-  const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-  const isamountValid = validateAssignField(amount, "amount");
-  const isphoneValid = validateAssignField(Phone, "Phone");
-  const isHostelValid = validateAssignField(HostelIds, "paying");
-  const isaddressValid = validateAssignField(Address, "Address");
+  const handleSubmit = () => {
+    const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+    const isamountValid = validateAssignField(amount, "amount");
+    const isphoneValid = validateAssignField(Phone, "Phone");
+    const isHostelValid = validateAssignField(HostelIds, "paying");
+    const isaddressValid = validateAssignField(Address, "Address");
 
-  if (
-    !isFirstnameValid ||
-    !isjoiningDateValid ||
-    !isamountValid ||
-    !isphoneValid ||
-    !isaddressValid ||
-    !isHostelValid
-  ) {
-    return;
-  }
-
-
-
-  // Check for 'file' object and print details
-  if (file instanceof File || file instanceof Blob) {
-   
-  } else {
-    console.log("ProfileImage Value:", JSON.stringify(file, null, 2));
-  }
+    if (
+      !isFirstnameValid ||
+      !isjoiningDateValid ||
+      !isamountValid ||
+      !isphoneValid ||
+      !isaddressValid ||
+      !isHostelValid
+    ) {
+      return;
+    }
 
 
 
-  // Check if any values have changed
-  const isValidDate = (date) => !isNaN(Date.parse(date));
+    // Check for 'file' object and print details
+    if (file instanceof File || file instanceof Blob) {
 
-  const isChangedBed =
-    (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
-      ? new Date(joiningDate).toISOString().split("T")[0] !==
+    } else {
+      console.log("ProfileImage Value:", JSON.stringify(file, null, 2));
+    }
+
+
+
+    // Check if any values have changed
+    const isValidDate = (date) => !isNaN(Date.parse(date));
+
+    const isChangedBed =
+      (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
+        ? new Date(joiningDate).toISOString().split("T")[0] !==
         new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
-      : joiningDate !== initialStateAssign.joiningDate) ||
-    Number(amount) !== Number(initialStateAssign.amount) ||
-    String(firstName) !== String(initialStateAssign.firstName) ||
-    String(Address) !== String(initialStateAssign.Address) ||
-    String(Email) !== String(initialStateAssign.Email) ||
-    Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-    String(lastName) !== String(initialStateAssign.lastName) ||
-    ((file instanceof File || file instanceof Blob) &&
-      file.name !== initialStateAssign.file?.name) || // Correct file comparison
-    file !== initialStateAssign.file;
+        : joiningDate !== initialStateAssign.joiningDate) ||
+      Number(amount) !== Number(initialStateAssign.amount) ||
+      String(firstName) !== String(initialStateAssign.firstName) ||
+      String(Address) !== String(initialStateAssign.Address) ||
+      String(Email) !== String(initialStateAssign.Email) ||
+      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+      String(lastName) !== String(initialStateAssign.lastName) ||
+      ((file instanceof File || file instanceof Blob) &&
+        file.name !== initialStateAssign.file?.name) || // Correct file comparison
+      file !== initialStateAssign.file;
 
-  if (!isChangedBed) {
-    setFormError("No changes detected.");
-    return;
-  } else {
-    setFormError("");
-  }
+    if (!isChangedBed) {
+      setFormError("No changes detected.");
+      return;
+    } else {
+      setFormError("");
+    }
 
-  // Format the date correctly
-  let formattedDate = null;
-  try {
-    let date = new Date(joiningDate);
-    date.setDate(date.getDate() + 1); // Add 1 day to fix timezone issues
-    formattedDate = date.toISOString().split("T")[0];
-  } catch (error) {
-    setDateError("Date is required.");
-    console.error(error);
-    return;
-  }
+    // Format the date correctly
+    let formattedDate = null;
+    try {
+      let date = new Date(joiningDate);
+      date.setDate(date.getDate() + 1); // Add 1 day to fix timezone issues
+      formattedDate = date.toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("Date is required.");
+      console.error(error);
+      return;
+    }
 
-  // Normalize phone number
-  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+    // Normalize phone number
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
-  // Dispatch action
-  dispatch({
-    type: "ADD_BOOKING",
-    payload: {
-      f_name: firstName,
-      l_name: lastName,
-      joining_date: formattedDate,
-      amount: amount,
-      hostel_id: HostelIds,
-      mob_no: normalizedPhoneNumber,
-      email_id: Email,
-      address: Address,
-      profile: file,
-      id: id,
-    },
-  });
+    // Dispatch action
+    dispatch({
+      type: "ADD_BOOKING",
+      payload: {
+        f_name: firstName,
+        l_name: lastName,
+        joining_date: formattedDate,
+        amount: amount,
+        hostel_id: HostelIds,
+        mob_no: normalizedPhoneNumber,
+        email_id: Email,
+        address: Address,
+        profile: file,
+        id: id,
+      },
+    });
 
-  // Reset form state
-  setFormEdit(false);
-};
+    // Reset form state
+    setFormEdit(false);
+  };
 
 
   const handleDotsClick = (id) => {
@@ -655,33 +655,33 @@ const handleSubmit = () => {
 
 
   useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id} });
+    dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, []);
   useEffect(() => {
     setCustomers(state.Booking.CustomerBookingList.bookings);
   }, state.Booking.CustomerBookingList.bookings);
 
-  useEffect(()=>{
-    if(state?.Booking?.bookingPhoneError){
+  useEffect(() => {
+    if (state?.Booking?.bookingPhoneError) {
       // setvalidPhoneError(state?.Booking?.bookingPhoneError)
-      setTimeout(()=>{
-       
-        dispatch({type:"CLEAR_PHONE_ERROR"})
-      },2000)
+      setTimeout(() => {
+
+        dispatch({ type: "CLEAR_PHONE_ERROR" })
+      }, 2000)
 
     }
-  },[state?.Booking?.bookingPhoneError])
+  }, [state?.Booking?.bookingPhoneError])
 
-  useEffect(()=>{
-    if(state?.Booking?.bookingEmailError){
+  useEffect(() => {
+    if (state?.Booking?.bookingEmailError) {
       // setvalidEmailError(state?.Booking?.bookingEmailError)
-      setTimeout(()=>{
-        dispatch({type:"CLEAR_EMAIL_ERROR"})
-      },2000)
-      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EMAIL_ERROR" })
+      }, 2000)
+
     }
-  },[state?.Booking?.bookingEmailError])
- 
+  }, [state?.Booking?.bookingEmailError])
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -699,8 +699,8 @@ const handleSubmit = () => {
   useEffect(() => {
     if (state?.Booking?.statusCodeForDeleteBooking === 200) {
       handleCloseDelete();
-      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
-    
+      dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BOOKING" });
       }, 500);
@@ -708,46 +708,46 @@ const handleSubmit = () => {
   }, [state?.Booking?.statusCodeForDeleteBooking]);
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({type:"CLEAR_EMAIL_ERROR"})
-      dispatch({type:"CLEAR_PHONE_ERROR"})
+      dispatch({ type: "CLEAR_EMAIL_ERROR" })
+      dispatch({ type: "CLEAR_PHONE_ERROR" })
       handleCloseForm()
 
-      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
+      dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
-  
-  
-   const [file, setFile] = useState(null);
- 
- 
-  
-    const handleImageChange = async (event) => {
-      const fileImage = event.target.files[0];
-      if (fileImage) {
-        const options = {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 800,
-          useWebWorker: true
-        };
-        try {
-          const compressedFile = await imageCompression(fileImage, options);
-          setFile(compressedFile);
-        } catch (error) {
-          console.error('Image compression error:', error);
-        }
+
+
+  const [file, setFile] = useState(null);
+
+
+
+  const handleImageChange = async (event) => {
+    const fileImage = event.target.files[0];
+    if (fileImage) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
+      };
+      try {
+        const compressedFile = await imageCompression(fileImage, options);
+        setFile(compressedFile);
+      } catch (error) {
+        console.error('Image compression error:', error);
       }
-    };
-  
+    }
+  };
+
   const popupRef = useRef(null);
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   // const itemsPerPage = 7;
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = props.filteredUsers?.slice(
@@ -832,250 +832,250 @@ const handleSubmit = () => {
 
   return (
     <>
-   {
-    bookingPermissionError ? (
-     <>
-     <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              // height: "100vh",
-            }}
-          >
-            {/* Image */}
-            <img
-              src={Emptystate}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-
-            {/* Permission Error */}
-            {bookingPermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError  />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{bookingPermissionError}</span>
-              </div>
-            )}
-          </div></>
-    ):
-    <div className="p-10" style={{ marginLeft: "-20px" }}>
-        <div>
-          {currentItems?.length > 0 ? (
+      {
+        bookingPermissionError ? (
+          <>
             <div
-              className="p-10 booking-table-userlist"
-              style={{ paddingBottom: "20px" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                // height: "100vh",
+              }}
             >
- <div
-                          style={{
-                            // height: "400px",
-                            height: currentItems.length >= 6 ? "380px" : "auto",
-                            overflowY: "auto",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            // borderBottom:"none"
-                          }}>
+              {/* Image */}
+              <img
+                src={Emptystate}
+                alt="Empty State"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
 
-              <Table
-                className="Table_Design"
-                responsive="md"
-                style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
-              >
-                <thead>
-                  <tr>
+              {/* Permission Error */}
+              {bookingPermissionError && (
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <MdError />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{bookingPermissionError}</span>
+                </div>
+              )}
+            </div></>
+        ) :
+          <div className="p-10" style={{ marginLeft: "-20px" }}>
+            <div>
+              {currentItems?.length > 0 ? (
+                <div
+                  className="p-10 booking-table-userlist"
+                  style={{ paddingBottom: "20px" }}
+                >
+                  <div
+                    style={{
+                      // height: "400px",
+                      height: currentItems.length >= 6 ? "380px" : "auto",
+                      overflowY: "auto",
+                      borderRadius: "24px",
+                      border: "1px solid #DCDCDC",
+                      // borderBottom:"none"
+                    }}>
 
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
+                    <Table
+                      className="Table_Design"
+                      responsive="md"
+                      style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
                     >
-                      Name
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
-                    >
-                      Email ID
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
-                    >
-                      Mobile No
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
-                    >
-                      Booking Date
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
-                    >
-                      Joining Date
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                      }}
-                    >
-                      Amount
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#4B4B4B",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        background: "#E7F1FF",
-                        border: "none",
-                        borderTopRightRadius: "24px",
-                      }}
-                    ></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentItems?.map((customer) => {
-                  
-                    let Dated = new Date(customer.joining_date);
-                    let day = Dated.getDate();
-                    let month = Dated.getMonth(); 
-                    let year = Dated.getFullYear();
+                      <thead>
+                        <tr>
 
-                    const monthNames = [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
-                    ];
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Name
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Email ID
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Mobile No
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Booking Date
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Joining Date
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                            }}
+                          >
+                            Amount
+                          </th>
+                          <th
+                            style={{
+                              textAlign: "start",
+                              padding: "10px",
+                              color: "#4B4B4B",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              background: "#E7F1FF",
+                              border: "none",
+                              borderTopRightRadius: "24px",
+                            }}
+                          ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentItems?.map((customer) => {
 
-                    let formattedMonth = monthNames[month];
+                          let Dated = new Date(customer.joining_date);
+                          let day = Dated.getDate();
+                          let month = Dated.getMonth();
+                          let year = Dated.getFullYear();
 
-                    let formattedDate = `${year} ${formattedMonth} ${day}`;
+                          const monthNames = [
+                            "Jan",
+                            "Feb",
+                            "Mar",
+                            "Apr",
+                            "May",
+                            "Jun",
+                            "Jul",
+                            "Aug",
+                            "Sep",
+                            "Oct",
+                            "Nov",
+                            "Dec",
+                          ];
+
+                          let formattedMonth = monthNames[month];
+
+                          let formattedDate = `${year} ${formattedMonth} ${day}`;
 
 
-                    let createDated = new Date(customer.createdat);
+                          let createDated = new Date(customer.createdat);
 
-                    let day1 = createDated.getDate();
-                    let month1 = createDated.getMonth();
-                    let year1 = createDated.getFullYear();
+                          let day1 = createDated.getDate();
+                          let month1 = createDated.getMonth();
+                          let year1 = createDated.getFullYear();
 
-                    const monthNamesformate = [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
-                    ];
-                    let formattedMonthjj = monthNamesformate[month1];
-                    let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
+                          const monthNamesformate = [
+                            "Jan",
+                            "Feb",
+                            "Mar",
+                            "Apr",
+                            "May",
+                            "Jun",
+                            "Jul",
+                            "Aug",
+                            "Sep",
+                            "Oct",
+                            "Nov",
+                            "Dec",
+                          ];
+                          let formattedMonthjj = monthNamesformate[month1];
+                          let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
 
-                    return (
-                      <tr key={customer.id} className="customer-row">
-                     
-                        <td>
-                          <div className="d-flex align-items-center">
-                            {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
-                            <span
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "#222222",
-                                paddingLeft: "4px",
-                              }}
-                              className="ms-2 customer-name"
-                            >
-                              {customer.first_name} {customer.last_name}
-                            </span>
-                          </div>
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#000000",
-                            textAlign: "start",
-                          }}
-                        >
-                          {/* {customer.email_id} */}
-                          {customer.email_id ? customer.email_id : "N/A"}
-                        </td>
-                        {/* <td
+                          return (
+                            <tr key={customer.id} className="customer-row">
+
+                              <td>
+                                <div className="d-flex align-items-center">
+                                  {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
+                                  <span
+                                    style={{
+                                      fontSize: "16px",
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      color: "#222222",
+                                      paddingLeft: "4px",
+                                    }}
+                                    className="ms-2 customer-name"
+                                  >
+                                    {customer.first_name} {customer.last_name}
+                                  </span>
+                                </div>
+                              </td>
+                              <td
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  color: "#000000",
+                                  textAlign: "start",
+                                }}
+                              >
+                                {/* {customer.email_id} */}
+                                {customer.email_id ? customer.email_id : "N/A"}
+                              </td>
+                              {/* <td
                         style={{
                           fontSize: '16px',
                           fontWeight: 500,
@@ -1088,372 +1088,366 @@ const handleSubmit = () => {
                         {customer.phone_number}
                       </td> */}
 
-                        <td
-                          style={{
-                            textAlign: "start",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            color: "#000000",
-                            fontFamily: "Gilroy",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          +
-                          {customer &&
-                            String(customer.phone_number).slice(
-                              0,
-                              String(customer.phone_number).length - 10
-                            )}{" "}
-                          {customer && String(customer.phone_number).slice(-10)}
-                        </td>
-
-                        <td
-                          style={{
-                            padding: "10px",
-                            border: "none",
-                            textAlign: "start",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <span
-                            style={{
-                              padding: "3px 10px",
-                              borderRadius: "60px",
-                              backgroundColor: "#EBEBEB",
-                              textAlign: "start",
-                              fontSize: "14px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {formattedDatecreate}
-                          </span>
-                        </td>
-
-                        <td
-                          style={{
-                            padding: "10px",
-                            border: "none",
-                            textAlign: "start",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <span
-                            style={{
-                              padding: "3px 10px",
-                              borderRadius: "60px",
-                              backgroundColor: "#EBEBEB",
-                              textAlign: "start",
-                              fontSize: "14px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {formattedDate}
-                          </span>
-                        </td>
-                        <td
-                          style={{
-                            padding: "10px",
-                            border: "none",
-                            textAlign: "start",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <span
-                            style={{
-                              padding: "3px 10px",
-                              borderRadius: "60px",
-                              backgroundColor: "#EBEBEB",
-                              textAlign: "start",
-                              fontSize: "14px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {customer.amount}
-                          </span>
-                        </td>
-
-                        <td>
-                          <div
-                            style={{
-                              cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              borderRadius: "50%",
-                              border: "1px solid #EFEFEF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              zIndex:
-                                activeDotsId === customer.id ? 1000 : "auto",
-                            }}
-                            onClick={() => handleDotsClick(customer.id)}
-                          >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
-                            />
-
-                            {activeDotsId === customer.id && (
-                              <div
-                                ref={popupRef}
+                              <td
                                 style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#F9F9F9",
-                                  position: "absolute",
-                                  right: 0,
-                                  top: 50,
-                                  width: 163,
-                                  height: 92,
-                                  border: "1px solid #EBEBEB",
-                                  borderRadius: 10,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  padding: 15,
-                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                  textAlign: "start",
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  color: "#000000",
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
                                 }}
                               >
-                               <div
-  className="mb-2 d-flex align-items-center"
-  onClick={() => {
-    if (!props.customerBookingAddPermission) {
-      handleCheckin(customer);
-    }
-  }}
-  style={{
-    cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
-    pointerEvents: props.customerBookingAddPermission ? "none" : "auto",
-    opacity: props.customerBookingAddPermission ? 0.5 : 1,
-  }}
->
-  <img
-    src={check}
-    style={{
-      height: 16,
-      width: 16,
-      marginRight: "8px",
-    }}
-    alt="Checkin icon"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#222222",
-    }}
-  >
-    Check In
-  </label>
-</div>
+                                +
+                                {customer &&
+                                  String(customer.phone_number).slice(
+                                    0,
+                                    String(customer.phone_number).length - 10
+                                  )}{" "}
+                                {customer && String(customer.phone_number).slice(-10)}
+                              </td>
 
-<div
-  className="mb-2 d-flex align-items-center"
-  // onClick={() => {
-  //   if (bookingEditPermissionError) {
-  //     handleEdit(customer);
-  //   }
-  // }}
-  onClick={()=>handleEdit(customer)}
-  style={{
-    cursor:bookingEditPermissionError ? "not-allowed" : "pointer",
-    pointerEvents:bookingEditPermissionError ? "none" : "auto",
-    opacity:bookingEditPermissionError ? 0.5 : 1,
-  }}
->
-  <img
-    src={Edit}
-    style={{
-      height: 16,
-      width: 16,
-      marginRight: "8px",
-    }}
-    alt="Edit icon"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#222222",
-    }}
-  >
-    Edit
-  </label>
-</div>
+                              <td
+                                style={{
+                                  padding: "10px",
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    padding: "3px 10px",
+                                    borderRadius: "60px",
+                                    backgroundColor: "#EBEBEB",
+                                    textAlign: "start",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    display: "inline-block",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {formattedDatecreate}
+                                </span>
+                              </td>
 
-<div
-  className="d-flex align-items-center"
-  onClick={() => {
-    if (!bookingDeletePermissionError) {
-      handleDelete(customer);
-    }
-  }}
-  style={{
-    cursor:bookingDeletePermissionError ? "not-allowed" : "pointer",
-    pointerEvents:bookingDeletePermissionError ? "none" : "auto",
-    opacity:bookingDeletePermissionError ? 0.5 : 1,
-  }}
->
-  <img
-    src={Delete}
-    style={{
-      height: 16,
-      width: 16,
-      marginRight: "8px",
-    }}
-    alt="Delete icon"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#FF0000",
-    }}
-  >
-    Delete
-  </label>
-</div>
+                              <td
+                                style={{
+                                  padding: "10px",
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    padding: "3px 10px",
+                                    borderRadius: "60px",
+                                    backgroundColor: "#EBEBEB",
+                                    textAlign: "start",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    display: "inline-block",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {formattedDate}
+                                </span>
+                              </td>
+                              <td
+                                style={{
+                                  padding: "10px",
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    padding: "3px 10px",
+                                    borderRadius: "60px",
+                                    backgroundColor: "#EBEBEB",
+                                    textAlign: "start",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    display: "inline-block",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {customer.amount}
+                                </span>
+                              </td>
 
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-              </div>
+                              <td>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    height: 40,
+                                    width: 40,
+                                    borderRadius: "50%",
+                                    border: "1px solid #EFEFEF",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    position: "relative",
+                                    zIndex:
+                                      activeDotsId === customer.id ? 1000 : "auto",
+                                  }}
+                                  onClick={() => handleDotsClick(customer.id)}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    style={{ height: 20, width: 20 }}
+                                  />
 
-              {currentItems?.length > 0 && (
-                // <nav>
-                //   <ul
-                //     style={{
-                //       display: "flex",
-                //       alignItems: "center",
-                //       listStyleType: "none",
-                //       padding: 0,
-                //       justifyContent: "end",
-                //     }}
-                //   >
-                //     <li style={{ margin: "0 5px" }}>
-                //       <button
-                //         style={{
-                //           padding: "5px 10px",
-                //           textDecoration: "none",
-                //           color: currentPage === 1 ? "#ccc" : "#007bff",
-                //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                //           borderRadius: "5px",
-                //           display: "inline-block",
-                //           minWidth: "30px",
-                //           textAlign: "center",
-                //           backgroundColor: "transparent",
-                //           border: "none",
-                //         }}
-                //         onClick={() => handlePageChange(currentPage - 1)}
-                //         disabled={currentPage === 1}
-                //       >
-                //         <ArrowLeft2 size="16" color="#1E45E1" />
-                //       </button>
-                //     </li>
-                //     {currentPage > 3 && (
-                //       <li style={{ margin: "0 5px" }}>
-                //         <button
-                //           style={{
-                //             padding: "5px 10px",
-                //             textDecoration: "none",
-                //             color: "white",
-                //             cursor: "pointer",
-                //             borderRadius: "5px",
-                //             display: "inline-block",
-                //             minWidth: "30px",
-                //             textAlign: "center",
-                //             backgroundColor: "transparent",
-                //             border: "none",
-                //           }}
-                //           onClick={() => handlePageChange(1)}
-                //         >
-                //           1
-                //         </button>
-                //       </li>
-                //     )}
-                //     {currentPage > 3 && <span>...</span>}
-                //     {renderPageNumbers()}
-                //     {currentPage < totalPages - 2 && <span>...</span>}
-                //     {currentPage < totalPages - 2 && (
-                //       <li style={{ margin: "0 5px" }}>
-                //         <button
-                //           style={{
-                //             padding: "5px 10px",
-                //             textDecoration: "none",
-                //             cursor: "pointer",
-                //             borderRadius: "5px",
-                //             display: "inline-block",
-                //             minWidth: "30px",
-                //             textAlign: "center",
-                //             backgroundColor: "transparent",
-                //             border: "none",
-                //           }}
-                //           onClick={() => handlePageChange(totalPages)}
-                //         >
-                //           {totalPages}
-                //         </button>
-                //       </li>
-                //     )}
-                //     <li style={{ margin: "0 5px" }}>
-                //       <button
-                //         style={{
-                //           padding: "5px 10px",
-                //           textDecoration: "none",
-                //           color:
-                //             currentPage === totalPages ? "#ccc" : "#007bff",
-                //           cursor:
-                //             currentPage === totalPages
-                //               ? "not-allowed"
-                //               : "pointer",
-                //           borderRadius: "5px",
-                //           display: "inline-block",
-                //           minWidth: "30px",
-                //           textAlign: "center",
-                //           backgroundColor: "transparent",
-                //           border: "none",
-                //         }}
-                //         onClick={() => handlePageChange(currentPage + 1)}
-                //         disabled={currentPage === totalPages}
-                //       >
-                //         <ArrowRight2 size="16" color="#1E45E1" />
-                //       </button>
-                //     </li>
-                //   </ul>
-                // </nav>
+                                  {activeDotsId === customer.id && (
+                                    <div
+                                      ref={popupRef}
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "#F9F9F9",
+                                        position: "absolute",
+                                        right: 0,
+                                        top: 50,
+                                        width: 163,
+                                        height: 92,
+                                        border: "1px solid #EBEBEB",
+                                        borderRadius: 10,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        padding: 15,
+                                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                      }}
+                                    >
+                                      <div
+                                        className="mb-2 d-flex align-items-center"
+                                        onClick={() => {
+                                          if (!props.customerBookingAddPermission) {
+                                            handleCheckin(customer);
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+                                          pointerEvents: props.customerBookingAddPermission ? "none" : "auto",
+                                          opacity: props.customerBookingAddPermission ? 0.5 : 1,
+                                        }}
+                                      >
+                                        <img
+                                          src={check}
+                                          style={{
+                                            height: 16,
+                                            width: 16,
+                                            marginRight: "8px",
+                                          }}
+                                          alt="Checkin icon"
+                                        />
+                                        <label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            color: "#222222",
+                                          }}
+                                        >
+                                          Check In
+                                        </label>
+                                      </div>
+
+                                      <div
+                                        className="mb-2 d-flex align-items-center"
+                                        // onClick={() => {
+                                        //   if (bookingEditPermissionError) {
+                                        //     handleEdit(customer);
+                                        //   }
+                                        // }}
+                                        onClick={() => handleEdit(customer)}
+                                        style={{
+                                          cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
+                                          pointerEvents: bookingEditPermissionError ? "none" : "auto",
+                                          opacity: bookingEditPermissionError ? 0.5 : 1,
+                                        }}
+                                      >
+                                        <img
+                                          src={Edit}
+                                          style={{
+                                            height: 16,
+                                            width: 16,
+                                            marginRight: "8px",
+                                          }}
+                                          alt="Edit icon"
+                                        />
+                                        <label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            color: "#222222",
+                                          }}
+                                        >
+                                          Edit
+                                        </label>
+                                      </div>
+
+                                      <div
+                                        className="d-flex align-items-center"
+                                        onClick={() => {
+                                          if (!bookingDeletePermissionError) {
+                                            handleDelete(customer);
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
+                                          pointerEvents: bookingDeletePermissionError ? "none" : "auto",
+                                          opacity: bookingDeletePermissionError ? 0.5 : 1,
+                                        }}
+                                      >
+                                        <img
+                                          src={Delete}
+                                          style={{
+                                            height: 16,
+                                            width: 16,
+                                            marginRight: "8px",
+                                          }}
+                                          alt="Delete icon"
+                                        />
+                                        <label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            color: "#FF0000",
+                                          }}
+                                        >
+                                          Delete
+                                        </label>
+                                      </div>
+
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+
+                  {currentItems?.length > 0 && (
+                    //  <nav
+                    //                       style={{
+                    //                         display: "flex",
+                    //                         alignItems: "center",
+                    //                         justifyContent: "end", 
+                    //                         padding: "10px",
+
+                    //                       }}
+                    //                     >
+
+                    //                       <div>
+                    //                         <select
+                    //                           value={itemsPerPage}
+                    //                           onChange={handleItemsPerPageChange}
+                    //                           style={{
+                    //                             padding: "5px",
+                    //                             border: "1px solid #1E45E1",
+                    //                             borderRadius: "5px",
+                    //                             color: "#1E45E1",
+                    //                             fontWeight: "bold",
+                    //                             cursor: "pointer",
+                    //                             outline: "none",
+                    //                             boxShadow: "none",
+
+                    //                           }}
+                    //                         >
+                    //                            <option value={5}>5</option>
+                    //                           <option value={10}>10</option>
+                    //                           <option value={50}>50</option>
+                    //                           <option value={100}>100</option>
+                    //                         </select>
+                    //                       </div>
 
 
+                    //                       <ul
+                    //                         style={{
+                    //                           display: "flex",
+                    //                           alignItems: "center",
+                    //                           listStyleType: "none",
+                    //                           margin: 0,
+                    //                           padding: 0,
+                    //                         }}
+                    //                       >
+
+                    //                         <li style={{ margin: "0 10px" }}>
+                    //                           <button
+                    //                             style={{
+                    //                               padding: "5px",
+                    //                               textDecoration: "none",
+                    //                               color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                    //                               cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    //                               borderRadius: "50%",
+                    //                               display: "inline-block",
+                    //                               minWidth: "30px",
+                    //                               textAlign: "center",
+                    //                               backgroundColor: "transparent",
+                    //                               border: "none",
+                    //                             }}
+                    //                             onClick={() => handlePageChange(currentPage - 1)}
+                    //                             disabled={currentPage === 1}
+                    //                           >
+                    //                             <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    //                           </button>
+                    //                         </li>
+
+
+                    //                         <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                    //                           {currentPage} of {totalPages}
+                    //                         </li>
+
+
+                    //                         <li style={{ margin: "0 10px" }}>
+                    //                           <button
+                    //                             style={{
+                    //                               padding: "5px",
+                    //                               textDecoration: "none",
+                    //                               color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                    //                               cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                    //                               borderRadius: "50%",
+                    //                               display: "inline-block",
+                    //                               minWidth: "30px",
+                    //                               textAlign: "center",
+                    //                               backgroundColor: "transparent",
+                    //                               border: "none",
+                    //                             }}
+                    //                             onClick={() => handlePageChange(currentPage + 1)}
+                    //                             disabled={currentPage === totalPages}
+                    //                           >
+                    //                             <ArrowRight2
+                    //                               size="16"
+                    //                               color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                    //                             />
+                    //                           </button>
+                    //                         </li>
+                    //                       </ul>
+                    //                     </nav>
 
                     <nav
                                       style={{
@@ -1599,8 +1593,8 @@ const handleSubmit = () => {
         customer={selectedCustomer}
         handleSave={handleSave}
         setFormEdit={setFormEdit}
-        formEdit = {formEdit}
-        HostelID = {props.uniqueostel_Id}
+        formEdit={formEdit}
+        HostelID={props.uniqueostel_Id}
       />
 
       <AssignBooking
@@ -1612,7 +1606,7 @@ const handleSubmit = () => {
         handleSave={handleSave}
         setAssignBooking={setAssignBooking}
         assignBooking={assignBooking}
-        HostelID = {props.uniqueostel_Id}
+        HostelID={props.uniqueostel_Id}
       />
 
       <Modal
@@ -1622,7 +1616,7 @@ const handleSubmit = () => {
         backdrop="static"
       >
         <Modal.Header className="d-flex justify-content-between">
-          <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>Edit Booking</Modal.Title>
+          <Modal.Title style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}>Edit Booking</Modal.Title>
           <CloseCircle
             size="32"
             color="#222222"
@@ -1631,45 +1625,45 @@ const handleSubmit = () => {
           />
         </Modal.Header>
         <Modal.Body>
-        <div className='d-flex align-items-center'>
+          <div className='d-flex align-items-center'>
 
-        <div className="" style={{ height: 100, width: 100, position: "relative" }}>
-        <Image
-  src={
-    file && (file === "0" || file === 0) // Check if file is "0" or number 0
-      ? Profile2
-      : file instanceof File || file instanceof Blob
-      ? URL.createObjectURL(file)
-      : file || Profile2 // Fallback to file or Profile2
-  }
-  roundedCircle
-  style={{ height: 100, width: 100 }}
-/>
+            <div className="" style={{ height: 100, width: 100, position: "relative" }}>
+              <Image
+                src={
+                  file && (file === "0" || file === 0) // Check if file is "0" or number 0
+                    ? Profile2
+                    : file instanceof File || file instanceof Blob
+                      ? URL.createObjectURL(file)
+                      : file || Profile2 // Fallback to file or Profile2
+                }
+                roundedCircle
+                style={{ height: 100, width: 100 }}
+              />
 
 
 
-<label htmlFor="imageInput" className='' >
-    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
-    <input
-      type="file"
-      accept="image/*"
-      multiple
-      className="sr-only"
-      id="imageInput"
-      onChange={handleImageChange}
-      style={{ display: "none" }} />
-  </label>
+              <label htmlFor="imageInput" className='' >
+                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="sr-only"
+                  id="imageInput"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }} />
+              </label>
 
-</div>
-<div className='ps-3'>
-  <div>
-    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
-  </div>
-  <div>
-    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
-  </div>
-</div>
-</div>
+            </div>
+            <div className='ps-3'>
+              <div>
+                <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+              </div>
+              <div>
+                <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+              </div>
+            </div>
+          </div>
           <Row>
             <Col md={6}>
               <Form.Group controlId="formFirstName" className="mb-3">
@@ -1700,7 +1694,7 @@ const handleSubmit = () => {
               {firstNameError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span> 
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
                 </div>
               )}
             </Col>
@@ -1715,11 +1709,11 @@ const handleSubmit = () => {
                   }}
                 >
                   Last Name<span
-                            style={{ color: "transparent", fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
+                    style={{ color: "transparent", fontSize: "20px" }}
+                  >
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -1772,7 +1766,7 @@ const handleSubmit = () => {
                       paddingRight: 10,
                     }}
                   >
-                  <option>+{countryCode}</option>
+                    <option>+{countryCode}</option>
                   </Form.Select>
                   <Form.Control
                     value={Phone}
@@ -1802,13 +1796,13 @@ const handleSubmit = () => {
                 {phoneError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>  
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
                   </div>
                 )}
                 {phonenumError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span> 
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span>
                   </div>
                 )}
                 {phoneErrorMessage && (
@@ -1817,12 +1811,12 @@ const handleSubmit = () => {
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                   </div>
                 )}
-                 {state?.Booking?.bookingPhoneError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state?.Booking?.bookingPhoneError}</span>
-                </div>
-              )}
+                {state?.Booking?.bookingPhoneError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state?.Booking?.bookingPhoneError}</span>
+                  </div>
+                )}
               </Form.Group>
             </Col>
             <Col md={6}>
@@ -1836,11 +1830,11 @@ const handleSubmit = () => {
                   }}
                 >
                   Email address <span
-                            style={{ color: "transparent", fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
+                    style={{ color: "transparent", fontSize: "20px" }}
+                  >
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -1859,91 +1853,91 @@ const handleSubmit = () => {
               {emailError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span> 
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
               )}
               {emailIdError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailIdError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailIdError}</span>
                 </div>
               )}
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {emailErrorMessage}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {emailErrorMessage}</span>
                 </div>
               )}
-               {state?.Booking?.bookingEmailError && (
+              {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {state?.Booking?.bookingEmailError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {state?.Booking?.bookingEmailError}</span>
                 </div>
               )}
             </Col>
           </Row>
-                <Col md={12}>
-                      <Form.Group controlId="formFirstName" className="mb-3">
-                       <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Address 
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter Address"
-                          style={{
-                            fontSize: 14,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontFamily: "Gilroy",
-                            height: "50px",
-                          }}
-                          value={Address}
-                          className={formErrors.firstName ? "is-invalid" : ""}
-                          onChange={(e) => handleAddress(e)}
-                        />
-                      </Form.Group>
-                      {addressError && (
-                                    <div style={{ color: "red" }}>
-                                      <MdError />
-                                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {addressError}</span>
-                                    </div>
-                                  )}
-                    </Col>
+          <Col md={12}>
+            <Form.Group controlId="formFirstName" className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Address
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Address"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Address}
+                className={formErrors.firstName ? "is-invalid" : ""}
+                onChange={(e) => handleAddress(e)}
+              />
+            </Form.Group>
+            {addressError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {addressError}</span>
+              </div>
+            )}
+          </Col>
           <Row>
-          <Col md={6}>
-  <Form.Group className="mb-2" controlId="purchaseDate">
-    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-      Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-    </Form.Label>
-    <div style={{ position: 'relative', width: "100%" }}>
-      <DatePicker
-        selected={joiningDate instanceof Date ? joiningDate : null}
-        onChange={(date) => {
-          setDateError('');
-          setJoiningDate(date);
-        }}
-        dateFormat="dd/MM/yyyy"
-        minDate={null} 
-        // disabled={edit}
-        customInput={customDateInput({
-          value: joiningDate instanceof Date ? joiningDate.toLocaleDateString('en-GB') : '',
-        })}
-      />
-    </div>
-  </Form.Group>
-  {dateError && (
-    <div style={{ color: "red" }}>
-      <MdError />
-     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
-    </div>
-  )}
-</Col>
+            <Col md={6}>
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                </Form.Label>
+                <div style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    selected={joiningDate instanceof Date ? joiningDate : null}
+                    onChange={(date) => {
+                      setDateError('');
+                      setJoiningDate(date);
+                    }}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={null}
+                    // disabled={edit}
+                    customInput={customDateInput({
+                      value: joiningDate instanceof Date ? joiningDate.toLocaleDateString('en-GB') : '',
+                    })}
+                  />
+                </div>
+              </Form.Group>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+                </div>
+              )}
+            </Col>
             <Col md={6}>
               <Form.Group className="">
                 <Form.Label
@@ -1953,7 +1947,7 @@ const handleSubmit = () => {
                     fontFamily: "Gilroy",
                   }}
                 >
-                Booking Amount{" "}
+                  Booking Amount{" "}
                   <span
                     style={{
                       color: "red",
@@ -1985,7 +1979,7 @@ const handleSubmit = () => {
               {amountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
                 </div>
               )}
             </Col>
@@ -2287,12 +2281,12 @@ const handleSubmit = () => {
           )} */}
 
 
-{formError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {formError}
-                </div>
-              )}
+          {formError && (
+            <div style={{ color: "red" }}>
+              <MdError />
+              {formError}
+            </div>
+          )}
           <Modal.Footer>
             <Button
               variant="primary"

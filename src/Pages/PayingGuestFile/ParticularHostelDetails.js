@@ -134,9 +134,9 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
 
     if (props.floorID && props.hostel_Id) {
-      // setTimeout(()=>{
-      //   setLoader(true)
-      // },100)
+      setTimeout(()=>{
+        setLoader(true)
+      },100)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
      
       
@@ -158,7 +158,7 @@ function ParticularHostelDetails(props) {
       setTimeout(()=>{
         setRoomCountData(state.PgList?.roomCount);  
       },100)
-                                  
+                
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 1000);
@@ -172,7 +172,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state.PgList.noRoomsInFloorStatusCode === 201) {
       setRoomCountData([])
-      // setLoader(false)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
       }, 2000);
@@ -240,26 +240,56 @@ function ParticularHostelDetails(props) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(2);
 
   // const [currentItems, setCurrentItems] = useState([]); 
 
+
+useEffect(()=>{
+if(props.floorID){
+  setCurrentPage(1)
+}
+},[props.floorID])
+
+
+console.log("currentPage",currentPage)
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
+    ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
 
-
-  // useEffect(()=>{
-  //   if(roomCountData.length > 0 ){
-  //     setLoader(false)
-  //     // const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
-  //     // setCurrentItems(slicedItems);
-  //     }else{
-  //       setLoader(false);
-  //   // setCurrentItems([]); 
-  //     }
+//   console.log("currentItems",currentItems)
+//   console.log("roomCountData",roomCountData)
+//   console.log("roomCountData Length:", roomCountData.length);
+//   console.log("itemsPerPage:", itemsPerPage);
+// console.log("indexOfFirstItem:", indexOfFirstItem);
+// console.log("indexOfLastItem:", indexOfLastItem);
   
-  // },[roomCountData])
+// const validCurrentPage = Math.max(currentPage, 1); 
+
+
+// const indexOfLastItem = Math.min(validCurrentPage * itemsPerPage, roomCountData.length); 
+// const indexOfFirstItem = Math.max(indexOfLastItem - itemsPerPage, 0); 
+
+
+// const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+
+
+console.log("roomCountData Length:", roomCountData.length);
+console.log("itemsPerPage:", itemsPerPage);
+console.log("indexOfFirstItem:", indexOfFirstItem);
+console.log("indexOfLastItem:", indexOfLastItem);
+console.log("currentItems:", currentItems);
+
+
+  useEffect(()=>{
+    if(roomCountData.length > 0 ){
+      setLoader(false)
+           }
+  
+  },[roomCountData])
 
 
 
@@ -443,8 +473,6 @@ useEffect(() => {
 
 
 
-console.log("currentItems",currentItems)
-console.log("roomCountData",roomCountData)
 
 
 
@@ -454,7 +482,29 @@ console.log("roomCountData",roomCountData)
     <div className=''>
  
       <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-        { loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
+        { loader &&   <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>}
       </div>
 
 <div className='container'>
@@ -707,7 +757,7 @@ console.log("roomCountData",roomCountData)
 
       {
         currentItems.length > 0 &&
-        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination className="position-fixed bottom-0 end-0 mb-0 me-3 d-flex justify-content-end align-items-center">
           <Pagination.Prev style={{ visibility: "visible" }}
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}

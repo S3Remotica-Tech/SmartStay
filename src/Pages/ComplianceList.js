@@ -15,6 +15,8 @@ import manimg from '../Assets/Images/Man Img.svg';
 import closeicon from '../Assets/Images/close.svg';
 import send from '../Assets/Images/send.svg';
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const ComplianceList = (props) => {
 
@@ -29,10 +31,17 @@ const ComplianceList = (props) => {
   const [showCard, setShowCard] = useState(false);
   const [showChangeStatus, setShowChangeStatus] = useState(false);
   const [showAssignComplaint, setShowAssignComplaint] = useState(false);
+  const [deleteForm,setDeleteForm] =useState(false)
+  const [deleteId,setDeleteId]=useState("")
+  const [hostel_id,setHostel_Id] = useState("")
 
   const popupRef = useRef(null);
 
-
+useEffect(()=>{
+if(state.login.selectedHostel_Id){
+setHostel_Id(state.login.selectedHostel_Id)
+}
+},[state.login.selectedHostel_Id])
 
 
   function getFloorName(floor_Id) {
@@ -107,8 +116,39 @@ const ComplianceList = (props) => {
     }
   }
 
+const handleDeleteFormShow=(item)=>{
+  console.log("item",item)
+  setDeleteForm(true)
+  setDeleteId(item.ID)
+}
+const handleCloseDeleteForm = ()=>{
+  setDeleteForm(false)
+}
+  useEffect(()=>{
+if(state.UsersList?.statusCodeCompliance === 200){
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_COMPLIANCE_LIST" });
+  }, 200);
+}
+  },[state.UsersList?.statusCodeCompliance])
+
+const handleComplianceDelete=()=>{
+  dispatch({ type: 'DELETECOMPLIANCE', payload: {id:deleteId} })
+}
 
 
+console.log("state.ComplianceList.statusCodeForDeleteCompliance",state.ComplianceList.statusCodeForDeleteCompliance)
+useEffect(() => {
+  if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
+   console.log("hostel_id",hostel_id)
+    handleCloseDeleteForm()
+    dispatch({ type: 'COMPLIANCE-LIST',payload:{hostel_id:hostel_id}})
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_DELETE_COMPLIANCE'})
+    }, 1000);
+  }
+}, [state.ComplianceList.statusCodeForDeleteCompliance])
   const handleShowDots = () => {
     setShowDots(!showDots)
   }
@@ -213,7 +253,8 @@ const ComplianceList = (props) => {
       handleAssignOpenClose()
       handleChangeStatusOpenClose()
 
-      dispatch({ type: 'COMPLIANCE-LIST' })
+      // dispatch({ type: 'COMPLIANCE-LIST' })
+      dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:hostel_id} })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE' })
@@ -239,6 +280,7 @@ const ComplianceList = (props) => {
 
 
   return (
+    <>
     <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
       <Card.Body style={{ padding: 20 }}>
         <div className="d-flex justify-content-between align-items-center flex-wrap" >
@@ -376,6 +418,7 @@ const ComplianceList = (props) => {
                         // backgroundColor: props.complianceDeletePermission ? "#f9f9f9" : "#fff",
                         cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
                       }}
+                      onClick={()=>handleDeleteFormShow(props.complaints)}
                     //   onClick={() => {
                     //     if (!props.complianceDeletePermission) {
                     //       handleDelete(props.complaints); // Replace with your delete function if necessary
@@ -921,6 +964,94 @@ const ComplianceList = (props) => {
         </div>
       </Card.Body>
     </Card>
+
+
+
+    <Modal
+        show={deleteForm}
+        onHide={handleCloseDeleteForm}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Compliance?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this Compliance?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseDeleteForm}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleComplianceDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+    </>
   )
 }
 export default ComplianceList;

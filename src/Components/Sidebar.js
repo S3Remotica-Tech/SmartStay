@@ -602,6 +602,7 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
     display: 'flex',
     position: 'relative',
     cursor: 'pointer',
+    fontFamily:"Gilroy"
   }}
 >
   <img
@@ -610,7 +611,7 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
         ? selectedProfileImage
         : hostelimage
     }
-    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
+    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8, fontFamily:"Gilroy" }}
     alt="Selected Profile"
   />
   <span
@@ -693,10 +694,12 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
 
 {state.UsersList?.hostelList && state.UsersList?.hostelList.length === 0 && (
   <li
-      className="align-items-center list-Button"
+      className="align-items-center d-flex justify-content-center list-Button mb-2"
       style={{
         listStyleType: "none",
         display: "flex",
+        fontFamily:"Gilroy",
+        fontWeight:500,
        
       }}
       onClick={() => handleShowsettingsPG()}

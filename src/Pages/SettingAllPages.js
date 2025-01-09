@@ -467,7 +467,7 @@ className="show-scrolls"
               }}
             > */}
               <div 
-              className="show-scrollse"
+              className="show-scrolls"
               
               style={{
                 backgroundColor: "#E7F1FF",
