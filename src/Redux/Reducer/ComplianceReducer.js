@@ -15,7 +15,10 @@ const initialState = {
     noVendorStatusCode: 0,
     deleteCompliance:[],
     statusCodeForDeleteCompliance:0,
-    statusCodeCompliance:0
+    statusCodeCompliance:0,
+    complianceAssignChangeRes:"",
+    complianceAssignChangeError:"",
+    complianceAssignChangeStatus:0
 
 }
 
@@ -62,6 +65,15 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, complianceChangeError: action.payload }
         case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
             return { ...state, complianceChangeStatus: 0 }
+
+            case 'COMPLIANCE_CHANGE_ASSIGN':
+            return { ...state, complianceAssignChangeRes: action.payload.response, complianceAssignChangeStatus: action.payload.statusCode }
+        case 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
+            return { ...state, complianceAssignChangeError: action.payload }
+        case 'CLEAR_COMPLIANCE_CHANGE_ASSIGN':
+            return { ...state, complianceAssignChangeStatus: 0 }
+
+
 
 
             case "DELETE_COMPLIANCE":

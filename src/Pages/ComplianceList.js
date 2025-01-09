@@ -22,8 +22,8 @@ const ComplianceList = (props) => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-
-  const [showDots, setShowDots] = useState(false)
+console.log("ComplianceList",state)
+  const [showDots, setShowDots] = useState(null)
   const [status, setStatus] = useState('')
   const [statusError, setStatusError] = useState('')
   const [compliant, setCompliant] = useState('')
@@ -36,7 +36,7 @@ const ComplianceList = (props) => {
   const [hostel_id,setHostel_Id] = useState("")
 
   const popupRef = useRef(null);
-
+console.log("showChangeStatus",showChangeStatus)
 useEffect(()=>{
 if(state.login.selectedHostel_Id){
 setHostel_Id(state.login.selectedHostel_Id)
@@ -137,7 +137,7 @@ const handleComplianceDelete=()=>{
 }
 
 
-console.log("state.ComplianceList.statusCodeForDeleteCompliance",state.ComplianceList.statusCodeForDeleteCompliance)
+console.log("state.ComplianceList.statusCodeForDeleteCompliance", state.Settings.addSettingStaffList)
 useEffect(() => {
   if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
    console.log("hostel_id",hostel_id)
@@ -149,9 +149,17 @@ useEffect(() => {
     }, 1000);
   }
 }, [state.ComplianceList.statusCodeForDeleteCompliance])
-  const handleShowDots = () => {
-    setShowDots(!showDots)
-  }
+  // const handleShowDots = () => {
+  //   setShowDots(!showDots)
+  // }
+  const handleShowDots = (id) => {
+    if (showDots == id) {
+      setShowDots(null);
+    } else {
+      setShowDots(id);
+    }
+    // setSearch(false);
+  };
 
   const handleEdit = (item) => {
     props.onEditComplaints(item);
@@ -169,37 +177,67 @@ useEffect(() => {
 
 
 
-  const handleChangeStatusClick = (complaints) => {
+  const handleChangeStatusClick = () => {
     if (status === '') {
       setComplianceError('Please Select Compliant')
     } else {
 
-      dispatch({ type: 'COMPLIANCE-CHANGE-STATUS', payload: { type: 'status_change', assigner: compliant, status: status, id: complaints.ID, hostel_id: complaints.Hostel_id } })
+      dispatch({ type: 'COMPLIANCEASSIGN', payload: { type: 'status_change', assigner: compliant, status: status, id:assignId, hostel_id: hostel_id } })
     }
+   
   };
-
-  const handleChangeStatusOpenClose = () => {
+  const [assignId,setAssignId]=useState("")
+  const handleChangeStatusOpenClose = (item) => {
+    setAssignId(item?.ID)
     setShowDots(false)
     setStatus('')
-    setShowChangeStatus(!showChangeStatus);
+    setShowChangeStatus(true);
+    setShowAssignComplaint(false);
   }
 
   //assign complaint
-
-  const handleAssignComplaintClick = (Compliance) => {
+const ChangeStatusClose = ()=>{
+  setShowChangeStatus(false);
+}
+  const handleAssignComplaintClick = () => {
+    
     if (compliant === '') {
       setStatusError('Please Select status')
     }
     else {
-      dispatch({ type: 'COMPLIANCE-CHANGE-STATUS', payload: { type: 'assign', assigner: compliant, status: status, id: Compliance.ID, hostel_id: Compliance.Hostel_id } })
+      dispatch({ type: 'COMPLIANCEASSIGN', payload: { type: 'assign', assigner: compliant, status: status, id: assignId, hostel_id:hostel_id } })
     }
-
-
+    setShowAssignComplaint(false); // Close Assign Complaint modal
+    setShowChangeStatus(false); 
   };
-  const handleAssignOpenClose = () => {
+  console.log("state.ComplianceList.complianceChangeStatus",state.ComplianceList.complianceChangeStatus)
+
+  
+
+
+
+  useEffect(()=>{
+    if(state.ComplianceList.complianceAssignChangeStatus === 200){
+      setShowAssignComplaint(false)
+       setShowChangeStatus(false);
+      dispatch({ type: 'COMPLIANCE-LIST',payload:{hostel_id:hostel_id}})
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
+      }, 500);
+    }
+      },[state.ComplianceList.complianceAssignChangeStatus])
+  
+  const handleAssignOpenClose = (item) => {
+    console.log("handleAssignOpenClose",item)
+    setAssignId(item?.ID)
+
     setShowDots(false)
     setCompliant('')
-    setShowAssignComplaint(!showAssignComplaint);
+    setShowAssignComplaint(true);
+    setShowChangeStatus(false);
+  }
+  const handleCloseAssign=()=>{
+    setShowAssignComplaint(false)
   }
   const handleCompliant = (e) => {
     setCompliant(e.target.value)
@@ -301,10 +339,10 @@ useEffect(() => {
           </div>
 
           <div>
-            <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
+            <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={()=>handleShowDots(props.complaints.ID)}>
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-              {showDots && <>
+              {showDots === props.complaints.ID  && <>
                 <div 
                 ref={popupRef}
                   style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
@@ -312,7 +350,7 @@ useEffect(() => {
 
                     <div
                       className={"mb-2"}
-                      onClick={handleChangeStatusOpenClose}
+                      onClick={()=>handleChangeStatusOpenClose(props.complaints)}
                       style={{
                         cursor: "pointer"
                       }}
@@ -344,7 +382,7 @@ useEffect(() => {
 
                     <div
                       className={"mb-2"}
-                      onClick={handleAssignOpenClose}
+                      onClick={()=>handleAssignOpenClose(props.complaints)}
                       style={{
                         cursor: "pointer"
                       }}
@@ -688,7 +726,7 @@ useEffect(() => {
                             width: 472,
                             height: 278,
                           }}
-                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                          // onClick={(e) => e.stopPropagation()} 
                         >
                           <div
                             style={{
@@ -711,7 +749,7 @@ useEffect(() => {
                               src={closeicon}
                               alt="Close"
                               style={{ cursor: "pointer", width: 20, height: 20 }}
-                              onClick={handleChangeStatusOpenClose}
+                              onClick={ChangeStatusClose}
                             />
                           </div>
 
@@ -786,7 +824,8 @@ useEffect(() => {
                                 paddingRight: "40px",
                                 cursor: "pointer",
                               }}
-                              onClick={() => { handleChangeStatusClick(props.complaints) }}
+                              
+                              onClick={handleChangeStatusClick}
                             >
                               Change Status
                             </button>
@@ -795,7 +834,7 @@ useEffect(() => {
                       )}
 
                       {/* Background overlay */}
-                      {showChangeStatus && (
+                      {/* {showChangeStatus && (
                         <div
                           onClick={handleChangeStatusOpenClose}
                           style={{
@@ -808,7 +847,7 @@ useEffect(() => {
                             zIndex: 999,
                           }}
                         />
-                      )}
+                      )} */}
 
 
 
@@ -829,7 +868,7 @@ useEffect(() => {
                             width: 472,
                             height: 278,
                           }}
-                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                          // onClick={(e) => e.stopPropagation()}
                         >
                           <div
                             style={{
@@ -852,7 +891,7 @@ useEffect(() => {
                               src={closeicon}
                               alt="Close"
                               style={{ cursor: "pointer", width: 20, height: 20 }}
-                              onClick={handleAssignOpenClose}
+                              onClick={handleCloseAssign}
                             />
                           </div>
 
@@ -905,15 +944,13 @@ useEffect(() => {
                                 Select a Complaint
                               </option>
                               {
-                                state.Settings.addSettingStaffList?.response && state.Settings.addSettingStaffList.response.map((v, i) => {
+                                state.Settings.addSettingStaffList && state.Settings.addSettingStaffList.map((v, i) => {
                                   return (
                                     <option key={v.id} value={v.id}>{v.first_name}</option>
                                   )
                                 })
                               }
-                              {/* <option value="open">Open</option>
-        <option value="in-progress">In Progress</option>
-        <option value="resolved">Resolved</option> */}
+                              
                             </select>
                             {complianceError && <span style={{ color: 'red' }}>{complianceError}</span>}
 
@@ -935,7 +972,7 @@ useEffect(() => {
                                 paddingRight: "40px",
                                 cursor: "pointer",
                               }}
-                              onClick={() => { handleAssignComplaintClick(props.complaints) }}
+                              onClick= { handleAssignComplaintClick}
                             >
                               Assign Complaint
                             </button>
@@ -943,8 +980,10 @@ useEffect(() => {
                         </div>
                       )}
 
+                      
+
                       {/* Background overlay */}
-                      {showAssignComplaint && (
+                      {/* {showAssignComplaint && (
                         <div
                           onClick={handleAssignOpenClose}
                           style={{
@@ -957,7 +996,7 @@ useEffect(() => {
                             zIndex: 999,
                           }}
                         />
-                      )}
+                      )} */}
 
 
 
