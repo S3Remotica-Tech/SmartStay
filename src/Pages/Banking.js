@@ -616,30 +616,30 @@ function Banking() {
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
 
-                <div>
-                  <Button
-                    disabled={bankingAddPermission}
-                    onClick={handleShowForm}
-                    style={{
-                      fontSize: 14,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 52,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 123,
-                      padding: "16px, 24px, 16px, 24px",
-                      color: "#FFF",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {" "}
-                    + Add Bank
-                  </Button>
-                </div>
-              </div>
-            </div>
-            {/* {filterInput && (
+          <div>
+            <Button
+            disabled={bankingAddPermission}
+              onClick={handleShowForm}
+              style={{
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                height: 52,
+                fontWeight: 600,
+                borderRadius: 12,
+                width: 123,
+                padding: "12px, 16px, 12px, 16px",
+                color: "#FFF",
+                fontFamily: "Gilroy",
+              }}
+            >
+              {" "}
+              + Bank
+            </Button>
+          </div>
+        </div>
+      </div>
+      {/* {filterInput && (
         <div  className='container ms-4 mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
           {filteredUsers.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
@@ -1041,7 +1041,11 @@ function Banking() {
                 //   </div>
                 // </div>
               )}
+
             </div>
+          </div>
+        )}
+      </div>
 
             <div style={{ marginTop: 30 }}>
               {currentRowTransaction?.length > 0 ? (
@@ -1396,49 +1400,49 @@ function Banking() {
                                     </label>
                                   </div>
 
-                                </div>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </div>
-              ) : (
-                <div>
-                  <div style={{ textAlign: "center" }}>
-                    <img
-                      src={emptyimg}
-                      width={240}
-                      height={240}
-                      alt="emptystate"
-                    />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 20,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No Transaction{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no Transaction available.{" "}
-                  </div>
+                     </div>
+                   )}
+                 </td>
+               </tr>
+             );
+           })}
+         </tbody>
+       </Table>
+       </div>
+      ):(
+        <div >
+        <div style={{ textAlign: "center",marginTop:-120 }}>
+          <img
+            src={emptyimg}
+            width={240}
+            height={240}
+            alt="emptystate"
+          />
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Transaction{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Transaction available.{" "}
+        </div>
 
 
                 </div>

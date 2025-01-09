@@ -820,7 +820,7 @@ function UserlistWalkin(props) {
             ) : (
               <div
                 className="d-flex align-items-center justify-content-center "
-                style={{ width: "100%", height: 350, margin: "0px auto" }}
+                style={{ width: "100%", height:"60vh" }}
               >
                 <div>
                   <div className="no-data-container">
@@ -851,26 +851,7 @@ function UserlistWalkin(props) {
                       There are no Walk-in added.{" "}
                     </div>
                   </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Button
-                      disabled={props.customerWalkInAddPermission}
-                      onClick={handleShowWalk}
-                      style={{
-                        fontSize: 16,
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        height: 56,
-                        fontWeight: 600,
-                        borderRadius: 12,
-                        width: 200,
-                        padding: "18px 20px",
-                        fontFamily: "Montserrat",
-                        marginTop: "20px",
-                      }}
-                    >
-                      + Add Walk-in
-                    </Button>
-                  </div>
+
                 </div>
                 <div></div>
               </div>
