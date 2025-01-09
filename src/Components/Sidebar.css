@@ -137,18 +137,26 @@ border-radius: 6px;
   color: rgba(30, 69, 225, 1)!important; 
 }
 
+.show-scrolls::-webkit-scrollbar {
+  width: 1px !important;
+
+}
 
 .show-scrolls::-webkit-scrollbar-track {
   background: #E0E0E0 !important;
   border-radius: 8px !important;
- 
 }
+
 .show-scrolls::-webkit-scrollbar-thumb {
-  background: #E0E0E0 !important;
-  border: 3px solid #E0E0E0 !important;
-   border-radius: 8px;
-  max-height: 5px !important;
-} 
+  background: rgb(200, 220, 250) !important;
+  border-radius: 8px;
+}
+
+.show-scrolls {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(200, 220, 250) transparent; /* Thumb and track color */
+  overflow-y: auto; /* Ensure scrollbar is visible */
+}
 
 
 @media (max-width: 768px) {

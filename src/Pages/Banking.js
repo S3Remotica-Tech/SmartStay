@@ -968,76 +968,78 @@ function Banking() {
                   );
                 })
               ) : (
-                <div
-                  className="card mx-2"
-                  style={{
-                    minWidth: "280px",
-                    borderRadius: "12px",
-                    overflow: "visible",
-                    height: 187,
-                  }}
-                >
-                  {/* Card Body */}
-                  <div className="card-body">
-                    <div>
-                      <div style={{ textAlign: "center" }}>
-                        <img
-                          src={emptyimg}
-                          width={50}
-                          height={50}
-                          alt="emptystate"
-                        />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 20,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Bank{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no Bank Details available.{" "}
-                      </div>
-                      <div style={{ textAlign: "center" }}>
-                        <Button
-                          onClick={handleShowForm}
-                          disabled={bankingAddPermission}
-                          style={{
-                            fontSize: 14,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            height: 52,
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            width: 123,
-                            padding: "10px, 20px, 10px, 20px",
-                            color: "#FFF",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {" "}
-                          + Add Bank
-                        </Button>
-                      </div>
+                <>
+                </>
+                // <div
+                //   className="card mx-2"
+                //   style={{
+                //     minWidth: "280px",
+                //     borderRadius: "12px",
+                //     overflow: "visible",
+                //     height: 187,
+                //   }}
+                // >
+                //   {/* Card Body */}
+                //   <div className="card-body">
+                //     <div>
+                //       <div style={{ textAlign: "center" }}>
+                //         <img
+                //           src={emptyimg}
+                //           width={50}
+                //           height={50}
+                //           alt="emptystate"
+                //         />
+                //       </div>
+                //       <div
+                //         className="pb-1"
+                //         style={{
+                //           textAlign: "center",
+                //           fontWeight: 600,
+                //           fontFamily: "Gilroy",
+                //           fontSize: 20,
+                //           color: "rgba(75, 75, 75, 1)",
+                //         }}
+                //       >
+                //         No Bank{" "}
+                //       </div>
+                //       <div
+                //         className="pb-1"
+                //         style={{
+                //           textAlign: "center",
+                //           fontWeight: 500,
+                //           fontFamily: "Gilroy",
+                //           fontSize: 16,
+                //           color: "rgba(75, 75, 75, 1)",
+                //         }}
+                //       >
+                //         There are no Bank Details available.{" "}
+                //       </div>
+                //       <div style={{ textAlign: "center" }}>
+                //         <Button
+                //           onClick={handleShowForm}
+                //           disabled={bankingAddPermission}
+                //           style={{
+                //             fontSize: 14,
+                //             backgroundColor: "#1E45E1",
+                //             color: "white",
+                //             height: 52,
+                //             fontWeight: 600,
+                //             borderRadius: 12,
+                //             width: 123,
+                //             padding: "10px, 20px, 10px, 20px",
+                //             color: "#FFF",
+                //             fontFamily: "Gilroy",
+                //           }}
+                //         >
+                //           {" "}
+                //           + Add Bank
+                //         </Button>
+                //       </div>
 
-                    </div>
+                //     </div>
 
-                  </div>
-                </div>
+                //   </div>
+                // </div>
               )}
             </div>
 
