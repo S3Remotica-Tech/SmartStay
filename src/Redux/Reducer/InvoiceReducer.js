@@ -26,6 +26,8 @@ const initialState = {
     ManualInvoicesgetstatuscode: 0,
     Manulainvoicenumberstatuscode: 0,
     manualInvoiceAddStatusCode: 0,
+    manualInvoiceEditStatusCode:0,
+    manualInvoiceDeleteStatusCode:0,
     recurrbillamountgetStatuscode: 0,
     Recurringbillamounts: [],
     RecurringBillAddStatusCode: 0,
@@ -43,6 +45,8 @@ const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
+    console.log("action",action);
+    
     switch (action.type) {
 
         case 'DELETE_USER':
@@ -131,6 +135,17 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode } //bills Add 
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
             return { ...state, manualInvoiceAddStatusCode: 0 }
+
+         
+        case 'MANUAL_INVOICE_EDIT':
+            return { ...state, manualInvoiceEditStatusCode: action.payload.statusCode } //bills edit 
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT':
+            return { ...state, manualInvoiceEditStatusCode: 0 }   
+
+        case 'MANUAL_INVOICE_DELETE':
+            return { ...state, manualInvoiceDeleteStatusCode: action.payload.statusCode } //bills delete 
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE':
+            return { ...state, manualInvoiceDeleteStatusCode: 0 }      
 
         case 'RECURRING_BILLS_ADD':
             return { ...state, RecurringBillAddStatusCode: action.payload.statusCode } //Recurrinng bills Add

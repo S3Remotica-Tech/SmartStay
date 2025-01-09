@@ -184,7 +184,9 @@ const InvoicePage = () => {
   const [showeditform,setShowEditform] = useState(false);
   const [showdeleteform,setShowDeleteform] = useState(false)
   const [billMode, setBillMode] = useState('New Bill')
- 
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let serialNumber = 1;
@@ -633,21 +635,177 @@ const InvoicePage = () => {
       setShowManualInvoice(true)
       setShowAllBill(false)
       setBillMode('Edit Bill');
-      console.log('InvoiceValue', props.item);
+      setIsEditing(true);
+      console.log('InvoiceValue',props.item);
       setInvoiceValue(props.item);
-      setInvoiceList({
-        customername : props.item.Name,
-        invoicenumber : props.item.Invoices
+     
+     }
+   
+     useEffect (()=>{
+      if(invoiceValue) {
+        setCustomerName (invoiceValue.hos_user_id);
         
+        console.log('UpdatedCustomerName', invoiceValue.Name);
+        setInvoiceNumber(invoiceValue.Invoices)
+        console.log("number",invoiceValue.Invoices);
+        if (invoiceValue.DueDate) {
+          const parsedDate = new Date(invoiceValue.DueDate); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setInvoiceDueDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid DueDate:', invoiceValue.DueDate);
+          }
+        }
+       
+        if (invoiceValue.Date) {
+          const parsedDate = new Date(invoiceValue.Date); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setInvoiceDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid DueDate:', invoiceValue.Date);
+          }
+        }
+        // setInvoiceList({amount:invoiceValue.BalanceDue})
         
-      })
-    
+      setTotalAmount(invoiceValue.Amount)
+    setNewRows(invoiceValue.amenity)
       
-    }
+        
+      }
+     },[invoiceValue]) 
+     
+     useEffect(() => {
+      console.log('Customer:',customername);
+    }, [customername]);
 
     const handleBillDelete = (props) => {
       setShowDeleteform (true)
+      setDeleteId(props.item.id)
     }
+
+   const handleBillDeleted  = () => {
+    dispatch({
+      type:'MANUAL-INVOICE-DELETE',
+      payload: {
+        id: deleteId,
+      },
+    })
+    setShowDeleteform (false)
+   }
+    
+
+
+    const handleEditBill = () => {
+      let isValid = true;
+
+      // Reset error messages
+      setCustomerErrmsg('');
+      setInvoicenumberErrmsg('');
+      setStartdateErrmsg('');
+      setInvoiceDateErrmsg('');
+      setInvoiceDueDateErrmsg('');
+      setAllFieldErrmsg('');
+  
+      // Validate Customer
+      if (!customername) {
+          setCustomerErrmsg('Customer is required.');
+          isValid = false;
+      }
+  
+      // Validate Invoice Number
+      if (!invoicenumber) {
+        setInvoicenumberErrmsg('Invoice number is required.');
+          isValid = false;
+      }
+  
+      // Validate Start Date
+      if (!startdate) {
+          setStartdateErrmsg('Start date is required.');
+          isValid = false;
+      }
+  
+      // Validate Invoice Date
+      if (!invoicedate) {
+          setInvoiceDateErrmsg('Invoice date is required.');
+          isValid = false;
+      }
+  
+      // Validate Due Date
+      if (!invoiceduedate) {
+          setInvoiceDueDateErrmsg('Due date is required.');
+          isValid = false;
+      }
+  
+      // Check All Required Fields
+      if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate) {
+          setAllFieldErrmsg('Please fill out all required fields.');
+          isValid = false;
+      }
+
+      const isDataUnchanged =
+      customername === invoiceValue.user_id &&
+      invoicenumber === invoiceValue.invoicenumber &&
+      startdate === invoiceValue.startdate &&
+      invoicedate === invoiceValue.date &&
+      invoiceduedate === invoiceValue.due_date;
+  
+    if (isDataUnchanged) {
+      setAllFieldErrmsg('No changes detected.');
+      isValid = false;
+    }
+  
+      if (isValid) {
+        const dueDateObject = new Date(invoiceduedate);
+const formatduedate = `${dueDateObject.getFullYear()}-${String(
+  dueDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(dueDateObject.getDate()).padStart(2, '0')}`;
+
+          const dateObject = new Date(invoicedate);
+          const year = dateObject.getFullYear();
+          const month = dateObject.getMonth() + 1;
+          const day = dateObject.getDate();
+          const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+      console.log("Customer Name (user_id):", customername);
+      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
+      console.log("Due Date (due_date):", formatduedate);
+      console.log("Invoice ID (id):", invoiceValue.id);
+      console.log("Amenity:", invoiceValue.amenity);
+    
+      dispatch({
+        type: 'MANUAL-INVOICE-EDIT',
+        payload: {
+          user_id: customername,
+          date: formattedDate,
+          due_date: formatduedate,
+          id: invoiceValue.id,
+          amenity: invoiceValue.amenity,
+        },
+      });
+    
+      console.log("EditBill");
+      setShowManualInvoice(false)
+      setShowRecurringBillForm(false)
+      setShowAllBill(true)
+      setCustomerName('');
+      setInvoiceNumber('');
+      setStartDate('');
+      setEndDate('');
+      setInvoiceDate('')
+      setInvoiceDueDate('')
+     
+      setTotalAmount('')
+      setBillAmounts([]);
+      setNewRows([]);
+
+      setCustomerErrmsg('')
+      setStartdateErrmsg('')
+      setInvoiceDateErrmsg('')
+      setInvoiceDueDateErrmsg('')
+      setAllFieldErrmsg('')
+    }
+    };
+    
     
     
       const handleShowForm = (props) => {
@@ -1601,7 +1759,34 @@ setDownloadInvoice(false)
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.ManualInvoices]);
   
-
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+        setLoading(true);
+  
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT' });
+          setLoading(false);
+          
+          setBills(state.InvoiceList.ManualInvoices);
+        }, 1000);
+      
+    }
+  }, [state.InvoiceList.manualInvoiceEditStatusCode, state.InvoiceList.ManualInvoices]);
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+        setLoading(true);
+  
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE' });
+          setLoading(false);
+          
+          setBills(state.InvoiceList.ManualInvoices);
+        }, 1000);
+      
+    }
+  }, [state.InvoiceList.manualInvoiceDeleteStatusCode, state.InvoiceList.ManualInvoices]);
 
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
@@ -2078,6 +2263,7 @@ setDownloadInvoice(false)
                 fontFamily: "Gilroy",
                 fontSize: "14px",
               }}
+              onClick={handleBillDeleted}
               
             >
               Delete
@@ -3399,15 +3585,18 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 
       <div style={{ float: 'right', marginRight: '130px' }}>
         <h5>Total Amount ₹{totalAmount}</h5>
-        <Button onClick={handleCreateBill} className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", 
+        <Button 
+         onClick={isEditing ? handleEditBill : handleCreateBill}
+        className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", 
           fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",
            fontStyle: 'normal', lineHeight: 'normal' }} >
-          Create Bill
+           {isEditing ? "Save Changes" : "Create Bill"}
         </Button>
         {tableErrmsg && <div style={{ color: 'red', marginTop: '10px' }}>{tableErrmsg}</div>}
 
 
         <div className='mb-3'></div>
+      
       </div>
     </div>
   
