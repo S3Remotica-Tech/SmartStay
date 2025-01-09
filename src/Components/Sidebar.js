@@ -72,7 +72,6 @@ import AddPg from '../Pages/PayingGuestFile/AddPg';
 import SettingManage from '../Pages/SettingManage';
 
 
-
 function Sidebar() {
   const cookies = new Cookies()
   let navigate = useNavigate();
@@ -475,6 +474,12 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
     dispatch({ type: 'MANAGE_PG'})
     setPgshow(true)
   };
+
+  const [hoveredIcon, setHoveredIcon] = useState(null);
+
+  const handleMouseEnter = (icon) => setHoveredIcon(icon);
+  const handleMouseLeave = () => setHoveredIcon(null);
+
   return (
     <>
 
@@ -848,22 +853,145 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
               </ul>
    <div style= {{border:"1px solid white "}}></div>
 
-
+{/* Four sidebar icons */}
               <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-around'}} className=" w-100">
-                <div>
-    
-                <img src={SettingIcon} onClick={handleSettingspage} title='Setting'/>
-                </div>
-          <div>
-          <img src={Logout} onClick={handleShowLogout} style={{width:24, height:24}} title='Log Out'/>
-          </div>
+              
+               {/* Settings Icon */}
+      <div
+        onMouseEnter={() => handleMouseEnter('settings')}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleSettingspage}
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          cursor: 'pointer',
+        }}
+      >
+        <img src={SettingIcon} alt="Settings Icon" />
+        {hoveredIcon === 'settings' && (
+          <span
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: '-30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'White',
+              color: 'black',
+              padding: '5px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Settings
+          </span>
+        )}
+      </div>
 
-<div>
-<img src={HelpDocumentIcon} title='Help Document'/>
-</div>
-<div>
-<img src={HelpVideoIcon} title='Help Video'/>
-</div>
+      {/* log out */}
+              <div
+        className="logout"
+        onMouseEnter={() => handleMouseEnter('logout')}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleShowLogout}
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          cursor: 'pointer',
+        }}
+      >
+        <img
+          src={Logout}
+          alt="Logout Icon"
+          style={{ width: 24, height: 24 }}
+        />
+        {hoveredIcon === 'logout' && (
+          <span
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: '-30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'White',
+              color: 'black',
+              padding: '5px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Logout
+          </span>
+        )}
+      </div>
+
+      {/* Help Document Icon */}
+      <div
+        onMouseEnter={() => handleMouseEnter('helpDoc')}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          cursor: 'pointer',
+        }}
+      >
+        <img src={HelpDocumentIcon} alt="Help Document Icon" />
+        {hoveredIcon === 'helpDoc' && (
+          <span
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: '-30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'White',
+              color: 'black',
+              padding: '5px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Help Document
+          </span>
+        )}
+      </div>
+
+      {/* Help Video Icon */}
+      <div
+        onMouseEnter={() => handleMouseEnter('helpVideo')}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          cursor: 'pointer',
+        }}
+      >
+        <img src={HelpVideoIcon} alt="Help Video Icon" />
+        {hoveredIcon === 'helpVideo' && (
+          <span
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: '-30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'White',
+              color: 'black',
+              padding: '5px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Help Video
+          </span>
+        )}
+      </div>
+
+     
 
 </div>            
  

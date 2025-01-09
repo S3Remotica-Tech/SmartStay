@@ -483,10 +483,10 @@ if(state.PgList.statuscodeForDashboard === 200){
               left: 0,
               zIndex: 1000,
               backgroundColor: "#FFFFFF",
-              // height: 83,
+              height: 83,
               width: "100%", 
               touchAction: "none", 
-              marginTop:20
+              marginTop: 0, 
             }}
           >
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
@@ -540,6 +540,8 @@ if(state.PgList.statuscodeForDashboard === 200){
             </Box>
           </div>
           
+          <div style={{maxHeight: "calc(100vh - 83px)", 
+      overflowY: "auto",}}>
           
           <TabPanel value="1">
             {permissionError ? (
@@ -1849,6 +1851,8 @@ if(state.PgList.statuscodeForDashboard === 200){
           <TabPanel value="3">
             <DashboardUpdates updatePermissionError={updatePermissionError} />
           </TabPanel>
+
+          </div>
         </TabContext>
       </div>
     </>
