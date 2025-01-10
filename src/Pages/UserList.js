@@ -34,6 +34,7 @@ import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
+import { SearchNormal1 } from 'iconsax-react';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
@@ -647,7 +648,7 @@ function UserList(props) {
     const searchDate = e.target.value;
     setFilterByDate(searchDate);
   };
-  const handleSearch = () => {
+  const handleShowSearch = () => {
     setSearch(!search);
     setFilterStatus(false);
   };
@@ -1130,13 +1131,15 @@ function UserList(props) {
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
+                         
+                          
                         }}
                       />
                       <div className="input-group" style={{ marginRight: 20 }}>
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20  }} 
                           />
                         </span>
                         <input
@@ -1253,23 +1256,23 @@ function UserList(props) {
                 </>
               ) : (
                 <>
-                  <div className="me-3 mt-3" style={{ marginTop: "-10px" }}>
+                  <div className=" " style={{marginTop:"10px" }}>
                     <Image
                       src={searchteam}
-                      roundedCircle
-                      style={{ height: "24px", width: "24px" }}
-                      onClick={handleSearch}
+                      
+                      style={{ height: "28px", width: "28px"}}
+                      onClick={handleShowSearch}
                     />
                   </div>
                 </>
               )}
 
-              <div className="me-3">
+              <div className="me-4 " style={{}}>
                 <Image
                   src={Filters}
-                  roundedCircle
-                  style={{ height: "50px", width: "50px" }}
-                  onClick={handleSearch}
+                  
+                  style={{ height: "50px", width: "50px"}}
+                  onClick={handleShowSearch}
                 />
               </div>
               <div style={{ paddingRight: "10px" }}>
