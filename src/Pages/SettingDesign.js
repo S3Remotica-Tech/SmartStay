@@ -2,11 +2,11 @@ import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import role from "../Assets/Images/New_images/security-user.png"
 import "./Settings.css";
-import round from "../Assets/Images/Group 14.png"
+import round from "../Assets/Images/dot_round.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png"
 import {Button, Form, FormControl} from "react-bootstrap";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 import { MdError } from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
 

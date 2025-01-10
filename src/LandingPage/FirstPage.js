@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Desktop from '../Assets/Images/New_images/image 8.png'
+import Desktop from '../Assets/Images/New_images/home_dashboardimage.png'
 import { Height } from '@material-ui/icons';
-import Spring1 from '../Assets/Images/New_images/image 24.png'
-import Spring2 from '../Assets/Images/New_images/image 23.png';
+import Spring1 from '../Assets/Images/New_images/spring_left.png'
+import Spring2 from '../Assets/Images/New_images/spring_right.png';
 import { useNavigate } from "react-router-dom";
 import CountUp from 'react-countup';
 

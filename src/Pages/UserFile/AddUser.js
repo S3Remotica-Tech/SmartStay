@@ -11,7 +11,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import eye from '../../Assets/Images/login-password.png'
-import eyeClosed from '../../Assets/Images/pngaaa.com-6514750.png';
+import eyeClosed from '../../Assets/Images/Show_password.png';
 
 
 

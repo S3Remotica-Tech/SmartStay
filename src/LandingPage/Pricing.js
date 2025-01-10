@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Guest from '../Assets/pricing/house.png'
-import Custom from '../Assets/pricing/profile-2user.png'
+import Custom from '../Assets/pricing/Manage customer.png'
 import Vendor from '../Assets/pricing/shop.png';
 import Asset from '../Assets/pricing/Money.png';
 import Invoice from '../Assets/pricing/note.png';

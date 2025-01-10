@@ -14,7 +14,7 @@ import "./Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import eye from "../Assets/Images/login-password.png";
-import eyeClosed from "../Assets/Images/pngaaa.com-6514750.png";
+import eyeClosed from "../Assets/Images/Show_password.png";
 import { Mobile } from "iconsax-react";
 import { Email } from "@material-ui/icons";
 import { MdError } from "react-icons/md";
@@ -22,8 +22,8 @@ import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import {Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 
 function UserSettings() {
   const state = useSelector((state) => state);

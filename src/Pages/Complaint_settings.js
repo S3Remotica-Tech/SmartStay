@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
+import Closebtn from '../Assets/Images/CloseCircle.png';
 import Swal from 'sweetalert2';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';

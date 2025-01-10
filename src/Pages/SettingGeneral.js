@@ -9,9 +9,9 @@ import {
   InputGroup,
   Pagination,
 } from "react-bootstrap";
-import img1 from "../Assets/Images/Ellipse 1.png";
+import img1 from "../Assets/Images/Profile-complaint.png";
 import img2 from "../Assets/Images/New_images/settingeye.png";
-import round from "../Assets/Images/Group 14.png";
+import round from "../Assets/Images/dot_round.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
@@ -19,9 +19,9 @@ import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import "./Settings.css";
 import eye from "../Assets/Images/login-password.png";
-import eyeClosed from "../Assets/Images/pngaaa.com-6514750.png";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import eyeClosed from "../Assets/Images/Show_password.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 import {
   Autobrightness,
   Call,

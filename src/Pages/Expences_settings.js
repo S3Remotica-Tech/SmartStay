@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
-import Closebtn from '../Assets/Images/Trash-Linear-32px.png';
+import Closebtn from '../Assets/Images/Delete_red.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';

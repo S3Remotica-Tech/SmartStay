@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import img2 from '../Assets/Images/edit.png';
-import dottt from "../Assets/Images/Group 14.png"
+import dottt from "../Assets/Images/dot_round.png"
 import { useDispatch, useSelector } from 'react-redux';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../Assets/Images/New_images/edit.png';

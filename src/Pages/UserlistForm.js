@@ -20,7 +20,7 @@ import Plus from "../Assets/Images/New_images/add-circle.png";
 import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
-import User from "../Assets/Images/Ellipse 1.png";
+import User from "../Assets/Images/Profile-complaint.png";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Flatpickr from "react-flatpickr";

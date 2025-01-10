@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
+import eyeClosed from '../Assets/Images/Show_password.png';
 import HomeSideComponent from "./HomeSideContent";
 import CryptoJS from "crypto-js";
 import OtpVerificationModal from '../Pages/OtpVerificationModal';

@@ -3,7 +3,7 @@ import Edit from "../Assets/Images/edit-Complaints.svg";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import User from "../Assets/Images/Ellipse 1.png";
+import User from "../Assets/Images/Profile-complaint.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";

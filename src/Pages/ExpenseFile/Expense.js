@@ -33,7 +33,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
-import excelimg from "../../Assets/Images/New_images/excel (5).png";
+import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 

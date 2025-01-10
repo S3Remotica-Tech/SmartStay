@@ -39,7 +39,7 @@ import Vendor from '../Assets/Images/New_images/vendor.png';
 import Invo from '../Assets/Images/New_images/invoice.png';
 import Asset from '../Assets/Images/New_images/Asset.png';
 import Eb from '../Assets/Images/New_images/electricity.png';
-import Compl from '../Assets/Images/New_images/messages-3.png';
+import Compl from '../Assets/Images/New_images/messages_gray.png';
 import Expense from '../Assets/Images/New_images/expenses.png';
 import Repo from '../Assets/Images/New_images/reports.png';
 import Sett from '../Assets/Images/New_images/settings.png';
@@ -47,7 +47,7 @@ import Assets from '../Pages/AssetFile/Asset'
 import Expenses from '../Pages/ExpenseFile/Expense'
 import Dash2 from '../Assets/Images/New_images/category-active.png';
 import Paying2 from '../Assets/Images/New_images/housepay.png';
-import Custom2 from '../Assets/Images/New_images/profile-2user.png';
+import Custom2 from '../Assets/Images/New_images/profile_blue.png';
 import Invoice2 from '../Assets/Images/New_images/clipboard-text.png';
 import Vendor2 from '../Assets/Images/New_images/shop.png'
 import Asset2 from '../Assets/Images/New_images/Money.png';

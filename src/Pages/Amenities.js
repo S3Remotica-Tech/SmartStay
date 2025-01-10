@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import "./Amenities.css";
-import dottt from "../Assets/Images/Group 14.png"
+import dottt from "../Assets/Images/dot_round.png"
 import Swal from 'sweetalert2';
 import { MdError } from "react-icons/md"; 
 import EmptyState from '../Assets/Images/New_images/empty_image.png';

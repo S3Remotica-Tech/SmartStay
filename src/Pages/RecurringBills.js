@@ -22,7 +22,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import BillPdfModal from '../Pages/BillPdfModal'
-import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
+import Closebtn from '../Assets/Images/CloseCircle.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 

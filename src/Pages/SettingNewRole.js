@@ -6,10 +6,10 @@ import AddRole from '../Pages/RoleFile/AddRole';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import role from "../Assets/Images/New_images/security-user.png"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import round from "../Assets/Images/Group 14.png"
+import round from "../Assets/Images/dot_round.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';

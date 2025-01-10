@@ -16,7 +16,7 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
-import excelimg from "../../Assets/Images/New_images/excel (5).png";
+import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
 function Asset() {
 

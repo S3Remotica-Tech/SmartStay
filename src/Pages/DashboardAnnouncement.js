@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
-import Ellipse5 from "../Assets/Images/Group 1.png";
+import Ellipse5 from "../Assets/Images/Profile_Announce.png";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
 import Search_Team from "../Assets/Images/Search Team.png";

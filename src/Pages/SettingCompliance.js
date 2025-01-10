@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import message from "../Assets/Images/New_images/messages-3.png";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
-import round from "../Assets/Images/Group 14.png"
+import message from "../Assets/Images/New_images/messages_gray.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
+import round from "../Assets/Images/dot_round.png"
 import { Button, Col, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
