@@ -43,6 +43,9 @@ const SettingsElectricityTable = ({ hostelid }) => {
                             fontWeight: 600,
                             fontSize: "14px",
                             textAlign: "left",
+                            position:"sticky",
+                            top:0,
+                            zIndex:1,
                         }}
                     >
                         <tr>

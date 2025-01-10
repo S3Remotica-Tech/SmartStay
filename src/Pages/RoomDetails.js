@@ -208,7 +208,9 @@ function RoomDetails() {
                         </div>
 
                         <Table responsive>
-                            <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
+                            <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px", position:"sticky",
+                top:0,
+                zIndex:1, }}>
                                 <tr style={{ height: "50px" }}>
                                     <th>Date</th>
                                     <th>Invoices#</th>

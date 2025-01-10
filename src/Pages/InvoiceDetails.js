@@ -149,7 +149,9 @@ function InvoiceDetail(props) {
                     <div class="p-3 mb-5">
                         <div class="table-responsive">
                             <table class="table align-middle table-nowrap table-centered mb-0">
-                                <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }} >
+                                <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E",  position:"sticky",
+                        top:0,
+                        zIndex:1, }} >
                                     <tr >
                                         <th style={{ color: "gray", fontSize: 12 }}>Date</th>
                                         <th style={{ color: "gray", fontSize: 12 }}>Description</th>

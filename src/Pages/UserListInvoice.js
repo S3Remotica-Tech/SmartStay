@@ -120,6 +120,9 @@ function UserListInvoice(props) {
               fontSize: "11px",
               marginLeft: 10,
               backgroundColor: "#E7F1FF",
+              position:"sticky",
+              top:0,
+              zIndex:1,
             }}
           >
             <tr className="" style={{ height: "30px" }}>

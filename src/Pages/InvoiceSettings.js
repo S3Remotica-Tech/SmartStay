@@ -639,7 +639,9 @@ function InvoiceSettings() {
                   border: "1px solid #DCDCDC",
                 
                 }}  >
-                    <thead style={{ backgroundColor: "#E7F1FF" }}>
+                    <thead style={{ backgroundColor: "#E7F1FF", position:"sticky",
+                top:0,
+                zIndex:1, }}>
                         <tr>
                            <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal',borderTopLeftRadius:24 }}></th>
                             <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
