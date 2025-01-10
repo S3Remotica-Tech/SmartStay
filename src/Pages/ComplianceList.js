@@ -264,8 +264,11 @@ const ComplianceList = (props) => {
   };
 
   useEffect(() => {
-    dispatch({ type: "GETUSERSTAFF" });
-  }, []);
+    if(hostel_id){
+      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:hostel_id} });
+    }
+    
+  }, [hostel_id]);
 
   useEffect(() => {
     const appearOptions = {
