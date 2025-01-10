@@ -185,6 +185,8 @@ function SettingGeneral() {
     setAddressError("");
     setPasswordError("");
     setFormError("");
+    setEmailError("")
+    setEmailErrorMessage("")
   };
 
   const handleImageChange = async (event) => {
@@ -201,6 +203,7 @@ function SettingGeneral() {
       } catch (error) {
         console.error("Image compression error:", error);
       }
+      setFormError("");
     }
   };
 
@@ -230,15 +233,17 @@ function SettingGeneral() {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
 
+
+
   const handleEmailId = (e) => {
-    const emailValue = e.target.value;
+    const emailValue = e.target.value.trim();
     setEmailId(emailValue);
-
+  
+    // Regex to validate email
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const hasUpperCase = /[A-Z]/.test(emailValue);
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
     const isValidEmail = emailRegex.test(emailValue);
-
+  
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -251,12 +256,13 @@ function SettingGeneral() {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
-
       setFormError("");
     }
-
+  
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
+  
+ 
 
   const handleAddress = (e) => {
     setAddress(e.target.value);
@@ -271,6 +277,7 @@ function SettingGeneral() {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
+    console.log("user",user)
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
@@ -334,6 +341,10 @@ function SettingGeneral() {
   });
 
   // save
+  function isValidEmail(email) {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    return emailRegex.test(email);
+  }
   const handleSave = () => {
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     if (!validateField(firstName, "firstName"));
@@ -342,23 +353,43 @@ function SettingGeneral() {
     if (!validateField(password, "password"));
     if (!validateField(address, "address"));
 
+    if (!isValidEmail(emilId)) {
+      setEmailError("Please enter a valid Email ID.");
+      return;
+    }
+
     if (edit && editId) {
+      const normalize = (value) => (value === null ? "" : value);
       const isChanged =
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-        lastName !== initialStateAssign.lastName ||
+        // lastName !== initialStateAssign.lastName ||
+        normalize(lastName) !== normalize(initialStateAssign.lastName) ||
         emilId !== initialStateAssign.emilId ||
         address !== initialStateAssign.address ||
-        // file === initialStateAssign.file
-        (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+        // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+        // (!file && initialStateAssign.file);
+        file !== initialStateAssign.file || 
         (!file && initialStateAssign.file);
-
+    
+      console.log("Change detection:");
+      console.log("First Name:", firstName, initialStateAssign.firstName);
+      console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
+      console.log("Last Name:", lastName, initialStateAssign);
+      console.log("Email ID:", emilId, initialStateAssign.emilId);
+      console.log("Address:", address, initialStateAssign.address);
+      console.log("File comparison:", file, initialStateAssign.file);
+      console.log("Is Changed:", isChanged);
+    
       if (!isChanged) {
         setFormError("No changes detected.");
+        console.log("No changes detected. Form not submitted.");
         return;
       } else {
         setFormError("");
       }
+    
+      console.log("Submitting changes to dispatch...");
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -372,7 +403,8 @@ function SettingGeneral() {
         },
       });
     }
-    else if (firstName && emilId && emilId && Phone && address && password) {
+    
+    else if (firstName && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
