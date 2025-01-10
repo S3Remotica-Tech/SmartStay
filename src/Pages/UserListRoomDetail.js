@@ -3357,7 +3357,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
               flex: 1,
             }}
           >
-            Bill General?
+            Bill Generate?
           </Modal.Title>
         </Modal.Header>
 
@@ -3371,7 +3371,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to  this General?
+          Are you sure you want to  this Generate Bill?
         </Modal.Body>
 
         <Modal.Footer
