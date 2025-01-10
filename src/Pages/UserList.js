@@ -1602,6 +1602,7 @@ function UserList(props) {
                             // borderBottom:"none"
                           }}
                         >
+                         
                           <Table
                             responsive="md"
                             className="Table_Design"
@@ -1610,6 +1611,9 @@ function UserList(props) {
                             <thead
                               style={{
                                 backgroundColor: "#E7F1FF",
+                                position:"sticky",
+                                top:0,
+                                zIndex:1,
                               }}
                             >
                               <tr>
@@ -2288,6 +2292,7 @@ function UserList(props) {
                                   })}
                             </tbody>
                           </Table>
+                         
                         </div>
                       )}
                     </div>

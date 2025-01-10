@@ -706,7 +706,9 @@ function Asset() {
                 // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
                 >
 
-                  <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+                  <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500,  position:"sticky",
+                        top:0,
+                        zIndex:1, }}>
                     <tr>
                       {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
                 <input type='checkbox' style={customCheckboxStyle} />

@@ -587,6 +587,9 @@ try {
                 color: "gray",
                 fontSize: "11px",
                 backgroundColor: "#E7F1FF",
+                position:"sticky",
+                top:0,
+                zIndex:1,
               }}
             >
               <tr style={{ height: "30px" }}>

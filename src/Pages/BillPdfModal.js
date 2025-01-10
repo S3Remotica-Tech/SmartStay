@@ -216,7 +216,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
-  <thead>
+  <thead 
+  style={{ position:"sticky",
+                top:0,
+                zIndex:1,}}>
     <tr>
       <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Description</th>
       <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Amount</th>

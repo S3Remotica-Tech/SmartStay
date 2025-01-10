@@ -528,7 +528,11 @@ function UserListAmenities(props) {
             borderEndEndRadius: 0,
           }}
         >
-          <thead style={{ backgroundColor: "#E7F1FF" }}>
+          <thead style={{ backgroundColor: "#E7F1FF",
+             position:"sticky",
+             top:0,
+             zIndex:1,
+           }}>
             <tr>
               <th
                 scope="col"

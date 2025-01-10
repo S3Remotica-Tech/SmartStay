@@ -315,7 +315,9 @@ const EBROOM = (props) => {
 
             <div class="table-responsive mt-3" style={{ width: "100%" }}>
                 <table class="table text-center" >
-                    <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
+                    <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px",  position:"sticky",
+                        top:0,
+                        zIndex:1, }}>
                         <tr >
                             <th scope="col">Customer <i class="bi bi-caret-down-fill ms-2"></i></th>
                             <th scope="col">Room Number <i class="bi bi-caret-down-fill ms-2"></i></th>
