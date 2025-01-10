@@ -407,7 +407,7 @@ function CheckOut(props) {
 
                         <th
                           style={{
-                            textAlign: "start",
+                            textAlign: "center",
                             padding: "10px",
                             color: "#4B4B4B",
                             fontSize: "14px",

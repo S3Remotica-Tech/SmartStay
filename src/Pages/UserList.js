@@ -1627,7 +1627,7 @@ function UserList(props) {
                                 </th> */}
                                 <th
                                   style={{
-                                    textAlign: "start",
+                                    textAlign: "center",
                                     padding: "10px",
                                     color: "#939393",
                                     fontSize: "14px",
