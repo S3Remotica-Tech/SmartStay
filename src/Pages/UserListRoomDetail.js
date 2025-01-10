@@ -2172,14 +2172,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                     >
                       <Modal.Dialog
                         style={{
-                          maxWidth: 950,
+                          maxWidth: 666,
                           paddingRight: "10px",
                           paddingRight: "10px",
                           borderRadius: "30px",
                         }}
                         className="m-0 p-0"
                       >
-                        <Modal.Body>
+                        <Modal.Body style={{marginTop:-30}}>
                           <div className="d-flex align-items-center">
                             {customerdetailShow ? (
                               <div>
