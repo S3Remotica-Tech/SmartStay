@@ -268,3 +268,10 @@ export async function deleteContact(contact){
     data:contact
   })
 }
+
+
+export async function generateAdvance(datum){
+  return await AxiosConfig.post('/generate/advance_invoice',datum,{
+    data:datum
+  })
+}
