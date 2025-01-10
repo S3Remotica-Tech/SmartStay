@@ -769,8 +769,8 @@ const Compliance = () => {
   const [complainttypelist, setComplainttypelist] = useState([])
 
   useEffect(() => {
-    if(hosId){
-      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id:hosId} })
+    if (hosId) {
+      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId } })
     }
   }, [hosId])
 
@@ -1102,17 +1102,23 @@ const Compliance = () => {
                       />
                     </div>
 
-            <div style={{paddingRight:"15px"}}>
-              <Button
-              disabled={complianceAddPermission}
-                onClick={handleShow}
-                style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8,  width: 152, 
-                padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat',whiteSpace:"nowrap" }}> + Complaint</Button>
-            </div>
-          </div>
-        </div>
+                    <div style={{ paddingRight: "15px" }}>
+                      <Button
+                        disabled={complianceAddPermission}
+                        onClick={handleShow}
+                        style={{
+                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
+                          padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
+                        }}> + Complaint</Button>
+                    </div>
+                  </div>
+                </div>
 
-                <div className='row row-gap-3 p-4'>
+                <div className='row row-gap-3 p-4'
+                  style={{
+                    maxHeight: "470px",
+                    overflowY: "auto",
+                  }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
                     <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                       <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
@@ -1123,16 +1129,16 @@ const Compliance = () => {
 
                   {currentItems.length == 0 &&
 
-<div className='d-flex align-items-center justify-content-center fade-in' 
-style={{ width: "100%", height: 350, marginTop:40 }}>
-<div>
-     <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
- 
-  
-</div>
-<div>
+                    <div className='d-flex align-items-center justify-content-center fade-in'
+                      style={{ width: "100%", height: 350, marginTop: 40 }}>
+                      <div>
+                        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
+
+
+                      </div>
+                      <div>
 
                       </div>
                     </div>
@@ -1142,14 +1148,14 @@ style={{ width: "100%", height: 350, marginTop:40 }}>
 
                 </div>
                 {currentItems?.length > 0 && (
-                  <nav
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end", // Align dropdown and pagination
-                      padding: "10px",
-                      // borderTop: "1px solid #ddd",
-                    }}
+                  <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+                  // style={{
+                  //   display: "flex",
+                  //   alignItems: "center",
+                  //   justifyContent: "end", // Align dropdown and pagination
+                  //   padding: "10px",
+
+                  // }}
                   >
                     {/* Dropdown for Items Per Page */}
                     <div>

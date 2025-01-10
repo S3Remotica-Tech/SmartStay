@@ -72,8 +72,8 @@ function SettingGeneral() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
-  const [CheckPasswordError,setCheckPasswordError] = useState("")
-  const [newPassError,setNewPassError]=useState("")
+  const [CheckPasswordError, setCheckPasswordError] = useState("")
+  const [newPassError, setNewPassError] = useState("")
   // const [conPassError,setConPassError]=useState("")
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
@@ -127,7 +127,7 @@ function SettingGeneral() {
         case "checkPassword":
           setPassError("current Password is required");
           break;
-      
+
         default:
           break;
       }
@@ -137,14 +137,14 @@ function SettingGeneral() {
   };
   const handleCheckPasswordChange = () => {
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if(checkPassword){
+    if (checkPassword) {
       dispatch({
-      
+
         type: "CHECKPASSWORD",
         payload: { id: passId, password: checkPassword },
       });
     }
-    
+
   };
 
   const handlegeneralform = (id) => {
@@ -371,8 +371,8 @@ function SettingGeneral() {
           id: editId,
         },
       });
-    }    
-    else if(firstName && emilId && emilId && Phone && address && password) {
+    }
+    else if (firstName && emilId && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -394,13 +394,13 @@ function SettingGeneral() {
     }
   }, [state.Settings.notmatchpass]);
 
- 
+
 
   useEffect(() => {
     dispatch({ type: "GETALLGENERAL" });
   }, []);
 
-  
+
 
   useEffect(() => {
     if (state.Settings.statusCodeForCheckPassword === 200) {
@@ -435,7 +435,7 @@ function SettingGeneral() {
     setPhoneAlready(state.Settings?.generalMobileError);
   }, [state.Settings?.generalMobileError]);
 
- 
+
   useEffect(() => {
     if (state.Settings?.StatusCodeForSettingGeneral === 200) {
       handleClose();
@@ -549,10 +549,10 @@ function SettingGeneral() {
         case "newPassword":
           setNewPassError("New Password is required");
           break;
-          case "confirmPassword":
-            setConformPasswordError("Confirm Password is required");
-            break;
-      
+        case "confirmPassword":
+          setConformPasswordError("Confirm Password is required");
+          break;
+
         default:
           break;
       }
@@ -565,13 +565,13 @@ function SettingGeneral() {
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
-    if (newPassword && confirmPassword){
+    if (newPassword && confirmPassword) {
       dispatch({
         type: "GENERALPASSWORDCHANGES",
         payload: { id: passId, new_pass: newPassword, cn_pass: confirmPassword },
       });
     }
-   
+
   };
   useEffect(() => {
     if (state.Settings.conformPassNotmatch) {
@@ -632,7 +632,7 @@ function SettingGeneral() {
                 padding: "12px 16px 12px 16px",
                 border: "none",
                 cursor: "pointer",
-                width:"160px"
+                width: "160px"
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
@@ -643,7 +643,11 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container ">
+      <div class="container "
+        style={{
+          maxHeight: "470px",
+          overflowY: "auto",
+        }}>
         {currentRowGeneral && currentRowGeneral.length > 0 ? (
           currentRowGeneral.map((item) => {
             const imageUrl = item.profile || Profile;
@@ -851,7 +855,7 @@ function SettingGeneral() {
             );
           })
         ) : (
-          <div style={{textAlign:"center",alignItems:"center",marginTop:90}}>
+          <div style={{ textAlign: "center", alignItems: "center", marginTop: 90 }}>
             <div style={{ textAlign: "center" }}>
               <img src={EmptyState} width={240} height={240} alt="emptystate" />
             </div>
@@ -884,15 +888,7 @@ function SettingGeneral() {
       </div>
 
       {currentRowGeneral?.length > 0 && (
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end", // Align dropdown and pagination
-            padding: "10px",
-            // borderTop: "1px solid #ddd",
-          }}
-        >
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>
             <select
@@ -1755,7 +1751,7 @@ function SettingGeneral() {
                 {passError}
               </div>
             )}
-            
+
             {/* )} */}
           </div>
         </Modal.Body>
