@@ -15,14 +15,7 @@ import { Circles } from 'react-loader-spinner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndCondition from "./LandingPage/TermsCondition"
-
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
-
-import ContactUs from './LandingPage/ContactUs';
-import CookiesFooter from './LandingPage/Cookies'
-
-
-
 
 function App() {
   const cookies = new Cookies();
@@ -34,8 +27,8 @@ function App() {
   const login = localStorage.getItem("login");
   const tokenAccessDenied = cookies.get('access-denied');
 
-  
-console.log("Token Access denied:", tokenAccessDenied);
+ 
+
 
   useEffect(() => {
    
@@ -68,8 +61,7 @@ console.log("Token Access denied:", tokenAccessDenied);
 
 
   useEffect(() => {
-    console.log('Current tokenAccessDenied:', tokenAccessDenied);
-    if (tokenAccessDenied == 206) {
+     if (tokenAccessDenied === 206) {
       setTimeout(() => {
         dispatch({ type: 'LOG_OUT' });
         setData(false);
@@ -94,6 +86,7 @@ console.log("Token Access denied:", tokenAccessDenied);
             // dispatch({ type: 'CLEAR_HOSTEL_LIST' });
             dispatch({type:'CLEAR_DASHBOARD'})
       dispatch(StoreSelectedHostelAction(""))
+      cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
     }
   }, [state.login?.isLoggedIn]);
 
