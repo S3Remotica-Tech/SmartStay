@@ -184,3 +184,22 @@ export async function delete_announcement(datum) {
     data: datum,
   });
 }
+
+
+export async function get_comments(datum) {
+  return await AxiosConfig.post("/announcement/all_comments",datum, {
+    data: datum,
+  });
+}
+
+export async function add_comments(datum) {
+  return await AxiosConfig.post("/announcement/add_comment",datum, {
+    data: datum,
+  });
+}
+
+export async function add_sub_comments(datum) {
+  return await AxiosConfig.post("",datum, {
+    data: datum,
+  });
+}

@@ -81,7 +81,11 @@ const initialState = {
     TitleAlready: '',
     statuscodeForDashboard: 0,
     TittleUnique: '',
-    deleteAnnounmentSuccessStatus:0,
+    deleteAnnounmentSuccessStatus: 0,
+    getCommentsSuccessStatus: 0,
+    addCommentsSuccessStatus: 0,
+    CommentsList: [],
+    addSubCommentsSuccessStatus: 0,
 
 }
 
@@ -94,12 +98,26 @@ const PgListReducer = (state = initialState, action) => {
         case 'REMOVE_MANAGE_PG':
             return { ...state, isManageEnable: false }
 
-            case 'DELETE_ANNOUNCEMENT':
-                return { ...state, deleteAnnounmentSuccessStatus: action.payload.statusCode }
+        case 'DELETE_ANNOUNCEMENT':
+            return { ...state, deleteAnnounmentSuccessStatus: action.payload.statusCode }
 
-                case 'REMOVE_DELETE_ANNOUNCEMENT':
-                    return { ...state, deleteAnnounmentSuccessStatus: 0 }
+        case 'REMOVE_DELETE_ANNOUNCEMENT':
+            return { ...state, deleteAnnounmentSuccessStatus: 0 }
 
+        case 'GET_COMMENTS':
+            return { ...state, CommentsList: action.payload.response, getCommentsSuccessStatus: action.payload.statusCode }
+        case 'REMOVE_GET_COMMENTS':
+            return { ...state, getCommentsSuccessStatus: 0 }
+
+        case 'CREATE_COMMENTS':
+            return { ...state, addCommentsSuccessStatus: action.payload.statusCode }
+        case 'REMOVE_CREATE_COMMENTS':
+            return { ...state, addCommentsSuccessStatus: 0 }
+
+        case 'CREATE_SUB_COMMENTS':
+            return { ...state, addSubCommentsSuccessStatus: action.payload.statusCode }
+        case 'REMOVE_CREATE_SUB_COMMENTS':
+            return { ...state, addSubCommentsSuccessStatus: 0 }
 
         case 'DELETE_FLOOR':
             return { ...state, deleteFloor: action.payload.message }
