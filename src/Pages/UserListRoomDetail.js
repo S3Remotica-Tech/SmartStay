@@ -60,6 +60,7 @@ import trash from "../Assets/Images/New_images/trash.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
+  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const initialvalue = useRef();
@@ -435,7 +436,7 @@ function UserListRoomDetail(props) {
   };
   useEffect(() => {
     if (props.id) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
     }
   }, [props.id]);
 
@@ -714,6 +715,19 @@ function UserListRoomDetail(props) {
 
     setFormShow(false);
   };
+  const [generateForm,seGenerateForm]= useState(false)
+const handlegenerateForm = ()=>{
+  seGenerateForm(true)
+}
+
+
+const handleCloseGenerateFormShow =()=>{
+  seGenerateForm(false)
+}
+const handleGenerateAdvance=()=>{
+  dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id } });
+}
+
 
   const [initialState, setInitialState] = useState({
     firstname: "",
@@ -916,7 +930,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
       }, 100);
@@ -931,7 +945,14 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
+const [advanceDetail,setAdvanceDetail] = useState("")
+  useEffect(()=>{
+if(state.UsersList.customerdetails.data){
+setAdvanceDetail(state.UsersList.customerdetails.data)
+}
+  },[state.UsersList.customerdetails.data])
 
+  console.log("state.UsersList?.customerdetails?.data",advanceDetail[0]?.inv_id)
   const customDateInput = (props) => {
     return (
       <div
@@ -1017,13 +1038,24 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList.statusCodeDeleteContact === 200) {
       handleCloseDelete();
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_CONTACT" });
       }, 100);
     }
   }, [state.UsersList.statusCodeDeleteContact]);
+console.log("props.userDetails",state.UsersList.statusCodeForGenerateAdvance)
 
+useEffect (()=>{
+if(state.UsersList.statusCodeForGenerateAdvance === 200){
+  handleCloseGenerateFormShow ()
+  dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+  dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+  setTimeout(() => {
+    dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
+  }, 500);
+}
+},[state.UsersList.statusCodeForGenerateAdvance ])
   return (
     <>
       {props.roomDetail && (
@@ -1758,10 +1790,9 @@ function UserListRoomDetail(props) {
                                 className="col-md-12 col-lg-12 mb-3 mb-md-0"
                                 style={{ paddingLeft: 20, paddingRight: 20 }}
                               >
-                                {state.UsersList?.customerdetails?.data?.map(
-                                  (g) => (
+                               
                                     <div
-                                      key={g.id}
+                                      // key={}
                                       className="card"
                                       style={{
                                         borderRadius: "20px",
@@ -1786,12 +1817,12 @@ function UserListRoomDetail(props) {
                                         >
                                           Advance Detail
                                         </div>
-                                        <img
+                                        {/* <img
                                           src={editliner}
                                           alt="Edit Icon"
                                           width={20}
                                           height={20}
-                                        />
+                                        /> */}
                                       </div>
 
                                       <div className="card-body">
@@ -1827,6 +1858,7 @@ function UserListRoomDetail(props) {
                                           </div>
 
                                           {/* Bill Status - Generate */}
+                                          {!advanceDetail[0]?.inv_id &&
                                           <div className="col-sm-4 d-flex flex-column align-items-center">
                                             <strong
                                               style={{
@@ -1837,26 +1869,30 @@ function UserListRoomDetail(props) {
                                             >
                                               Bill Status
                                             </strong>
+                                           
                                             <Button
-                                              style={{
-                                                width: 102,
-                                                height: 31,
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                fontFamily: "Gilroy",
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                backgroundColor: "#1E45E1",
-                                                color: "#fff",
-                                                borderRadius: "5px",
-                                                marginTop: "5px",
-                                              }}
-                                            >
-                                              Generate
-                                            </Button>
+                                            style={{
+                                              width: 102,
+                                              height: 31,
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              fontFamily: "Gilroy",
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              backgroundColor: "#1E45E1",
+                                              color: "#fff",
+                                              borderRadius: "5px",
+                                              marginTop: "5px",
+                                            }}
+                                            onClick={handlegenerateForm}
+                                          >
+                                            Generate
+                                          </Button>
+                                         
+                                           
                                           </div>
-
+}
                                           {/* Bill Status - Paid */}
                                           <div className="col-sm-4 d-flex flex-column align-items-end">
                                             <strong
@@ -1886,8 +1922,7 @@ function UserListRoomDetail(props) {
                                         </div>
                                       </div>
                                     </div>
-                                  )
-                                )}
+                                
                               </div>
 
                               <div
@@ -3253,7 +3288,7 @@ function UserListRoomDetail(props) {
                           marginTop: "-20px",
                         }}
                       >
-                        Are you sure you want to delete this Contact?
+                        Are you sure you want to Delete Contact?
                       </Modal.Body>
 
                       <Modal.Footer
@@ -3299,6 +3334,89 @@ function UserListRoomDetail(props) {
                         </Button>
                       </Modal.Footer>
                     </Modal>
+                    <Modal
+        show={generateForm}
+        onHide={handleCloseGenerateFormShow}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Bill General?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to  this General?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseGenerateFormShow}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleGenerateAdvance}
+          >
+            Generate
+          </Button>
+        </Modal.Footer>
+      </Modal>
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>
