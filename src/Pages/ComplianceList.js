@@ -22,6 +22,7 @@ import Form from "react-bootstrap/Form";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
+  console.log("state",state)
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
   const [status, setStatus] = useState("");
