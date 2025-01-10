@@ -124,23 +124,28 @@ const handleShow = () => {
         setIsSubCategory(false)
       };
 
+   const [editsubcat, setEditsubCat] = useState(false)
 
-
-      const handleEditCategory = (item) => {   
+      const handleEditCategory = (item) => {  
+        
+        console.log("edititem", item);
+        
         setEdit(true);
         setShowForm(true);
-        if(item.category_Id) { 
+        if(item.category_Id && item.category_Name) { 
           setType(item.category_Name)
           setCategory_ID(item.category_Id || '')   
         }
-        else if (item.subcategory_Id){
+        else if (item.subcategory_Id && item.cat_id){
           setIsSubCategory(true)
           setSubType(item.subcategory)
           setSubCategory_ID(item.subcategory_Id)
+          setEditsubCat(true)
         }
       
       }
 
+   console.log("edititem", subType);
    
 
 
@@ -158,26 +163,61 @@ const handleShow = () => {
     };
 
 
+        const [deletesubcatItems, setDeleteSubCatItems] = useState('')
+        const [deletesubcat, setDeleteSubCat] = useState(false)
+    
+    const handleDeleteSubCategory = (item) => {
+      console.log("items",item);
+      
+      setDeleteSubCatItems(item)
+      setShowModal(true) 
+      setDeleteSubCat(true)
+    }
+
+    console.log("deletesubcatItems",deletesubcatItems);
+
 
 
     const confirmDelete = () => {
-          if ( deleteCategoryId && subCategory_Id) {
-            dispatch({
-                type: 'DELETE-EXPENCES-CATEGORY',
-                payload: {
-                    id: deleteCategoryId,
-                    sub_Category_Id: subCategory_Id
-                },
-            });
-        }
+
+         if(deletesubcatItems && deletesubcat){
+          dispatch({
+            type: 'DELETE-EXPENCES-CATEGORY',
+            payload: {
+                cat_id:deletesubcatItems.cat_id,
+                subcat_id: deletesubcatItems.subcategory_Id
+            },
+        });
+         }
+
          else {
-            dispatch({
-                type: 'DELETE-EXPENCES-CATEGORY',
-                payload: { id: deleteCategoryId,
-                  sub_Category_Id: subCategory_Id},
-            });
-        }
-        setShowModal(false);  
+          dispatch({
+            type: 'DELETE-EXPENCES-CATEGORY',
+            payload: {
+                cat_id:deleteCategoryId
+            },
+        });
+         }
+         setShowModal(false);  
+
+        //   if ( deleteCategoryId && subCategory_Id) {
+        //     dispatch({
+        //         type: 'DELETE-EXPENCES-CATEGORY',
+        //         payload: {
+        //             id: deleteCategoryId,
+        //             subcat_id: subCategory_Id,
+        //             cat_id:''
+        //         },
+        //     });
+        // }
+        //  else {
+        //     dispatch({
+        //         type: 'DELETE-EXPENCES-CATEGORY',
+        //         payload: { id: deleteCategoryId,
+        //           sub_Category_Id: subCategory_Id},
+        //     });
+        // }
+       
     };
 
     const cancelDelete = () => {
@@ -188,13 +228,13 @@ const handleShow = () => {
     const updateType = () => {
 
       if(hostelid && category_Id || subcategory_Id){
-        if(category_Id){
+        if(category_Id && !editsubcat){
           dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: category_Id , hostel_id:hostelid, name: type, type:1}})
           setShowForm(false);  
           setIsSubCategory(false)
           setType('')
         }
-        else if (subcategory_Id){
+        else if (subcategory_Id && subType && editsubcat){
           dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id , hostel_id:hostelid, name: subType, type:2}})
           setShowForm(false); 
           setIsSubCategory(false) 
@@ -275,6 +315,7 @@ const handleShow = () => {
           setTimeout(() => {
               dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
           }, 100)
+          setDeleteSubCatItems('')
           
           setTimeout(() => {
             dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
@@ -471,7 +512,7 @@ const handleShow = () => {
                       width={15}
                       alt="delete"
                       style={{ cursor: "pointer", marginLeft: 10 }}
-                      onClick={() => handleDeleteExpensesCategory(sub)}
+                      onClick={() => handleDeleteSubCategory(sub)}
                     />
                   </span>
                 </li>
@@ -534,25 +575,15 @@ const handleShow = () => {
             backdrop="static"
           >
             <Modal.Dialog
-              style={{
-                maxWidth: 950,
-                paddingRight: "10px",
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
+              style={{   maxWidth: 950,   paddingRight: "10px",   paddingRight: "10px",  borderRadius: "30px" }}
               className="m-0 p-0"
-            >
-            
+            >  
                 <div>
                   <Modal.Header
                     style={{ marginBottom: "30px", position: "relative" }}
                   >
                     <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
+                      style={{fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
                     >
                       {/* {edit ? "Edit Invoice" : "Add Invoice "} */}
                       
@@ -565,9 +596,7 @@ const handleShow = () => {
                       className="close"
                       aria-label="Close"
                       onClick={handleCloseForm}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
+                      style={{ position: "absolute", right: "10px",
                         top: "16px",
                         border: "1px solid black",
                         background: "transparent",
