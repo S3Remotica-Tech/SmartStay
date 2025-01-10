@@ -747,7 +747,11 @@ setunitError(state.Settings.ebUnitError)
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
               <Table className="ebtable mt-3" responsive  >
-                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                <thead style={{ backgroundColor: "#E7F1FF",
+                  position:"sticky",
+                  top:0,
+                  zIndex:1, 
+                 }}>
                   <tr>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
                     <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>

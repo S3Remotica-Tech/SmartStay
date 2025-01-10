@@ -2720,7 +2720,9 @@ setDownloadInvoice(false)
                    className="Table_Design"
                    style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
                     >
-                      <thead style={{ backgroundColor: "#E7F1FF" }}>
+                      <thead style={{ backgroundColor: "#E7F1FF",  position:"sticky",
+                        top:0,
+                        zIndex:1, }}>
 
                         <tr>
                   

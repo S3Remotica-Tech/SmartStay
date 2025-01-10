@@ -890,7 +890,13 @@ function Booking(props) {
                       responsive="md"
                       style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
                     >
-                      <thead>
+                      <thead
+                      style={{
+                        position:"sticky",
+                        top:0,
+                        zIndex:1,
+                      }}
+                      >
                         <tr>
 
                           <th

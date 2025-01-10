@@ -564,7 +564,11 @@ useEffect(() => {
 
               </div>
               <Table responsive>
-                <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
+                <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px",
+                   position:"sticky",
+                   top:0,
+                   zIndex:1,
+                 }}>
                   <tr className="" style={{ height: "30px" }}>
                     <th style={{ color: "gray" }}>Date</th>
                     <th style={{ color: "gray" }}>Invoices#</th>

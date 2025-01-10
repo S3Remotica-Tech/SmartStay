@@ -495,7 +495,9 @@ useEffect(()=>{
                                     )}
                         <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
                         <table className="table mb-0">
-                        <thead style={{ backgroundColor: "#E7F1FF" }}>
+                        <thead style={{ backgroundColor: "#E7F1FF", position:"sticky",
+                top:0,
+                zIndex:1, }}>
             <tr >
                 <th style={{ paddingLeft: '16px',fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B" }}>Permission</th>
                 <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Add</th>

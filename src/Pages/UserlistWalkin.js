@@ -279,7 +279,9 @@ function UserlistWalkin(props) {
                   // borderBottom:"none"
                 }}>
                   <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
-                    <thead style={{ border: "none" }}>
+                    <thead style={{ border: "none",  position:"sticky",
+                        top:0,
+                        zIndex:1, }}>
                       <tr>
 
                         <th
