@@ -71,21 +71,21 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-    const handleShare = async () => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: "Invoice",
-                    text: "Here is your invoice.",
-                    url: window.location.href,
-                });
-            } catch (err) {
-                console.error("Error sharing", err);
-            }
-        } else {
-            alert("Web Share API not supported in this browser.");
-        }
-    };
+    // const handleShare = async () => {
+    //     if (navigator.share) {
+    //         try {
+    //             await navigator.share({
+    //                 title: "Invoice",
+    //                 text: "Here is your invoice.",
+    //                 url: window.location.href,
+    //             });
+    //         } catch (err) {
+    //             console.error("Error sharing", err);
+    //         }
+    //     } else {
+    //         alert("Web Share API not supported in this browser.");
+    //     }
+    // };
 
     const handleClose = () => {
         setIsVisible(false);
@@ -122,7 +122,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     </div>
                 </div>
                 <div>
-                    <div className="gap-2 d-flex">
+                    <div className="gap-5 d-flex">
                         {/* <ImportCurve
  size="32"
  color="#FF8A65"
@@ -133,9 +133,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
  size="32"
  color="#FF8A65"
 /> */}
-                        <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20 }} onClick={handleDownload} />
-                        <img src={Share} alt="Share Invoice" style={{ height: 20, width: 20 }} onClick={handleShare} />
-                        <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20 }} onClick={handleClose} />
+                        <img src={DownLoad}  alt="Download Invoice" style={{ height: 20, width: 20,cursor:"pointer" }} onClick={handleDownload} />
+                        {/* <img src={Share} alt="Share Invoice" style={{ height: 20, width: 20 }} onClick={handleShare} /> */}
+                        <img src={Close}  alt="Close Invoice" style={{ height: 20, width: 20,cursor:"pointer" }} onClick={handleClose} />
                     </div>
                 </div>
 
@@ -153,7 +153,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                             }}
                         >
-                            <div className="d-flex justify-content-between ps-4 pe-4 pt-3">
+                            <div className="d-flex justify-content-between ps-4 pe-4 " >
                                 <div className="d-flex gap-2">
                                     <div>
                                         <img src={rowData.hostel_profile ? rowData.hostel_profile : Logo} style={{ height: 40, width: 40, }} />
@@ -170,7 +170,30 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label style={{ fontSize: 30, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>INVOICE</label>
+                                    <div>
+                                    <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>INVOICE</label>
+                              </div>
+                              <div>
+                                    <div className="d-flex justify-content-between gap-2">
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice #</label>
+                                        </div>
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Invoices ? rowData.Invoices : '0.00'}</label>
+                                        </div>
+
+                                    </div>
+                                    <div className="d-flex justify-content-between gap-5">
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
+                                        </div>
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData.Date).format('DD/MM/YYYY')}</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
                                 </div>
                             </div>
 
@@ -178,9 +201,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
                                 <div>
 
-
+{/* Bill From */}
                                     <div >
-                                        <label style={{ fontSize: 16, fontWeight: 700, color: "#000000", fontFamily: "Gilroy" }}>Invoice To:</label>
+                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill From:</label>
                                     </div>
                                     <div>
                                         <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Name}</label>
@@ -191,29 +214,59 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                                 </div>
+
+                                {/* Bill To */}
                                 <div>
-                                    <div className="d-flex justify-content-between gap-2">
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 700, color: "#000000", fontFamily: "Gilroy" }}>Invoice #</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Invoices ? rowData.Invoices : '0.00'}</label>
-                                        </div>
 
-                                    </div>
-                                    <div className="d-flex justify-content-between gap-5">
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 800, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData.Date).format('DD/MM/YYYY')}</label>
-                                        </div>
 
-                                    </div>
+<div >
+    <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill To:</label>
+</div>
+<div>
+    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Name}</label>
+</div>
+<div className="" style={{ width: 100 }}>
+    <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
+</div>
 
-                                </div>
+
+</div>
+                                
                             </div>
 
+{/* EB Unit Details */}
+<div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+                                <div>
+
+{/* EB */}
+                                    <div >
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>EB Per Unit Price :
+
+</label>
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB Start Date :</label>
+                                    </div>
+                                    <div className="" style={{ width: 100 }}>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB End Date :</label>
+                                    </div>
+
+
+                                </div>
+
+                                {/* Rent Date */}
+                                <div>
+
+
+<div >
+    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Rent Start Date:</label>
+</div>
+<div>
+    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>Rent End Date:</label>
+</div>
+</div>
+                                
+                            </div>
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
   <thead 
@@ -221,25 +274,27 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 top:0,
                 zIndex:1,}}>
     <tr>
-      <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Description</th>
-      <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Amount</th>
+    <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>S.No</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Description</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Amount</th>
     </tr>
   </thead>
   <tbody>
    
     {rowData.amenity?.map((item, index) => (
       <tr key={index}>
-        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>{index+1}</td>
+        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
           {item.am_name}
         </td>
-        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
           ₹{item.amount}
         </td>
       </tr>
     ))}
   
     <tr>
-      <td colSpan="2">
+      <td colSpan="3">
         <hr />
       </td>
     </tr>
@@ -263,7 +318,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </tr>
    
     <tr>
-      <td colSpan="2">
+      <td colSpan="3">
         <hr />
       </td>
     </tr>
