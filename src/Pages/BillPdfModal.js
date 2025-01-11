@@ -209,7 +209,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                         <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Name}</label>
                                     </div>
                                     <div className="" style={{ width: 100 }}>
-                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
+                                        {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
+                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.admin_address}</label>
                                     </div>
 
 
@@ -223,11 +224,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill To:</label>
 </div>
 <div>
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Name}</label>
+    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.user_address}</label>
 </div>
-<div className="" style={{ width: 100 }}>
+{/* <div className="" style={{ width: 100 }}>
     <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
-</div>
+</div> */}
 
 
 </div>
