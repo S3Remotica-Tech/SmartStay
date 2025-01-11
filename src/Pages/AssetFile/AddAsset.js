@@ -456,14 +456,17 @@ function StaticExample({ show, handleClose, currentItem }) {
       style={{
         display: "block",
         position: "initial",
+      
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose} backdrop="static"
+        dialogClassName="custom-modal"
+      >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
         >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Header>
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -475,7 +478,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               {currentItem ? "Edit an asset" : "Add an asset"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }}/>
           </Modal.Header>
 
           {isChangedError && (
@@ -527,7 +530,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               </label>
             </div>
           )}
-          <Modal.Body style={{ padding: 20 }}>
+          <Modal.Body>
             <div className="row mt-1">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -943,7 +946,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                  className=""
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1078,7 +1081,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             </div> */}
             </div>
           </Modal.Body>
-          <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
+          <Modal.Footer style={{ border: "none" }} className="">
             <Button
               onClick={handleAddAsset}
               className="w-100"
