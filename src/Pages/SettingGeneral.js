@@ -78,6 +78,8 @@ function SettingGeneral() {
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
+  const [loading, setLoading] = useState(true)
+
 
 
   const handleNewPassword = (e) => {
@@ -128,6 +130,7 @@ function SettingGeneral() {
           setPassError("current Password is required");
           break;
 
+
         default:
           break;
       }
@@ -137,7 +140,7 @@ function SettingGeneral() {
   };
   const handleCheckPasswordChange = () => {
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if (checkPassword) {
+    if  (checkPassword)  {
       dispatch({
 
         type: "CHECKPASSWORD",
@@ -567,10 +570,16 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    setGeneralFilterddata(
-      state.Settings?.settingGetGeneralData.response?.general_users
-    );
-  }, [state.Settings?.settingGetGeneralData.response?.general_users]);
+    if (state.Settings?.StatusCodeforGetGeneral == 200) {
+      setGeneralFilterddata(state.Settings?.settingGetGeneralData);
+      setLoading(false)
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
+      }, 1000)
+
+    }
+  }, [state.Settings?.StatusCodeforGetGeneral]);
 
 
 
@@ -633,6 +642,15 @@ function SettingGeneral() {
           height: 83,
         }}
       >
+
+
+
+
+
+
+
+
+
         <div className="container">
           <label
             style={{
@@ -675,11 +693,39 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container "
-        style={{
-          maxHeight: "470px",
-          overflowY: "auto",
-        }}>
+      <div class="container " style={{ position: "relative" }}>
+
+        {loading &&
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              height: "50vh",
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
+
+
+
+
         {currentRowGeneral && currentRowGeneral.length > 0 ? (
           currentRowGeneral.map((item) => {
             const imageUrl = item.profile || Profile;
@@ -886,7 +932,7 @@ function SettingGeneral() {
               </div>
             );
           })
-        ) : (
+        ) : !loading && (
           <div style={{ textAlign: "center", alignItems: "center", marginTop: 90 }}>
             <div style={{ textAlign: "center" }}>
               <img src={EmptyState} width={240} height={240} alt="emptystate" />

@@ -127,7 +127,7 @@ function SettingManage(props) {
   const [addPermissionError, setAddPermissionError] = useState("");
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
-
+const [loading, setLoading] = useState(true)
   const [customerPermission, setCustomerPermission] = useState("")
   const [customerAddPermission, setCustomerAddPermission] = useState("")
   const [customerDeletePermission, setCustomerDeletePermission] = useState("")
@@ -160,7 +160,7 @@ function SettingManage(props) {
 
   const [filteredData, setFilteredData] = useState([]);
 
-  const [loader, setLoader] = useState(true);
+  
 
   useEffect(() => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -169,7 +169,7 @@ function SettingManage(props) {
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
-      setLoader(false);
+      setLoading(false);
       setFilteredData(state.UsersList.hostelList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
@@ -207,7 +207,7 @@ function SettingManage(props) {
 
   useEffect(() => {
     if (state.UsersList?.noHosteListStatusCode == 201) {
-      setLoader(false);
+      setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
       }, 1000);
@@ -794,7 +794,39 @@ function SettingManage(props) {
           </div>
         </>
       ) : (
-        <div className="container">
+        <div className="container" style={{position:"relative"}}>
+
+
+{loading &&
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            height: "50vh",
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+
+
+
+
           {hidePgList && (
             <>
               <div
@@ -1004,7 +1036,7 @@ function SettingManage(props) {
                 overflowY: "auto",
               }}>
                 <div className="row row-gap-3">
-                  {currentItems.length > 0 &&
+                  {currentItems?.length > 0 ? 
                     currentItems.map((hostel) => {
                       return (
                         <>
@@ -1024,9 +1056,9 @@ function SettingManage(props) {
                           </div>
                         </>
                       );
-                    })}
-
-                  {!loader && filteredData.length == 0 && (
+                    })
+:
+                !loading &&  (
                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
@@ -1075,26 +1107,7 @@ function SettingManage(props) {
                     </div>
                   )}
 
-                  <div className="mt-2 mb-2 d-flex justify-content-center w-100">
-                    {loader && (
-                      //  <Spinner animation="grow" variant="primary" size="sm" />
-
-                      <div
-                        className="d-flex justify-content-center align-items-start gap-3"
-                        style={{ height: "100%" }}
-                      >
-                        <Spinner
-                          animation="grow"
-                          style={{ color: "rgb(30, 69, 225)" }}
-                        />{" "}
-                        <div
-                          style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}
-                        >
-                          Loading.....
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  
                 </div>
               </div>
               {currentItems.length > 0 && (

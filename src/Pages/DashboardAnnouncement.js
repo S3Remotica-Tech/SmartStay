@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
-import Ellipse5 from "../Assets/Images/Group 1.png";
+import Ellipse5 from "../Assets/Images/Profile.jpg";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
 import Search_Team from "../Assets/Images/Search Team.png";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
-import { Modal, Button, Form, FormControl } from "react-bootstrap";
+import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
 import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -18,6 +18,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, Pr
 function DashboardAnnouncement(props) {
   const state = useSelector((state) => state);
 
+  console.log("state", state)
 
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -39,6 +40,76 @@ function DashboardAnnouncement(props) {
   const [deletedID, setDeletedID] = useState('')
   const [displayDeletePopUP, setDisplayDeletePopUP] = useState(false)
   const popupRef = useRef(null);
+  const [Comments, setComments] = useState('')
+  const [commentsList, setCommentsList] = useState([])
+  const [displayError, setDisplayError] = useState("");
+  const [subCommentModal, setSubCommentModal] = useState(false)
+  const [subComment, setSubComment] = useState('')
+  const [displaySubError, setDisplaySubError] = useState("");
+  const [selectTitleCard, setSelectedTitleCard] = useState('')
+  const [CommentId, setCommentId] = useState('')
+
+  const handleSubCommentsChange = (e) => {
+    setSubComment(e.target.value)
+    setDisplaySubError('')
+  }
+
+
+
+  console.log("sub-comment", subCommentModal, "comment", showCommentModal)
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+
+  const handleCloseSubComment = () => {
+    setSubCommentModal(false)
+  }
+
+  const handleCreateSubComments = (comment_id) => {
+    setCommentId(comment_id)
+    setSubCommentModal(true)
+    // setShowCommentModal(false)
+    if (selectedCommentId === comment_id) {
+      setSelectedCommentId(null);
+    } else {
+      setSelectedCommentId(comment_id);
+    }
+
+  }
+
+  const handleCommentsChange = (e) => {
+    setComments(e.target.value)
+    setDisplayError('')
+  }
+
+
+  const handleSendComments = () => {
+    if (!Comments) {
+      setDisplayError('Please Enter Comments')
+      return
+    }
+    if (Comments) {
+      dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
+    }
+
+  }
+
+
+
+  console.log("selectedCard", selectedCard)
+
+  const handleSendSubComments = () => {
+    if (!subComment) {
+      setDisplaySubError('Please Enter Comments')
+      return
+    }
+    if (subComment) {
+      dispatch({
+        type: 'CREATESUBCOMMENTS', payload: {
+          an_id: selectedCard, comment: subComment, parent_comment_id: CommentId
+        }
+      })
+    }
+
+  }
 
   const handleShowAnnouncement = () => {
     setShowAnnouncement(true);
@@ -59,12 +130,12 @@ function DashboardAnnouncement(props) {
 
   //  card click
   const handleCardClick = (card) => {
-    setSelectedCard(card);
+    // setSelectedCard(card);
     setShowMainModal(true);
   };
 
   const handleCardTittleClick = (card) => {
-    setSelectedCard(card);
+    setSelectedTitleCard(card);
     setshowTittleModal(true);
   };
 
@@ -100,6 +171,8 @@ function DashboardAnnouncement(props) {
     });
   }, [hostel_id]);
 
+
+
   useEffect(() => {
     if (state.PgList.statuscodeForAnnounceMentList === 200) {
       setTimeout(() => {
@@ -120,9 +193,70 @@ function DashboardAnnouncement(props) {
   };
 
   const handleCommentClick = (card) => {
-    setSelectedCard(card);
+    console.log("card comments", card)
+    if (card.id) {
+      dispatch({ type: 'GETCOMMENTS', payload: { an_id: card.id } })
+    }
+    setSelectedCard(card.id);
     setShowCommentModal(true);
   };
+
+
+  useEffect(() => {
+    if (state.PgList?.addCommentsSuccessStatus === 200) {
+      if (selectedCard) {
+        dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
+      }
+      dispatch({
+        type: "ANNOUNCEMENTLIST",
+        payload: { hostel_id: hostel_id },
+      });
+      setComments('')
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_COMMENTS' })
+      }, 1000)
+    }
+  }, [state.PgList?.addCommentsSuccessStatus])
+
+
+  useEffect(() => {
+    if (state.PgList?.getCommentsSuccessStatus == 200) {
+      setCommentsList(state.PgList?.CommentsList)
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_COMMENTS' })
+      })
+    }
+
+  }, [state.PgList?.getCommentsSuccessStatus])
+
+
+
+  useEffect(() => {
+    if (state.PgList?.addSubCommentsSuccessStatus === 200) {
+
+      if (selectedCard) {
+        dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
+      }
+      dispatch({
+        type: "ANNOUNCEMENTLIST",
+        payload: { hostel_id: hostel_id },
+      });
+      setSubCommentModal(false)
+      setSubComment('')
+      setSelectedCommentId(null);
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_SUB_COMMENTS' })
+      }, 1000)
+
+    }
+
+
+  }, [state.PgList?.addSubCommentsSuccessStatus])
+
+
+
+
 
 
 
@@ -257,8 +391,6 @@ function DashboardAnnouncement(props) {
 
 
 
-
-
   return (
     <>
       <div
@@ -333,242 +465,246 @@ function DashboardAnnouncement(props) {
           )}
         </div>
       ) : (
-        <div>
+        <div className="row">
           {state.PgList?.announcementList?.announcements?.length > 0 ? (
             state.PgList?.announcementList?.announcements?.map((data) => (
-              <Card
-                className="card"
-                key={data.id}
-                style={{
-                  borderRadius: "16px",
-                  borderColor: "#DCDCDC",
-                  marginBottom: "20px",
-                  cursor: "pointer",
-                }}
-              >
-                <Card.Body>
-                  <div className="d-flex bd-highlight align-items-center">
-                    <div className="p-2 flex-grow-1 bd-highlight">
-                      <p
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#4B4B4B",
-                          marginBottom: "0px",
-                        }}
-                      >
-                        {/* {data.createdat} */}
-                        {new Date(data.createdat).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </p>
-                      <p
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 600,
-                          fontSize: "16px",
-                          color: "#222222",
-                          marginBottom: "0px",
-                        }}
-                        onClick={() => handleCardTittleClick(data)}
-                      >
-                        {data.title}
-                      </p>
-                      <p style={{ marginBottom: "0px" }}>
-                        <img
-                          src={createprofile.profile || Profile}
-                          alt="Ellipse5"
-                          width={25}
-                          height={25}
-                          onClick={() => handleCardClick(data)}
-                        />
-                        <span
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
+
+                <Card
+                  className="card"
+                  key={data.id}
+                  style={{
+                    borderRadius: "16px",
+                    borderColor: "#DCDCDC",
+                    marginBottom: "20px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Card.Body>
+                    <div className="d-flex bd-highlight align-items-center">
+                      <div className="p-2 flex-grow-1 bd-highlight">
+                        <p
                           style={{
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                             fontSize: "12px",
-                            color: "#222222",
-                            paddingLeft: "6px",
+                            color: "#4B4B4B",
+                            marginBottom: "0px",
                           }}
                         >
-                          {createprofile.first_name} {createprofile.last_name}
-                        </span>
-                      </p>
-                    </div>
-                    <div
-                      className="bd-highlight"
-                      style={{
-                        border: "1px solid #DCDCDC",
-                        borderRadius: "60px",
-                        height: "36px",
-                        width: "83px",
-                        marginTop: "6px",
-                        marginRight: "6px",
-                        cursor: "pointer",
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleLikeClick(data);
-                      }}
-                    >
-                      <p style={{ padding: "4px 10px" }}>
-                        <img src={like} alt="like" width={20} height={20} />
-                        <span
+                          {/* {data.createdat} */}
+                          {new Date(data.createdat).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
+                        <p
                           style={{
                             fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "12px",
+                            fontWeight: 600,
+                            fontSize: "16px",
                             color: "#222222",
-                            paddingLeft: "4px",
+                            marginBottom: "0px",
                           }}
+                          onClick={() => handleCardTittleClick(data)}
                         >
-                          {/* {data.likes.toLocaleString()} */}1
-                        </span>
-                      </p>
-                    </div>
-                    <div
-                      className="bd-highlight"
-                      style={{
-                        border: "1px solid #DCDCDC",
-                        borderRadius: "60px",
-                        height: "36px",
-                        width: "72px",
-                        marginTop: "6px",
-                        cursor: "pointer",
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCommentClick(data);
-                      }}
-                    >
-                      <p style={{ padding: "4px 10px" }}>
-                        <img src={message} alt="message" width={20} height={20} />
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            color: "#222222",
-                            paddingLeft: "4px",
-                          }}
-                        >
-                          {/* {data.comments} */}1
-                        </span>
-                      </p>
-                    </div>
-
-
-
-                    <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(data.id)}>
-                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                      {showDots === data.id && (
-                        <div
-                          ref={popupRef}
-                          style={{
-                            cursor: "pointer",
-                            backgroundColor: "#F9F9F9",
-                            position: "absolute",
-                            right: 0,
-                            top: 50,
-                            width: 163,
-                            height: 92,
-                            border: "1px solid #EBEBEB",
-                            borderRadius: 10,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            padding: "15px",
-                            alignItems: "flex-start"
-                          }}
-                        >
-                          <div
-                            className="mb-2 gap-2"
+                          {data.title}
+                        </p>
+                        <p style={{ marginBottom: "0px" }}>
+                          <Image
+                            roundedCircle
+                            src={data?.profile || Profile}
+                            alt="Ellipse5"
+                            width={25}
+                            height={25}
+                          // onClick={() => handleCardClick(data)}
+                          />
+                          <span
                             style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "20px",
-                              cursor: "pointer",
-                              pointerEvents: "auto",
-                              // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
-                              // pointerEvents: props.vendorEditPermission ? "none" : "auto",
-                              // opacity: props.vendorEditPermission ? 0.5 : 1,
-                            }}
-                            onClick={() => {
-                              // if (!props.vendorEditPermission) {
-                              handleEdit(data);
-                              // }
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              color: "#222222",
+                              paddingLeft: "6px",
                             }}
                           >
-                            <Edit size="16" color="#1E45E1" />
-                            <label
+                            {createprofile.first_name} {createprofile.last_name}
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        className="bd-highlight"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderRadius: "60px",
+                          height: "36px",
+                          width: "83px",
+                          marginTop: "6px",
+                          marginRight: "6px",
+                          cursor: "pointer",
+                        }}
+                      // onClick={(e) => {
+                      //   e.stopPropagation();
+                      //   handleLikeClick(data);
+                      // }}
+                      >
+                        <p style={{ padding: "4px 10px" }}>
+                          <img src={like} alt="like" width={20} height={20} />
+                          <span
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              color: "#222222",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            {data?.like_count}
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        className="bd-highlight"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderRadius: "60px",
+                          height: "36px",
+                          width: "72px",
+                          marginTop: "6px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCommentClick(data);
+                        }}
+                      >
+                        <p style={{ padding: "4px 10px" }}>
+                          <img src={message} alt="message" width={20} height={20} />
+                          <span
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              color: "#222222",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            {data?.comment_count}
+                          </span>
+                        </p>
+                      </div>
+
+
+
+                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(data.id)}>
+                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                        {showDots === data.id && (
+                          <div
+                            ref={popupRef}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#F9F9F9",
+                              position: "absolute",
+                              right: 0,
+                              top: 50,
+                              width: 163,
+                              height: 92,
+                              border: "1px solid #EBEBEB",
+                              borderRadius: 10,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                              padding: "15px",
+                              alignItems: "flex-start"
+                            }}
+                          >
+                            <div
+                              className="mb-2 gap-2"
                               style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "#222222",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "20px",
                                 cursor: "pointer",
+                                pointerEvents: "auto",
                                 // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                                // pointerEvents: props.vendorEditPermission ? "none" : "auto",
+                                // opacity: props.vendorEditPermission ? 0.5 : 1,
+                              }}
+                              onClick={() => {
+                                // if (!props.vendorEditPermission) {
+                                handleEdit(data);
+                                // }
                               }}
                             >
-                              Edit
-                            </label>
-                          </div>
+                              <Edit size="16" color="#1E45E1" />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#222222",
+                                  cursor: "pointer",
+                                  // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                                }}
+                              >
+                                Edit
+                              </label>
+                            </div>
 
 
-                          <div
-                            className="mb-2 gap-2"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
-                              cursor: "pointer",
-                              pointerEvents: "auto",
-
-                              // cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
-                              // pointerEvents: props.vendorDeletePermission ? "none" : "auto",
-                              // opacity: props.vendorDeletePermission ? 0.5 : 1,
-                            }}
-                            onClick={() => {
-                              // if (!props.vendorDeletePermission) {
-                              handleDelete(data);
-                              // }
-                            }}
-                          >
-                            <img
-                              src={Delete}
-                              alt="Delete"
-                              style={{ height: 16, width: 16 }}
-                            />
-                            <label
+                            <div
+                              className="mb-2 gap-2"
                               style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "#FF0000",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
                                 cursor: "pointer",
+                                pointerEvents: "auto",
+
+                                // cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                                // pointerEvents: props.vendorDeletePermission ? "none" : "auto",
+                                // opacity: props.vendorDeletePermission ? 0.5 : 1,
+                              }}
+                              onClick={() => {
+                                // if (!props.vendorDeletePermission) {
+                                handleDelete(data);
+                                // }
                               }}
                             >
-                              Delete
-                            </label>
-                          </div>
+                              <img
+                                src={Delete}
+                                alt="Delete"
+                                style={{ height: 16, width: 16 }}
+                              />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#FF0000",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Delete
+                              </label>
+                            </div>
 
-                        </div>
-                      )}
+                          </div>
+                        )}
+
+
+                      </div>
+
+
+
 
 
                     </div>
-
-
-
-
-
-                  </div>
-                </Card.Body>
-              </Card>
+                  </Card.Body>
+                </Card>
+              </div>
             ))
           ) : (
             <div
@@ -577,7 +713,7 @@ function DashboardAnnouncement(props) {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                height:"60vh"
+                height: "60vh"
               }}
             >
               <div style={{ textAlign: "center" }}>
@@ -596,702 +732,15 @@ function DashboardAnnouncement(props) {
               >
                 No announcements available.
               </div>
-              
+
             </div>
 
           )
           }
 
 
-          {selectedCard && (
-            <Modal show={showMainModal} onHide={handleCloseMain} centered>
-              <Modal.Header
-                className="d-flex justify-content-between align-items-center"
-                style={{ border: "none" }}
-              >
-                <p
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    fontSize: "18px",
-                    marginBottom: "0px",
-                  }}
-                >
-                  August
-                </p>
-                <CloseCircle
-                  size="32"
-                  color="#222222"
-                  onClick={handleCloseMain}
-                  style={{ cursor: "pointer" }}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <div className="d-flex justify-content-between">
-                  <p style={{ marginBottom: "0px" }}>
-                    <img src={Ellipse5} alt="Ellipse5" width={20} height={20} />
-                    <span
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#222222",
-                        paddingLeft: "6px",
-                      }}
-                    >
-                      Akash
-                    </span>
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "12px",
-                      color: "#4B4B4B",
-                      paddingLeft: "6px",
-                    }}
-                  >
-                    01 September 2024
-                  </p>
-                </div>
-
-                <p
-                  tyle={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    color: "#222222",
-                  }}
-                >
-                  {" "}
-                  Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                  commodo leo scelerisque turpis in gravida. Et facilisi eget id
-                  consequat maecenas diam velit eget accumsan. Nam suspendisse
-                  lectus vitae elementum integer. Velit sem nec eget id ac.
-                  Sagittis sit mauris massa eget vel integer mattis pulvinar.
-                  Eget aliquet{" "}
-                </p>
-
-                <div className="d-flex justify-content-start">
-                  <div
-                    style={{
-                      border: "1px solid #DCDCDC",
-                      borderRadius: "60px",
-                      height: "36px",
-                      width: "69px",
-                      marginTop: "6px",
-                      marginRight: "6px",
-                    }}
-                  >
-                    <p style={{ padding: "4px 10px" }}>
-                      <img src={like} alt="like" width={20} height={20} />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        Like
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    className=""
-                    style={{
-                      border: "1px solid #DCDCDC",
-                      borderRadius: "60px",
-                      height: "36px",
-                      width: "103px",
-                      marginTop: "6px",
-                    }}
-                  >
-                    <p style={{ padding: "4px 10px" }}>
-                      <img src={message} alt="message" width={20} height={20} />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        Comment
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          )}
 
 
-          {selectedCard && (
-            <Modal show={showLikeModal} onHide={handleCloseLike} centered>
-              <Modal.Header
-                className="d-flex justify-content-between align-items-center"
-                style={{ border: "none" }}
-              >
-                <p
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    fontSize: "18px",
-                    marginBottom: "0px",
-                  }}
-                >
-                  Monthly Report
-                </p>
-                <CloseCircle
-                  size="32"
-                  color="#222222"
-                  onClick={handleCloseLike}
-                  style={{ cursor: "pointer" }}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <div>
-                  <div className="d-flex justify-content-between">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={20}
-                        height={20}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Akash Rathod
-                      </span>
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#4B4B4B",
-                        paddingLeft: "6px",
-                      }}
-                    >
-                      01 September 2024
-                    </p>
-                  </div>
-
-                  <p
-                    tyle={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div
-                    className="d-flex justify-content-start"
-                    style={{
-                      borderBottom: "1px solid #DCDCDC",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        border: "1px solid #DCDCDC",
-                        borderRadius: "60px",
-                        height: "36px",
-                        width: "69px",
-                        marginTop: "6px",
-                        marginRight: "6px",
-                      }}
-                    >
-                      <p style={{ padding: "4px 10px" }}>
-                        <img src={like} alt="like" width={20} height={20} />
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            color: "#222222",
-                            paddingLeft: "4px",
-                          }}
-                        >
-                          Like
-                        </span>
-                      </p>
-                    </div>
-                    <div
-                      className=""
-                      style={{
-                        border: "1px solid #DCDCDC",
-                        borderRadius: "60px",
-                        height: "36px",
-                        width: "103px",
-                        marginTop: "6px",
-                      }}
-                    >
-                      <p style={{ padding: "4px 10px" }}>
-                        <img
-                          src={message}
-                          alt="message"
-                          width={20}
-                          height={20}
-                        />
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            color: "#222222",
-                            paddingLeft: "4px",
-                          }}
-                        >
-                          Comment
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  {/* --- */}
-                  <div className="">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={20}
-                        height={20}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Akash Rathod
-                      </span>
-                    </p>
-                  </div>
-
-                  <p
-                    tyle={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div className="d-flex justify-content-start">
-                    <div>
-                      <p style={{ padding: "4px 10px" }}>
-                        <img src={like} alt="like" width={20} height={20} />
-                      </p>
-                    </div>
-                    <div className="">
-                      <p style={{ padding: "4px 10px" }}>
-                        <img
-                          src={message}
-                          alt="message"
-                          width={20}
-                          height={20}
-                        />
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={20}
-                        height={20}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Akash Rathod
-                      </span>
-                    </p>
-                  </div>
-
-                  <p
-                    tyle={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div className="d-flex justify-content-start">
-                    <div>
-                      <p style={{ padding: "4px 10px" }}>
-                        <img src={like} alt="like" width={20} height={20} />
-                      </p>
-                    </div>
-                    <div className="">
-                      <p style={{ padding: "4px 10px" }}>
-                        <img
-                          src={message}
-                          alt="message"
-                          width={20}
-                          height={20}
-                        />
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          )}
-
-          {/* Comment Modal  */}
-          {selectedCard && (
-            <Modal show={showCommentModal} onHide={handleCloseComment} centered>
-              <Modal.Header
-                className="d-flex justify-content-between align-items-center"
-                style={{ border: "none" }}
-              >
-                <p
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    fontSize: "18px",
-                    marginBottom: "0px",
-                  }}
-                >
-                  Monthly
-                </p>
-                <CloseCircle
-                  size="32"
-                  color="#222222"
-                  onClick={handleCloseComment}
-                  style={{ cursor: "pointer" }}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <div>
-                  <div className="d-flex justify-content-between">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={20}
-                        height={20}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Akash Rathod
-                      </span>
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#4B4B4B",
-                        paddingLeft: "6px",
-                      }}
-                    >
-                      01 September 2024
-                    </p>
-                  </div>
-
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                      paddingRight: "10px",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div
-                    className="d-flex justify-content-start"
-                    style={{
-                      borderBottom: "1px solid #DCDCDC",
-                      paddingBottom: "",
-                    }}
-                  ></div>
-
-                  <div
-                    style={{ marginTop: "10px" }}
-                    className="d-flex justify-content-between"
-                  >
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={30}
-                        height={30}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 600,
-                          fontSize: "14px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Saravanan
-                      </span>
-                    </p>
-                  </div>
-
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                      paddingLeft: "35px",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div
-                    className="d-flex justify-content-start"
-                    style={{ paddingLeft: "35px" }}
-                  >
-                    <div>
-                      <p style={{ padding: "0px 10px" }}>
-                        <img src={like} alt="like" width={20} height={20} />
-                      </p>
-                    </div>
-                    <div>
-                      <p style={{ padding: "0px 10px" }}>
-                        <img
-                          src={message}
-                          alt="message"
-                          width={20}
-                          height={20}
-                        />
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex justify-content-between">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img
-                        src={Ellipse5}
-                        alt="Ellipse5"
-                        width={30}
-                        height={30}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 600,
-                          fontSize: "14px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        Vijay
-                      </span>
-                    </p>
-                  </div>
-
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                      paddingLeft: "35px",
-                    }}
-                  >
-                    {" "}
-                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                    commodo leo scelerisque turpis in gravida. Et facilisi eget
-                    id consequat maecenas diam velit eget accumsan. Nam
-                    suspendisse lectus vitae elementum integer. Velit sem nec
-                    eget id ac. Sagittis sit mauris massa eget vel integer
-                    mattis pulvinar. Eget aliquet{" "}
-                  </p>
-
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      position: "relative",
-                      paddingLeft: "35px",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Post your reply here..."
-                      style={{
-                        width: "100%",
-                        padding: "8px 40px 8px 8px",
-                        borderRadius: "8px",
-                        border: "1px solid #DCDCDC",
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        outline: "none",
-                      }}
-                    />
-                    <img
-                      src={Search_Team}
-                      alt="Search_Team"
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        width: "30px",
-                        height: "30px",
-                      }}
-                    />
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          )}
-
-          {
-
-          }
-
-          {selectedCard &&
-            state.PgList?.announcementList?.announcements?.map((data, index) => (
-              <Modal
-                key={index}
-                show={showTittleModal}
-                onHide={handleCloseTittle}
-                centered
-              >
-                <Modal.Header
-                  className="d-flex justify-content-between align-items-center"
-                  style={{ border: "none" }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                      fontSize: "18px",
-                      marginBottom: "0px",
-                    }}
-                  >
-                    {data.title}
-                  </p>
-                  <CloseCircle
-                    size="32"
-                    color="#222222"
-                    onClick={handleCloseTittle}
-                    style={{ cursor: "pointer" }}
-                  />
-                </Modal.Header>
-                <Modal.Body>
-                  <div className="d-flex justify-content-between">
-                    <p style={{ marginBottom: "0px" }}>
-                      <img src={createprofile.profile || Profile} alt="Ellipse5" width={20} height={20} />
-                      <span
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          color: "#222222",
-                          paddingLeft: "6px",
-                        }}
-                      >
-                        {createprofile.first_name} {createprofile.last_name}
-                      </span>
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        color: "#4B4B4B",
-                        paddingLeft: "6px",
-                      }}
-                    >
-                      {new Date(data.createdat).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      color: "#222222",
-                    }}
-                  >
-                    {data.description}
-                  </p>
-                </Modal.Body>
-              </Modal>
-            ))}
 
         </div>
       )}
@@ -1299,10 +748,854 @@ function DashboardAnnouncement(props) {
 
 
 
+      <Modal show={showMainModal} onHide={handleCloseMain} centered backdrop="static">
+        <Modal.Header
+          className="d-flex justify-content-between align-items-center"
+          style={{ border: "none" }}
+        >
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontWeight: 600,
+              fontSize: "18px",
+              marginBottom: "0px",
+            }}
+          >
+            August
+          </p>
+          <CloseCircle
+            size="32"
+            color="#222222"
+            onClick={handleCloseMain}
+            style={{ cursor: "pointer" }}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex justify-content-between">
+            <p style={{ marginBottom: "0px" }}>
+              <img src={Profile} alt="Ellipse5" width={20} height={20} />
+              <span
+                style={{
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  color: "#222222",
+                  paddingLeft: "6px",
+                }}
+              >
+                Akash
+              </span>
+            </p>
+            <p
+              style={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "12px",
+                color: "#4B4B4B",
+                paddingLeft: "6px",
+              }}
+            >
+              01 September 2024
+            </p>
+          </div>
+
+          <p
+            tyle={{
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+              fontSize: "14px",
+              color: "#222222",
+            }}
+          >
+            {" "}
+            Lorem ipsum dolor sit amet consectetur. Tellus sed libero
+            commodo leo scelerisque turpis in gravida. Et facilisi eget id
+            consequat maecenas diam velit eget accumsan. Nam suspendisse
+            lectus vitae elementum integer. Velit sem nec eget id ac.
+            Sagittis sit mauris massa eget vel integer mattis pulvinar.
+            Eget aliquet{" "}
+          </p>
+
+          <div className="d-flex justify-content-start">
+            <div
+              style={{
+                border: "1px solid #DCDCDC",
+                borderRadius: "60px",
+                height: "36px",
+                width: "69px",
+                marginTop: "6px",
+                marginRight: "6px",
+              }}
+            >
+              <p style={{ padding: "4px 10px" }}>
+                <img src={like} alt="like" width={20} height={20} />
+                <span
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    color: "#222222",
+                    paddingLeft: "4px",
+                  }}
+                >
+                  Like
+                </span>
+              </p>
+            </div>
+            <div
+              className=""
+              style={{
+                border: "1px solid #DCDCDC",
+                borderRadius: "60px",
+                height: "36px",
+                width: "103px",
+                marginTop: "6px",
+              }}
+            >
+              <p style={{ padding: "4px 10px" }}>
+                <img src={message} alt="message" width={20} height={20} />
+                <span
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    color: "#222222",
+                    paddingLeft: "4px",
+                  }}
+                >
+                  Comment
+                </span>
+              </p>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
 
 
 
 
+      <Modal show={showLikeModal} onHide={handleCloseLike} centered backdrop="static">
+        <Modal.Header
+          className="d-flex justify-content-between align-items-center"
+          style={{ border: "none" }}
+        >
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontWeight: 600,
+              fontSize: "18px",
+              marginBottom: "0px",
+            }}
+          >
+            Monthly Report
+          </p>
+          <CloseCircle
+            size="32"
+            color="#222222"
+            onClick={handleCloseLike}
+            style={{ cursor: "pointer" }}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <div className="d-flex justify-content-between">
+              <p style={{ marginBottom: "0px" }}>
+                <img
+                  src={Ellipse5}
+                  alt="Ellipse5"
+                  width={20}
+                  height={20}
+                />
+                <span
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    color: "#222222",
+                    paddingLeft: "6px",
+                  }}
+                >
+                  Akash Rathod
+                </span>
+              </p>
+              <p
+                style={{
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  color: "#4B4B4B",
+                  paddingLeft: "6px",
+                }}
+              >
+                01 September 2024
+              </p>
+            </div>
+
+            <p
+              tyle={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "14px",
+                color: "#222222",
+              }}
+            >
+              {" "}
+              Lorem ipsum dolor sit amet consectetur. Tellus sed libero
+              commodo leo scelerisque turpis in gravida. Et facilisi eget
+              id consequat maecenas diam velit eget accumsan. Nam
+              suspendisse lectus vitae elementum integer. Velit sem nec
+              eget id ac. Sagittis sit mauris massa eget vel integer
+              mattis pulvinar. Eget aliquet{" "}
+            </p>
+
+            <div
+              className="d-flex justify-content-start"
+              style={{
+                borderBottom: "1px solid #DCDCDC",
+                paddingBottom: "10px",
+              }}
+            >
+              <div
+                style={{
+                  border: "1px solid #DCDCDC",
+                  borderRadius: "60px",
+                  height: "36px",
+                  width: "69px",
+                  marginTop: "6px",
+                  marginRight: "6px",
+                }}
+              >
+                <p style={{ padding: "4px 10px" }}>
+                  <img src={like} alt="like" width={20} height={20} />
+                  <span
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      color: "#222222",
+                      paddingLeft: "4px",
+                    }}
+                  >
+                    Like
+                  </span>
+                </p>
+              </div>
+              <div
+                className=""
+                style={{
+                  border: "1px solid #DCDCDC",
+                  borderRadius: "60px",
+                  height: "36px",
+                  width: "103px",
+                  marginTop: "6px",
+                }}
+              >
+                <p style={{ padding: "4px 10px" }}>
+                  <img
+                    src={message}
+                    alt="message"
+                    width={20}
+                    height={20}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      color: "#222222",
+                      paddingLeft: "4px",
+                    }}
+                  >
+                    Comment
+                  </span>
+                </p>
+              </div>
+            </div>
+            {/* --- */}
+            <div className="">
+              <p style={{ marginBottom: "0px" }}>
+                <img
+                  src={Ellipse5}
+                  alt="Ellipse5"
+                  width={20}
+                  height={20}
+                />
+                <span
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    color: "#222222",
+                    paddingLeft: "6px",
+                  }}
+                >
+                  Akash Rathod
+                </span>
+              </p>
+            </div>
+
+            <p
+              tyle={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "14px",
+                color: "#222222",
+              }}
+            >
+              {" "}
+              Lorem ipsum dolor sit amet consectetur. Tellus sed libero
+              commodo leo scelerisque turpis in gravida. Et facilisi eget
+              id consequat maecenas diam velit eget accumsan. Nam
+              suspendisse lectus vitae elementum integer. Velit sem nec
+              eget id ac. Sagittis sit mauris massa eget vel integer
+              mattis pulvinar. Eget aliquet{" "}
+            </p>
+
+            <div className="d-flex justify-content-start">
+              <div>
+                <p style={{ padding: "4px 10px" }}>
+                  <img src={like} alt="like" width={20} height={20} />
+                </p>
+              </div>
+              <div className="">
+                <p style={{ padding: "4px 10px" }}>
+                  <img
+                    src={message}
+                    alt="message"
+                    width={20}
+                    height={20}
+                  />
+                </p>
+              </div>
+            </div>
+
+            <div className="">
+              <p style={{ marginBottom: "0px" }}>
+                <img
+                  src={Ellipse5}
+                  alt="Ellipse5"
+                  width={20}
+                  height={20}
+                />
+                <span
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    color: "#222222",
+                    paddingLeft: "6px",
+                  }}
+                >
+                  Akash Rathod
+                </span>
+              </p>
+            </div>
+
+            <p
+              tyle={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "14px",
+                color: "#222222",
+              }}
+            >
+              {" "}
+              Lorem ipsum dolor sit amet consectetur. Tellus sed libero
+              commodo leo scelerisque turpis in gravida. Et facilisi eget
+              id consequat maecenas diam velit eget accumsan. Nam
+              suspendisse lectus vitae elementum integer. Velit sem nec
+              eget id ac. Sagittis sit mauris massa eget vel integer
+              mattis pulvinar. Eget aliquet{" "}
+            </p>
+
+            <div className="d-flex justify-content-start">
+              <div>
+                <p style={{ padding: "4px 10px" }}>
+                  <img src={like} alt="like" width={20} height={20} />
+                </p>
+              </div>
+              <div className="">
+                <p style={{ padding: "4px 10px" }}>
+                  <img
+                    src={message}
+                    alt="message"
+                    width={20}
+                    height={20}
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+
+      {/* Comment Modal  */}
+      {
+        showCommentModal &&
+
+        <Modal show={showCommentModal} onHide={handleCloseComment} centered backdrop="static">
+          <Modal.Header
+            className="d-flex justify-content-between align-items-center"
+            style={{ border: "none" }}
+          >
+            <p
+              style={{
+                fontFamily: "Gilroy",
+                fontWeight: 600,
+                fontSize: "18px",
+                marginBottom: "0px",
+              }}
+            >
+              Monthly
+            </p>
+            <CloseCircle
+              size="32"
+              color="#222222"
+              onClick={handleCloseComment}
+              style={{ cursor: "pointer" }}
+            />
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+              {
+                commentsList && commentsList.length > 0 ? (
+                  commentsList.map((comments, index) => {
+                    return (
+                      <div key={index}>
+                        {/* Comment header */}
+                        <div className="d-flex justify-content-between">
+                          <p style={{ marginBottom: "0px" }}>
+                            <Image roundedCircle
+                              src={comments.profile && comments.profile !== "0" && comments.profile !== 0 ? comments.profile : Profile}
+                              alt="Profile Image"
+                              width={20}
+                              height={20}
+                            />
+
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                fontSize: "12px",
+                                color: "#222222",
+                                paddingLeft: "6px",
+                              }}
+                            >
+                              {comments.name}
+                            </span>
+                          </p>
+                          <p
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              color: "#4B4B4B",
+                              paddingLeft: "6px",
+                            }}
+                          >
+                            {new Date(comments.created_at).toLocaleString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              // hour: "2-digit",
+                              // minute: "2-digit",
+                              // timeZone: "UTC",
+                            })}
+                          </p>
+                        </div>
+
+                        {/* Comment text */}
+                        <p
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            fontSize: "14px",
+                            color: "#222222",
+                            paddingRight: "10px",
+                          }}
+                        >
+                          {comments.comment || "Lorem ipsum dolor sit amet consectetur..."}
+                        </p>
+
+
+                        <div
+                          className="d-flex justify-content-start p-2 gap-2 "
+                          style={{ paddingLeft: "35px", lineHeight: 1 }}
+                        >
+                          <div>
+                            {/* <p style={{ padding: "0px 5px" }}> */}
+                            <img src={like} alt="like" width={20} height={20} />
+                            {/* </p> */}
+                          </div>
+                          <div>
+                            {/* <p style={{ padding: "0px 5px" }}> */}
+                            <img
+                              onClick={() => handleCreateSubComments(comments.comment_id, index)}
+                              src={message}
+                              alt="message"
+                              width={20}
+                              height={20}
+                              style={{ cursor: "pointer" }}
+                            />
+                            {/* </p> */}
+                          </div>
+                        </div>
+
+                        {/* <div
+                          className="d-flex justify-content-start mb-2"
+                          style={{
+                            borderBottom: "1px solid #DCDCDC",
+                          }}
+                        ></div> */}
+
+
+                        {
+                          comments?.replies?.length > 0 && comments?.replies.map((sub) => {
+                            return <div className="d-flex gap-2 align-items-center">
+
+                              <div
+
+                                style={{ paddingLeft: "30px", }}
+                              > <Image roundedCircle
+                                src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
+                                alt="Profile Image"
+                                width={20}
+                                height={20}
+                                /></div>
+                              <div>
+
+                                <div>
+                                  <span
+                                    style={{
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      fontSize: "12px",
+                                      color: "#222222",
+                                      paddingLeft: "6px",
+                                    }}
+                                  >
+                                    {sub.name}
+                                  </span>
+                                </div>
+
+                                <div style={{
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  fontSize: "12px",
+                                  color: "#222222",
+                                  paddingLeft: "6px",
+                                }}>
+
+                                  {sub?.comment}
+
+                                </div>
+
+                              </div>
+
+
+
+
+
+                            </div>
+                          })
+                        }
+
+
+
+                        {selectedCommentId === comments.comment_id &&
+                          <div>
+
+
+                            {displaySubError && (
+                              <div style={{ color: "red" }}>
+                                <MdError />
+                                <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
+                              </div>
+                            )}
+
+                            <div
+                              style={{
+                                marginTop: "10px",
+                                position: "relative",
+                                paddingLeft: "25px",
+                              }}
+                            >
+                              <textarea
+                                type="text"
+                                placeholder="Post your reply here..."
+                                value={subComment}
+                                onChange={(e) => handleSubCommentsChange(e)}
+
+                                style={{
+                                  width: "100%",
+                                  padding: "8px 40px 8px 8px",
+                                  borderRadius: "8px",
+                                  border: "1px solid #DCDCDC",
+                                  fontFamily: "Gilroy",
+                                  fontSize: "14px",
+                                  outline: "none",
+                                }}
+                                row={0}
+                              />
+                              <img
+                                onClick={handleSendSubComments}
+                                src={Search_Team}
+                                alt="Search_Team"
+                                style={{
+                                  cursor: "pointer",
+                                  position: "absolute",
+                                  right: "10px",
+                                  top: "50%",
+                                  transform: "translateY(-50%)",
+                                  width: "30px",
+                                  height: "30px",
+                                }}
+                              />
+                            </div>
+
+
+
+                          </div>}
+
+                        <div
+                          className="d-flex justify-content-start mb-2"
+                          style={{
+                            borderBottom: "1px solid #DCDCDC",
+                          }}
+                        ></div>
+
+
+
+
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    color: "red",
+                    paddingRight: "10px",
+                  }}>No comments available</p>
+                )
+              }
+
+              {displayError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
+                </div>
+              )}
+
+              <div
+                style={{
+                  marginTop: "10px",
+                  position: "relative",
+                  paddingLeft: "25px",
+                }}
+              >
+                <textarea
+                  type="text"
+                  placeholder="Post your reply here..."
+                  value={Comments}
+                  onChange={(e) => handleCommentsChange(e)}
+
+                  style={{
+                    width: "100%",
+                    padding: "8px 40px 8px 8px",
+                    borderRadius: "8px",
+                    border: "1px solid #DCDCDC",
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
+                  row={0}
+                />
+                <img
+                  onClick={handleSendComments}
+
+                  src={Search_Team}
+                  alt="Search_Team"
+                  style={{
+                    cursor: "pointer",
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: "30px",
+                    height: "30px",
+                  }}
+                />
+              </div>
+
+
+
+            </div>
+          </Modal.Body>
+        </Modal>
+      }
+
+
+
+
+      <Modal
+        show={showTittleModal}
+        onHide={handleCloseTittle}
+        centered
+      >
+        <Modal.Header
+          className="d-flex justify-content-between align-items-center"
+          style={{ border: "none" }}
+        >
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontWeight: 600,
+              fontSize: "18px",
+              marginBottom: "0px",
+            }}
+          >
+            {selectTitleCard?.title}
+          </p>
+          <CloseCircle
+            size="32"
+            color="#222222"
+            onClick={handleCloseTittle}
+            style={{ cursor: "pointer" }}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex justify-content-between">
+            <p style={{ marginBottom: "0px" }}>
+              <Image roundedCircle src={createprofile?.profile || Profile} alt="Ellipse5" width={20} height={20} />
+              <span
+                style={{
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  color: "#222222",
+                  paddingLeft: "6px",
+                }}
+              >
+                {createprofile?.first_name} {createprofile?.last_name}
+              </span>
+            </p>
+            <p
+              style={{
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                fontSize: "12px",
+                color: "#4B4B4B",
+                paddingLeft: "6px",
+              }}
+            >
+              {new Date(selectTitleCard?.createdat).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+              fontSize: "14px",
+              color: "#222222",
+            }}
+          >
+            {selectTitleCard?.description}
+          </p>
+        </Modal.Body>
+      </Modal>
+
+
+
+      {/* 
+      {subCommentModal &&
+        <Modal show={subCommentModal} onHide={handleCloseSubComment} centered backdrop="static">
+          <Modal.Header
+            className="d-flex justify-content-between align-items-center"
+            style={{ border: "none" }}
+          >
+            <p
+              style={{
+                fontFamily: "Gilroy",
+                fontWeight: 600,
+                fontSize: "18px",
+                marginBottom: "0px",
+              }}
+            >
+              Monthly
+            </p>
+            <CloseCircle
+              size="32"
+              color="#222222"
+              onClick={handleCloseSubComment}
+              style={{ cursor: "pointer" }}
+            />
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+
+
+              {displaySubError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
+                </div>
+              )}
+
+              <div
+                style={{
+                  marginTop: "10px",
+                  position: "relative",
+                  paddingLeft: "25px",
+                }}
+              >
+                <textarea
+                  type="text"
+                  placeholder="Post your reply here..."
+                  value={subComment}
+                  onChange={(e) => handleSubCommentsChange(e)}
+
+                  style={{
+                    width: "100%",
+                    padding: "8px 40px 8px 8px",
+                    borderRadius: "8px",
+                    border: "1px solid #DCDCDC",
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
+                  row={0}
+                />
+                <img
+                  onClick={handleSendSubComments}
+                  src={Search_Team}
+                  alt="Search_Team"
+                  style={{
+                    cursor: "pointer",
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: "30px",
+                    height: "30px",
+                  }}
+                />
+              </div>
+
+
+
+            </div>
+          </Modal.Body>
+        </Modal>
+
+      } */}
 
 
 
@@ -1314,6 +1607,7 @@ function DashboardAnnouncement(props) {
         onHide={handleCloseAnnouncement}
         centered
         dialogClassName="custom-modal"
+        backdrop="static"
       >
 
 
@@ -1572,24 +1866,6 @@ function DashboardAnnouncement(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

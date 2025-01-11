@@ -27,7 +27,7 @@ function SettingNewRole({ hostelid }) {
 const [editRoleDetails, setEditRoleDetails] = useState('')
 const [addRole, setAddRole] = useState(false)
 
-
+const [loading, setLoading] = useState(true)
 
 
 
@@ -91,7 +91,7 @@ const [addRole, setAddRole] = useState(false)
     useEffect(() => {
         if (state.Settings.statusCodeForRoleList == 200) {
             setRoleList(state.Settings.getsettingRoleList)
-
+            setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_ROLE_LIST' })
             }, 2000)
@@ -158,7 +158,7 @@ const handleEditForm = (view) =>{
       },[state.Settings.StatusForEditPermission])
 
     return (
-        <div className="container">
+        <div className="container " style={{position:"relative"}}>
             <div className='container d-flex justify-content-between align-items-center'
                 style={{
                     position: "sticky",
@@ -326,7 +326,7 @@ const handleEditForm = (view) =>{
                     })
 
 
-                    :
+                    : !loading &&
                         
                     <div style={{justifyContent:"center",alignItems:"center",marginTop:80}}>
                     <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
@@ -341,7 +341,32 @@ const handleEditForm = (view) =>{
             </div>
 
 
-
+            {loading &&
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        height:"60vh",
+                       display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
+                </div>
+            }
 
 
             {
