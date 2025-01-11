@@ -216,7 +216,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                                 </div>
 
-                                {/* Bill To */}
+                                {/* Bill To*/}
                                 <div>
 
 
