@@ -43,7 +43,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
-import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 // function getFloorName(floor_Id) {
 
@@ -128,9 +128,9 @@ function SettingManage(props) {
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
 const [loading, setLoading] = useState(true)
-  const [customerPermission,setCustomerPermission] = useState("")
-  const [customerAddPermission,setCustomerAddPermission]= useState("")
-  const [customerDeletePermission,setCustomerDeletePermission]=useState("")
+  const [customerPermission, setCustomerPermission] = useState("")
+  const [customerAddPermission, setCustomerAddPermission] = useState("")
+  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
 
   const popupRef = useRef(null);
@@ -224,7 +224,7 @@ const [loading, setLoading] = useState(true)
       state.UsersList.createFloorSuccessStatusCode == 200 ||
       state.PgList.updateFloorSuccessStatusCode == 200
     ) {
-      dispatch({ type: "HOSTELLIST"});
+      dispatch({ type: "HOSTELLIST" });
       // setTimeout(()=>{
       //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
       // },3000)
@@ -367,8 +367,8 @@ const [loading, setLoading] = useState(true)
     }
   };
 
-  console.log("props",props);
-  
+  console.log("props", props);
+
 
   useEffect(() => {
     if (props.pgshow) {
@@ -376,8 +376,8 @@ const [loading, setLoading] = useState(true)
       setEditHostelDetails("");
     }
   }, [props.pgshow]);
-  
-  
+
+
 
   const handleShowAddPg = () => {
     setShowAddPg(true);
@@ -389,7 +389,7 @@ const [loading, setLoading] = useState(true)
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-   const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -699,7 +699,7 @@ const [loading, setLoading] = useState(true)
         }
       });
     },
-    appearOptions);
+      appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -1031,7 +1031,10 @@ const [loading, setLoading] = useState(true)
                   )}
                 </div>
               )} */}
-              <div className="mt-2" >
+              <div className="mt-2" style={{
+                maxHeight: "400px",
+                overflowY: "auto",
+              }}>
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ? 
                     currentItems.map((hostel) => {
@@ -1062,8 +1065,8 @@ const [loading, setLoading] = useState(true)
                         width: "100%",
                         margin: "0px auto",
                         backgroundColor: "",
-                        marginTop:90,
-                        justifyContent:"center",alignItems:"center"
+                        marginTop: 90,
+                        justifyContent: "center", alignItems: "center"
                       }}
                     >
                       <div>
@@ -1108,104 +1111,104 @@ const [loading, setLoading] = useState(true)
                 </div>
               </div>
               {currentItems.length > 0 && (
-              <nav
-                                                   style={{
-                                                     display: "flex",
-                                                     alignItems: "center",
-                                                     justifyContent: "end", // Align dropdown and pagination
-                                                     padding: "10px",
-                                                     // borderTop: "1px solid #ddd",
-                                                   }}
-                                                 >
-                                                   {/* Dropdown for Items Per Page */}
-                                                   <div>
-                                                     <select
-                                                       value={itemsPerPage}
-                                                       onChange={handleItemsPerPageChange}
-                                                       style={{
-                                                         padding: "5px",
-                                                         border: "1px solid #1E45E1",
-                                                         borderRadius: "5px",
-                                                         color: "#1E45E1",
-                                                         fontWeight: "bold",
-                                                         cursor: "pointer",
-                                                         outline: "none",
-                                                         boxShadow: "none",
-                                                         
-                                                       }}
-                                                     >
-                                                      <option value={1}>1</option>
-                                                      <option value={2}>2</option>
-                                                        <option value={5}>5</option>
-                                                       <option value={10}>10</option>
-                                                       <option value={50}>50</option>
-                                                       <option value={100}>100</option>
-                                                     </select>
-                                                   </div>
-                                                 
-                                                   {/* Pagination Controls */}
-                                                   <ul
-                                                     style={{
-                                                       display: "flex",
-                                                       alignItems: "center",
-                                                       listStyleType: "none",
-                                                       margin: 0,
-                                                       padding: 0,
-                                                     }}
-                                                   >
-                                                     {/* Previous Button */}
-                                                     <li style={{ margin: "0 10px" }}>
-                                                       <button
-                                                         style={{
-                                                           padding: "5px",
-                                                           textDecoration: "none",
-                                                           color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                                           cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                                                           borderRadius: "50%",
-                                                           display: "inline-block",
-                                                           minWidth: "30px",
-                                                           textAlign: "center",
-                                                           backgroundColor: "transparent",
-                                                           border: "none",
-                                                         }}
-                                                         onClick={() => handlePageChange(currentPage - 1)}
-                                                         disabled={currentPage === 1}
-                                                       >
-                                                         <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                                                       </button>
-                                                     </li>
-                                                 
-                                                     {/* Current Page Indicator */}
-                                                     <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                                                       {currentPage} of {totalPages}
-                                                     </li>
-                                                 
-                                                     {/* Next Button */}
-                                                     <li style={{ margin: "0 10px" }}>
-                                                       <button
-                                                         style={{
-                                                           padding: "5px",
-                                                           textDecoration: "none",
-                                                           color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                                           cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                                                           borderRadius: "50%",
-                                                           display: "inline-block",
-                                                           minWidth: "30px",
-                                                           textAlign: "center",
-                                                           backgroundColor: "transparent",
-                                                           border: "none",
-                                                         }}
-                                                         onClick={() => handlePageChange(currentPage + 1)}
-                                                         disabled={currentPage === totalPages}
-                                                       >
-                                                         <ArrowRight2
-                                                           size="16"
-                                                           color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                                                         />
-                                                       </button>
-                                                     </li>
-                                                   </ul>
-                                                 </nav>
+                <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+                  // style={{
+                  //   display: "flex",
+                  //   alignItems: "center",
+                  //   justifyContent: "end", 
+                  //   padding: "10px",
+                 
+                  // }}
+                >
+                  {/* Dropdown for Items Per Page */}
+                  <div>
+                    <select
+                      value={itemsPerPage}
+                      onChange={handleItemsPerPageChange}
+                      style={{
+                        padding: "5px",
+                        border: "1px solid #1E45E1",
+                        borderRadius: "5px",
+                        color: "#1E45E1",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        outline: "none",
+                        boxShadow: "none",
+
+                      }}
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
+
+                  {/* Pagination Controls */}
+                  <ul
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      listStyleType: "none",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    {/* Previous Button */}
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                          cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                      </button>
+                    </li>
+
+                    {/* Current Page Indicator */}
+                    <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                      {currentPage} of {totalPages}
+                    </li>
+
+                    {/* Next Button */}
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ArrowRight2
+                          size="16"
+                          color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                        />
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
               )}
 
               {/* <Pagination className="mt-4 d-flex justify-content-end">
@@ -1321,11 +1324,10 @@ const [loading, setLoading] = useState(true)
                                     )
                                   }
                                   className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${
-                                Number(floorClick) == Number(floor.floor_id)
-                                  ? "active-floor"
-                                  : "Navs-Item"
-                              }`}
+                              lign-items-center  ${Number(floorClick) == Number(floor.floor_id)
+                                      ? "active-floor"
+                                      : "Navs-Item"
+                                    }`}
                                   style={{
                                     border: "1px solid rgba(156, 156, 156, 1)",
                                     borderRadius: 16,
@@ -1341,7 +1343,7 @@ const [loading, setLoading] = useState(true)
                                     <div
                                       className={
                                         Number(floorClick) ==
-                                        Number(floor.floor_id)
+                                          Number(floor.floor_id)
                                           ? "ActiveNumberFloor"
                                           : "UnActiveNumberFloor"
                                       }
@@ -1361,7 +1363,7 @@ const [loading, setLoading] = useState(true)
                                     <div
                                       className={
                                         Number(floorClick) ==
-                                        Number(floor.floor_id)
+                                          Number(floor.floor_id)
                                           ? "ActiveFloortext"
                                           : "UnActiveFloortext"
                                       }
@@ -1400,8 +1402,8 @@ const [loading, setLoading] = useState(true)
                                 } */}
 
                                       {typeof floor.floor_name === "string" &&
-                                      floor.floor_name.trim() !== "" &&
-                                      floor.floor_name !== "null"
+                                        floor.floor_name.trim() !== "" &&
+                                        floor.floor_name !== "null"
                                         ? isNaN(floor.floor_name)
                                           ? floor.floor_name
                                           : floor.floor_name
@@ -1454,8 +1456,8 @@ const [loading, setLoading] = useState(true)
                             }}
                           >
                             {floorName !== null &&
-                            floorName !== undefined &&
-                            floorName.trim() !== ""
+                              floorName !== undefined &&
+                              floorName.trim() !== ""
                               ? floorName
                               : ""}
                           </div>
@@ -1500,72 +1502,72 @@ const [loading, setLoading] = useState(true)
                                     }}
                                   >
                                     <div>
-                                    <div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    if (editPermissionError) {
-      handleEditFloor(floorClick, showHostelDetails.id, floorName);
-    }
-  }}
-  style={{
-    cursor: editPermissionError ? "not-allowed" : "pointer",
-    opacity:editPermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Edit 
-      size="16" 
-      color={editPermissionError ? "#888888" : "#1E45E1"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Outfit, sans-serif",
-        color:editPermissionError ? "#888888" : "#222222",
-        cursor:editPermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                                      <div
+                                        className="d-flex gap-2 mb-2 align-items-center"
+                                        onClick={() => {
+                                          if (editPermissionError) {
+                                            handleEditFloor(floorClick, showHostelDetails.id, floorName);
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: editPermissionError ? "not-allowed" : "pointer",
+                                          opacity: editPermissionError ? 0.6 : 1,
+                                        }}
+                                      >
+                                        <div>
+                                          <Edit
+                                            size="16"
+                                            color={editPermissionError ? "#888888" : "#1E45E1"}
+                                          />
+                                        </div>
+                                        <div>
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Outfit, sans-serif",
+                                              color: editPermissionError ? "#888888" : "#222222",
+                                              cursor: editPermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
+                                      </div>
 
 
-<div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    if (!deletePermissionError) {
-      handleShowDelete(floorClick, showHostelDetails.id, floorName);
-    }
-  }}
-  style={{
-    cursor:deletePermissionError ? "not-allowed" : "pointer",
-    opacity:deletePermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Trash 
-      size="16" 
-      color={deletePermissionError ? "#888888" : "red"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        color: deletePermissionError ? "#888888" : "#FF0000",
-        cursor:deletePermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Delete
-    </label>
-  </div>
-</div>
+                                      <div
+                                        className="d-flex gap-2 mb-2 align-items-center"
+                                        onClick={() => {
+                                          if (!deletePermissionError) {
+                                            handleShowDelete(floorClick, showHostelDetails.id, floorName);
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                          opacity: deletePermissionError ? 0.6 : 1,
+                                        }}
+                                      >
+                                        <div>
+                                          <Trash
+                                            size="16"
+                                            color={deletePermissionError ? "#888888" : "red"}
+                                          />
+                                        </div>
+                                        <div>
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              color: deletePermissionError ? "#888888" : "#FF0000",
+                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
 
                                     </div>
                                   </div>

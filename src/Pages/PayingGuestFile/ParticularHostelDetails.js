@@ -25,8 +25,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EmptyState  from '../../Assets/Images/New_images/empty_image.png';
-import {Edit,Trash} from 'iconsax-react';
+import EmptyState from '../../Assets/Images/New_images/empty_image.png';
+import { Edit, Trash } from 'iconsax-react';
 
 function getFormattedRoomId(floor_Id, room_Id) {
   const roomIdString = String(room_Id);
@@ -134,12 +134,12 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
 
     if (props.floorID && props.hostel_Id) {
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoader(true)
-      },100)
+      }, 100)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-     
-      
+
+
     }
   }, [props.hostel_Id, props.floorID])
 
@@ -155,10 +155,10 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setTimeout(()=>{
-        setRoomCountData(state.PgList?.roomCount);  
-      },100)
-                
+      setTimeout(() => {
+        setRoomCountData(state.PgList?.roomCount);
+      }, 100)
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 1000);
@@ -188,7 +188,7 @@ function ParticularHostelDetails(props) {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
       setShowDeleteBed(false)
-      dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
+      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
   }, [state.UsersList?.statusCodeForAddUser]);
@@ -221,7 +221,7 @@ function ParticularHostelDetails(props) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
-   
+
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
@@ -233,26 +233,26 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    dispatch({ type: 'USERLIST',payload:{hostel_id:state.login.selectedHostel_Id} })
+    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 
 
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(2);
+  const [itemsPerPage] = useState(4);
 
   // const [currentItems, setCurrentItems] = useState([]); 
 
 
-useEffect(()=>{
-if(props.floorID){
-  setCurrentPage(1)
-}
-},[props.floorID])
+  useEffect(() => {
+    if (props.floorID) {
+      setCurrentPage(1)
+    }
+  }, [props.floorID])
 
 
-console.log("currentPage",currentPage)
+  console.log("currentPage", currentPage)
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -260,36 +260,36 @@ console.log("currentPage",currentPage)
     ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
-//   console.log("currentItems",currentItems)
-//   console.log("roomCountData",roomCountData)
-//   console.log("roomCountData Length:", roomCountData.length);
-//   console.log("itemsPerPage:", itemsPerPage);
-// console.log("indexOfFirstItem:", indexOfFirstItem);
-// console.log("indexOfLastItem:", indexOfLastItem);
-  
-// const validCurrentPage = Math.max(currentPage, 1); 
+  //   console.log("currentItems",currentItems)
+  //   console.log("roomCountData",roomCountData)
+  //   console.log("roomCountData Length:", roomCountData.length);
+  //   console.log("itemsPerPage:", itemsPerPage);
+  // console.log("indexOfFirstItem:", indexOfFirstItem);
+  // console.log("indexOfLastItem:", indexOfLastItem);
+
+  // const validCurrentPage = Math.max(currentPage, 1); 
 
 
-// const indexOfLastItem = Math.min(validCurrentPage * itemsPerPage, roomCountData.length); 
-// const indexOfFirstItem = Math.max(indexOfLastItem - itemsPerPage, 0); 
+  // const indexOfLastItem = Math.min(validCurrentPage * itemsPerPage, roomCountData.length); 
+  // const indexOfFirstItem = Math.max(indexOfLastItem - itemsPerPage, 0); 
 
 
-// const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-console.log("roomCountData Length:", roomCountData.length);
-console.log("itemsPerPage:", itemsPerPage);
-console.log("indexOfFirstItem:", indexOfFirstItem);
-console.log("indexOfLastItem:", indexOfLastItem);
-console.log("currentItems:", currentItems);
+  console.log("roomCountData Length:", roomCountData.length);
+  console.log("itemsPerPage:", itemsPerPage);
+  console.log("indexOfFirstItem:", indexOfFirstItem);
+  console.log("indexOfLastItem:", indexOfLastItem);
+  console.log("currentItems:", currentItems);
 
 
-  useEffect(()=>{
-    if(roomCountData.length > 0 ){
+  useEffect(() => {
+    if (roomCountData.length > 0) {
       setLoader(false)
-           }
-  
-  },[roomCountData])
+    }
+
+  }, [roomCountData])
 
 
 
@@ -345,7 +345,7 @@ console.log("currentItems:", currentItems);
   const handleShowAddRoom = (floor_Id, hostel_Id) => {
     setShowRoom(true)
     setHostelDetails({ hostel_Id, floor_Id });
-    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null ,Room_Name: null})
+    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
 
   }
   const handlecloseRoom = () => {
@@ -366,12 +366,12 @@ console.log("currentItems:", currentItems);
   }
 
 
-  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name : null})
+  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
 
 
   const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id, Room_Name) => {
     setShowRoom(true)
-    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id , Room_Name:Room_Name})
+    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id, Room_Name: Room_Name })
     setHostelDetails({ room: null, selectedFloor: null })
   }
 
@@ -424,46 +424,46 @@ console.log("currentItems:", currentItems);
 
   }, [state.PgList.statusCodeDeleteBed])
 
-  
+
 
   useEffect(() => {
     const appearOptions = {
-      threshold : 0.5
+      threshold: 0.5
     };
-    const faders = document.querySelectorAll('.fade-in'); 
-    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-      entries.forEach(entry =>{
-        if(!entry.isIntersecting){
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
           return;
         }
-        else{
+        else {
           entry.target.classList.add('appear');
           appearOnScro1l.unobserve(entry.target);
         }
       })
     }, appearOptions)
-    faders.forEach(fader =>{
+    faders.forEach(fader => {
       appearOnScro1l.observe(fader);
     })
   });
- 
 
 
-const popupRef = useRef(null);
+
+  const popupRef = useRef(null);
 
 
-const handleClickOutside = (event) => {
-  if (popupRef.current && !popupRef.current.contains(event.target)) {
-    setActiveRoomId(null); 
-  }
-};
-
-useEffect(() => {
-  document.addEventListener('mousedown', handleClickOutside);
-  return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveRoomId(null);
+    }
   };
-}, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
 
 
@@ -477,55 +477,56 @@ useEffect(() => {
 
 
   return (
-    <> 
- 
-    <div className=''>
- 
-      <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-        { loader &&   <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>}
-      </div>
+    <>
 
-<div className='container'>
-      <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
-        {currentItems.length > 0 && currentItems.map((room, index) => (
-          <>
+      <div className=''>
 
-            <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
+        <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+          {loader && <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+        </div>
 
-              <Card  className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
-                <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
-                    Room no. {room.Room_Name}
-                    {/* <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span> */}
-                  </div>
-                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
-                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                    {activeRoomId == room.Room_Id && (
-                      <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-                        <div>
-                          {/* <div className='d-flex gap-2 mb-2 align-items-center'
+        <div className='container'
+          style={{ maxHeight: "400px", overflowY: "auto" }}>
+          <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
+            {currentItems.length > 0 && currentItems.map((room, index) => (
+              <>
+
+                <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
+
+                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
+                    <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
+                      <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
+                        Room no. {room.Room_Name}
+                        {/* <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span> */}
+                      </div>
+                      <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
+                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        {activeRoomId == room.Room_Id && (
+                          <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                            <div>
+                              {/* <div className='d-flex gap-2 mb-2 align-items-center'
                           onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id, room.Room_Name
                             )}
                           >
@@ -538,33 +539,33 @@ useEffect(() => {
                               <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                             </div>
                           </div> */}
-                          <div 
-  className={`d-flex gap-2 mb-2 align-items-center ${props.editPermissionError ? 'disabled' : ''}`}
-  onClick={() => {
-    if (!props.editPermissionError) {
-      handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
-    }
-  }}
-  style={{ cursor: props.editPermissionError ? 'not-allowed' : 'pointer' }}
->
-  <div>
-    <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
-  </div>
-  <div>
-    <label 
-      style={{ 
-        fontSize: 14, 
-        fontWeight: 500, 
-        fontFamily: "Outfit, sans-serif", 
-        color: props.editPermissionError ? "#888888" : "#222222" 
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                              <div
+                                className={`d-flex gap-2 mb-2 align-items-center ${props.editPermissionError ? 'disabled' : ''}`}
+                                onClick={() => {
+                                  if (!props.editPermissionError) {
+                                    handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
+                                  }
+                                }}
+                                style={{ cursor: props.editPermissionError ? 'not-allowed' : 'pointer' }}
+                              >
+                                <div>
+                                  <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
+                                </div>
+                                <div>
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Outfit, sans-serif",
+                                      color: props.editPermissionError ? "#888888" : "#222222"
+                                    }}
+                                  >
+                                    Edit
+                                  </label>
+                                </div>
+                              </div>
 
-                          {/* <div className='d-flex gap-2 mb-2 align-items-center'
+                              {/* <div className='d-flex gap-2 mb-2 align-items-center'
                             onClick={() => { handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id) }}
                           >
                            
@@ -574,220 +575,220 @@ useEffect(() => {
 
                             <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
                           </div> */}
-                          <div 
-  className={`d-flex gap-2 mb-2 align-items-center ${props.deletePermissionError ? 'disabled' : ''}`} 
-  onClick={() => {
-    if (!props.deletePermissionError) {
-      handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
-    }
-  }}
-  style={{ cursor: props.deletePermissionError ? 'not-allowed' : 'pointer' }}
->
-  <div>
-    <Trash 
-      size="16" 
-      color={props.deletePermissionError ? "#888888" : "red"} 
-    />
-  </div>
-  <label 
-    style={{ 
-      fontSize: 14, 
-      fontWeight: 500, 
-      fontFamily: "Gilroy", 
-      color: props.deletePermissionError ? "#888888" : "rgba(255, 0, 0, 1)" 
-    }}
-  >
-    Delete
-  </label>
-</div>
+                              <div
+                                className={`d-flex gap-2 mb-2 align-items-center ${props.deletePermissionError ? 'disabled' : ''}`}
+                                onClick={() => {
+                                  if (!props.deletePermissionError) {
+                                    handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
+                                  }
+                                }}
+                                style={{ cursor: props.deletePermissionError ? 'not-allowed' : 'pointer' }}
+                              >
+                                <div>
+                                  <Trash
+                                    size="16"
+                                    color={props.deletePermissionError ? "#888888" : "red"}
+                                  />
+                                </div>
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    color: props.deletePermissionError ? "#888888" : "rgba(255, 0, 0, 1)"
+                                  }}
+                                >
+                                  Delete
+                                </label>
+                              </div>
 
-                        </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </Card.Header>
-                <Card.Body className=''>
-                  <div className='row row-gap-3 g-0'>
-                    {room.bed_details && room.bed_details.map((bed, index) => (
-                      <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
-                        <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
+                    </Card.Header>
+                    <Card.Body className=''>
+                      <div className='row row-gap-3 g-0'>
+                        {room.bed_details && room.bed_details.map((bed, index) => (
+                          <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
+                            <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={
-                              <Tooltip variant="secondary" 
-                               id={`tooltip-top`} 
-                                                             >
-                                {bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}
-                              </Tooltip>
-                            }
-                          >
-                            <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34, cursor: "pointer" }}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip variant="secondary"
+                                    id={`tooltip-top`}
+                                  >
+                                    {bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}
+                                  </Tooltip>
+                                }
+                              >
+                                <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34, cursor: "pointer" }}
 
-                              onClick={() => handleDeleteBedConfirmation(bed, room)}
-                            // onClick={()=>handleDeleteBed(bed, room)}
+                                  onClick={() => handleDeleteBedConfirmation(bed, room)}
+                                // onClick={()=>handleDeleteBed(bed, room)}
 
-                            />
-                          </OverlayTrigger>
+                                />
+                              </OverlayTrigger>
 
-                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >{bed.bed_no}</div>
-                        </div>
-                      </div>
-                    ))}
-                    {/* <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
+                              <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >{bed.bed_no}</div>
+                            </div>
+                          </div>
+                        ))}
+                        {/* <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor: "pointer" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
                         <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>Add bed</div>
                       </div>
                     </div> */}
-                    <div 
-  className={`col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
-  onClick={() => {
-    if (!props.addPermissionError) {
-      handleAddBed(props, room.Room_Id);
-    }
-  }}
-  style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
->
-  <div 
-    className='d-flex flex-column align-items-center' 
-    style={{ width: "100%" }}
-  >
-    <div>
-      <FaSquarePlus 
-        style={{ 
-          height: 41, 
-          width: 34, 
-          color: props.addPermissionError ? "#888888" : "#1E45E1" 
-        }} 
-      />
-    </div>
-    <div 
-      className="pt-2" 
-      style={{ 
-        color: props.addPermissionError ? "#888888" : "#1E45E1", 
-        fontSize: 12, 
-        fontWeight: 600, 
-        fontFamily: "Montserrat" 
-      }}
-    >
-      Add bed
-    </div>
-  </div>
-</div>
+                        <div
+                          className={`col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
+                          onClick={() => {
+                            if (!props.addPermissionError) {
+                              handleAddBed(props, room.Room_Id);
+                            }
+                          }}
+                          style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                        >
+                          <div
+                            className='d-flex flex-column align-items-center'
+                            style={{ width: "100%" }}
+                          >
+                            <div>
+                              <FaSquarePlus
+                                style={{
+                                  height: 41,
+                                  width: 34,
+                                  color: props.addPermissionError ? "#888888" : "#1E45E1"
+                                }}
+                              />
+                            </div>
+                            <div
+                              className="pt-2"
+                              style={{
+                                color: props.addPermissionError ? "#888888" : "#1E45E1",
+                                fontSize: 12,
+                                fontWeight: 600,
+                                fontFamily: "Montserrat"
+                              }}
+                            >
+                              Add bed
+                            </div>
+                          </div>
+                        </div>
 
-                  </div>
-                </Card.Body>
-              </Card>
+                      </div>
+                    </Card.Body>
+                  </Card>
 
-            </div>
-
-
-          </>
-        ))
+                </div>
 
 
+              </>
+            ))
 
 
 
-      }
-{
- 
-(!loader && currentItems.length === 0) && 
-          <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", margin: "0px auto" }}>
-            {/* <Alert variant="warning" >
+
+
+            }
+            {
+
+              (!loader && currentItems.length === 0) &&
+              <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", margin: "0px auto" }}>
+                {/* <Alert variant="warning" >
           Currently, no rooms are available.
         </Alert> */}
-            <div>
-            <div className='d-flex  justify-content-center'><img src={EmptyState}  style={{height:240, width:240}} alt="Empty state" /></div>
-              <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
-              <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-              <div className='d-flex justify-content-center pb-1 mt-3'>                   
-                <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }} disabled={props.addPermissionError}  onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
-      
+                <div>
+                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                  <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
+                  <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
+                  <div className='d-flex justify-content-center pb-1 mt-3'>
+                    <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }} disabled={props.addPermissionError} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
 
+
+                  </div>
+                </div>
+                <div>
+
+                </div>
               </div>
-            </div>
+
+
+
+
+
+            }
+
+
+
+          </div>
+        </div>
+
+        {currentItems.length > 0 && <>
+          <div className='row mt-4 ms-2'>
             <div>
+              {/* <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label> */}
+              <label
+                style={{
+                  fontSize: 16,
+                  color: props.addPermissionError ? "#A0A0A0" : "#1E45E1", // Gray when disabled
+                  fontWeight: 600,
+                  fontFamily: "Montserrat",
+                  cursor: props.addPermissionError ? "not-allowed" : "pointer", // Not-allowed cursor when disabled
+                  opacity: props.addPermissionError ? 0.7 : 1, // Dim when disabled
+                }}
+                onClick={
+                  !props.addPermissionError
+                    ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
+                    : undefined
+                }
+              >
+                + Add Room
+              </label>
 
             </div>
           </div>
-
-
-
+        </>
 
 
         }
 
 
 
+        {
+          currentItems.length > 0 &&
+          <Pagination className="position-fixed bottom-0 end-0 mb-0 me-3 d-flex justify-content-end align-items-center">
+            <Pagination.Prev style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+            {renderPagination()}
+            <Pagination.Next style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+        }
+
+        {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details} />}
+        {showRoom && <AddRoom show={showRoom}
+          handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
+        />}
+
+        {
+          showDeleteRoom && <DeleteRoom show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails} />
+        }
+
+
+        {
+          showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
+        }
+        {
+          occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
+        }
+
       </div>
-      </div>
-
-      {currentItems.length > 0 && <>
-        <div className='row mt-4 ms-2'>
-          <div>
-            {/* <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label> */}
-            <label
-  style={{
-    fontSize: 16,
-    color: props.addPermissionError ? "#A0A0A0" : "#1E45E1", // Gray when disabled
-    fontWeight: 600,
-    fontFamily: "Montserrat",
-    cursor: props.addPermissionError ? "not-allowed" : "pointer", // Not-allowed cursor when disabled
-    opacity: props.addPermissionError ? 0.7 : 1, // Dim when disabled
-  }}
-  onClick={
-    !props.addPermissionError
-      ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
-      : undefined
-  }
->
-  + Add Room
-</label>
-
-          </div>
-        </div>
-      </>
-
-
-      }
-
-
-
-      {
-        currentItems.length > 0 &&
-        <Pagination className="position-fixed bottom-0 end-0 mb-0 me-3 d-flex justify-content-end align-items-center">
-          <Pagination.Prev style={{ visibility: "visible" }}
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          />
-          {renderPagination()}
-          <Pagination.Next style={{ visibility: "visible" }}
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          />
-        </Pagination>
-      }
-
-      {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details} />}
-      {showRoom && <AddRoom show={showRoom}
-        handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
-      />}
-
-      {
-        showDeleteRoom && <DeleteRoom show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails} />
-      }
-
-
-      {
-        showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
-      }
-      {
-        occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
-      }
-
-    </div>
     </>
   )
 }

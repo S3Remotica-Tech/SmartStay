@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, deleteBed, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact } from "../Action/UserListAction"
+import { AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, deleteBed, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -1256,6 +1256,7 @@ function* handleCustomerAddContact(action) {
 
  function* handleCustomerAllDetails(action) {
    const response = yield call(customerAllContact,action.payload);
+   console.log("handleCustomerAllDetails",response)
    if (response.status === 200 || response.data.statusCode === 200) {
      yield put({ type: "CUSTOMER_ALL_DETAILS", payload: {response: response.data , statusCode: response.status || response.data.statusCode}  });
    } else {
@@ -1314,6 +1315,100 @@ function* handleCustomerAddContact(action) {
     }
   }
 
+
+
+  function* handleGenerateAdvance(action) {
+   const response = yield call(generateAdvance, action.payload);
+ console.log("handleGenerateAdvance",response)
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "100%",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+ 
+   if (response.status === 200 || response.data.statusCode === 200) {
+     yield put({
+       type: "GENERATE_ADVANCE",
+       payload: {
+         response: response.data,
+         statusCode: response.status || response.data.statusCode,
+       },
+     });
+     toast.success(`${response.data.message}`, {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+     });
+   }  else {
+     yield put({ type: 'ERROR', payload: response.data.message })
+  }
+   if (response) {
+     refreshToken(response);
+   }
+ }
+
+
+
+ function* handleUploadDocument(data) {
+   const response = yield call(uploadDocument, data.payload);
+
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+   };
+
+
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+      toast.success('Created successfully!', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.message})
+   }
+
+   
+   if (response) {
+      refreshToken(response)
+   }
+}
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -1355,9 +1450,11 @@ function* UserListSaga() {
    yield takeEvery('ADDCONFIRMCHECKOUTCUSTOMER', handleAddConfirmCheckout)
    yield takeEvery('CUSTOMERREASSINBED', handleReAssignPage)
    yield takeEvery('CUSTOMERADDCONTACT', handleCustomerAddContact)
-   yield takeEvery('CUSTOMERALLDETAILS', handleCustomerAllDetails)
+   yield takeEvery('CONTACTALLDETAILS', handleCustomerAllDetails)
    yield takeEvery('CONTACTDELETE', handleDeleteContact)
    yield takeEvery('ALL_HOSTEL_DETAILS', handleAllHostelList)
+   yield takeEvery('ADVANCEGENERATE', handleGenerateAdvance)
+   yield takeEvery('UPLOADDOCUMENT', handleUploadDocument)
 
 
 

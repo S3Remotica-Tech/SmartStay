@@ -377,8 +377,16 @@ style={{cursor:"pointer",backgroundColor: "#F9F9F9", position: "absolute",
   
 
 <div>  
-        <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static">
-    <Modal.Header style={{display:"flex", justifyContent:"center"}}>
+        <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static"
+          dialogClassName="custom-modal"
+          style={{
+            width: 388,
+            height: 250,
+            marginLeft: "500px",
+            marginTop: "200px",
+          }}
+        >
+    <Modal.Header style={{display:"flex", justifyContent:"center",borderBottom:'none'}}>
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete asset?</Modal.Title>
       {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteAsset}/> */}
     </Modal.Header>
@@ -386,7 +394,7 @@ style={{cursor:"pointer",backgroundColor: "#F9F9F9", position: "absolute",
    
 
     
-      <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center"}}>
+      <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center",padding:"0px"}}>
             Are you sure you want to delete this asset?
                 </Modal.Body>
 
