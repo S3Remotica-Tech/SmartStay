@@ -28,7 +28,8 @@ const SettingElectricity = ({ hostelid }) => {
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
-
+  const [ EbList, setEbList] = useState([])
+const [ loading , setLoading] = useState(true)
 
   useEffect(() => {
     if (hostelid) {
@@ -199,9 +200,54 @@ const SettingElectricity = ({ hostelid }) => {
   }, [state.PgList.checkEBList])
 
 
+useEffect(()=>{
+  if(state.Settings?.getebStatuscode == 200){
+    setLoading(false)
+setEbList(state.Settings.EBBillingUnitlist)
+  }
+
+},[state.Settings?.getebStatuscode])
+
+
+
+
+
+
+
   return (
 
-    <Container className="mt-4">
+    <Container className="mt-4" style={{position:"relative"}}>
+
+
+{loading &&
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        height:"60vh",
+                       display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
+                </div>
+            }
+
+
+
       <div className='d-flex row mb-4'   style={{position:'sticky' , top:0,   right: 0,
                 left: 0,
                 zIndex: 1000,
@@ -248,8 +294,8 @@ const SettingElectricity = ({ hostelid }) => {
           <SettingsElectricityTable hostelid={hostelid} />
           :
           <>
-            {state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.length > 0 ? (
-              state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
+            {EbList && EbList.length > 0 ? (
+               EbList.map((v, i) => {
                 return (
                   
                   <Row>
@@ -338,7 +384,7 @@ const SettingElectricity = ({ hostelid }) => {
                   </Row>
                 )
               })
-            ) : (
+            ) : !loading && (
               <div style={{alignItems:"center",justifyContent:"center",marginTop:100}}>
                 <div className="d-flex justify-content-center">
                   <img

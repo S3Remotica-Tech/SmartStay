@@ -199,7 +199,7 @@ export async function add_comments(datum) {
 }
 
 export async function add_sub_comments(datum) {
-  return await AxiosConfig.post("",datum, {
+  return await AxiosConfig.post("/announcement/reply_to_comment",datum, {
     data: datum,
   });
 }

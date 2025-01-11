@@ -222,6 +222,7 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
         addSettingStaffList: action.payload.response,
         StatusForaddSettingStaffList: action.payload.statusCode,
       };
+
     case "CLEAR_USER_STAFF_LIST":
       return { ...state, StatusForaddSettingStaffList: 0 };
 
@@ -267,7 +268,7 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
     case "GET_ALL_GENERAL":
       return {
         ...state,
-        settingGetGeneralData: action.payload,
+        settingGetGeneralData: action.payload.response,
         StatusCodeforGetGeneral: action.payload.statusCode,
       };
     case "CLEAR_GET_ALL_GENERAL":

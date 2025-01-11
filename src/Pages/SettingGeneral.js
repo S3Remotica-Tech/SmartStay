@@ -72,12 +72,14 @@ function SettingGeneral() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
-  const [CheckPasswordError,setCheckPasswordError] = useState("")
-  const [newPassError,setNewPassError]=useState("")
+  const [CheckPasswordError, setCheckPasswordError] = useState("")
+  const [newPassError, setNewPassError] = useState("")
   // const [conPassError,setConPassError]=useState("")
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
+  const [loading, setLoading] = useState(true)
+
 
 
   const handleNewPassword = (e) => {
@@ -127,7 +129,7 @@ function SettingGeneral() {
         case "checkPassword":
           setPassError("current Password is required");
           break;
-      
+
         default:
           break;
       }
@@ -137,14 +139,14 @@ function SettingGeneral() {
   };
   const handleCheckPasswordChange = () => {
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if(checkPassword){
+    if (checkPassword) {
       dispatch({
-      
+
         type: "CHECKPASSWORD",
         payload: { id: passId, password: checkPassword },
       });
     }
-    
+
   };
 
   const handlegeneralform = (id) => {
@@ -371,8 +373,8 @@ function SettingGeneral() {
           id: editId,
         },
       });
-    }    
-    else if(firstName && emilId && emilId && Phone && address && password) {
+    }
+    else if (firstName && emilId && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -394,13 +396,13 @@ function SettingGeneral() {
     }
   }, [state.Settings.notmatchpass]);
 
- 
+
 
   useEffect(() => {
     dispatch({ type: "GETALLGENERAL" });
   }, []);
 
-  
+
 
   useEffect(() => {
     if (state.Settings.statusCodeForCheckPassword === 200) {
@@ -435,7 +437,7 @@ function SettingGeneral() {
     setPhoneAlready(state.Settings?.generalMobileError);
   }, [state.Settings?.generalMobileError]);
 
- 
+
   useEffect(() => {
     if (state.Settings?.StatusCodeForSettingGeneral === 200) {
       handleClose();
@@ -535,10 +537,16 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    setGeneralFilterddata(
-      state.Settings?.settingGetGeneralData.response?.general_users
-    );
-  }, [state.Settings?.settingGetGeneralData.response?.general_users]);
+    if (state.Settings?.StatusCodeforGetGeneral == 200) {
+      setGeneralFilterddata(state.Settings?.settingGetGeneralData);
+      setLoading(false)
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
+      }, 1000)
+
+    }
+  }, [state.Settings?.StatusCodeforGetGeneral]);
 
 
 
@@ -549,10 +557,10 @@ function SettingGeneral() {
         case "newPassword":
           setNewPassError("New Password is required");
           break;
-          case "confirmPassword":
-            setConformPasswordError("Confirm Password is required");
-            break;
-      
+        case "confirmPassword":
+          setConformPasswordError("Confirm Password is required");
+          break;
+
         default:
           break;
       }
@@ -565,13 +573,13 @@ function SettingGeneral() {
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
-    if (newPassword && confirmPassword){
+    if (newPassword && confirmPassword) {
       dispatch({
         type: "GENERALPASSWORDCHANGES",
         payload: { id: passId, new_pass: newPassword, cn_pass: confirmPassword },
       });
     }
-   
+
   };
   useEffect(() => {
     if (state.Settings.conformPassNotmatch) {
@@ -601,6 +609,15 @@ function SettingGeneral() {
           height: 83,
         }}
       >
+
+
+
+
+
+
+
+
+
         <div className="container">
           <label
             style={{
@@ -632,7 +649,7 @@ function SettingGeneral() {
                 padding: "12px 16px 12px 16px",
                 border: "none",
                 cursor: "pointer",
-                width:"160px"
+                width: "160px"
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
@@ -643,7 +660,39 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container ">
+      <div class="container " style={{ position: "relative" }}>
+
+        {loading &&
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              height: "50vh",
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
+
+
+
+
         {currentRowGeneral && currentRowGeneral.length > 0 ? (
           currentRowGeneral.map((item) => {
             const imageUrl = item.profile || Profile;
@@ -850,8 +899,8 @@ function SettingGeneral() {
               </div>
             );
           })
-        ) : (
-          <div style={{textAlign:"center",alignItems:"center",marginTop:90}}>
+        ) : !loading && (
+          <div style={{ textAlign: "center", alignItems: "center", marginTop: 90 }}>
             <div style={{ textAlign: "center" }}>
               <img src={EmptyState} width={240} height={240} alt="emptystate" />
             </div>
@@ -1755,7 +1804,7 @@ function SettingGeneral() {
                 {passError}
               </div>
             )}
-            
+
             {/* )} */}
           </div>
         </Modal.Body>

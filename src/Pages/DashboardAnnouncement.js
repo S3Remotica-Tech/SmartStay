@@ -47,7 +47,7 @@ function DashboardAnnouncement(props) {
   const [subComment, setSubComment] = useState('')
   const [displaySubError, setDisplaySubError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
-
+  const [CommentId, setCommentId] = useState('')
 
   const handleSubCommentsChange = (e) => {
     setSubComment(e.target.value)
@@ -57,15 +57,21 @@ function DashboardAnnouncement(props) {
 
 
   console.log("sub-comment", subCommentModal, "comment", showCommentModal)
-
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
 
   const handleCloseSubComment = () => {
     setSubCommentModal(false)
   }
 
-  const handleCreateSubComments = () => {
+  const handleCreateSubComments = (comment_id) => {
+    setCommentId(comment_id)
     setSubCommentModal(true)
-    setShowCommentModal(false)
+    // setShowCommentModal(false)
+    if (selectedCommentId === comment_id) {
+      setSelectedCommentId(null);
+    } else {
+      setSelectedCommentId(comment_id);
+    }
 
   }
 
@@ -86,13 +92,21 @@ function DashboardAnnouncement(props) {
 
   }
 
+
+
+  console.log("selectedCard", selectedCard)
+
   const handleSendSubComments = () => {
     if (!subComment) {
       setDisplaySubError('Please Enter Comments')
       return
     }
     if (subComment) {
-      // dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
+      dispatch({
+        type: 'CREATESUBCOMMENTS', payload: {
+          an_id: selectedCard, comment: subComment, parent_comment_id: CommentId
+        }
+      })
     }
 
   }
@@ -228,7 +242,9 @@ function DashboardAnnouncement(props) {
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-
+      setSubCommentModal(false)
+      setSubComment('')
+      setSelectedCommentId(null);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_SUB_COMMENTS' })
       }, 1000)
@@ -452,7 +468,7 @@ function DashboardAnnouncement(props) {
         <div className="row">
           {state.PgList?.announcementList?.announcements?.length > 0 ? (
             state.PgList?.announcementList?.announcements?.map((data) => (
-              <div className="col-lg-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
 
                 <Card
                   className="card"
@@ -498,11 +514,11 @@ function DashboardAnnouncement(props) {
                         <p style={{ marginBottom: "0px" }}>
                           <Image
                             roundedCircle
-                            src={createprofile?.profile || Profile}
+                            src={data?.profile || Profile}
                             alt="Ellipse5"
                             width={25}
                             height={25}
-                            onClick={() => handleCardClick(data)}
+                          // onClick={() => handleCardClick(data)}
                           />
                           <span
                             style={{
@@ -528,10 +544,10 @@ function DashboardAnnouncement(props) {
                           marginRight: "6px",
                           cursor: "pointer",
                         }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleLikeClick(data);
-                        }}
+                      // onClick={(e) => {
+                      //   e.stopPropagation();
+                      //   handleLikeClick(data);
+                      // }}
                       >
                         <p style={{ padding: "4px 10px" }}>
                           <img src={like} alt="like" width={20} height={20} />
@@ -1215,15 +1231,132 @@ function DashboardAnnouncement(props) {
                           <div>
                             {/* <p style={{ padding: "0px 5px" }}> */}
                             <img
-                              onClick={handleCreateSubComments}
+                              onClick={() => handleCreateSubComments(comments.comment_id, index)}
                               src={message}
                               alt="message"
                               width={20}
                               height={20}
+                              style={{ cursor: "pointer" }}
                             />
                             {/* </p> */}
                           </div>
                         </div>
+
+                        {/* <div
+                          className="d-flex justify-content-start mb-2"
+                          style={{
+                            borderBottom: "1px solid #DCDCDC",
+                          }}
+                        ></div> */}
+
+
+                        {
+                          comments?.replies?.length > 0 && comments?.replies.map((sub) => {
+                            return <div className="d-flex gap-2 align-items-center">
+
+                              <div
+
+                                style={{ paddingLeft: "30px", }}
+                              > <Image roundedCircle
+                                src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
+                                alt="Profile Image"
+                                width={20}
+                                height={20}
+                                /></div>
+                              <div>
+
+                                <div>
+                                  <span
+                                    style={{
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      fontSize: "12px",
+                                      color: "#222222",
+                                      paddingLeft: "6px",
+                                    }}
+                                  >
+                                    {sub.name}
+                                  </span>
+                                </div>
+
+                                <div style={{
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  fontSize: "12px",
+                                  color: "#222222",
+                                  paddingLeft: "6px",
+                                }}>
+
+                                  {sub?.comment}
+
+                                </div>
+
+                              </div>
+
+
+
+
+
+                            </div>
+                          })
+                        }
+
+
+
+                        {selectedCommentId === comments.comment_id &&
+                          <div>
+
+
+                            {displaySubError && (
+                              <div style={{ color: "red" }}>
+                                <MdError />
+                                <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
+                              </div>
+                            )}
+
+                            <div
+                              style={{
+                                marginTop: "10px",
+                                position: "relative",
+                                paddingLeft: "25px",
+                              }}
+                            >
+                              <textarea
+                                type="text"
+                                placeholder="Post your reply here..."
+                                value={subComment}
+                                onChange={(e) => handleSubCommentsChange(e)}
+
+                                style={{
+                                  width: "100%",
+                                  padding: "8px 40px 8px 8px",
+                                  borderRadius: "8px",
+                                  border: "1px solid #DCDCDC",
+                                  fontFamily: "Gilroy",
+                                  fontSize: "14px",
+                                  outline: "none",
+                                }}
+                                row={0}
+                              />
+                              <img
+                                onClick={handleSendSubComments}
+                                src={Search_Team}
+                                alt="Search_Team"
+                                style={{
+                                  cursor: "pointer",
+                                  position: "absolute",
+                                  right: "10px",
+                                  top: "50%",
+                                  transform: "translateY(-50%)",
+                                  width: "30px",
+                                  height: "30px",
+                                }}
+                              />
+                            </div>
+
+
+
+                          </div>}
 
                         <div
                           className="d-flex justify-content-start mb-2"
@@ -1231,6 +1364,9 @@ function DashboardAnnouncement(props) {
                             borderBottom: "1px solid #DCDCDC",
                           }}
                         ></div>
+
+
+
 
                       </div>
                     );
@@ -1378,7 +1514,7 @@ function DashboardAnnouncement(props) {
 
 
 
-
+      {/* 
       {subCommentModal &&
         <Modal show={subCommentModal} onHide={handleCloseSubComment} centered backdrop="static">
           <Modal.Header
@@ -1459,7 +1595,7 @@ function DashboardAnnouncement(props) {
           </Modal.Body>
         </Modal>
 
-      }
+      } */}
 
 
 
