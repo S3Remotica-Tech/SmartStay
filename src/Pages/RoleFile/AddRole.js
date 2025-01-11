@@ -51,6 +51,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
     const handleCheckboxChange = (row, index) => {
         setErrorPermission('')
+        setErrorIsChanged("")
         setCheckboxValues((prevValues) => ({
             ...prevValues,
             [row]: prevValues[row].map((value, i) => (i === index ? !value : value))
@@ -167,6 +168,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     const handleRoleName = (e) => {
         setErrorForm('')
         setRoleName(e.target.value.trim());
+        setErrorIsChanged("")
 
     }
 
@@ -214,26 +216,43 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             isValid = false;
         }
 
+        // const currentState = {
+        //     roleName,
+        //     permissionRole,
+        // };
+
+        // const hasChanges  = initialFormState.current.roleName !== currentState.roleName
+
+
+        // const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
+        // const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+    
+    
+        // if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
+        //     setErrorIsChanged("No changes detected in the form.");
+        //     isValid = false;
+        // }else if(!hasChanges){
+        //     setErrorIsChanged("No changes detected in the form.");
+        //     isValid = false;
+        // }
         const currentState = {
             roleName,
             permissionRole,
         };
-
-        const hasChanges  = initialFormState.current.roleName !== currentState.roleName
-
-
+    
         const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
         const normalizedCurrent = normalizePermissions(currentState.permissionRole);
     
+        const hasRoleNameChanged = initialFormState.current.roleName !== currentState.roleName;
+        const hasPermissionRoleChanged = JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
     
-        if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
+        if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
             setErrorIsChanged("No changes detected in the form.");
             isValid = false;
-        }else if(!hasChanges){
-            setErrorIsChanged("No changes detected in the form.");
-            isValid = false;
+            return;
         }
-
+    
+        console.log("Form is valid. Proceeding to save.");
 
 
         const payload = {
