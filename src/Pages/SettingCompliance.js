@@ -159,6 +159,17 @@ function SettingCompliance({ hostelid }) {
     }, [state.Settings.deletecomplaintStatuscode])
 
 
+    useEffect(() => {
+        if (state.Settings.editComplaintSuccessStatusCode === 200) {
+            dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
+            handleClose()
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_EDIT_COMPLAINT_STATUS_CODE' })
+            }, 500);
+        }
+    }, [state.Settings.editComplaintSuccessStatusCode])
+
+
 
     return (
         <div className="container">

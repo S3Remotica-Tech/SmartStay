@@ -102,7 +102,7 @@ function Vendor() {
     }
   }, [state.ComplianceList.getVendorStatusCode])
 
- 
+
 
   useEffect(() => {
     if (state.ComplianceList.noVendorStatusCode === 201) {
@@ -469,7 +469,7 @@ function Vendor() {
               )}
             </div></>
         ) :
-          <div style={{ width: "100%", fontFamily: "Gilroy" ,position:"relative"}} className='container'>
+          <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
             <div className='container mt-3'
 
@@ -521,12 +521,12 @@ function Vendor() {
                     >
 
                       <div className=''>
-                        <InputGroup 
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'nowrap',
-                          width: '100%',
-                        }}>
+                        <InputGroup
+                          style={{
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                            width: '100%',
+                          }}>
 
                           <FormControl size="lg"
                             value={searchQuery}
@@ -616,8 +616,10 @@ function Vendor() {
                   </div>
 
                   <div>
-                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                      fontWeight: 600, borderRadius: 12, padding: "12px 16px" }}> + Vendor</Button>
+                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{
+                      fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                      fontWeight: 600, borderRadius: 12, padding: "12px 16px"
+                    }}> + Vendor</Button>
                   </div>
                 </div>
               </div>
@@ -636,7 +638,11 @@ function Vendor() {
               </div>
             )}
 
-            <div className='container'>
+            <div className='container'
+              style={{
+                maxHeight: "470px",
+                overflowY: "auto",
+              }}>
 
               <div className='row row-gap-3'>
                 {currentItems && currentItems.map((vendor) => (
@@ -657,7 +663,7 @@ function Vendor() {
                       <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                       <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
                       <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-                    
+
                     </div>
                     <div>
 
@@ -705,18 +711,18 @@ function Vendor() {
             </div>
             {
               currentItems.length > 0 &&
-              <nav
-                style={{
-                  marginBottom:20,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end", // Align dropdown and pagination
-                  padding: "10px",
-                  position:"sticky",
-                                  
-                  right:0,
-                  // borderTop: "1px solid #ddd",
-                }}
+              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+              // style={{
+              //   marginBottom:20,
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "end", // Align dropdown and pagination
+              //   padding: "10px",
+              //   position:"sticky",
+
+              //   right:0,
+
+              // }}
               >
                 {/* Dropdown for Items Per Page */}
                 <div>

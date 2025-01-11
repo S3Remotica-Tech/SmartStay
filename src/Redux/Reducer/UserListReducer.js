@@ -1,3 +1,4 @@
+import { generateAdvance } from "../Action/UserListAction";
 
 const initialState = {
     Users: [],
@@ -84,7 +85,9 @@ const initialState = {
     statusCodeDeleteContact: 0,
     hotelDetailsinPg: [],
     statuscodeForhotelDetailsinPg: 0,
-    noAllHosteListStatusCode: 0
+    noAllHosteListStatusCode: 0,
+    generateAdvance:[],
+    statusCodeForGenerateAdvance:0
 
 }
 
@@ -413,6 +416,13 @@ const UserListReducer = (state = initialState, action) => {
             };
         case "CLEAR_DELETE_CONTACT":
             return { ...state, statusCodeDeleteContact: 0 };
+
+
+
+            case 'GENERATE_ADVANCE':
+                return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
+            case 'REMOVE_GENERATE_ADVANCE':
+                return { ...state, statusCodeForGenerateAdvance: 0 }
 
     }
     return state;

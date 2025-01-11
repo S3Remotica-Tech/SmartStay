@@ -716,11 +716,59 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
                  
                 
               }}>
-                <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
-                  {/* <div className='d-flex  align-items-center justify-content-between' > */}
+                {/* <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
+               
                     <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ height: 20, width: 20 }} />
                     <span className="Title" style={{ fontSize: 14, fontWeight: 500, display: "inline-block", fontFamily: "Gilroy" }}>Home</span>
-                  {/* </div> */}
+            
+                </li> */}
+
+<li
+                  className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`}
+                  onClick={() => handlePageClick('dashboard')}
+                  style={{ listStyleType: "none", display: "flex", alignItems: "center" }}
+                >
+
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke={currentPage === 'dashboard' ? 'blue' : '#4B4B4B'}
+                    style={{ marginRight: 8 }}
+                  >
+                    <path
+                      d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12.9167 15.4168C13.8333 15.4168 14.5833 14.6668 14.5833 13.7502V6.25016C14.5833 5.3335 13.8333 4.5835 12.9167 4.5835C12 4.5835 11.25 5.3335 11.25 6.25016V13.7502C11.25 14.6668 11.9917 15.4168 12.9167 15.4168Z"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M7.08464 15.4165C8.0013 15.4165 8.7513 14.6665 8.7513 13.7498V10.8332C8.7513 9.9165 8.0013 9.1665 7.08464 9.1665C6.16797 9.1665 5.41797 9.9165 5.41797 10.8332V13.7498C5.41797 14.6665 6.15964 15.4165 7.08464 15.4165Z"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      display: "inline-block",
+                      fontFamily: "Gilroy"
+                    }}
+                  >
+                    Home
+                  </span>
                 </li>
 
 
@@ -836,13 +884,13 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList.length)
 
             <ul className=" p-0" >
               <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`}
-               onClick={() => handlePageClick('profile')}
+              //  onClick={() => handlePageClick('profile')}
                 style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
                     src={(profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' || (profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
                     roundedCircle style={{ height: "40px", width: "40px" }} 
-                    onClick={() => handlePageClick('profile')}
+                    // onClick={() => handlePageClick('profile')}
                      />
                 </div>
 

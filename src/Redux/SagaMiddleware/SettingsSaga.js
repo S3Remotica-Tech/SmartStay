@@ -283,8 +283,8 @@ function* handleComplaintTypeAdd(params) {
 function* handleComplaintTypeEdit(action) {
    const response = yield call(Editcomplainttype, action.payload);
 console.log("handleComplaintTypeEdit",response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'COMPLAINT_TYPE_EDIT', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'COMPLAINT_TYPE_EDIT', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
      
      
       var toastStyle = {
