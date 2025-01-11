@@ -22,6 +22,7 @@ import Form from "react-bootstrap/Form";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
+  console.log("state",state)
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
   const [status, setStatus] = useState("");
@@ -263,8 +264,11 @@ const ComplianceList = (props) => {
   };
 
   useEffect(() => {
-    dispatch({ type: "GETUSERSTAFF" });
-  }, []);
+    if(hostel_id){
+      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:hostel_id} });
+    }
+    
+  }, [hostel_id]);
 
   useEffect(() => {
     const appearOptions = {

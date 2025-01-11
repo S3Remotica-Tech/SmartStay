@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import "./BankingAddForm.css";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -23,14 +24,14 @@ function BankingEditTransaction(props) {
   const [transError, setTransError] = useState("");
   const [describtionError, setdescribtionError] = useState("");
   const [id, setId] = useState("");
-  const [error,setError] = useState("")
- const [hostel_id,setHostel_Id]=useState("")
+  const [error, setError] = useState("")
+  const [hostel_id, setHostel_Id] = useState("")
 
- useEffect(() => {
+  useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
+    dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, []);
 
   const handleAccount = (e) => {
@@ -41,7 +42,7 @@ function BankingEditTransaction(props) {
   const handleDate = (e) => {
     setSelectedDate(e.target.value);
     setError("")
-    
+
   };
   const handleAmount = (e) => {
     setAmount(e.target.value);
@@ -95,11 +96,11 @@ function BankingEditTransaction(props) {
 
     setInitialStateAssign({
       account: props.updateTransaction.bank_id || "",
-      selectedDate: props.updateTransaction.date|| "",
+      selectedDate: props.updateTransaction.date || "",
       amount: props.updateTransaction.amount || "",
-      transaction:props.updateTransaction.type || "",
+      transaction: props.updateTransaction.type || "",
       describtion: props.updateTransaction.description || ""
-      
+
     });
   }, []);
 
@@ -136,8 +137,8 @@ function BankingEditTransaction(props) {
     }
     return true;
   };
-  
-  const handleEditSave=()=>{
+
+  const handleEditSave = () => {
     if (!validateField(account, "account"));
     if (!validateField(selectedDate, "selectedDate"));
 
@@ -164,52 +165,52 @@ function BankingEditTransaction(props) {
       return !isNaN(Date.parse(date));
     };
     const isChanged =
-    (isNaN(account)
-      ? String(account).toLowerCase() !==
+      (isNaN(account)
+        ? String(account).toLowerCase() !==
         String(initialStateAssign.account).toLowerCase()
-      : Number(account) !== Number(initialStateAssign.account)) ||
-    (isNaN(transaction)
-      ? String(transaction).toLowerCase() !==
+        : Number(account) !== Number(initialStateAssign.account)) ||
+      (isNaN(transaction)
+        ? String(transaction).toLowerCase() !==
         String(initialStateAssign.transaction).toLowerCase()
-      : Number(transaction) !== Number(initialStateAssign.transaction)) ||
-    
-    (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-      ? new Date(selectedDate).toISOString().split("T")[0] !==
+        : Number(transaction) !== Number(initialStateAssign.transaction)) ||
+
+      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
+        ? new Date(selectedDate).toISOString().split("T")[0] !==
         new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
-      : selectedDate !== initialStateAssign.selectedDate) ||
-    Number(amount) !== Number(initialStateAssign.amount) ||
-    String(describtion) !== String(initialStateAssign.describtion) 
-    
-      
-      if (!isChanged) {
-        setError("No changes detected.");
-        return;
-      }
-      else {
-        setError("");
-      }
-  
+        : selectedDate !== initialStateAssign.selectedDate) ||
+      Number(amount) !== Number(initialStateAssign.amount) ||
+      String(describtion) !== String(initialStateAssign.describtion)
+
+
+    if (!isChanged) {
+      setError("No changes detected.");
+      return;
+    }
+    else {
+      setError("");
+    }
+
     const modifiedDate = new Date(selectedDate);
-modifiedDate.setDate(modifiedDate.getDate() + 1);
+    modifiedDate.setDate(modifiedDate.getDate() + 1);
     dispatch({
       type: "EDITBANKTRANSACTION",
-      payload: {id: id,bank_id:account,date:modifiedDate.toISOString().split("T")[0],amount:amount,type:transaction,desc:describtion},
+      payload: { id: id, bank_id: account, date: modifiedDate.toISOString().split("T")[0], amount: amount, type: transaction, desc: describtion },
     });
   }
 
-  useEffect(()=>{
-    if(state.bankingDetails.statusEditTrasactionCode === 200){
+  useEffect(() => {
+    if (state.bankingDetails.statusEditTrasactionCode === 200) {
       handleCloseTransactionEdit()
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id}});
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_BANK_TRANSACTION" });
       }, 1000);
     }
-  },[state.bankingDetails.statusEditTrasactionCode])
+  }, [state.bankingDetails.statusEditTrasactionCode])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -271,6 +272,7 @@ useEffect(() => {
         onHide={() => handleCloseTransactionEdit()}
         backdrop="static"
         centered
+        className="BankingCustom-modal"
       >
         {/* <Modal.Header closeButton className="text-center">
           <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
@@ -278,7 +280,7 @@ useEffect(() => {
           </Modal.Title>
         </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -369,10 +371,10 @@ useEffect(() => {
               {accountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span> 
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span>
                 </div>
               )}
-              </div>
+            </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
@@ -400,7 +402,7 @@ useEffect(() => {
                     customInput={customDateInput({
                       value:
                         selectedDate instanceof Date &&
-                        !isNaN(selectedDate.getTime())
+                          !isNaN(selectedDate.getTime())
                           ? selectedDate.toLocaleDateString("en-GB")
                           : "",
                     })}
@@ -411,7 +413,7 @@ useEffect(() => {
               {dateError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span> 
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
             </div>
@@ -450,7 +452,7 @@ useEffect(() => {
               {amountError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span> 
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
                 </div>
               )}
             </div>
@@ -504,11 +506,11 @@ useEffect(() => {
                                       )} */}
               </Form.Select>
               {transError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                       <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span> 
-                                      </div>
-                                    )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span>
+                </div>
+              )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -528,7 +530,7 @@ useEffect(() => {
                   id="form-controls"
                   placeholder="Enter description"
                   value={describtion}
-                  onChange={(e)=>handleDescription(e)}
+                  onChange={(e) => handleDescription(e)}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -544,19 +546,19 @@ useEffect(() => {
               {describtionError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span> 
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
         {error && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {error}
-                </div>
-              )}
-        <Modal.Footer className="d-flex justify-content-center">
+          <div style={{ color: "red" }}>
+            <MdError />
+            {error}
+          </div>
+        )}
+        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
@@ -566,9 +568,9 @@ useEffect(() => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginBottom: 15
             }}
-              onClick={handleEditSave}
+            onClick={handleEditSave}
           >
             Save Changes
           </Button>
@@ -577,7 +579,7 @@ useEffect(() => {
 
 
 
-      
+
     </>
   );
 }

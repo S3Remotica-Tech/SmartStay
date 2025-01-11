@@ -48,7 +48,8 @@ const initialState = {
   statusCodeForCheckPassword: 0,
   notmatchpass:"",
   conformPassNotmatch:"",
-  editComplaintSuccessStatusCode:0
+  editComplaintSuccessStatusCode:0,
+  deleteElectricityStatuscode:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -146,6 +147,12 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
       };
     case "CLEAR_GET_EBBILLINGS_STATUS_CODE":
       return { ...state, getebStatuscode: 0 };
+
+
+      case "DELETE_ELECTRICITY":
+        return { ...state, deleteElectricityStatuscode: action.payload.statusCode };
+      case "CLEAR_DELETE_ELECTRICITY_STATUS_CODE":
+        return { ...state, deleteElectricityStatuscode: 0 };
     //settingRole
 
     case "ROLE_LIST":
@@ -222,6 +229,7 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
         addSettingStaffList: action.payload.response,
         StatusForaddSettingStaffList: action.payload.statusCode,
       };
+
     case "CLEAR_USER_STAFF_LIST":
       return { ...state, StatusForaddSettingStaffList: 0 };
 
@@ -267,7 +275,7 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
     case "GET_ALL_GENERAL":
       return {
         ...state,
-        settingGetGeneralData: action.payload,
+        settingGetGeneralData: action.payload.response,
         StatusCodeforGetGeneral: action.payload.statusCode,
       };
     case "CLEAR_GET_ALL_GENERAL":

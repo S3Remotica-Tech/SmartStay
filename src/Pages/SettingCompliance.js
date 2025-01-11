@@ -24,6 +24,12 @@ function SettingCompliance({ hostelid }) {
     const [rowDetails, setRowDetails] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
+const [ loading , setLoading] = useState(true)
+
+
+
+
+
     const handleDeleteClick = () => {
         setShowPopup(true);
     };
@@ -132,6 +138,7 @@ function SettingCompliance({ hostelid }) {
 
     useEffect(() => {
         if (state.Settings.getcomplainttypeStatuscode === 200) {
+            setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_GET_COMPLAINTTYPE_STATUS_CODE' })
             }, 1000);
@@ -172,7 +179,39 @@ function SettingCompliance({ hostelid }) {
 
 
     return (
-        <div className="container">
+        <div className="container" style={{position:"relative"}}>
+
+{loading &&
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            height: "50vh",
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+
+
+
+
+
           <div style={{ position: "sticky",top: 0, zIndex: 1000,backgroundColor: "white" }}>
                <div className="d-flex row mb-4 mt-4">
                  <Col>
@@ -314,7 +353,7 @@ function SettingCompliance({ hostelid }) {
                     }
                 </div>
     </div>
-  ) : (
+  ) :  !loading && (
     <div style={{marginTop:100}}>
       <div className="d-flex justify-content-center">
         <img

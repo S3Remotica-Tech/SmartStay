@@ -1062,6 +1062,7 @@ function Booking(props) {
                                       fontFamily: "Gilroy",
                                       color: "#222222",
                                       paddingLeft: "4px",
+                                      textAlign:"center"
                                     }}
                                     className="ms-2 customer-name"
                                   >

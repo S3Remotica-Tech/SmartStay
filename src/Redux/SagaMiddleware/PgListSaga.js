@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {delete_announcement,deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list,add_announcement} from "../Action/PgListAction";
+import {add_sub_comments,get_comments,add_comments,delete_announcement,deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list,add_announcement} from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -999,6 +999,103 @@ function* handleDeleteAnnounce(action) {
 }
 
 
+function* handleGetComments(action) {
+  const response = yield call (get_comments, action.payload);
+ 
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'GET_COMMENTS' , payload:{response:response.data.comments, statusCode:response.status || response.data.statusCode}})
+     }
+
+ 
+  if(response){
+     refreshToken(response)
+  }
+}
+
+
+
+
+
+
+function* handleCreateComments(action) {
+  const response = yield call (add_comments, action.payload);
+ var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'CREATE_COMMENTS' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
+     toast.success('Send Successfully', {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+ 
+  if(response){
+     refreshToken(response)
+  }
+}
+
+
+
+function* handleCreateSubComments(action) {
+  const response = yield call (add_sub_comments, action.payload);
+ var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'CREATE_SUB_COMMENTS' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
+     toast.success('Send Successfully', {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+ 
+  if(response){
+     refreshToken(response)
+  }
+}
 
 
 
@@ -1044,7 +1141,11 @@ function* PgListSaga() {
   yield takeEvery("HOSTELBASEDADDEB", handleAddHostelElectricity);
   yield takeEvery("ANNOUNCEMENTLIST", handleAnnouncementList);
   yield takeEvery("ADDANNOUNCEMENT", handleAddAnnounce);
-  yield takeEvery("DELETEANNOUNCEMENT", handleDeleteAnnounce);
+  yield takeEvery("DELETEANNOUNCEMENT", handleDeleteAnnounce)
+   yield takeEvery("CREATECOMMENTS",  handleCreateComments)
+  yield takeEvery("GETCOMMENTS",   handleGetComments)
+  yield takeEvery("CREATESUBCOMMENTS",  handleCreateSubComments)
+
 
 
 }

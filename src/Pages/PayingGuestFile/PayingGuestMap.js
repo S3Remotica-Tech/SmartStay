@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 
 
 
@@ -24,7 +24,7 @@ function PayingGuestMap(props) {
     const [showDots, setShowDots] = useState(false);
 
     const [activeHostel, setActiveHostel] = useState(null);
-const [hoverPgCard, setHoverPgCard] = useState(false)
+    const [hoverPgCard, setHoverPgCard] = useState(false)
     const popupRef = useRef(null);
 
     const [selectedHostel, setSelectedHostel] = useState(null);
@@ -57,8 +57,8 @@ const [hoverPgCard, setHoverPgCard] = useState(false)
         setShowDots(!showDots);
     };
 
-    
-    
+
+
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
             setShowDots(false);
@@ -128,39 +128,39 @@ const [hoverPgCard, setHoverPgCard] = useState(false)
     }, [state.PgList?.deletePgError]);
 
 
-const handleMouseEnter = () =>{
-    setHoverPgCard(true)
-}
+    const handleMouseEnter = () => {
+        setHoverPgCard(true)
+    }
 
-const handleMouseLeave = () =>{
-    setHoverPgCard(false)
-}
+    const handleMouseLeave = () => {
+        setHoverPgCard(false)
+    }
 
 
-const handleSelectCard = (hostel) => {
- 
-  
- 
-    setSelectedHostel(hostel); 
-  
-   
-    setSaveHostel((prevHostel) => {
-     
-      const isHostelAlreadyAdded = prevHostel.some((h) => h.id === hostel.id);
-  
-    
-      if (!isHostelAlreadyAdded) {
-        return [...prevHostel, hostel]; 
-      }
-  
-     
-      return prevHostel;
-    });
-  
-  
-    setSelectedHostelHover(true);
-  };
-  
+    const handleSelectCard = (hostel) => {
+
+
+
+        setSelectedHostel(hostel);
+
+
+        setSaveHostel((prevHostel) => {
+
+            const isHostelAlreadyAdded = prevHostel.some((h) => h.id === hostel.id);
+
+
+            if (!isHostelAlreadyAdded) {
+                return [...prevHostel, hostel];
+            }
+
+
+            return prevHostel;
+        });
+
+
+        setSelectedHostelHover(true);
+    };
+
 
 
 
@@ -180,14 +180,15 @@ const handleSelectCard = (hostel) => {
 
 
 
-        <Card className="animated-text ms-0 h-100 " key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
-            height:"auto",
+        <Card className="animated-text ms-0 h-100 " key={props.hostel && props.hostel.id} style={{
+            borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C" : "1px solid #E6E6E6", transition: "border 0.3s ease",
+            height: "auto",
         }}
-        
-         onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                            // onClick={() => handleSelectCard(props.hostel)}
-        
+
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        // onClick={() => handleSelectCard(props.hostel)}
+
         >
             <Card.Body style={{ padding: 10 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
@@ -202,7 +203,7 @@ const handleSelectCard = (hostel) => {
                         </div>
                         <div >
                             <div className='pb-2' onClick={() => handleSelectedHostel(props.hostel.id)} >
-                                <label className='hover-hostel-name' style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: "Gilroy",textDecoration:'underline' }}  >{props.hostel && props.hostel.Name}</label>
+                                <label className='hover-hostel-name' style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: "Gilroy", textDecoration: 'underline' }}  >{props.hostel && props.hostel.Name}</label>
                             </div>
                             <div>
                                 <div style={{ backgroundColor: "rgba(255, 239, 207, 1)", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14, fontFamily: "Gilroy", color: 'rgba(34, 34, 34, 1)' }}>Paying Guest</div>
@@ -211,10 +212,10 @@ const handleSelectCard = (hostel) => {
                     </div>
 
                     <div
-                    
+
                     >
                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                           onClick={handleDotsClick}
+                            onClick={handleDotsClick}
                         // onClick={() => handleDotsClick(props.hostel.id)}
                         >
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
@@ -235,30 +236,30 @@ const handleSelectCard = (hostel) => {
                                             </div>
                                         </div> */}
                                         <div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={!props.editPermissionError ? () => handleEdit(props.hostel) : undefined}
-  style={{
-    pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
-    opacity: props.editPermissionError ? 0.5 : 1, // Visual indication
-    cursor: props.editPermissionError ? "not-allowed" : "pointer", // Cursor style
-  }}
->
-  <div>
-    <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: props.editPermissionError ? "#A0A0A0" : "#222222",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            onClick={!props.editPermissionError ? () => handleEdit(props.hostel) : undefined}
+                                            style={{
+                                                pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
+                                                opacity: props.editPermissionError ? 0.5 : 1, // Visual indication
+                                                cursor: props.editPermissionError ? "not-allowed" : "pointer", // Cursor style
+                                            }}
+                                        >
+                                            <div>
+                                                <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 600,
+                                                        fontFamily: "Gilroy",
+                                                        color: props.editPermissionError ? "#A0A0A0" : "#222222",
+                                                    }}
+                                                >
+                                                    Edit
+                                                </label>
+                                            </div>
+                                        </div>
 
                                         {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleDelete(props.hostel)}
@@ -273,36 +274,36 @@ const handleSelectCard = (hostel) => {
                                             </div>
                                         </div> */}
                                         <div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={!props.editPermissionError ? () => handleDelete(props.hostel) : undefined}
-  style={{
-    pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
-    opacity: props.editPermissionError ? 0.5 : 1, // Dims element when disabled
-    cursor: props.editPermissionError ? "not-allowed" : "pointer", // Changes cursor style
-  }}
->
-  {/* Trash Icon */}
-  <div>
-    <Trash
-      size="16"
-      color={props.editPermissionError ? "#A0A0A0" : "red"} // Gray when disabled
-    />
-  </div>
+                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            onClick={!props.editPermissionError ? () => handleDelete(props.hostel) : undefined}
+                                            style={{
+                                                pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
+                                                opacity: props.editPermissionError ? 0.5 : 1, // Dims element when disabled
+                                                cursor: props.editPermissionError ? "not-allowed" : "pointer", // Changes cursor style
+                                            }}
+                                        >
+                                            {/* Trash Icon */}
+                                            <div>
+                                                <Trash
+                                                    size="16"
+                                                    color={props.editPermissionError ? "#A0A0A0" : "red"} // Gray when disabled
+                                                />
+                                            </div>
 
-  {/* Delete Label */}
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
-      }}
-    >
-      Delete
-    </label>
-  </div>
-</div>
+                                            {/* Delete Label */}
+                                            <div>
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 600,
+                                                        fontFamily: "Gilroy",
+                                                        color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+                                                    }}
+                                                >
+                                                    Delete
+                                                </label>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -313,7 +314,7 @@ const handleSelectCard = (hostel) => {
                         </div>
                     </div>
                 </div>
-                <hr style={{ border: "1px solid #E7E7E7", margin:"0.5rem 0" }} />
+                <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
 
                 <div className='row g-2  d-flex justify-content-between m-0'>
                     <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
@@ -344,7 +345,7 @@ const handleSelectCard = (hostel) => {
 
                 <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap" >
 
-                    <div className='pb-1' style={{lineHeight:1}} >
+                    <div className='pb-1' style={{ lineHeight: 1 }} >
                         <div className='pb-1'>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                         </div>
@@ -355,7 +356,7 @@ const handleSelectCard = (hostel) => {
 
                     </div>
 
-                    <div className='pb-1' style={{lineHeight:1}}>
+                    <div className='pb-1' style={{ lineHeight: 1 }}>
                         <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
                         </div>
@@ -366,7 +367,7 @@ const handleSelectCard = (hostel) => {
 
                     </div>
 
-                    <div className='pb-1' style={{lineHeight:1}}>
+                    <div className='pb-1' style={{ lineHeight: 1 }}>
                         <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
                         </div>
@@ -382,13 +383,13 @@ const handleSelectCard = (hostel) => {
                     </div>
                 </div>
 
-                <div className='mb-2'  style={{lineHeight:1}}>
-                    <div className='mb-1' style={{ }}>
+                <div className='mb-2' style={{ lineHeight: 1 }}>
+                    <div className='mb-1' style={{}}>
                         <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                     </div>
 
-                    <div style={{lineHeight:1.5}}>
+                    <div style={{ lineHeight: 1.5 }}>
                         <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel && props.hostel.Address}</label>
                     </div>
 
@@ -403,11 +404,26 @@ const handleSelectCard = (hostel) => {
 
 
         {show &&
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
-                <Modal.Header style={{display:"flex", justifyContent:"center"}}>
-                    <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete paying guest?</Modal.Title>
-                
-                
+            <Modal show={show} onHide={handleClose} centered backdrop="static"
+                style={{
+                    width: 388,
+                    height: 250,
+                    marginLeft: "500px",
+                    marginTop: "200px",
+                }}>
+                <Modal.Header
+                    style={{
+                        borderBottom: "none",
+                        justifyContent: "center",
+                        display: "flex"
+                    }}>
+                    <Modal.Title style={{
+                        fontSize: 18,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy"
+                    }}>Delete paying guest?</Modal.Title>
+
+
                     {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
                 </Modal.Header>
 
@@ -420,8 +436,8 @@ const handleSelectCard = (hostel) => {
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>
-                Are you sure you want to delete this paying guest?
+                <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+                    Are you sure you want to delete this paying guest?
                 </Modal.Body>
 
 

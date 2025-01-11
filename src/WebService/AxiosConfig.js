@@ -18,7 +18,7 @@ headers: {
 AxiosConfig.interceptors.request.use(
   (config) => {
       const token = cookies.get('token');
-      console.log("token Bearer",token)
+     
       if (token) {
           config.headers['Authorization'] = `Bearer ${token}`;
       }

@@ -32,7 +32,7 @@ const [addUserForm, setAddUserForm] = useState(false)
 const [editDetails, setEditDetails] = useState('')
 const [deleteId, setDeleteId] = useState('')
 const [isConfirmDelete, setIsConfirmDelete] = useState(false)
-
+const [loading, setLoading] = useState(true)
 
     // Function Declare//////////////////////////////////////////////////////////
 
@@ -132,8 +132,14 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
     }, []);
 
     useEffect(() => {
+        if(state.Settings?.StatusForaddSettingStaffList == 200){
         setUsersFilterddata(state.Settings?.addSettingStaffList)
-    }, [state.Settings?.addSettingStaffList])
+        setLoading(false)
+        setTimeout(()=>{
+            dispatch({ type: "CLEAR_USER_STAFF_LIST" });
+        },1000)
+        }
+    }, [state.Settings?.StatusForaddSettingStaffList])
 
 
     useEffect(()=>{
@@ -148,7 +154,38 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
 
     return (
 
-        <div className="container">
+        <div className="container" style={{position:"relative"}}>
+
+{loading &&
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        height:"60vh",
+                       display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
+                </div>
+            }
+
+
+
+
             <div className='d-flex justify-content-between align-items-center'
           style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
             top: 0,
@@ -177,17 +214,10 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
             {showPopup && (
         <div className="d-flex flex-wrap">
         <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding User information.
+          Please add a hostel before adding User information.
         </p>
         
-        {/* <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/> */}
-
+       
       </div>
       
       
@@ -455,7 +485,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                         </tbody>
                     </Table>
 
-                ) : (
+                ) : !loading  && (  
                     <div style={{marginTop:90,alignItems:"center",justifyContent:"center"}}>
                         <div style={{ textAlign: "center" }}>
                             <img

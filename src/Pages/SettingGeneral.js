@@ -72,12 +72,14 @@ function SettingGeneral() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
-  const [CheckPasswordError,setCheckPasswordError] = useState("")
-  const [newPassError,setNewPassError]=useState("")
+  const [CheckPasswordError, setCheckPasswordError] = useState("")
+  const [newPassError, setNewPassError] = useState("")
   // const [conPassError,setConPassError]=useState("")
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
+  const [loading, setLoading] = useState(true)
+
 
 
   const handleNewPassword = (e) => {
@@ -127,7 +129,8 @@ function SettingGeneral() {
         case "checkPassword":
           setPassError("current Password is required");
           break;
-      
+
+
         default:
           break;
       }
@@ -137,14 +140,14 @@ function SettingGeneral() {
   };
   const handleCheckPasswordChange = () => {
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if(checkPassword){
+    if  (checkPassword)  {
       dispatch({
-      
+
         type: "CHECKPASSWORD",
         payload: { id: passId, password: checkPassword },
       });
     }
-    
+
   };
 
   const handlegeneralform = (id) => {
@@ -185,6 +188,8 @@ function SettingGeneral() {
     setAddressError("");
     setPasswordError("");
     setFormError("");
+    setEmailError("")
+    setEmailErrorMessage("")
   };
 
   const handleImageChange = async (event) => {
@@ -201,6 +206,7 @@ function SettingGeneral() {
       } catch (error) {
         console.error("Image compression error:", error);
       }
+      setFormError("");
     }
   };
 
@@ -230,15 +236,17 @@ function SettingGeneral() {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
 
+
+
   const handleEmailId = (e) => {
-    const emailValue = e.target.value;
+    const emailValue = e.target.value.trim();
     setEmailId(emailValue);
-
+  
+    // Regex to validate email
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const hasUpperCase = /[A-Z]/.test(emailValue);
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
     const isValidEmail = emailRegex.test(emailValue);
-
+  
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -251,12 +259,13 @@ function SettingGeneral() {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
-
       setFormError("");
     }
-
+  
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
+  
+ 
 
   const handleAddress = (e) => {
     setAddress(e.target.value);
@@ -271,6 +280,7 @@ function SettingGeneral() {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
+    console.log("user",user)
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
@@ -334,6 +344,10 @@ function SettingGeneral() {
   });
 
   // save
+  function isValidEmail(email) {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    return emailRegex.test(email);
+  }
   const handleSave = () => {
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     if (!validateField(firstName, "firstName"));
@@ -342,23 +356,43 @@ function SettingGeneral() {
     if (!validateField(password, "password"));
     if (!validateField(address, "address"));
 
+    if (!isValidEmail(emilId)) {
+      setEmailError("Please enter a valid Email ID.");
+      return;
+    }
+
     if (edit && editId) {
+      const normalize = (value) => (value === null ? "" : value);
       const isChanged =
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-        lastName !== initialStateAssign.lastName ||
+        // lastName !== initialStateAssign.lastName ||
+        normalize(lastName) !== normalize(initialStateAssign.lastName) ||
         emilId !== initialStateAssign.emilId ||
         address !== initialStateAssign.address ||
-        // file === initialStateAssign.file
-        (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+        // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+        // (!file && initialStateAssign.file);
+        file !== initialStateAssign.file || 
         (!file && initialStateAssign.file);
-
+    
+      console.log("Change detection:");
+      console.log("First Name:", firstName, initialStateAssign.firstName);
+      console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
+      console.log("Last Name:", lastName, initialStateAssign);
+      console.log("Email ID:", emilId, initialStateAssign.emilId);
+      console.log("Address:", address, initialStateAssign.address);
+      console.log("File comparison:", file, initialStateAssign.file);
+      console.log("Is Changed:", isChanged);
+    
       if (!isChanged) {
         setFormError("No changes detected.");
+        console.log("No changes detected. Form not submitted.");
         return;
       } else {
         setFormError("");
       }
+    
+      console.log("Submitting changes to dispatch...");
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -371,8 +405,9 @@ function SettingGeneral() {
           id: editId,
         },
       });
-    }    
-    else if(firstName && emilId && emilId && Phone && address && password) {
+    }
+    
+    else if (firstName && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -394,13 +429,13 @@ function SettingGeneral() {
     }
   }, [state.Settings.notmatchpass]);
 
- 
+
 
   useEffect(() => {
     dispatch({ type: "GETALLGENERAL" });
   }, []);
 
-  
+
 
   useEffect(() => {
     if (state.Settings.statusCodeForCheckPassword === 200) {
@@ -435,7 +470,7 @@ function SettingGeneral() {
     setPhoneAlready(state.Settings?.generalMobileError);
   }, [state.Settings?.generalMobileError]);
 
- 
+
   useEffect(() => {
     if (state.Settings?.StatusCodeForSettingGeneral === 200) {
       handleClose();
@@ -535,10 +570,16 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    setGeneralFilterddata(
-      state.Settings?.settingGetGeneralData.response?.general_users
-    );
-  }, [state.Settings?.settingGetGeneralData.response?.general_users]);
+    if (state.Settings?.StatusCodeforGetGeneral == 200) {
+      setGeneralFilterddata(state.Settings?.settingGetGeneralData);
+      setLoading(false)
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
+      }, 1000)
+
+    }
+  }, [state.Settings?.StatusCodeforGetGeneral]);
 
 
 
@@ -549,10 +590,10 @@ function SettingGeneral() {
         case "newPassword":
           setNewPassError("New Password is required");
           break;
-          case "confirmPassword":
-            setConformPasswordError("Confirm Password is required");
-            break;
-      
+        case "confirmPassword":
+          setConformPasswordError("Confirm Password is required");
+          break;
+
         default:
           break;
       }
@@ -565,13 +606,13 @@ function SettingGeneral() {
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
-    if (newPassword && confirmPassword){
+    if (newPassword && confirmPassword) {
       dispatch({
         type: "GENERALPASSWORDCHANGES",
         payload: { id: passId, new_pass: newPassword, cn_pass: confirmPassword },
       });
     }
-   
+
   };
   useEffect(() => {
     if (state.Settings.conformPassNotmatch) {
@@ -601,6 +642,15 @@ function SettingGeneral() {
           height: 83,
         }}
       >
+
+
+
+
+
+
+
+
+
         <div className="container">
           <label
             style={{
@@ -632,7 +682,7 @@ function SettingGeneral() {
                 padding: "12px 16px 12px 16px",
                 border: "none",
                 cursor: "pointer",
-                width:"160px"
+                width: "160px"
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
@@ -643,7 +693,39 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container ">
+      <div class="container " style={{ position: "relative" }}>
+
+        {loading &&
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              height: "50vh",
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
+
+
+
+
         {currentRowGeneral && currentRowGeneral.length > 0 ? (
           currentRowGeneral.map((item) => {
             const imageUrl = item.profile || Profile;
@@ -850,8 +932,8 @@ function SettingGeneral() {
               </div>
             );
           })
-        ) : (
-          <div style={{textAlign:"center",alignItems:"center",marginTop:90}}>
+        ) : !loading && (
+          <div style={{ textAlign: "center", alignItems: "center", marginTop: 90 }}>
             <div style={{ textAlign: "center" }}>
               <img src={EmptyState} width={240} height={240} alt="emptystate" />
             </div>
@@ -884,15 +966,7 @@ function SettingGeneral() {
       </div>
 
       {currentRowGeneral?.length > 0 && (
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end", // Align dropdown and pagination
-            padding: "10px",
-            // borderTop: "1px solid #ddd",
-          }}
-        >
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>
             <select
@@ -1755,7 +1829,7 @@ function SettingGeneral() {
                 {passError}
               </div>
             )}
-            
+
             {/* )} */}
           </div>
         </Modal.Body>

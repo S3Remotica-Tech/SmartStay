@@ -193,3 +193,9 @@ export async function RecurringRole(reccurring) {
     data: reccurring,
   });
 }
+
+export async function DeleteElectricity(types) {
+  return await AxiosConfig.post("/settings/delete_eb_settings", types, {
+    data: types,
+  });
+}

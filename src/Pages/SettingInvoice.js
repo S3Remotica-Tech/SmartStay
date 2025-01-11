@@ -25,7 +25,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
 
-function SettingInvoice({hostelid}) {
+function SettingInvoice({ hostelid }) {
 
 
   const dispatch = useDispatch();
@@ -62,13 +62,19 @@ function SettingInvoice({hostelid}) {
   const [duedateerrmsg, setDueDateErrmsg] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
   const [edit, setEdit] = useState(false);
-
+  const [loading, setLoading] = useState(true)
   const initialValuesRef = useRef({});
 
   const [editprefix, setEditPrefix] = useState("");
   const [editstartnumber, setEditStartnumber] = useState("");
   const [editHostel, setEditHostel] = useState({ id: "", name: "" });
   const [show, setShow] = useState(false);
+  const [calculatedstartdate, setCalculatedstartdate] = useState("");
+  const [calculatedenddate, setCalculatedEnddate] = useState("");
+  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
+  const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
+  const [every_recurr, setEvery_Recurr] = useState("");
+const [InvoiceList, setInvoiceList] = useState([])
 
 
   useEffect(() => {
@@ -113,12 +119,12 @@ function SettingInvoice({hostelid}) {
   // }, [])
 
   useEffect(() => {
-    if(hostelid){
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
-    }  
+    if (hostelid) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+    }
   }, [hostelid]);
 
-console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
+  console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -137,7 +143,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
         }
       });
     },
-    appearOptions);
+      appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -177,7 +183,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
     }
   };
 
-  
+
 
   const handlePrefix = (e) => {
     setTotalErrmsg("");
@@ -228,7 +234,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
 
   const HandleupdateInvoice = () => {
     if (editprefix && editstartnumber && editHostel) {
-      dispatch({ type: "INVOICESETTINGS", payload: {hostel_Id: editHostel.id, prefix: editprefix,suffix: editstartnumber}});
+      dispatch({ type: "INVOICESETTINGS", payload: { hostel_Id: editHostel.id, prefix: editprefix, suffix: editstartnumber } });
       handleClose();
       setEditHostel({ id: "", name: "" });
       setEditPrefix("");
@@ -245,46 +251,48 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
       startNumber !== undefined && startNumber !== null && startNumber !== "";
     const isSelectedImageValid = selectedImage !== null;
 
-   
+
 
     if (!isPrefixValid || !isStartNumberValid || !selectedDate || !invoicedueDate) {
 
-        if(!isPrefixValid){
-            setPrefixErrmsg("Please enter Prefix");
-        }
+      if (!isPrefixValid) {
+        setPrefixErrmsg("Please enter Prefix");
+      }
 
-        if(!isStartNumberValid){
-            setSuffixfixErrmsg("Please Enter Suffix")
-        }
-        if(!selectedDate){
-            setInvoiceDateErrmsg("Please Select Invoice Date")
-        }
-        if(!invoicedueDate){
-           setDueDateErrmsg("Please Select Due Date")
-        }
-     
+      if (!isStartNumberValid) {
+        setSuffixfixErrmsg("Please Enter Suffix")
+      }
+      if (!selectedDate) {
+        setInvoiceDateErrmsg("Please Select Invoice Date")
+      }
+      if (!invoicedueDate) {
+        setDueDateErrmsg("Please Select Due Date")
+      }
+
       return;
     }
 
-  
 
-     if (isPrefixValid && isStartNumberValid  && hostelid && selectedDate && invoicedueDate) {
-      const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');    
-      const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');    
 
-      dispatch({ type: "INVOICESETTINGS",
-        payload: {hostel_Id: hostelid,prefix: prefix,suffix: startNumber , inv_date :formattedInvoiceDate , due_date: formattedDueDate }});
-      
-        dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
+    if (isPrefixValid && isStartNumberValid && hostelid && selectedDate && invoicedueDate) {
+      const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');
+      const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');
+
+      dispatch({
+        type: "INVOICESETTINGS",
+        payload: { hostel_Id: hostelid, prefix: prefix, suffix: startNumber, inv_date: formattedInvoiceDate, due_date: formattedDueDate }
+      });
+
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
 
       setShowForm(false);
       setPrefix("");
       setStartNumber("");
       setSelectedDate('')
       setInvoiceDueDate('')
-      
 
-    } 
+
+    }
 
     else {
       setSelectedDate('')
@@ -292,7 +300,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
     }
     // else if (isPrefixValid &&isStartNumberValid  && hostelid) {
     //   dispatch({type: "INVOICESETTINGS",payload: { hostel_Id: hostelid, prefix: prefix,suffix: startNumber} });
-      
+
     //   dispatch({ type: "HOSTELLIST" });
 
     //   setShowForm(false);
@@ -303,7 +311,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
     //   setInvoiceDueDate('')
     // }
 
-   
+
   };
 
 
@@ -311,7 +319,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
   useEffect(() => {
     if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid}});
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
       setSelectedDate('')
       setInvoiceDueDate('')
 
@@ -322,7 +330,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
   }, [state.InvoiceList]);
 
 
- 
+
 
   useEffect(() => {
     const filteredHostels = state.UsersList?.hotelDetailsinPg?.filter(
@@ -343,9 +351,9 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  if (state.UsersList.hotelDetailsinPg.length != 0) {
-    var currentRows = state?.UsersList?.hotelDetailsinPg.slice(indexOfFirstRow,indexOfLastRow);
-    var totalPages = Math.ceil(state?.UsersList?.hotelDetailsinPg.length / rowsPerPage);
+  if (InvoiceList.length != 0) {
+    var currentRows = InvoiceList.slice(indexOfFirstRow, indexOfLastRow);
+    var totalPages = Math.ceil(InvoiceList.length / rowsPerPage);
   } else {
     var currentRows = 0;
     var totalPages = 0;
@@ -410,18 +418,14 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
     return pageNumbers;
   };
 
-  const [calculatedstartdate, setCalculatedstartdate] = useState("");
-  const [calculatedenddate, setCalculatedEnddate] = useState("");
-  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
-  const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
-  const [every_recurr, setEvery_Recurr] = useState("");
+  
 
   const handlestartDateChange = (e) => {
-    setCalculatedstartdate(e.target.value); 
+    setCalculatedstartdate(e.target.value);
   };
 
   const handleEndDateChange = (e) => {
-    setCalculatedEnddate(e.target.value); 
+    setCalculatedEnddate(e.target.value);
   };
 
   const handlechangeEvery = (e) => {
@@ -430,34 +434,36 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
 
   const handleSaveRecurring = () => {
 
-    if(!calculatedstartdate || !calculatedenddate){
+    if (!calculatedstartdate || !calculatedenddate) {
 
-        if(!calculatedstartdate){
-            setCalculatedstartdateErrmsg('Please Select date')
-        }
-        if(!calculatedenddate){
-            setCalculatedEnddateErrMsg('Please Select date')
-        }
-     return;
-    }
-
-        dispatch({type: "SETTINGSADDRECURRING",
-        payload: { hostel_id:Number(hostelid) , type:'invoice',recure : 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate)} });
-        setRecurringForm(false);
-    }
-
-
-    useEffect(() => {
-      if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-       
-        dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostelid} });
-          setTimeout(() => {
-              dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING'})
-          }, 100)
+      if (!calculatedstartdate) {
+        setCalculatedstartdateErrmsg('Please Select date')
       }
+      if (!calculatedenddate) {
+        setCalculatedEnddateErrMsg('Please Select date')
+      }
+      return;
+    }
+
+    dispatch({
+      type: "SETTINGSADDRECURRING",
+      payload: { hostel_id: Number(hostelid), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
+    });
+    setRecurringForm(false);
+  }
+
+
+  useEffect(() => {
+    if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
+
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
+      }, 100)
+    }
   }, [state.InvoiceList.settingsaddRecurringStatusCode])
 
-//add invoice
+  //add invoice
   // const handleShow = () => {
   //   setShowForm(true);
   //   setEdit(false);
@@ -465,20 +471,20 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
   // useEffect(() => {
   //   console.log("showForm state:", showform);
   // }, [showform]);
-  
-  const [showPopup, setShowPopup] = useState(false);
-    const handleShow = () => {
-      
-      if (!hostelid) {
-        setShowPopup(true); 
-        return;
-      }
-      setShowForm(true); 
-      setEdit(false);
-      console.log("Form is now showing...");
-    };
 
-    
+  const [showPopup, setShowPopup] = useState(false);
+  const handleShow = () => {
+
+    if (!hostelid) {
+      setShowPopup(true);
+      return;
+    }
+    setShowForm(true);
+    setEdit(false);
+    console.log("Form is now showing...");
+  };
+
+
   const handleCloseForm = () => {
     setShowForm(false);
     setPrefixErrmsg('');
@@ -493,7 +499,7 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
 
   const handleRecurringFormShow = (item) => {
     setRecurringForm(true);
-    
+
     // setCalculatedstartdate(item.inv_startdate || '')
     // setCalculatedEnddate(item.inv_enddate || '')
   };
@@ -508,114 +514,159 @@ console.log("state.UsersList.hotelDetailsinPg",state.UsersList.hotelDetailsinPg)
 
 
   const handleEditInvoice = (editData) => {
-  
+
     setEdit(true);
     setShowForm(true);
     setPrefix(editData.prefix);
     setStartNumber(editData.suffix);
-  
-    const formattedInvDate = new Date(editData.inv_date); 
+
+    const formattedInvDate = new Date(editData.inv_date);
     const formattedDueDate = new Date(editData.due_date);
-  
+
     setSelectedDate(formattedInvDate);
     setInvoiceDueDate(formattedDueDate);
   };
-  
 
- 
-useEffect(() => {
-  if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
-    setSelectedDate(null); 
-  }
-}, [selectedDate]);
 
-useEffect(() => {
-  if (invoicedueDate && isNaN(new Date(invoicedueDate).getTime())) {
-    setInvoiceDueDate(null); 
-  }
-}, [invoicedueDate]);
 
-  
-  
+  useEffect(() => {
+    if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
+      setSelectedDate(null);
+    }
+  }, [selectedDate]);
 
- const customDateInput = React.forwardRef(({ value, onClick }, ref) => (
-  <div
-    className="date-input-container w-100"
-    onClick={onClick}
-    style={{ position: "relative" }}
-  >
-    <FormControl
-      type="text"
-      className="date_input"
-      value={value || "DD/MM/YYYY"} // Show placeholder if no value
-      readOnly
-      ref={ref}
-      style={{
-        border: "1px solid #D9D9D9",
-        borderRadius: 8,
-        padding: "9px 12px",
-        fontSize: 14,
-        fontFamily: "Gilroy",
-        fontWeight: value ? 600 : 500,
-        width: "100%",
-        height: 50,
-        boxSizing: "border-box",
-        boxShadow: "none",
-        cursor: "pointer",
-      }}
-      aria-label="Select date"
-    />
-    <img
-      src={Calendars}
-      style={{
-        height: 24,
-        width: 24,
-        cursor: "pointer",
-        position: "absolute",
-        right: 10,
-        top: "50%",
-        transform: "translateY(-50%)",
-      }}
-      alt="Open calendar"
+  useEffect(() => {
+    if (invoicedueDate && isNaN(new Date(invoicedueDate).getTime())) {
+      setInvoiceDueDate(null);
+    }
+  }, [invoicedueDate]);
+
+
+
+
+  const customDateInput = React.forwardRef(({ value, onClick }, ref) => (
+    <div
+      className="date-input-container w-100"
       onClick={onClick}
-    />
-  </div>
-));
+      style={{ position: "relative" }}
+    >
+      <FormControl
+        type="text"
+        className="date_input"
+        value={value || "DD/MM/YYYY"} // Show placeholder if no value
+        readOnly
+        ref={ref}
+        style={{
+          border: "1px solid #D9D9D9",
+          borderRadius: 8,
+          padding: "9px 12px",
+          fontSize: 14,
+          fontFamily: "Gilroy",
+          fontWeight: value ? 600 : 500,
+          width: "100%",
+          height: 50,
+          boxSizing: "border-box",
+          boxShadow: "none",
+          cursor: "pointer",
+        }}
+        aria-label="Select date"
+      />
+      <img
+        src={Calendars}
+        style={{
+          height: 24,
+          width: 24,
+          cursor: "pointer",
+          position: "absolute",
+          right: 10,
+          top: "50%",
+          transform: "translateY(-50%)",
+        }}
+        alt="Open calendar"
+        onClick={onClick}
+      />
+    </div>
+  ));
 
-  
-  
+useEffect(()=>{
+  if(state?.UsersList?.statuscodeForhotelDetailsinPg == 200){
+    setInvoiceList(state?.UsersList?.hotelDetailsinPg)
+    setLoading(false)
+    setTimeout(()=>{
+dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
+    },1000)
+  }
+
+},[state?.UsersList?.statuscodeForhotelDetailsinPg])
+
+
+
+
 
   return (
-    <div className="container">
-      <div className="pt-4" style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
-                top: 0,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 83,}}>
-        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}>Invoice</h3>
+    <div className="container" style={{ position: "relative" }}>
+
+
+      {loading &&
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            height: "50vh",
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+
+      <div className="pt-4" style={{
+        display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+        top: 0,
+        right: 0,
+        left: 0,
+        zIndex: 1000,
+        backgroundColor: "#FFFFFF",
+        height: 83,
+      }}>
+        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
         <div></div>
-        <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}  
+        <Button onClick={handleShow} style={{
+          fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+        }}
           disabled={showPopup}
-          >+ Invoice</Button>
+        >+ Invoice</Button>
       </div>
 
       {showPopup && (
         <div className="d-flex flex-wrap">
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Invoice information.
-        </p>
-        
-      
-      </div>
-      
-      
+          <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            !Please add a hostel before adding Invoice information.
+          </p>
+
+
+        </div>
+
+
       )}
 
 
-{/* <div>
+      {/* <div>
   {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
     <div className="emptystate">
                 <div className="d-flex justify-content-center">
@@ -655,7 +706,7 @@ useEffect(() => {
 </div> */}
 
 
-{/* <div>
+      {/* <div>
   {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 ? (
     state.UsersList.hostelList
       .filter(item => {
@@ -688,393 +739,393 @@ useEffect(() => {
   )}
 </div> */}
 
-<div>
-  {state?.UsersList?.hotelDetailsinPg && state.UsersList.hotelDetailsinPg.length > 0 ? (
-    state.UsersList.hotelDetailsinPg.every(
-      (item) =>
-        (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-        (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-    ) ? (
-      <div style={{ alignItems: "center", justifyContent: "center", marginTop: 100 }}>
-        <div className="d-flex justify-content-center">
-          <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-        </div>
-        <div
-          className="pb-1 mt-3"
-          style={{
-            textAlign: "center",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: 20,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          No Invoice available
-        </div>
-      </div>
-    ) : (
-      state.UsersList.hotelDetailsinPg.filter((item) => {
-          const isValidPrefix =
-            item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
-          const isValidSuffix =
-            item.suffix && item.suffix !== 'null' && item.suffix !== null && item.suffix !== 0;
-          console.log('Item:', item, 'isValidPrefix:', isValidPrefix, 'isValidSuffix:', isValidSuffix);
-          return isValidPrefix || isValidSuffix;
-        })
-        .map((item) => (
-          <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-            <InvoiceSettingsList
-              item={item}
-              handleRecurringFormShow={handleRecurringFormShow}
-              OnEditInvoice={handleEditInvoice}
-            />
-          </div>
-        ))
-    )
-  ) : (
-    <div style={{alignItems:"center",justifyContent:"center",marginTop:"90px"}}>
-      <div className="d-flex justify-content-center">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-      </div>
-      <div
-        className="pb-1 mt-3"
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          fontSize: 20,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        No Invoice available
-      </div>
-    </div>
-  )}
-</div>
-
-
-
-{showform ? (
-    <div
-  className="modal show"
-  style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif"}}
->
-  <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
-    <Modal.Dialog
-      style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px"}}
-      className="m-0 p-0"
-    >
-      <Modal.Body>
-        <div>
-          <Modal.Header
-            style={{ marginBottom: "30px", position: "relative" }}
-          >
+      <div>
+        {InvoiceList && InvoiceList.length > 0 ? (
+          InvoiceList.every(
+            (item) =>
+              (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+              (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+          ) ? (
+            <div style={{ alignItems: "center", justifyContent: "center", marginTop: 100 }}>
+              <div className="d-flex justify-content-center">
+                <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+              </div>
+              <div
+                className="pb-1 mt-3"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                No Invoice available
+              </div>
+            </div>
+          ) : (
+            state.UsersList.hotelDetailsinPg.filter((item) => {
+              const isValidPrefix =
+                item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
+              const isValidSuffix =
+                item.suffix && item.suffix !== 'null' && item.suffix !== null && item.suffix !== 0;
+              console.log('Item:', item, 'isValidPrefix:', isValidPrefix, 'isValidSuffix:', isValidSuffix);
+              return isValidPrefix || isValidSuffix;
+            })
+              .map((item) => (
+                <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
+                  <InvoiceSettingsList
+                    item={item}
+                    handleRecurringFormShow={handleRecurringFormShow}
+                    OnEditInvoice={handleEditInvoice}
+                  />
+                </div>
+              ))
+          )
+        ) : !loading && (
+          <div style={{ alignItems: "center", justifyContent: "center", marginTop: "90px" }}>
+            <div className="d-flex justify-content-center">
+              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+            </div>
             <div
-              style={{fontSize: 20,fontWeight: 600,fontFamily: "Gilroy"}}
+              className="pb-1 mt-3"
+              style={{
+                textAlign: "center",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 20,
+                color: "rgba(75, 75, 75, 1)",
+              }}
             >
-              {edit ? "Edit Invoice" : "Add Invoice "}
-            </div>
-            <button
-              type="button"
-              className="close"
-              aria-label="Close"
-              onClick={handleCloseForm}
-              style={{ position: "absolute", right: "10px", top: "16px", border: "1px solid black", background: "transparent", cursor: "pointer", padding: "0",display: "flex",justifyContent: "center", alignItems: "center",width: "32px", height: "32px", borderRadius: "50%"}}
-            >
-              <span
-                aria-hidden="true"
-                style={{ fontSize: "30px", paddingBottom: "6px"}}
-              >
-                &times;
-              </span>
-            </button>
-          </Modal.Header>
-        </div>
-
-        <div className="row mt-1">
-          <div className="d-flex row ">
-            <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
-              >
-    <Form.Label
-     style={{ fontFamily: "Gilroy", fontSize: 14,fontWeight: 500, color: "#000",fontStyle: "normal",lineHeight: "normal"}}>
-                  Prefix </Form.Label>
-                <Form.Control
-                  style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px",fontWeight: 500}}
-                  type="text"
-                  placeholder="prefix"
-                  value={prefix}
-                  onChange={(e) => handlePrefix(e)}
-                  // readOnly
-                  // style={inputStyle}
-                />
-              </Form.Group>
-
-              {prefixerrormsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "15px",
-                    color: "red",
-                    // marginBottom: "15px",
-                  }}
-                >
-                  {prefixerrormsg !== " " && (
-                    <MdError
-                      style={{ fontSize: "15px", color: "red" }}
-                    />
-                  )}{" "}
-                  {prefixerrormsg}
-                </p>
-              </div>
-            )}
-            </div>
-      
-       
-            <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label
-                  style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal",lineHeight: "normal",}}
-                >
-                  Suffix
-                </Form.Label>
-                <Form.Control
-                  style={{
-                    padding: "10px",
-                    marginTop: "10px",
-                    fontSize: 14,
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                  }}
-                  type="text"
-                  placeholder="suffix"
-                  value={startNumber}
-                  onChange={(e) => handleSuffix(e)}
-                  // readOnly
-                />
-
-
-
-                {suffixerrormsg.trim() !== "" && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "15px",
-                        color: "red",
-                        marginTop: "3px",
-                      }}
-                    >
-                      {suffixerrormsg !== " " && (
-                        <MdError
-                          style={{ fontSize: "15px", color: "red" }}
-                        />
-                      )}{" "}
-                      {suffixerrormsg}
-                    </p>
-                  </div>
-                )}
-              </Form.Group>
+              No Invoice available
             </div>
           </div>
-          {/* </div> */}
+        )}
+      </div>
 
 
 
-          <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#000",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                }}
-                // style={labelStyle}
-              >
-                Preview
-              </Form.Label>
-              <Form.Control
-                style={{
-                  padding: "10px",
-                  marginTop: "10px",
-                  fontSize: 14,
-                  backgroundColor: "#E7F1FF",
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                }}
-                type="text"
-                placeholder="preview"
-                readOnly
-                value={prefix + startNumber}
-                // readOnly
-              />
-            </Form.Group>
-          </div>
-          
-<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <Form.Group className="mb-2" controlId="purchaseDate">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Invoice date
-              </Form.Label>
-              <div style={{ position: "relative", width: "100%" }}>
- <DatePicker
-  selected={selectedDate}
-onChange={(date) => setSelectedDate(date)} 
-dateFormat="dd/MM/yyyy"
-customInput={
-React.createElement(customDateInput, {
-value: selectedDate
-? selectedDate.toLocaleDateString("en-GB") 
-: "", 
-})
-}
-/>
-
-
-
-
-              </div>
-            </Form.Group>
-
-            {invoicedateerrmsg.trim() !== "" && (
-              <div className="d-flex align-items-center p-1">
-                <MdError style={{ color: "red", marginRight: "5px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {invoicedateerrmsg}
-                </label>
-              </div>
-            )}
-          </div>
-
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <Form.Group className="mb-2" controlId="purchaseDate">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Due date
-              </Form.Label>
-              <div style={{ position: "relative", width: "100%" }}>
-            
-<DatePicker
-  selected={invoicedueDate}
-  onChange={(date) => setInvoiceDueDate(date)} 
- dateFormat="dd/MM/yyyy"
- customInput={
- React.createElement(customDateInput, {
-value: invoicedueDate
-? invoicedueDate.toLocaleDateString("en-GB") 
-: "", 
-})
-}
-/>
-
-
-
-
-
-              </div>
-            </Form.Group>
-
-            {duedateerrmsg.trim() !== "" && (
-              <div className="d-flex align-items-center p-1">
-                <MdError style={{ color: "red", marginRight: "5px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {duedateerrmsg}
-                </label>
-              </div>
-            )}
-          </div>
-         
-
-         
-
-
-          {totalErrormsg.trim() !== "" && (
-            <div>
-              <p
-                style={{
-                  fontSize: "15px",
-                  color: "red",
-                  marginTop: "3px",
-                }}
-              >
-                {totalErrormsg !== " " && (
-                  <MdError style={{ fontSize: "15px", color: "red" }} />
-                )}{" "}
-                {totalErrormsg}
-              </p>
-            </div>
-          )}
-        </div>
-      </Modal.Body>
-
-      <Modal.Footer style={{ border: "none" }}>
-        <Button
-          className="w-100"
-          style={{
-            backgroundColor: "#1E45E1",
-            fontWeight: 500,
-            height: 50,
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Gilroy",
-            fontStyle: "normal",
-            lineHeight: "normal",
-          }}
-          onClick={handleInvoiceSettings}
+      {showform ? (
+        <div
+          className="modal show"
+          style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif" }}
         >
-          Add Invoice
-          {/* {edit ? "Save invoice" : "Add invice"} */}
-        </Button>
-      </Modal.Footer>
-    </Modal.Dialog>
-  </Modal>
-</div>
+          <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
+            <Modal.Dialog
+              style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }}
+              className="m-0 p-0"
+            >
+              <Modal.Body>
+                <div>
+                  <Modal.Header
+                    style={{ marginBottom: "30px", position: "relative" }}
+                  >
+                    <div
+                      style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+                    >
+                      {edit ? "Edit Invoice" : "Add Invoice "}
+                    </div>
+                    <button
+                      type="button"
+                      className="close"
+                      aria-label="Close"
+                      onClick={handleCloseForm}
+                      style={{ position: "absolute", right: "10px", top: "16px", border: "1px solid black", background: "transparent", cursor: "pointer", padding: "0", display: "flex", justifyContent: "center", alignItems: "center", width: "32px", height: "32px", borderRadius: "50%" }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        style={{ fontSize: "30px", paddingBottom: "6px" }}
+                      >
+                        &times;
+                      </span>
+                    </button>
+                  </Modal.Header>
+                </div>
 
-  
-) : null}
+                <div className="row mt-1">
+                  <div className="d-flex row ">
+                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
+                          Prefix </Form.Label>
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
+                          type="text"
+                          placeholder="prefix"
+                          value={prefix}
+                          onChange={(e) => handlePrefix(e)}
+                        // readOnly
+                        // style={inputStyle}
+                        />
+                      </Form.Group>
+
+                      {prefixerrormsg.trim() !== "" && (
+                        <div>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              color: "red",
+                              // marginBottom: "15px",
+                            }}
+                          >
+                            {prefixerrormsg !== " " && (
+                              <MdError
+                                style={{ fontSize: "15px", color: "red" }}
+                              />
+                            )}{" "}
+                            {prefixerrormsg}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+
+                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
+                        >
+                          Suffix
+                        </Form.Label>
+                        <Form.Control
+                          style={{
+                            padding: "10px",
+                            marginTop: "10px",
+                            fontSize: 14,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            lineHeight: "18.83px",
+                            fontWeight: 500,
+                          }}
+                          type="text"
+                          placeholder="suffix"
+                          value={startNumber}
+                          onChange={(e) => handleSuffix(e)}
+                        // readOnly
+                        />
+
+
+
+                        {suffixerrormsg.trim() !== "" && (
+                          <div>
+                            <p
+                              style={{
+                                fontSize: "15px",
+                                color: "red",
+                                marginTop: "3px",
+                              }}
+                            >
+                              {suffixerrormsg !== " " && (
+                                <MdError
+                                  style={{ fontSize: "15px", color: "red" }}
+                                />
+                              )}{" "}
+                              {suffixerrormsg}
+                            </p>
+                          </div>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                  {/* </div> */}
+
+
+
+                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      // style={labelStyle}
+                      >
+                        Preview
+                      </Form.Label>
+                      <Form.Control
+                        style={{
+                          padding: "10px",
+                          marginTop: "10px",
+                          fontSize: 14,
+                          backgroundColor: "#E7F1FF",
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          lineHeight: "18.83px",
+                          fontWeight: 500,
+                        }}
+                        type="text"
+                        placeholder="preview"
+                        readOnly
+                        value={prefix + startNumber}
+                      // readOnly
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="purchaseDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Invoice date
+                      </Form.Label>
+                      <div style={{ position: "relative", width: "100%" }}>
+                        <DatePicker
+                          selected={selectedDate}
+                          onChange={(date) => setSelectedDate(date)}
+                          dateFormat="dd/MM/yyyy"
+                          customInput={
+                            React.createElement(customDateInput, {
+                              value: selectedDate
+                                ? selectedDate.toLocaleDateString("en-GB")
+                                : "",
+                            })
+                          }
+                        />
+
+
+
+
+                      </div>
+                    </Form.Group>
+
+                    {invoicedateerrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center p-1">
+                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {invoicedateerrmsg}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="purchaseDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Due date
+                      </Form.Label>
+                      <div style={{ position: "relative", width: "100%" }}>
+
+                        <DatePicker
+                          selected={invoicedueDate}
+                          onChange={(date) => setInvoiceDueDate(date)}
+                          dateFormat="dd/MM/yyyy"
+                          customInput={
+                            React.createElement(customDateInput, {
+                              value: invoicedueDate
+                                ? invoicedueDate.toLocaleDateString("en-GB")
+                                : "",
+                            })
+                          }
+                        />
+
+
+
+
+
+                      </div>
+                    </Form.Group>
+
+                    {duedateerrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center p-1">
+                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {duedateerrmsg}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+
+
+
+
+
+                  {totalErrormsg.trim() !== "" && (
+                    <div>
+                      <p
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginTop: "3px",
+                        }}
+                      >
+                        {totalErrormsg !== " " && (
+                          <MdError style={{ fontSize: "15px", color: "red" }} />
+                        )}{" "}
+                        {totalErrormsg}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </Modal.Body>
+
+              <Modal.Footer style={{ border: "none" }}>
+                <Button
+                  className="w-100"
+                  style={{
+                    backgroundColor: "#1E45E1",
+                    fontWeight: 500,
+                    height: 50,
+                    borderRadius: 12,
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    fontStyle: "normal",
+                    lineHeight: "normal",
+                  }}
+                  onClick={handleInvoiceSettings}
+                >
+                  Add Invoice
+                  {/* {edit ? "Save invoice" : "Add invice"} */}
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal>
+        </div>
+
+
+      ) : null}
 
 
 
@@ -1153,84 +1204,84 @@ value: invoicedueDate
                 </div>
 
                 <div className="row mt-1">
-                <div class="mb-3 d-flex row">
+                  <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                    <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be</label>
                     </div>
-            <div className="col-lg-4">
-            <select className="form-select border" id="startDayDropdown" 
-            value={calculatedstartdate}
-            onChange={handlestartDateChange}
-              >
-                <option value="">Select</option>
-        {[...Array(31)].map((_, index) => (
-          <option key={index + 1} value={index + 1}>
-            {index + 1}
-          </option>
-        ))}
-      </select>
-            </div>
-            {calculatedstartdateerrmsg.trim() !== "" && (
-                    <div>
-                      <p style={{ fontSize: "15px", color: "red", marginTop: "3px"}}
+                    <div className="col-lg-4">
+                      <select className="form-select border" id="startDayDropdown"
+                        value={calculatedstartdate}
+                        onChange={handlestartDateChange}
                       >
-                        {calculatedstartdateerrmsg !== " " && (
-                          <MdError style={{ fontSize: "15px", color: "red" }} />
-                        )}{" "}
-                        {calculatedstartdateerrmsg}
-                      </p>
+                        <option value="">Select</option>
+                        {[...Array(31)].map((_, index) => (
+                          <option key={index + 1} value={index + 1}>
+                            {index + 1}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  )}
-          </div>
+                    {calculatedstartdateerrmsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        >
+                          {calculatedstartdateerrmsg !== " " && (
+                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                          )}{" "}
+                          {calculatedstartdateerrmsg}
+                        </p>
+                      </div>
+                    )}
+                  </div>
 
-          <div class="mb-3 d-flex row">
+                  <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                    <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be</label>
                     </div>
-            <div className="col-lg-4">
-            <select className="form-select border" id="startDayDropdown" 
-            value={calculatedenddate}
-            onChange={handleEndDateChange}
-              >
-        {[...Array(31)].map((_, index) => (
-          <option key={index + 1} value={index + 1}>
-            {index + 1}
-          </option>
-        ))}
-      </select>
-            </div>
-            {calculatedenddateerrmsg.trim() !== "" && (
-                    <div>
-                      <p style={{ fontSize: "15px", color: "red", marginTop: "3px"}}
+                    <div className="col-lg-4">
+                      <select className="form-select border" id="startDayDropdown"
+                        value={calculatedenddate}
+                        onChange={handleEndDateChange}
                       >
-                        {calculatedenddateerrmsg !== " " && (
-                          <MdError style={{ fontSize: "15px", color: "red" }} />
-                        )}{" "}
-                        {calculatedenddateerrmsg}
-                      </p>
+                        {[...Array(31)].map((_, index) => (
+                          <option key={index + 1} value={index + 1}>
+                            {index + 1}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  )}
-           
-          </div>
+                    {calculatedenddateerrmsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        >
+                          {calculatedenddateerrmsg !== " " && (
+                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                          )}{" "}
+                          {calculatedenddateerrmsg}
+                        </p>
+                      </div>
+                    )}
+
+                  </div>
 
 
-          <div class="mb-3 d-flex row">
+                  <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                    <label for="startDayDropdown" class="form-label">On Every</label>
+                      <label for="startDayDropdown" class="form-label">On Every</label>
                     </div>
-            <div className="col-lg-4">
-            <select class="form-select border" id="startDayDropdown"
-            value={every_recurr}
-            onChange={handlechangeEvery}
-            >
-              <option value="monthly">Monthly</option>
-            
-            </select>
-            </div>
-           
-          </div>
+                    <div className="col-lg-4">
+                      <select class="form-select border" id="startDayDropdown"
+                        value={every_recurr}
+                        onChange={handlechangeEvery}
+                      >
+                        <option value="monthly">Monthly</option>
 
-                
+                      </select>
+                    </div>
+
+                  </div>
+
+
                 </div>
               </Modal.Body>
 

@@ -70,9 +70,9 @@ const InvoicePage = () => {
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
   
-
+const[recurLoader, setRecurLoader]= useState(true)
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -1733,21 +1733,20 @@ setDownloadInvoice(false)
 
 
   useEffect(() => {
-    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 && !loading) {
+    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
      
       setBills(state.InvoiceList.ManualInvoices);
-      setLoading(true); 
+      setLoading(false); 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
-        setLoading(false); 
-      }, 1000);
+             }, 1000);
     }
   }, [state.InvoiceList.ManualInvoices]); 
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
@@ -1762,7 +1761,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT' });
@@ -1776,7 +1775,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE' });
@@ -1790,7 +1789,7 @@ setDownloadInvoice(false)
 
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
-     
+      setLoading(false);
       dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
@@ -1969,7 +1968,7 @@ setDownloadInvoice(false)
             useEffect(() => {
               if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
                 setRecurringBills(state.InvoiceList.RecurringBills);
-            
+                setRecurLoader(false);
                 setTimeout(() => {
                   dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
                 }, 100);
@@ -3037,7 +3036,7 @@ setDownloadInvoice(false)
   </div>
 </>
     ):<>
-    {currentItem && currentItem.length === 0  &&
+    {currentItem && currentItem.length === 0 && !recurLoader  &&
                   <div  style={{marginTop:20}}>
                   <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
@@ -3099,8 +3098,46 @@ setDownloadInvoice(false)
 
                         </thead>
                         <tbody style={{ fontSize: "10px" }}>
+
+                        {recurLoader ? (
+  // Display skeleton placeholders when loading is true
+  Array.from({ length: 5 }).map((_, index) => (
+    <tr key={index}>
+      <td>
+        <div className="d-flex">
+          <span className="i-circle">
+            <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
+          </span>
+          <div>
+            <Skeleton width={80} style={{ padding: "5px", border: "none" }} />
+          </div>
+        </div>
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={50} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={50} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+    </tr>
+  ))
+)
+
+:
  
-  {currentItem && currentItem.length > 0 && currentItem.map((item) => (
+  currentItem && currentItem.length > 0 && currentItem.map((item) => (
       <RecurringBillList  
         key={item.id}
         item={item}
@@ -3110,8 +3147,8 @@ setDownloadInvoice(false)
         // DisplayInvoice={handleDisplayInvoiceDownload}
       />
     ))
-  }
   
+}
 </tbody>
 
                       </Table>
