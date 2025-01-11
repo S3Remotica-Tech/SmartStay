@@ -50,7 +50,7 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
-import User from '../Assets/Images/Ellipse 1.png';
+import User from '../Assets/Images/Profile-complaint.png';
 import Calendor from '../Assets/Images/calendar.png';
 import Badge from 'react-bootstrap/Badge';
 import { Description, Room } from '@material-ui/icons';
@@ -60,7 +60,7 @@ import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import excelimg from "../Assets/Images/New_images/excel (5).png";
+import excelimg from "../Assets/Images/New_images/excel_blue.png";
 
 const Compliance = () => {
 

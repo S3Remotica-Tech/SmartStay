@@ -1,10 +1,10 @@
 import React, { useState ,useEffect} from 'react';
-import Room from '../Assets/Images/Key/image 25Room.png'
-import Custom from '../Assets/Images/Key/image 3Custom.png'
-import Inventry from '../Assets/Images/Key/image 26Inventry.png'
-import Vendor from '../Assets/Images/Key/image 27Vendor.png';
-import Compliant from '../Assets/Images/Key/image 7Compl.png'
-import Bill from '../Assets/Images/Key/image 6bill.png'
+import Room from '../Assets/Images/Key/Rooms.png'
+import Custom from '../Assets/Images/Key/People.png'
+import Inventry from '../Assets/Images/Key/Inventory.png'
+import Vendor from '../Assets/Images/Key/man_setting.png';
+import Compliant from '../Assets/Images/Key/callmsg.png'
+import Bill from '../Assets/Images/Key/Bills.png'
 import Card from 'react-bootstrap/Card';
 
 

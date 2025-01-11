@@ -7,7 +7,7 @@ import hand from "../Assets/Images/hand.png";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import eye from '../Assets/Images/login-password.png'
-import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
+import eyeClosed from '../Assets/Images/Show_password.png';
 import HomeSideComponent from "./HomeSideContent";
 import Logo from '../Assets/Images/New_images/Group.png'
 import Icon from '../Assets/Images/New_images/Smartstay.png'

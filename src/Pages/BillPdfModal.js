@@ -3,7 +3,7 @@ import { Card, Table, Row, Col, Button } from "react-bootstrap";
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
-import Share from '../Assets/Images/New_images/share-07.png'
+import Share from '../Assets/Images/New_images/share.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/Logo-Icon.png'
 import { ImportCurve, CloseCircle, Call, Location, ArrowCircleLeft2, ArrowLeft } from 'iconsax-react';

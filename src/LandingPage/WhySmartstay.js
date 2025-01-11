@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import './whysmart.css';
-import Image from '../Assets/Images/New_images/image 9.png'
+import Image from '../Assets/Images/New_images/PG page.png'
 
 
 const steps = [

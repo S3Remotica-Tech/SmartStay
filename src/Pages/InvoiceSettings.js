@@ -8,7 +8,7 @@ import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
-import dottt from "../Assets/Images/Group 14.png";
+import dottt from "../Assets/Images/dot_round.png";
 import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import InvoiceSettingsList from './InvoicesettingsList';
 import Modal from 'react-bootstrap/Modal';

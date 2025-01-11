@@ -23,7 +23,7 @@ import EBRoomReading from "./EBRoomReading";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import excelimg from "../Assets/Images/New_images/excel (5).png";
+import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";

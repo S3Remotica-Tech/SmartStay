@@ -1,8 +1,8 @@
 import React, { useState ,useRef, useEffect} from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import User from '../Assets/Images/New_images/profile-picture.png';
-import Edit from '../Assets/Images/Edit-Linear-32px.png';
-import Delete from '../Assets/Images/Trash-Linear-32px.png';
+import Edit from '../Assets/Images/Edit-blue.png';
+import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 

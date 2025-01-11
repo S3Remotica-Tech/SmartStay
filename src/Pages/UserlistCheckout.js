@@ -5,7 +5,7 @@ import More from "../Assets/Images/more.svg";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
 import Delete from "../Assets/Images/New_images/trash.png";
-import Edit from "../Assets/Images/edit (1).svg";
+import Edit from "../Assets/Images/edit_blue.svg";
 import Calender from "../Assets/Images/calendar.svg";
 // import { Modal, Pagination, Form, Card } from "react-bootstrap";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";

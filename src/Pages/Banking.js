@@ -7,20 +7,20 @@ import Image from "react-bootstrap/Image";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { borderRadius } from "@mui/system";
-import more from "../Assets/Images/New_images/more (1).png";
+import more from "../Assets/Images/New_images/Three_dots.png";
 import { Dropdown, Table } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "./BankingAddForm";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
-import money from "../Assets/Images/New_images/Group 1261154824.png";
+import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 
 function Banking() {

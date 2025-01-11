@@ -15,8 +15,8 @@ import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
-import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
 import close from '../Assets/Images/close.svg';
 

@@ -52,7 +52,7 @@ import { Room } from "@material-ui/icons";
 import { style } from "@mui/system";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import editliner from "../Assets/Images/Edit-Linear-32px.png";
+import editliner from "../Assets/Images/Edit-blue.png";
 import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";

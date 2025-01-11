@@ -31,7 +31,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Complaintsettings from './Complaint_settings';
 import ExpencesSettings from './Expences_settings';
-import dottt from "../Assets/Images/Group 14.png"
+import dottt from "../Assets/Images/dot_round.png"
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import EBBillingUnitlist from './EBUnitsettingsList';
 import Modal from 'react-bootstrap/Modal';

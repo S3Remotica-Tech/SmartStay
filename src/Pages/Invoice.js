@@ -22,7 +22,7 @@ import Dots from '../Assets/Images/more.png';
 import User from '../Assets/Images/New_images/profile-picture.png';
 
 import NotificationIcon from '../Assets/Images/Notification.png'
-import rectangle from '../Assets/Images/Rectangle 2.png'
+import rectangle from '../Assets/Images/Admin_Profile.png'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -57,7 +57,7 @@ import Emptystate from '../Assets/Images/Empty-State.jpg'
 import BillPdfModal from '../Pages/BillPdfModal'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
+import Closebtn from '../Assets/Images/CloseCircle.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import RecurringBill from '../Pages/RecurringBills';
@@ -3062,7 +3062,11 @@ setDownloadInvoice(false)
                         className="Table_Design"
                         style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
                       >
-                        <thead style={{ backgroundColor: "#E7F1FF" }}>
+                        <thead style={{ backgroundColor: "#E7F1FF",
+                           position:"sticky",
+                           top:0,
+                           zIndex:1,
+                         }}>
 
                           <tr>
                     
@@ -3533,7 +3537,11 @@ setDownloadInvoice(false)
       <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
         <Table className="ebtable mt-2" responsive>
 
-          <thead style={{ backgroundColor: "#E7F1FF" }}>
+          <thead style={{ backgroundColor: "#E7F1FF",
+             position:"sticky",
+             top:0,
+             zIndex:1,
+           }}>
             <tr>
               <th>S.NO</th>  
               <th>Description</th>

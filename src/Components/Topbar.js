@@ -16,7 +16,7 @@ import Men from '../Assets/Images/men.jpg';
 
 function NavScrollExample() {
 
-  // const dispatch = useDispatch();
+
  
   const state = useSelector((state) => state);
   const LoginId = localStorage.getItem("loginId")

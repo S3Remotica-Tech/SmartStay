@@ -2,9 +2,9 @@ import React, { useState, useEffect} from 'react';
 import OwlCarousel from 'react-owl-carousel2';
 import 'react-owl-carousel2/lib/styles.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Image1 from '../Assets/Images/New_images/Ellipse 5.png'
-import Image2 from '../Assets/Images/profile/men.jpg'
-import Image3 from '../Assets/Images/profile/men2.jpg';
+import Image1 from '../Assets/Images/New_images/Anil Kumar.png'
+import Image2 from '../Assets/Images/profile/Akshey kumar.jpg'
+import Image3 from '../Assets/Images/profile/Akash kumar.jpg';
 import {QuoteUp,QuoteDown} from 'iconsax-react';
 import Image from 'react-bootstrap/Image';
 import './Testimo.css'

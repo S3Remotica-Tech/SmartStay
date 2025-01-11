@@ -7,7 +7,7 @@ import minus from "../Assets/Images/New_images/minus-square.png";
 import Ellipse1 from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../Assets/Images/New_images/trash.png";
-import Edit from "../Assets/Images/Edit-Linear-32px.png";
+import Edit from "../Assets/Images/Edit-blue.png";
 import CustomerForm from "./UserlistWalkinForm";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";

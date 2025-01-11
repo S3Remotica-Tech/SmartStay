@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import Logo from '../Assets/Images/New_images/Group 2.svg';
+import Logo from '../Assets/Images/New_images/Smartstay_LOGO.svg';
 import Smart from '../Assets/Images/New_images/logo_front.png';
 import { Link, Element, animateScroll as scroll } from 'react-scroll';
 import FirstPage from './FirstPage';

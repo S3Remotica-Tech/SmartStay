@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import Green from '../../Assets/Images/New_images/Frame.png'
-import White from '../../Assets/Images/New_images/Frame (1).png'
+import White from '../../Assets/Images/New_images/empty_bed.png'
 import AddBed from '../../Assets/Images/New_images/add.png';
 import AddRoom from './AddRoom';
 import AddBedUI from './AddBed';
