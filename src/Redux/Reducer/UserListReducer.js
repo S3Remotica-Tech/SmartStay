@@ -87,7 +87,9 @@ const initialState = {
     statuscodeForhotelDetailsinPg: 0,
     noAllHosteListStatusCode: 0,
     generateAdvance:[],
-    statusCodeForGenerateAdvance:0
+    statusCodeForGenerateAdvance:0,
+    statusCodeForUploadDocument:0,
+    uploaddocu:[]
 
 }
 
@@ -423,6 +425,13 @@ const UserListReducer = (state = initialState, action) => {
                 return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
             case 'REMOVE_GENERATE_ADVANCE':
                 return { ...state, statusCodeForGenerateAdvance: 0 }
+
+
+
+                case 'UPLOAD_DOCUMENT':
+                    return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
+                case 'CLEAR_UPLOAD_DOCUMENT':
+                    return { ...state, statusCodeForUploadDocument: 0 }
 
     }
     return state;
