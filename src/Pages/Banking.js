@@ -621,20 +621,19 @@ function Banking() {
                     disabled={bankingAddPermission}
                     onClick={handleShowForm}
                     style={{
-                      fontSize: 14,
+                      fontSize: 15,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 52,
+                      height: 50,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 123,
+                      width: 113,
                       padding: "16px, 24px, 16px, 24px",
-                      color: "#FFF",
                       fontFamily: "Gilroy",
                     }}
                   >
                     {" "}
-                    + Add Bank
+                    + Bank
                   </Button>
                 </div>
               </div>
@@ -667,7 +666,7 @@ function Banking() {
                       }}
                     >
                       {/* Card Body */}
-                      <div className="card-body">
+                      <div className="card-body" style={{ overflowY: "auto", scrollBehavior: "smooth" }}>
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
                             <p
@@ -1299,6 +1298,7 @@ function Banking() {
 
                             <td
                               style={{
+                                cursor: "pointer",
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "16px",
@@ -1445,14 +1445,20 @@ function Banking() {
               )}
 
               {currentRowTransaction?.length > 0 && (
-                <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-                  // style={{
-                  //   display: "flex",
-                  //   alignItems: "center",
-                  //   justifyContent: "end", // Align dropdown and pagination
-                  //   padding: "10px",
-                   
-                  // }}
+                <nav
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                    padding: "10px",
+                    position: "fixed",
+                    bottom: "10px",
+                    right: "10px",
+                    backgroundColor: "#fff",
+                    borderRadius: "5px",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    zIndex: 1000,
+                  }}
                 >
                   {/* Dropdown for Items Per Page */}
                   <div>

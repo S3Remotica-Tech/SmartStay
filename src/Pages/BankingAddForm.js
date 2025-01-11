@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
+import "./BankingAddForm.css";
+
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -14,18 +16,18 @@ function BankingAddForm(props) {
   const [bankName, setBankName] = useState("");
   const [ifscCode, setIfscCode] = useState("");
   const [description, setDescription] = useState("");
-  const[bankId,setBankId]=useState("")
+  const [bankId, setBankId] = useState("")
   const [error, setError] = useState("");
   const [accountNameError, setaccountnameError] = useState("");
   const [accountNumberError, setaccountNumberError] = useState("");
   const [bankNameError, setBankNameError] = useState("");
   const [ifcsCodeError, setIfcsCodeError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
-   const [hostel_id,setHostel_Id]=useState("")
-  
-   useEffect(() => {
-      setHostel_Id(state.login.selectedHostel_Id)
-    }, [state?.login?.selectedHostel_Id]);
+  const [hostel_id, setHostel_Id] = useState("")
+
+  useEffect(() => {
+    setHostel_Id(state.login.selectedHostel_Id)
+  }, [state?.login?.selectedHostel_Id]);
 
 
 
@@ -55,32 +57,32 @@ function BankingAddForm(props) {
     setDescriptionError("")
   };
 
-useEffect(()=>{
-  if(props.editAddBank && props.editAddBank.id){
+  useEffect(() => {
+    if (props.editAddBank && props.editAddBank.id) {
 
-    props.setEdit(true)
-    setAccountName(props.editAddBank.acc_name)
-    setAccountNo(props.editAddBank.acc_num)
-    setBankName(props.editAddBank.bank_name)
-    setIfscCode(props.editAddBank.ifsc_code)
-    setDescription(props.editAddBank.description)
-    setBankId(props.editAddBank.id)
+      props.setEdit(true)
+      setAccountName(props.editAddBank.acc_name)
+      setAccountNo(props.editAddBank.acc_num)
+      setBankName(props.editAddBank.bank_name)
+      setIfscCode(props.editAddBank.ifsc_code)
+      setDescription(props.editAddBank.description)
+      setBankId(props.editAddBank.id)
 
 
       setInitialStateAssign({
         accountName: props.editAddBank.acc_name || "",
-        accountNo: props.editAddBank.acc_num|| "",
+        accountNo: props.editAddBank.acc_num || "",
         bankName: props.editAddBank.bank_name || "",
         ifscCode: props.editAddBank.ifsc_code || "",
         description: props.editAddBank.description || ""
-        
+
       });
 
-  }
-  else {
-    props.setEdit(false);
-  }
-},[])
+    }
+    else {
+      props.setEdit(false);
+    }
+  }, [])
 
   const handleClose = () => {
     props.setShowForm(false);
@@ -141,16 +143,16 @@ useEffect(()=>{
     if (!validateField(ifscCode, "ifscCode"));
     if (!validateField(description, "description"));
 
-    
+
     if (props.edit) {
-      const isChanged = 
+      const isChanged =
         accountName !== initialStateAssign.accountName ||
         // accountNo !== initialStateAssign.accountNo ||
         Number(accountNo) !== Number(initialStateAssign.accountNo) ||
         bankName !== initialStateAssign.bankName ||
         ifscCode !== initialStateAssign.ifscCode ||
         description !== initialStateAssign.description;
-      
+
       if (!isChanged) {
         setError("No changes detected.");
         return;
@@ -158,10 +160,10 @@ useEffect(()=>{
       else {
         setError("");
       }
-  
+
     }
-  
-    
+
+
     setError("");
     dispatch({
       type: "ADD_BANKING",
@@ -172,7 +174,7 @@ useEffect(()=>{
         ifsc_code: ifscCode,
         desc: description,
         id: props.edit ? bankId : "",
-        hostel_id:hostel_id
+        hostel_id: hostel_id
       },
     });
   };
@@ -193,7 +195,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleClose();
-      dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostel_id} });
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
@@ -207,6 +209,8 @@ useEffect(()=>{
         onHide={() => handleClose()}
         backdrop="static"
         centered
+        className="BankingCustom-modal"
+
       >
         {/* <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
@@ -214,7 +218,7 @@ useEffect(()=>{
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -222,7 +226,7 @@ useEffect(()=>{
               fontFamily: "Gilroy",
             }}
           >
-           {props.edit ? "Edit Bank" : "Add Bank"}
+            {props.edit ? "Edit Bank" : "Add Bank"}
           </div>
           <button
             type="button"
@@ -257,7 +261,7 @@ useEffect(()=>{
           </button>
         </Modal.Header>
         <Modal.Body>
-          <div className="row ">
+          <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
                 <Form.Label
@@ -290,11 +294,11 @@ useEffect(()=>{
                 />
               </Form.Group>
               {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span> 
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                </div>
+              )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -329,11 +333,11 @@ useEffect(()=>{
                 />
               </Form.Group>
               {accountNumberError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
+                </div>
+              )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -367,11 +371,11 @@ useEffect(()=>{
                 />
               </Form.Group>
               {bankNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
+                </div>
+              )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -406,11 +410,11 @@ useEffect(()=>{
                 />
               </Form.Group>
               {ifcsCodeError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span> 
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
+                </div>
+              )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -440,25 +444,26 @@ useEffect(()=>{
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
+
                   }}
                 />
               </Form.Group>
               {descriptionError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
-                  </div>
-                )}
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
+                </div>
+              )}
             </div>
           </div>
         </Modal.Body>
-         {error && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span> 
-                  </div>
-                )} 
-        <Modal.Footer className="d-flex justify-content-center">
+        {error && (
+          <div style={{ color: "red" }}>
+            <MdError />
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+          </div>
+        )}
+        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
@@ -468,7 +473,7 @@ useEffect(()=>{
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginBottom: 12
             }}
             onClick={handleSubmitBank}
           >
