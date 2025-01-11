@@ -421,8 +421,8 @@ function AddVendor({ show, handleClose, currentItem }) {
       const emailValue = currentItem.Vendor_Email;
       const normalizedEmail =
         emailValue === "undefined" ||
-        emailValue === null ||
-        emailValue === undefined
+          emailValue === null ||
+          emailValue === undefined
           ? ""
           : emailValue;
 
@@ -535,7 +535,8 @@ function AddVendor({ show, handleClose, currentItem }) {
               {check === "EDIT" ? "Edit a vendor " : "Add a vendor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose}
+              style={{ cursor: 'pointer' }} />
           </Modal.Header>
 
           {state.ComplianceList?.alreadyVendorHere && (
@@ -767,7 +768,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                         maxWidth: 90,
                       }}
                     >
-                     <option>+{countryCode}</option>
+                      <option>+{countryCode}</option>
                     </Form.Select>
                     <Form.Control
                       value={vendor_Mobile}
