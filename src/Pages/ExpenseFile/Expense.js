@@ -67,7 +67,7 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
-
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -223,11 +223,12 @@ function Expenses({ allPageHostel_Id }) {
 
 
   useEffect(() => {
+    setLoading(true)
     dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     dispatch({ type: 'EXPENSELIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    setLoading(true)
+
   }, [state.login.selectedHostel_Id])
 
 
@@ -351,7 +352,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-  const [loading, setLoading] = useState(false)
+
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -1160,7 +1161,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {currentItems && currentItems.length > 0 && (
+          {currentItems && currentItems.length > 0 ? (
             <div className='p-3'>
               <div style={{
                 // height: "400px",
@@ -1254,13 +1255,7 @@ function Expenses({ allPageHostel_Id }) {
                         ))
                       )
 
-                      // : (
-                      //   <tr style={{ border: "none" }}>
-                      //     <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "red", border: "none" }}>
-                      //       <h5 style={{ fontSize: 14 }}>No Expense Found</h5>
-                      //     </td>
-                      //   </tr>
-                      // )
+
                     }
                   </tbody>
 
@@ -1272,13 +1267,13 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
             </div>
-          )}
+          )
 
 
+            :
 
 
-          {
-            !loading && currentItems && currentItems.length === 0 &&
+            !loading &&
 
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 

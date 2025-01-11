@@ -466,7 +466,8 @@ useEffect(() => {
           >
             {currentItem ? "Edit Paying Guest" : "Add Paying Guest"}
           </Modal.Title>
-          <CloseCircle size="24" color="#000" onClick={handleClose} />
+          <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         {generalError && (
           <div className="d-flex align-items-center p-1 mt-2 mb-2">

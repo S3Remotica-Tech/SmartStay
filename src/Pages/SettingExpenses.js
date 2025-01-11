@@ -44,7 +44,7 @@ import close from '../Assets/Images/close.svg';
     const [subcategory_Id,setSubCategory_ID] = useState(null)
     const [deleteCategoryId, setDeleteCategoryId] = useState('')
     const [subCategory_Id, setSubCategory_Id] = useState('')
-
+const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -301,6 +301,7 @@ const handleShow = () => {
 
     useEffect(() => {
         if (state.Settings.getExpensesStatuscode === 200) {
+          setLoading(false)
             setExpences(state.Settings.Expences.data)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
@@ -387,7 +388,38 @@ const handleShow = () => {
 
 
     return(
-        <div className="container"> 
+        <div className="container" style={{position:"relative"}}> 
+
+
+{loading &&
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            height: "50vh",
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+
+
+
              <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",
                 position:'sticky',
                 top:20, 
@@ -535,7 +567,7 @@ const handleShow = () => {
     </div>
   ))
 
-  ) : (
+  ) : !loading && (
     <div style={{marginTop:85,alignItems:"center",justifyContent:"center"}}>
       <div className="d-flex justify-content-center">
         <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />

@@ -805,7 +805,7 @@ function* handleGetAllGeneral() {
    const response = yield call(GetAllGeneral)
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data.general_users, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

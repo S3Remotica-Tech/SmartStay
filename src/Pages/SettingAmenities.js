@@ -6,12 +6,13 @@ import Card from 'react-bootstrap/Card';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {  Edit, Trash, ProfileAdd } from 'iconsax-react';
+import { Edit, Trash, ProfileAdd } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import close from '../Assets/Images/close.svg';
+import { FaBullseye } from 'react-icons/fa';
 
 
 function SettingAmenities({ hostelid }) {
@@ -34,6 +35,15 @@ function SettingAmenities({ hostelid }) {
     const [deleteAmenities, setDeleteAmenities] = useState(false)
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
+    const [loading, setLoading] = useState(true)
+
+
+
+
+
+
+
+
 
 
     const handleEditAmenities = (amenity) => {
@@ -66,12 +76,12 @@ function SettingAmenities({ hostelid }) {
         setAmenityDetails(amenity);
     };
 
-    
+
 
 
     useEffect(() => {
         if (isChecked === null) {
-            return; 
+            return;
         }
         if (!isChecked) {
             dispatch({
@@ -79,13 +89,13 @@ function SettingAmenities({ hostelid }) {
                 payload: {
                     type: "amenities",
                     recure: 0,
-                    hostel_id: state.login.Settings_Hostel_Id,
+                    hostel_id: state.login.selectedHostel_Id,
                     start_date: '0',
                     end_date: '0',
                     am_id: amenityDetails.id,
                 },
             });
-        }else{
+        } else {
             setIsDisplayRecurring(true)
         }
     }, [isChecked]);
@@ -109,7 +119,7 @@ function SettingAmenities({ hostelid }) {
     };
 
 
-//add amentities
+    //add amentities
 
     // const handleOpenAmenities = () => {
     //     setOpenAmenitiesForm(true)
@@ -118,15 +128,15 @@ function SettingAmenities({ hostelid }) {
     //add amentities
     const [showPopup, setShowPopup] = useState(false);
 
-const handleOpenAmenities = () => {
-  if (!hostelid) { 
-    setShowPopup(true); 
-    return;
-  }
-  setOpenAmenitiesForm(true);
-  setEditDetails('');
-  console.log("Opening Amenities Form...");
-};
+    const handleOpenAmenities = () => {
+        if (!hostelid) {
+            setShowPopup(true);
+            return;
+        }
+        setOpenAmenitiesForm(true);
+        setEditDetails('');
+        console.log("Opening Amenities Form...");
+    };
 
 
     const handleCloseAmenities = () => {
@@ -159,7 +169,7 @@ const handleOpenAmenities = () => {
 
     const handleDeleteAmenitiesConfirm = () => {
         if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.Settings_Hostel_Id } })
+            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
 
         }
     }
@@ -176,15 +186,17 @@ const handleOpenAmenities = () => {
 
 
     useEffect(() => {
-        if(state.login.Settings_Hostel_Id){
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
+        if (state.login.selectedHostel_Id) {
+
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
         }
-    }, [state.login.Settings_Hostel_Id])
+    }, [state.login.selectedHostel_Id])
 
 
 
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
+            setLoading(false)
             setAmenitiesList(state.InvoiceList.AmenitiesList)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
@@ -193,6 +205,7 @@ const handleOpenAmenities = () => {
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
 
+  
 
 
     useEffect(() => {
@@ -210,7 +223,7 @@ const handleOpenAmenities = () => {
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
 
             setOpenAmenitiesForm(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -233,7 +246,7 @@ const handleOpenAmenities = () => {
 
         if (state.Settings?.addRecurringRole == 200) {
             setIsDisplayRecurring(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_RECURRING_ROLE' })
@@ -245,7 +258,7 @@ const handleOpenAmenities = () => {
     useEffect(() => {
         if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200) {
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id:state.login.Settings_Hostel_Id } })
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
             setDeleteAmenities(false)
 
@@ -262,22 +275,26 @@ const handleOpenAmenities = () => {
 
     return (
         <div className="container">
-            <div className='d-flex justify-content-between align-items-center' 
-           style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
-            top: 0,
-            right: 0,
-            left: 0,
-            zIndex: 1000,
-            backgroundColor: "#FFFFFF",
-            height: 83,}}>
+            <div className='d-flex justify-content-between align-items-center'
+                style={{
+                    display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#FFFFFF",
+                    height: 83,
+                }}>
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
-                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}
+                        style={{
+                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        }}
                         disabled={showPopup}
                     >
                         {" "}
@@ -287,25 +304,19 @@ const handleOpenAmenities = () => {
             </div>
 
             {showPopup && (
-        <div className="d-flex flex-wrap">
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Amentities information.
-        </p>
-        
-        {/* <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/> */}
+                <div className="d-flex flex-wrap">
+                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                        Please add a hostel before adding Amentities information.
+                    </p>
 
-      </div>
-      
-      
-      )}
+                   
 
-            <div className='container mt-4 mb-3'>
+                </div>
+
+
+            )}
+
+            <div className='container mt-4 mb-3' style={{position:"relative"}}>
 
 
                 <div className='row row-gap-3'>
@@ -477,27 +488,69 @@ const handleOpenAmenities = () => {
                                 </Card>
                             </div>
                         ))
-                   
-                        :
-                        
-          <div style={{marginTop:65,alignItems:"center",justifyContent:"center"}}>
-          <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-          <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
-         
-        </div>
-        
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
+
+                            : !loading &&
+
+                            <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
+                                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                                <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
+
+                            </div>
+
+
+
+
+
+
+
+
+
                     }
                 </div>
 
+
+
+
+                {loading &&
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        height:"50vh",
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
+                </div>
+            }
+
+
+
+
+
+
             </div>
+
+
+           
+
+
+
+
 
             {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={hostelid} editDetails={editDetails} />

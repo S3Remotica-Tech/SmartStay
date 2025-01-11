@@ -275,3 +275,33 @@ export async function generateAdvance(datum){
     data:datum
   })
 }
+
+
+// export async function uploadDocument(datum){
+//   return await AxiosConfig.post('/users/upload_doc',datum,{
+//     data:datum
+//   })
+// }
+
+export async function uploadDocument(params) {
+
+  const formData = new FormData();
+  if (params.file1) formData.append("profile", params.file1);
+  if (params.file2) formData.append("profile", params.file2);
+  if (params.user_id) formData.append("profile", params.user_id);
+
+  try {
+    const response = await AxiosConfig.post('/users/upload_doc', formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      onUploadProgress: (event) => {
+        console.log("event", event)
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+  }
+}

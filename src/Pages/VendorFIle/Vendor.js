@@ -821,16 +821,23 @@ function Vendor() {
 
 
 
-            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static">
-              <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
-                <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete Vendor?</Modal.Title>
+            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static"
+              style={{
+                width: 388,
+                height: 250,
+                marginLeft: "500px",
+                marginTop: "200px",
+              }}>
+
+              <Modal.Header style={{ borderBottom: "none", justifyContent: "center", display: "flex" }}>
+                <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete Vendor?</Modal.Title>
                 {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
               </Modal.Header>
 
 
 
 
-              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>
+              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px", }}>
                 Are you sure you want to delete this vendor?
               </Modal.Body>
 
