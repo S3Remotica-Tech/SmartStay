@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity} from "../Action/SettingsAction"
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -453,6 +453,63 @@ function* handleEBBillingUnitGet(action) {
    if (response) {
       refreshToken(response)
    }
+}
+
+
+function* handleDeleteElectricity(action) {
+   const response = yield call(DeleteElectricity, action.payload);
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'DELETE_ELECTRICITY', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
+     
+        
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
+   }
+   else if(response.status === 201 || response.statusCode === 201){
+      toast.error(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+       })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+
 }
 
 function* handleGetAllRoles(action) {
@@ -936,6 +993,7 @@ function* SettingsSaga() {
    yield takeEvery('DELETE-COMPLAINT-TYPE', handleDeleteComplainttype)
    yield takeEvery('EB-BILLING-UNIT-ADD', handleEBBillingUnitAdd)
    yield takeEvery('EB-BILLING-UNIT-LIST', handleEBBillingUnitGet)
+   yield takeEvery('DELETE-ELECTRICITY', handleDeleteElectricity)
    yield takeEvery('SETTING_ROLE_LIST', handleGetAllRoles)
    yield takeEvery('SETTING_ADD_ROLE_LIST', handleAddSettingRole)
    yield takeEvery('EDITPERMISSIONROLE', handlepermissionEdit)
