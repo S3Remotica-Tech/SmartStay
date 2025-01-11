@@ -1736,7 +1736,7 @@ setDownloadInvoice(false)
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 && !loading) {
      
       setBills(state.InvoiceList.ManualInvoices);
-      setLoading(true); 
+      setLoading(false); 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
         setLoading(false); 
@@ -1747,7 +1747,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
@@ -1762,7 +1762,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT' });
@@ -1776,7 +1776,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
         dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
-        setLoading(true);
+        setLoading(false);
   
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE' });
