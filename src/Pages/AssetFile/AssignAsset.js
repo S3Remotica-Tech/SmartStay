@@ -286,12 +286,12 @@ function StaticExample({ show, handleClose, currentItem }) {
                 display: 'block', position: 'initial', fontFamily: "Gilroy",
             }}
         >
-            <Modal show={show} onHide={handleClose} backdrop="static">
+            <Modal show={show} onHide={handleClose} backdrop="static" centered   dialogClassName="custom-modal" >
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
-                    <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
+                    <Modal.Header>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}</Modal.Title>
                    
-                        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
+                        <CloseCircle size="24" color="#000"  onClick={handleClose} style={{ cursor: "pointer" }}/>
                    
                    
                     </Modal.Header>
