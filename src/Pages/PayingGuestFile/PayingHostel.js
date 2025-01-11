@@ -401,8 +401,8 @@ function PayingHostel(props) {
                     </Card.Body>
 
                 </Card>
-            ) 
-            
+            )
+
             // : 
             //     <>
             //         <div
@@ -450,9 +450,23 @@ function PayingHostel(props) {
 
 
         {show &&
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
-                <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
-                    <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete paying guest?</Modal.Title>
+            <Modal show={show} onHide={handleClose} centered backdrop="static"
+                style={{
+                    width: 388,
+                    height: 250,
+                    marginLeft: "500px",
+                    marginTop: "200px",
+                }}>
+                <Modal.Header style={{
+                    borderBottom: "none",
+                    justifyContent: "center",
+                    display: "flex"
+                }}>
+                    <Modal.Title style={{
+                        fontSize: 18,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy"
+                    }}>Delete paying guest?</Modal.Title>
 
 
                     {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
@@ -467,7 +481,7 @@ function PayingHostel(props) {
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
 
