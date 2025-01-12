@@ -18,7 +18,7 @@ import GetAnswer from './GetAnswer';
 
 
 
-function All_landing_pages() {
+function FrontPage() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -200,7 +200,7 @@ function All_landing_pages() {
     );
 }
 
-export default All_landing_pages;
+export default FrontPage;
 
 
 
