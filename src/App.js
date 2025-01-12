@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import FrontPage from './LandingPage/All_Landing_pages';
+import FrontPage from './LandingPage/FrontPage';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";

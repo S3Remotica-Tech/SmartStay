@@ -8,16 +8,10 @@ import {
 import moment from "moment";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import "../Pages/UserList.css";
-// import Plus from '../Assets/Images/Create-button.png';
-// import Profile from '../Assets/Images/Profile.jpg';
-import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { FaPlusCircle } from "react-icons/fa";
 import { InputGroup, Pagination } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import ModalDialog from "rsuite/esm/Modal/ModalDialog";
 import Plus from "../Assets/Images/New_images/add-circle.png";
-import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import User from "../Assets/Images/Profile-complaint.png";

@@ -3,9 +3,8 @@ import { TfiControlBackward } from "react-icons/tfi";
 import { BsPrinter } from "react-icons/bs";
 import Logo from "../Assets/Images/Logo-Icon-White.png"
 import { useDispatch, useSelector } from 'react-redux';
-import { usePDF } from 'react-to-pdf';
 import { useReactToPrint } from 'react-to-print';
-import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import generatePDF from 'react-to-pdf';
 import { MdDownload } from "react-icons/md";
 import calen from "../Assets/Images/calendar.png"
 import DatePicker from 'react-datepicker';

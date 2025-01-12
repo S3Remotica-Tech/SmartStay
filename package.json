@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.23.3",
     "@canvasjs/charts": "^3.9.0",
     "@canvasjs/react-charts": "^1.0.2",
     "@emotion/react": "^11.11.1",
@@ -70,6 +69,7 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.1.9",
     "redux": "^4.2.1",
+    "redux-mock-store": "^1.5.5",
     "redux-saga": "^1.2.3",
     "rsuite": "^5.40.0",
     "styled-components": "^5.3.11",
@@ -103,6 +103,23 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "babel-jest": "^29.7.0",
+    "jest": "^27.5.1",
     "webpack": "^5.89.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios|@canvasjs/react-charts|react-to-pdf|react-owl-carousel2))"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.module\\.css$": "identity-obj-proxy",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }
