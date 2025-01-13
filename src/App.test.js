@@ -11,7 +11,7 @@ beforeAll(() => {
 });
 
 describe('checks for app.js', () => {
-  it('renders learn react link', () => {
+  it('renders learn react', () => {
   
   const mockStore = configureStore()
   const store = mockStore({
