@@ -4,11 +4,20 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 
+jest.mock('react-owl-carousel2', () => {
+  return function OwlCarousel(props) {
+      return <div {...props}>Mock Owl Carousel</div>;
+  };
+});
+
+global.scrollTo = jest.fn();
+
 global.IntersectionObserver = class {
     constructor() {}
     observe = jest.fn();
     unobserve = jest.fn();
     disconnect = jest.fn();
+
   };
 
   window.IntersectionObserver = class {
@@ -16,28 +25,7 @@ global.IntersectionObserver = class {
     observe = jest.fn();
     unobserve = jest.fn();
     disconnect = jest.fn();
+    scrollTo = jest.fn();
   };
 
-  export class IntersectionObserver {
-    root = null;
-    rootMargin = "";
-    thresholds = [];
-   
-    disconnect() {
-      return null;
-    }
-   
-    observe() {
-      return null;
-    }
-   
-    takeRecords() {
-      return [];
-    }
-   
-    unobserve() {
-      return null;
-    }
-  }
-  window.IntersectionObserver = IntersectionObserver;
-  global.IntersectionObserver = IntersectionObserver;
+  

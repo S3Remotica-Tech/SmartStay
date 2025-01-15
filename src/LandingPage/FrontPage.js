@@ -24,12 +24,8 @@ function FrontPage() {
         window.scrollTo(0, 0);
     }, []);
 
-    const dispatch = useDispatch();
-    const state = useSelector(state => state);
     let navigate = useNavigate();
 
-
-    console.log("state",state)
 
     const handleSignIn = () => {
         navigate('/login-Page');
@@ -44,12 +40,8 @@ function FrontPage() {
     
 
     const handleSetActive = (linkName) => {
-        console.log('Active link:', linkName);
              setActiveLink(linkName);
     };
-
-     
-
 
 
     const linkStyle = (isActive) => ({
@@ -96,7 +88,7 @@ function FrontPage() {
                                     offset={-70}
                                     duration={500}
                                     activeClass="active-link"
-                                    
+                                    data-testid='home'  
                                 >
                                     Home
                                 </Nav.Link>
@@ -111,7 +103,7 @@ function FrontPage() {
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'keyFeature')}
                                     onSetActive={() => handleSetActive('keyFeature')}
-                                    
+                                    data-testid='features'  
                                 >
                                     Features
                                 </Nav.Link>
@@ -126,7 +118,7 @@ function FrontPage() {
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'pricing')}
                                     onSetActive={() => handleSetActive('pricing')}
-                                    
+                                    data-testid='pricing'  
                                 >
                                     Pricing
                                 </Nav.Link>
@@ -141,7 +133,7 @@ function FrontPage() {
                                     activeClass="active-link"
                                     style={linkStyle(activeLink === 'testimonials')}
                                     onSetActive={() => handleSetActive('testimonials')}
-                                    
+                                    data-testid='Testimonials'  
                                 >
                                     Testimonials
                                 </Nav.Link>
@@ -149,7 +141,7 @@ function FrontPage() {
                             <Nav className=' justi-content-end'>
                                 <div className='d-lg-flex d-sm-block d-md-block align-items-center gap-3'>
                                     <Nav.Link style={{ fontSize: 16, fontWeight: 500, color: "#000", fontFamily: "Montserrat", marginRight: 20 }} onClick={handleSignIn}>Sign in</Nav.Link>
-                                    <Button onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
+                                    <Button data-testid='signup' onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
                                 </div>
 
 
