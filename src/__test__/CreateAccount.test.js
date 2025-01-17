@@ -65,6 +65,12 @@ describe('checking for create account', () => {
 
         await event.click(createAccount)
 
+        jest.mocked(useSelector).mockImplementation(() => ({
+            createAccount: {
+                statusCodeCreateAccount: 200
+            }
+        }))
+
     })
 
     it('it should through error on all fields', async () => {
@@ -102,6 +108,25 @@ describe('checking for create account', () => {
 
         const passwordError = await screen.getByTestId('password-error-container')
         await expect(passwordError).toBeInTheDocument()
+    })
+
+    it('it should verify the first name with empty values', async () => {
+        render(<Provider store={store}>
+            <MemoryRouter>
+                <CreateAccountPage />
+            </MemoryRouter>
+
+        </Provider>)
+
+        const fname = screen.getByTestId('first-name')
+        expect(fname).toBeInTheDocument()
+        const createAccount = await screen.getByTestId('create-account-btn')
+        expect(createAccount).toBeInTheDocument()
+        await event.click(createAccount)
+        expect(await screen.getByTestId('fname-container').children.length).toBe(2)
+        await event.type(fname, 'Seles')
+        expect(await screen.getByTestId('fname-container').children.length).toBe(1)
+
     })
 
     it('it should verify the first name with empty values', async () => {
