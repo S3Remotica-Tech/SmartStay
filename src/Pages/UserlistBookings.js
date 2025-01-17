@@ -909,6 +909,7 @@ function Booking(props) {
                               fontFamily: "Gilroy",
                               background: "#E7F1FF",
                               border: "none",
+                              borderTopLeftRadius: 24,
                             }}
                           >
                             Name
