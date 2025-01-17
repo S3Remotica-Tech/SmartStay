@@ -294,6 +294,7 @@ function UserlistWalkin(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            borderTopLeftRadius: 24,
                           }}
                         >
                           Name
@@ -379,14 +380,14 @@ function UserlistWalkin(props) {
 
                           <td>
                             <div className="d-flex align-items-center">
-                              <Image
+                              {/* <Image
                                 src={Ellipse1}
                                 roundedCircle
                                 height={30}
                                 width={30}
                                 alt="avatar"
                                 style={{ textAlign: "start" }}
-                              />
+                              /> */}
                               <span
                                 style={{
                                   fontSize: "16px",

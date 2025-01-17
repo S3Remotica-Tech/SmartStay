@@ -421,6 +421,7 @@ function CheckOut(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            borderTopLeftRadius: 24,
                           }}
                         >
                           Name
@@ -600,6 +601,7 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
+                                    textAlign:"center"
                                   }}
                                   className="ms-2 customer-name"
                                 >
