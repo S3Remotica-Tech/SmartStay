@@ -67,6 +67,8 @@ const InvoicePage = () => {
 
 
   const state = useSelector(state => state)
+  console.log("status",state);
+  
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
   
@@ -1606,26 +1608,23 @@ setDownloadInvoice(false)
 
 
   useEffect(() => {
-    const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
-    if (toTriggerPDF) {
-
-      setTimeout(() => {
-        let pdfWindow;
-        const InvoicePDf = state.InvoiceList?.Invoice &&
-          state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-    
-        if (InvoicePDf[0]?.invoicePDF) {
-          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-          if (pdfWindow) {
-            setShowLoader(false);
-          }
-        } else {
-          // setShowLoader(true);
-        }
-      }, 0);
-    } else {
+    const pdfUrl = state.InvoiceList.invoicePDF;
+  
+  
+    if (pdfUrl) {
+      console.log("PDF URL", pdfUrl);
+  
+     
+      const pdfWindow = window.open(pdfUrl, '_blank');
+      if (pdfWindow) {
+        console.log("PDF opened successfully.");
+        setShowLoader(false);
+      } else {
+        console.error("Failed to open the PDF.");
+      }
     }
-  }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
+  }, [state.InvoiceList.invoicePDF]); 
+  
 
  
 
@@ -1797,6 +1796,20 @@ setDownloadInvoice(false)
       }, 1000);
     }
   }, [state.InvoiceList?.InvoiceListStatusCode])
+
+  // useEffect(() => {
+  //   console.log("useEffect", state.InvoiceList);
+  //   if (state.InvoiceList?.invoicePDF === 200) {
+      
+  //     console.log("Invoice");
+  //     setLoading(false);
+  //     dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
+  //     setBills(state.InvoiceList.ManualInvoices)
+  //     setTimeout(() => {
+  //       dispatch({ type: 'CLEAR_INVOICE_LIST' });
+  //     }, 1000);
+  //   }
+  // }, [state.InvoiceList?.invoicePDF]) 
 
 
 
@@ -2709,7 +2722,8 @@ setDownloadInvoice(false)
                   <div  style={{
                     // height: "400px",
                     height: currentItems.length >= 6 ? "380px" : "auto",
-                    overflowY: "auto",
+                    overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                    
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     // borderBottom:"none"
@@ -3051,7 +3065,7 @@ setDownloadInvoice(false)
 <div  style={{
   // height: "400px",
   height: currentItem.length >= 6 ? "380px" : "auto",
-  overflowY: "auto",
+  overflowY: currentItem.length >= 6 ? "auto" : "visible",
   borderRadius: "24px",
   border: "1px solid #DCDCDC",
   // borderBottom:"none"

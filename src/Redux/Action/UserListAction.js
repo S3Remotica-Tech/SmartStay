@@ -286,9 +286,9 @@ export async function generateAdvance(datum){
 export async function uploadDocument(params) {
 
   const formData = new FormData();
-  if (params.file1) formData.append("profile", params.file1);
-  if (params.file2) formData.append("profile", params.file2);
-  if (params.user_id) formData.append("profile", params.user_id);
+  if (params.file1) formData.append("file1", params.file1);
+  if (params.user_id) formData.append("user_id", params.user_id);
+  if (params.type) formData.append("type", params.type);
 
   try {
     const response = await AxiosConfig.post('/users/upload_doc', formData, {

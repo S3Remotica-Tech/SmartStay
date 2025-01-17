@@ -879,7 +879,7 @@ function Booking(props) {
                     style={{
                       // height: "400px",
                       height: currentItems.length >= 6 ? "380px" : "auto",
-                      overflowY: "auto",
+                      overflowY: currentItems.length >= 6 ? "auto" : "visible",
                       borderRadius: "24px",
                       border: "1px solid #DCDCDC",
                       // borderBottom:"none"
@@ -909,6 +909,7 @@ function Booking(props) {
                               fontFamily: "Gilroy",
                               background: "#E7F1FF",
                               border: "none",
+                              borderTopLeftRadius: 24,
                             }}
                           >
                             Name
