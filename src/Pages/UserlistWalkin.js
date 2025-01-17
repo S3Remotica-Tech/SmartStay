@@ -273,7 +273,7 @@ function UserlistWalkin(props) {
                 <div style={{
                   // height: "400px",
                   height: currentCustomers.length >= 6 ? "380px" : "auto",
-                  overflowY: "auto",
+                  overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
                   // borderBottom:"none"

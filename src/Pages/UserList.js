@@ -1599,7 +1599,7 @@ function UserList(props) {
                           style={{
                             // height: "400px",
                             height: currentItems.length >= 6 ? "400px" : "auto",
-                            overflowY: "auto",
+                            overflowY: currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             // borderBottom:"none"

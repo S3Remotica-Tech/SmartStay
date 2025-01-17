@@ -796,7 +796,7 @@ function EB_Hostel(props) {
                       style={{
                         // height: "400px",
                         height: currentRoomelectricity.length >= 6 ? "400px" : "auto",
-                        overflowY: "auto",
+                        overflowY: currentRoomelectricity.length >= 6 ? "auto" : "visible",
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
