@@ -213,7 +213,7 @@ const [ loading , setLoading] = useState(true)
 
 
           <div style={{ position: "sticky",top: 0, zIndex: 1000,backgroundColor: "white" }}>
-               <div className="d-flex row mb-4 mt-4">
+               <div className="d-flex row mb-4 " style={{marginTop:30}}>
                  <Col>
                    <h4 style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy"}}>
                     Complaint Type

@@ -1997,10 +1997,11 @@ setDownloadInvoice(false)
     <>
 {showAllBill && 
 <div>
-<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-4 me-4 mt-4'>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} 
+className='container ms-3 me-3 mt-3'>
 
 
-<p style={{ fontSize: "23px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
+<p style={{ fontSize: "18px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
 
 
 <div >
@@ -2077,9 +2078,9 @@ setDownloadInvoice(false)
 </div>
 </div>
 
-<TabContext value={value}>
+<TabContext value={value} className="container">
 <div >
-  <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
+  <Box sx={{ borderBottom: 0, borderColor: 'divider' }} className="container">
     <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} 
     onChange={handleChanges} aria-label="lab API tabs example"
      style={{ marginLeft: '7px',  marginTop: 0 }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
