@@ -539,9 +539,9 @@ function UserList(props) {
     propsRooms,
     propsEmil,
   ]);
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   const [search, setSearch] = useState(false);
   const [isOpenTab, setIsOpenTab] = useState(true);
