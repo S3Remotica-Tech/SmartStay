@@ -1150,7 +1150,7 @@ if (v.date && v.date != '0000-00-00') {
       >
      
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1392,7 +1392,7 @@ if (v.date && v.date != '0000-00-00') {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginTop: 10,
             }}
             onClick={handleSaveChanges}
             disabled={!!formError}
