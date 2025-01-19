@@ -651,7 +651,7 @@ function EB_Hostel(props) {
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
-                + Add HostelReading
+                +  Hostel Reading
               </Button>
             </div>
           ) : (
@@ -1506,7 +1506,7 @@ function EB_Hostel(props) {
           backdrop="static"
           centered
         >
-          <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+          <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
             <div
               style={{
                 fontSize: 20,
@@ -1733,7 +1733,7 @@ function EB_Hostel(props) {
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Montserrat, sans-serif",
-                marginTop: 20,
+                marginTop: 10,
               }}
               onClick={handleSaveEbBill}
             >
