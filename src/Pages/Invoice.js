@@ -193,7 +193,19 @@ const[recurLoader, setRecurLoader]= useState(true)
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let serialNumber = 1;
 
+  const [hostelId,setHostelId] = useState("")
+  useEffect(()=>{
+  if(state.login.selectedHostel_Id){
+    setHostelId(state.login.selectedHostel_Id)
+  }
+  },[state.login.selectedHostel_Id])
 
+  useEffect(() => {
+    // if(hostelId){
+      dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId}})
+    // }
+   
+  }, [hostelId])
 
   const handleManualShow = () => {
     setShowAllBill(false)
@@ -1534,12 +1546,7 @@ const handleClosePdfModal = () => {
 setDownloadInvoice(false)
 }
 
-const [hostelId,setHostelId] = useState("")
-  useEffect(()=>{
-  if(state.login.selectedHostel_Id){
-    setHostelId(state.login.selectedHostel_Id)
-  }
-  },[state.login.selectedHostel_Id])
+
 
   useEffect(() => {
     dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostelId} });
@@ -1775,14 +1782,7 @@ const [hostelId,setHostelId] = useState("")
 
 
 
-  useEffect(() => {
-    if(hostelId){
-      dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId} })
-    
-      setBills(state.InvoiceList.ManualInvoices);
-    }
-   
-  }, [hostelId])
+ 
   
 
 
@@ -2766,14 +2766,38 @@ className='container ms-3 me-3 mt-3'>
                   :
                   <>
 
-{state?.InvoiceList?.ManualInvoices && state?.InvoiceList?.ManualInvoices.length === 0 && !loading &&
-                <div style={{marginTop:20}}>
-                <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
-            
-           </div>    
-                }
+{currentItems?.length == 0 && (
+                                <div>
+                                  <div style={{ textAlign: "center" }}>
+                                    {" "}
+                                    <img src={Emptystate} alt="emptystate" />
+                                  </div>
+                                  <div
+                                    className="pb-1"
+                                    style={{
+                                      textAlign: "center",
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      fontSize: 20,
+                                      color: "rgba(75, 75, 75, 1)",
+                                    }}
+                                  >
+                                    No bills available{" "}
+                                  </div>
+                                  <div
+                                    className="pb-1"
+                                    style={{
+                                      textAlign: "center",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      fontSize: 16,
+                                      color: "rgba(75, 75, 75, 1)",
+                                    }}
+                                  >
+                                    There are no bills added{" "}
+                                  </div>
+                                </div>
+                              )}
                  {currentItems && currentItems.length > 0 && (
                   <div  style={{
                     // height: "400px",
