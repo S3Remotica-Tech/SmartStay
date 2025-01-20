@@ -422,14 +422,14 @@ const handleShow = () => {
 
              <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",
                 position:'sticky',
-                top:20, 
+                // top:20, 
                 right: 0,
                 left: 0,
                 zIndex: 1000,
                 backgroundColor: "#FFFFFF",
                 height: 63,}} >
-        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,}}> Expences Category</h3>
-        <div>
+        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,marginTop:30}}> Expences Category</h3>
+        <div style={{marginTop:30}}>
         <Button  onClick={handleShow} 
         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
           fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",width:140}}

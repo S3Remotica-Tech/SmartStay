@@ -471,9 +471,9 @@ function Vendor() {
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
-            <div className='container mt-3'
+            <div className='container ' 
 
-              style={{
+              style={{ marginTop:7,
                 height: 83,
                 position: "sticky",
                 top: 0,
@@ -833,9 +833,6 @@ function Vendor() {
                 <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete Vendor?</Modal.Title>
                 {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
               </Modal.Header>
-
-
-
 
               <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px", }}>
                 Are you sure you want to delete this vendor?

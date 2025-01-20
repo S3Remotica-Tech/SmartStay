@@ -280,18 +280,12 @@ function ExpensesListTable(props) {
       <>
         <div
           style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            border: "1px solid #DCDCDC",
-            borderRadius: 24,
-            padding: "16px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            zIndex: 1000,
-            width: 472,
-            // height: 278,
+            // marginTop: 15,
+            fontWeight: 500,
+            fontSize: 14,
+            fontFamily: "Gilroy, sans-serif",
+            display: "block", 
+            textAlign: "left", 
           }}
           onClick={(e) => e.stopPropagation()}
         >

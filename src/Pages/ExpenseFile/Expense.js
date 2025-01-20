@@ -781,7 +781,7 @@ function Expenses({ allPageHostel_Id }) {
             <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
               style={{
                 position: 'sticky',
-                top: 25,
+                top: 15,
                 backgroundColor: 'white',
                 zIndex: 10,
                 padding: '10px',
@@ -856,6 +856,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
+                      style={{cursor:'pointer'}}
                     />
                   </div>
                 }
@@ -1100,7 +1101,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px" }}>
+                <div style={{ paddingRight: "10px",cursor:'pointer' }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
@@ -1418,8 +1419,17 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static">
-        <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static"
+      style={{
+        width:388,
+          height:250,
+          marginLeft:"500px",
+          marginTop:"200px"
+      }}>
+        <Modal.Header style={{ 
+         borderBottom:"none", display: "flex", justifyContent: "center",
+          
+          }} >
           <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete expense?</Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
@@ -1427,7 +1437,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>
+        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
           Are you sure you want to delete this expense?
         </Modal.Body>
 

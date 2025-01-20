@@ -454,7 +454,7 @@ function Banking() {
                 </label>
               </div>
 
-              <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+              <div className="mt-1 d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
                 {search ? (
                   <>
                     <div

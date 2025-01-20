@@ -6,33 +6,13 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 
-function SettingSubscription() {
-  return (
-    <div>
-      <div>
-        <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 
-      </div>
-
-      <div className="row g-3">
-        <div className="col-12 col-md-6">
-          <div className="card p-3 cardnewsubs">
-            <div
-              class="d-flex align-items-center justify-content-center"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: 12,
-                backgroundColor: "#eef4ff",
-              }}
-            >
-              <img src={crown} width={40} height={40} alt="Crown Icon" />
-            </div>
-
-            <div>
-              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                Your plan is active
-              </p>
+function SettingSubscription(){
+    return(
+        <div>
+            <div style={{marginTop:25}}>
+                 <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Subscription</p>
+  
             </div>
 
             <div class="d-flex justify-content-between align-items-center">

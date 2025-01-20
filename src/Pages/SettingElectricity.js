@@ -47,10 +47,12 @@ const [ loading , setLoading] = useState(true)
     }
   }, [hostelid])
 
+
+  console.log("state.Settings.addEbbillingUnitStatuscode",state.Settings.addEbbillingUnitStatuscode)
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200 || state.Settings.deleteElectricityStatuscode === 200) {
 
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid}})
       handleClose()
 
       setTimeout(() => {
@@ -280,6 +282,9 @@ useEffect(()=>{
   if(state.Settings?.getebStatuscode == 200){
     setLoading(false)
 setEbList(state.Settings.EBBillingUnitlist)
+setTimeout(()=>{
+  dispatch({type:'CLEAR_GET_EBBILLINGS_STATUS_CODE'})
+},500)
   }
 
 },[state.Settings?.getebStatuscode])
@@ -331,10 +336,10 @@ setEbList(state.Settings.EBBillingUnitlist)
                }} >
         <Col>
           <h4 style={{
-            fontSize: 18,
+            fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy",
+            fontFamily: "Gilroy",marginTop:5
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">

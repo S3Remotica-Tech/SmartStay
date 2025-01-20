@@ -67,6 +67,8 @@ const InvoicePage = () => {
 
 
   const state = useSelector(state => state)
+  console.log("status",state);
+  
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
 
@@ -664,6 +666,28 @@ const InvoicePage = () => {
         } else {
           console.error('Invalid DueDate:', invoiceValue.Date);
         }
+        if (invoiceValue.start_date ) {
+          console.log("StartDate", invoiceValue.start_date);
+          const parsedDate = new Date(invoiceValue.start_date); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setStartDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid startDate:', invoiceValue.start_date);
+          }
+        }
+        if (invoiceValue.end_date ) {
+          console.log("Enddate", invoiceValue.end_date);
+          const parsedDate = new Date(invoiceValue.end_date); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setEndDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid endDate:', invoiceValue.end_date);
+          }
+        }
+        
+      setTotalAmount(invoiceValue.Amount)
+    setNewRows(invoiceValue.amenity)
+  
       }
       // setInvoiceList({amount:invoiceValue.BalanceDue})
 
@@ -690,62 +714,68 @@ const InvoicePage = () => {
         id: deleteId,
       },
     })
-    setShowDeleteform(false)
-  }
+
+    setShowDeleteform (false)
+   }
+    
 
 
+    const handleEditBill = () => {
+      let isValid = true;
 
-  const handleEditBill = () => {
-    let isValid = true;
-
-    // Reset error messages
-    setCustomerErrmsg('');
-    setInvoicenumberErrmsg('');
-    setStartdateErrmsg('');
-    setInvoiceDateErrmsg('');
-    setInvoiceDueDateErrmsg('');
-    setAllFieldErrmsg('');
-
-    // Validate Customer
-    if (!customername) {
-      setCustomerErrmsg('Customer is required.');
-      isValid = false;
+      // Reset error messages
+      setCustomerErrmsg('');
+      setInvoicenumberErrmsg('');
+      setStartdateErrmsg('');
+      setInvoiceDateErrmsg('');
+      setInvoiceDueDateErrmsg('');
+      setAllFieldErrmsg('');
+  
+      // Validate Customer
+      if (!customername) {
+          setCustomerErrmsg('Customer is required.');
+          isValid = false;
+      }
+  
+      // Validate Invoice Number
+      if (!invoicenumber) {
+        setInvoicenumberErrmsg('Invoice number is required.');
+          isValid = false;
+      }
+  
+      // Validate Start Date
+      if (!startdate) {
+          setStartdateErrmsg('Start date is required.');
+          isValid = false;
+      }
+      if (!enddate) {
+        setEnddateErrmsg('End date is required.');
+        isValid = false;
     }
-
-    // Validate Invoice Number
-    if (!invoicenumber) {
-      setInvoicenumberErrmsg('Invoice number is required.');
-      isValid = false;
-    }
-
-    // Validate Start Date
-    if (!startdate) {
-      setStartdateErrmsg('Start date is required.');
-      isValid = false;
-    }
-
-    // Validate Invoice Date
-    if (!invoicedate) {
-      setInvoiceDateErrmsg('Invoice date is required.');
-      isValid = false;
-    }
-
-    // Validate Due Date
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg('Due date is required.');
-      isValid = false;
-    }
-
-    // Check All Required Fields
-    if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate) {
-      setAllFieldErrmsg('Please fill out all required fields.');
-      isValid = false;
-    }
+  
+      // Validate Invoice Date
+      if (!invoicedate) {
+          setInvoiceDateErrmsg('Invoice date is required.');
+          isValid = false;
+      }
+  
+      // Validate Due Date
+      if (!invoiceduedate) {
+          setInvoiceDueDateErrmsg('Due date is required.');
+          isValid = false;
+      }
+  
+      // Check All Required Fields
+      if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate || !enddate) {
+          setAllFieldErrmsg('Please fill out all required fields.');
+          isValid = false;
+      }
 
     const isDataUnchanged =
       customername === invoiceValue.user_id &&
       invoicenumber === invoiceValue.invoicenumber &&
       startdate === invoiceValue.startdate &&
+      enddate === invoiceValue.enddate &&
       invoicedate === invoiceValue.date &&
       invoiceduedate === invoiceValue.due_date;
 
@@ -754,24 +784,33 @@ const InvoicePage = () => {
       isValid = false;
     }
 
-    if (isValid) {
-      const dueDateObject = new Date(invoiceduedate);
-      const formatduedate = `${dueDateObject.getFullYear()}-${String(
-        dueDateObject.getMonth() + 1
-      ).padStart(2, '0')}-${String(dueDateObject.getDate()).padStart(2, '0')}`;
+  
+      if (isValid) {
+        const dueDateObject = new Date(invoiceduedate);
+const formatduedate = `${dueDateObject.getFullYear()}-${String(
+  dueDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(dueDateObject.getDate()).padStart(2, '0')}`;
 
-      const dateObject = new Date(invoicedate);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const dateObject = new Date(invoicedate);
+          const year = dateObject.getFullYear();
+          const month = dateObject.getMonth() + 1;
+          const day = dateObject.getDate();
+          const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
+      const startDateObject = new Date(startdate);
+  const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+    startDateObject.getMonth() + 1
+  ).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
+
+  const endDateObject = new Date(enddate);
+  const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+    endDateObject.getMonth() + 1
+  ).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
       console.log("Customer Name (user_id):", customername);
       console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
       console.log("Due Date (due_date):", formatduedate);
       console.log("Invoice ID (id):", invoiceValue.id);
       console.log("Amenity:", invoiceValue.amenity);
-
       dispatch({
         type: 'MANUAL-INVOICE-EDIT',
         payload: {
@@ -780,6 +819,10 @@ const InvoicePage = () => {
           due_date: formatduedate,
           id: invoiceValue.id,
           amenity: invoiceValue.amenity,
+          start_date:formattedStartDate,
+          end_date:formattedEndDate,
+
+
         },
       });
 
@@ -1283,50 +1326,59 @@ const InvoicePage = () => {
       return;
     }
 
-    if (!customername) {
-      setCustomerErrmsg('Please Select Customer')
-    }
 
+          if(!customername){
+           setCustomerErrmsg('Please Select Customer')
+          }
+          
+         
+          if(!customername && !invoicenumber ){
+           setAllFieldErrmsg('Please Enter All Field')
+            return;
+          }
+       
+// Format start_date
+const startDateObject = new Date(startdate);
+const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+  startDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
 
-    if (!customername && !invoicenumber) {
-      setAllFieldErrmsg('Please Enter All Field')
-      return;
-    }
+// Format end_date
+const endDateObject = new Date(enddate);
+const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+  endDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
+         
+          if(customername && invoicenumber ){
+           dispatch({
+             type: 'MANUAL-INVOICE-ADD',
+             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,start_date:formattedStartDate,
+              end_date:formattedEndDate,
+             invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+             amenity: amenityArray.length > 0 ? amenityArray : []
+             }
+             });
+             setShowManualInvoice(false)
+             setShowRecurringBillForm(false)
+             setShowAllBill(true)
+             setCustomerName('');
+             setInvoiceNumber('');
+             setStartDate('');
+             setEndDate('');
+             setInvoiceDate('')
+             setInvoiceDueDate('')
+             setSelectedData('')
+             setAvailableOptions('');
+             setTotalAmount('')
+             setBillAmounts([]);
+             setNewRows([]);
 
-
-
-    if (customername && invoicenumber) {
-      dispatch({
-        type: 'MANUAL-INVOICE-ADD',
-        payload: {
-          user_id: customername, date: formatinvoicedate, due_date: formatduedate,
-          invoice_id: invoicenumber, room_rent: rentamount?.amount, eb_amount: ebamount?.amount || 0, total_amount: totalAmount,
-          amenity: amenityArray.length > 0 ? amenityArray : []
-        }
-      });
-      setShowManualInvoice(false)
-      setShowRecurringBillForm(false)
-      setShowAllBill(true)
-      setCustomerName('');
-      setInvoiceNumber('');
-      setStartDate('');
-      setEndDate('');
-      setInvoiceDate('')
-      setInvoiceDueDate('')
-      setSelectedData('')
-      setAvailableOptions('');
-      setTotalAmount('')
-      setBillAmounts([]);
-      setNewRows([]);
-
-      setCustomerErrmsg('')
-      setStartdateErrmsg('')
-      setInvoiceDateErrmsg('')
-      setInvoiceDueDateErrmsg('')
-      setAllFieldErrmsg('')
-    }
-
-    // setShowManualInvoice(true)
+             setCustomerErrmsg('')
+             setStartdateErrmsg('')
+             setInvoiceDateErrmsg('')
+             setInvoiceDueDateErrmsg('')
+             setAllFieldErrmsg('')
+          }
 
   }
 
@@ -1485,10 +1537,16 @@ const InvoicePage = () => {
     setDownloadInvoice(false)
   }
 
-
+const [hostelId,setHostelId] = useState("")
+  useEffect(()=>{
+  if(state.login.selectedHostel_Id){
+    setHostelId(state.login.selectedHostel_Id)
+  }
+  },[state.login.selectedHostel_Id])
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostelId} });
   }, []);
 
 
@@ -1607,26 +1665,24 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
-    if (toTriggerPDF) {
 
-      setTimeout(() => {
-        let pdfWindow;
-        const InvoicePDf = state.InvoiceList?.Invoice &&
-          state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-
-        if (InvoicePDf[0]?.invoicePDF) {
-          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-          if (pdfWindow) {
-            setShowLoader(false);
-          }
-        } else {
-          // setShowLoader(true);
-        }
-      }, 0);
-    } else {
+    const pdfUrl = state.InvoiceList.invoicePDF;
+  
+  
+    if (pdfUrl) {
+      console.log("PDF URL", pdfUrl);
+  
+     
+      const pdfWindow = window.open(pdfUrl, '_blank');
+      if (pdfWindow) {
+        console.log("PDF opened successfully.");
+        setShowLoader(false);
+      } else {
+        console.error("Failed to open the PDF.");
+      }
     }
-  }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
+  }, [state.InvoiceList.invoicePDF]); 
+  
 
 
 
@@ -1716,21 +1772,23 @@ const InvoicePage = () => {
   //   }
 
 
+  
+  
+   
+  useEffect(()=> {
+    dispatch({type: "USERLIST",payload:{hostel_id:hostelId}})
+  },[])
+
+
+
   useEffect(() => {
-    dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [])
-
-
-
-
-
-
-  useEffect(() => {
-    dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-
-    setBills(state.InvoiceList.ManualInvoices);
-  }, [])
-
+    if(hostelId){
+      dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} })
+    
+      setBills(state.InvoiceList.ManualInvoices);
+    }
+   
+  }, [hostelId])
 
 
   useEffect(() => {
@@ -1745,12 +1803,8 @@ const InvoicePage = () => {
   }, [state.InvoiceList.ManualInvoices]);
 
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
-      dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } });
-      setLoading(false);
-
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
 
         setBills(state.InvoiceList.ManualInvoices);
@@ -1760,12 +1814,9 @@ const InvoicePage = () => {
   }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.ManualInvoices]);
 
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } });
-      setLoading(false);
 
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT' });
+    if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
 
         setBills(state.InvoiceList.ManualInvoices);
@@ -1774,12 +1825,9 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode, state.InvoiceList.ManualInvoices]);
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } });
-      setLoading(false);
 
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE' });
+    if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
 
         setBills(state.InvoiceList.ManualInvoices);
@@ -1791,7 +1839,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       setLoading(false);
-      dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
@@ -1799,11 +1847,26 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList?.InvoiceListStatusCode])
 
+  // useEffect(() => {
+  //   console.log("useEffect", state.InvoiceList);
+  //   if (state.InvoiceList?.invoicePDF === 200) {
+      
+  //     console.log("Invoice");
+  //     setLoading(false);
+  //     dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
+  //     setBills(state.InvoiceList.ManualInvoices)
+  //     setTimeout(() => {
+  //       dispatch({ type: 'CLEAR_INVOICE_LIST' });
+  //     }, 1000);
+  //   }
+  // }, [state.InvoiceList?.invoicePDF]) 
+
 
 
   useEffect(() => {
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      dispatch({ type: 'MANUAL-INVOICES-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
@@ -1886,122 +1949,125 @@ const InvoicePage = () => {
   // }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
 
 
+    
+ 
 
 
-
-  useEffect(() => {
-    if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-      setBillAmounts(invoicetotalamounts);
-    }
-
-  }, [invoicetotalamounts]);
-
-
-  useEffect(() => {
-
-    //future purpose commenting this lines ==> 
-
-    //   if(billamounts && billamounts.length > 0){
-
-    //   const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
-    //   const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
+           useEffect(() => {
+                 if (invoicetotalamounts && invoicetotalamounts.length > 0) {
+                 setBillAmounts(invoicetotalamounts);
+                 } 
+                 
+             }, [invoicetotalamounts]);
 
 
-    //   setEBAmount(EbAmount)
-    //   setRentAmount(RoomRentItem)
+          useEffect(()=> {
 
-    //   var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
+        //future purpose commenting this lines ==> 
 
-    //  const AmenityDetails = amenities.map(item => ({
-    //     am_name: item.description,   
-    //     amount: item.amount
-    //     }));
+        //   if(billamounts && billamounts.length > 0){
+    
+        //   const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
+        //   const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
+  
+  
+        //   setEBAmount(EbAmount)
+        //   setRentAmount(RoomRentItem)
 
-    //     setAmenityDetails(AmenityDetails)
+        //   var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
 
-    //     const allRows = newRows.map(detail => ({
-    //       am_name: detail.am_name, 
-    //       amount: Number(detail.amount)
-    //     })).filter(detail => detail.am_name && detail.amount); 
+        //  const AmenityDetails = amenities.map(item => ({
+        //     am_name: item.description,   
+        //     amount: item.amount
+        //     }));
+            
+        //     setAmenityDetails(AmenityDetails)
 
-    //     const amenityArray = AmenityDetails.map(detail => ({
-    //       am_name: detail.am_name, 
-    //       amount: detail.amount
-    //     })).filter(detail => detail.am_name && detail.amount); 
+        //     const allRows = newRows.map(detail => ({
+        //       am_name: detail.am_name, 
+        //       amount: Number(detail.amount)
+        //     })).filter(detail => detail.am_name && detail.amount); 
+            
+        //     const amenityArray = AmenityDetails.map(detail => ({
+        //       am_name: detail.am_name, 
+        //       amount: detail.amount
+        //     })).filter(detail => detail.am_name && detail.amount); 
+            
+            
+        //     // Combine allRows and amenityArray
+        //     const combinedRows = [...amenityArray, ...allRows];
+          
+        //     setamenityArray(combinedRows)
+  
+        //     const totalAmount = (
+        //       parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
+        //       parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
+        //       combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
+        //     );
+            
+        //     setTotalAmount(totalAmount);  // Set the total amount in the state
 
+        //           }
 
-    //     // Combine allRows and amenityArray
-    //     const combinedRows = [...amenityArray, ...allRows];
+                   if (newRows){
 
-    //     setamenityArray(combinedRows)
+                    const allRows = newRows.map(detail => ({
+                      am_name: detail.am_name, 
+                      amount: Number(detail.amount)
+                    })).filter(detail => detail.am_name && detail.amount);
+                    
+                    setamenityArray(allRows)
+                    
+                      const Total_amout =  allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) 
+                      setTotalAmount(Total_amout);
+                  }
+                  
 
-    //     const totalAmount = (
-    //       parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
-    //       parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
-    //       combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
-    //     );
+          },[newRows])
 
-    //     setTotalAmount(totalAmount);  // Set the total amount in the state
+            
+            useEffect(()=> {
+              dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:hostelId} });
+            },[])
 
-    //           }
+            useEffect(() => {
+              if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
+                setRecurringBills(state.InvoiceList.RecurringBills);
+                setRecurLoader(false);
+                setTimeout(() => {
+                  dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
+                }, 100);
+              }
+            }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
+            
+      
+            useEffect(() => {
+              if (state.InvoiceList.RecurringBillAddStatusCode === 200 || state.InvoiceList.deleterecurringbillsStatuscode ) {
+                dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:hostelId} });
+                setRecurringBills(state.InvoiceList.RecurringBills);
+            
+                setTimeout(() => {
+                  dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
+                }, 1000);
 
-    if (newRows) {
-
-      const allRows = newRows.map(detail => ({
-        am_name: detail.am_name,
-        amount: Number(detail.amount)
-      })).filter(detail => detail.am_name && detail.amount);
-
-      setamenityArray(allRows)
-
-      const Total_amout = allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0)
-      setTotalAmount(Total_amout);
-    }
-
-
-  }, [newRows])
-
-
-  useEffect(() => {
-    dispatch({ type: 'RECURRING-BILLS-LIST', payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, [])
-
-  useEffect(() => {
-    if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
-      setRecurringBills(state.InvoiceList.RecurringBills);
-      setRecurLoader(false);
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
-      }, 100);
-    }
-  }, [state.InvoiceList.RecurringbillsgetStatuscode]);
-
-
-  useEffect(() => {
-    if (state.InvoiceList.RecurringBillAddStatusCode === 200 || state.InvoiceList.deleterecurringbillsStatuscode) {
-      dispatch({ type: 'RECURRING-BILLS-LIST', payload: { hostel_id: state.login.selectedHostel_Id } });
-      setRecurringBills(state.InvoiceList.RecurringBills);
-
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
-      }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE' });
-      }, 1000);
-    }
-  }, [state.InvoiceList.RecurringBillAddStatusCode, state.InvoiceList.deleterecurringbillsStatuscode]);
+                setTimeout(() => {
+                  dispatch({ type: 'CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE' });
+                }, 1000);
+              }
+            }, [state.InvoiceList.RecurringBillAddStatusCode , state.InvoiceList.deleterecurringbillsStatuscode]); 
 
 
 
   return (
     <>
-      {showAllBill &&
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-4 me-4 mt-4'>
+
+{showAllBill && 
+<div>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} 
+className='container ms-3 me-3 mt-3'>
 
 
-            <p style={{ fontSize: "23px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
+<p style={{ fontSize: "18px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
 
 
             <div >
@@ -2064,6 +2130,18 @@ const InvoicePage = () => {
                       }}> + Create Recurring Bill
                     </Button>
 
+<TabContext value={value} className="container">
+<div >
+  <Box sx={{ borderBottom: 0, borderColor: 'divider' }} className="container">
+    <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} 
+    onChange={handleChanges} aria-label="lab API tabs example"
+     style={{ marginLeft: '7px',  marginTop: 0 }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+      <Tab label="Bills" value="1" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Recurring Bills" value="2" style={{ marginTop: 0,fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Receipt" value="3" style={{marginTop: 0, fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+    </TabList>
+  </Box>
+</div>
 
                   }
 

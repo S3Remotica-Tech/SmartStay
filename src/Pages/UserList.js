@@ -203,9 +203,15 @@ function UserList(props) {
         });
       setFilteredUsers(FilterUsertwo);
     }
-    if (value === "4") {
+    // if (value === "4") {
+    //   const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
+    //     return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
+    //   });
+    //   setFilteredUsers(FilterUsertwo);
+    // }
+    if (value === "4" && Array.isArray(state.UsersList.WalkInCustomerList)) {
       const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
-        return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
+        return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
       });
       setFilteredUsers(FilterUsertwo);
     }
@@ -258,7 +264,7 @@ function UserList(props) {
     } else if (value === "2") {
       setFilterInput(`${user.first_name} ${user.last_name}`);
     } else if (value === "4") {
-      setFilterInput(user.customer_Name);
+      setFilterInput(user.first_name);
     }
 
     setFilteredUsers([]);
@@ -539,9 +545,9 @@ function UserList(props) {
     propsRooms,
     propsEmil,
   ]);
-  useEffect(() => {
-    dispatch({ type: "COUNTRYLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "COUNTRYLIST" });
+  // }, []);
 
   const [search, setSearch] = useState(false);
   const [isOpenTab, setIsOpenTab] = useState(true);
@@ -1057,8 +1063,19 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
+      dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
+
   return (
-    <div style={{ padding: 10, marginLeft: 20 }}>
+    // <div style={{ padding: 10, marginLeft: 20 }}>
+    <div>
       <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -1083,7 +1100,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div style={{ margin: "10px" }}>
+        <div style={{ margin: "12px" }}>
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
             <div>
               <label
@@ -1242,7 +1259,7 @@ function UserList(props) {
                                     : value === "2"
                                       ? `${user.first_name} ${user.last_name}`
                                       : value === "4"
-                                        ? user.customer_Name
+                                        ? user.first_name
                                         : ""}
                                 </span>
 

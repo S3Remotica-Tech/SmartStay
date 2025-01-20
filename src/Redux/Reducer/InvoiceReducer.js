@@ -4,7 +4,7 @@ const initialState = {
     Invoice: [],
     message: '',
     invoiceSettings: [],
-    invoicePDF: [],
+    invoicePDF: '',
     prefix: '',
     statusCodeForPDf: 0,
     suffix: '',
@@ -101,7 +101,9 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
             return { ...state, statusCode: 0 }
         case 'INVOICE_PDF':
-            return { ...state, invoicePDF: action.payload, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
+            console.log("Payload:", action.payload);
+            console.log("Response:", action.payload.response);
+            return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_INVOICE_PDF_STATUS_CODE':
             return { ...state, statusCodeForPDf: 0 }
         case 'AMENITIES_SETTINGS':

@@ -641,7 +641,7 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
-        height: 83,
+        height: 83,marginTop:5
       }}>
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
         <div></div>
