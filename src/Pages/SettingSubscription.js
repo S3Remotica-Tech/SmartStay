@@ -147,8 +147,9 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                   borderTopLeftRadius: 24,
+                  paddingLeft:"20px"
                 }}
               >
                 Billing Date
@@ -161,7 +162,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Paying Guest
@@ -174,7 +175,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Amount
@@ -200,7 +201,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Expiry Date
@@ -213,7 +214,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Status
@@ -221,7 +222,7 @@ function SettingSubscription() {
 
               <th
                 style={{
-                  textAlign: "center",
+                  textAlign: "start",
                   fontFamily: "Gilroy",
                   color: "rgba(34, 34, 34, 1)",
                   fontSize: 14,
@@ -267,9 +268,10 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
+                  paddingLeft:"20px"
                 }}
               >
                 {/* {v.floor_name} */}05-12-2024
@@ -279,7 +281,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
@@ -290,7 +292,7 @@ console.log('Formatted Date:', formattedDate);
 
               <td
                 style={{
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -316,7 +318,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -328,7 +330,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
