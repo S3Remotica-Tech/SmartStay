@@ -3144,8 +3144,8 @@ const InvoicePage = () => {
                                       <tr>
                                         <th
                                           style={{
-                                            // textAlign: "center",
-                                            paddingLeft: "60px",
+                                            textAlign: "start",
+                                            paddingLeft: "20px",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3157,7 +3157,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3169,7 +3169,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3181,7 +3181,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3193,7 +3193,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3205,7 +3205,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3217,7 +3217,7 @@ const InvoicePage = () => {
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "center",
+                                            textAlign: "start",
                                             fontFamily: "Gilroy",
                                             color: "rgba(34, 34, 34, 1)",
                                             fontSize: 14,
@@ -3655,9 +3655,9 @@ const InvoicePage = () => {
                           <tr>
                             <th
                               style={{
-                                // textAlign: "left",
+                                textAlign: "start",
                                 // verticalAlign:'middle',
-                                paddingLeft: "65px",
+                                paddingLeft: "20px",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
@@ -3669,7 +3669,7 @@ const InvoicePage = () => {
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
@@ -3681,7 +3681,7 @@ const InvoicePage = () => {
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
@@ -3693,7 +3693,7 @@ const InvoicePage = () => {
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
@@ -3705,7 +3705,7 @@ const InvoicePage = () => {
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
@@ -3718,7 +3718,7 @@ const InvoicePage = () => {
 
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
