@@ -1486,10 +1486,15 @@ const handleClosePdfModal = () => {
 setDownloadInvoice(false)
 }
 
-
+const [hostelId,setHostelId] = useState("")
+  useEffect(()=>{
+  if(state.login.selectedHostel_Id){
+    setHostelId(state.login.selectedHostel_Id)
+  }
+  },[state.login.selectedHostel_Id])
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:hostelId} });
   }, []);
 
 
@@ -1713,21 +1718,23 @@ setDownloadInvoice(false)
   //     }));
   //   }
 
-
+  
+  
+   
   useEffect(()=> {
-    dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
+    dispatch({type: "USERLIST",payload:{hostel_id:hostelId}})
   },[])
 
 
 
-
- 
-
   useEffect(() => {
-    dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} })
+    if(hostelId){
+      dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} })
     
-    setBills(state.InvoiceList.ManualInvoices);
-  }, [])
+      setBills(state.InvoiceList.ManualInvoices);
+    }
+   
+  }, [hostelId])
   
 
 
@@ -1744,7 +1751,7 @@ setDownloadInvoice(false)
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1759,7 +1766,7 @@ setDownloadInvoice(false)
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1773,7 +1780,7 @@ setDownloadInvoice(false)
   }, [state.InvoiceList.manualInvoiceEditStatusCode, state.InvoiceList.ManualInvoices]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1789,7 +1796,7 @@ setDownloadInvoice(false)
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       setLoading(false);
-      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
@@ -1815,7 +1822,7 @@ setDownloadInvoice(false)
 
   useEffect(() => {
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
+      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
@@ -1975,7 +1982,7 @@ setDownloadInvoice(false)
 
             
             useEffect(()=> {
-              dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+              dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:hostelId} });
             },[])
 
             useEffect(() => {
@@ -1991,7 +1998,7 @@ setDownloadInvoice(false)
       
             useEffect(() => {
               if (state.InvoiceList.RecurringBillAddStatusCode === 200 || state.InvoiceList.deleterecurringbillsStatuscode ) {
-                dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id} });
+                dispatch({ type: 'RECURRING-BILLS-LIST' ,payload:{hostel_id:hostelId} });
                 setRecurringBills(state.InvoiceList.RecurringBills);
             
                 setTimeout(() => {
