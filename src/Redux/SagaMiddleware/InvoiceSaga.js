@@ -339,9 +339,11 @@ function* handleInvoiceSettings(param){
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
+   console.log("responses",response);
    
      if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status || response.statusCode}})
+      yield put({ type: 'INVOICE_PDF', payload: {response:response.data.pdf_url,statusCode:response.status || response.statusCode
+      }})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -350,6 +352,7 @@ function* handleInvoicePdf(action) {
       refreshToken(response)
    }
 }
+
 
 function* handleAmenitiesSettings(action){
    const response = yield call (AmenitiesSettings,action.payload)

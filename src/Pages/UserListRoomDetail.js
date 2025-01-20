@@ -8,16 +8,7 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import Flatpickr from "react-flatpickr";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
+import {Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
@@ -446,6 +437,8 @@ function UserListRoomDetail(props) {
       payload: { hostel_Id: state.login.selectedHostel_Id },
     });
   }, [hostel_Id]);
+
+
 
   useEffect(() => {
     const selectedHostel =
@@ -997,30 +990,134 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
     );
   };
 
-  const handleAadharUploadClick = () => {
-    if (aadharInputRef.current) {
-      aadharInputRef.current.click();
+ 
+  const handleAadharUploadClick = (e, type) => {
+    if (e.target.files && e.target.files[0]) {
+      setAadharFile(e.target.files[0].name); // Update state with file name
+      // Dispatch action to upload file
+      dispatch({
+        type: "UPLOADDOCUMENT",
+        payload: {
+          user_id: props.id,
+          type:'doc1',
+          file1: e.target.files[0],
+        },
+      });
     }
+  };
+  // const handleUploadClick = (ref) => {
+  //   ref.current.click(); // Trigger the hidden file input
+  // };
+
+  // const otherDocInputRef = useRef();
+
+const [otherFile,setOtherFile] = useState(null)
+
+  const handleOtherDocUploadClick = (e, type) => {
+    if (e.target.files && e.target.files[0]) {
+      setOtherFile(e.target.files[0].name);
+      dispatch({
+        type: "UPLOADOTHERDOCUMENT",
+        payload: {
+          user_id: props.id,
+          type:'doc2',
+          file1: e.target.files[0],
+        },
+      });
+    }
+  };
+  const handleOtherDocument = (ref) => {
+    ref.current.click(); // Trigger the hidden file input
   };
 
+
+
+ 
+
+  // const handleAadharUploadClick = () => {
+  //   const aadharInputRef = document.getElementById('aadharInput');
+  //   if (aadharInputRef.current) {
+  //     aadharInputRef.current.click();
+
+
+  //   }
+   
+  //   dispatch({ type: "UPLOADDOCUMENT", payload: {user_id: props.id,type:'doc1',file1:aadharInputRef.files[0]}});
+  // };
+console.log("aadharInputRef",aadharInputRef)
   // Handle Other Document upload click
-  const handleOtherDocUploadClick = () => {
-    if (otherDocInputRef.current) {
-      otherDocInputRef.current.click();
-    }
-  };
+  // const handleOtherDocUploadClick = () => {
+  //   if (otherDocInputRef.current) {
+  //     otherDocInputRef.current.click();
+  //   }
+  // };
 
   // Handle file selection
+  // const handleFileChange = (e, type) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     if (type === "aadhar") {
+  //       setAadharFile(file.name); // Store file name for Aadhar
+  //     } else if (type === "otherDoc") {
+  //       setOtherDocFile(file.name); // Store file name for Other Document
+  //     }
+  //   }
+  // };
+
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
-      if (type === "aadhar") {
-        setAadharFile(file.name); // Store file name for Aadhar
-      } else if (type === "otherDoc") {
-        setOtherDocFile(file.name); // Store file name for Other Document
+      if (type === "doc1") {
+        setAadharFile(file.name);
+        dispatch({
+          type: "UPLOADDOCUMENT",
+          payload: {
+            user_id: props.id,
+            type,
+            file1: file,
+          },
+        });
+      } else if (type === "doc2") {
+        setOtherFile(file.name);
+        dispatch({
+          type: "UPLOADOTHERDOCUMENT",
+          payload: {
+            user_id: props.id,
+            type,
+            file1: file,
+          },
+        });
       }
     }
   };
+
+  const handleUploadClick = (ref) => {
+    ref.current.click(); // Trigger the hidden file input
+  };
+
+  useEffect(()=>{
+    if(state.UsersList.statusCodeForUploadDocument === 200){
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
+      }, 100);
+    }
+      },[state.UsersList.statusCodeForUploadDocument])
+
+
+
+      useEffect(()=>{
+        if(state.UsersList.statusCodeForOtherDocu === 200){
+          dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
+          }, 100);
+        }
+          },[state.UsersList.statusCodeForOtherDocu])
+  // const handleUploadClick = (ref) => {
+  //   ref.current.click(); // Trigger the hidden file input
+  // };
+
 
   const [contactDeleteId, setContactDeleteId] = useState("");
   const handleContactDelete = (v) => {
@@ -1680,54 +1777,52 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                               >
                                 {/* Aadhar Card */}
                                 <div className="col-6 text-start">
-                                  <label
-                                    style={{
-                                      display: "block",
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      marginBottom: "10px",
-                                    }}
-                                  >
-                                    Aadhar Card
-                                  </label>
-                                  <button
-                                    className="btn "
-                                    style={{
-                                      borderRadius: "10px",
-                                      padding: "10px 20px",
-                                      fontSize: "14px",
-                                      border: "1px solid #D9D9D9",
-                                    }}
-                                    onClick={handleAadharUploadClick}
-                                  >
-                                    <img
-                                      src={upload}
-                                      width={20}
-                                      height={20}
-                                      style={{ marginRight: "8px" }}
-                                    />
-                                    Upload Document
-                                  </button>
-                                  <input
-                                    type="file"
-                                    ref={aadharInputRef}
-                                    style={{ display: "none" }}
-                                    onChange={(e) =>
-                                      handleFileChange(e, "aadhar")
-                                    }
-                                  />
-                                  {aadharFile && (
-                                    <div
-                                      style={{
-                                        marginTop: "10px",
-                                        fontSize: "14px",
-                                        color: "#555",
-                                      }}
-                                    >
-                                      {aadharFile}
-                                    </div>
-                                  )}
-                                </div>
+      <label
+        style={{
+          display: "block",
+          fontSize: 14,
+          fontWeight: 500,
+          marginBottom: "10px",
+        }}
+      >
+        Aadhar Card
+      </label>
+      <button
+        className="btn"
+        style={{
+          borderRadius: "10px",
+          padding: "10px 20px",
+          fontSize: "14px",
+          border: "1px solid #D9D9D9",
+        }}
+        onClick={() => handleUploadClick(aadharInputRef)}
+      >
+        <img
+          src={upload}
+          width={20}
+          height={20}
+          style={{ marginRight: "8px" }}
+        />
+        Upload Document
+      </button>
+      <input
+         type="file"
+         ref={aadharInputRef}
+         style={{ display: "none" }}
+         onChange={(e) => handleFileChange(e, "doc1")}
+      />
+      {aadharFile && (
+        <div
+          style={{
+            marginTop: "10px",
+            fontSize: "14px",
+            color: "#555",
+          }}
+        >
+          {aadharFile}
+        </div>
+      )}
+    </div>
 
                                 {/* Other Document */}
                                 <div className="col-6 text-start">
@@ -1749,7 +1844,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       fontSize: "14px",
                                       border: "1px solid #D9D9D9",
                                     }}
-                                    onClick={handleOtherDocUploadClick}
+                                    // onClick={handleOtherDocument}
+                                    onClick={() => handleUploadClick(otherDocInputRef)}
                                   >
                                     <img
                                       src={upload}
@@ -1763,11 +1859,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     type="file"
                                     ref={otherDocInputRef}
                                     style={{ display: "none" }}
-                                    onChange={(e) =>
-                                      handleFileChange(e, "otherDoc")
-                                    }
+                                    // onChange={(e) =>
+                                    //   handleOtherDocUploadClick(e, "doc2")
+                                    // }
+                                    onChange={(e) => handleFileChange(e, "doc2")}
                                   />
-                                  {otherDocFile && (
+                                  {otherFile && (
                                     <div
                                       style={{
                                         marginTop: "10px",
@@ -1775,7 +1872,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         color: "#555",
                                       }}
                                     >
-                                      Selected File: {otherDocFile}
+                                      Selected File: {otherFile}
                                     </div>
                                   )}
                                 </div>

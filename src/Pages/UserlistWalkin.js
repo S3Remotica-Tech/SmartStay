@@ -273,7 +273,7 @@ function UserlistWalkin(props) {
                 <div style={{
                   // height: "400px",
                   height: currentCustomers.length >= 6 ? "380px" : "auto",
-                  overflowY: "auto",
+                  overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
                   // borderBottom:"none"
@@ -294,6 +294,7 @@ function UserlistWalkin(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            borderTopLeftRadius: 24,
                           }}
                         >
                           Name
@@ -379,14 +380,14 @@ function UserlistWalkin(props) {
 
                           <td>
                             <div className="d-flex align-items-center">
-                              <Image
+                              {/* <Image
                                 src={Ellipse1}
                                 roundedCircle
                                 height={30}
                                 width={30}
                                 alt="avatar"
                                 style={{ textAlign: "start" }}
-                              />
+                              /> */}
                               <span
                                 style={{
                                   fontSize: "16px",

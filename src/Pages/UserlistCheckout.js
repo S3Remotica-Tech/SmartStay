@@ -391,7 +391,7 @@ function CheckOut(props) {
                   style={{
                     // height: "400px",
                     height: currentCustomers.length >= 6 ? "380px" : "auto",
-                    overflowY: "auto",
+                    overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     // borderBottom:"none"
@@ -421,6 +421,7 @@ function CheckOut(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            borderTopLeftRadius: 24,
                           }}
                         >
                           Name
@@ -600,6 +601,7 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
+                                    textAlign:"center"
                                   }}
                                   className="ms-2 customer-name"
                                 >

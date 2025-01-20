@@ -1166,7 +1166,7 @@ function Expenses({ allPageHostel_Id }) {
               <div style={{
                 // height: "400px",
                 height: currentItems.length >= 6 ? "380px" : "auto",
-                overflowY: "auto",
+                overflowY: currentItems.length >= 6 ? "auto" : "visible",
                 borderRadius: "24px",
                 border: "1px solid #DCDCDC",
                 // borderBottom:"none"
@@ -1417,8 +1417,17 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static">
-        <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static"
+      style={{
+        width:388,
+          height:250,
+          marginLeft:"500px",
+          marginTop:"200px"
+      }}>
+        <Modal.Header style={{ 
+         borderBottom:"none", display: "flex", justifyContent: "center",
+          
+          }} >
           <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete expense?</Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
@@ -1426,7 +1435,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>
+        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
           Are you sure you want to delete this expense?
         </Modal.Body>
 

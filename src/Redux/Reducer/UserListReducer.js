@@ -89,7 +89,9 @@ const initialState = {
     generateAdvance:[],
     statusCodeForGenerateAdvance:0,
     statusCodeForUploadDocument:0,
-    uploaddocu:[]
+    uploaddocu:[],
+    statusCodeForOtherDocu:0,
+    otherUploaddocu:[]
 
 }
 
@@ -432,6 +434,10 @@ const UserListReducer = (state = initialState, action) => {
                     return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
                 case 'CLEAR_UPLOAD_DOCUMENT':
                     return { ...state, statusCodeForUploadDocument: 0 }
+                    case 'UPLOAD_OTHER_DOCUMENT':
+                        return { ...state, otherUploaddocu: action.payload.message, statusCodeForOtherDocu: action.payload.statusCode }
+                    case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
+                        return { ...state, statusCodeForOtherDocu: 0 }
 
     }
     return state;

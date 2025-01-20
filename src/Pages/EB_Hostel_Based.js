@@ -545,7 +545,7 @@ function EBHostelReading(props) {
           <div style={{
             // height: "400px",
             height: currentRowelectricity.length >= 6 ? "400px" : "auto",
-            overflowY: "auto",
+            overflowY:  currentRowelectricity.length >= 6  ? "auto" : "visible",
             borderRadius: "24px",
             border: "1px solid #DCDCDC",
             // borderBottom:"none"
@@ -901,7 +901,7 @@ function EBHostelReading(props) {
               There are no Hostel readings available.
             </div>
 
-            <div style={{ textAlign: "center" }}>
+            {/* <div style={{ textAlign: "center" }}>
               <Button
                 onClick={props.handleHostelForm}
                 style={{
@@ -918,7 +918,7 @@ function EBHostelReading(props) {
               >
                 + Add HostelReading
               </Button>
-            </div>
+            </div> */}
           </div>
         ) : null}
       </div>
@@ -1055,7 +1055,7 @@ function EBHostelReading(props) {
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1461,7 +1461,7 @@ function EBHostelReading(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginTop: 10,
             }}
             onClick={handleSaveEb}
             // disabled={!!formError}
