@@ -667,7 +667,24 @@ const[recurLoader, setRecurLoader]= useState(true)
             console.error('Invalid DueDate:', invoiceValue.Date);
           }
         }
-        // setInvoiceList({amount:invoiceValue.BalanceDue})
+        if (invoiceValue.start_date ) {
+          console.log("StartDate", invoiceValue.start_date);
+          const parsedDate = new Date(invoiceValue.start_date); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setStartDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid startDate:', invoiceValue.start_date);
+          }
+        }
+        if (invoiceValue.end_date ) {
+          console.log("Enddate", invoiceValue.end_date);
+          const parsedDate = new Date(invoiceValue.end_date); // Convert to Date object
+          if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+            setEndDate(parsedDate); // Set the date object in state
+          } else {
+            console.error('Invalid endDate:', invoiceValue.end_date);
+          }
+        }
         
       setTotalAmount(invoiceValue.Amount)
     setNewRows(invoiceValue.amenity)
@@ -725,6 +742,10 @@ const[recurLoader, setRecurLoader]= useState(true)
           setStartdateErrmsg('Start date is required.');
           isValid = false;
       }
+      if (!enddate) {
+        setEnddateErrmsg('End date is required.');
+        isValid = false;
+    }
   
       // Validate Invoice Date
       if (!invoicedate) {
@@ -739,7 +760,7 @@ const[recurLoader, setRecurLoader]= useState(true)
       }
   
       // Check All Required Fields
-      if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate) {
+      if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate || !enddate) {
           setAllFieldErrmsg('Please fill out all required fields.');
           isValid = false;
       }
@@ -748,6 +769,7 @@ const[recurLoader, setRecurLoader]= useState(true)
       customername === invoiceValue.user_id &&
       invoicenumber === invoiceValue.invoicenumber &&
       startdate === invoiceValue.startdate &&
+      enddate === invoiceValue.enddate &&
       invoicedate === invoiceValue.date &&
       invoiceduedate === invoiceValue.due_date;
   
@@ -767,12 +789,23 @@ const formatduedate = `${dueDateObject.getFullYear()}-${String(
           const month = dateObject.getMonth() + 1;
           const day = dateObject.getDate();
           const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
+
+      const startDateObject = new Date(startdate);
+  const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+    startDateObject.getMonth() + 1
+  ).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
+
+  const endDateObject = new Date(enddate);
+  const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+    endDateObject.getMonth() + 1
+  ).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
       console.log("Customer Name (user_id):", customername);
       console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
       console.log("Due Date (due_date):", formatduedate);
       console.log("Invoice ID (id):", invoiceValue.id);
       console.log("Amenity:", invoiceValue.amenity);
+    console.log("start",formattedStartDate);
+    console.log("end",formattedEndDate);
     
       dispatch({
         type: 'MANUAL-INVOICE-EDIT',
@@ -782,6 +815,10 @@ const formatduedate = `${dueDateObject.getFullYear()}-${String(
           due_date: formatduedate,
           id: invoiceValue.id,
           amenity: invoiceValue.amenity,
+          start_date:formattedStartDate,
+          end_date:formattedEndDate,
+
+
         },
       });
     
@@ -1295,12 +1332,23 @@ return;
             return;
           }
        
+// Format start_date
+const startDateObject = new Date(startdate);
+const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+  startDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
 
+// Format end_date
+const endDateObject = new Date(enddate);
+const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+  endDateObject.getMonth() + 1
+).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
          
           if(customername && invoicenumber ){
            dispatch({
              type: 'MANUAL-INVOICE-ADD',
-             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,start_date:formattedStartDate,
+              end_date:formattedEndDate,
              invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
              amenity: amenityArray.length > 0 ? amenityArray : []
              }

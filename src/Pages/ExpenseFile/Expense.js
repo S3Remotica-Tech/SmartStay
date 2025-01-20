@@ -856,6 +856,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
+                      style={{cursor:'pointer'}}
                     />
                   </div>
                 }
@@ -1100,7 +1101,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px" }}>
+                <div style={{ paddingRight: "10px",cursor:'pointer' }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />

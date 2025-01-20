@@ -333,7 +333,7 @@ onClick={handleShowTagAsset}>
       >
         <label
           style={{
-            marginTop: 15,
+            // marginTop: 15,
             fontWeight: 500,
             fontSize: 14,
             fontFamily: "Gilroy, sans-serif",
