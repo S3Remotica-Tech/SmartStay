@@ -295,7 +295,7 @@ setHostelId(state.login.selectedHostel_Id)
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
                             color: "#4B4B4B",
                             fontSize: "14px",
@@ -304,6 +304,7 @@ setHostelId(state.login.selectedHostel_Id)
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft:"20px"
                           }}
                         >
                           Name
