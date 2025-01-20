@@ -75,7 +75,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
     useEffect(() => {
         if (initialData) {
-            setName(initialData.customer_Name || '');
+            setName(initialData.first_name || '');
+            setLastName(initialData.last_name || '');
             setEmail(initialData.email_Id || '');
 
 
@@ -200,7 +201,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         }
 
         const isChanged = initialData && (
-            name.trim() !== (initialData.customer_Name || '').trim() ||
+            name.trim() !== (initialData.first_name || '').trim() ||
             email.trim() !== (initialData.email_Id || '').trim() ||
             `${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim() ||
             (walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD') ||
@@ -257,7 +258,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
             dispatch({
                 type: 'ADDWALKINCUSTOMER',
                 payload: {
-                    customer_Name: name,
+                    first_name: name,
+                    last_name:lastname,
                     email_Id: email,
                     hostel_id: state.login.selectedHostel_Id,
                     mobile_Number: Mobile_Number,
