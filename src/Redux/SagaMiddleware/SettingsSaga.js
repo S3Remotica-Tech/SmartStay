@@ -397,8 +397,10 @@ function* handleDeleteComplainttype(action) {
 function* handleEBBillingUnitAdd(params) {
    
    const response = yield call(AddEBBillingUnit, params.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
+
+   console.log("handleEBBillingUnitAdd",response)
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
     
         
       var toastStyle = {

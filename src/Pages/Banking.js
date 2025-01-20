@@ -1075,6 +1075,7 @@ function Banking() {
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
+                            paddingLeft: "20px"
                           }}
                         >
                           Account Name
@@ -1200,6 +1201,7 @@ function Banking() {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
+                                paddingLeft:"20px"
                               }}
                             >
                               {user.bank_name}

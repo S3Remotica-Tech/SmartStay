@@ -18,6 +18,7 @@ import { MdError } from "react-icons/md";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
+  console.log("UserlistWalkin",state)
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
@@ -25,10 +26,14 @@ function UserlistWalkin(props) {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
-  const [walkInEditPermissionError, setWalkInEditPermissionError] =
-    useState("");
-  const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
-    useState("");
+  const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
+  const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
+  const [hostel_Id,setHostelId]= useState("")
+  useEffect(()=>{
+if(state.login.selectedHostel_Id){
+setHostelId(state.login.selectedHostel_Id)
+}
+  },[state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (
@@ -73,15 +78,19 @@ function UserlistWalkin(props) {
   const [walkInCustomer, setWalkInCustomer] = useState([]);
 
   useEffect(() => {
-    dispatch({
-      type: "WALKINCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
+    if(hostel_Id){
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id:hostel_Id},
+      });
+    }
+  
+  }, [hostel_Id]);
+  console.log("state.UsersList.getWalkInStatusCode",state.UsersList.getWalkInStatusCode)
 
   useEffect(() => {
-    if (state.UsersList.getWalkInStatusCode == 200) {
-      setWalkInCustomer(state.UsersList.WalkInCustomerList);
+    if (state.UsersList.getWalkInStatusCode === 200) {
+      // setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 2000);
@@ -89,7 +98,7 @@ function UserlistWalkin(props) {
   }, [state.UsersList.getWalkInStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.NoDataWalkInCustomerStatusCode == 201) {
+    if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
       setWalkInCustomer([]);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
@@ -104,7 +113,7 @@ function UserlistWalkin(props) {
     ) {
       dispatch({
         type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id:hostel_Id},
       });
 
       setShowForm(false);
@@ -399,7 +408,7 @@ function UserlistWalkin(props) {
                                 }}
                                 className=" customer-name"
                               >
-                                {customer.customer_Name}
+                                {customer.first_name} {customer.last_name}
                               </span>
                             </div>
                           </td>

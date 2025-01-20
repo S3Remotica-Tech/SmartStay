@@ -416,12 +416,14 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose} backdrop="static"  dialogClassName="custom-modal">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
         >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Header 
+          // style={{ border: "1px solid #E7E7E7" }}
+          >
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -433,7 +435,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
               {currentItem ? "Edit an expense" : "Add an expense"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
           </Modal.Header>
 
           {isChangedError && (

@@ -203,9 +203,15 @@ function UserList(props) {
         });
       setFilteredUsers(FilterUsertwo);
     }
-    if (value === "4") {
+    // if (value === "4") {
+    //   const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
+    //     return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
+    //   });
+    //   setFilteredUsers(FilterUsertwo);
+    // }
+    if (value === "4" && Array.isArray(state.UsersList.WalkInCustomerList)) {
       const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
-        return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
+        return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
       });
       setFilteredUsers(FilterUsertwo);
     }
@@ -258,7 +264,7 @@ function UserList(props) {
     } else if (value === "2") {
       setFilterInput(`${user.first_name} ${user.last_name}`);
     } else if (value === "4") {
-      setFilterInput(user.customer_Name);
+      setFilterInput(user.first_name);
     }
 
     setFilteredUsers([]);
@@ -1057,6 +1063,16 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
+      dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
+
   return (
     // <div style={{ padding: 10, marginLeft: 20 }}>
     <div>
@@ -1243,7 +1259,7 @@ function UserList(props) {
                                     : value === "2"
                                       ? `${user.first_name} ${user.last_name}`
                                       : value === "4"
-                                        ? user.customer_Name
+                                        ? user.first_name
                                         : ""}
                                 </span>
 
@@ -1618,6 +1634,7 @@ function UserList(props) {
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
+
                               }}
                             >
                               <tr>
@@ -1635,13 +1652,14 @@ function UserList(props) {
                                 </th> */}
                                 <th
                                   style={{
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
                                     fontSize: "14px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     borderTopLeftRadius: 24,
+                                    paddingLeft: "20px"
                                   }}
                                 >
                                   Name
@@ -1803,6 +1821,7 @@ function UserList(props) {
                                         fontWeight: 600,
                                         textAlign: "center",
                                         marginTop: 10,
+
                                       }}
                                     >
                                       {/* <td
@@ -1822,7 +1841,8 @@ function UserList(props) {
                                         style={{
                                           border: "none",
                                           padding: "10px",
-                                          textAlign: "center",
+                                          textAlign: "start",
+                                          paddingLeft: "20px"
                                         }}
                                       >
                                         {/* <Image
@@ -1867,6 +1887,7 @@ function UserList(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
+
                                         }}
                                       >
                                         <span

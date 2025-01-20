@@ -54,13 +54,13 @@ function ExpensesListTable(props) {
     }
   };
 
-  const [assetname , setAssetName] = useState('')
-  const [assetnameerror , setAssetNameError] = useState('')
+  const [assetname, setAssetName] = useState('')
+  const [assetnameerror, setAssetNameError] = useState('')
 
   const handleAssetname = (e) => {
-    setAssetName (e.target.value)
+    setAssetName(e.target.value)
 
-    if(!e.target.value){
+    if (!e.target.value) {
       setAssetNameError("Please select a assetname ")
     }
     else {
@@ -70,16 +70,16 @@ function ExpensesListTable(props) {
 
   const handleTagAsset = () => {
 
-    if (!assetname){
+    if (!assetname) {
       setAssetNameError("Please select a assetname ")
       return;
     }
     if (assetname) {
-        dispatch({ type: 'ADDEXPENSETAG', payload: {id: props.item.id, asset_id: assetname , hostel_id : props.item.hostel_id } })
-      }
+      dispatch({ type: 'ADDEXPENSETAG', payload: { id: props.item.id, asset_id: assetname, hostel_id: props.item.hostel_id } })
     }
+  }
 
-useEffect(() => {
+  useEffect(() => {
     if (state.ExpenseList.StatusCodeForAddExpenseTagSuccess === 200) {
 
       setshowTagAsset(false)
@@ -88,8 +88,8 @@ useEffect(() => {
       }, 100)
     }
   }, [state.ExpenseList.StatusCodeForAddExpenseTagSuccess])
-    
-  
+
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -103,45 +103,45 @@ useEffect(() => {
   //Tag Asset
   const [showTagAsset, setshowTagAsset] = useState();
 
-const handleShowTagAsset = () => {
-  
-  setshowTagAsset(true)
-  
-  
-};
+  const handleShowTagAsset = () => {
+
+    setshowTagAsset(true)
+
+
+  };
 
 
 
-// close icon  in tag asset
-const handleHideTagAsset = () => {
-  setshowTagAsset(false); 
-};
+  // close icon  in tag asset
+  const handleHideTagAsset = () => {
+    setshowTagAsset(false);
+  };
 
 
 
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
-{/* 
+      {/* 
       <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center",border: "none"}}>
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
     </td> */}
 
-      <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",paddingLeft:"20px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
 
-     
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
-        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+
+      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
-      <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_count}</td>
-      <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_amount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.description || "-"}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_count}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_amount}</td>
 
 
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
-        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.purchase_amount}
           </div >
@@ -150,7 +150,7 @@ const handleHideTagAsset = () => {
       </td>
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
-        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ backgroundColor: "#D9E9FF", fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.payment_mode}
           </div >
@@ -169,100 +169,100 @@ const handleHideTagAsset = () => {
                 <div style={{ backgroundColor: "#f9f9f9" }} className=''>
 
 
-{/* Tag Asset  */}
-<div
-  className="mb-1 d-flex justify-content-start align-items-center gap-2"
-  style={{
-    cursor: "pointer",
-  }}
-onClick={handleShowTagAsset}>
-  <div>
-    <img src={TagAsset} />
-  </div>
-  <div>
-    <label
-      style={{
-        cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: "black",
-      }}
-    >
-      Tag Asset
-    </label>
-  </div>
-</div>
+                  {/* Tag Asset  */}
+                  <div
+                    className="mb-1 d-flex justify-content-start align-items-center gap-2"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={handleShowTagAsset}>
+                    <div>
+                      <img src={TagAsset} />
+                    </div>
+                    <div>
+                      <label
+                        style={{
+                          cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          color: "black",
+                        }}
+                      >
+                        Tag Asset
+                      </label>
+                    </div>
+                  </div>
 
 
 
 
 
-{/* edit  */}
-                <div
-  className="mb-2 d-flex justify-content-start align-items-center gap-2 "
-  onClick={() => {
-    if (!props.expenceEditPermission) {
-      handleEditExpense(props.item);
-    }
-  }}
-  style={{
-    cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-  }}
->
-  <div>
-    <Edit
-      size="16"
-      color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: props.expenceEditPermission ? "#A9A9A9" : "#222222",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                  {/* edit  */}
+                  <div
+                    className="mb-2 d-flex justify-content-start align-items-center gap-2 "
+                    onClick={() => {
+                      if (!props.expenceEditPermission) {
+                        handleEditExpense(props.item);
+                      }
+                    }}
+                    style={{
+                      cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <div>
+                      <Edit
+                        size="16"
+                        color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        style={{
+                          cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          color: props.expenceEditPermission ? "#A9A9A9" : "#222222",
+                        }}
+                      >
+                        Edit
+                      </label>
+                    </div>
+                  </div>
 
-{/* Delete  */}
-<div
-  className="mb-1 d-flex justify-content-start align-items-center gap-2"
-  style={{
-    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-  }}
-  onClick={() => {
-    if (!props.expenceDeletePermission) {
-      handleDelete(props.item.id);
-    }
-  }}
->
-  <div>
-    <Trash
-      size="16"
-      color={props.expenceDeletePermission ? "#A9A9A9" : "red"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000", 
-      }}
-    >
-      Delete
-    </label>
-  </div>
-</div>
+                  {/* Delete  */}
+                  <div
+                    className="mb-1 d-flex justify-content-start align-items-center gap-2"
+                    style={{
+                      cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                    }}
+                    onClick={() => {
+                      if (!props.expenceDeletePermission) {
+                        handleDelete(props.item.id);
+                      }
+                    }}
+                  >
+                    <div>
+                      <Trash
+                        size="16"
+                        color={props.expenceDeletePermission ? "#A9A9A9" : "red"}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        style={{
+                          cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000",
+                        }}
+                      >
+                        Delete
+                      </label>
+                    </div>
+                  </div>
 
                 </div>
               </div>
@@ -277,161 +277,155 @@ onClick={handleShowTagAsset}>
     </tr>
 
     {showTagAsset && (
-  <>
-    <div
-      style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        border: "1px solid #DCDCDC",
-        borderRadius: 24,
-        padding: "16px",
-        backgroundColor: "#FFF",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        zIndex: 1000,
-        width: 472,
-        // height: 278,
-      }}
-      onClick={(e) => e.stopPropagation()} 
-    >
-      
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottom: "1px solid#E7E7E7", 
-    paddingBottom: "10px", 
-  }}
->
-  <p
-    style={{
-      fontWeight: 600,
-      fontSize: 18,
-      fontFamily: "Gilroy, sans-serif",
-      margin: 0,
-    }}
-  >
-    Tag Asset
-  </p>
-  <img
-    src={closeicon}
-    alt="Close"
-    style={{ cursor: "pointer", width: 20, height: 20 }}
-    onClick={handleHideTagAsset}
-  />
-</div>
-
-      <div
-        style={{
-          marginTop: 15,
-          position: "relative",
-          display: "inline-block",
-          width: "100%",
-        }}
-      >
-        <label
+      <>
+        <div
           style={{
-            marginTop: 15,
+            // marginTop: 15,
             fontWeight: 500,
             fontSize: 14,
             fontFamily: "Gilroy, sans-serif",
             display: "block", 
             textAlign: "left", 
           }}
+          onClick={(e) => e.stopPropagation()}
         >
-          Asset Unique Name
-        </label>
 
-<select
-  style={{
-    marginTop: 15,
-    border: "1px solid #E7E7E7",
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 16,
-    width: "100%",
-    height: "52px",
-    borderRadius: "12px",
-    fontWeight: 500,
-    fontSize: 14,
-    fontFamily: "Gilroy, sans-serif",
-  }}
-  defaultValue="" 
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid#E7E7E7",
+              paddingBottom: "10px",
+            }}
+          >
+            <p
+              style={{
+                fontWeight: 600,
+                fontSize: 18,
+                fontFamily: "Gilroy, sans-serif",
+                margin: 0,
+              }}
+            >
+              Tag Asset
+            </p>
+            <img
+              src={closeicon}
+              alt="Close"
+              style={{ cursor: "pointer", width: 20, height: 20 }}
+              onClick={handleHideTagAsset}
+            />
+          </div>
 
-  value={assetname}
-  onChange={(e)=> handleAssetname(e)}
->
-  <option value="" disabled>
-    Select an Asset
-  </option>
-  {state.AssetList.assetList.map((view) => (
-    <option key={view.asset_id} value={view.asset_id}>
-      {view.asset_name}
-    </option>
-  ))}
-</select>
+          <div
+            style={{
+              marginTop: 15,
+              position: "relative",
+              display: "inline-block",
+              width: "100%",
+            }}
+          >
+            <label
+              style={{
+                marginTop: 15,
+                fontWeight: 500,
+                fontSize: 14,
+                fontFamily: "Gilroy, sans-serif",
+                display: "block",
+                textAlign: "left",
+              }}
+            >
+              Asset Unique Name
+            </label>
 
-{state.AssetList.assetList &&
-                state.AssetList.assetList.length == 0 && (
-                  <label
-                    className="pb-1"
-                    style={{
-                      fontSize: 14,
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {" "}
-                    Please add an 'Asset' option in Asset page, accessible after
-                    adding an expense.
-                  </label>
-                )}
+            <select
+              style={{
+                marginTop: 15,
+                border: "1px solid #E7E7E7",
+                paddingTop: 6,
+                paddingBottom: 6,
+                paddingLeft: 16,
+                width: "100%",
+                height: "52px",
+                borderRadius: "12px",
+                fontWeight: 500,
+                fontSize: 14,
+                fontFamily: "Gilroy, sans-serif",
+              }}
+              defaultValue=""
 
-        <button
+              value={assetname}
+              onChange={(e) => handleAssetname(e)}
+            >
+              <option value="" disabled>
+                Select an Asset
+              </option>
+              {state.AssetList.assetList.map((view) => (
+                <option key={view.asset_id} value={view.asset_id}>
+                  {view.asset_name}
+                </option>
+              ))}
+            </select>
+
+            {state.AssetList.assetList &&
+              state.AssetList.assetList.length == 0 && (
+                <label
+                  className="pb-1"
+                  style={{
+                    fontSize: 14,
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {" "}
+                  Please add an 'Asset' option in Asset page, accessible after
+                  adding an expense.
+                </label>
+              )}
+
+            <button
+              style={{
+                marginTop: 15,
+                width: "100%",
+                height: "59px",
+                borderRadius: "12px",
+                backgroundColor: "#1E45E1",
+                color: "white",
+                border: "none",
+                fontSize: "16px",
+                fontWeight: "400px",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+                paddingLeft: "40px",
+                paddingRight: "40px",
+                cursor: "pointer",
+              }}
+
+              onClick={handleTagAsset}
+            >
+              Tag Asset
+            </button>
+          </div>
+        </div>
+
+        <div
+          onClick={handleHideTagAsset}
           style={{
-            marginTop: 15,
+            position: "fixed",
+            top: 0,
+            left: 0,
             width: "100%",
-            height: "59px",
-            borderRadius: "12px",
-            backgroundColor: "#1E45E1",
-            color: "white",
-            border: "none",
-            fontSize: "16px",
-            fontWeight: "400px",
-            paddingTop: "20px",
-            paddingBottom: "20px",
-            paddingLeft: "40px",
-            paddingRight: "40px",
-            cursor: "pointer",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 999,
           }}
+        />
+      </>
+    )}
 
-          onClick={handleTagAsset}
-        >
-          Tag Asset
-        </button>
-      </div>
-    </div>
 
-    <div
-      onClick={handleHideTagAsset} 
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 999,
-      }}
-    />
   </>
-)}
-
-
-    </>
   )
 }
 

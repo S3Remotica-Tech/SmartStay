@@ -677,13 +677,13 @@ const ComplianceList = (props) => {
                     lineHeight: "normal",
                   }}
                 >
-                  {props.complaints.Assign === "" ||
-                  props.complaints.Assign == null ? (
+                  {props.complaints.assigner_name === "" ||
+                  props.complaints.assigner_name == null ? (
                     <p style={{ color: "#1E45E1", fontSize: "16px" }}>
                       + Assign
                     </p>
                   ) : (
-                    props.complaints.Assign
+                    props.complaints.assigner_name
                   )}
                 </label>{" "}
               </div>

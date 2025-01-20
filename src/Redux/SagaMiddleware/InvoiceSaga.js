@@ -728,6 +728,10 @@ console.log("API response",response);
          style: toastStyle
        })
    }
+   else if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'DELETE_MANUAL_ERROR', payload: response.data.message })
+   }
+   
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
