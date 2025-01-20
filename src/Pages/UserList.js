@@ -1617,6 +1617,7 @@ function UserList(props) {
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
+
                               }}
                             >
                               <tr>
@@ -1634,13 +1635,14 @@ function UserList(props) {
                                 </th> */}
                                 <th
                                   style={{
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
                                     fontSize: "14px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     borderTopLeftRadius: 24,
+                                    paddingLeft: "20px"
                                   }}
                                 >
                                   Name
@@ -1802,6 +1804,7 @@ function UserList(props) {
                                         fontWeight: 600,
                                         textAlign: "center",
                                         marginTop: 10,
+
                                       }}
                                     >
                                       {/* <td
@@ -1821,7 +1824,8 @@ function UserList(props) {
                                         style={{
                                           border: "none",
                                           padding: "10px",
-                                          textAlign: "center",
+                                          textAlign: "start",
+                                          paddingLeft: "20px"
                                         }}
                                       >
                                         {/* <Image
@@ -1866,6 +1870,7 @@ function UserList(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
+
                                         }}
                                       >
                                         <span

@@ -20,24 +20,24 @@ import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
 import close from '../Assets/Images/close.svg';
 
-function SettingNewUser({hostelid}) {
+function SettingNewUser({ hostelid }) {
 
     /////////////////////////// state
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
     const [usersFilterddata, setUsersFilterddata] = useState([]);
-const [addUserForm, setAddUserForm] = useState(false)
+    const [addUserForm, setAddUserForm] = useState(false)
     const [showDots, setShowDots] = useState(null);
-const [editDetails, setEditDetails] = useState('')
-const [deleteId, setDeleteId] = useState('')
-const [isConfirmDelete, setIsConfirmDelete] = useState(false)
-const [loading, setLoading] = useState(true)
+    const [editDetails, setEditDetails] = useState('')
+    const [deleteId, setDeleteId] = useState('')
+    const [isConfirmDelete, setIsConfirmDelete] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     // Function Declare//////////////////////////////////////////////////////////
 
     const handleDotsClick = (index) => {
-       
+
         setShowDots((prev) => (prev === index ? null : index));
     };
 
@@ -50,70 +50,70 @@ const [loading, setLoading] = useState(true)
     };
 
     //add user
-//       const [showPopup, setShowPopup] = useState(false);
-// const handleOpenAddUser = () =>{
-  
-//        setAddUserForm(true)
-// }
-const [showPopup, setShowPopup] = useState(false);
+    //       const [showPopup, setShowPopup] = useState(false);
+    // const handleOpenAddUser = () =>{
 
-const handleOpenAddUser = () => {
-  if (!hostelid) { 
-    setShowPopup(true); 
-    return;
-  }
-  setAddUserForm(true);
-  console.log("Opening Add User Form...");
-};
+    //        setAddUserForm(true)
+    // }
+    const [showPopup, setShowPopup] = useState(false);
 
-
-const handleCloseAddUser = () =>{
-    setAddUserForm(false)
-}
-
-const  handleEditForm = (item) =>{
-    setAddUserForm(true)
-    setEditDetails(item)
-}
-
-const handleDeleteForm = (item) =>{
-setDeleteId(item.id)
-setIsConfirmDelete(true)
-}
-
-const handleClose = () =>{
-    setIsConfirmDelete(false)
-}
+    const handleOpenAddUser = () => {
+        if (!hostelid) {
+            setShowPopup(true);
+            return;
+        }
+        setAddUserForm(true);
+        console.log("Opening Add User Form...");
+    };
 
 
-const handleDelete = () =>{
-    if(deleteId){
-        dispatch({ type: 'DELETEUSER', payload: { id: deleteId}})
+    const handleCloseAddUser = () => {
+        setAddUserForm(false)
     }
-}
+
+    const handleEditForm = (item) => {
+        setAddUserForm(true)
+        setEditDetails(item)
+    }
+
+    const handleDeleteForm = (item) => {
+        setDeleteId(item.id)
+        setIsConfirmDelete(true)
+    }
+
+    const handleClose = () => {
+        setIsConfirmDelete(false)
+    }
+
+
+    const handleDelete = () => {
+        if (deleteId) {
+            dispatch({ type: 'DELETEUSER', payload: { id: deleteId } })
+        }
+    }
 
 
 
     // useEffect/////////////////////
 
     useEffect(() => {
-                dispatch({ type: "GETUSERSTAFF" , payload:{hostel_id:state.login.Settings_Hostel_Id}});
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
     }, [state.login.Settings_Hostel_Id])
 
 
 
-useEffect(()=>{
-    if(state.InvoiceList?.deleteUserSuccessStatusCode == 200){
-        setIsConfirmDelete(false)
-        dispatch({ type: "GETUSERSTAFF" ,payload:{hostel_id:state.login.Settings_Hostel_Id}});
-        setTimeout(()=>{
-dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
-        },2000)
+    useEffect(() => {
+        if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
+            setIsConfirmDelete(false)
+            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE' })
+            }, 2000)
 
-    }
+        }
 
 
-},[state.InvoiceList?.deleteUserSuccessStatusCode])
+    }, [state.InvoiceList?.deleteUserSuccessStatusCode])
 
 
 
@@ -132,37 +132,37 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
     }, []);
 
     useEffect(() => {
-        if(state.Settings?.StatusForaddSettingStaffList == 200){
-        setUsersFilterddata(state.Settings?.addSettingStaffList)
-        setLoading(false)
-        setTimeout(()=>{
-            dispatch({ type: "CLEAR_USER_STAFF_LIST" });
-        },1000)
+        if (state.Settings?.StatusForaddSettingStaffList == 200) {
+            setUsersFilterddata(state.Settings?.addSettingStaffList)
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_USER_STAFF_LIST" });
+            }, 1000)
         }
     }, [state.Settings?.StatusForaddSettingStaffList])
 
 
-    useEffect(()=>{
-        if(state.Settings.StatusForaddSettingUser === 200){
+    useEffect(() => {
+        if (state.Settings.StatusForaddSettingUser === 200) {
             setAddUserForm(false)
-          dispatch({ type: "GETUSERSTAFF",payload:{hostel_id:state.login.Settings_Hostel_Id} });
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_ADD_STAFF_USER" });
-          }, 200);
+            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_STAFF_USER" });
+            }, 200);
         }
-        },[state.Settings.StatusForaddSettingUser])
+    }, [state.Settings.StatusForaddSettingUser])
 
     return (
 
-        <div className="container" style={{position:"relative"}}>
+        <div className="container" style={{ position: "relative" }}>
 
-{loading &&
+            {loading &&
                 <div
                     style={{
                         position: 'absolute',
                         inset: 0,
-                        height:"60vh",
-                       display: 'flex',
+                        height: "60vh",
+                        display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: 'transparent',
@@ -187,22 +187,26 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
 
 
             <div className='d-flex justify-content-between align-items-center'
-          style={{display: "flex",flexDirection: "row",justifyContent: "space-between" ,  position: "sticky",
-            top: 0,
-            right: 0,
-            left: 0,
-            zIndex: 1000,
-            backgroundColor: "#FFFFFF",
-            height: 83,}}  >
+                style={{
+                    display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#FFFFFF",
+                    height: 83,
+                }}  >
                 <div>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
                 <div>
                     <Button
                         onClick={handleOpenAddUser}
-                        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}
-                            disabled={showPopup}
+                        style={{
+                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        }}
+                        disabled={showPopup}
                     >
 
 
@@ -212,16 +216,16 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                 </div>
             </div>
             {showPopup && (
-        <div className="d-flex flex-wrap">
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          Please add a hostel before adding User information.
-        </p>
-        
-       
-      </div>
-      
-      
-      )}
+                <div className="d-flex flex-wrap">
+                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                        Please add a hostel before adding User information.
+                    </p>
+
+
+                </div>
+
+
+            )}
 
 
 
@@ -232,21 +236,22 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
 
 
                     <Table
-                    responsive="md"
-                    className='Table_Design'
-                    style={{
-                      height: "auto",
-                      tableLayout: "auto",
-                      overflow: "visible",
-                      borderRadius: "24px",
-                      border: "1px solid #DCDCDC"
-                    }}
+                        responsive="md"
+                        className='Table_Design'
+                        style={{
+                            height: "auto",
+                            tableLayout: "auto",
+                            overflow: "visible",
+                            borderRadius: "24px",
+                            border: "1px solid #DCDCDC"
+                        }}
                     >
-                        <thead style={{ backgroundColor: "#E7F1FF",
-                             position:"sticky",
-                             top:0,
-                             zIndex:1,
-                         }}>
+                        <thead style={{
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                        }}>
                             <tr>
                                 <th
                                     style={{
@@ -255,7 +260,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         borderTopLeftRadius: "24px",
-                                        textAlign: "left",
+                                        textAlign: "start",
                                         paddingLeft: 20
                                     }}
                                 >
@@ -268,7 +273,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "left",
+                                        textAlign: "start",
                                     }}
                                 >
                                     Email
@@ -280,7 +285,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "left",
+                                        textAlign: "start",
                                     }}
                                 >
                                     Mobile
@@ -292,7 +297,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "left",
+                                        textAlign: "start",
                                     }}
                                 >
                                     Role
@@ -315,11 +320,12 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                             <td
                                                 style={{
                                                     border: "none",
-                                                    display: "flex",
+                                                    // display: "flex",
                                                     padding: "10px",
+                                                    paddingLeft: "20px"
                                                 }}
                                             >
-                                                <Image
+                                                {/* <Image
                                                     src={imageUrl}
                                                     alt={item.first_name || "Default Profile"}
                                                     roundedCircle
@@ -332,7 +338,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                         e.target.onerror = null;
                                                         e.target.src = Profile;
                                                     }}
-                                                />
+                                                /> */}
                                                 <span
                                                     className="Customer_Name_Hover"
                                                     style={{
@@ -353,7 +359,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                     fontWeight: 500,
                                                     fontSize: "16px",
                                                     fontFamily: "Gilroy",
-                                                    textAlign: "left",
+                                                    textAlign: "start",
                                                     paddingTop: 17
 
                                                 }}
@@ -386,7 +392,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                     fontWeight: 500,
                                                     fontSize: "16px",
                                                     fontFamily: "Gilroy",
-                                                    textAlign: "left",
+                                                    textAlign: "start",
                                                     paddingTop: 15
                                                 }}
                                             >
@@ -403,10 +409,10 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                         justifyContent: "center",
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
-                                                        position:"relative"
+                                                        position: "relative"
                                                     }}
 
-                                                    onClick={()=>handleDotsClick(index)}
+                                                    onClick={() => handleDotsClick(index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
                                                         style={{ height: "20px", width: "20px" }}
@@ -419,8 +425,8 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                                 cursor: "pointer",
                                                                 backgroundColor: "#F9F9F9",
                                                                 position: "absolute",
-                                                               top:30,
-                                                               right:30,
+                                                                top: 30,
+                                                                right: 30,
                                                                 width: 160,
                                                                 height: 70,
                                                                 border: "1px solid #EBEBEB",
@@ -433,7 +439,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                         >
                                                             <div
                                                                 className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                               onClick={() => handleEditForm(item)}
+                                                                onClick={() => handleEditForm(item)}
                                                             >
                                                                 <img
                                                                     src={Edit}
@@ -453,7 +459,7 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                                                                 </label>
                                                             </div>
                                                             <div className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                              onClick={() => handleDeleteForm(item)}
+                                                                onClick={() => handleDeleteForm(item)}
                                                             >
                                                                 <img
                                                                     src={Delete}
@@ -485,8 +491,8 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
                         </tbody>
                     </Table>
 
-                ) : !loading  && (  
-                    <div style={{marginTop:90,alignItems:"center",justifyContent:"center"}}>
+                ) : !loading && (
+                    <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
                         <div style={{ textAlign: "center" }}>
                             <img
                                 src={emptyimg}
@@ -527,37 +533,35 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
             </div>
 
 
-{
-    isConfirmDelete && 
+            {
+                isConfirmDelete &&
 
-            <Modal show={isConfirmDelete} onHide={handleClose} centered backdrop="static">
-    <Modal.Header style={{display:"flex", justifyContent:"center"}} >
-      <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete User ?</Modal.Title>
-    </Modal.Header>
-
-    
-    
-    <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", textAlign:"center"}}>
-         Are you sure you want to delete the User ?    </Modal.Body>
-    <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
-    <Button  
-    onClick={handleClose} 
-    style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#FFF",color:"#1E45E1",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
-            Cancel
-          </Button>
-      
-          <Button style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}
-           onClick={handleDelete}
-           >
-            Delete
-          </Button>
-         
-    </Modal.Footer>
-  </Modal>
-
-}
+                <Modal show={isConfirmDelete} onHide={handleClose} centered backdrop="static">
+                    <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
+                        <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete User ?</Modal.Title>
+                    </Modal.Header>
 
 
+
+                    <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+                        Are you sure you want to delete the User ?    </Modal.Body>
+                    <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
+                        <Button
+                            onClick={handleClose}
+                            style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                            Cancel
+                        </Button>
+
+                        <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
+
+            }
 
 
 
@@ -566,7 +570,9 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
 
 
 
-{addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid}/>}
+
+
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} />}
 
 
 

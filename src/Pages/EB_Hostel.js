@@ -826,8 +826,9 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                // textAlign: "center",
-                                textAlign: hostelBased === 1 ? "start" : "center",
+                                textAlign: "start",
+                                paddingLeft:"20px"
+                                // textAlign: hostelBased === 1 ? "start" : "center",
                               }}
                             >
                               Name
@@ -840,7 +841,7 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Paying Guest
@@ -856,7 +857,7 @@ function EB_Hostel(props) {
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                   }}
                                 >
                                   Floor
@@ -869,7 +870,7 @@ function EB_Hostel(props) {
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                   }}
                                 >
                                   Room
@@ -885,7 +886,7 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Previous
@@ -898,7 +899,7 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Current
@@ -911,7 +912,7 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Date
@@ -924,14 +925,14 @@ function EB_Hostel(props) {
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Units
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "#939393",
                                 fontSize: 14,
@@ -971,9 +972,10 @@ function EB_Hostel(props) {
                                     border: "none",
                                     display: "flex",
                                     padding: "10px",
+                                    paddingLeft:"20px"
                                   }}
                                 >
-                                  <Image
+                                  {/* <Image
                                     src={imageUrl}
                                     alt={v.Name || "Default Profile"}
                                     roundedCircle
@@ -986,7 +988,7 @@ function EB_Hostel(props) {
                                       e.target.onerror = null;
                                       e.target.src = Profile;
                                     }}
-                                  />
+                                  /> */}
                                   <span
                                     style={{
                                       fontSize: "16px",
@@ -1016,7 +1018,7 @@ function EB_Hostel(props) {
                                   style={{
                                     paddingTop: 15,
                                     border: "none",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
@@ -1047,7 +1049,7 @@ function EB_Hostel(props) {
                                         fontSize: "16px",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        textAlign: "center",
+                                        textAlign: "start",
                                         verticalAlign: "middle",
                                         borderBottom: "none",
                                       }}
@@ -1059,7 +1061,7 @@ function EB_Hostel(props) {
                                         fontSize: "16px",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        textAlign: "center",
+                                        textAlign: "start",
                                         verticalAlign: "middle",
                                         borderBottom: "none",
                                       }}
@@ -1073,7 +1075,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1085,7 +1087,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1094,12 +1096,12 @@ function EB_Hostel(props) {
                                 </td>
                                 <td
                                   style={{
-                                    // textAlign: "center",
+                                    // textAlign: "start",
                                     // verticalAlign: "middle",
                                     // borderBottom: "none",
                                     padding: "10px",
                                     border: "none",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     fontSize: "16px",
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
@@ -1143,7 +1145,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1155,7 +1157,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
