@@ -2078,7 +2078,7 @@ className='container ms-3 me-3 mt-3'>
   {showLoader && <LoaderComponent />}
   
 
-  <div style={{ display: 'flex', flexDirection: 'row' }}>
+  <div style={{cursor:"pointer", display: 'flex', flexDirection: 'row' }}>
 
     {
       searchicon &&
@@ -2089,7 +2089,7 @@ className='container ms-3 me-3 mt-3'>
           onChange={(e) => handleInputChange(e)}
           placeholder='Search By Name'
           class="form-control ps-4 pe-1 mt-4  searchinput"
-          style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
+          style={{cursor:"pointer", marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
         />
       </>
@@ -2111,7 +2111,7 @@ className='container ms-3 me-3 mt-3'>
       </>
     }
     <div className='me-3 mt-3'>
-      <Image src={Sort} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
+      <Image src={Sort} roundedCircle style={{cursor:"pointer", height: "30px", width: "30px" }} onClick={handleFiltershow} />
     </div>
     <div  className='me-5'>
       {value == 1 && 
@@ -3466,7 +3466,14 @@ className='container ms-3 me-3 mt-3'>
                                         <DatePicker
                                             selected={startdate}
                                             onChange={(date)=>handlestartDate(date)}
-                                       
+                                        popperPlacement="bottom-start"
+                                        popperModifiers={[
+                                          {
+                                            name: 'offset',
+                                            options: {
+                                              offset: [0, -200],                                             },
+                                          },
+                                        ]}
                                             dateFormat="dd/MM/yyyy"
                                             // minDate={new Date()}
                                            
@@ -3500,7 +3507,14 @@ className='container ms-3 me-3 mt-3'>
                                         <DatePicker
                                             selected={enddate}
                                             onChange={(date)=>handleEndDate(date)}
-                                       
+                                        popperPlacement="bottom-start"
+                                        popperModifiers={[
+                                          {
+                                            name: 'offset',
+                                            options: {
+                                              offset: [0, -200],                                             },
+                                          },
+                                        ]}
                                             dateFormat="dd/MM/yyyy"
                                             // minDate={new Date()}
                                            
