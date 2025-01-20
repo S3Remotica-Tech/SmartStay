@@ -90,11 +90,9 @@ const Compliance = () => {
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
-
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
@@ -130,6 +128,11 @@ const Compliance = () => {
       setHosId(state.login.selectedHostel_Id)
     }
   }, [state.login.selectedHostel_Id])
+  
+
+  useEffect(()=>{
+    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+  },[hosId])
 
   useEffect(() => {
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
