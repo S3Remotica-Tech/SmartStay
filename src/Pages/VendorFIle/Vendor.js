@@ -471,9 +471,9 @@ function Vendor() {
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
-            <div className='container mt-3'
+            <div className='container ' 
 
-              style={{
+              style={{ marginTop:7,
                 height: 83,
                 position: "sticky",
                 top: 0,

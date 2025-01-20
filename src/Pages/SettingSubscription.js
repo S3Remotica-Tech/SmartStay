@@ -9,7 +9,7 @@ import Image from "react-bootstrap/Image";
 function SettingSubscription(){
     return(
         <div>
-            <div>
+            <div style={{marginTop:25}}>
                  <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Subscription</p>
                  
             </div>

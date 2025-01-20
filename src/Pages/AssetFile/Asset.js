@@ -455,18 +455,19 @@ function Asset() {
               )}
             </div></>
         ) :
-          <div className='m-4'>
+          // <div style={{paddingLeft:20,paddingRight:20}}>
+          <div className='container'>
             {/* <div className='m-4'> */}
 
 
 
-            <div className='mt-3'>
-
+            {/* <div className='mt-3'> */}
+            <div>
 
               <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap "
                 style={{
                   position: 'sticky',
-                  top: 25,
+                  top: 15,
                   backgroundColor: 'white',
                   zIndex: 10,
                   padding: '10px',

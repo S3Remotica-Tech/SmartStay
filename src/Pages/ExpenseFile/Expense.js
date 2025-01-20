@@ -781,7 +781,7 @@ function Expenses({ allPageHostel_Id }) {
             <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
               style={{
                 position: 'sticky',
-                top: 25,
+                top: 15,
                 backgroundColor: 'white',
                 zIndex: 10,
                 padding: '10px',

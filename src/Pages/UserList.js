@@ -1058,7 +1058,8 @@ function UserList(props) {
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
   return (
-    <div style={{ padding: 10, marginLeft: 20 }}>
+    // <div style={{ padding: 10, marginLeft: 20 }}>
+    <div>
       <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -1083,7 +1084,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div style={{ margin: "10px" }}>
+        <div style={{ margin: "12px" }}>
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
             <div>
               <label

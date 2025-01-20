@@ -256,7 +256,7 @@ function Reports() {
 
   return (
 
-    <div className='container mt-3' style={{ width: "100%" }}>
+    <div className='container mt-4' style={{ width: "100%" }}>
 
 <div className='container'>
 <div className="d-flex justify-content-between mb-2 flex-wrap">

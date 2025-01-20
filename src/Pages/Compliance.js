@@ -928,7 +928,7 @@ const Compliance = () => {
                   }}
                 >
                   <div>
-                    <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">

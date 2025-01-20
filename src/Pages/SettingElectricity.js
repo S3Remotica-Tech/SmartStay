@@ -331,10 +331,10 @@ setEbList(state.Settings.EBBillingUnitlist)
                }} >
         <Col>
           <h4 style={{
-            fontSize: 18,
+            fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy",
+            fontFamily: "Gilroy",marginTop:5
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
