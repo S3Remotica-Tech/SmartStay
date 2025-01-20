@@ -1777,7 +1777,7 @@ const [hostelId,setHostelId] = useState("")
 
   useEffect(() => {
     if(hostelId){
-      dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} })
+      dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId} })
     
       setBills(state.InvoiceList.ManualInvoices);
     }
@@ -1799,7 +1799,7 @@ const [hostelId,setHostelId] = useState("")
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
+        dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1814,7 +1814,7 @@ const [hostelId,setHostelId] = useState("")
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
+        dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1828,7 +1828,7 @@ const [hostelId,setHostelId] = useState("")
   }, [state.InvoiceList.manualInvoiceEditStatusCode, state.InvoiceList.ManualInvoices]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200 ) {
-        dispatch({ type: 'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId} });
+        dispatch({ type: 'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId} });
         setLoading(false);
   
         setTimeout(() => {
@@ -1844,7 +1844,7 @@ const [hostelId,setHostelId] = useState("")
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       setLoading(false);
-      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
+      dispatch({type:'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
@@ -1870,7 +1870,7 @@ const [hostelId,setHostelId] = useState("")
 
   useEffect(() => {
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:hostelId}})
+      dispatch({type:'MANUALINVOICESLIST' ,payload:{hostel_id:hostelId}})
       setBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
