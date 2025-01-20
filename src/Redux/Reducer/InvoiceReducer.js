@@ -1,4 +1,3 @@
-import { ManualInvoice } from "../Action/InvoiceAction";
 
 const initialState = {
     Invoice: [],
@@ -42,6 +41,7 @@ const initialState = {
     GetAssignAmenitiesList:[],
     GetUnAssignAmenitiesList:[],
     UnAssignAmenitiesSuccessStatusCode:0,
+    deletemanualError:''
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -75,10 +75,6 @@ const InvoiceReducer = (state = initialState, action) => {
     
             case 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE':
                 return { ...state, UnAssignAmenitiesSuccessStatusCode: 0 }
-
-
-
-
 
             case 'GET_ASSIGN_AMENITIES':
                 return { ...state,GetAssignAmenitiesList:action.payload.Assigned,GetUnAssignAmenitiesList:action.payload.unAssigned,  getAssignAmenitiesSuccessStatusCode: action.payload.statusCode }
@@ -147,7 +143,11 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'MANUAL_INVOICE_DELETE':
             return { ...state, manualInvoiceDeleteStatusCode: action.payload.statusCode } //bills delete 
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE':
-            return { ...state, manualInvoiceDeleteStatusCode: 0 }      
+            return { ...state, manualInvoiceDeleteStatusCode: 0 }
+            case 'DELETE_MANUAL_ERROR':
+            return { ...state, deletemanualError:action.payload}
+            case 'DELETE_MANUAL_ERROR':
+            return { ...state, deletemanualError:''}      
 
         case 'RECURRING_BILLS_ADD':
             return { ...state, RecurringBillAddStatusCode: action.payload.statusCode } //Recurrinng bills Add
