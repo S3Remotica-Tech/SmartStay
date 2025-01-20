@@ -404,16 +404,16 @@ function CheckOut(props) {
                   >
                     <thead
                       style={{
-                        position:"sticky",
-                        top:0,
-                        zIndex:1,
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1,
                       }}
                     >
                       <tr>
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
                             color: "#4B4B4B",
                             fontSize: "14px",
@@ -422,6 +422,7 @@ function CheckOut(props) {
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft:"20px"
                           }}
                         >
                           Name
@@ -601,7 +602,7 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
-                                    textAlign:"center"
+                                    textAlign: "start"
                                   }}
                                   className="ms-2 customer-name"
                                 >
@@ -1075,13 +1076,13 @@ function CheckOut(props) {
                       alignItems: "center",
                       justifyContent: "end",
                       padding: "10px",
-                      position: "fixed", 
-                      bottom: "10px", 
-                      right: "10px", 
-                      backgroundColor: "#fff", 
-                      borderRadius: "5px", 
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-                      zIndex: 1000, 
+                      position: "fixed",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      borderRadius: "5px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      zIndex: 1000,
                     }}
                   >
                     <div>
@@ -1174,75 +1175,75 @@ function CheckOut(props) {
 
                 )}
 
-          </div>
-        ) : (
-          <div style={{marginTop:30,height:"60vh" }}>
-            <div style={{ textAlign: "center" }}>
-              {" "}
-              <img src={Emptystate} alt="emptystate" />
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 20,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No checkout List available{" "}
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 16,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no checkout List added.{" "}
-            </div>
+              </div>
+            ) : (
+              <div style={{ marginTop: 30, height: "60vh" }}>
+                <div style={{ textAlign: "center" }}>
+                  {" "}
+                  <img src={Emptystate} alt="emptystate" />
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No checkout List available{" "}
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no checkout List added.{" "}
+                </div>
 
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
-    
-      
-      // (
-      //   <div className="">
-      //     {currentCustomers.length > 0 ? (
-      //       <div className="row mt-3 row-gap-3">
-      //         {currentCustomers.map((checkout, index) => (
-      //           <div
-      //             key={index}
-      //             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-      //           >
-      //             <Card
-      //               className=" h-100 border p-3"
-      //               style={{
-      //                 borderColor: "#E6E6E6",
-      //                 borderWidth: "1px",
-      //                 borderRadius: "16px",
-      //                 position: "relative",
-      //               }}
-      //             >
-      //               <div className="d-flex align-items-center">
-      //                 <Image
-      //                   src={
-      //                     checkout.profile &&
-      //                     checkout.profile !== "0" &&
-      //                     checkout.profile.trim() !== ""
-      //                       ? checkout.profile
-      //                       : People
-      //                   }
-      //                   roundedCircle
-      //                   style={{ height: "60px", width: "60px" }}
-      //                   alt="profile"
-      //                 />
+        </div>
+
+
+        // (
+        //   <div className="">
+        //     {currentCustomers.length > 0 ? (
+        //       <div className="row mt-3 row-gap-3">
+        //         {currentCustomers.map((checkout, index) => (
+        //           <div
+        //             key={index}
+        //             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        //           >
+        //             <Card
+        //               className=" h-100 border p-3"
+        //               style={{
+        //                 borderColor: "#E6E6E6",
+        //                 borderWidth: "1px",
+        //                 borderRadius: "16px",
+        //                 position: "relative",
+        //               }}
+        //             >
+        //               <div className="d-flex align-items-center">
+        //                 <Image
+        //                   src={
+        //                     checkout.profile &&
+        //                     checkout.profile !== "0" &&
+        //                     checkout.profile.trim() !== ""
+        //                       ? checkout.profile
+        //                       : People
+        //                   }
+        //                   roundedCircle
+        //                   style={{ height: "60px", width: "60px" }}
+        //                   alt="profile"
+        //                 />
 
         //                 {/* <img src={Room} alt="Room Image" /> */}
         //                 <div style={{ marginLeft: "10px" }}>
