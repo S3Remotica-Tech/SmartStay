@@ -6,13 +6,33 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 
+function SettingSubscription() {
+  return (
+    <div>
+      <div>
+        <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 
-function SettingSubscription(){
-    return(
-        <div>
-            <div style={{marginTop:25}}>
-                 <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Subscription</p>
-  
+      </div>
+
+      <div className="row g-3">
+        <div className="col-12 col-md-6">
+          <div className="card p-3 cardnewsubs">
+            <div
+              class="d-flex align-items-center justify-content-center"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: 12,
+                backgroundColor: "#eef4ff",
+              }}
+            >
+              <img src={crown} width={40} height={40} alt="Crown Icon" />
+            </div>
+
+            <div>
+              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                Your plan is active
+              </p>
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
@@ -127,9 +147,8 @@ function SettingSubscription(){
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                   borderTopLeftRadius: 24,
-                  paddingLeft: "20px"
                 }}
               >
                 Billing Date
@@ -142,7 +161,7 @@ function SettingSubscription(){
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Paying Guest
@@ -155,7 +174,7 @@ function SettingSubscription(){
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Amount
@@ -181,7 +200,7 @@ function SettingSubscription(){
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Expiry Date
@@ -194,7 +213,7 @@ function SettingSubscription(){
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Status
@@ -202,7 +221,7 @@ function SettingSubscription(){
 
               <th
                 style={{
-                  textAlign: "start",
+                  textAlign: "center",
                   fontFamily: "Gilroy",
                   color: "rgba(34, 34, 34, 1)",
                   fontSize: 14,
@@ -248,10 +267,9 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
-                  paddingLeft: "20px"
                 }}
               >
                 {/* {v.floor_name} */}05-12-2024
@@ -261,7 +279,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
@@ -272,8 +290,8 @@ console.log('Formatted Date:', formattedDate);
 
               <td
                 style={{
-                  textAlign: "start",
-                  verticalAlign: "middle", // start vertically
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
               >
@@ -298,7 +316,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -310,7 +328,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
