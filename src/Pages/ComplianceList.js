@@ -320,6 +320,7 @@ const ComplianceList = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  console.log("props.complaints",props.complaints.profile)
 
   return (
     <>
@@ -331,11 +332,16 @@ const ComplianceList = (props) => {
           <div className="d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex gap-2">
               <div className="">
-                <Image
+                {/* <Image
                   src={User}
                   roundedCircle
                   style={{ height: "60px", width: "60px" }}
-                />
+                /> */}
+                <Image
+  src={props.complaints.profile === '0' ? User:props.complaints.profile}
+  roundedCircle
+  style={{ height: "60px", width: "60px" }}
+/>
               </div>
               <div>
                 <div className="pb-2">
@@ -679,7 +685,7 @@ const ComplianceList = (props) => {
                 >
                   {props.complaints.assigner_name === "" ||
                   props.complaints.assigner_name == null ? (
-                    <p style={{ color: "#1E45E1", fontSize: "16px" }}>
+                    <p style={{ color: "#1E45E1", fontSize: "16px",cursor:"pointer"}} onClick={()=>handleAssignOpenClose(props.complaints)}>
                       + Assign
                     </p>
                   ) : (
