@@ -710,6 +710,7 @@ const Compliance = () => {
 
 
   const handleEditcomplaint = (Complaintdata) => {
+    console.log("Complaintdata",Complaintdata)
 
     setEdit(true)
     if (Complaintdata) {
