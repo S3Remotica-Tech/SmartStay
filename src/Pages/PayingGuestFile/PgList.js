@@ -281,6 +281,14 @@ console.log("state",state)
         (item) => item.id === showHostelDetails.id
       );
       setShowHostelDetails(selected);
+
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+    }) || []; 
+
+    setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : ""); 
+
+
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
@@ -303,7 +311,20 @@ console.log("state",state)
     }
 }, [selectedHostel, floorClick]);
 
+useEffect(()=>{
+  if(state.UsersList.hosteListStatusCode == 200){
+    const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+      return item.floor_id == floorClick;
+  }) || []; 
 
+  setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : ""); 
+
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE'})
+},1000)
+  }
+
+},[state.UsersList.hosteListStatusCode])
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {

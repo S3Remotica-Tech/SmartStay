@@ -1619,6 +1619,7 @@ function UserList(props) {
                         <div
                           style={{
                             // height: "400px",
+                            position: "relative",
                             height: currentItems.length >= 6 ? "400px" : "auto",
                             overflowY: currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
@@ -1993,7 +1994,7 @@ function UserList(props) {
                                             display: "flex",
                                             justifyContent: "center",
                                             alignItems: "center",
-                                            position: "relative",
+                                            // position: "relative",
                                             zIndex: 1000,
                                           }}
                                           onClick={() =>
@@ -2008,22 +2009,18 @@ function UserList(props) {
                                               <div
                                                 ref={popupRef}
                                                 style={{
-                                                  cursor: "pointer",
+                                                  position: "absolute", // Position above the table
+                                                  left: "0", // Adjust based on where you want the popup
+                                                  top: "-150px", // Position the popup above the table (adjust as needed)
+                                                  width: "163px",
                                                   backgroundColor: "#fff",
-                                                  position: "absolute",
-                                                  right: 50,
-                                                  top: 20,
-                                                  width: 163,
-                                                  height: "auto",
                                                   border: "1px solid #EBEBEB",
-                                                  borderRadius: 10,
+                                                  borderRadius: "10px",
+                                                  zIndex: 1000, // Ensure the popup is above other elements
+                                                  padding: "10px",
                                                   display: "flex",
                                                   justifyContent: "start",
-                                                  padding: 10,
                                                   alignItems: "center",
-                                                  zIndex: showDots
-                                                    ? 1000
-                                                    : "auto",
                                                 }}
                                               >
                                                 <div
