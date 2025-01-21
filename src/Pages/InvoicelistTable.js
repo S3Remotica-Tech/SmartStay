@@ -123,7 +123,9 @@ const InvoiceTable = (props) => {
                                 style={{ height: 40, width: 40 }}
                             />
                             </span></div> */}
-            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start" }} onClick={() => handleDownload(props.item)}
+            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", 
+            fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start" }} 
+            onClick={() => handleDownload(props.item)}
 
             >{props.item.Name}</div><br />
 

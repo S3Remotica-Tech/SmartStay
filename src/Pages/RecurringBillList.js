@@ -5,7 +5,7 @@ import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-
+import InvoiceCard from "./BillPdfModal";
 
 const RecurringBillList = (props) => {
 
@@ -109,6 +109,17 @@ const RecurringBillList = (props) => {
     };
   }, []);
 
+    const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+  
+    const handleDownload = (item) => {
+  console.log(item);
+  
+      // props.RecuringInvoice(true, item)
+  
+      setDownloadInvoiceTable(true)
+  
+    }
+  
   return (
 
     <>
@@ -131,7 +142,7 @@ const RecurringBillList = (props) => {
               </span>
             </div> */}
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }}
-            // onClick={()=>handleDownload(props.item)}
+            onClick={()=>handleDownload(props.item)}
 
             >{props.item.user_name}</div><br />
 
@@ -332,6 +343,13 @@ const RecurringBillList = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
+    {
+      downLoadInvoiceTable == true ?(
+<>
+<InvoiceCard/>
+</>
+      ):null
+    }
 
     </>
   )

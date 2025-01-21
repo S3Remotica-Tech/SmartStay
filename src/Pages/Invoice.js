@@ -3806,9 +3806,10 @@ const InvoicePage = () => {
                                     recuringbillAddPermission
                                   }
                                   billrolePermission={billrolePermission}
-                                  // OnHandleshowform={handleShowForm}
+                                  OnHandleshowform={handleShowForm}
                                   // OnHandleshowInvoicePdf={handleInvoiceDetail}
                                   // DisplayInvoice={handleDisplayInvoiceDownload}
+                                  // RecuringInvoice={handleDisplayInvoiceDownload}
                                 />
                               ))}
                         </tbody>
@@ -3962,7 +3963,7 @@ const InvoicePage = () => {
     </div>
 
   </div> */}
-                          {DownloadInvoice && (
+                          {/* {DownloadInvoice && (
                           <>
             
                               <BillPdfModal
@@ -3971,7 +3972,7 @@ const InvoicePage = () => {
                                 rowData={rowData}
                               />
                           </>
-                        )}
+                        )} */}
                 </>
               )}
             </TabPanel>
