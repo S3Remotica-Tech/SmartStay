@@ -239,8 +239,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
                                 <div>
 
-{/* EB */}
-                                    <div >
+                         <div >
                                         <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>EB Per Unit Price :
 
 </label>
@@ -255,7 +254,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                                 </div>
 
-                                {/* Rent Date */}
+
                                 <div>
 
 

@@ -710,6 +710,7 @@ const Compliance = () => {
 
 
   const handleEditcomplaint = (Complaintdata) => {
+    console.log("Complaintdata",Complaintdata)
 
     setEdit(true)
     if (Complaintdata) {
@@ -773,10 +774,11 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
-      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId } })
+      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
     }
   }, [hosId])
 
+  
   useEffect(() => {
     setComplainttypelist(state.Settings.Complainttypelist)
   }, [state.Settings.Complainttypelist])

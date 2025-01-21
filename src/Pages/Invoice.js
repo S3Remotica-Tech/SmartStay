@@ -1583,9 +1583,9 @@ console.log("loading",loading, "recurLoader", recurLoader)
     setDownloadInvoice(false);
   };
 
-  useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+  // }, []);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
@@ -1674,17 +1674,17 @@ console.log("loading",loading, "recurLoader", recurLoader)
     state.InvoiceList?.statusCodeForPDf,
   ]);
 
-  useEffect(() => {
-    dispatch({ type: "ALL-NOTIFICATION-LIST" });
-    setNotification(state.login.Notification);
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "ALL-NOTIFICATION-LIST" });
+  //   setNotification(state.login.Notification);
+  // }, []);
 
   useEffect(() => {
     if (
       state.login.UpdateNotificationMessage != null &&
       state.login.UpdateNotificationMessage != ""
     ) {
-      dispatch({ type: "ALL-NOTIFICATION-LIST" });
+      // dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
         dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
         newNotificationIDs = [];
@@ -1708,22 +1708,22 @@ console.log("loading",loading, "recurLoader", recurLoader)
     }
   }, [state.InvoiceList.invoicePDF]);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: invoiceList.hostel_Id },
-    });
-  }, [invoiceList.hostel_Id]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "HOSTELDETAILLIST",
+  //     payload: { hostel_Id: invoiceList.hostel_Id },
+  //   });
+  // }, [invoiceList.hostel_Id]);
 
-  useEffect(() => {
-    dispatch({
-      type: "ROOMDETAILS",
-      payload: {
-        hostel_Id: invoiceList.hostel_Id,
-        floor_Id: invoiceList.FloorNo,
-      },
-    });
-  }, [invoiceList.FloorNo]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "ROOMDETAILS",
+  //     payload: {
+  //       hostel_Id: invoiceList.hostel_Id,
+  //       floor_Id: invoiceList.FloorNo,
+  //     },
+  //   });
+  // }, [invoiceList.FloorNo]);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -1793,9 +1793,9 @@ console.log("loading",loading, "recurLoader", recurLoader)
   //     }));
   //   }
 
-  useEffect(() => {
-    dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+  // }, []);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
@@ -2045,12 +2045,15 @@ console.log("loading",loading, "recurLoader", recurLoader)
 
   useEffect(() => {
     setRecurLoader(true);
-    dispatch({
-      type: "RECURRING-BILLS-LIST",
-      payload: { hostel_id: hostelId },
-    });
+    if(hostelId){
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: { hostel_id: hostelId },
+      });
     
-  }, []);
+    }
+    
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -3542,6 +3545,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
       </div>
 
     )} */}
+    
                   </div>
                 )}
               </>
@@ -3585,7 +3589,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                 </>
               ) : (
                 <>
-                  {currentItem && currentItem.length === 0 && !recurLoader && (
+                  {currentItem && currentItem.length === 0  && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -3696,7 +3700,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                                 fontWeight: 600,
                               }}
                             >
-                              Next Invoice Date
+                              Next Invoice Date-
                             </th>
                             <th
                               style={{
@@ -3976,6 +3980,16 @@ console.log("loading",loading, "recurLoader", recurLoader)
     </div>
 
   </div> */}
+                          {DownloadInvoice && (
+                          <>
+            
+                              <BillPdfModal
+                                show={showPdfModal}
+                                handleClosed={handleClosePdfModal}
+                                rowData={rowData}
+                              />
+                          </>
+                        )}
                 </>
               )}
             </TabPanel>

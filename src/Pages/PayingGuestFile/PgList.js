@@ -1364,11 +1364,12 @@ dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE'})
                                     <div>
                                     <div
   className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    // if (editPermissionError) {
-      handleEditFloor(floorClick, showHostelDetails.id, floorName);
-    // }
-  }}
+  // onClick={() => {
+  //   if (editPermissionError) {
+  //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
+  //   }
+  // }}
+  onClick={()=>handleEditFloor(floorClick, showHostelDetails.id, floorName)}
   style={{
     cursor: editPermissionError ? "not-allowed" : "pointer",
     opacity:editPermissionError ? 0.6 : 1,
