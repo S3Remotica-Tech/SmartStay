@@ -131,7 +131,10 @@ const ComplianceList = (props) => {
   }, [state.UsersList?.statusCodeCompliance]);
 
   const handleComplianceDelete = () => {
-    dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
+    if(deleteId){
+      dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
+    }
+   
   };
 
   useEffect(() => {
@@ -164,10 +167,19 @@ const ComplianceList = (props) => {
     props.onAssignshow();
   };
   const [customer_Id, setCustomer_Id] = useState("");
+  const [name, setName] = useState("");
+  const [date,setDate] = useState("")
+  const [profile,setProfile] = useState("")
+
   const handleIconClick = (item) => {
     console.log("item", item);
     setCustomer_Id(item.ID);
     setShowCard(true);
+    setName(item.Name)
+    setDate(item.createdat)
+    // setProfile(item.profile)
+    setProfile(item.profile && item.profile !== "0" ? item.profile : User);
+  
   };
   
 
@@ -182,10 +194,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
-      // dispatch({
-      //   type: "GET_COMPLIANCE_COMMENT",
-      //   payload: { com_id: customer_Id },
-      // });
+    
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_COMENET_LIST" });
       }, 1000);
@@ -194,6 +203,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
+      setComments("")
       setShowCard(false);
       dispatch({
         type: "GET_COMPLIANCE_COMMENT",
@@ -221,6 +231,7 @@ const ComplianceList = (props) => {
   const handleCloseIconClick = () => {
     setShowCard(false);
     setComments("")
+    setCustomer_Id("")
   };
 
   const handleChangeStatusClick = () => {
@@ -315,18 +326,7 @@ const ComplianceList = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (hostel_id) {
-      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hostel_id } });
-    }
-  }, [hostel_id]);
-  useEffect(()=>{
-  if(state.Settings.StatusForaddSettingStaffList === 200){
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
-    }, 500);
-  }
-    },[state.Settings.StatusForaddSettingStaffList])
+  
   
 
   useEffect(() => {
@@ -380,6 +380,9 @@ const ComplianceList = (props) => {
     };
   }, []);
   console.log("props.complaints", props.complaints.profile);
+
+
+  console.log("state.ComplianceList?.getComplianceComments?.comments",state.ComplianceList?.getComplianceComments?.comments)
 
   return (
     <>
@@ -910,7 +913,7 @@ const ComplianceList = (props) => {
                 </label>
               </div>
 
-              {showCard && (
+              {/* {showCard && (
                 <div
                   style={{
                     position: "fixed",
@@ -1068,10 +1071,12 @@ const ComplianceList = (props) => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
+  
+            </div>
 
 
-{/* <Modal
+            <Modal
               show={showCard}
               onHide={handleCloseIconClick}
               centered
@@ -1087,35 +1092,181 @@ const ComplianceList = (props) => {
                 className="m-0 p-0"
               >
                 <Modal.Body>
-                  <div>gfhhf</div>
+                  <div>
+                  <Modal.Header style={{ marginBottom: "30px", position: "relative", display: "flex", alignItems: "center" }}>
+  <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+    <img
+      src={profile}
+      alt="Profile"
+      style={{
+        cursor: "pointer",
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+        marginRight: "10px",
+      }}
+    />
+    <div style={{ flexGrow: 1 }}>
+      <p style={{ margin: 0, fontSize: "16px", fontWeight: "bold", fontFamily: "Gilroy" }}>{name}</p>
+      <p style={{ margin: 0, fontSize: "14px", color: "gray" }}>{date}</p>
+    </div>
+  </div>
 
-                  <div className="row mt-1">
-                    
+  <button
+    type="button"
+    className="close"
+    aria-label="Close"
+    onClick={handleCloseIconClick}
+    style={{
+      position: "absolute",
+      right: "10px",
+      top: "16px",
+      border: "1px solid black",
+      background: "transparent",
+      cursor: "pointer",
+      padding: "0",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "32px",
+      height: "32px",
+      borderRadius: "50%",
+    }}
+  >
+    <span
+      aria-hidden="true"
+      style={{
+        fontSize: "30px",
+        paddingBottom: "6px",
+      }}
+    >
+      &times;
+    </span>
+  </button>
+</Modal.Header>
+
                   </div>
+                  <div
+  style={{
+    height: state.ComplianceList?.getComplianceComments?.comments?.length > 1 ? "60px" : "auto",
+    overflowY: state.ComplianceList?.getComplianceComments?.comments?.length > 1 ? "auto" : "hidden",
+  }}
+>
+  {state.ComplianceList?.getComplianceComments?.comments &&
+    state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
+      let Dated = new Date(item.created_at);
+
+      let day = Dated.getDate();
+      let month = Dated.getMonth();
+      let year = Dated.getFullYear();
+
+     
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      let formattedMonth = monthNames[month];
+
+      let formattedDate = `${day} ${formattedMonth} ${year}`;
+      return (
+        <div
+          key={index}
+          className="row mt-1"
+          style={{ borderBottom: "1px solid #EDF0F4" }}
+        >
+          <p
+            style={{
+              wordWrap: "break-word",
+              overflowWrap: "break-word",
+              whiteSpace: "pre-wrap",
+              maxWidth: "100%",
+              margin: 0, 
+              fontSize:16,
+              fontWeight:600,
+              fontFamily:"Gilroy"
+            }}
+          >
+            {item.comment}
+          </p>
+          <p style={{color:"#666666"}}>{formattedDate}</p>
+        </div>
+      );
+    })}
+</div>
+
                 </Modal.Body>
 
                 <Modal.Footer style={{ border: "none" }}>
-                  <Button
-                    className="w-100"
+                  
+                    <div
                     style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 500,
-                      height: 50,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      fontStyle: "normal",
-                      lineHeight: "normal",
+                      marginTop: 15,
+                      position: "relative",
+                      display: "inline-block",
+                      width: "100%",
                     }}
-                    // onClick={handleChangeStatusClick}
                   >
-                    Change Status
-                  </Button>
+                    <input
+                      type="text"
+                      value={comments}
+                      onChange={(e) => handleComments(e)}
+                      style={{
+                        border: "1px solid #E7E7E7",
+                        paddingTop: 6,
+                        paddingBottom: 6,
+                        paddingLeft: 16,
+                        width: "100%",
+                        height: "52px",
+                        borderRadius: "12px",
+                      }}
+                      placeholder="Post your reply here"
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "#1E45E1",
+                        border: "1px solid #E7E7E7",
+                        borderRadius: "60px",
+                        padding: "12px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <img
+                        src={send}
+                        alt="Send"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                        }}
+                        onClick={handleAddComment}
+                      />
+                    </div>
+                    </div>
                 </Modal.Footer>
               </Modal.Dialog>
-            </Modal> */}
-             
-            </div>
+            </Modal>
+
+
+
+
+
 
             <Modal
               show={showChangeStatus}
