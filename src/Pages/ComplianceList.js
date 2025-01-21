@@ -22,7 +22,7 @@ import Form from "react-bootstrap/Form";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
-  console.log("state",state)
+  console.log("state", state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
   const [status, setStatus] = useState("");
@@ -36,7 +36,7 @@ const ComplianceList = (props) => {
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
-  const [showAssignee,setShowAssigne] = useState("")
+  const [showAssignee, setShowAssigne] = useState("");
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -163,9 +163,64 @@ const ComplianceList = (props) => {
   const handleassignshow = () => {
     props.onAssignshow();
   };
+  const [customer_Id, setCustomer_Id] = useState("");
+  const handleIconClick = (item) => {
+    console.log("item", item);
+    setCustomer_Id(item.ID);
+    setShowCard(true);
+  };
+  
 
-  const handleIconClick = () => {
-    setShowCard(!showCard);
+  useEffect(() => {
+    if (customer_Id) {
+      dispatch({
+        type: "GET_COMPLIANCE_COMMENT",
+        payload: { com_id: customer_Id },
+      });
+    }
+  }, [customer_Id]);
+
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
+      // dispatch({
+      //   type: "GET_COMPLIANCE_COMMENT",
+      //   payload: { com_id: customer_Id },
+      // });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_COMENET_LIST" });
+      }, 1000);
+    }
+  }, [state.ComplianceList.statusCodeForGetComplianceComment]);
+
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
+      setShowCard(false);
+      dispatch({
+        type: "GET_COMPLIANCE_COMMENT",
+        payload: { com_id: customer_Id },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+      }, 1000);
+    }
+  }, [state.ComplianceList.statusCodeForAddComplianceComment]);
+
+  const [comments, setComments] = useState("");
+  const handleComments = (e) => {
+    setComments(e.target.value);
+  };
+  const handleAddComment = () => {
+    if (comments) {
+      dispatch({
+        type: "Add_COMPLIANCE_COMMENT",
+        payload: { complaint_id: customer_Id, message: comments },
+      });
+    }
+  };
+  const handleCloseIconClick = () => {
+    setShowCard(false);
+    setComments("")
   };
 
   const handleChangeStatusClick = () => {
@@ -185,21 +240,20 @@ const ComplianceList = (props) => {
     }
   };
 
- 
   const handleChangeStatusOpenClose = (item) => {
-    console.log("status",item.Status)
-    setAssignId(item?.ID); 
+    console.log("status", item.Status);
+    setAssignId(item?.ID);
     setShowDots(false);
     // setStatus("");
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
-    setStatus(item.Status)
+    setStatus(item.Status);
   };
 
   //assign complaint
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
-    setStatusError("")
+    setStatusError("");
   };
   const handleAssignComplaintClick = () => {
     if (compliant === "") {
@@ -231,8 +285,6 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
-
-  
   const handleAssignOpenClose = (item) => {
     console.log("handleAssignOpenClose", item);
     setAssignId(item?.ID);
@@ -243,7 +295,7 @@ const ComplianceList = (props) => {
   };
   const handleCloseAssign = () => {
     setShowAssignComplaint(false);
-    setStatusError("")
+    setStatusError("");
   };
 
   const handleCompliant = (e) => {
@@ -264,11 +316,18 @@ const ComplianceList = (props) => {
   };
 
   useEffect(() => {
-    if(hostel_id){
-      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:hostel_id} });
+    if (hostel_id) {
+      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hostel_id } });
     }
-    
   }, [hostel_id]);
+  useEffect(()=>{
+  if(state.Settings.StatusForaddSettingStaffList === 200){
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
+    }, 500);
+  }
+    },[state.Settings.StatusForaddSettingStaffList])
+  
 
   useEffect(() => {
     const appearOptions = {
@@ -320,7 +379,7 @@ const ComplianceList = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log("props.complaints",props.complaints.profile)
+  console.log("props.complaints", props.complaints.profile);
 
   return (
     <>
@@ -338,10 +397,14 @@ const ComplianceList = (props) => {
                   style={{ height: "60px", width: "60px" }}
                 /> */}
                 <Image
-  src={props.complaints.profile === '0' ? User:props.complaints.profile}
-  roundedCircle
-  style={{ height: "60px", width: "60px" }}
-/>
+                  src={
+                    props.complaints.profile === "0"
+                      ? User
+                      : props.complaints.profile
+                  }
+                  roundedCircle
+                  style={{ height: "60px", width: "60px" }}
+                />
               </div>
               <div>
                 <div className="pb-2">
@@ -685,7 +748,14 @@ const ComplianceList = (props) => {
                 >
                   {props.complaints.assigner_name === "" ||
                   props.complaints.assigner_name == null ? (
-                    <p style={{ color: "#1E45E1", fontSize: "16px",cursor:"pointer"}} onClick={()=>handleAssignOpenClose(props.complaints)}>
+                    <p
+                      style={{
+                        color: "#1E45E1",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleAssignOpenClose(props.complaints)}
+                    >
                       + Assign
                     </p>
                   ) : (
@@ -828,10 +898,15 @@ const ComplianceList = (props) => {
                   padding: "8px 12px",
                   cursor: "pointer",
                 }}
-                onClick={handleIconClick}
+                // onClick={handleIconClick}
               >
                 <label>
-                  <img src={CommentIcon} alt="Comments" /> 986
+                  <img
+                    src={CommentIcon}
+                    alt="Comments"
+                    onClick={() => handleIconClick(props.complaints)}
+                  />{" "}
+                  986
                 </label>
               </div>
 
@@ -873,7 +948,7 @@ const ComplianceList = (props) => {
                       src={closeicon}
                       alt="Close"
                       style={{ cursor: "pointer", width: 20, height: 20 }}
-                      onClick={handleIconClick} // Add this line to close the window when clicked
+                      onClick={handleCloseIconClick}
                     />
                   </div>
 
@@ -913,21 +988,25 @@ const ComplianceList = (props) => {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <p
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 14,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                      commodo leo scelerisque turpis in gravida. Et facilisi
-                      eget id consequat maecenas diam velit eget accumsan. Nam
-                      suspendisse lectus vitae elementum integer. Velit sem nec
-                      eget id ac. Sagittis sit mauris massa eget vel integer
-                      mattis pulvinar. Eget aliquet
-                    </p>
+                    {state.ComplianceList?.getComplianceComments?.comments &&
+                      state.ComplianceList?.getComplianceComments?.comments?.map(
+                        (item) => {
+                          return (
+                            <>
+                              <p
+                                style={{
+                                  fontWeight: 500,
+                                  fontSize: 14,
+                                  fontFamily: "Gilroy, sans-serif",
+                                  margin: 0,
+                                }}
+                              >
+                                {item.comment}
+                              </p>
+                            </>
+                          );
+                        }
+                      )}
                   </div>
 
                   <div
@@ -948,6 +1027,8 @@ const ComplianceList = (props) => {
                   >
                     <input
                       type="text"
+                      value={comments}
+                      onChange={(e) => handleComments(e)}
                       style={{
                         border: "1px solid #E7E7E7",
                         paddingTop: 6,
@@ -982,30 +1063,59 @@ const ComplianceList = (props) => {
                           width: "20px",
                           height: "20px",
                         }}
+                        onClick={handleAddComment}
                       />
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Background overlay */}
-              {showCard && (
-                <div
-                  onClick={handleIconClick}
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    zIndex: 999,
-                  }}
-                />
-              )}
-            </div>
 
-            {/* change status card */}
+{/* <Modal
+              show={showCard}
+              onHide={handleCloseIconClick}
+              centered
+              backdrop="static"
+            >
+              <Modal.Dialog
+                style={{
+                  maxWidth: 950,
+                  paddingRight: "10px",
+                  paddingRight: "10px",
+                  borderRadius: "30px",
+                }}
+                className="m-0 p-0"
+              >
+                <Modal.Body>
+                  <div>gfhhf</div>
+
+                  <div className="row mt-1">
+                    
+                  </div>
+                </Modal.Body>
+
+                <Modal.Footer style={{ border: "none" }}>
+                  <Button
+                    className="w-100"
+                    style={{
+                      backgroundColor: "#1E45E1",
+                      fontWeight: 500,
+                      height: 50,
+                      borderRadius: 12,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      fontStyle: "normal",
+                      lineHeight: "normal",
+                    }}
+                    // onClick={handleChangeStatusClick}
+                  >
+                    Change Status
+                  </Button>
+                </Modal.Footer>
+              </Modal.Dialog>
+            </Modal> */}
+             
+            </div>
 
             <Modal
               show={showChangeStatus}
@@ -1255,13 +1365,13 @@ const ComplianceList = (props) => {
                             Select a Complaint
                           </option>
                           {state.Settings.addSettingStaffList &&
-    state.Settings.addSettingStaffList.map((v, i) => {
-      return (
-        <option key={v.id} value={v.id}>
-          {v.first_name}
-        </option>
-      );
-    })}
+                            state.Settings.addSettingStaffList.map((v, i) => {
+                              return (
+                                <option key={v.id} value={v.id}>
+                                  {v.first_name}
+                                </option>
+                              );
+                            })}
                         </Form.Select>
                       </Form.Group>
                       {statusError && (
@@ -1291,6 +1401,11 @@ const ComplianceList = (props) => {
                 </Modal.Footer>
               </Modal.Dialog>
             </Modal>
+
+
+
+
+          
 
             {/* Background overlay */}
             {/* {showAssignComplaint && (

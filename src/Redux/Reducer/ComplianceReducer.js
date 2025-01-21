@@ -1,3 +1,5 @@
+
+
 const initialState = {
     Compliance: [],
     message: [],
@@ -18,7 +20,12 @@ const initialState = {
     statusCodeCompliance:0,
     complianceAssignChangeRes:"",
     complianceAssignChangeError:"",
-    complianceAssignChangeStatus:0
+    complianceAssignChangeStatus:0,
+    getComplianceComments:[],
+    statusCodeForGetComplianceComment:0,
+    AddComplianceComment:[],
+    statusCodeForAddComplianceComment:0
+
 
 }
 
@@ -84,6 +91,21 @@ const ComplianceReducer = (state = initialState, action) => {
         };
       case "CLEAR_DELETE_COMPLIANCE":
         return { ...state, statusCodeForDeleteCompliance: 0 };
+
+
+
+        // commentApi
+        case 'COMPLIANCE_COMENET_LIST':
+            return { ...state, getComplianceComments: action.payload.response, statusCodeForGetComplianceComment:action.payload.statusCode}
+            case 'CLEAR_COMPLIANCE_COMENET_LIST':
+                return { ...state, statusCodeForGetComplianceComment:0}
+
+
+
+                case 'COMPLIANCE_ADD_COMMENT':
+            return { ...state, AddComplianceComment: action.payload.response, statusCodeForAddComplianceComment:action.payload.statusCode}
+            case 'CLEAR_COMPLIANCE_ADD_COMMENT':
+                return { ...state, statusCodeForAddComplianceComment:0}
     }
     return state;
 }
