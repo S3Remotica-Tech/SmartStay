@@ -3547,6 +3547,7 @@ const InvoicePage = () => {
       </div>
 
     )} */}
+    
                   </div>
                 )}
               </>
@@ -3701,7 +3702,7 @@ const InvoicePage = () => {
                                 fontWeight: 600,
                               }}
                             >
-                              Next Invoice Date
+                              Next Invoice Date-
                             </th>
                             <th
                               style={{
@@ -3958,6 +3959,16 @@ const InvoicePage = () => {
     </div>
 
   </div> */}
+                          {DownloadInvoice && (
+                          <>
+            
+                              <BillPdfModal
+                                show={showPdfModal}
+                                handleClosed={handleClosePdfModal}
+                                rowData={rowData}
+                              />
+                          </>
+                        )}
                 </>
               )}
             </TabPanel>

@@ -768,6 +768,15 @@ const handleDeleteNewRow = (index) => {
           selected={invoicedate}
           onChange={(date) => handleInvoiceDate(date)}
           dateFormat="dd/MM/yyyy"
+          popperPlacement="bottom-start"
+          popperModifiers={[
+            {
+              name: "offset",
+              options: {
+                offset: [0, -300],
+              },
+            },
+          ]}
           customInput={customDateInputInvoiceDate({
             value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
           })}
@@ -795,6 +804,15 @@ const handleDeleteNewRow = (index) => {
           selected={invoiceduedate}
           onChange={(date) => handleDueDate(date)}
           dateFormat="dd/MM/yyyy"
+          popperPlacement="bottom-start"
+          popperModifiers={[
+            {
+              name: "offset",
+              options: {
+                offset: [0, -300],
+              },
+            },
+          ]}
           customInput={customDateInputDueDate({
             value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
           })}

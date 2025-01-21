@@ -21,7 +21,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 
 
-function StaticExample({ show, handleClose, currentItem }) {
+function StaticExample({ show, handleClose, currentItem ,hostel_Id}) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -35,7 +35,9 @@ function StaticExample({ show, handleClose, currentItem }) {
         floor_id: ''
     });
 
-
+useEffect(()=>{
+setPgList(state.login.selectedHostel_Id)
+},[state.login.selectedHostel_Id])
 
     useEffect(() => {
         if (currentItem.hostel_id) {
@@ -321,7 +323,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         )}
 
                         <div className='row mt-1'>
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: pglist ? 600 : 500 }}>
@@ -346,9 +348,9 @@ function StaticExample({ show, handleClose, currentItem }) {
                             </div>
                         )}
 
-                            </div>
+                            </div> */}
 
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-12 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                 <Form.Select
                                     aria-label="Default select example"
