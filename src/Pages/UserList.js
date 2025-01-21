@@ -1064,9 +1064,13 @@ function UserList(props) {
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
 
+  useEffect(()=> {
+    dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+  },[uniqueostel_Id])
+
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
-      dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 200);
