@@ -208,9 +208,9 @@ const InvoicePage = () => {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    // if(hostelId){
+    if(hostelId){
     dispatch({ type: "MANUALINVOICESLIST", payload: { hostel_id: hostelId } });
-    // }
+    }
   }, [hostelId]);
 
   const handleManualShow = () => {
@@ -1578,9 +1578,9 @@ const InvoicePage = () => {
     setDownloadInvoice(false);
   };
 
-  useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+  // }, []);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
@@ -1669,17 +1669,17 @@ const InvoicePage = () => {
     state.InvoiceList?.statusCodeForPDf,
   ]);
 
-  useEffect(() => {
-    dispatch({ type: "ALL-NOTIFICATION-LIST" });
-    setNotification(state.login.Notification);
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "ALL-NOTIFICATION-LIST" });
+  //   setNotification(state.login.Notification);
+  // }, []);
 
   useEffect(() => {
     if (
       state.login.UpdateNotificationMessage != null &&
       state.login.UpdateNotificationMessage != ""
     ) {
-      dispatch({ type: "ALL-NOTIFICATION-LIST" });
+      // dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
         dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
         newNotificationIDs = [];
@@ -1703,22 +1703,22 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.invoicePDF]);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: invoiceList.hostel_Id },
-    });
-  }, [invoiceList.hostel_Id]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "HOSTELDETAILLIST",
+  //     payload: { hostel_Id: invoiceList.hostel_Id },
+  //   });
+  // }, [invoiceList.hostel_Id]);
 
-  useEffect(() => {
-    dispatch({
-      type: "ROOMDETAILS",
-      payload: {
-        hostel_Id: invoiceList.hostel_Id,
-        floor_Id: invoiceList.FloorNo,
-      },
-    });
-  }, [invoiceList.FloorNo]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "ROOMDETAILS",
+  //     payload: {
+  //       hostel_Id: invoiceList.hostel_Id,
+  //       floor_Id: invoiceList.FloorNo,
+  //     },
+  //   });
+  // }, [invoiceList.FloorNo]);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -1788,9 +1788,9 @@ const InvoicePage = () => {
   //     }));
   //   }
 
-  useEffect(() => {
-    dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+  // }, []);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
@@ -2039,11 +2039,14 @@ const InvoicePage = () => {
   }, [newRows]);
 
   useEffect(() => {
-    dispatch({
-      type: "RECURRING-BILLS-LIST",
-      payload: { hostel_id: hostelId },
-    });
-  }, []);
+    if(hostelId){
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+    
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -3590,7 +3593,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  {currentItem && currentItem.length === 0 && !recurLoader && (
+                  {currentItem && currentItem.length === 0  && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
