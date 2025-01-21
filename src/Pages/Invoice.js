@@ -76,9 +76,9 @@ const InvoicePage = () => {
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
-  const [recurLoader, setRecurLoader] = useState(true);
+  const [recurLoader, setRecurLoader] = useState(false);
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -107,6 +107,10 @@ const InvoicePage = () => {
     invoice_type: "",
     transaction: "",
   });
+
+
+console.log("loading",loading, "recurLoader", recurLoader)
+  
 
   const [invoicePage, setInvoicePage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
@@ -208,9 +212,10 @@ const InvoicePage = () => {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    // if(hostelId){
+    if(hostelId){
+      setLoading(true)
     dispatch({ type: "MANUALINVOICESLIST", payload: { hostel_id: hostelId } });
-    // }
+    }
   }, [hostelId]);
 
   const handleManualShow = () => {
@@ -1851,7 +1856,7 @@ const InvoicePage = () => {
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-        setLoading(false);
+        // setLoading(false);
 
         setBills(state.InvoiceList.ManualInvoices);
       }, 1000);
@@ -2039,10 +2044,12 @@ const InvoicePage = () => {
   }, [newRows]);
 
   useEffect(() => {
+    setRecurLoader(true);
     dispatch({
       type: "RECURRING-BILLS-LIST",
       payload: { hostel_id: hostelId },
     });
+    
   }, []);
 
   useEffect(() => {
@@ -2104,7 +2111,8 @@ const InvoicePage = () => {
 
             <div>
               {showLoader && <LoaderComponent />}
-
+              {loading && <LoaderComponent />}
+              {/* {recurLoader && <LoaderComponent />} */}
               <div
                 style={{
                   cursor: "pointer",
@@ -2907,7 +2915,7 @@ const InvoicePage = () => {
                               className="show-scroll p-2"
                               style={{ maxHeight: 700, overflowY: "auto" }}
                             >
-                              {bills.map((item) => (
+                              {bills  && bills.map((item) => (
                                 <>
                                   {/* <div className="" style={{}}>
                           <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
@@ -3073,39 +3081,9 @@ const InvoicePage = () => {
                             </div>
                           ) : (
                             <>
-                              {currentItems?.length == 0 && (
-                                <div>
-                                  <div style={{ textAlign: "center" }}>
-                                    {" "}
-                                    <img src={Emptystate} alt="emptystate" />
-                                  </div>
-                                  <div
-                                    className="pb-1"
-                                    style={{
-                                      textAlign: "center",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: 20,
-                                      color: "rgba(75, 75, 75, 1)",
-                                    }}
-                                  >
-                                    No bills available{" "}
-                                  </div>
-                                  <div
-                                    className="pb-1"
-                                    style={{
-                                      textAlign: "center",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      fontSize: 16,
-                                      color: "rgba(75, 75, 75, 1)",
-                                    }}
-                                  >
-                                    There are no bills added{" "}
-                                  </div>
-                                </div>
-                              )}
-                              {currentItems && currentItems.length > 0 && (
+                              
+                          
+                              {currentItems && currentItems.length > 0 ? (
                                 <div
                                   style={{
                                     // height: "400px",
@@ -3239,87 +3217,68 @@ const InvoicePage = () => {
                                         ></th>
                                       </tr>
                                     </thead>
-                                    <tbody style={{ fontSize: "10px" }}>
+                                    <tbody style={{ fontSize: "10px" ,minHeight: "200px", position:"relative"}}>
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                          Array.from({ length: 5 }).map(
-                                            (_, index) => (
-                                              <tr key={index}>
-                                                <td>
-                                                  <div className="d-flex">
-                                                    <span className="i-circle">
-                                                      <Skeleton
-                                                        circle
-                                                        width={24}
-                                                        height={24}
-                                                        style={{
-                                                          padding: "10px",
-                                                          border: "none",
-                                                        }}
-                                                      />
-                                                    </span>
-                                                    <div>
-                                                      <Skeleton
-                                                        width={80}
-                                                        style={{
-                                                          padding: "5px",
-                                                          border: "none",
-                                                        }}
-                                                      />
-                                                    </div>
-                                                  </div>
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    padding: "10px",
-                                                    border: "none",
-                                                  }}
-                                                >
-                                                  <Skeleton width={100} />
-                                                </td>
-                                              </tr>
-                                            )
-                                          )
+                                        Array.from({ length: 5 }).map((_, index) => (
+                                          <tr key={index}>
+                                            <td>
+                                              <div className="d-flex">
+                                                <span className="i-circle">
+                                                  <Skeleton circle width={24} height={24} />
+                                                </span>
+                                                <div>
+                                                  <Skeleton width={80} />
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <Skeleton width={100} />
+                                            </td>
+                                            <td>
+                                              <Skeleton width={100} />
+                                            </td>
+                                            <td>
+                                              <Skeleton width={50} />
+                                            </td>
+                                            <td>
+                                              <Skeleton width={50} />
+                                            </td>
+                                            <td>
+                                              <Skeleton width={100} />
+                                            </td>
+                                            <td>
+                                              <Skeleton width={100} />
+                                            </td>
+                                          </tr>
+                                        ))
+                                      //   <div
+                                      //   style={{
+                                      //     position: 'absolute',
+                                      //     inset: 0,
+                                      //     display: 'flex',
+                                      //     height: "50vh",
+                                      //     alignItems: 'center',
+                                      //     justifyContent: 'center',
+                                      //     backgroundColor: 'transparent',
+                                      //     opacity: 0.75,
+                                      //     zIndex: 10,
+                                      //   }}
+                                      // >
+                                      //   <div
+                                      //     style={{
+                                      //       borderTop: '4px solid #1E45E1',
+                                      //       borderRight: '4px solid transparent',
+                                      //       borderRadius: '50%',
+                                      //       width: '40px',
+                                      //       height: '40px',
+                                      //       animation: 'spin 1s linear infinite',
+                                      //     }}
+                                      //   ></div>
+                                      // </div>
+
+
+
                                         : // Display table rows with actual data when loading is false
                                           currentItems.map((item) => (
                                             <InvoiceTable
@@ -3350,7 +3309,43 @@ const InvoicePage = () => {
                                     </tbody>
                                   </Table>
                                 </div>
-                              )}
+                              )
+                            
+                            :
+                            !loading && currentItems?.length == 0 && (
+                              <div>
+                                <div style={{ textAlign: "center" }}>
+                                  {" "}
+                                  <img src={Emptystate} alt="emptystate" />
+                                </div>
+                                <div
+                                  className="pb-1"
+                                  style={{
+                                    textAlign: "center",
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    fontSize: 20,
+                                    color: "rgba(75, 75, 75, 1)",
+                                  }}
+                                >
+                                  No bills available{" "}
+                                </div>
+                                <div
+                                  className="pb-1"
+                                  style={{
+                                    textAlign: "center",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    fontSize: 16,
+                                    color: "rgba(75, 75, 75, 1)",
+                                  }}
+                                >
+                                  There are no bills added{" "}
+                                </div>
+                              </div>
+                            )
+                            
+                            }
 
                               {currentItems.length > 0 && (
                                 <nav
@@ -3729,66 +3724,89 @@ const InvoicePage = () => {
                           </tr>
                         </thead>
                         <tbody style={{ fontSize: "10px" }}>
-                          {recurLoader
-                            ? // Display skeleton placeholders when loading is true
-                              Array.from({ length: 5 }).map((_, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    <div className="d-flex">
-                                      <span className="i-circle">
-                                        <Skeleton
-                                          circle
-                                          width={24}
-                                          height={24}
-                                          style={{
-                                            padding: "10px",
-                                            border: "none",
-                                          }}
-                                        />
-                                      </span>
-                                      <div>
-                                        <Skeleton
-                                          width={80}
-                                          style={{
-                                            padding: "5px",
-                                            border: "none",
-                                          }}
-                                        />
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={100} />
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={100} />
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={50} />
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={50} />
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={100} />
-                                  </td>
-                                  <td
-                                    style={{ padding: "10px", border: "none" }}
-                                  >
-                                    <Skeleton width={100} />
-                                  </td>
-                                </tr>
-                              ))
+                          {recurLoader ?
+                              // Array.from({ length: 5 }).map((_, index) => (
+                              //   <tr key={index}>
+                              //     <td>
+                              //       <div className="d-flex">
+                              //         <span className="i-circle">
+                              //           <Skeleton
+                              //             circle
+                              //             width={24}
+                              //             height={24}
+                              //             style={{
+                              //               padding: "10px",
+                              //               border: "none",
+                              //             }}
+                              //           />
+                              //         </span>
+                              //         <div>
+                              //           <Skeleton
+                              //             width={80}
+                              //             style={{
+                              //               padding: "5px",
+                              //               border: "none",
+                              //             }}
+                              //           />
+                              //         </div>
+                              //       </div>
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={100} />
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={100} />
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={50} />
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={50} />
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={100} />
+                              //     </td>
+                              //     <td
+                              //       style={{ padding: "10px", border: "none" }}
+                              //     >
+                              //       <Skeleton width={100} />
+                              //     </td>
+                              //   </tr>
+                              // ))
+                              <div
+                              style={{
+                                position: 'absolute',
+                                inset: 0,
+                                display: 'flex',
+                                height: "50vh",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>
                             : currentItem &&
                               currentItem.length > 0 &&
                               currentItem.map((item) => (
