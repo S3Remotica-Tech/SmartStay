@@ -754,6 +754,10 @@ const Compliance = () => {
     // }, [editdata]);
 
 
+    console.log("description", description);
+  console.log("date", date);
+  console.log("assign", Assign);
+
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
     if (closeButton) {
