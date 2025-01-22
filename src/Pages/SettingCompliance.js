@@ -226,10 +226,25 @@ function SettingCompliance({ hostelid }) {
 
                     <Col>
                         <div className="d-flex justify-content-end">
-                            <Button style={{
-                                backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
-                                fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px"
-                            }}
+                            <Button
+                            //  style={{
+                            //     backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
+                            //     fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px"
+                            // }}
+                            style={{
+                                fontFamily: "Gilroy",
+                                fontSize: "14px",
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                fontWeight: 600,
+                                borderRadius: "8px",
+                                padding: "12px 16px",
+                                width: "auto",
+                                maxWidth: "100%",
+                                maxHeight: 50,
+                                marginTop: "-10px",
+                    
+                              }}
                                 onClick={handleShowForm} disabled={showPopupvalidation}>
                                 + Complaint Type
                             </Button>

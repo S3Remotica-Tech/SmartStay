@@ -438,9 +438,24 @@ function SettingExpenses({ hostelid }) {
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, marginTop: 30 }}> Expences Category</h3>
         <div style={{ marginTop: 30 }}>
           <Button onClick={handleShow}
+            // style={{
+            //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+            //   fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", width: 140
+            // }}
             style={{
-              fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-              fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", width: 140
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "12px 16px",
+              width: "auto",
+              maxWidth: "100%",
+              marginBottom: "10px",
+              maxHeight: 50,
+              marginTop: "-10px",
+  
             }}
             disabled={showPopup}
           >{" "}+  Category</Button></div>

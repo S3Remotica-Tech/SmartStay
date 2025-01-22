@@ -346,9 +346,24 @@ setTimeout(()=>{
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
-          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
-          padding:"12px 16px 12px 16px"
-           }} 
+          <Button 
+          // style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
+          // padding:"12px 16px 12px 16px" }} 
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            backgroundColor: "#1E45E1",
+            color: "white",
+            fontWeight: 600,
+            borderRadius: "8px",
+            padding: "12px 16px",
+            width: "auto",
+            maxWidth: "100%",
+            marginBottom: "10px",
+            maxHeight: 50,
+
+
+          }}
           onClick={handleShowFormElectricity}  disabled={showPopup}>
             + Electricity
           </Button>

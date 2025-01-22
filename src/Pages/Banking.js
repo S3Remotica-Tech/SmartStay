@@ -621,16 +621,30 @@ function Banking() {
                   <Button
                     disabled={bankingAddPermission}
                     onClick={handleShowForm}
+                    // style={{
+                    //   fontSize: 15,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 50,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 113,
+                    //   padding: "16px, 24px, 16px, 24px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 15,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 50,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 113,
-                      padding: "16px, 24px, 16px, 24px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+                      marginRight:20
                     }}
                   >
                     {" "}

@@ -2194,19 +2194,34 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     <Button
                       disabled={billAddPermission}
                       onClick={handleManualShow}
+                      // style={{
+                      //   fontSize: 14,
+                      //   backgroundColor: "#1E45E1",
+                      //   color: "white",
+                      //   height: 52,
+                      //   fontWeight: 600,
+                      //   borderRadius: 8,
+                      //   width: 152,
+                      //   padding: "12px, 16px, 12px, 16px",
+                      //   color: "#FFF",
+                      //   fontFamily: "Montserrat",
+                      // }}
                       style={{
-                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
-                        height: 52,
                         fontWeight: 600,
-                        borderRadius: 8,
-                        width: 152,
-                        padding: "12px, 16px, 12px, 16px",
-                        color: "#FFF",
-                        fontFamily: "Montserrat",
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        width: "auto",
+                        maxWidth: "100%",
+                        marginBottom: "10px",
+                        maxHeight: 45,
+            
                       }}
                     >
+
                       {" "}
                       + Create Bill
                     </Button>
@@ -2215,18 +2230,32 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     <Button
                       disabled={recuringbillAddPermission}
                       onClick={handleRecurrBillShow}
+                      // style={{
+                      //   fontSize: 14,
+                      //   backgroundColor: "#1E45E1",
+                      //   color: "white",
+                      //   height: 52,
+                      //   fontWeight: 600,
+                      //   borderRadius: 8,
+                      //   width: 200,
+                      //   padding: "12px, 16px, 12px, 16px",
+                      //   color: "#FFF",
+                      //   fontFamily: "Montserrat",
+                      //   whiteSpace: "nowrap",
+                      // }}
                       style={{
-                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
-                        height: 52,
                         fontWeight: 600,
-                        borderRadius: 8,
-                        width: 200,
-                        padding: "12px, 16px, 12px, 16px",
-                        color: "#FFF",
-                        fontFamily: "Montserrat",
-                        whiteSpace: "nowrap",
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        width: "auto",
+                        maxWidth: "100%",
+                        marginBottom: "10px",
+                        maxHeight: 45,
+            
                       }}
                     >
                       {" "}
@@ -2236,18 +2265,32 @@ console.log("loading",loading, "recurLoader", recurLoader)
 
                   {value == 3 && (
                     <Button
+                      // style={{
+                      //   fontSize: 14,
+                      //   backgroundColor: "#1E45E1",
+                      //   color: "white",
+                      //   height: 52,
+                      //   fontWeight: 600,
+                      //   borderRadius: 8,
+                      //   width: 180,
+                      //   padding: "12px, 16px, 12px, 16px",
+                      //   color: "#FFF",
+                      //   fontFamily: "Montserrat",
+                      //   whiteSpace: "nowrap",
+                      // }}
                       style={{
-                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
-                        height: 52,
                         fontWeight: 600,
-                        borderRadius: 8,
-                        width: 180,
-                        padding: "12px, 16px, 12px, 16px",
-                        color: "#FFF",
-                        fontFamily: "Montserrat",
-                        whiteSpace: "nowrap",
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        width: "auto",
+                        maxWidth: "100%",
+                        marginBottom: "10px",
+                        maxHeight: 45,
+            
                       }}
                     >
                       {" "}

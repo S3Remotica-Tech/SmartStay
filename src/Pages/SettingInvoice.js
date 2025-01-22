@@ -648,9 +648,24 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
       }}>
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
         <div></div>
-        <Button onClick={handleShow} style={{
-          fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+        <Button onClick={handleShow} 
+        // style={{
+        //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+        //   fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",}}
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+          backgroundColor: "#1E45E1",
+          color: "white",
+          fontWeight: 600,
+          borderRadius: "8px",
+          padding: "12px 16px",
+          width: "auto",
+          maxWidth: "100%",
+          marginBottom: "10px",
+          maxHeight: 45,
+          marginTop: "-8px",
+
         }}
           disabled={showPopup}
         >+ Invoice</Button>

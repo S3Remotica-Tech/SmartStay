@@ -951,7 +951,7 @@ const Compliance = () => {
                   }}
                 >
                   <div>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600}}>Complaints</label>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-20}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
@@ -1129,10 +1129,25 @@ const Compliance = () => {
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
+                        // style={{
+                        //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
+                        //   padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
+                        // }}
                         style={{
-                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
-                          padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
-                        }}> + Complaint</Button>
+                          fontFamily: "Gilroy",
+                          fontSize: "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: "12px 14px",
+                          width: "auto",
+                          maxWidth: "100%",
+                          marginBottom: "10px",
+                          maxHeight: 45,marginTop:10
+              
+                        }}
+                        > + Complaint</Button>
                     </div>
                   </div>
                 </div>
