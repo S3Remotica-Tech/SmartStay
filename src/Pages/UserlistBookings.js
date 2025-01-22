@@ -1054,7 +1054,7 @@ function Booking(props) {
                           return (
                             <tr key={customer.id} className="customer-row">
 
-                              <td>
+                              <td style={{verticalAlign: "middle"}}>
                                 <div className="d-flex align-items-center">
                                   {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                   <span
@@ -1080,6 +1080,7 @@ function Booking(props) {
                                   fontFamily: "Gilroy",
                                   color: "#000000",
                                   textAlign: "start",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {/* {customer.email_id} */}
@@ -1106,6 +1107,7 @@ function Booking(props) {
                                   color: "#000000",
                                   fontFamily: "Gilroy",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 +
@@ -1126,6 +1128,7 @@ function Booking(props) {
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 <span
@@ -1141,6 +1144,7 @@ function Booking(props) {
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
+                                    verticalAlign: "middle"
                                   }}
                                 >
                                   {formattedDatecreate}
@@ -1156,6 +1160,7 @@ function Booking(props) {
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 <span
@@ -1171,6 +1176,7 @@ function Booking(props) {
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
+                                    verticalAlign: "middle"
                                   }}
                                 >
                                   {formattedDate}
@@ -1185,6 +1191,8 @@ function Booking(props) {
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 <span
@@ -1200,6 +1208,7 @@ function Booking(props) {
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
+                                    verticalAlign: "middle"
                                   }}
                                 >
                                   {customer.amount}

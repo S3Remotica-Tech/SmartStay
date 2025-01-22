@@ -303,7 +303,19 @@ console.log("state",state)
     }
 }, [selectedHostel, floorClick]);
 
+useEffect(() => {
+  if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
+    const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
 
+      return item.floor_id === floorClick;
+    }) || [];
+    setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+    setTimeout(() => {
+
+      dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+    }, 1000);
+  }
+}, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
