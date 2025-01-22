@@ -3824,9 +3824,10 @@ console.log("loading",loading, "recurLoader", recurLoader)
                                     recuringbillAddPermission
                                   }
                                   billrolePermission={billrolePermission}
-                                  // OnHandleshowform={handleShowForm}
+                                  OnHandleshowform={handleShowForm}
                                   // OnHandleshowInvoicePdf={handleInvoiceDetail}
                                   // DisplayInvoice={handleDisplayInvoiceDownload}
+                                  // RecuringInvoice={handleDisplayInvoiceDownload}
                                 />
                               ))}
                         </tbody>
@@ -3980,7 +3981,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
     </div>
 
   </div> */}
-                          {DownloadInvoice && (
+                          {/* {DownloadInvoice && (
                           <>
             
                               <BillPdfModal
@@ -3989,7 +3990,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                                 rowData={rowData}
                               />
                           </>
-                        )}
+                        )} */}
                 </>
               )}
             </TabPanel>
