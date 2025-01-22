@@ -455,8 +455,14 @@ function Banking() {
               )}
             </div></>
         ) :
-          <div style={{ padding: 10, marginLeft: 10 }}>
-            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+          <div style={{ padding: 10, marginLeft: 10, }}>
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3" style={{
+    position: "fixed",
+    top: 10,
+    left: 260,
+    right: 25,
+    zIndex: 1000,
+  }}>
               <div>
                 <label
                   style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
@@ -621,11 +627,6 @@ function Banking() {
                   />
                 </div>
 
-                {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
-        
-            <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
-            </div> */}
 
                 <div>
                   <Button
@@ -675,7 +676,7 @@ function Banking() {
         </div>
       )} */}
 
-            <div className="d-flex overflow-auto">
+            <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
               {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
                 state.bankingDetails.bankingList.banks.map((item) => {
                   return (
