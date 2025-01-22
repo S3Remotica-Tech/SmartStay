@@ -14,7 +14,7 @@ import jsPDF from "jspdf";
 
 
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
     const invoiceData = {
         payment: {
             bank: 'Rimberio Bank',
@@ -23,7 +23,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
             dueDate: '23 June 2023',
         },
     };
-
 
 
 
@@ -163,7 +162,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                     
                                     <div>
                                         <label style={{ fontSize: 20, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
-                                    </div>
+                                    </div> 
+  
+
                                     <div>
                                         <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
                                     </div>
