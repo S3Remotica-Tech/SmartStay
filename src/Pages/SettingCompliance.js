@@ -59,9 +59,12 @@ function SettingCompliance({ hostelid }) {
             setActiveRow(false);
         } else {
             const rect = e.currentTarget.getBoundingClientRect();
+            // rect.top
             setPopupPosition({
-                top: rect.top + window.scrollY + 30,
-                left: rect.left + window.scrollX - 120,
+                // top: rect.top + window.scrollY + 30,
+                // left: rect.left + window.scrollX - 120,
+                top: rect.top + window.scrollY + 10,
+                left: rect.left + window.scrollX - 594,
             });
             setActiveRow(true);
         }
@@ -306,7 +309,8 @@ function SettingCompliance({ hostelid }) {
                                                             backgroundColor: "#fff",
                                                             top: popupPosition.top,
                                                             left: popupPosition.left,
-                                                            width: 163,
+                                                            // width: 163,
+                                                            width: 140,
                                                             border: "1px solid #EBEBEB",
                                                             borderRadius: 10,
                                                             display: "flex",
