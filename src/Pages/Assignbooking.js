@@ -67,7 +67,7 @@ function AssignBooking(props) {
 
   const handleAssignClose = () => {
     props.setModalType(false)
-
+dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
     setFloor('')
     setRoom('')
     setBed('')
