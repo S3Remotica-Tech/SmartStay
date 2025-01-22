@@ -19,6 +19,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { MdError } from "react-icons/md";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -176,7 +177,20 @@ const ComplianceList = (props) => {
     setCustomer_Id(item.ID);
     setShowCard(true);
     setName(item.Name)
-    setDate(item.createdat)
+    let Dated = new Date(item.createdat);
+
+      let day = Dated.getDate();
+      let month = Dated.getMonth();
+      let year = Dated.getFullYear();
+
+      const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+
+      let formattedMonth = monthNames[month];
+      let formattedDate = `${day} ${formattedMonth} ${year}`;
+    setDate(formattedDate)
     // setProfile(item.profile)
     setProfile(item.profile && item.profile !== "0" ? item.profile : User);
   
@@ -209,6 +223,7 @@ const ComplianceList = (props) => {
         type: "GET_COMPLIANCE_COMMENT",
         payload: { com_id: customer_Id },
       });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id }});
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
@@ -219,8 +234,40 @@ const ComplianceList = (props) => {
   const [comments, setComments] = useState("");
   const handleComments = (e) => {
     setComments(e.target.value);
+    setCommentError("")
   };
+  const [commentError,setCommentError] = useState("")
+  const validateAssignField = (value, fieldName) => {
+    const isValueEmpty =
+      (typeof value === "string" && value.trim() === "") ||
+      value === undefined ||
+      value === null ||
+      value === "0";
+    if (isValueEmpty) {
+      switch (fieldName) {
+        case "comments":
+          setCommentError("comments is required");
+          break;
+        
+        default:
+          break;
+      }
+      return false;
+    }
+
+    switch (fieldName) {
+      case "comments":
+        setCommentError("");
+        break;
+      default:
+        break;
+    }
+
+    return true;
+  };
+
   const handleAddComment = () => {
+    const isFloorValid = validateAssignField(comments, "comments");
     if (comments) {
       dispatch({
         type: "Add_COMPLIANCE_COMMENT",
@@ -232,6 +279,7 @@ const ComplianceList = (props) => {
     setShowCard(false);
     setComments("")
     setCustomer_Id("")
+    setCommentError("")
   };
 
   const handleChangeStatusClick = () => {
@@ -909,174 +957,11 @@ const ComplianceList = (props) => {
                     alt="Comments"
                     onClick={() => handleIconClick(props.complaints)}
                   />{" "}
-                  986
+                  {props.complaints.comment_count}
                 </label>
               </div>
 
-              {/* {showCard && (
-                <div
-                  style={{
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    border: "1px solid #DCDCDC",
-                    borderRadius: 10,
-                    padding: "16px",
-                    backgroundColor: "#FFF",
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                    zIndex: 1000,
-                    width: 664,
-                    height: 279,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontWeight: 600,
-                        fontSize: 18,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      August 2024 . Monthly Report
-                    </p>
-                    <img
-                      src={closeicon}
-                      alt="Close"
-                      style={{ cursor: "pointer", width: 20, height: 20 }}
-                      onClick={handleCloseIconClick}
-                    />
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginTop: 20,
-                    }}
-                  >
-                    <label
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 12,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      <img
-                        src={manimg}
-                        alt="man"
-                        style={{ cursor: "pointer", width: 20, height: 20 }}
-                      />{" "}
-                      Akash Rathod
-                    </label>
-                    <p
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 12,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      01 September 2024
-                    </p>
-                  </div>
-
-                  <div style={{ marginTop: 10 }}>
-                    {state.ComplianceList?.getComplianceComments?.comments &&
-                      state.ComplianceList?.getComplianceComments?.comments?.map(
-                        (item) => {
-                          return (
-                            <>
-                              <p
-                                style={{
-                                  fontWeight: 500,
-                                  fontSize: 14,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  margin: 0,
-                                }}
-                              >
-                                {item.comment}
-                              </p>
-                            </>
-                          );
-                        }
-                      )}
-                  </div>
-
-                  <div
-                    style={{
-                      border: "1px solid #E7E7E7",
-                      marginTop: 15,
-                      width: "100%",
-                    }}
-                  ></div>
-
-                  <div
-                    style={{
-                      marginTop: 15,
-                      position: "relative",
-                      display: "inline-block",
-                      width: "100%",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={comments}
-                      onChange={(e) => handleComments(e)}
-                      style={{
-                        border: "1px solid #E7E7E7",
-                        paddingTop: 6,
-                        paddingBottom: 6,
-                        paddingLeft: 16,
-                        width: "100%",
-                        height: "52px",
-                        borderRadius: "12px",
-                      }}
-                      placeholder="Post your reply here"
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        backgroundColor: "#1E45E1",
-                        border: "1px solid #E7E7E7",
-                        borderRadius: "60px",
-                        padding: "12px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <img
-                        src={send}
-                        alt="Send"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                        }}
-                        onClick={handleAddComment}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )} */}
-  
-            </div>
-
-
-            <Modal
+              <Modal
               show={showCard}
               onHide={handleCloseIconClick}
               centered
@@ -1085,8 +970,8 @@ const ComplianceList = (props) => {
               <Modal.Dialog
                 style={{
                   maxWidth: 950,
-                  paddingRight: "10px",
-                  paddingRight: "10px",
+                  paddingRight: "5px",
+                  // paddingRight: "10px",
                   borderRadius: "30px",
                 }}
                 className="m-0 p-0"
@@ -1148,8 +1033,11 @@ const ComplianceList = (props) => {
                   </div>
                   <div
   style={{
-    height: state.ComplianceList?.getComplianceComments?.comments?.length > 1 ? "60px" : "auto",
-    overflowY: state.ComplianceList?.getComplianceComments?.comments?.length > 1 ? "auto" : "hidden",
+    height: state.ComplianceList?.getComplianceComments?.comments?.length > 2 ? "250px" : "auto",
+    overflowY: state.ComplianceList?.getComplianceComments?.comments?.length > 2 ? "auto" : "hidden",
+    padding: "10px",
+    backgroundColor: "#F4F5F7",
+    borderRadius: "10px",
   }}
 >
   {state.ComplianceList?.getComplianceComments?.comments &&
@@ -1160,50 +1048,57 @@ const ComplianceList = (props) => {
       let month = Dated.getMonth();
       let year = Dated.getFullYear();
 
-     
       const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
       ];
 
       let formattedMonth = monthNames[month];
-
       let formattedDate = `${day} ${formattedMonth} ${year}`;
+
       return (
         <div
           key={index}
-          className="row mt-1"
-          style={{ borderBottom: "1px solid #EDF0F4" }}
+          className="row"
+          style={{
+            borderBottom: "1px solid #EDF0F4",
+            paddingBottom: "10px",
+            marginBottom: "10px",
+          }}
         >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={item.profile && item.profile !== "0" ? item.profile : User}
+              alt="User"
+              style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
+            />
+            <div>
+              <p style={{ margin: 0, fontSize: "16px", fontWeight: "bold", fontFamily: "Gilroy" }}>
+                {item.name}
+              </p>
+              <p style={{ margin: 0, fontSize: "14px", color: "#666666" }}>{formattedDate}</p>
+            </div>
+          </div>
+
           <p
             style={{
               wordWrap: "break-word",
               overflowWrap: "break-word",
               whiteSpace: "pre-wrap",
               maxWidth: "100%",
-              margin: 0, 
-              fontSize:16,
-              fontWeight:600,
-              fontFamily:"Gilroy"
+              marginTop: "8px",
+              fontSize: "16px",
+              fontWeight: "400",
+              color: "#333",
             }}
           >
             {item.comment}
           </p>
-          <p style={{color:"#666666"}}>{formattedDate}</p>
         </div>
       );
     })}
 </div>
+
 
                 </Modal.Body>
 
@@ -1258,10 +1153,22 @@ const ComplianceList = (props) => {
                         onClick={handleAddComment}
                       />
                     </div>
+                    {commentError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{commentError}</span>
+                                      </div>
+                                    )}
                     </div>
+                    
                 </Modal.Footer>
               </Modal.Dialog>
             </Modal>
+  
+            </div>
+
+
+           
 
 
 
