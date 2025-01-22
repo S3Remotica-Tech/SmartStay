@@ -25,12 +25,17 @@ function AssetListTable(props) {
   const [showDots, setShowDots] = useState(null);
   const [showAssignAssetModal, setShowAssignAssetModal] = useState(false)
   const [assign, setAssign] = useState('')
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
 
 
 
-
-  const handleShowDots = (id) => {
+  const handleShowDots = (id,e) => {
     setShowDots(!showDots)
+    const { top, left, width, height } = e.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+    setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
 
@@ -260,15 +265,19 @@ function AssetListTable(props) {
 
         <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle' }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={() => handleShowDots(props.item.id)}  >
+            <div style={{ cursor: "pointer",backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(props.item.id,e)}  >
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
 
               {showDots && <>
                 <div ref={popupRef}
                   style={{
-                    cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute",
-                    right: 40, top: 10, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
+                    cursor: "pointer", backgroundColor: "#F9F9F9",
+                    position: "fixed",
+                    top: popupPosition.top,
+                    left: popupPosition.left,
+                    
+                    width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
                   }}
 
 

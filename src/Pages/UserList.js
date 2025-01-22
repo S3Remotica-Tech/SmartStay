@@ -40,11 +40,14 @@ import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
 
+
+
 function UserList(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const popupRef = useRef(null);
+  const rowRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -77,6 +80,7 @@ function UserList(props) {
   const [createby, setcreateby] = useState("");
   const [amnityEdit, setamnityEdit] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
+
 
   useEffect(() => {
     setUniqostel_Id(state.login.selectedHostel_Id);
@@ -310,19 +314,34 @@ function UserList(props) {
   const [EditObj, setEditObj] = useState("");
   const [addBasicDetail, setAddBasicDetail] = useState("");
   const [filteredDatas, setFilteredDatas] = useState([]);
-  const [originalData, setOriginalData] = useState([]); // Store original data from API
+  const [originalData, setOriginalData] = useState([]); 
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
   const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const handleShowDots = (id) => {
+
+  const handleShowDots = (id, event) => {
     if (activeRow == id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
     setSearch(false);
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
+
+
   };
+
+
+
+
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -1064,9 +1083,9 @@ function UserList(props) {
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
 
-  useEffect(()=> {
-    dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-  },[uniqueostel_Id])
+  useEffect(() => {
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
+  }, [uniqueostel_Id])
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
@@ -1635,7 +1654,7 @@ function UserList(props) {
                     </div>
                   </>
                 ) : (
-                  <div style={{  marginLeft: "6px" }}>
+                  <div style={{ marginLeft: "6px" }}>
                     <div>
                       {currentItems?.length == 0 && (
                         <div>
@@ -1673,9 +1692,10 @@ function UserList(props) {
 
                       {currentItems && currentItems.length > 0 && (
                         <div
+                          className="z-0"
                           style={{
                             // height: "400px",
-                            position: "relative",
+                            // position: "relative",
                             height: currentItems.length >= 6 ? "400px" : "auto",
                             overflowY: currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
@@ -1685,6 +1705,7 @@ function UserList(props) {
                         >
 
                           <Table
+
                             responsive="md"
                             className="Table_Design"
                             style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
@@ -2045,7 +2066,7 @@ function UserList(props) {
                                       >
                                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                        <div
+                                        <div className="z-1"
                                           style={{
                                             cursor: "pointer",
                                             height: 40,
@@ -2056,242 +2077,75 @@ function UserList(props) {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
-                                            zIndex: 1000,
+                                            backgroundColor:activeRow === user.ID ? "#E7F1FF" : "white"
+
                                           }}
-                                          onClick={() =>
-                                            handleShowDots(user.ID)
+                                          onClick={(e) =>
+                                            handleShowDots(user.ID, e)
                                           }
                                         >
                                           <PiDotsThreeOutlineVerticalFill
                                             style={{ height: 20, width: 20 }}
                                           />
                                           {activeRow === user.ID && (
-                                            <>
+
+                                            <div
+                                              ref={popupRef}
+                                              style={{
+                                                position: "fixed",
+                                                top: popupPosition.top,
+                                                left: popupPosition.left,
+                                                // right: 70,
+
+                                                width: "163px",
+                                                backgroundColor: "#fff",
+                                                border: "1px solid #EBEBEB",
+                                                borderRadius: "10px",
+                                                zIndex: 1000,
+                                                padding: "10px",
+                                                display: "flex",
+                                                justifyContent: "start",
+                                                alignItems: "center",
+                                              }}
+                                            >
                                               <div
-                                                ref={popupRef}
                                                 style={{
-                                                  position: "absolute", 
-                                                  right: 50,
-                                                    top: 15, 
-                                                  width: "163px",
                                                   backgroundColor: "#fff",
-                                                  border: "1px solid #EBEBEB",
-                                                  borderRadius: "10px",
-                                                  zIndex: 1000, 
-                                                  padding: "10px",
-                                                  display: "flex",
-                                                  justifyContent: "start",
-                                                  alignItems: "center",
                                                 }}
+                                                className=""
                                               >
-                                                <div
-                                                  style={{
-                                                    backgroundColor: "#fff",
-                                                  }}
-                                                  className=""
-                                                >
-                                                  {!user.Bed && (
-                                                    <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      onClick={() => {
-                                                        if (
-                                                          !customerAddPermission
-                                                        ) {
-                                                          handleShowAddBed(
-                                                            user
-                                                          );
-                                                        }
-                                                      }}
-                                                      style={{
-                                                        backgroundColor:
-                                                          "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
-                                                        }}
-                                                      >
-                                                        Assign Bed
-                                                      </label>
-                                                    </div>
-                                                  )}
-
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
-                                                      onClick={() =>
-                                                        handleCustomerCheckout(
-                                                          user
-                                                        )
-                                                      }
-                                                      style={{
-                                                        backgroundColor:
-                                                          "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
-                                                        }}
-                                                      >
-                                                        Checkout
-                                                      </label>
-                                                    </div>
-                                                  )}
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
-                                                      onClick={() =>
-                                                        handleCustomerReAssign(
-                                                          user
-                                                        )
-                                                      }
-                                                      style={{
-                                                        backgroundColor:
-                                                          "#fff",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
-                                                        }}
-                                                      >
-                                                        Re Assign
-                                                      </label>
-                                                    </div>
-                                                  )}
-
+                                                {!user.Bed && (
                                                   <div
                                                     className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    style={{
-                                                      backgroundColor: "#fff",
-                                                      cursor:
-                                                        customerEditPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerEditPermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
                                                     onClick={() => {
                                                       if (
-                                                        !customerEditPermission
+                                                        !customerAddPermission
                                                       ) {
-                                                        handleRoomDetailsPage(
+                                                        handleShowAddBed(
                                                           user
                                                         );
                                                       }
                                                     }}
+                                                    style={{
+                                                      backgroundColor:
+                                                        "#fff",
+                                                      cursor:
+                                                        customerAddPermission
+                                                          ? "not-allowed"
+                                                          : "pointer",
+                                                      opacity:
+                                                        customerAddPermission
+                                                          ? 0.6
+                                                          : 1,
+                                                    }}
                                                   >
                                                     <img
-                                                      src={Edit}
+                                                      src={addcircle}
                                                       style={{
                                                         height: 16,
                                                         width: 16,
                                                         filter:
-                                                          customerEditPermission
+                                                          customerAddPermission
                                                             ? "grayscale(100%)"
                                                             : "none",
                                                       }}
@@ -2303,56 +2157,57 @@ function UserList(props) {
                                                         fontFamily:
                                                           "Gilroy, sans-serif",
                                                         color:
-                                                          customerEditPermission
+                                                          customerAddPermission
                                                             ? "#888888"
                                                             : "#222222",
                                                         cursor:
-                                                          customerEditPermission
+                                                          customerAddPermission
                                                             ? "not-allowed"
                                                             : "pointer",
                                                       }}
                                                     >
-                                                      Edit
+                                                      Assign Bed
                                                     </label>
                                                   </div>
+                                                )}
 
-                                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                onClick={() => { handleShowform(props) }}
-                                style={{ backgroundColor: "#fff" }}
-                            >
-                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
-
-                            </div> */}
-
+                                                {user.Bed && (
                                                   <div
-                                                    className={
-                                                      "mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                    // onClick={() => {
+                                                    //   if (!customerAddPermission) {
+                                                    //     handleShowAddBed(user);
+                                                    //   }
+                                                    // }}
+                                                    onClick={() =>
+                                                      handleCustomerCheckout(
+                                                        user
+                                                      )
                                                     }
                                                     style={{
-                                                      backgroundColor: "#fff",
+                                                      backgroundColor:
+                                                        "#fff",
                                                       cursor:
-                                                        customerDeletePermission
+                                                        customerAddPermission
                                                           ? "not-allowed"
                                                           : "pointer",
                                                       opacity:
-                                                        customerDeletePermission
+                                                        customerAddPermission
                                                           ? 0.6
                                                           : 1,
                                                     }}
-                                                    onClick={
-                                                      !customerDeletePermission
-                                                        ? handleDeleteShow
-                                                        : null
-                                                    }
                                                   >
                                                     <img
-                                                      src={Delete}
+                                                      src={addcircle}
                                                       style={{
                                                         height: 16,
                                                         width: 16,
+                                                        filter:
+                                                          customerAddPermission
+                                                            ? "grayscale(100%)"
+                                                            : "none",
                                                       }}
-                                                      alt="Delete Icon"
-                                                    />{" "}
+                                                    />
                                                     <label
                                                       style={{
                                                         fontSize: 14,
@@ -2360,17 +2215,186 @@ function UserList(props) {
                                                         fontFamily:
                                                           "Gilroy, sans-serif",
                                                         color:
-                                                          customerDeletePermission
+                                                          customerAddPermission
                                                             ? "#888888"
-                                                            : "#FF0000", // Greyed-out text if disabled
+                                                            : "#222222",
+                                                        cursor:
+                                                          customerAddPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
                                                       }}
                                                     >
-                                                      Delete
+                                                      Checkout
                                                     </label>
                                                   </div>
+                                                )}
+                                                {user.Bed && (
+                                                  <div
+                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                    // onClick={() => {
+                                                    //   if (!customerAddPermission) {
+                                                    //     handleShowAddBed(user);
+                                                    //   }
+                                                    // }}
+                                                    onClick={() =>
+                                                      handleCustomerReAssign(
+                                                        user
+                                                      )
+                                                    }
+                                                    style={{
+                                                      backgroundColor:
+                                                        "#fff",
+                                                      cursor:
+                                                        customerAddPermission
+                                                          ? "not-allowed"
+                                                          : "pointer",
+                                                      opacity:
+                                                        customerAddPermission
+                                                          ? 0.6
+                                                          : 1,
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter:
+                                                          customerAddPermission
+                                                            ? "grayscale(100%)"
+                                                            : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily:
+                                                          "Gilroy, sans-serif",
+                                                        color:
+                                                          customerAddPermission
+                                                            ? "#888888"
+                                                            : "#222222",
+                                                        cursor:
+                                                          customerAddPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                      }}
+                                                    >
+                                                      Re Assign
+                                                    </label>
+                                                  </div>
+                                                )}
+
+                                                <div
+                                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                  style={{
+                                                    backgroundColor: "#fff",
+                                                    cursor:
+                                                      customerEditPermission
+                                                        ? "not-allowed"
+                                                        : "pointer",
+                                                    opacity:
+                                                      customerEditPermission
+                                                        ? 0.6
+                                                        : 1,
+                                                  }}
+                                                  onClick={() => {
+                                                    if (
+                                                      !customerEditPermission
+                                                    ) {
+                                                      handleRoomDetailsPage(
+                                                        user
+                                                      );
+                                                    }
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={Edit}
+                                                    style={{
+                                                      height: 16,
+                                                      width: 16,
+                                                      filter:
+                                                        customerEditPermission
+                                                          ? "grayscale(100%)"
+                                                          : "none",
+                                                    }}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily:
+                                                        "Gilroy, sans-serif",
+                                                      color:
+                                                        customerEditPermission
+                                                          ? "#888888"
+                                                          : "#222222",
+                                                      cursor:
+                                                        customerEditPermission
+                                                          ? "not-allowed"
+                                                          : "pointer",
+                                                    }}
+                                                  >
+                                                    Edit
+                                                  </label>
+                                                </div>
+
+                                                {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                onClick={() => { handleShowform(props) }}
+                                style={{ backgroundColor: "#fff" }}
+                            >
+                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
+
+                            </div> */}
+
+                                                <div
+                                                  className={
+                                                    "mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                  }
+                                                  style={{
+                                                    backgroundColor: "#fff",
+                                                    cursor:
+                                                      customerDeletePermission
+                                                        ? "not-allowed"
+                                                        : "pointer",
+                                                    opacity:
+                                                      customerDeletePermission
+                                                        ? 0.6
+                                                        : 1,
+                                                  }}
+                                                  onClick={
+                                                    !customerDeletePermission
+                                                      ? handleDeleteShow
+                                                      : null
+                                                  }
+                                                >
+                                                  <img
+                                                    src={Delete}
+                                                    style={{
+                                                      height: 16,
+                                                      width: 16,
+                                                    }}
+                                                    alt="Delete Icon"
+                                                  />{" "}
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily:
+                                                        "Gilroy, sans-serif",
+                                                      color:
+                                                        customerDeletePermission
+                                                          ? "#888888"
+                                                          : "#FF0000", // Greyed-out text if disabled
+                                                    }}
+                                                  >
+                                                    Delete
+                                                  </label>
                                                 </div>
                                               </div>
-                                            </>
+                                            </div>
+
                                           )}
                                         </div>
 

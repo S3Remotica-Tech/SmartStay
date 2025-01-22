@@ -134,8 +134,18 @@ function UserlistWalkin(props) {
     state.UsersList.deleteWalkInCustomerStatusCode,
   ]);
 
-  const handleDotsClick = (id) => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+
+  const handleDotsClick = (id, event) => {
     setDotsButton((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
   const handleDelete = (customer) => {
@@ -397,6 +407,8 @@ function UserlistWalkin(props) {
                             <div className="d-flex align-items-center">
                               {/* <Image
                                 src={Ellipse1}
+
+
                                 roundedCircle
                                 height={30}
                                 width={30}
@@ -503,10 +515,11 @@ function UserlistWalkin(props) {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 position: "relative",
+                                backgroundColor: dotsButton === customer.id   ? "#E7F1FF" : "white",
                                 zIndex:
                                   dotsButton === customer.id ? 1000 : "auto",
                               }}
-                              onClick={() => handleDotsClick(customer.id)}
+                              onClick={(e) => handleDotsClick(customer.id,e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -517,10 +530,9 @@ function UserlistWalkin(props) {
                                   style={{
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    left: -170,
-                                    // bottom:0,
-                                    top: 30,
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
                                     overflow: "visible ! important",
                                     marginButtom: "30px",
                                     width: 163,

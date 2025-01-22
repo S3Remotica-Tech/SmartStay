@@ -207,17 +207,28 @@ function CheckOut(props) {
 
 
   const [activeRow, setActiveRow] = useState(null)
-
-  const toggleMoreOptions = (id, checkout) => {
-
-
-
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+  const toggleMoreOptions = (id, checkout, event) => {
     setCheckOutConfirm(checkout)
     if (activeDotsId === id) {
       setActiveDotsId(null);
     } else {
       setActiveDotsId(id);
     }
+
+
+const { top, left, width, height } = event.target.getBoundingClientRect();
+const popupTop = top + (height / 2);
+const popupLeft = left - 200;
+
+setPopupPosition({ top: popupTop, left: popupLeft });
+
+
+
+
+
+
   };
 
   const handleDotsClick = (id, checkout) => {
@@ -815,8 +826,9 @@ function CheckOut(props) {
                                   position: "relative",
                                   zIndex:
                                     activeDotsId === checkout.ID ? 1000 : "auto",
+                                    backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
                                 }}
-                                onClick={() => toggleMoreOptions(checkout.ID, checkout)}
+                                onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
                               // onClick={() => handleDotsClick(checkout.id , checkout)}
                               >
                                 <PiDotsThreeOutlineVerticalFill
@@ -829,8 +841,10 @@ function CheckOut(props) {
                                     style={{
                                       cursor: "pointer",
                                       backgroundColor: "#EBEBEB",
-                                      position: "absolute",
-                                      right: 0,
+                                      position: "fixed",
+                                      top: currentCustomers.length >= 6 ?  popupPosition.top : 5,
+                                      left: currentCustomers.length >= 6 ? popupPosition.left :  popupPosition.left - 20,
+                                      
                                       width: 200,
                                       border: "1px solid #EBEBEB",
                                       borderRadius: 12,

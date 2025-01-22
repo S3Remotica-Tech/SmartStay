@@ -33,12 +33,20 @@ function SettingNewUser({ hostelid }) {
     const [deleteId, setDeleteId] = useState('')
     const [isConfirmDelete, setIsConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
 
     // Function Declare//////////////////////////////////////////////////////////
 
-    const handleDotsClick = (index) => {
+    const handleDotsClick = (index,event) => {
 
         setShowDots((prev) => (prev === index ? null : index));
+const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
     };
 
 
@@ -426,10 +434,11 @@ function SettingNewUser({ hostelid }) {
                                                         justifyContent: "center",
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
-                                                        position: "relative"
+                                                        position: "relative",
+                                                        backgroundColor: showDots  ? "#E7F1FF" : "white",
                                                     }}
 
-                                                    onClick={() => handleDotsClick(index)}
+                                                    onClick={(e) => handleDotsClick(index,e)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
                                                         style={{ height: "20px", width: "20px" }}
@@ -442,8 +451,9 @@ function SettingNewUser({ hostelid }) {
                                                                 cursor: "pointer",
                                                                 backgroundColor: "#F9F9F9",
                                                                 position: "absolute",
-                                                                top: 30,
-                                                                right: 30,
+                                                                position: "fixed",
+                                                                top: popupPosition.top,
+                                                                left: popupPosition.left,
                                                                 width: 160,
                                                                 height: 70,
                                                                 border: "1px solid #EBEBEB",
