@@ -1281,7 +1281,7 @@ function UserList(props) {
                     <Image
                       src={searchteam}
 
-                      style={{ height: "28px", width: "28px" }}
+                      style={{ height: "28px", width: "28px",cursor:"pointer" }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -1292,7 +1292,7 @@ function UserList(props) {
                 <Image
                   src={Filters}
 
-                  style={{ height: "50px", width: "50px" }}
+                  style={{ height: "50px", width: "50px",cursor:"pointer" }}
                   onClick={handleShowSearch}
                 />
               </div>
@@ -1302,7 +1302,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5 }}
+                    style={{ marginLeft: "-20px", marginTop: 5 ,cursor:"pointer"}}
                     onClick={handleCustomerExcel}
                   />
                 )}
@@ -1311,7 +1311,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5 }}
+                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
                     onClick={handleBookingExcel}
                   />
                 )}
@@ -1320,7 +1320,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5 }}
+                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
                     onClick={handlecheckoutExcel}
                   />
                 )}
@@ -1329,7 +1329,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5 }}
+                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
                     onClick={handlewalkinExcel}
                   />
                 )}
