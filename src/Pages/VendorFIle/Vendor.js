@@ -617,10 +617,25 @@ function Vendor() {
                   </div>
 
                   <div>
-                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{
-                      fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                      fontWeight: 600, borderRadius: 12, padding: "12px 16px"
-                    }}> + Vendor</Button>
+                    <Button disabled={vendorAddPermission} onClick={handleShow}
+                    //  style={{
+                    //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                    //   fontWeight: 600, borderRadius: 12, padding: "12px 16"}}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        width: "auto",
+                        maxWidth: "100%",
+                        marginBottom: "10px",
+                        maxHeight: 45,
+            
+                      }}
+                      > + Vendor</Button>
                   </div>
                 </div>
               </div>

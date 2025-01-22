@@ -291,10 +291,24 @@ function SettingAmenities({ hostelid }) {
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
+                        // style={{
+                        //     fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                        //     fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        // }}
                         style={{
-                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
-                        }}
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: "8px",
+                            padding: "12px 16px",
+                            width: "auto",
+                            maxWidth: "100%",
+                            maxHeight: 50,
+
+                
+                          }}
                         disabled={showPopup}
                     >
                         {" "}

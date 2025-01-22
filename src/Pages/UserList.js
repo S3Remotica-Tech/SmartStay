@@ -1340,16 +1340,30 @@ function UserList(props) {
                   <Button
                     disabled={customerAddPermission}
                     onClick={handleShow}
+                    // style={{
+                    //   fontSize: 14,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 52,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 152,
+                    //   padding: "16px, 24px, 16px, 24px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 52,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 152,
-                      padding: "16px, 24px, 16px, 24px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+          
                     }}
                   >
                     +  Customer
@@ -1359,16 +1373,30 @@ function UserList(props) {
                   <Button
                     disabled={customerBookingAddPermission}
                     onClick={toggleForm}
+                    // style={{
+                    //   fontSize: 14,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 52,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 152,
+                    //   padding: "16px, 24px, 16px, 24px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 52,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 152,
-                      padding: "16px, 24px, 16px, 24px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+          
                     }}
                   >
                     + Bookings
@@ -1378,16 +1406,30 @@ function UserList(props) {
                   <Button
                     disabled={customerCheckoutPermission}
                     onClick={checkOutForm}
+                    // style={{
+                    //   fontSize: 14,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 52,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 152,
+                    //   padding: "16px, 24px, 16px, 24px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 52,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 152,
-                      padding: "16px, 24px, 16px, 24px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+          
                     }}
                   >
                     + Check-out
@@ -1397,16 +1439,30 @@ function UserList(props) {
                   <Button
                     disabled={customerWalkInAddPermission}
                     onClick={walkinForm}
+                    // style={{
+                    //   fontSize: 14,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 52,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 152,
+                    //   padding: "12px, 16px, 12px, 16px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 52,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 152,
-                      padding: "12px, 16px, 12px, 16px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+          
                     }}
                   >
                     +  Walk-in
