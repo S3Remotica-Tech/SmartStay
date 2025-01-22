@@ -664,7 +664,10 @@ function Asset() {
               <div
                 style={{
                   position: 'absolute',
-                  inset: 0,
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: '200px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

@@ -5,8 +5,8 @@ import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-
-
+import InvoiceCard from "./BillPdfModal";
+import RecuringBillPDF from "./RecuringBillModalPDF";
 const RecurringBillList = (props) => {
 
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
@@ -109,6 +109,33 @@ const RecurringBillList = (props) => {
     };
   }, []);
 
+  //   const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+  
+  //   const handleDownload = (item) => {
+  // console.log(item);
+  
+  //     // props.RecuringInvoice(true, item)
+  
+  //     setDownloadInvoiceTable(true)
+  
+  //   }
+  // const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+  // const [selectedItem, setSelectedItem] = useState(null); 
+
+  // const handleDownload = (item) => {
+  //   console.log(item); 
+  //   setSelectedItem(item); 
+  //   setDownloadInvoiceTable(true); 
+  // };
+
+
+  // React.useEffect(() => {
+  //   if (selectedItem) {
+  //     console.log("Selected Item:", selectedItem);
+  //   }
+  // }, [selectedItem]);
+
+    
   return (
 
     <>
@@ -332,6 +359,15 @@ const RecurringBillList = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
+    {/* {
+      downLoadInvoiceTable == true ?(
+<> */}
+{/* <InvoiceCard/> */}
+{/* <RecuringBillPDF/> */}
+{/* <p>{selectedItem.Invoices}</p> */}
+{/* </>
+      ):null
+    } */}
 
     </>
   )

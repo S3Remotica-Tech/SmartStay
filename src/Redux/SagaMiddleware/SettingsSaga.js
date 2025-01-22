@@ -728,8 +728,8 @@ function* handleAddStaffUserPage(detail) {
 function* handleGetAllStaffs(action) {
    const response = yield call(GetAllStaff,action.payload)
    console.log("handleGetAllStaffs",response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

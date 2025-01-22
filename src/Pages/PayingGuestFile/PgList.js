@@ -33,7 +33,7 @@ import {
   Edit,
   Trash,
 } from "iconsax-react";
-import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
 import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -50,7 +50,7 @@ import SettingManage from "../../Pages/SettingManage";
 function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log('PgList',state)
+  console.log('PgList', state)
   const [showHostelDetails, setShowHostelDetails] = useState("");
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
@@ -58,9 +58,9 @@ function PgList(props) {
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
 
-  const [customerPermission,setCustomerPermission] = useState("")
-  const [customerAddPermission,setCustomerAddPermission]= useState("")
-  const [customerDeletePermission,setCustomerDeletePermission]=useState("")
+  const [customerPermission, setCustomerPermission] = useState("")
+  const [customerAddPermission, setCustomerAddPermission] = useState("")
+  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
 
   const popupRef = useRef(null);
@@ -84,14 +84,14 @@ function PgList(props) {
   const [show, setShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState(false);
 
-   const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
 
-  const [settingsshow, setSettingsShow]= useState(false)
+  const [settingsshow, setSettingsShow] = useState(false)
   const stateAccount = useSelector((state) => state.createAccount);
 
   const [profile, setProfile] = useState(
@@ -123,27 +123,27 @@ function PgList(props) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
-const [hostel_Id,setHostel_Id] = useState("")
+  const [hostel_Id, setHostel_Id] = useState("")
 
 
- useEffect(() => {
-  if(state.login.selectedHostel_Id){
-    setHostel_Id(state.login.selectedHostel_Id);
-    setSelectedHostel(false);
-    setFloorClick("");
-    setFloorName("");
-    setHidePgList(true);
-  } 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostel_Id(state.login.selectedHostel_Id);
+      setSelectedHostel(false);
+      setFloorClick("");
+      setFloorName("");
+      setHidePgList(true);
+    }
   }, [state?.login?.selectedHostel_Id]);
 
 
-//  useEffect
+  //  useEffect
 
   useEffect(() => {
-    if(hostel_Id){
+    if (hostel_Id) {
       setLoader(true)
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} });
-    }  
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+    }
   }, [hostel_Id]);
 
 
@@ -154,7 +154,7 @@ const [hostel_Id,setHostel_Id] = useState("")
   }, [selectedHostel]);
 
 
-console.log("state",state)
+  console.log("state", state)
 
 
   useEffect(() => {
@@ -184,7 +184,7 @@ console.log("state",state)
     }
   }, [filteredData[0]]);
 
- console.log("filteredData",filteredData)
+  console.log("filteredData", filteredData)
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -202,15 +202,15 @@ console.log("state",state)
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
- 
+
   useEffect(() => {
     if (
       state.UsersList.createFloorSuccessStatusCode === 200 ||
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      
+
       setShowFloor(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_FLOOR_STATUS_CODE" });
@@ -224,12 +224,12 @@ console.log("state",state)
 
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
       setShowDelete(false);
 
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-   
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
       }, 4000);
@@ -241,7 +241,7 @@ console.log("state",state)
       state.PgList.deletePgSuccessStatusCode === 200 ||
       state.PgList.dleteHostelImagesStatusCode === 200
     ) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
@@ -259,7 +259,7 @@ console.log("state",state)
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -281,6 +281,14 @@ console.log("state",state)
         (item) => item.id === showHostelDetails.id
       );
       setShowHostelDetails(selected);
+
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
@@ -293,15 +301,15 @@ console.log("state",state)
   }, [stateAccount.statusCodeForAccountList]);
 
 
-  useEffect(() => { 
+  useEffect(() => {
     if (floorClick) {
-        const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-            return item.floor_id == floorClick;
-        }) || []; 
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
 
-        setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : ""); 
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
     }
-}, [selectedHostel, floorClick]);
+  }, [selectedHostel, floorClick]);
 
 useEffect(() => {
   if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
@@ -318,13 +326,48 @@ useEffect(() => {
 }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
   useEffect(() => {
+    if (state.UsersList.hosteListStatusCode == 200) {
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList.hosteListStatusCode])
+
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+      }, 1000);
+    }
+
+  }, [state.UsersList?.statuscodeForhotelDetailsinPg])
+
+
+  useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
       dispatch({
         type: "ROOMCOUNT",
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
 
       setTimeout(() => {
@@ -360,7 +403,7 @@ useEffect(() => {
         }
       });
     },
-    appearOptions);
+      appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -416,7 +459,7 @@ useEffect(() => {
 
 
 
-  
+
 
 
 
@@ -431,7 +474,7 @@ useEffect(() => {
   // const handleCancels = () => {
   //   handlecloseHostelForm();
   // };
- 
+
   // const handleshowHostelForm = () => {
   //   setAddhostelForm(true);
   // };
@@ -446,7 +489,7 @@ useEffect(() => {
   //   setAddhostelForm(false);
   // };
 
-  
+
 
   // const [emailError, setEmailError] = useState("");
 
@@ -473,14 +516,14 @@ useEffect(() => {
       return item.id == selectedHostelId;
     });
     setSelectedHostel(true);
-    console.log("selected",selected)
+    console.log("selected", selected)
     setShowHostelDetails(selected);
   };
 
 
 
 
-  console.log("showHostelDetails",showHostelDetails)
+  console.log("showHostelDetails", showHostelDetails)
 
   const handleCloses = () => {
     setShowAddPg(false);
@@ -491,20 +534,20 @@ useEffect(() => {
     setEditHostelDetails("");
   };
 
- 
 
- 
+
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
     props.displaysettings(settingNewDesign);
-    dispatch({ type: 'MANAGE_PG'})
+    dispatch({ type: 'MANAGE_PG' })
   };
 
   const handleDisplayPgList = (isVisible) => {
     setHidePgList(isVisible);
   };
 
- 
+
 
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
@@ -513,10 +556,10 @@ useEffect(() => {
   //   setItemsPerPage(Number(event.target.value));
   // };
 
-  
- 
 
- 
+
+
+
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true);
@@ -549,10 +592,10 @@ useEffect(() => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   };
 
- 
- 
 
-  
+
+
+
 
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
@@ -595,7 +638,7 @@ useEffect(() => {
     setShowDropDown(false);
   };
 
- 
+
 
   const handleMoreClick = () => setShowMore(!showMore);
 
@@ -637,7 +680,7 @@ useEffect(() => {
     setFloorName(floorName);
   };
 
- 
+
 
   const handleShowDots = (id) => {
     setShowDots(!showDots);
@@ -682,7 +725,7 @@ useEffect(() => {
     setUpdate(true);
   };
 
- 
+
 
 
 
@@ -763,11 +806,11 @@ useEffect(() => {
                   )}
                   {showFilter && (
                     <div className="me-3 flex flex-wrap" style={{ position: "relative" }}>
-                      <InputGroup  style={{
-                          display: 'flex',
-                          flexWrap: 'nowrap',
-                          width: '100%',
-                        }}>
+                      <InputGroup style={{
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        width: '100%',
+                      }}>
                         <FormControl
                           size="lg"
                           value={searchQuery}
@@ -830,22 +873,22 @@ useEffect(() => {
                               }}
                             >
                               {/* {filteredData.map((user, index) => ( */}
-                                <li
-                                  // key={index}
-                                  onClick={() => {
-                                    handleDropDown(filteredData[0].Name);
-                                  }}
-                                  style={{
-                                    padding: "10px",
-                                    cursor: "pointer",
-                                    borderBottom: "1px solid #dcdcdc",
-                                    fontSize: "14px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {filteredData[0].Name}
-                                </li>
+                              <li
+                                // key={index}
+                                onClick={() => {
+                                  handleDropDown(filteredData[0].Name);
+                                }}
+                                style={{
+                                  padding: "10px",
+                                  cursor: "pointer",
+                                  borderBottom: "1px solid #dcdcdc",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {filteredData[0].Name}
+                              </li>
                               {/* ))} */}
                             </ul>
                           </div>
@@ -876,7 +919,7 @@ useEffect(() => {
                     </Button>
                   </div>
 
-                  
+
                 </div>
                 {/* </div> */}
               </div>
@@ -942,23 +985,23 @@ useEffect(() => {
                     currentItems.map((hostel) => {
                       return (
                         <> */}
-                          <div
-                            // key={hostel.id}
-                            className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
-                          >
-                            <PayingHostel
-                              // hostel={hostel}
-                              // key={hostel.id}
-                              OnSelectHostel={handleSelectedHostel}
-                              onRowVisiblity={handleDisplayPgList}
-                              OnEditHostel={handleEditHostel}
-                              editPermissionError={editPermissionError}
-                              deletePermissionError={deletePermissionError}
-                              filteredData={filteredData}
-                              handleShowsettingsPG = {handleShowsettingsPG}
-                            />
-                          </div>
-                        {/* </>
+                  <div
+                    // key={hostel.id}
+                    className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
+                  >
+                    <PayingHostel
+                      // hostel={hostel}
+                      // key={hostel.id}
+                      OnSelectHostel={handleSelectedHostel}
+                      onRowVisiblity={handleDisplayPgList}
+                      OnEditHostel={handleEditHostel}
+                      editPermissionError={editPermissionError}
+                      deletePermissionError={deletePermissionError}
+                      filteredData={filteredData}
+                      handleShowsettingsPG={handleShowsettingsPG}
+                    />
+                  </div>
+                  {/* </>
                       );
                     })} */}
 
@@ -1028,36 +1071,39 @@ useEffect(() => {
 
                   <div className="mt-2 mb-2 d-flex justify-content-center w-100">
                     {loader && (
-                       <div
-                       style={{
-                         position: 'absolute',
-                         inset: 0,
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         backgroundColor: 'transparent',
-                         opacity: 0.75,
-                         zIndex: 10,
-                       }}
-                     >
-                       <div
-                         style={{
-                           borderTop: '4px solid #1E45E1',
-                           borderRight: '4px solid transparent',
-                           borderRadius: '50%',
-                           width: '40px',
-                           height: '40px',
-                           animation: 'spin 1s linear infinite',
-                         }}
-                       ></div>
-                     </div>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: '200px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        ></div>
+                      </div>
 
-                   
+
                     )}
                   </div>
                 </div>
               </div>
-             
+
 
               {/* <Pagination className="mt-4 d-flex justify-content-end">
         {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
@@ -1174,11 +1220,10 @@ useEffect(() => {
                                     )
                                   }
                                   className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${
-                                Number(floorClick) == Number(floor.floor_id)
-                                  ? "active-floor"
-                                  : "Navs-Item"
-                              }`}
+                              lign-items-center  ${Number(floorClick) == Number(floor.floor_id)
+                                      ? "active-floor"
+                                      : "Navs-Item"
+                                    }`}
                                   style={{
                                     border: "1px solid rgba(156, 156, 156, 1)",
                                     borderRadius: 16,
@@ -1194,7 +1239,7 @@ useEffect(() => {
                                     <div
                                       className={
                                         Number(floorClick) ==
-                                        Number(floor.floor_id)
+                                          Number(floor.floor_id)
                                           ? "ActiveNumberFloor"
                                           : "UnActiveNumberFloor"
                                       }
@@ -1214,7 +1259,7 @@ useEffect(() => {
                                     <div
                                       className={
                                         Number(floorClick) ==
-                                        Number(floor.floor_id)
+                                          Number(floor.floor_id)
                                           ? "ActiveFloortext"
                                           : "UnActiveFloortext"
                                       }
@@ -1253,8 +1298,8 @@ useEffect(() => {
                                 } */}
 
                                       {typeof floor.floor_name === "string" &&
-                                      floor.floor_name.trim() !== "" &&
-                                      floor.floor_name !== "null"
+                                        floor.floor_name.trim() !== "" &&
+                                        floor.floor_name !== "null"
                                         ? isNaN(floor.floor_name)
                                           ? floor.floor_name
                                           : floor.floor_name
@@ -1307,8 +1352,8 @@ useEffect(() => {
                             }}
                           >
                             {floorName !== null &&
-                            floorName !== undefined &&
-                            floorName.trim() !== ""
+                              floorName !== undefined &&
+                              floorName.trim() !== ""
                               ? floorName
                               : ""}
                           </div>
@@ -1353,73 +1398,73 @@ useEffect(() => {
                                     }}
                                   >
                                     <div>
-                                    <div
-  className="d-flex gap-2 mb-2 align-items-center"
-  // onClick={() => {
-  //   if (editPermissionError) {
-  //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
-  //   }
-  // }}
-  onClick={()=>handleEditFloor(floorClick, showHostelDetails.id, floorName)}
-  style={{
-    cursor: editPermissionError ? "not-allowed" : "pointer",
-    opacity:editPermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Edit 
-      size="16" 
-      color={editPermissionError ? "#888888" : "#1E45E1"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Outfit, sans-serif",
-        color:editPermissionError ? "#888888" : "#222222",
-        cursor:editPermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                                      <div
+                                        className="d-flex gap-2 mb-2 align-items-center"
+                                        // onClick={() => {
+                                        //   if (editPermissionError) {
+                                        //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
+                                        //   }
+                                        // }}
+                                        onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
+                                        style={{
+                                          cursor: editPermissionError ? "not-allowed" : "pointer",
+                                          opacity: editPermissionError ? 0.6 : 1,
+                                        }}
+                                      >
+                                        <div>
+                                          <Edit
+                                            size="16"
+                                            color={editPermissionError ? "#888888" : "#1E45E1"}
+                                          />
+                                        </div>
+                                        <div>
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Outfit, sans-serif",
+                                              color: editPermissionError ? "#888888" : "#222222",
+                                              cursor: editPermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
+                                      </div>
 
 
-<div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    if (!deletePermissionError) {
-      handleShowDelete(floorClick, showHostelDetails.id, floorName);
-    }
-  }}
-  style={{
-    cursor:deletePermissionError ? "not-allowed" : "pointer",
-    opacity:deletePermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Trash 
-      size="16" 
-      color={deletePermissionError ? "#888888" : "red"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        color: deletePermissionError ? "#888888" : "#FF0000",
-        cursor:deletePermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Delete
-    </label>
-  </div>
-</div>
+                                      <div
+                                        className="d-flex gap-2 mb-2 align-items-center"
+                                        onClick={() => {
+                                          if (!deletePermissionError) {
+                                            handleShowDelete(floorClick, showHostelDetails.id, floorName);
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                          opacity: deletePermissionError ? 0.6 : 1,
+                                        }}
+                                      >
+                                        <div>
+                                          <Trash
+                                            size="16"
+                                            color={deletePermissionError ? "#888888" : "red"}
+                                          />
+                                        </div>
+                                        <div>
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              color: deletePermissionError ? "#888888" : "#FF0000",
+                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
 
                                     </div>
                                   </div>
@@ -1512,8 +1557,8 @@ useEffect(() => {
 
           {showAddPg && (
 
-         
-            
+
+
             <AddPg
               show={showAddPg}
               handleClose={handleCloses}
@@ -1557,7 +1602,7 @@ useEffect(() => {
             />
           )}
 
-         
+
         </div>
       )}
 

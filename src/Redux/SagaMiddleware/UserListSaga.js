@@ -779,6 +779,8 @@ function* handleCountrylist() {
 
 function* handleGetWalkInCustomer(action) {
    const response = yield call(getWalkInCustomer, action.payload);
+  console.log("response", response);
+  
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })

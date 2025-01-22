@@ -83,7 +83,9 @@ function EB_Hostel(props) {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
+    if(selectedHostel){
+      dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
+    }
   }, [selectedHostel]);
 
   const handleHostelForm = () => {
@@ -229,10 +231,13 @@ function EB_Hostel(props) {
   };
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+   
   }, [selectedHostel]);
 
   useEffect(() => {
@@ -245,17 +250,23 @@ function EB_Hostel(props) {
   }, [Floor]);
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "HOSTELDETAILLIST",
+        payload: { hostel_Id: selectedHostel },
+      });
+    }
+   
   }, [selectedHostel]);
 
   useEffect(() => {
-    dispatch({
-      type: "EB-BILLING-UNIT-LIST",
-      payload: { hostel_id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+  
   }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
