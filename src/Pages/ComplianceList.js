@@ -23,7 +23,6 @@ import { MdError } from "react-icons/md";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
-  console.log("state", state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
   const [status, setStatus] = useState("");
@@ -173,7 +172,6 @@ const ComplianceList = (props) => {
   const [profile,setProfile] = useState("")
 
   const handleIconClick = (item) => {
-    console.log("item", item);
     setCustomer_Id(item.ID);
     setShowCard(true);
     setName(item.Name)
@@ -300,7 +298,6 @@ const ComplianceList = (props) => {
   };
 
   const handleChangeStatusOpenClose = (item) => {
-    console.log("status", item.Status);
     setAssignId(item?.ID);
     setShowDots(false);
     // setStatus("");
@@ -345,7 +342,6 @@ const ComplianceList = (props) => {
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
   const handleAssignOpenClose = (item) => {
-    console.log("handleAssignOpenClose", item);
     setAssignId(item?.ID);
     setShowDots(false);
     setCompliant(item?.Assign);
@@ -427,11 +423,7 @@ const ComplianceList = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log("props.complaints", props.complaints.profile);
-
-
-  console.log("state.ComplianceList?.getComplianceComments?.comments",state.ComplianceList?.getComplianceComments?.comments)
-
+  
   return (
     <>
       <Card

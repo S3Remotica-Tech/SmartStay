@@ -65,7 +65,6 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 const Compliance = () => {
 
   const state = useSelector(state => state)
-  console.log("Compliance", state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
 
@@ -169,7 +168,6 @@ const Compliance = () => {
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportcompliance])
-  console.log("state.UsersList?.statusCodeCompliance", state.UsersList?.statusCodeCompliance)
 
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
@@ -251,7 +249,6 @@ const Compliance = () => {
     }
   
   }, [hosId])
-  console.log("state.ComplianceList.statusCodeForAddCompliance", state.ComplianceList.statusCodeForAddCompliance)
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
@@ -716,7 +713,6 @@ const Compliance = () => {
 
 
   const handleEditcomplaint = (Complaintdata) => {
-    console.log("Complaintdata",Complaintdata)
 
     setEdit(true)
     if (Complaintdata) {
@@ -726,9 +722,7 @@ const Compliance = () => {
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
-      console.log("Complaintdata.Complainttype", Complaintdata.Complainttype)
       setEditcomplainttype(Complaintdata.complaint_name)
-      console.log("Complaintdata.complaint_name", Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
@@ -759,10 +753,6 @@ const Compliance = () => {
     //   handleEditcomplaint(editdata)
     // }, [editdata]);
 
-
-    console.log("description", description);
-  console.log("date", date);
-  console.log("assign", Assign);
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
