@@ -200,7 +200,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>} */}
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                  // className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -236,8 +236,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           </Modal.Body>
 
           {isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -253,8 +254,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           )}
 
           {roomError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-1">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -269,8 +271,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>
           )}
           {floorError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -286,8 +289,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           )}
 
           {state.PgList && state.PgList?.alreadyRoomHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-1">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{

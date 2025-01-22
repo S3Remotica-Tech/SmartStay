@@ -183,7 +183,7 @@ function StaticExample({
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                  // className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -248,7 +248,7 @@ function StaticExample({
 
           {floorId && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -265,7 +265,7 @@ function StaticExample({
 
           {floorError && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -281,7 +281,7 @@ function StaticExample({
           )}
           {state.UsersList?.alreadyFloorHere && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -297,7 +297,7 @@ function StaticExample({
           )}
           {state.PgList?.alreadyfloorNameHere && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -314,7 +314,7 @@ function StaticExample({
 
           {isChangedError && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{ color: "red", fontSize: "12px", fontWeight: 500 }}
