@@ -1402,6 +1402,9 @@ console.log("handleUploadDocument",response)
          style: toastStyle,
       });
    }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: response.message })
+   }
    else {
       yield put ({type:'ERROR', payload:response.message})
    }
