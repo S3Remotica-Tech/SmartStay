@@ -67,7 +67,7 @@ function AssignBooking(props) {
 
   const handleAssignClose = () => {
     props.setModalType(false)
-
+dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
     setFloor('')
     setRoom('')
     setBed('')
@@ -538,6 +538,15 @@ function AssignBooking(props) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
+
+       
+        {state.Booking?.ErrorAssignBooking && (
+                <div style={{ color: "red" }} className='ps-3 pt-3'>
+                  <MdError />
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Email already exists. Please use a different email address before proceeding with check-in.</span>
+                </div>
+              )}
+
         <Modal.Body>
           <Row>
 

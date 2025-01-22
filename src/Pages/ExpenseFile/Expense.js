@@ -856,7 +856,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
-                      style={{cursor:'pointer'}}
+                      style={{ cursor: 'pointer' }}
                     />
                   </div>
                 }
@@ -1101,7 +1101,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px",cursor:'pointer' }}>
+                <div style={{ paddingRight: "10px", cursor: 'pointer' }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
@@ -1138,7 +1138,10 @@ function Expenses({ allPageHostel_Id }) {
             <div
               style={{
                 position: 'absolute',
-                inset: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: '200px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1178,6 +1181,7 @@ function Expenses({ allPageHostel_Id }) {
                 >
                   <thead style={{
                     fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)", position: "sticky",
+
                     top: 0,
                     zIndex: 1,
                   }}>
@@ -1185,18 +1189,18 @@ function Expenses({ allPageHostel_Id }) {
                       {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
                 <input type='checkbox' style={customCheckboxStyle} />
               </th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700, paddingLeft: "20px", borderTopLeftRadius: 24 }}>Date</th>
 
                       {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
                       {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
 
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
-                      <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
+                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
                     </tr>
                   </thead>
                   {/* <tbody>
@@ -1419,16 +1423,16 @@ function Expenses({ allPageHostel_Id }) {
 
 
       <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static"
-      style={{
-        width:388,
-          height:250,
-          marginLeft:"500px",
-          marginTop:"200px"
-      }}>
-        <Modal.Header style={{ 
-         borderBottom:"none", display: "flex", justifyContent: "center",
-          
-          }} >
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px"
+        }}>
+        <Modal.Header style={{
+          borderBottom: "none", display: "flex", justifyContent: "center",
+
+        }} >
           <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete expense?</Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
@@ -1436,7 +1440,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
+        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
           Are you sure you want to delete this expense?
         </Modal.Body>
 

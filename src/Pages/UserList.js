@@ -1064,9 +1064,13 @@ function UserList(props) {
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
 
+  useEffect(()=> {
+    dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+  },[uniqueostel_Id])
+
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
-      dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 200);
@@ -1575,7 +1579,7 @@ function UserList(props) {
                     </div>
                   </>
                 ) : (
-                  <div style={{ marginTop: 30 }}>
+                  <div style={{  marginLeft: "6px" }}>
                     <div>
                       {currentItems?.length == 0 && (
                         <div>
@@ -1615,6 +1619,7 @@ function UserList(props) {
                         <div
                           style={{
                             // height: "400px",
+                            position: "relative",
                             height: currentItems.length >= 6 ? "400px" : "auto",
                             overflowY: currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
@@ -1634,6 +1639,7 @@ function UserList(props) {
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
+
                               }}
                             >
                               <tr>
@@ -1651,13 +1657,14 @@ function UserList(props) {
                                 </th> */}
                                 <th
                                   style={{
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
                                     fontSize: "14px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     borderTopLeftRadius: 24,
+                                    paddingLeft: "20px"
                                   }}
                                 >
                                   Name
@@ -1819,6 +1826,7 @@ function UserList(props) {
                                         fontWeight: 600,
                                         textAlign: "center",
                                         marginTop: 10,
+
                                       }}
                                     >
                                       {/* <td
@@ -1838,7 +1846,8 @@ function UserList(props) {
                                         style={{
                                           border: "none",
                                           padding: "10px",
-                                          textAlign: "center",
+                                          textAlign: "start",
+                                          paddingLeft: "20px"
                                         }}
                                       >
                                         {/* <Image
@@ -1883,6 +1892,7 @@ function UserList(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
+
                                         }}
                                       >
                                         <span
@@ -1999,22 +2009,18 @@ function UserList(props) {
                                               <div
                                                 ref={popupRef}
                                                 style={{
-                                                  cursor: "pointer",
-                                                  backgroundColor: "#fff",
-                                                  position: "absolute",
+                                                  position: "absolute", 
                                                   right: 50,
-                                                  top: 20,
-                                                  width: 163,
-                                                  height: "auto",
+                                                    top: 15, 
+                                                  width: "163px",
+                                                  backgroundColor: "#fff",
                                                   border: "1px solid #EBEBEB",
-                                                  borderRadius: 10,
+                                                  borderRadius: "10px",
+                                                  zIndex: 1000, 
+                                                  padding: "10px",
                                                   display: "flex",
                                                   justifyContent: "start",
-                                                  padding: 10,
                                                   alignItems: "center",
-                                                  zIndex: showDots
-                                                    ? 1000
-                                                    : "auto",
                                                 }}
                                               >
                                                 <div

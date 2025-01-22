@@ -19,6 +19,8 @@ import { MdError } from "react-icons/md";
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
   console.log("UserlistWalkin",state)
+  console.log("props",props);
+  
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
@@ -77,15 +79,16 @@ setHostelId(state.login.selectedHostel_Id)
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
 
-  useEffect(() => {
-    if(hostel_Id){
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id:hostel_Id},
-      });
-    }
+  // useEffect(() => {
+  //   if(hostel_Id){
+  //     dispatch({
+  //       type: "WALKINCUSTOMERLIST",
+  //       payload: { hostel_id:hostel_Id},
+  //     });
+  //   }
   
-  }, [hostel_Id]);
+  // }, [hostel_Id]);
+
   console.log("state.UsersList.getWalkInStatusCode",state.UsersList.getWalkInStatusCode)
 
   useEffect(() => {
@@ -93,7 +96,7 @@ setHostelId(state.login.selectedHostel_Id)
       // setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 2000);
+      }, 1000);
     }
   }, [state.UsersList.getWalkInStatusCode]);
 
@@ -295,7 +298,7 @@ setHostelId(state.login.selectedHostel_Id)
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
                             color: "#4B4B4B",
                             fontSize: "14px",
@@ -304,6 +307,7 @@ setHostelId(state.login.selectedHostel_Id)
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft:"20px"
                           }}
                         >
                           Name

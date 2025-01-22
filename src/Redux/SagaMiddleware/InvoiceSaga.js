@@ -472,8 +472,8 @@ function* handleUpdateAmenities(action) {
 function* handleManualInvoice() {
    const response = yield call(ManualInvoice)
   
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status || response.statusCode} })
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status || response.data.statusCode} })
         }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -675,7 +675,7 @@ console.log("API response",response);
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: "bottom-center",
+         position: "top-center",
          autoClose: 2000,
          hideProgressBar: true,
          closeButton: false,
@@ -694,15 +694,12 @@ console.log("API response",response);
    }
 }
 
+
 function* handleManualInvoiceDelete (params) {
-   console.log("paramss",params);
    
    const response = yield call (DeleteManualInvoiceBill,params.payload);
  
-console.log("API response",response);
-
-
-   if (response.status === 200 || response.statusCode === 200){
+  if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_DELETE' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
       var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
@@ -730,6 +727,26 @@ console.log("API response",response);
    }
    else if (response.status === 201 || response.data.statusCode === 201) {
       yield put({ type: 'DELETE_MANUAL_ERROR', payload: response.data.message })
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+      toast.error(response.data.message, {
+         position: "top-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
    }
    
    else {
@@ -739,6 +756,7 @@ console.log("API response",response);
       refreshToken(response)
    }
 }
+
 
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
@@ -783,8 +801,8 @@ function* handleRecurrBillsAdd (params) {
 function* handleGetManualInvoice(action) {
    const response = yield call(GetManualInvoices,action.payload)   
    
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -931,7 +949,7 @@ function* InvoiceSaga() {
    yield takeEvery('MANUAL-INVOICE-EDIT',handleManualInvoiceEdit)
    yield takeEvery('MANUAL-INVOICE-DELETE',handleManualInvoiceDelete)
    yield takeEvery('RECURRING-BILLS-ADD',handleRecurrBillsAdd)
-   yield takeEvery('MANUAL-INVOICES-LIST',handleGetManualInvoice)
+   yield takeEvery('MANUALINVOICESLIST',handleGetManualInvoice)
    yield takeEvery('RECURRING-BILLS-LIST',handleGetRecurrbills)
    yield takeEvery('DELETE-RECURRING-BILLS',handleDeleteRecuringBills)
    yield takeEvery('SETTINGSADDRECURRING',handleAddInvoiceRecurringSettings)

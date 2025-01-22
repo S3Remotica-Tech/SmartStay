@@ -131,7 +131,10 @@ const Compliance = () => {
   
 
   useEffect(()=>{
-    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+    if(hosId){
+      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+    }
+  
   },[hosId])
 
   useEffect(() => {
@@ -239,11 +242,14 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: hosId },
-    });
+    if(hosId){
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: hosId },
+      });
+    }
+  
   }, [hosId])
   console.log("state.ComplianceList.statusCodeForAddCompliance", state.ComplianceList.statusCodeForAddCompliance)
   useEffect(() => {
@@ -710,6 +716,7 @@ const Compliance = () => {
 
 
   const handleEditcomplaint = (Complaintdata) => {
+    console.log("Complaintdata",Complaintdata)
 
     setEdit(true)
     if (Complaintdata) {
@@ -771,12 +778,25 @@ const Compliance = () => {
 
   const [complainttypelist, setComplainttypelist] = useState([])
 
+  // useEffect(() => {
+    
+  //     dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
+    
+  // }, [hosId])
   useEffect(() => {
-    if (hosId) {
-      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId } })
+      if (hosId) {
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
+      }
+    }, [hosId]);
+    useEffect(()=>{
+    if(state.Settings.StatusForaddSettingStaffList === 200){
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
+      }, 500);
     }
-  }, [hosId])
+      },[state.Settings.StatusForaddSettingStaffList])
 
+  
   useEffect(() => {
     setComplainttypelist(state.Settings.Complainttypelist)
   }, [state.Settings.Complainttypelist])

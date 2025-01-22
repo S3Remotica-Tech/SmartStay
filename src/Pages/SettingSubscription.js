@@ -1,185 +1,190 @@
-import React from "react";
+import{ React,useState} from "react";
 import crown from "../Assets/Images/New_images/crown.png"
-import {Button,Offcanvas,Form,FormControl,FormSelect,} from "react-bootstrap";
+import { Button, Offcanvas, Form, FormControl, FormSelect, } from "react-bootstrap";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 
-function SettingSubscription(){
-    return(
-        <div>
-            <div style={{marginTop:25}}>
-                 <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Subscription</p>
-                 
-            </div>
-
-<div className="row g-3">
-  <div className="col-12 col-md-6">
-    <div className="card p-3 cardnewsubs">
-    <div
-        class="d-flex align-items-center justify-content-center"
-        style={{
-          width: "40px",
-          height: "40px",
-          borderRadius: 12,
-          backgroundColor: "#eef4ff",
-        }}
-      >
-        <img src={crown} width={40} height={40} alt="Crown Icon" />
-      </div>
-     
-      <div>
-      <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-        Your plan is active
-      </p>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center">
-      <p
-        class="mb-0"
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#4B4B4B",
-        }}
-      >
-        Amount
-      </p>
-      <p
-        class="mb-0"
-        style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
-      >
-        ₹500
-      </p>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <p
-        class="mb-0"
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#4B4B4B",
-        }}
-      >
-        Next payment
-      </p>
-      <p
-        class="mb-0"
-        style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
-      >
-        12 September 2024
-      </p>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <p
-        class="mb-0"
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#4B4B4B",
-        }}
-      >
-        Payment method
-      </p>
-      <p
-        class="mb-0"
-        style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
-      >
-        VISA **60
-      </p>
-    </div>
-
-      <div className="d-flex justify-content-between align-items-center mt-3 ">
-        {/* <img src={msg} width={40} height={40} alt="Crown Icon" /> */}
-        <button
-          className="btn btn-primary"
-          style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy",backgroundColor:"transparent",color:"blue" }}
-        >
-          Change Payment methods
-        </button>
-        <button
-          className="btn btn-primary"
-          style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
-        >
-         Manage Plan
-        </button>
-      </div>
-    </div>
-  </div>
-
+function SettingSubscription() {
+ const [activeRow, setActiveRow] = useState(false);
  
-</div>
+  return (
+    <div>
+      <div>
+        <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 
+      </div>
 
-<div className="cardnewsubstable" style={{marginTop:40}}>
-<Table
-            responsive="md"
-            className="Table_Design"
-            style={{
-              height: "auto",
-              overflow: "visible",
-              tableLayout: "auto",
-              borderRadius: "24px",
-              border: "1px solid #DCDCDC",
-            }}
-          >
-            <thead
+      <div className="row g-3">
+        <div className="col-12 col-md-6">
+          <div className="card p-3 cardnewsubs">
+            <div
+              class="d-flex align-items-center justify-content-center"
               style={{
-                color: "gray",
-                fontSize: "11px",
-                backgroundColor: "#E7F1FF",
-                position:"sticky",
-                top:0,
-                zIndex:1,
+                width: "40px",
+                height: "40px",
+                borderRadius: 12,
+                backgroundColor: "#eef4ff",
               }}
             >
-              <tr style={{ height: "30px" }}>
-              
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                    borderTopLeftRadius: 24,
-                  }}
-                >
-                  Billing Date
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Paying Guest
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Amount
-                </th>
-                {/* <th
+              <img src={crown} width={40} height={40} alt="Crown Icon" />
+            </div>
+
+            <div>
+              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                Your plan is active
+              </p>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <p
+                class="mb-0"
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                }}
+              >
+                Amount
+              </p>
+              <p
+                class="mb-0"
+                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
+              >
+                ₹500
+              </p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <p
+                class="mb-0"
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                }}
+              >
+                Next payment
+              </p>
+              <p
+                class="mb-0"
+                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
+              >
+                12 September 2024
+              </p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <p
+                class="mb-0"
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                }}
+              >
+                Payment method
+              </p>
+              <p
+                class="mb-0"
+                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
+              >
+                VISA **60
+              </p>
+            </div>
+
+            <div className="d-flex justify-content-between align-items-center mt-3 ">
+              {/* <img src={msg} width={40} height={40} alt="Crown Icon" /> */}
+              <button
+                className="btn btn-primary"
+                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", backgroundColor: "transparent", color: "blue" }}
+              >
+                Change Payment methods
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
+              >
+                Manage Plan
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div className="cardnewsubstable" style={{ marginTop: 40 }}>
+        <Table
+          responsive="md"
+          className="Table_Design"
+          style={{
+            height: "auto",
+            overflow: "visible",
+            tableLayout: "auto",
+            borderRadius: "24px",
+            border: "1px solid #DCDCDC",
+          }}
+        >
+          <thead
+            style={{
+              color: "gray",
+              fontSize: "11px",
+              backgroundColor: "#E7F1FF",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            <tr style={{ height: "30px" }}>
+
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                  borderTopLeftRadius: 24,
+                  paddingLeft:"20px"
+                }}
+              >
+                Billing Date
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
+                Paying Guest
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
+                Amount
+              </th>
+              {/* <th
                   style={{
                     color: "#939393",
                     fontWeight: 500,
@@ -192,49 +197,49 @@ function SettingSubscription(){
                 >
                   Previous
                 </th> */}
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Expiry Date
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Status
-                </th>
-               
-                <th
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "Gilroy",
-                    color: "rgba(34, 34, 34, 1)",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    borderTopRightRadius: 24,
-                  }}
-                >
-                  {" "}
-                </th>
-              </tr>
-            </thead>
-            <tbody style={{ fontSize: "12px" }}>
-              {/* {currentRowelectricity &&
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
+                Expiry Date
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
+                Status
+              </th>
+
+              <th
+                style={{
+                  textAlign: "start",
+                  fontFamily: "Gilroy",
+                  color: "rgba(34, 34, 34, 1)",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  borderTopRightRadius: 24,
+                }}
+              >
+                {" "}
+              </th>
+            </tr>
+          </thead>
+          <tbody style={{ fontSize: "12px" }}>
+            {/* {currentRowelectricity &&
                 currentRowelectricity.map((v) => {
                   const imageUrl = v.profile || Profile;
                  
@@ -259,104 +264,158 @@ console.log('Formatted Date:', formattedDate);
 
 
                   return ( */}
-                    <tr>
-                      
-                     
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
-                        }}
-                      >
-                        {/* {v.floor_name} */}05-12-2024
-                      </td>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
-                        }}
-                      >
-                        {/* {v.Room_Id} */}3
-                      </td>
-                      
-                    
-                      <td
-                        style={{
-                          textAlign: "center",
-                          verticalAlign: "middle", // Center vertically
-                          borderBottom: "none",
-                        }}
-                      >
-                        <span
-                          style={{
-                            backgroundColor: "#EBEBEB",
-                            paddingTop: "5px",
-                            paddingLeft: "16px",
-                            paddingRight: "16px",
-                            paddingBottom: "5px",
-                            borderRadius: "60px",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {/* {formattedDate} */}100
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle", // Center vertically
-                          borderBottom: "none",
-                        }}
-                      >
-                        {/* {v.total_reading} */}05-12-2024
-                      </td>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
-                        }}
-                      >
-                        {/* {v.total_amount} */}pending
-                      </td>
-                      <td style={{ paddingTop: 12, border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+            <tr>
 
-                        <div
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            zIndex: 1000,
-                          }}
-                          // onClick={() => handleShowDots(v.eb_Id)}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20 }}
-                          />
-                          {/* {activeRow === v.eb_Id && (
+
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "start",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                  paddingLeft:"20px"
+                }}
+              >
+                {/* {v.floor_name} */}05-12-2024
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "start",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {/* {v.Room_Id} */}3
+              </td>
+
+
+              <td
+                style={{
+                  textAlign: "start",
+                  verticalAlign: "middle", // Center vertically
+                  borderBottom: "none",
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: "#EBEBEB",
+                    paddingTop: "5px",
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingBottom: "5px",
+                    borderRadius: "60px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  {/* {formattedDate} */}100
+                </span>
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "start",
+                  verticalAlign: "middle", // Center vertically
+                  borderBottom: "none",
+                }}
+              >
+                {/* {v.total_reading} */}05-12-2024
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "start",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {/* {v.total_amount} */}pending
+              </td>
+              <td style={{ paddingTop: 12, border: "none" }}>
+                {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+
+                <div
+                  style={{
+                    cursor: "pointer",
+                    height: 40,
+                    width: 40,
+                    borderRadius: 100,
+                    border: "1px solid #EFEFEF",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                    zIndex: 1000,
+                  }}
+                // onClick={() => handleShowDots(v.eb_Id)}
+                >
+                  <PiDotsThreeOutlineVerticalFill
+                    style={{ height: 20, width: 20 }}  onClick={setActiveRow}
+                  />
+        
+        {activeRow && (
+                                            <div
+                                                // className="position-absolute"
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "#fff",
+                                                    width: 163,
+                                                    border: "1px solid #EBEBEB",
+                                                    borderRadius: 10,
+                                                    display: "flex",
+                                                    justifyContent: "start",
+                                                    padding: 10,
+                                                    alignItems: "center",
+                                                    zIndex: 1000,paddingRight:30,
+                                                    marginTop:140
+                                                }}
+                                            >
+                                                <div>
+                                                    <div
+                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                       
+                                                    >
+                                                        <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                                                            Edit
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                        style={{ backgroundColor: "#fff" }}
+
+                                                    >
+                                                        <img
+                                                            src={Delete}
+                                                            style={{ height: 16, width: 16 }}
+                                                        />{" "}
+                                                        <label
+                                                            style={{
+                                                                fontSize: 14,
+                                                                fontWeight: 500,
+                                                                fontFamily: "Gilroy,sans-serif",
+                                                                color: "#FF0000",
+                                                                cursor: "pointer",
+                                                            }}
+                                                        >
+                                                            Delete
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        )}
+                  {/* {activeRow === v.eb_Id && (
                             <>
                               <div
                                 ref={popupRef}
@@ -455,18 +514,18 @@ console.log('Formatted Date:', formattedDate);
                               </div>
                             </>
                           )} */}
-                        </div>
+                </div>
 
-                        {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                      </td>
-                     </tr> 
-                  {/* );
-                })} */} 
-            </tbody>
-          </Table>
-</div>
- 
-        </div>
-    )
+                {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+              </td>
+            </tr>
+            {/* );
+                })} */}
+          </tbody>
+        </Table>
+      </div>
+
+    </div>
+  )
 }
 export default SettingSubscription;

@@ -14,7 +14,7 @@ import jsPDF from "jspdf";
 
 
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
     const invoiceData = {
         payment: {
             bank: 'Rimberio Bank',
@@ -23,7 +23,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
             dueDate: '23 June 2023',
         },
     };
-
 
 
 
@@ -95,6 +94,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         handleClosed()
     }
 
+console.log("Bill Row Data:",rowData);
+
+//action: "recuring"
+
+
 
     // if (!isVisible) return null;
     return (
@@ -113,11 +117,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                         <div className="mb-3">
-                            {rowData.BalanceDue === 0 ? <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
+                            {rowData?.BalanceDue === 0 ? <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
                                 style={{ fontSize: '10px', cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
                         </div>
                         <div className="mb-2 mt-2">
-                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData.Invoices == null || rowData.Invoices == '' ? '0.00' : rowData.Invoices}</label>
+                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData?.Invoices == null || rowData?.Invoices == '' ? '0.00' : rowData?.Invoices}</label>
                         </div>
                     </div>
                 </div>
@@ -156,14 +160,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             <div className="d-flex justify-content-between ps-4 pe-4 " >
                                 <div className="d-flex gap-2">
                                     <div>
-                                        <img src={rowData.hostel_profile ? rowData.hostel_profile : Logo} style={{ height: 40, width: 40, }} />
+                                        <img src={rowData?.hostel_profile ? rowData?.hostel_profile : Logo} style={{ height: 40, width: 40, }} />
                                     </div>
                                     <div>
 
                                     
                                     <div>
-                                        <label style={{ fontSize: 20, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Hostel_Name}</label>
-                                    </div>
+                                        <label style={{ fontSize: 20, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
+                                    </div> 
+  
+
                                     <div>
                                         <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
                                     </div>
@@ -179,7 +185,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                             <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice #</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Invoices ? rowData.Invoices : '0.00'}</label>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Invoices ? rowData?.Invoices : '0.00'}</label>
                                         </div>
 
                                     </div>
@@ -188,7 +194,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                             <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData.Date).format('DD/MM/YYYY')}</label>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD/MM/YYYY')}</label>
                                         </div>
 
                                     </div>
@@ -206,11 +212,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                         <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill From:</label>
                                     </div>
                                     <div>
-                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.Name}</label>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Name}</label>
                                     </div>
                                     <div className="" style={{ width: 100 }}>
                                         {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
-                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.admin_address}</label>
+                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.admin_address}</label>
                                     </div>
 
 
@@ -224,7 +230,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill To:</label>
 </div>
 <div>
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData.user_address}</label>
+    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.user_address}</label>
 </div>
 {/* <div className="" style={{ width: 100 }}>
     <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
@@ -236,11 +242,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             </div>
 
 {/* EB Unit Details */}
-<div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+{/* <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
                                 <div>
 
-{/* EB */}
-                                    <div >
+                         <div >
                                         <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>EB Per Unit Price :
 
 </label>
@@ -255,7 +260,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                                 </div>
 
-                                {/* Rent Date */}
+
                                 <div>
 
 
@@ -267,7 +272,81 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
 </div>
                                 
-                            </div>
+                            </div> */}
+
+{rowData.action === "recuring" && (
+  <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+    <div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+          }}
+        >
+          EB Per Unit Price :
+        </label>
+      </div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          EB Start Date :
+        </label>
+      </div>
+      <div className="" style={{ width: 100 }}>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          EB End Date :
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+          }}
+        >
+          Rent Start Date:
+        </label>
+      </div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          Rent End Date:
+        </label>
+      </div>
+    </div>
+  </div>
+)}
+
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
   <thead 
@@ -282,7 +361,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   </thead>
   <tbody>
    
-    {rowData.amenity?.map((item, index) => (
+    {rowData?.amenity?.map((item, index) => (
       <tr key={index}>
         <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>{index+1}</td>
         <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
@@ -305,7 +384,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         Subtotal:
       </td>
       <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-        ₹{rowData.Amount}
+        ₹{rowData?.Amount}
       </td>
     </tr>
   
@@ -329,7 +408,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         Total:
       </td>
       <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-        ₹{rowData.Amount}
+        ₹{rowData?.Amount}
       </td>
     </tr>
   </tbody>

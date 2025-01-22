@@ -296,6 +296,7 @@ function Banking() {
 
   const handleShowAddBalance = (item) => {
     setAddBankName(item.bank_name);
+    setAddBankName(item.acc_name);
     setTypeId(item.id);
     setshowAddBalance(true);
     setdotsshowbank(false);
@@ -678,6 +679,7 @@ function Banking() {
                               }}
                             >
                               {item.bank_name}
+                              
                             </p>
                             <p
                               className="text-muted mb-0"
@@ -688,7 +690,7 @@ function Banking() {
                                 color: "#4B4B4B",
                               }}
                             >
-                              Savings A/C
+                              {item.acc_name}-Savings A/C
                             </p>
                           </div>
                           <img
@@ -1075,6 +1077,7 @@ function Banking() {
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
+                            paddingLeft: "20px"
                           }}
                         >
                           Account Name
@@ -1200,6 +1203,7 @@ function Banking() {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
+                                paddingLeft:"20px"
                               }}
                             >
                               {user.bank_name}

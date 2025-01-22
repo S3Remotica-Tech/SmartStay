@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete} from "../Action/ComplianceAction"
+import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete,getComplianceComment,addComplianceComment} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -310,6 +310,70 @@ function* handleDeleteCompliance(action) {
 }
 
 
+
+function* handleGetComplianceComment (action){
+   const response = yield call (getComplianceComment, action.payload);
+   console.log("handleGetCompliance",response)
+   if (response.status === 200  || response.data.statusCode === 200){
+      yield put ({type : 'COMPLIANCE_COMENET_LIST' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+     refreshToken(response)
+  }
+}
+
+
+
+
+
+
+function* handleAddComplianceComment(action) {
+   const response = yield call (addComplianceComment,action.payload);
+ console.log("handleAddComplianceComment",response)
+   if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'COMPLIANCE_ADD_COMMENT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode }})
+      // Define the style
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
 function refreshToken(response){
 
 if(response.data && response.data.refresh_token){
@@ -337,7 +401,9 @@ function* ComplianceSaga() {
     yield takeEvery('DELETEVENDOR',handleDeleteVendor)
     yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)
     yield takeEvery('DELETECOMPLIANCE',handleDeleteCompliance)
-    yield takeEvery('COMPLIANCEASSIGN',handleComplianceChangeAssign)      
+    yield takeEvery('COMPLIANCEASSIGN',handleComplianceChangeAssign)
+    yield takeEvery('GET_COMPLIANCE_COMMENT',handleGetComplianceComment) 
+    yield takeEvery('Add_COMPLIANCE_COMMENT',handleAddComplianceComment)      
 
 }
 export default ComplianceSaga;
