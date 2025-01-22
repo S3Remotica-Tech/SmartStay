@@ -45,9 +45,15 @@ const RecurringBillList = (props) => {
   }, [props.billrolePermission]);
 
   const [showDots, setShowDots] = useState('')
-
-  const handleShowDots = () => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+  const handleShowDots = (event) => {
     setShowDots(!showDots)
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
 
@@ -172,11 +178,20 @@ const RecurringBillList = (props) => {
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
+            <div style={{ cursor: "pointer",backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e)=>handleShowDots(e)}>
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
               {showDots && <>
-                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                <div ref={popupRef} style={{ cursor: "pointer", 
+                  backgroundColor: "#fff", 
+
+                  position: "fixed",
+                  top: popupPosition.top,
+                  left: popupPosition.left,
+
+                  // position: "absolute", right: 50, top: 20, 
+                  
+                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                   <div style={{ backgroundColor: "#fff" }} className=''>
 
                     {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'

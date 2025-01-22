@@ -169,14 +169,14 @@ function UserSettings() {
     if (EditUser === id) {
       setEditUser(null);
     } else {
-      // Get the position of the clicked element
+      
       const rect = event.currentTarget.getBoundingClientRect();
       const newPopupPosition = {
-        top: rect.top + window.scrollY + 40, // Adjust for height
-        left: rect.left + window.scrollX - 130, // Adjust for width
+        top: rect.top + window.scrollY + 40, 
+        left: rect.left + window.scrollX - 130, 
       };
 
-      setPopupPosition(newPopupPosition); // Set the position dynamically
+      setPopupPosition(newPopupPosition); 
       setEditUser(id);
     }
   };
@@ -1031,6 +1031,7 @@ function UserSettings() {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
+                            backgroundColor: EditUser === item.id   ? "#E7F1FF" : "white",
                             zIndex: EditUser === item.id ? 1000 : "auto",
                           }}
                           //  onClick={() => handleEditUser(item.id)}

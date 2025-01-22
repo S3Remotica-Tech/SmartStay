@@ -41,13 +41,23 @@ function EBHostelReading(props) {
   const [editeb, setEditEb] = useState(false);
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
 
-  const handleShowActive = (eb_Id) => {
+
+  const handleShowActive = (eb_Id, event) => {
     if (activeRow === eb_Id) {
       setActiveRow(null);
     } else {
       setActiveRow(eb_Id);
     }
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
 
   useEffect(() => {
@@ -778,8 +788,9 @@ function EBHostelReading(props) {
                           alignItems: "center",
                           position: "relative",
                           zIndex: 1000,
+                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF" : "white",
                         }}
-                        onClick={() => handleShowActive(v.eb_Id)}
+                        onClick={(e) => handleShowActive(v.eb_Id, e)}
                       >
                         <PiDotsThreeOutlineVerticalFill
                           style={{ height: 20, width: 20 }}
@@ -790,9 +801,12 @@ function EBHostelReading(props) {
                             style={{
                               cursor: "pointer",
                               backgroundColor: "#fff",
-                              position: "absolute",
-                              right: 50,
-                              top: 20,
+                              position: "fixed",
+                              top: popupPosition.top,
+                              left: popupPosition.left,
+                              // position: "absolute",
+                              // right: 50,
+                              // top: 20,
                               width: 163,
                               height: "auto",
                               border: "1px solid #EBEBEB",

@@ -246,8 +246,18 @@ function Banking() {
     setdotsshowbank(false);
   };
 
-  const handleEditTrans = (id) => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+  const handleEditTrans = (id, event) => {
     setEditTransaction((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -679,7 +689,7 @@ function Banking() {
                               }}
                             >
                               {item.bank_name}
-                              
+
                             </p>
                             <p
                               className="text-muted mb-0"
@@ -1049,9 +1059,10 @@ function Banking() {
                 <div style={{
                   // height: "400px",
                   height: currentRowTransaction.length >= 4 ? "280px" : "auto",
-                  overflowY: "auto",
+                  overflowY: currentRowTransaction.length >= 4 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
+
                   // borderBottom:"none"
                 }}>
                   <Table
@@ -1203,7 +1214,7 @@ function Banking() {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
-                                paddingLeft:"20px"
+                                paddingLeft: "20px"
                               }}
                             >
                               {user.bank_name}
@@ -1310,9 +1321,10 @@ function Banking() {
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
                                 position: "relative",
+                                backgroundColor: EditTransaction === user.id  ? "#E7F1FF" : "white",
                                 zIndex: EditTransaction === user.id ? 1000 : "auto",
                               }}
-                              onClick={() => handleEditTrans(user.id)}
+                              onClick={(e) => handleEditTrans(user.id,e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -1323,9 +1335,12 @@ function Banking() {
                                   style={{
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    right: 80,
-                                    top: 8,
+                                    // position: "absolute",
+                                    // right: 80,
+                                    // top: 8,
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
                                     width: 160,
                                     height: 70,
                                     border: "1px solid #EBEBEB",

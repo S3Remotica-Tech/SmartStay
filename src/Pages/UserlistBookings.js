@@ -556,9 +556,18 @@ function Booking(props) {
     setFormEdit(false);
   };
 
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const handleDotsClick = (id) => {
+  const handleDotsClick = (id,event) => {
     setActiveDotsId((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
+
   };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -1218,10 +1227,10 @@ function Booking(props) {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     position: "relative",
-                                    zIndex:
-                                      activeDotsId === customer.id ? 1000 : "auto",
+                                    zIndex:activeDotsId === customer.id ? 1000 : "auto",
+                                      backgroundColor: activeDotsId === customer.id   ? "#E7F1FF" : "white",
                                   }}
-                                  onClick={() => handleDotsClick(customer.id)}
+                                  onClick={(e) => handleDotsClick(customer.id,e)}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     style={{ height: 20, width: 20 }}
@@ -1233,9 +1242,14 @@ function Booking(props) {
                                       style={{
                                         cursor: "pointer",
                                         backgroundColor: "#F9F9F9",
-                                        position: "absolute",
-                                        right: 0,
-                                        top: 50,
+                                        position: "fixed",
+                                        top: currentItems.length >= 6 ?  popupPosition.top : "auto",
+                                        left: currentItems.length >= 6 ? popupPosition.left :  popupPosition.left - 10,
+                                        
+                                        // top: popupPosition.top,
+                                        // left: popupPosition.left,
+                                        // right: 0,
+                                        // top: 50,
                                         width: 163,
                                         height: 92,
                                         border: "1px solid #EBEBEB",
