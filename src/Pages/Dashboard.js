@@ -100,24 +100,31 @@ function Dashboard(props) {
     setSelectRevenu(e.target.value);
   };
   useEffect(() => {
-    dispatch({
-      type: "DASHBOARDFILTERCASHBACK",
-      payload: {
-        type: "cashback",
-        range: selectCashback,
-        hostel_id: hostel_id,
-      },
-    });
+    if(hostel_id){
+      dispatch({
+        type: "DASHBOARDFILTERCASHBACK",
+        payload: {
+          type: "cashback",
+          range: selectCashback,
+          hostel_id: hostel_id,
+        },
+      });
+    }
+  
   }, [selectCashback, hostel_id]);
   useEffect(() => {
-    dispatch({
-      type: "DASHBOARDFILTERREVENUE",
-      payload: {
-        type: "exp_vs_rev",
-        range: selectRevenu,
-        hostel_id: hostel_id,
-      },
-    });
+
+    if(hostel_id){
+      dispatch({
+        type: "DASHBOARDFILTERREVENUE",
+        payload: {
+          type: "exp_vs_rev",
+          range: selectRevenu,
+          hostel_id: hostel_id,
+        },
+      });
+    }
+   
   }, [selectRevenu, hostel_id]);
   useEffect(() => {
     const cashBackDataRevenu =
@@ -146,10 +153,12 @@ function Dashboard(props) {
     // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
   };
   useEffect(() => {
+   if(hostel_id){
     dispatch({
       type: "DASHBOARDFILTER",
       payload: { type: "expenses", range: selectExpence, hostel_id: hostel_id },
     });
+   }
   }, [selectExpence, hostel_id]);
 
   const handleChanges = (event, newValue) => {
@@ -250,7 +259,10 @@ function Dashboard(props) {
   // }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
 
   useEffect(() => {
-    dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    if(hostel_id){
+      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    }
+    
   }, [hostel_id]);
 
   console.log("loginid",hostel_id);
