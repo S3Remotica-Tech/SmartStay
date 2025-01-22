@@ -2066,7 +2066,7 @@ function UserList(props) {
                                       >
                                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                        <div className="z-1"
+                                        <div 
                                           style={{
                                             cursor: "pointer",
                                             height: 40,
@@ -2077,6 +2077,7 @@ function UserList(props) {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
+                                            zIndex:activeRow === user.ID ? 1000 : "auto",
                                             backgroundColor:activeRow === user.ID ? "#E7F1FF" : "white"
 
                                           }}
