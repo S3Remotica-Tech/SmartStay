@@ -202,6 +202,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
         const isChanged = initialData && (
             name.trim() !== (initialData.first_name || '').trim() ||
+            lastname.trim() !== (initialData.last_name || '').trim() ||
             email.trim() !== (initialData.email_Id || '').trim() ||
             `${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim() ||
             (walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD') ||
@@ -290,6 +291,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const handleLastNameChange = (e) => {
         const value = e.target.value;
         setLastName(value);
+        setIsChangedError("")
     }
 
 
