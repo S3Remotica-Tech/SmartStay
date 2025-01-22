@@ -74,7 +74,8 @@ function SettingInvoice({ hostelid }) {
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
-const [InvoiceList, setInvoiceList] = useState([])
+  const [InvoiceList, setInvoiceList] = useState([]);
+  
 
 
   useEffect(() => {
@@ -114,15 +115,11 @@ const [InvoiceList, setInvoiceList] = useState([])
     }
   }, [billrolePermission]);
 
-  // useEffect(() => {
-  //     dispatch({ type: 'HOSTELLIST' })
-  // }, [])
-
   useEffect(() => {
-    if (hostelid) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, [hostelid]);
+  }, [state.login.selectedHostel_Id]);
 
   console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
   useEffect(() => {
@@ -210,19 +207,35 @@ const [InvoiceList, setInvoiceList] = useState([])
     }
   };
 
-
-
   const handleEdit = (item) => {
+    console.log("item", item);
+
+    // Parse the `item.inv_date` into a valid Date object
+    const parsedDate = item.inv_date ? new Date(item.inv_date) : null;
+    const parsedDueDate = item.due_date ? new Date(item.due_date) : null;
+
+    // Update local states
+    setPrefix(item.prefix);
+    setStartNumber(item.suffix);
+    // Set the parsed date into `selectedDate`
+    setSelectedDate(parsedDate);
+    setInvoiceDueDate(parsedDueDate);
+
+    setEdit(true);
+    setShowForm(true);
     setShow(true);
     setEditPrefix(item.prefix);
     setEditStartnumber(item.suffix);
     setEditHostel({ id: item.id, name: item.Name });
 
+    // Save initial values for editing
     initialValuesRef.current = {
       editprefix: item.prefix,
       editstartnumber: item.suffix,
     };
   };
+
+
 
   let hasChanges =
     editprefix !== initialValuesRef.current.editprefix ||
@@ -274,16 +287,16 @@ const [InvoiceList, setInvoiceList] = useState([])
 
 
 
-    if (isPrefixValid && isStartNumberValid && hostelid && selectedDate && invoicedueDate) {
+    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && selectedDate && invoicedueDate) {
       const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');
       const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');
 
       dispatch({
         type: "INVOICESETTINGS",
-        payload: { hostel_Id: hostelid, prefix: prefix, suffix: startNumber, inv_date: formattedInvoiceDate, due_date: formattedDueDate }
+        payload: { hostel_Id: state.login.selectedHostel_Id, prefix: prefix, suffix: startNumber, inv_date: formattedInvoiceDate, due_date: formattedDueDate }
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
 
       setShowForm(false);
       setPrefix("");
@@ -298,20 +311,6 @@ const [InvoiceList, setInvoiceList] = useState([])
       setSelectedDate('')
       setInvoiceDueDate('')
     }
-    // else if (isPrefixValid &&isStartNumberValid  && hostelid) {
-    //   dispatch({type: "INVOICESETTINGS",payload: { hostel_Id: hostelid, prefix: prefix,suffix: startNumber} });
-
-    //   dispatch({ type: "HOSTELLIST" });
-
-    //   setShowForm(false);
-    //   setPrefix("");
-    //   setStartNumber("");
-    //   setSelectedImage("");
-    //   setSelectedDate('')
-    //   setInvoiceDueDate('')
-    // }
-
-
   };
 
 
@@ -319,7 +318,7 @@ const [InvoiceList, setInvoiceList] = useState([])
   useEffect(() => {
     if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setSelectedDate('')
       setInvoiceDueDate('')
 
@@ -418,7 +417,7 @@ const [InvoiceList, setInvoiceList] = useState([])
     return pageNumbers;
   };
 
-  
+
 
   const handlestartDateChange = (e) => {
     setCalculatedstartdate(e.target.value);
@@ -447,7 +446,7 @@ const [InvoiceList, setInvoiceList] = useState([])
 
     dispatch({
       type: "SETTINGSADDRECURRING",
-      payload: { hostel_id: Number(hostelid), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
+      payload: { hostel_id: Number(state.login.selectedHostel_Id), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
     });
     setRecurringForm(false);
   }
@@ -456,26 +455,18 @@ const [InvoiceList, setInvoiceList] = useState([])
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
       }, 100)
     }
   }, [state.InvoiceList.settingsaddRecurringStatusCode])
 
-  //add invoice
-  // const handleShow = () => {
-  //   setShowForm(true);
-  //   setEdit(false);
-  // };
-  // useEffect(() => {
-  //   console.log("showForm state:", showform);
-  // }, [showform]);
 
   const [showPopup, setShowPopup] = useState(false);
   const handleShow = () => {
 
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       setShowPopup(true);
       return;
     }
@@ -500,8 +491,6 @@ const [InvoiceList, setInvoiceList] = useState([])
   const handleRecurringFormShow = (item) => {
     setRecurringForm(true);
 
-    // setCalculatedstartdate(item.inv_startdate || '')
-    // setCalculatedEnddate(item.inv_enddate || '')
   };
 
   const handleCloseRecurringForm = () => {
@@ -588,18 +577,20 @@ const [InvoiceList, setInvoiceList] = useState([])
     </div>
   ));
 
-useEffect(()=>{
-  if(state?.UsersList?.statuscodeForhotelDetailsinPg == 200){
-    setInvoiceList(state?.UsersList?.hotelDetailsinPg)
-    setLoading(false)
-    setTimeout(()=>{
-dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
-    },1000)
-  }
+  useEffect(() => {
+    if (state?.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+      setInvoiceList(state?.UsersList?.hotelDetailsinPg)
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE' })
+      }, 1000)
+    }
 
-},[state?.UsersList?.statuscodeForhotelDetailsinPg])
+  }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
+  console.log("UsersListSTATUSCODE", state?.UsersList?.statuscodeForhotelDetailsinPg);
 
 
+  console.log("InvoiceList:", InvoiceList);
 
 
 
@@ -644,31 +635,94 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
-        height: 83,marginTop:5
+        height: 83, marginTop: 5
       }}>
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
-        <div></div>
-        <Button onClick={handleShow} 
-        // style={{
-        //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-        //   fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",}}
-        style={{
-          fontFamily: "Gilroy",
-          fontSize: "14px",
-          backgroundColor: "#1E45E1",
-          color: "white",
-          fontWeight: 600,
-          borderRadius: "8px",
-          padding: "12px 16px",
-          width: "auto",
-          maxWidth: "100%",
-          marginBottom: "10px",
-          maxHeight: 45,
-          marginTop: "-8px",
 
-        }}
-          disabled={showPopup}
-        >+ Invoice</Button>
+
+        {InvoiceList && InvoiceList.length > 0 ? (
+          InvoiceList.map((list) => {
+            const isDefaultPrefixSuffix =
+              (!list.prefix || list.prefix === 'null' || list.prefix === null || list.prefix === 0) &&
+              (!list.suffix || list.suffix === 'null' || list.suffix === null || list.suffix === 0);
+
+            return isDefaultPrefixSuffix ? (
+              <button
+                key={`add-invoice-${list.id}`}
+                onClick={handleShow}
+                // style={{
+                //   border: "none",
+                //   fontFamily: "Gilroy",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   padding: "12px 16px",
+                // }}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "12px 16px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  marginBottom: "10px",
+                  maxHeight: 50,
+                  marginTop: "-12px",
+      borderColor:"#1E45E1"
+                }}
+                disabled={showPopup}
+              >
+                + Invoice
+              </button>
+            ) : (
+              <button
+                key={`edit-invoice-${list.id}`}
+                onClick={() => handleEdit(list)}
+                // style={{
+                //   border: "none",
+                //   fontFamily: "Gilroy",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   padding: "12px 16px",
+                // }}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "12px 16px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  marginBottom: "10px",
+                  maxHeight: 50,
+                  marginTop: "-12px",
+                  borderColor:"#1E45E1"
+      
+                }}
+              >
+                Edit Invoice
+              </button>
+            );
+          })
+        ) : null}
+
+
+
+
+
+
+
+
       </div>
 
       {showPopup && (
@@ -676,86 +730,7 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
           <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
             !Please add a hostel before adding Invoice information.
           </p>
-
-
-        </div>
-
-
-      )}
-
-
-      {/* <div>
-  {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
-    <div className="emptystate">
-                <div className="d-flex justify-content-center">
-                  <img
-                    src={EmptyState}
-                    style={{ height: 240, width: 240 }}
-                    alt="Empty state"
-                  />
-                </div>
-                <div
-                  className="pb-1 mt-3"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Electricity available
-                </div>
-              </div>
-  ) : null}
-</div> */}
-
-      {/* <div>
-     {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
-      .filter(item => item.prefix || item.suffix) 
-      .map((item) => (
-        
-        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-          <InvoiceSettingsList item={item}  handleRecurringFormShow={handleRecurringFormShow} 
-            OnEditInvoice={handleEditInvoice}
-          />
-        </div>
-      ))}
-</div> */}
-
-
-      {/* <div>
-  {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 ? (
-    state.UsersList.hostelList
-      .filter(item => {
-        const isValidPrefix = item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
-        const isValidSuffix = item.suffix && item.suffix !== 'null' && item.suffix !== null && item.suffix !== 0;
-        console.log('Item:', item, 'isValidPrefix:', isValidPrefix, 'isValidSuffix:', isValidSuffix);
-        return isValidPrefix || isValidSuffix;
-      })
-      .map((item) => (
-        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-          <InvoiceSettingsList 
-            item={item}  
-            handleRecurringFormShow={handleRecurringFormShow} 
-            OnEditInvoice={handleEditInvoice} 
-          />
-        </div>
-      ))
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-      </div>
-      <div 
-        className="pb-1 mt-3" 
-        style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}
-      >
-        No Invoice available
-      </div>
-    </div>
-  )}
-</div> */}
+        </div>)}
 
       <div>
         {InvoiceList && InvoiceList.length > 0 ? (
@@ -795,7 +770,7 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                   <InvoiceSettingsList
                     item={item}
                     handleRecurringFormShow={handleRecurringFormShow}
-                    OnEditInvoice={handleEditInvoice}
+                  // OnEditInvoice={handleEditInvoice}
                   />
                 </div>
               ))
@@ -969,7 +944,6 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                           fontStyle: "normal",
                           lineHeight: "normal",
                         }}
-                      // style={labelStyle}
                       >
                         Preview
                       </Form.Label>
@@ -1135,7 +1109,6 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                   onClick={handleInvoiceSettings}
                 >
                   Add Invoice
-                  {/* {edit ? "Save invoice" : "Add invice"} */}
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>
@@ -1217,7 +1190,6 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                       </span>
                     </button>
 
-                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                   </Modal.Header>
                 </div>
 
