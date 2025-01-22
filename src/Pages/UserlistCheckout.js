@@ -592,7 +592,7 @@ function CheckOut(props) {
                         return (
                           <tr key={checkout.ID} className="customer-row">
 
-                            <td>
+                            <td style={{verticalAlign: "middle"}}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -602,7 +602,8 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
-                                    textAlign: "start"
+                                    textAlign: "start",
+                                    verticalAlign: "middle"
                                   }}
                                   className="ms-2 customer-name"
                                 >
@@ -620,6 +621,7 @@ function CheckOut(props) {
                                 color: "#000000",
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               +
@@ -640,6 +642,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -655,6 +658,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.Floor}
@@ -670,6 +674,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -685,6 +690,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.room_name}
@@ -699,6 +705,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -714,6 +721,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.bed_name}
@@ -728,6 +736,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -743,6 +752,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
@@ -784,6 +794,7 @@ function CheckOut(props) {
                               fontSize: "16px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              verticalAlign: "middle",
                               whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
                             }}>
                               {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span

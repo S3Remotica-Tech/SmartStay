@@ -30,12 +30,12 @@ function UserlistWalkin(props) {
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
   const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
-  const [hostel_Id,setHostelId]= useState("")
-  useEffect(()=>{
-if(state.login.selectedHostel_Id){
-setHostelId(state.login.selectedHostel_Id)
-}
-  },[state.login.selectedHostel_Id])
+  const [hostel_Id, setHostelId] = useState("")
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostelId(state.login.selectedHostel_Id)
+    }
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (
@@ -116,7 +116,7 @@ setHostelId(state.login.selectedHostel_Id)
     ) {
       dispatch({
         type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id:hostel_Id},
+        payload: { hostel_id: hostel_Id },
       });
 
       setShowForm(false);
@@ -291,9 +291,11 @@ setHostelId(state.login.selectedHostel_Id)
                   // borderBottom:"none"
                 }}>
                   <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
-                    <thead style={{ border: "none",  position:"sticky",
-                        top:0,
-                        zIndex:1, }}>
+                    <thead style={{
+                      border: "none", position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                    }}>
                       <tr>
 
                         <th
@@ -307,7 +309,7 @@ setHostelId(state.login.selectedHostel_Id)
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
-                            paddingLeft:"20px"
+                            paddingLeft: "20px"
                           }}
                         >
                           Name
@@ -391,7 +393,7 @@ setHostelId(state.login.selectedHostel_Id)
                       {currentCustomers?.map((customer) => (
                         <tr key={customer.id} className="customer-row">
 
-                          <td>
+                          <td style={{ verticalAlign: "middle" }}>
                             <div className="d-flex align-items-center">
                               {/* <Image
                                 src={Ellipse1}
@@ -423,6 +425,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.email_Id || "-"}
@@ -434,7 +437,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
-
+                              verticalAlign: "middle",
                               padding: "10px",
                             }}
                           >
@@ -451,6 +454,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               padding: "10px",
+                              verticalAlign: "middle"
                             }}
                           >
                             <span
@@ -463,6 +467,7 @@ setHostelId(state.login.selectedHostel_Id)
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 padding: "2px",
+                                verticalAlign: "middle"
                               }}
                             >
                               {moment(customer.walk_In_Date).format(
@@ -479,7 +484,8 @@ setHostelId(state.login.selectedHostel_Id)
                               color: "#000000",
                               textAlign: "start",
                               padding: "10px",
-                              whiteSpace: "nowrap"
+                              whiteSpace: "nowrap",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.comments || "-"}
@@ -836,7 +842,7 @@ setHostelId(state.login.selectedHostel_Id)
             ) : (
               <div
                 className="d-flex align-items-center justify-content-center "
-                style={{ width: "100%", height:"60vh" }}
+                style={{ width: "100%", height: "60vh" }}
               >
                 <div>
                   <div className="no-data-container">

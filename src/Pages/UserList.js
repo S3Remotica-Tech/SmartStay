@@ -1825,7 +1825,7 @@ function UserList(props) {
                                         fontSize: "16px",
                                         fontWeight: 600,
                                         textAlign: "center",
-                                        marginTop: 10,
+                                        // marginTop: 10,
 
                                       }}
                                     >
@@ -1847,7 +1847,8 @@ function UserList(props) {
                                           border: "none",
                                           padding: "10px",
                                           textAlign: "start",
-                                          paddingLeft: "20px"
+                                          paddingLeft: "20px",
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         {/* <Image
@@ -1892,7 +1893,7 @@ function UserList(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
-
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         <span
@@ -1920,6 +1921,7 @@ function UserList(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           paddingTop: 15,
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         {user.Email}
@@ -1934,6 +1936,7 @@ function UserList(props) {
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
                                           whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         +
@@ -1954,6 +1957,7 @@ function UserList(props) {
                                           fontSize: "16px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         {" "}
@@ -1972,6 +1976,7 @@ function UserList(props) {
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
+                                          verticalAlign: "middle",
                                         }}
                                       >
                                         {!user.Bed ? "-" : user.Bed}
