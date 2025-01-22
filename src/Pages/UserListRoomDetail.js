@@ -48,6 +48,7 @@ import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
+import docDown from "../Assets/Images/New_images/doc_download.png"
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -945,7 +946,7 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  console.log("state.UsersList?.customerdetails?.data",advanceDetail[0]?.inv_id)
+  console.log("state.UsersList?.customerdetails?.data",advanceDetail[0]?.doc1)
   const customDateInput = (props) => {
     return (
       <div
@@ -1163,8 +1164,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
               return (
                 <div
                   key={item.ID}
-                  className="container"
-                  style={{ marginLeft: "-20px" }}
+                  className="container mt-2"
+                  // style={{ marginLeft: "-20px" }}
                 >
                   <div
                     className="container justify-content-start  d-flex align-items-start"
@@ -1805,13 +1806,26 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         />
         Upload Document
       </button>
-      <input
+       <input
          type="file"
          ref={aadharInputRef}
          style={{ display: "none" }}
          onChange={(e) => handleFileChange(e, "doc1")}
-      />
-      {aadharFile && (
+         
+      />  
+      {/* <img src={docDown} style={{width:20,height:20}}/> */}
+      {/* {advanceDetail && advanceDetail[0]?.doc1 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+{advanceDetail && advanceDetail[0]?.doc1 && (
+  <img
+    src={docDown}
+    style={{ width: 20, height: 20, marginLeft: "10px", cursor: "pointer" }}
+    alt="Download Document"
+    onClick={() => window.open(advanceDetail[0]?.doc1, "_blank")}
+  />
+)}
+   {aadharFile && (
         <div
           style={{
             marginTop: "10px",
@@ -1863,7 +1877,21 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     //   handleOtherDocUploadClick(e, "doc2")
                                     // }
                                     onChange={(e) => handleFileChange(e, "doc2")}
-                                  />
+                                  />  
+                                  {/* <img src={docDown} style={{width:20,height:20}}/> */}
+                                  {/* {advanceDetail && advanceDetail[0]?.doc2 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+
+
+{advanceDetail && advanceDetail[0]?.doc2 && (
+  <img
+    src={docDown}
+    style={{ width: 20, height: 20, marginLeft: "10px", cursor: "pointer" }}
+    alt="Download Document"
+    onClick={() => window.open(advanceDetail[0]?.doc2, "_blank")}
+  />
+)}
                                   {otherFile && (
                                     <div
                                       style={{
