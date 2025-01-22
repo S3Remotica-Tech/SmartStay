@@ -159,7 +159,7 @@ function AddBed({ show, handleClose, currentItem }) {
           </Modal.Header>
 
           <Modal.Body>
-            <div className="row mt-2">
+            <div className="row mt-2 mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-3"
@@ -194,7 +194,8 @@ function AddBed({ show, handleClose, currentItem }) {
                   />
                 </Form.Group>
                 {bedError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
+                  // <div className="d-flex align-items-center p-1 mb-2">
+                  <div className="d-flex align-items-center p-0">
                     <MdError style={{ color: "red", marginRight: "5px" }} />
                     <label
                       className="mb-0"
@@ -245,7 +246,8 @@ function AddBed({ show, handleClose, currentItem }) {
                 </Form.Group>
 
                 {amountError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
+                  // <div className="d-flex align-items-center p-1 mb-2">
+                  <div className="d-flex align-items-center p-0">
                     <MdError style={{ color: "red", marginRight: "5px" }} />
                     <label
                       className="mb-0"
@@ -265,7 +267,8 @@ function AddBed({ show, handleClose, currentItem }) {
           </Modal.Body>
 
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2">
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-0">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
                 className="mb-0"
@@ -282,7 +285,8 @@ function AddBed({ show, handleClose, currentItem }) {
           )}
 
           {state.PgList && state.PgList?.alreadyBedAvailable && (
-            <div className="d-flex align-items-center p-1 mb-2">
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-0">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
                 className="mb-0"
