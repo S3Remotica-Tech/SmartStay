@@ -94,6 +94,11 @@ const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
         handleClosed()
     }
 
+console.log("Bill Row Data:",rowData);
+
+//action: "recuring"
+
+
 
     // if (!isVisible) return null;
     return (
@@ -237,7 +242,7 @@ const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
                             </div>
 
 {/* EB Unit Details */}
-<div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+{/* <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
                                 <div>
 
                          <div >
@@ -267,7 +272,81 @@ const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
 </div>
 </div>
                                 
-                            </div>
+                            </div> */}
+
+{rowData.action === "recuring" && (
+  <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+    <div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+          }}
+        >
+          EB Per Unit Price :
+        </label>
+      </div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          EB Start Date :
+        </label>
+      </div>
+      <div className="" style={{ width: 100 }}>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          EB End Date :
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+          }}
+        >
+          Rent Start Date:
+        </label>
+      </div>
+      <div>
+        <label
+          style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#000000",
+            fontFamily: "Gilroy",
+            marginTop: 10,
+          }}
+        >
+          Rent End Date:
+        </label>
+      </div>
+    </div>
+  </div>
+)}
+
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
   <thead 
