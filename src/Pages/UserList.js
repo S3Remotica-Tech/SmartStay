@@ -1579,7 +1579,7 @@ function UserList(props) {
                     </div>
                   </>
                 ) : (
-                  <div style={{ marginTop: 30 }}>
+                  <div style={{  marginLeft: "6px" }}>
                     <div>
                       {currentItems?.length == 0 && (
                         <div>
