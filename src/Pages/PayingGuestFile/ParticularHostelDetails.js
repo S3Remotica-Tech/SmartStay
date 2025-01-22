@@ -166,7 +166,7 @@ function ParticularHostelDetails(props) {
   }, [state.PgList?.roomCountStatusCode])
 
 
-console.log("loader",loader)
+  console.log("loader", loader)
 
 
   useEffect(() => {
@@ -256,14 +256,22 @@ console.log("loader",loader)
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
-    ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+  // const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
+  //   ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+  //   : [];
+
+
+  const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
+    ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
     : [];
 
-  //   console.log("currentItems",currentItems)
-  //   console.log("roomCountData",roomCountData)
-  //   console.log("roomCountData Length:", roomCountData.length);
-  //   console.log("itemsPerPage:", itemsPerPage);
+  const currentItems = sortedRoomData.slice(indexOfFirstItem, indexOfLastItem)
+
+
+  // console.log("currentItems", currentItems)
+  // console.log("roomCountData", roomCountData)
+  // console.log("roomCountData Length:", roomCountData.length);
+  // console.log("itemsPerPage:", itemsPerPage);
   // console.log("indexOfFirstItem:", indexOfFirstItem);
   // console.log("indexOfLastItem:", indexOfLastItem);
 
