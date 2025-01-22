@@ -1994,7 +1994,7 @@ function UserList(props) {
                                             display: "flex",
                                             justifyContent: "center",
                                             alignItems: "center",
-                                            // position: "relative",
+                                            position: "relative",
                                             zIndex: 1000,
                                           }}
                                           onClick={() =>
@@ -2010,8 +2010,8 @@ function UserList(props) {
                                                 ref={popupRef}
                                                 style={{
                                                   position: "absolute", // Position above the table
-                                                  left: "0", // Adjust based on where you want the popup
-                                                  top: "-150px", // Position the popup above the table (adjust as needed)
+                                                  right: 50,
+                                                    top: 15, // Position the popup above the table (adjust as needed)
                                                   width: "163px",
                                                   backgroundColor: "#fff",
                                                   border: "1px solid #EBEBEB",
