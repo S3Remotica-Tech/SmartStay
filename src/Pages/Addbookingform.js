@@ -1047,7 +1047,7 @@ function BookingModal(props) {
             >
               Add Booking
             </Button>
-          {/* </Modal.Footer> */}
+          </Modal.Footer>
         </Modal.Body>
       </Modal>
     </div>
