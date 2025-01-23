@@ -606,6 +606,7 @@ function ParticularHostelDetails(props) {
                                     fontSize: 14,
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
+                                    cursor: props.deletePermissionError ? 'not-allowed' : 'pointer',
                                     color: props.deletePermissionError ? "#888888" : "rgba(255, 0, 0, 1)"
                                   }}
                                 >

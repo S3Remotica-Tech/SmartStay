@@ -455,16 +455,10 @@ function Asset() {
               )}
             </div></>
         ) :
-          // <div style={{paddingLeft:20,paddingRight:20}}>
-          <div className='container'>
-            {/* <div className='m-4'> */}
-
-
-
-            {/* <div className='mt-3'> */}
+          <div className='container p-0'>
             <div>
 
-              <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap "
+              <div className="d-flex justify-content-between align-items-center mb-1 flex-wrap "
                 style={{
                   position: 'sticky',
                   top: 15,
@@ -571,30 +565,10 @@ function Asset() {
                       }
 
 
-
-
-
-
-
-
-
-
                     </div>
 
 
                   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -629,35 +603,30 @@ function Asset() {
                     />
                   </div>
 
-            <div>
-              <Button disabled={assetAddPermission} onClick={handleShow}
-              //  style={{ fontFamily: "Gilroy", fontSize: 14,
-              //    backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "12px 16px" }}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: "8px",
-                padding: "12px 14px",
-                width: "auto",
-                maxWidth: "100%",
-                marginBottom: "10px",
-                maxHeight: 45,marginTop:5
-    
-              }}
-                 >
-                   + Asset</Button>
+                  <div>
+                    <Button disabled={assetAddPermission} onClick={handleShow}
+                      //  style={{ fontFamily: "Gilroy", fontSize: 14,
+                      //    backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "12px 16px" }}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        width: "auto",
+                        maxWidth: "100%",
+                        marginBottom: "10px",
+                        maxHeight: 45, marginTop: 5
+
+                      }}
+                    >
+                      + Asset</Button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-            {/* <div className='table-responsive' 
-        style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
-         >  */}
-
 
             {searchQuery && (
               <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
@@ -713,49 +682,45 @@ function Asset() {
 
 
 
-              <div style={{
-                // height: "400px",
-                height: currentItems.length >= 6 ? "380px" : "auto",
-                overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                borderRadius: "24px",
-                border: "1px solid #DCDCDC",
-                // borderBottom:"none"
-              }}>
+              <div
+               className='show-scrolls'
+                style={{
+                  // height: "400px",
+                  // height: currentItems.length >= 6 ? "380px" : "auto",
+                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                  // borderRadius: "24px",
+                  // border: "1px solid #DCDCDC",
+                  // borderBottom:"none"
+                  height: currentItems.length >= 8 ? "500px" : "auto",
+                  overflowY: "auto",
+                  borderTop: "1px solid #E8E8E8",
+                  //  borderBottom:"1px solid #DCDCDC"
+                }}>
 
                 <Table
                   responsive="md"
-                  className="Table_Design"
-                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
-                // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
+                  style={{ tableLayout: "fixed", width: "100%" }}
                 >
 
-                  <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500,  position:"sticky",
-                        top:0,
-                        zIndex:1, }}>
+                  <thead style={{
+                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                  }}>
                     <tr>
-                      {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
-                <input type='checkbox' style={customCheckboxStyle} />
-              </th> */}
-
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600, borderTopLeftRadius: 24, paddingLeft: 20 }}>Product Name</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
-
-                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
-                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
-                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
-              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Room</th> */}
-
-
-
-                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                      <th  style={{ width:"20%", textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600, paddingLeft: 20  }}> <div className='d-flex gap-1 align-items-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div>  Product Name </div>  </th>
+                                             
+                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 ,}} > <div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div>  Serial Number </div></th>
+                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}> <div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12" color="#1E45E1" /></div> Brand </div> </th>
+                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div> Asset </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12" color="#1E45E1" /></div>  Price </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 ,}}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12" color="#1E45E1" /></div> Purchase Date </div></th>
+                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div>  Assigned </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}></th>
                     </tr>
                   </thead>
+               
+
                   <tbody>
                     {
                       loading ? (
@@ -768,9 +733,6 @@ function Asset() {
                             <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
                             <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
                             <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td> */}
                           </tr>
                         </>
                       )
@@ -786,14 +748,6 @@ function Asset() {
                             </>
                           )
 
-                          // : (
-                          //   <tr style={{border:"none"}}>
-                          //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
-                          //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
-                          //   </td>
-                          // </tr>
-
-                          // )
                         )
                     }
                   </tbody>
@@ -801,7 +755,7 @@ function Asset() {
 
                 </Table>
               </div>
-              
+
 
             )}
             {
@@ -809,13 +763,13 @@ function Asset() {
 
               <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-          <div>
-            <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-            <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+                <div>
+                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                  <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+                  <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
 
-          </div>
-          <div>
+                </div>
+                <div>
 
                 </div>
               </div>
