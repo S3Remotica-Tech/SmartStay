@@ -36,7 +36,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import imageCompression from 'browser-image-compression';
 import Plus from '../Assets/Images/New_images/addplus-circle.svg'
-import Profile2 from '../Assets/Images/New_images/profile-picture.png'
+import Profile2 from '../Assets/Images/New_images/profile-picture.png';
+import moment from 'moment';
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -164,10 +165,11 @@ function Booking(props) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       setJoiningDate(item.joining_date || "")
-      const formattedJoiningDate = item.joining_date
-        ? new Date(item.joining_date)
-        : null;
-      setJoiningDate(formattedJoiningDate);
+      // const formattedJoiningDate = item.joining_date
+      //   ? new Date(item.joining_date)
+      //   : null;
+      // setJoiningDate(formattedJoiningDate);
+      setJoiningDate(item.joining_date ? moment(item.joining_date).toDate('') : null);
       setFile(item.profile || "");
       setAmount(item.amount || "");
       setHostelIds(item.hostel_id || "");
@@ -185,7 +187,7 @@ function Booking(props) {
         Phone: item.phone_number || "",
         Email: item.email_id || "",
         Address: item.address || "",
-        joiningDate: formattedJoiningDate || "",
+        joiningDate: item.joining_date || "",
         amount: item.amount || "",
         paying: item.hostel_id || "",
         file: item.profile || "",
@@ -521,16 +523,7 @@ function Booking(props) {
     }
 
     // Format the date correctly
-    let formattedDate = null;
-    try {
-      let date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1); // Add 1 day to fix timezone issues
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("Date is required.");
-      console.error(error);
-      return;
-    }
+     const formattedDate = moment(joiningDate).format('YYYY-MM-DD');
 
     // Normalize phone number
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
@@ -1944,7 +1937,7 @@ function Booking(props) {
           </Col>
           <Row>
             <Col md={6}>
-              <Form.Group className="mb-2" controlId="purchaseDate">
+              {/* <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
@@ -1963,13 +1956,40 @@ function Booking(props) {
                     })}
                   />
                 </div>
-              </Form.Group>
-              {dateError && (
+              </Form.Group> */}
+              
+                            <Form.Group className="mb-2" controlId="purchaseDate">
+                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                Joining_Date 
+                                    {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                </Form.Label>
+                                <div style={{ position: 'relative', width: "100%" }}>
+                                    <DatePicker
+                                        selected={joiningDate}
+                                        onChange={(date) => {
+                                          setDateError('');
+                                          setJoiningDate(date);
+                                          setFormError("");
+                                            
+                                        }}
+                                        dateFormat="dd/MM/yyyy"
+                                        maxDate={null}
+                                        minDate={null}
+                                        customInput={customDateInput({
+                                            value: joiningDate ? joiningDate.toLocaleDateString('en-GB') : '',
+                                        })}
+                                    />
+                                </div>
+                            </Form.Group>
+                            {dateError && (
                 <div style={{ color: "red" }}>
                   <MdError />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
+
+                       
+             
             </Col>
             <Col md={6}>
               <Form.Group className="">
