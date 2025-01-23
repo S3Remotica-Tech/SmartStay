@@ -114,6 +114,14 @@ function Booking(props) {
   useEffect(() => {
     setHostelIds(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
+
+
+ useEffect(() => {
+    if(state.login.selectedHostel_Id ){
+      dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }  
+  }, [state.login.selectedHostel_Id ]);
+
   useEffect(() => {
     if (
       props.customerrolePermission[0]?.is_owner == 1 ||
@@ -656,9 +664,7 @@ function Booking(props) {
   };
 
 
-  useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, []);
+ 
   useEffect(() => {
     setCustomers(state.Booking.CustomerBookingList.bookings);
   }, state.Booking.CustomerBookingList.bookings);
