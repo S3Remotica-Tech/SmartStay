@@ -913,6 +913,7 @@ useEffect(() => {
                       //   borderRadius: 8,
                       //   padding: "16px 20px 16px 20px",
                       // }}
+                      
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -920,7 +921,7 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 14px",
+                        padding: "10px 12px",
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",

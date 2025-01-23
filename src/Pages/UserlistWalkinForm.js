@@ -422,10 +422,10 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         <>
             <Modal show={show} onHide={handleClose} centered backdrop="static">
                 <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
-                    <div style={{ fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
+                    <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
                         {initialData ? 'Edit Walk-in' : 'Add Walk-in'}
                     </div>
-                    <CloseCircle size="32" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
+                    <CloseCircle size="24" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
                 </Modal.Header>
 
 
@@ -870,7 +870,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
                         </div>
 
-                        <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
+                        <Modal.Footer style={{ border: "none" , paddingBottom: 0,}} className='mt-1 pt-1' >
 
                             <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                                 {initialData ? 'Save Changes' : 'Add Walk-in'}

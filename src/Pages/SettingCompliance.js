@@ -241,7 +241,7 @@ function SettingCompliance({ hostelid }) {
                                 color: "white",
                                 fontWeight: 600,
                                 borderRadius: "8px",
-                                padding: "12px 16px",
+                                padding: "10px 12px",
                                 width: "auto",
                                 maxWidth: "100%",
                                 maxHeight: 50,
