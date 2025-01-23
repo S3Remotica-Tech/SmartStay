@@ -1273,7 +1273,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter account no."
+                  placeholder="Enter lastname."
                   value={lastName}
                   onChange={(e) => handlelastName(e)}
                   style={{
