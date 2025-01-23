@@ -690,7 +690,7 @@ function SettingGeneral() {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: "8px",
-                padding: "12px 16px",
+                padding: "10px 12px",
                 width: "160px",
                 // maxWidth: "100%",
                 // marginBottom: "10px",
@@ -1273,7 +1273,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter account no."
+                  placeholder="Enter lastname."
                   value={lastName}
                   onChange={(e) => handlelastName(e)}
                   style={{

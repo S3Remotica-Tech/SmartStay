@@ -470,7 +470,7 @@ if(checkOutDate){
   return (<>
     <Modal show={show} onHide={handlecloseform} centered backdrop="static">
       <Modal.Header className="d-flex justify-content-between align-items-center">
-        <Modal.Title style={{ fontWeight: '600', fontSize: '16px', fontFamily: "Gilroy" }}>
+        <Modal.Title style={{ fontWeight: '600', fontSize: '18px', fontFamily: "Gilroy" }}>
           {data && checkoutaction ? 'Confirm Check-out'  : (currentItem && checkouteditaction ? 'Edit check-out' : 'Add Check-out')}</Modal.Title>
         <img
           src={Closecircle}

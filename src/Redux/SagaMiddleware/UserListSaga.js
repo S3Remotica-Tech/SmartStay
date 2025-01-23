@@ -13,6 +13,10 @@ function* handleuserlist(user) {
    if (response.status === 200 ) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
    }
+
+   else if (response.status === 201 || response.statusCode === 201){
+      yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.statusCode } })
+   }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
@@ -1403,7 +1407,7 @@ console.log("handleUploadDocument",response)
       });
    }
    else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: response.message })
+      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put ({type:'ERROR', payload:response.message})

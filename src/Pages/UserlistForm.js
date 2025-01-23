@@ -783,9 +783,11 @@ function UserlistForm(props) {
                   >
                     <div
                       style={{
-                        fontSize: 20,
+                        marginTop:-20,
+                        fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",textAlign:"start",
+                        
                       }}
                     >
                       {props.edit === "Edit"
@@ -800,7 +802,7 @@ function UserlistForm(props) {
                       style={{
                         position: "absolute",
                         right: "10px",
-                        top: "16px",
+                        marginTop:-15,
                         border: "1px solid black",
                         background: "transparent",
                         cursor: "pointer",
@@ -808,8 +810,8 @@ function UserlistForm(props) {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: "32px",
-                        height: "32px",
+                        width: "24px",
+                        height: "24px",
                         borderRadius: "50%",
                       }}
                     >
@@ -1230,7 +1232,7 @@ function UserlistForm(props) {
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
-                      marginTop: 20,
+                      marginTop: 10,
                     }}
                     onClick={handleSaveUserlist}
                   >
@@ -1590,7 +1592,7 @@ function UserlistForm(props) {
             </div>
           </Modal.Body>
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+          {/* <Modal.Footer style={{ border: "none" }}></Modal.Footer> */}
         </Modal.Dialog>
       </Modal>
     </div>

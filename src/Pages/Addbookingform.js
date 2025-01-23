@@ -512,7 +512,7 @@ function BookingModal(props) {
             Add Booking
           </Modal.Title>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleAddClose}
             style={{ cursor: "pointer" }}
@@ -1041,13 +1041,13 @@ function BookingModal(props) {
                 color: "#fff",
                 fontSize: 16,
                 fontWeight: 600,
-                fontFamily: "Gilroy",
+                fontFamily: "Gilroy",marginTop:10
               }}
               onClick={handleSubmit}
             >
               Add Booking
             </Button>
-          </Modal.Footer>
+          {/* </Modal.Footer> */}
         </Modal.Body>
       </Modal>
     </div>
