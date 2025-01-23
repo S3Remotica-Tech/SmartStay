@@ -263,7 +263,58 @@ function Asset() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  console.log("filteredData ",filteredData )
+
+  const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
+
+
+console.log("currentItems",currentItems)
+
+const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentItems;
+
+    const sorted = [...currentItems].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentItems, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
+
+
+  console.log("sortedData:", sortedData);
+    console.log("sortConfig:", sortConfig);
+  
+
+
+
+
+
+
+
+
 
 
   const handleItemsPerPageChange = (event) => {
@@ -278,43 +329,7 @@ function Asset() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
+ 
 
   const handleEditAsset = (item) => {
     setShow(true)
@@ -331,7 +346,7 @@ function Asset() {
 
   const handleCloseSearch = () => {
     setShowFilterData(false)
-    setGetData(state.AssetList.assetList)
+    setGetData(state.AssetList?.assetList)
     setSearchQuery('');
   }
 
@@ -678,7 +693,7 @@ function Asset() {
 
 
 
-            {currentItems && currentItems.length > 0 && (
+            {sortedData && sortedData.length > 0 && (
 
 
 
@@ -691,7 +706,7 @@ function Asset() {
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                  height: currentItems.length >= 8 ? "500px" : "auto",
+                  height: currentItems.length >= 8  || sortedData.length >= 8 ? "500px" : "auto",
                   overflowY: "auto",
                   borderTop: "1px solid #E8E8E8",
                   //  borderBottom:"1px solid #DCDCDC"
@@ -708,7 +723,10 @@ function Asset() {
                     zIndex: 1,
                   }}>
                     <tr>
-                      <th  style={{ width:"20%", textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600, paddingLeft: 20  }}> <div className='d-flex gap-1 align-items-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div>  Product Name </div>  </th>
+                      <th style={{ width: "20%", textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600, paddingLeft: 20 }}> <div className='d-flex gap-1 align-items-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="12" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')}  style={{cursor:"pointer"}}/>
+                        <ArrowDown2 size="12" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{cursor:"pointer"}}/>
+                      </div>  Product Name </div>  </th>
                                              
                       <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 ,}} > <div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12"  color="#1E45E1"/></div>  Serial Number </div></th>
                       <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 600 , }}> <div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} ><ArrowUp2 size="12" color="#1E45E1"/> <ArrowDown2 size="12" color="#1E45E1" /></div> Brand </div> </th>
@@ -740,9 +758,9 @@ function Asset() {
 
 
                         : (
-                          currentItems && currentItems.length > 0 && (
+                          sortedData && sortedData.length > 0 && (
                             <>
-                              {currentItems.map((item) => (
+                              {sortedData.map((item) => (
                                 <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
                               ))}
                             </>

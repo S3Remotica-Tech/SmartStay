@@ -364,8 +364,8 @@ function ParticularHostelDetails(props) {
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
 
   const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
-    setShowDeleteRoom(true)
-    setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
+        setShowDeleteRoom(true)
+        setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
   }
 
 

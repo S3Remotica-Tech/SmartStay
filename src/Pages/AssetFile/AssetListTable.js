@@ -222,7 +222,7 @@ function AssetListTable(props) {
             <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 6, borderRadius: 60, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{props.item.price.toLocaleString('en-IN')}</td>
+        <td style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
         <td style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap" }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "start", }}>
             <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
