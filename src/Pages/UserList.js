@@ -87,11 +87,14 @@ function UserList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    setLoading(true);
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: uniqueostel_Id },
-    });
+    if(uniqueostel_Id){
+      setLoading(true);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: uniqueostel_Id },
+      });
+    }
+   
   }, [uniqueostel_Id]);
 
   const handleCustomerReAssign = (reuser) => {
@@ -314,7 +317,7 @@ function UserList(props) {
   const [EditObj, setEditObj] = useState("");
   const [addBasicDetail, setAddBasicDetail] = useState("");
   const [filteredDatas, setFilteredDatas] = useState([]);
-  const [originalData, setOriginalData] = useState([]); 
+  const [originalData, setOriginalData] = useState([]);
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
   const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
@@ -435,6 +438,17 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.NoUserListStatusCode === 201) {
+      setFilteredUsers([])
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_USER_LIST' })
+      }, 2000)
+    }
+
+  }, [state.UsersList?.NoUserListStatusCode])
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
@@ -1300,7 +1314,7 @@ function UserList(props) {
                     <Image
                       src={searchteam}
 
-                      style={{ height: "28px", width: "28px",cursor:"pointer" }}
+                      style={{ height: "28px", width: "28px", cursor: "pointer" }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -1311,7 +1325,7 @@ function UserList(props) {
                 <Image
                   src={Filters}
 
-                  style={{ height: "50px", width: "50px",cursor:"pointer" }}
+                  style={{ height: "50px", width: "50px", cursor: "pointer" }}
                   onClick={handleShowSearch}
                 />
               </div>
@@ -1321,7 +1335,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5 ,cursor:"pointer"}}
+                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
                     onClick={handleCustomerExcel}
                   />
                 )}
@@ -1330,7 +1344,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
+                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
                     onClick={handleBookingExcel}
                   />
                 )}
@@ -1339,7 +1353,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
+                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
                     onClick={handlecheckoutExcel}
                   />
                 )}
@@ -1348,7 +1362,7 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5,cursor:"pointer" }}
+                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
                     onClick={handlewalkinExcel}
                   />
                 )}
@@ -1382,7 +1396,7 @@ function UserList(props) {
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-          
+
                     }}
                   >
                     +  Customer
@@ -1415,7 +1429,7 @@ function UserList(props) {
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-          
+
                     }}
                   >
                     + Bookings
@@ -1448,7 +1462,7 @@ function UserList(props) {
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-          
+
                     }}
                   >
                     + Check-out
@@ -1481,7 +1495,7 @@ function UserList(props) {
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-          
+
                     }}
                   >
                     +  Walk-in
@@ -1617,6 +1631,34 @@ function UserList(props) {
                   />
                 </TabList>
               </Box>
+              {loading &&
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: '200px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  ></div>
+                </div>
+              }
               <TabPanel value="1" style={{ paddingLeft: 0 }}>
                 {customerpermissionError ? (
                   <>
@@ -1656,39 +1698,41 @@ function UserList(props) {
                 ) : (
                   <div style={{ marginLeft: "6px" }}>
                     <div>
-                      {currentItems?.length == 0 && (
-                        <div>
-                          <div style={{ textAlign: "center" }}>
-                            {" "}
-                            <img src={Emptystate} alt="emptystate" />
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 20,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No Active Customer{" "}
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 16,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no active Customer{" "}
-                          </div>
 
-                        </div>
-                      )}
+                      {!loading && currentItems && currentItems.length === 0 && (
+                          // {currentItems?.length == 0 && (
+                          <div>
+                            <div style={{ textAlign: "center" }}>
+                              {" "}
+                              <img src={Emptystate} alt="emptystate" />
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                textAlign: "center",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 20,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              No Active Customer{" "}
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                textAlign: "center",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              There are no active Customer{" "}
+                            </div>
+
+                          </div>
+                        )}
 
                       {currentItems && currentItems.length > 0 && (
                         <div
@@ -2066,7 +2110,7 @@ function UserList(props) {
                                       >
                                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                        <div 
+                                        <div
                                           style={{
                                             cursor: "pointer",
                                             height: 40,
@@ -2077,8 +2121,8 @@ function UserList(props) {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
-                                            zIndex:activeRow === user.ID ? 1000 : "auto",
-                                            backgroundColor:activeRow === user.ID ? "#E7F1FF" : "white"
+                                            zIndex: activeRow === user.ID ? 1000 : "auto",
+                                            backgroundColor: activeRow === user.ID ? "#E7F1FF" : "white"
 
                                           }}
                                           onClick={(e) =>
