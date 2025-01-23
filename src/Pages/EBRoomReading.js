@@ -584,7 +584,8 @@ function EBRoomReading(props) {
                   style={{
                     // height: "400px",
                     height: currentRowelectricity.length >= 6 ? "400px" : "auto",
-                    overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
+                    overflowY: "auto",
+                    // overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     // borderBottom:"none"
@@ -615,7 +616,8 @@ function EBRoomReading(props) {
                             paddingTop: "10px",
                             paddingBottom: "10px",
                             textAlign: "start",
-                            paddingLeft: "20px"
+                            paddingLeft: "20px",
+                            borderTopLeftRadius:24
                           }}
                         >
                           Paying Guest

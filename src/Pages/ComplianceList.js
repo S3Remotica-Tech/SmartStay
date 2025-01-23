@@ -131,10 +131,9 @@ const ComplianceList = (props) => {
   }, [state.UsersList?.statusCodeCompliance]);
 
   const handleComplianceDelete = () => {
-    if(deleteId){
+    if (deleteId) {
       dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
     }
-   
   };
 
   useEffect(() => {
@@ -168,32 +167,40 @@ const ComplianceList = (props) => {
   };
   const [customer_Id, setCustomer_Id] = useState("");
   const [name, setName] = useState("");
-  const [date,setDate] = useState("")
-  const [profile,setProfile] = useState("")
+  const [date, setDate] = useState("");
+  const [profile, setProfile] = useState("");
 
   const handleIconClick = (item) => {
     setCustomer_Id(item.ID);
     setShowCard(true);
-    setName(item.Name)
+    setName(item.Name);
     let Dated = new Date(item.createdat);
 
-      let day = Dated.getDate();
-      let month = Dated.getMonth();
-      let year = Dated.getFullYear();
+    let day = Dated.getDate();
+    let month = Dated.getMonth();
+    let year = Dated.getFullYear();
 
-      const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-      let formattedMonth = monthNames[month];
-      let formattedDate = `${day} ${formattedMonth} ${year}`;
-    setDate(formattedDate)
+    let formattedMonth = monthNames[month];
+    let formattedDate = `${day} ${formattedMonth} ${year}`;
+    setDate(formattedDate);
     // setProfile(item.profile)
     setProfile(item.profile && item.profile !== "0" ? item.profile : User);
-  
   };
-  
 
   useEffect(() => {
     if (customer_Id) {
@@ -206,7 +213,6 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
-    
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_COMENET_LIST" });
       }, 1000);
@@ -215,13 +221,13 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
-      setComments("")
+      setComments("");
       setShowCard(false);
       dispatch({
         type: "GET_COMPLIANCE_COMMENT",
         payload: { com_id: customer_Id },
       });
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id }});
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
@@ -232,9 +238,9 @@ const ComplianceList = (props) => {
   const [comments, setComments] = useState("");
   const handleComments = (e) => {
     setComments(e.target.value);
-    setCommentError("")
+    setCommentError("");
   };
-  const [commentError,setCommentError] = useState("")
+  const [commentError, setCommentError] = useState("");
   const validateAssignField = (value, fieldName) => {
     const isValueEmpty =
       (typeof value === "string" && value.trim() === "") ||
@@ -246,7 +252,7 @@ const ComplianceList = (props) => {
         case "comments":
           setCommentError("comments is required");
           break;
-        
+
         default:
           break;
       }
@@ -275,9 +281,9 @@ const ComplianceList = (props) => {
   };
   const handleCloseIconClick = () => {
     setShowCard(false);
-    setComments("")
-    setCustomer_Id("")
-    setCommentError("")
+    setComments("");
+    setCustomer_Id("");
+    setCommentError("");
   };
 
   const handleChangeStatusClick = () => {
@@ -370,9 +376,6 @@ const ComplianceList = (props) => {
     }
   };
 
-  
-  
-
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -423,7 +426,7 @@ const ComplianceList = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <>
       <Card
@@ -954,218 +957,293 @@ const ComplianceList = (props) => {
               </div>
 
               <Modal
-              show={showCard}
-              onHide={handleCloseIconClick}
-              centered
-              backdrop="static"
-            >
-              <Modal.Dialog
-                style={{
-                  maxWidth: 950,
-                  paddingRight: "5px",
-                  // paddingRight: "10px",
-                  borderRadius: "30px",
-                }}
-                className="m-0 p-0"
+                show={showCard}
+                onHide={handleCloseIconClick}
+                centered
+                backdrop="static"
               >
-                <Modal.Body>
-                  <div>
-                  <Modal.Header style={{ marginBottom: "30px", position: "relative", display: "flex", alignItems: "center" }}>
-  <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-    <img
-      src={profile}
-      alt="Profile"
-      style={{
-        cursor: "pointer",
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%",
-        marginRight: "10px",
-      }}
-    />
-    <div style={{ flexGrow: 1 }}>
-      <p style={{ margin: 0, fontSize: "16px", fontWeight: "bold", fontFamily: "Gilroy" }}>{name}</p>
-      <p style={{ margin: 0, fontSize: "14px", color: "gray" }}>{date}</p>
-    </div>
-  </div>
+                <Modal.Dialog
+                  style={{
+                    maxWidth: 950,
+                    paddingRight: "5px",
+                    // paddingRight: "10px",
+                    borderRadius: "30px",
+                  }}
+                  className="m-0 p-0"
+                >
+                  <Modal.Body>
+                    <div>
+                      <Modal.Header
+                        style={{
+                          marginBottom: "30px",
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <img
+                            src={profile}
+                            alt="Profile"
+                            style={{
+                              cursor: "pointer",
+                              width: "40px",
+                              height: "40px",
+                              borderRadius: "50%",
+                              marginRight: "10px",
+                            }}
+                          />
+                          <div style={{ flexGrow: 1 }}>
+                            <p
+                              style={{
+                                margin: 0,
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              {name}
+                            </p>
+                            <p
+                              style={{
+                                margin: 0,
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                            >
+                              {date}
+                            </p>
+                          </div>
+                        </div>
 
-  <button
-    type="button"
-    className="close"
-    aria-label="Close"
-    onClick={handleCloseIconClick}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "16px",
-      border: "1px solid black",
-      background: "transparent",
-      cursor: "pointer",
-      padding: "0",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-    }}
-  >
-    <span
-      aria-hidden="true"
-      style={{
-        fontSize: "30px",
-        paddingBottom: "6px",
-      }}
-    >
-      &times;
-    </span>
-  </button>
-</Modal.Header>
-
-                  </div>
-                  <div
-  style={{
-    height: state.ComplianceList?.getComplianceComments?.comments?.length > 2 ? "250px" : "auto",
-    overflowY: state.ComplianceList?.getComplianceComments?.comments?.length > 2 ? "auto" : "hidden",
-    padding: "10px",
-    backgroundColor: "#F4F5F7",
-    borderRadius: "10px",
-  }}
->
-  {state.ComplianceList?.getComplianceComments?.comments &&
-    state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
-      let Dated = new Date(item.created_at);
-
-      let day = Dated.getDate();
-      let month = Dated.getMonth();
-      let year = Dated.getFullYear();
-
-      const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
-
-      let formattedMonth = monthNames[month];
-      let formattedDate = `${day} ${formattedMonth} ${year}`;
-
-      return (
-        <div
-          key={index}
-          className="row"
-          style={{
-            borderBottom: "1px solid #EDF0F4",
-            paddingBottom: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={item.profile && item.profile !== "0" ? item.profile : User}
-              alt="User"
-              style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
-            />
-            <div>
-              <p style={{ margin: 0, fontSize: "16px", fontWeight: "bold", fontFamily: "Gilroy" }}>
-                {item.name}
-              </p>
-              <p style={{ margin: 0, fontSize: "14px", color: "#666666" }}>{formattedDate}</p>
-            </div>
-          </div>
-
-          <p
-            style={{
-              wordWrap: "break-word",
-              overflowWrap: "break-word",
-              whiteSpace: "pre-wrap",
-              maxWidth: "100%",
-              marginTop: "8px",
-              fontSize: "16px",
-              fontWeight: "400",
-              color: "#333",
-            }}
-          >
-            {item.comment}
-          </p>
-        </div>
-      );
-    })}
-</div>
-
-
-                </Modal.Body>
-
-                <Modal.Footer style={{ border: "none" }}>
-                  
-                    <div
-                    style={{
-                      marginTop: 15,
-                      position: "relative",
-                      display: "inline-block",
-                      width: "100%",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={comments}
-                      onChange={(e) => handleComments(e)}
-                      style={{
-                        border: "1px solid #E7E7E7",
-                        paddingTop: 6,
-                        paddingBottom: 6,
-                        paddingLeft: 16,
-                        width: "100%",
-                        height: "52px",
-                        borderRadius: "12px",
-                      }}
-                      placeholder="Post your reply here"
-                    />
+                        <button
+                          type="button"
+                          className="close"
+                          aria-label="Close"
+                          onClick={handleCloseIconClick}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              fontSize: "30px",
+                              paddingBottom: "6px",
+                            }}
+                          >
+                            &times;
+                          </span>
+                        </button>
+                      </Modal.Header>
+                    </div>
                     <div
                       style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        backgroundColor: "#1E45E1",
-                        border: "1px solid #E7E7E7",
-                        borderRadius: "60px",
-                        padding: "12px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
+                        height:
+                          state.ComplianceList?.getComplianceComments?.comments
+                            ?.length > 2
+                            ? "250px"
+                            : "auto",
+                        overflowY:
+                          state.ComplianceList?.getComplianceComments?.comments
+                            ?.length > 2
+                            ? "auto"
+                            : "hidden",
+                        padding: "10px",
+                        backgroundColor: "#F4F5F7",
+                        borderRadius: "10px",
                       }}
                     >
-                      <img
-                        src={send}
-                        alt="Send"
+                      {state.ComplianceList?.getComplianceComments?.comments &&
+                        state.ComplianceList?.getComplianceComments?.comments.map(
+                          (item, index) => {
+                            let Dated = new Date(item.created_at);
+
+                            let day = Dated.getDate();
+                            let month = Dated.getMonth();
+                            let year = Dated.getFullYear();
+
+                            const monthNames = [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ];
+
+                            let formattedMonth = monthNames[month];
+                            let formattedDate = `${day} ${formattedMonth} ${year}`;
+
+                            return (
+                              <div
+                                key={index}
+                                className="row"
+                                style={{
+                                  borderBottom: "1px solid #EDF0F4",
+                                  paddingBottom: "10px",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      item.profile?.trim() &&
+                                      item.profile !== "0"
+                                        ? item.profile
+                                        : User
+                                    }
+                                    alt="User"
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      borderRadius: "50%",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                  <div>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "16px",
+                                        fontWeight: "bold",
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      {item.name}
+                                    </p>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "14px",
+                                        color: "#666666",
+                                      }}
+                                    >
+                                      {formattedDate}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <p
+                                  style={{
+                                    wordWrap: "break-word",
+                                    overflowWrap: "break-word",
+                                    whiteSpace: "pre-wrap",
+                                    maxWidth: "100%",
+                                    marginTop: "8px",
+                                    fontSize: "16px",
+                                    fontWeight: "400",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {item.comment}
+                                </p>
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                  </Modal.Body>
+
+                  <Modal.Footer style={{ border: "none" }}>
+                    <div
+                      style={{
+                        marginTop: 15,
+                        position: "relative",
+                        display: "inline-block",
+                        width: "100%",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={comments}
+                        onChange={(e) => handleComments(e)}
                         style={{
-                          width: "20px",
-                          height: "20px",
+                          border: "1px solid #E7E7E7",
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          paddingLeft: 16,
+                          width: "100%",
+                          height: "52px",
+                          borderRadius: "12px",
                         }}
-                        onClick={handleAddComment}
+                        placeholder="Post your reply here"
                       />
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          backgroundColor: "#1E45E1",
+                          border: "1px solid #E7E7E7",
+                          borderRadius: "60px",
+                          padding: "12px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <img
+                          src={send}
+                          alt="Send"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                          }}
+                          onClick={handleAddComment}
+                        />
+                      </div>
+                      {commentError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {commentError}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    {commentError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{commentError}</span>
-                                      </div>
-                                    )}
-                    </div>
-                    
-                </Modal.Footer>
-              </Modal.Dialog>
-            </Modal>
-  
+                  </Modal.Footer>
+                </Modal.Dialog>
+              </Modal>
             </div>
-
-
-           
-
-
-
-
-
 
             <Modal
               show={showChangeStatus}
@@ -1451,11 +1529,6 @@ const ComplianceList = (props) => {
                 </Modal.Footer>
               </Modal.Dialog>
             </Modal>
-
-
-
-
-          
 
             {/* Background overlay */}
             {/* {showAssignComplaint && (
