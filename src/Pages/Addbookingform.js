@@ -519,7 +519,7 @@ function BookingModal(props) {
           />
         </Modal.Header>
         <Modal.Body>
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center" >
             <div
               className=""
               style={{ height: 100, width: 100, position: "relative" }}
@@ -589,8 +589,8 @@ function BookingModal(props) {
           </div>
 
           <Row>
-            <Col md={6}>
-              <Form.Group controlId="formFirstName" className="mb-3">
+            <Col md={6} className="mb-3">
+              <Form.Group controlId="formFirstName" >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -600,6 +600,10 @@ function BookingModal(props) {
                   }}
                 >
                   First Name
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -632,8 +636,8 @@ function BookingModal(props) {
                 </div>
               )}
             </Col>
-            <Col md={6}>
-              <Form.Group controlId="formLastName" className="mb-3">
+            <Col md={6} className="mb-3">
+              <Form.Group controlId="formLastName" >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -643,10 +647,10 @@ function BookingModal(props) {
                   }}
                 >
                   Last Name{" "}
-                  <span style={{ color: "transparent", fontSize: "20px" }}>
+                  {/* <span style={{ color: "transparent", fontSize: "20px" }}>
                     {" "}
                     *{" "}
-                  </span>
+                  </span> */}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -656,6 +660,7 @@ function BookingModal(props) {
                     color: "rgba(75, 75, 75, 1)",
                     fontFamily: "Gilroy",
                     height: "50px",
+                    marginTop:5
                   }}
                   value={lastName}
                   isInvalid={!!formErrors.lastName}
@@ -665,7 +670,7 @@ function BookingModal(props) {
             </Col>
           </Row>
           <Row>
-            <Col md={6}>
+            <Col md={6} className="mb-3">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -676,6 +681,10 @@ function BookingModal(props) {
                   }}
                 >
                   Mobile number
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
 
                 <InputGroup>
@@ -737,7 +746,7 @@ function BookingModal(props) {
                 </InputGroup>
                 <p
                   id="MobileNumberError"
-                  style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                  style={{ color: "red", fontSize: 11, marginTop: "-13px" }}
                 ></p>
                 {phoneError && (
                   <div style={{ color: "red" }}>
@@ -788,8 +797,8 @@ function BookingModal(props) {
               </Form.Group>
             </Col>
 
-            <Col md={6}>
-              <Form.Group controlId="formLastName" className="mb-3">
+            <Col md={6} >
+              <Form.Group controlId="formLastName" >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -808,6 +817,7 @@ function BookingModal(props) {
                     color: "rgba(75, 75, 75, 1)",
                     fontFamily: "Gilroy",
                     height: "50px",
+                    marginTop:5
                   }}
                   value={Email}
                   isInvalid={!!formErrors.lastName}
@@ -876,8 +886,8 @@ function BookingModal(props) {
               )}
             </Col>
           </Row>
-          <Col md={12}>
-            <Form.Group controlId="formFirstName" className="mb-3">
+          <Col md={12} className="mb-3">
+            <Form.Group controlId="formFirstName">
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -887,6 +897,10 @@ function BookingModal(props) {
                 }}
               >
                 Address
+                <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -919,9 +933,9 @@ function BookingModal(props) {
             )}
           </Col>
 
-          <Row>
+          <Row className="mb-3">
             <Col md={6}>
-              <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Group  controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1014,7 +1028,7 @@ function BookingModal(props) {
             </Col>
           </Row>
 
-          <Modal.Footer>
+          <Modal.Footer style={{ borderTop: "none" }}>
             <Button
               variant="primary"
               type="submit"
