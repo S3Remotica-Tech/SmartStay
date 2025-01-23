@@ -10,6 +10,7 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
+import DatePicker from 'react-datepicker';
 import {
   ArrowUp2,
   ArrowDown2,
@@ -169,11 +170,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     maxDate: "today",
   };
 
-  const handleDateChange = (selectedDates) => {
-    setSelectedDate(selectedDates[0]);
-    setGeneralError("");
-    setDateError("");
-  };
+  // const handleDateChange = (selectedDates) => {
+  //   setSelectedDate(selectedDates[0]);
+  //   setGeneralError("");
+  //   setDateError("");
+  // };
 
   const handleAddress = (e) => {
     const value = e.target.value;
@@ -350,6 +351,38 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     setAdvanceAmountError("");
     setGeneralError("");
   };
+
+
+  const customDateInput = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                    width: "100%",
+                    height: 50,
+                    boxSizing: "border-box",
+                    boxShadow: "none"
+                }}
+            />
+            <img 
+                src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
 
   return (
     <div>
@@ -807,7 +840,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     )}
                   </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group
                       className="mb-2"
                       controlId="exampleForm.ControlInput1"
@@ -894,7 +927,40 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         </label>
                       </div>
                     )}
-                  </div>
+                  </div> */}
+
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                </Form.Label>
+                <div style={{ position: 'relative', width: "100%" }}>
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => {
+                            setDateError('');
+                            setSelectedDate(date);
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                        minDate={null}
+                        maxDate={null} 
+                        customInput={customDateInput({
+                            value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
+                                ? selectedDate.toLocaleDateString('en-GB')
+                                : '', 
+                        })}
+                    />
+                </div>
+            </Form.Group>
+
+            {dateError && (
+                <div style={{ color: "red" }}>
+                    <MdError />
+                    {dateError}
+                </div>
+            )}
+        </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="">
