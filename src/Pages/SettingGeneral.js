@@ -1211,9 +1211,9 @@ function SettingGeneral() {
           </div>
         </div>
         <Modal.Body>
-          <div className="row ">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+          <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1244,8 +1244,8 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {firstNameError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
+                <div style={{ color: "red",fontSize:"13px" }}>
+                  <MdError style={{marginRight:"2px"}} />
                   {firstNameError}
                 </div>
               )}
@@ -1258,7 +1258,7 @@ function SettingGeneral() {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1296,7 +1296,7 @@ function SettingGeneral() {
                 )} */}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -1355,30 +1355,13 @@ function SettingGeneral() {
                 </InputGroup>
                 <p
                   id="MobileNumberError"
-                  style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                  style={{ color: "red"}}
                 ></p>
-                {/* {phoneError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phoneError}
-                        </div>
-                      )}
-                      {phonenumError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phonenumError}
-                        </div>
-                      )}
-                      {phoneErrorMessage && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phoneErrorMessage}
-                        </div>
-                      )} */}
+              
               </Form.Group>
               {phoneError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
+                <div style={{ color: "red",marginTop:"-12px",fontSize:"13px"}}>
+                  <MdError style={{marginRight:"3px",marginBottom:"1px"}} />
                   {phoneError}
                 </div>
               )}
@@ -1397,7 +1380,7 @@ function SettingGeneral() {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1428,8 +1411,8 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {emailError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
+                <div style={{ color: "red",fontSize:"13px"}}>
+                  <MdError style={{marginRight:"3px",marginBottom:"1px"}}/>
                   {emailError}
                 </div>
               )}
@@ -1448,63 +1431,10 @@ function SettingGeneral() {
               )}
             </div>
 
-            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  
-    <Form.Group className="mb-3">
-      <Form.Label
-        style={{
-          fontSize: 14,
-          color: "#222222",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-        }}
-      >
-        Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
-      </Form.Label>
-      <InputGroup>
-        <FormControl
-          id="form-controls"
-          placeholder="Enter password"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => handlePassword(e)}
-          style={{
-            fontSize: 16,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            borderRight: "none", // Remove the right border
-            height: "50px",
-            borderRadius: "8px 0 0 8px",
-          }}
-        />
-        <InputGroup.Text
-          className="border-start-0"
-          onClick={() => setShowPassword(!showPassword)}
-          aria-label={showPassword ? "Hide Password" : "Show Password"}
-          style={{
-            backgroundColor: "#fff",
-            border: "1px solid #D9D9D9",
-            borderLeft: "none", // Ensure no overlap with the input
-            cursor: "pointer",
-            borderRadius: "0 8px 8px 0",
-          }}
-        >
-          {showPassword ? (
-            <img src={eye} alt="Hide Password" width={20} height={20} />
-          ) : (
-            <img src={eyeClosed} alt="Show Password" width={20} height={20} />
-          )}
-        </InputGroup.Text>
-      </InputGroup>
-    </Form.Group>
 
-</div> */}
             {!edit && (
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <Form.Group className="">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1568,8 +1498,8 @@ function SettingGeneral() {
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
+                  <div style={{ color: "red",fontSize:"13px" }}>
+                    <MdError style={{marginRight:"3px",marginBottom:"1px"}}/>
                     {passwordError}
                   </div>
                 )}
@@ -1577,7 +1507,7 @@ function SettingGeneral() {
             )}
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1608,21 +1538,16 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {addressError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
+                <div style={{ color: "red",fontSize:"13px" }}>
+                  <MdError  style={{marginRight:"3px",marginBottom:"1px"}}/>
                   {addressError}
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
-        {/* {error && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {error}
-                  </div>
-                )}  */}
-        <Modal.Footer className="d-flex justify-content-center">
+       
+        <Modal.Footer className="d-flex justify-content-center"style={{borderTop:"none"}}>
           {formError && (
             <div style={{ color: "red" }}>
               <MdError />
