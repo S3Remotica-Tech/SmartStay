@@ -1091,7 +1091,7 @@ function SettingGeneral() {
               fontFamily: "Gilroy",
             }}
           >
-            {/* {props.edit ? "Edit Bank" : "Add Bank"} */} General
+             {edit ? "Edit General" : "Add General"} 
           </div>
           <button
             type="button"
@@ -1228,8 +1228,8 @@ function SettingGeneral() {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  {firstNameError}
+                  <MdError style={{fontFamily: "Gilroy",fontSize: '15px',}} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
                 </div>
               )}
               {/* {accountNameError && (
@@ -1293,8 +1293,8 @@ function SettingGeneral() {
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
-                <InputGroup>
-                  <Form.Select
+                {/* <InputGroup> */}
+                  {/* <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
                     // onChange={handleCountryCodeChange}
@@ -1314,7 +1314,7 @@ function SettingGeneral() {
                     }}
                   >
                     <option>+{countryCode}</option>
-                  </Form.Select>
+                  </Form.Select> */}
                   <Form.Control
                     value={Phone}
                     onChange={handlePhone}
@@ -1327,15 +1327,17 @@ function SettingGeneral() {
                       fontFamily: "Gilroy",
                       fontWeight: Phone ? 600 : 500,
                       boxShadow: "none",
-                      borderLeft: "unset",
+                      borderLeft: "1px solid #D9D9D9",
                       borderRight: "1px solid #D9D9D9",
                       borderTop: "1px solid #D9D9D9",
                       borderBottom: "1px solid #D9D9D9",
                       height: 50,
-                      borderRadius: "0 8px 8px 0",
+                      borderRadius: "8px 8px 8px 8px",
+                      paddingLeft: "12px",
+                      width: "100%",
                     }}
                   />
-                </InputGroup>
+                {/* </InputGroup> */}
                 <p
                   id="MobileNumberError"
                   style={{ color: "red", fontSize: 11, marginTop: 5 }}
@@ -1362,19 +1364,19 @@ function SettingGeneral() {
               {phoneError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {phoneError}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
                 </div>
               )}
               {phoneErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  {phoneErrorMessage}
+                  <MdError/>
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                 </div>
               )}
               {phoneAlready && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {phoneAlready}
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
             </div>
@@ -1412,21 +1414,21 @@ function SettingGeneral() {
               </Form.Group>
               {emailError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  {emailError}
+                  <MdError/>
+                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
               )}
               {emailAlready && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {emailAlready}
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
                 </div>
               )}
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  {emailErrorMessage}
+                  <MdError/>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                 </div>
               )}
             </div>
@@ -1553,7 +1555,7 @@ function SettingGeneral() {
                 {!edit && passwordError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {passwordError}
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
               </div>
@@ -1591,9 +1593,9 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {addressError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {addressError}
+                <div style={{ color: "red"}}>
+                  <MdError style={{fontFamily: "Gilroy",fontSize: '15px',}} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                 </div>
               )}
             </div>
@@ -1609,8 +1611,8 @@ function SettingGeneral() {
           {formError && (
             <div style={{ color: "red" }}>
               <MdError />
-              {formError}
-            </div>
+             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+            </div> 
           )}
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
@@ -1625,7 +1627,7 @@ function SettingGeneral() {
             }}
             onClick={handleSave}
           >
-            {/* {props.edit ? "save changes" : "Add Bank"} */}Add
+            {edit ? "Save changes" : "Add General"} 
           </Button>
         </Modal.Footer>
       </Modal>

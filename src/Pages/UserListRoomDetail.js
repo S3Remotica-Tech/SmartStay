@@ -50,6 +50,8 @@ import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
 
 function UserListRoomDetail(props) {
+  console.log(props,"propssroom");
+  
   const state = useSelector((state) => state);
   console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
@@ -1176,6 +1178,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       zIndex: 1000,
                       backgroundColor: "#FFFFFF",
                       height: 60,
+                      marginLeft:'20px'
                     }}
                   >
                     <img
@@ -1196,7 +1199,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       Cutomer Profile
                     </span>{" "}
                   </div>
-                  <div className="card mt-1" style={{ borderRadius: "24px" }}>
+                  <div className="card mt-1" style={{ borderRadius: "24px",marginLeft:'20px' }}>
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image
@@ -1403,6 +1406,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 style={{
                                   borderRadius: "20px",
                                   padding: "20px",
+                                  marginLeft:'20px'
                                 }}
                               >
                                 <div
@@ -1735,13 +1739,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 </div>
                               </div>
                             </div>
-
+                             <div className="col-lg-12 col-md-12">
                             <div
-                              className="card col-lg-12 col-md-12  "
+                              className="card"
                               style={{
                                 borderRadius: "20px",
-                                padding: "20px",
+                                padding: "30px",
                                 marginTop: 30,
+                                marginLeft:'20px',
+                                
                               }}
                             >
                               {/* Header */}
@@ -1753,6 +1759,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   alignItems: "center",
                                   borderBottom: "1px solid #e0e0e0",
                                   marginBottom: "15px",
+                                 
                                 }}
                               >
                                 <div
@@ -1877,6 +1884,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   )}
                                 </div>
                               </div>
+                            </div>
                             </div>
                           </div>
 
@@ -3518,7 +3526,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       <UserEb id={props.id} />{" "}
                     </TabPanel>
                     <TabPanel value="3">
-                      <UserListInvoice id={props.id} />
+                      <UserListInvoice id={props.id} roomDetail={props.roomDetail} setRoomDetail={props.setRoomDetail} />
                     </TabPanel>
 
                     {/* <TabPanel value="4">

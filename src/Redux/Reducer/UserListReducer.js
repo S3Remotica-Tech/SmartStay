@@ -91,8 +91,9 @@ const initialState = {
     statusCodeForUploadDocument:0,
     uploaddocu:[],
     statusCodeForOtherDocu:0,
-    otherUploaddocu:[]
-
+    otherUploaddocu:[],
+   userRoomfor :null,
+  
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -439,6 +440,12 @@ const UserListReducer = (state = initialState, action) => {
                     case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
                         return { ...state, statusCodeForOtherDocu: 0 }
 
+                        case 'USERROOMAVAILABLETRUE':
+                            return {...state,userRoomfor:true}
+                        case 'USERROOMAVAILABLEFALSE':
+                            return {...state,userRoomfor:false}
+
+                       
     }
     return state;
 }

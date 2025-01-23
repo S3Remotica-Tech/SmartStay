@@ -89,6 +89,18 @@ function UserList(props) {
       payload: { hostel_id: uniqueostel_Id },
     });
   }, [uniqueostel_Id]);
+      useEffect(() =>{
+          if(state.UsersList.userRoomfor){
+           
+            console.log("state.UsersList.userRoomfor",state.UsersList.userRoomfor);
+            // setIsEditing(true);
+              // props.setRoomDetail(false)
+              setRoomDetail(false)
+              console.log(roomDetail,"roo");
+              
+               
+          }
+        },[state.UsersList.userRoomfor])
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
@@ -416,6 +428,7 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
+  
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
