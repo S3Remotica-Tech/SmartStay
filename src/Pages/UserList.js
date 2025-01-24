@@ -2182,34 +2182,7 @@ console.log("end",formattedEndDate);
                   />
                 </TabList>
               </Box>
-              {loading &&
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: '200px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>
-              }
+            
               <TabPanel value="1" style={{ paddingLeft: 0 }}>
                 {customerpermissionError ? (
                   <>
@@ -2420,74 +2393,101 @@ console.log("end",formattedEndDate);
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
                               {loading
-                                ? Array.from({
-                                  length: currentItems?.length || 5,
-                                }).map((_, index) => (
-                                  <tr key={index}>
-                                    <td
-                                      style={{
-                                        borderBottom:
-                                          index === 0
-                                            ? "none"
-                                            : "1px solid #DCDCDC",
-                                      }}
-                                    >
-                                      <Skeleton
-                                        circle={true}
-                                        height={40}
-                                        width={40}
-                                      />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={80} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={120} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={50} />
-                                    </td>
-                                    <td
-                                      style={{
-                                        padding: "10px",
-                                        border: "none",
-                                      }}
-                                    >
-                                      <Skeleton width={50} />
-                                    </td>
-                                  </tr>
-                                ))
+                                ?
+                                <div
+                                  style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: '200px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'transparent',
+                                    opacity: 0.75,
+                                    zIndex: 10,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      borderTop: '4px solid #1E45E1',
+                                      borderRight: '4px solid transparent',
+                                      borderRadius: '50%',
+                                      width: '40px',
+                                      height: '40px',
+                                      animation: 'spin 1s linear infinite',
+                                    }}
+                                  ></div>
+                                </div>
+                                // Array.from({
+                                //   length: currentItems?.length || 5,
+                                // }).map((_, index) => (
+                                //   <tr key={index}>
+                                //     <td
+                                //       style={{
+                                //         borderBottom:
+                                //           index === 0
+                                //             ? "none"
+                                //             : "1px solid #DCDCDC",
+                                //       }}
+                                //     >
+                                //       <Skeleton
+                                //         circle={true}
+                                //         height={40}
+                                //         width={40}
+                                //       />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={80} />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={120} />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={120} />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={120} />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={50} />
+                                //     </td>
+                                //     <td
+                                //       style={{
+                                //         padding: "10px",
+                                //         border: "none",
+                                //       }}
+                                //     >
+                                //       <Skeleton width={50} />
+                                //     </td>
+                                //   </tr>
+                                // ))
                                 : currentItems.map((user) => {
                                   const imageUrl = user.profile || Profile;
                                   return (
