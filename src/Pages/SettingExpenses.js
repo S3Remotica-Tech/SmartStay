@@ -458,7 +458,7 @@ function SettingExpenses({ hostelid }) {
   
             }}
             disabled={showPopup}
-          >{" "}+  Category</Button></div>
+          >{" "}+ Category</Button></div>
 
       </div>
       {showPopup && (
@@ -694,7 +694,9 @@ function SettingExpenses({ hostelid }) {
                   <div className='d-flex flex-column '>
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category</Form.Label>
+                        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category
+                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                        </Form.Label>
                         {isSubCategory ? (
                           <Form.Control
                             as="select"
@@ -722,8 +724,8 @@ function SettingExpenses({ hostelid }) {
 
                         {cateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {cateogoryerrmsg}
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px' }}>
+                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:"3px" }} />} {cateogoryerrmsg}
                             </p>
                           </div>
                         )}

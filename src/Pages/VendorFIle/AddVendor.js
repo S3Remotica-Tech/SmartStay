@@ -532,7 +532,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 fontWeight: 600,
               }}
             >
-              {check === "EDIT" ? "Edit a vendor " : "Add a vendor"}
+              {check === "EDIT" ? "Edit a vendor " : ""}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose}
@@ -645,7 +645,6 @@ function AddVendor({ show, handleClose, currentItem }) {
             <div className="row mt-4">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -707,9 +706,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                     }}
                   >
                     Last Name{" "}
-                    <span style={{ color: "transparent", fontSize: "20px" }}>
-                      *
-                    </span>
+                   
                   </Form.Label>
                   <Form.Control
                     value={last_Name}
@@ -725,6 +722,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      marginTop:5
                     }}
                   />
                 </Form.Group>
@@ -841,9 +839,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                     }}
                   >
                     Email ID{" "}
-                    <span style={{ color: "transparent", fontSize: "20px" }}>
-                      *
-                    </span>
+                  
                   </Form.Label>
                   <Form.Control
                     value={email_Id}
@@ -859,6 +855,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      marginTop:5
                     }}
                   />
                   {emailError && (
