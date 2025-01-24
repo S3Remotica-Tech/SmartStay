@@ -9,12 +9,13 @@ import User from "../Assets/Images/Profile-complaint.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
-import Delete from "../Assets/Images/New_images/trash.png";
+// import Delete from "../Assets/Images/New_images/trash.png";
 import { useDispatch, useSelector } from "react-redux";
 
 
 const InvoiceSettingsList = (props) => {
- 
+ console.log(props,"props");
+
   const dispatch = useDispatch();
    const state = useSelector((state) => state);
 
@@ -29,9 +30,9 @@ const InvoiceSettingsList = (props) => {
     setShowDots(!showDots);
   };
 
-  const handleEditInvoice = (item) => {
-    props.OnEditInvoice(item);
-  };
+  // const handleEditInvoice = (item) => {
+  //   props.OnEditInvoice(item);
+  // };
 
  
 
@@ -105,9 +106,9 @@ const InvoiceSettingsList = (props) => {
 
   
 
-  // const handleEdit = (item) => {
-  //   props.OnEditInvoice(item)
-  // }
+  const handleEdit = (item) => {
+    props.OnEditInvoice(item)
+  }
 
   return (
     <>
@@ -199,7 +200,7 @@ const InvoiceSettingsList = (props) => {
               </label>
             </div>
 
-            <div>
+            {/* <div>
               <div
                 style={{
                   height: 40,
@@ -223,10 +224,10 @@ const InvoiceSettingsList = (props) => {
                       style={{
                         backgroundColor: "#FFFFFF",
                         position: "absolute",
-                        right: 0,
+                        right: 20,
                         top: 50,
-                        width: 163,
-                        height: 92,
+                        width: 113,
+                        height: 42,
                         border: "1px solid #EBEBEB",
                         borderRadius: 10,
                         display: "flex",
@@ -239,9 +240,6 @@ const InvoiceSettingsList = (props) => {
                         <div
                          onClick={()=>handleEditInvoice(props.item)}
                           className={"mb-2"}
-                          // onClick={() => {
-                          //     handleEdit(props.item);
-                          // }}
                           style={{
                             cursor: "pointer",
                           }}
@@ -297,12 +295,13 @@ const InvoiceSettingsList = (props) => {
                             Delete
                           </label>
                         </div>
+
                       </div>
                     </div>
                   </>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
           <hr style={{ border: "1px solid #E7E7E7" }} />
 

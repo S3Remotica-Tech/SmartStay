@@ -33,12 +33,20 @@ function SettingNewUser({ hostelid }) {
     const [deleteId, setDeleteId] = useState('')
     const [isConfirmDelete, setIsConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
 
     // Function Declare//////////////////////////////////////////////////////////
 
-    const handleDotsClick = (index) => {
+    const handleDotsClick = (index,event) => {
 
         setShowDots((prev) => (prev === index ? null : index));
+const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
     };
 
 
@@ -160,7 +168,10 @@ function SettingNewUser({ hostelid }) {
                 <div
                     style={{
                         position: 'absolute',
-                        inset: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: '200px',
                         height: "60vh",
                         display: 'flex',
                         alignItems: 'center',
@@ -202,10 +213,24 @@ function SettingNewUser({ hostelid }) {
                 <div>
                     <Button
                         onClick={handleOpenAddUser}
+                        // style={{
+                        //     fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                        //     fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        // }}
                         style={{
-                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
-                        }}
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: "8px",
+                            padding: "10px 12px",
+                            width: "auto",
+                            maxWidth: "100%",
+                            maxHeight: 50,
+
+                
+                          }}
                         disabled={showPopup}
                     >
 
@@ -409,10 +434,11 @@ function SettingNewUser({ hostelid }) {
                                                         justifyContent: "center",
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
-                                                        position: "relative"
+                                                        position: "relative",
+                                                        backgroundColor: showDots  ? "#E7F1FF" : "white",
                                                     }}
 
-                                                    onClick={() => handleDotsClick(index)}
+                                                    onClick={(e) => handleDotsClick(index,e)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
                                                         style={{ height: "20px", width: "20px" }}
@@ -425,8 +451,9 @@ function SettingNewUser({ hostelid }) {
                                                                 cursor: "pointer",
                                                                 backgroundColor: "#F9F9F9",
                                                                 position: "absolute",
-                                                                top: 30,
-                                                                right: 30,
+                                                                position: "fixed",
+                                                                top: popupPosition.top,
+                                                                left: popupPosition.left,
                                                                 width: 160,
                                                                 height: 70,
                                                                 border: "1px solid #EBEBEB",

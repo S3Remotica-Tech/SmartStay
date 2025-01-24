@@ -291,10 +291,24 @@ function SettingAmenities({ hostelid }) {
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
+                        // style={{
+                        //     fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                        //     fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        // }}
                         style={{
-                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
-                        }}
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: "8px",
+                            padding: "10px 12px",
+                            width: "auto",
+                            maxWidth: "100%",
+                            maxHeight: 50,
+
+                
+                          }}
                         disabled={showPopup}
                     >
                         {" "}
@@ -515,11 +529,14 @@ function SettingAmenities({ hostelid }) {
                 <div
                     style={{
                         position: 'absolute',
-                        inset: 0,
-                        display: 'flex',
-                        height:"50vh",
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: '200px',
+                            display: 'flex',
+                            height: "50vh",
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         backgroundColor: 'transparent',
                         opacity: 0.75,
                         zIndex: 10,

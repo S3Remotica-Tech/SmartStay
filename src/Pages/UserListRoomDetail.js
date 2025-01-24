@@ -48,6 +48,8 @@ import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
+import docDown from "../Assets/Images/New_images/doc_download.png";
+import axios from "axios";
 
 function UserListRoomDetail(props) {
   console.log(props,"propssroom");
@@ -953,7 +955,48 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  console.log("state.UsersList?.customerdetails?.data",advanceDetail[0]?.inv_id)
+  console.log("advanceDetail[0]?.doc1",advanceDetail[0]?.doc1)
+  
+  
+  // const handleButtonClick = async () => {
+  //   const pdfUrl = advanceDetail[0]?.doc1;
+
+  //   if (pdfUrl) {
+  //     console.log("PDF URL", pdfUrl);
+
+  //     const pdfWindow = window.open(pdfUrl, "_blank");
+  //     if (pdfWindow) {
+  //       console.log("PDF opened successfully.");
+  //       // setShowLoader(false);
+  //     } else {
+  //       console.error("Failed to open the PDF.");
+  //     }
+  //   }
+  // };
+  
+  
+  const handleButtonClick = () => {
+    const pdfUrl = advanceDetail[0]?.doc1;
+  
+    if (pdfUrl && pdfUrl.startsWith("http")) {
+      console.log("Opening PDF URL:", pdfUrl);
+  
+      // Open PDF in a new tab
+      const newTab = window.open(pdfUrl, "_blank", "noopener,noreferrer");
+  
+      if (!newTab) {
+        alert("Please allow pop-ups to view the PDF.");
+      }
+    } else {
+      alert("Invalid PDF URL!");
+      console.error("Invalid or missing PDF URL:", pdfUrl);
+    }
+  };
+  
+  
+  
+  
+
   const customDateInput = (props) => {
     return (
       <div
@@ -1020,58 +1063,12 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
   // const otherDocInputRef = useRef();
 
 const [otherFile,setOtherFile] = useState(null)
+const [uploadError,setUploadError]= useState("")
 
-  const handleOtherDocUploadClick = (e, type) => {
-    if (e.target.files && e.target.files[0]) {
-      setOtherFile(e.target.files[0].name);
-      dispatch({
-        type: "UPLOADOTHERDOCUMENT",
-        payload: {
-          user_id: props.id,
-          type:'doc2',
-          file1: e.target.files[0],
-        },
-      });
-    }
-  };
-  const handleOtherDocument = (ref) => {
-    ref.current.click(); // Trigger the hidden file input
-  };
-
-
-
- 
-
-  // const handleAadharUploadClick = () => {
-  //   const aadharInputRef = document.getElementById('aadharInput');
-  //   if (aadharInputRef.current) {
-  //     aadharInputRef.current.click();
-
-
-  //   }
-   
-  //   dispatch({ type: "UPLOADDOCUMENT", payload: {user_id: props.id,type:'doc1',file1:aadharInputRef.files[0]}});
-  // };
-console.log("aadharInputRef",aadharInputRef)
-  // Handle Other Document upload click
-  // const handleOtherDocUploadClick = () => {
-  //   if (otherDocInputRef.current) {
-  //     otherDocInputRef.current.click();
-  //   }
-  // };
-
-  // Handle file selection
-  // const handleFileChange = (e, type) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     if (type === "aadhar") {
-  //       setAadharFile(file.name); // Store file name for Aadhar
-  //     } else if (type === "otherDoc") {
-  //       setOtherDocFile(file.name); // Store file name for Other Document
-  //     }
-  //   }
-  // };
-
+// useEffect(()=>{
+//   setUploadError(state.UsersList.adharuploadfileError)
+// },[state.UsersList.adharuploadfileError])
+  
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -1100,22 +1097,37 @@ console.log("aadharInputRef",aadharInputRef)
   };
 
   const handleUploadClick = (ref) => {
-    ref.current.click(); // Trigger the hidden file input
+    ref.current.click(); 
+    setUploadError("")
+    dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
+    
   };
-
   useEffect(()=>{
-    if(state.UsersList.statusCodeForUploadDocument === 200){
+    if(state.UsersList.statuscodeForAdharFileError === 201){
+      setUploadError(state.UsersList.adharuploadfileError)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+      }, 100);
+    }
+  },[state.UsersList.statuscodeForAdharFileError])
+  const handleOtherUploadClick = (ref) => {
+    ref.current.click(); 
+  };
+  console.log("state.UsersList.statusCodeForUploadDocument",state.UsersList.statusCodeForUploadDocument)
+  useEffect(()=>{
+    if(state.UsersList.statusCodeForUploadDocument == 200){
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
-      }, 100);
+      }, 500);
     }
       },[state.UsersList.statusCodeForUploadDocument])
 
+      console.log("state.UsersList.statusCodeForOtherDocu",state.UsersList.statusCodeForOtherDocu)
 
 
       useEffect(()=>{
-        if(state.UsersList.statusCodeForOtherDocu === 200){
+        if(state.UsersList.statusCodeForOtherDocu == 200){
           dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
           setTimeout(() => {
             dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
@@ -1171,8 +1183,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
               return (
                 <div
                   key={item.ID}
-                  className="container"
-                  style={{ marginLeft: "-20px" }}
+                  className="container mt-2"
+                  // style={{ marginLeft: "-20px" }}
                 >
                   <div
                     className="container justify-content-start  d-flex align-items-start"
@@ -1818,13 +1830,23 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         />
         Upload Document
       </button>
-      <input
+       <input
          type="file"
          ref={aadharInputRef}
          style={{ display: "none" }}
          onChange={(e) => handleFileChange(e, "doc1")}
-      />
-      {aadharFile && (
+         
+      />  
+      {/* <img src={docDown} style={{width:20,height:20}}/> */}
+      {/* {advanceDetail && advanceDetail[0]?.doc1 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+{advanceDetail[0]?.doc1 && (
+  <a href={advanceDetail[0]?.doc1} target="_blank" rel="noopener noreferrer">
+    <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+  </a>
+)}
+   {/* {aadharFile && (
         <div
           style={{
             marginTop: "10px",
@@ -1834,7 +1856,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         >
           {aadharFile}
         </div>
-      )}
+      )} */}
+     {uploadError && (
+                               <div style={{ color: "red" }}>
+                                 <MdError />
+                                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{uploadError}</span> 
+                               </div>
+                             )}
     </div>
 
                                 {/* Other Document */}
@@ -1858,7 +1886,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       border: "1px solid #D9D9D9",
                                     }}
                                     // onClick={handleOtherDocument}
-                                    onClick={() => handleUploadClick(otherDocInputRef)}
+                                    onClick={() => handleOtherUploadClick(otherDocInputRef)}
                                   >
                                     <img
                                       src={upload}
@@ -1876,8 +1904,22 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     //   handleOtherDocUploadClick(e, "doc2")
                                     // }
                                     onChange={(e) => handleFileChange(e, "doc2")}
-                                  />
-                                  {otherFile && (
+                                  />  
+                                  {/* <img src={docDown} style={{width:20,height:20}}/> */}
+                                  {/* {advanceDetail && advanceDetail[0]?.doc2 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+
+
+{advanceDetail && advanceDetail[0]?.doc2 && (
+  <img
+    src={docDown}
+    style={{ width: 20, height: 20, marginLeft: "10px", cursor: "pointer" }}
+    alt="Download Document"
+    onClick={() => window.open(advanceDetail[0]?.doc2, "_blank")}
+  />
+)}
+                                  {/* {otherFile && (
                                     <div
                                       style={{
                                         marginTop: "10px",
@@ -1887,7 +1929,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       Selected File: {otherFile}
                                     </div>
-                                  )}
+                                  )} */}
                                 </div>
                               </div>
                             </div>

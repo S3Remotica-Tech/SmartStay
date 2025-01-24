@@ -207,17 +207,28 @@ function CheckOut(props) {
 
 
   const [activeRow, setActiveRow] = useState(null)
-
-  const toggleMoreOptions = (id, checkout) => {
-
-
-
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+  const toggleMoreOptions = (id, checkout, event) => {
     setCheckOutConfirm(checkout)
     if (activeDotsId === id) {
       setActiveDotsId(null);
     } else {
       setActiveDotsId(id);
     }
+
+
+const { top, left, width, height } = event.target.getBoundingClientRect();
+const popupTop = top + (height / 2);
+const popupLeft = left - 200;
+
+setPopupPosition({ top: popupTop, left: popupLeft });
+
+
+
+
+
+
   };
 
   const handleDotsClick = (id, checkout) => {
@@ -592,7 +603,7 @@ function CheckOut(props) {
                         return (
                           <tr key={checkout.ID} className="customer-row">
 
-                            <td>
+                            <td style={{verticalAlign: "middle"}}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -602,7 +613,8 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
-                                    textAlign: "start"
+                                    textAlign: "start",
+                                    verticalAlign: "middle"
                                   }}
                                   className="ms-2 customer-name"
                                 >
@@ -620,6 +632,7 @@ function CheckOut(props) {
                                 color: "#000000",
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               +
@@ -640,6 +653,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -655,6 +669,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.Floor}
@@ -670,6 +685,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -685,6 +701,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.room_name}
@@ -699,6 +716,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -714,6 +732,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.bed_name}
@@ -728,6 +747,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -743,6 +763,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
@@ -784,6 +805,7 @@ function CheckOut(props) {
                               fontSize: "16px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              verticalAlign: "middle",
                               whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
                             }}>
                               {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span
@@ -804,8 +826,9 @@ function CheckOut(props) {
                                   position: "relative",
                                   zIndex:
                                     activeDotsId === checkout.ID ? 1000 : "auto",
+                                    backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
                                 }}
-                                onClick={() => toggleMoreOptions(checkout.ID, checkout)}
+                                onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
                               // onClick={() => handleDotsClick(checkout.id , checkout)}
                               >
                                 <PiDotsThreeOutlineVerticalFill
@@ -818,8 +841,10 @@ function CheckOut(props) {
                                     style={{
                                       cursor: "pointer",
                                       backgroundColor: "#EBEBEB",
-                                      position: "absolute",
-                                      right: 0,
+                                      position: "fixed",
+                                      top: currentCustomers.length >= 6 ?  popupPosition.top : 5,
+                                      left: currentCustomers.length >= 6 ? popupPosition.left :  popupPosition.left - 20,
+                                      
                                       width: 200,
                                       border: "1px solid #EBEBEB",
                                       borderRadius: 12,

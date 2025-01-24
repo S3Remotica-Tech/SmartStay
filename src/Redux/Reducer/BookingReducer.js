@@ -12,6 +12,7 @@ const initialState = {
   bookingEmailError: "",
   availableBedBooking: [],
   statusCodeForBedBooking: "",
+  ErrorAssignBooking:""
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -39,7 +40,7 @@ const BookingReducer = (state = initialState, action) => {
       return {
         ...state,
         CustomerBookingList: action.payload.response,
-        StatusCodeAmenitiesGet: action.payload.statusCode,
+        statusCodeGetBooking: action.payload.statusCode,
       };
     case "CLEAR_BOOKING_LIST":
       return { ...state, statusCodeGetBooking: 0 };
@@ -60,6 +61,13 @@ const BookingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ASSIGN_USER_BOOKING":
       return { ...state, statusCodeForAssignBooking: 0 };
+
+      case "ERROR_ASSIGN_BOOKING":
+        return { ...state, ErrorAssignBooking: action.payload };
+        case "REMOVE_ERROR_ASSIGN_BOOKING":
+          return { ...state, ErrorAssignBooking: "" };
+
+
     case "BOOKING_BED_DETAILS":
       return {
         ...state,

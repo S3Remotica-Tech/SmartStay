@@ -246,8 +246,18 @@ function Banking() {
     setdotsshowbank(false);
   };
 
-  const handleEditTrans = (id) => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+  const handleEditTrans = (id, event) => {
     setEditTransaction((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -296,6 +306,7 @@ function Banking() {
 
   const handleShowAddBalance = (item) => {
     setAddBankName(item.bank_name);
+    setAddBankName(item.acc_name);
     setTypeId(item.id);
     setshowAddBalance(true);
     setdotsshowbank(false);
@@ -444,8 +455,14 @@ function Banking() {
               )}
             </div></>
         ) :
-          <div style={{ padding: 10, marginLeft: 10 }}>
-            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+          <div style={{ padding: 10, marginLeft: 10, }}>
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3" style={{
+    position: "fixed",
+    top: 10,
+    left: 260,
+    right: 25,
+    zIndex: 1000,
+  }}>
               <div>
                 <label
                   style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
@@ -610,26 +627,35 @@ function Banking() {
                   />
                 </div>
 
-                {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
-        
-            <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
-            </div> */}
 
                 <div>
                   <Button
                     disabled={bankingAddPermission}
                     onClick={handleShowForm}
+                    // style={{
+                    //   fontSize: 15,
+                    //   backgroundColor: "#1E45E1",
+                    //   color: "white",
+                    //   height: 50,
+                    //   fontWeight: 600,
+                    //   borderRadius: 12,
+                    //   width: 113,
+                    //   padding: "16px, 24px, 16px, 24px",
+                    //   fontFamily: "Gilroy",
+                    // }}
                     style={{
-                      fontSize: 15,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 50,
                       fontWeight: 600,
-                      borderRadius: 12,
-                      width: 113,
-                      padding: "16px, 24px, 16px, 24px",
-                      fontFamily: "Gilroy",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      width: "auto",
+                      maxWidth: "100%",
+                      marginBottom: "10px",
+                      maxHeight: 45,
+                      marginRight:20
                     }}
                   >
                     {" "}
@@ -650,7 +676,7 @@ function Banking() {
         </div>
       )} */}
 
-            <div className="d-flex overflow-auto">
+            <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
               {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
                 state.bankingDetails.bankingList.banks.map((item) => {
                   return (
@@ -678,6 +704,7 @@ function Banking() {
                               }}
                             >
                               {item.bank_name}
+
                             </p>
                             <p
                               className="text-muted mb-0"
@@ -688,7 +715,7 @@ function Banking() {
                                 color: "#4B4B4B",
                               }}
                             >
-                              Savings A/C
+                              {item.acc_name}-Savings A/C
                             </p>
                           </div>
                           <img
@@ -1047,9 +1074,10 @@ function Banking() {
                 <div style={{
                   // height: "400px",
                   height: currentRowTransaction.length >= 4 ? "280px" : "auto",
-                  overflowY: "auto",
+                  overflowY: currentRowTransaction.length >= 4 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
+
                   // borderBottom:"none"
                 }}>
                   <Table
@@ -1201,7 +1229,7 @@ function Banking() {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
-                                paddingLeft:"20px"
+                                paddingLeft: "20px"
                               }}
                             >
                               {user.bank_name}
@@ -1308,9 +1336,10 @@ function Banking() {
                                 fontFamily: "Gilroy",
                                 paddingTop: 15,
                                 position: "relative",
+                                backgroundColor: EditTransaction === user.id  ? "#E7F1FF" : "white",
                                 zIndex: EditTransaction === user.id ? 1000 : "auto",
                               }}
-                              onClick={() => handleEditTrans(user.id)}
+                              onClick={(e) => handleEditTrans(user.id,e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -1321,9 +1350,12 @@ function Banking() {
                                   style={{
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    right: 80,
-                                    top: 8,
+                                    // position: "absolute",
+                                    // right: 80,
+                                    // top: 8,
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
                                     width: 160,
                                     height: 70,
                                     border: "1px solid #EBEBEB",

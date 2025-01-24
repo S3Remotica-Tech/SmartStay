@@ -86,12 +86,15 @@ const initialState = {
     hotelDetailsinPg: [],
     statuscodeForhotelDetailsinPg: 0,
     noAllHosteListStatusCode: 0,
-    generateAdvance:[],
-    statusCodeForGenerateAdvance:0,
-    statusCodeForUploadDocument:0,
-    uploaddocu:[],
-    statusCodeForOtherDocu:0,
-    otherUploaddocu:[],
+    generateAdvance: [],
+    statusCodeForGenerateAdvance: 0,
+    statusCodeForUploadDocument: 0,
+    uploaddocu: [],
+    statusCodeForOtherDocu: 0,
+    otherUploaddocu: [],
+    adharuploadfileError: '',
+    statuscodeForAdharFileError: 0,
+    NoUserListStatusCode: 0,
    userRoomfor :null,
    userProfilebill:null
   
@@ -163,6 +166,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, Users: action.payload.response, UserListStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
+        case 'NO_USER_LIST':
+            return { ...state, NoUserListStatusCode: action.payload.statusCode }
+        case 'CLEAR_NO_USER_LIST':
+            return { ...state, NoUserListStatusCode:0 }
         case 'ADD_USER':
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
@@ -425,21 +432,21 @@ const UserListReducer = (state = initialState, action) => {
 
 
 
-            case 'GENERATE_ADVANCE':
-                return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
-            case 'REMOVE_GENERATE_ADVANCE':
-                return { ...state, statusCodeForGenerateAdvance: 0 }
+        case 'GENERATE_ADVANCE':
+            return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
+        case 'REMOVE_GENERATE_ADVANCE':
+            return { ...state, statusCodeForGenerateAdvance: 0 }
 
 
 
-                case 'UPLOAD_DOCUMENT':
-                    return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
-                case 'CLEAR_UPLOAD_DOCUMENT':
-                    return { ...state, statusCodeForUploadDocument: 0 }
-                    case 'UPLOAD_OTHER_DOCUMENT':
-                        return { ...state, otherUploaddocu: action.payload.message, statusCodeForOtherDocu: action.payload.statusCode }
-                    case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
-                        return { ...state, statusCodeForOtherDocu: 0 }
+        case 'UPLOAD_DOCUMENT':
+            return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
+        case 'CLEAR_UPLOAD_DOCUMENT':
+            return { ...state, statusCodeForUploadDocument: 0 }
+        case 'UPLOAD_OTHER_DOCUMENT':
+            return { ...state, otherUploaddocu: action.payload.message, statusCodeForOtherDocu: action.payload.statusCode }
+        case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
+            return { ...state, statusCodeForOtherDocu: 0 }
 
                         case 'USERROOMAVAILABLETRUE':
                             return {...state,userRoomfor:true}
@@ -450,6 +457,15 @@ const UserListReducer = (state = initialState, action) => {
                                 return {...state,userProfilebill:true}
                             case 'USERPROFILEBILLFALSE':
                                 return {...state,userProfilebill:false}
+
+        case 'ADHAR_UPLOAD_ERROR':
+            return { ...state, adharuploadfileError: action.payload.response, statuscodeForAdharFileError: action.payload.statusCode }
+        case 'CLEAR_ADHAR_UPLOAD_ERROR':
+            return { ...state, adharuploadfileError: '' }
+        case 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE':
+            return { ...state, statuscodeForAdharFileError: 0 }
+
+
     }
     return state;
 }

@@ -87,11 +87,20 @@ function Sidebar() {
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState('payingGuest');
 
-
+  const [currentPage, setCurrentPage] = useState('dashboard');
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  useEffect(() => {
+    localStorage.setItem('manageOpen', manageOpen);
+  }, [manageOpen]);
+  useEffect(() => {
+    if (['pg-list', 'user-list', 'asset', 'vendor'].includes(currentPage)) {
+      setManageOpen(true);
+      localStorage.setItem('manageOpen', true);
+    }
+  }, [currentPage]);
 
 
 
@@ -262,7 +271,7 @@ function Sidebar() {
 
 
   const [activePage, setActivePage] = useState(true);
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  
 
 
 
@@ -776,45 +785,53 @@ function Sidebar() {
 
                 {/* manage */}
                 <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`}
-                  onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex", position: "relative" }}>
-                  <img src={Manage} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Manage</span>
-                  <span className="ms-auto ">{manageOpen ?
-                    <ArrowUp2
-                      size="16"
-                      color="#4B4B4B"
-                    /> :
-                    <ArrowDown2
-                      size="16"
-                      color="#4B4B4B"
-                    />
-                  }</span>
-                </li>
+    onClick={() => {
+        setManageOpen(!manageOpen);
+        localStorage.setItem('manageOpen', !manageOpen);
+    }} 
+    style={{ listStyleType: "none", display: "flex", position: "relative" }}>
 
+    <img src={Manage} style={{ height: 20, width: 20 }} />
+    <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>
+        Manage
+    </span>
+    <span className="ms-auto ">
+        {manageOpen ? 
+            <ArrowUp2 size="16" color="#4B4B4B" /> : 
+            <ArrowDown2 size="16" color="#4B4B4B" />
+        }
+    </span>
+</li>
 
-                {manageOpen && (
-                  <ul className="p-1" style={{
-                    marginLeft: 10, zIndex: 1, position: "relative",
-                    // marginTop: manageOpen ? "20px" : "0px",
-                  }}>
-                    <li className={` align-items-center list-sub-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
-                    </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span>
-                    </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span>
-                    </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span>
-                    </li>
-                  </ul>
-                )}
+{manageOpen && (
+    <ul className="p-1" style={{ marginLeft: 10, zIndex: 1, position: "relative" }}>
+        <li className={`align-items-center list-sub-Item ${currentPage === 'pg-list' ? 'active' : ''}`} 
+            onClick={() => handlePageClick('pg-list')} 
+            style={{ listStyleType: "none", display: "flex" }}>
+            <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height: 20, width: 20 }} />
+            <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
+        </li>
+        <li className={`align-items-center list-sub-Item ${currentPage === 'user-list' ? 'active' : ''}`} 
+            onClick={() => handlePageClick('user-list')} 
+            style={{ listStyleType: "none", display: "flex" }}>
+            <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ height: 20, width: 20 }} />
+            <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span>
+        </li>
+        <li className={`align-items-center list-sub-Item ${currentPage === 'asset' ? 'active' : ''}`} 
+            onClick={() => handlePageClick('asset')} 
+            style={{ listStyleType: "none", display: "flex" }}>
+            <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ height: 20, width: 20 }} />
+            <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span>
+        </li>
+        <li className={`align-items-center list-sub-Item ${currentPage === 'vendor' ? 'active' : ''}`} 
+            onClick={() => handlePageClick('vendor')} 
+            style={{ listStyleType: "none", display: "flex" }}>
+            <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height: 20, width: 20 }} />
+            <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span>
+        </li>
+    </ul>
+)}
+
 
 
 

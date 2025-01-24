@@ -1,12 +1,16 @@
-import React from "react";
+import{ React,useState} from "react";
 import crown from "../Assets/Images/New_images/crown.png"
 import { Button, Offcanvas, Form, FormControl, FormSelect, } from "react-bootstrap";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
+import Edit from "../Assets/Images/Edit-blue.png";
+import Delete from "../Assets/Images/Delete_red.png";
 
 function SettingSubscription() {
+ const [activeRow, setActiveRow] = useState(false);
+ 
   return (
     <div>
       <div>
@@ -147,8 +151,9 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                   borderTopLeftRadius: 24,
+                  paddingLeft:"20px"
                 }}
               >
                 Billing Date
@@ -161,7 +166,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Paying Guest
@@ -174,7 +179,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Amount
@@ -200,7 +205,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Expiry Date
@@ -213,7 +218,7 @@ function SettingSubscription() {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 Status
@@ -221,7 +226,7 @@ function SettingSubscription() {
 
               <th
                 style={{
-                  textAlign: "center",
+                  textAlign: "start",
                   fontFamily: "Gilroy",
                   color: "rgba(34, 34, 34, 1)",
                   fontSize: 14,
@@ -267,9 +272,10 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
+                  paddingLeft:"20px"
                 }}
               >
                 {/* {v.floor_name} */}05-12-2024
@@ -279,7 +285,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
@@ -290,7 +296,7 @@ console.log('Formatted Date:', formattedDate);
 
               <td
                 style={{
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -316,7 +322,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -328,7 +334,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "center",
+                  textAlign: "start",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
@@ -354,8 +360,61 @@ console.log('Formatted Date:', formattedDate);
                 // onClick={() => handleShowDots(v.eb_Id)}
                 >
                   <PiDotsThreeOutlineVerticalFill
-                    style={{ height: 20, width: 20 }}
+                    style={{ height: 20, width: 20 }}  onClick={setActiveRow}
                   />
+        
+        {activeRow && (
+                                            <div
+                                                // className="position-absolute"
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "#fff",
+                                                    width: 163,
+                                                    border: "1px solid #EBEBEB",
+                                                    borderRadius: 10,
+                                                    display: "flex",
+                                                    justifyContent: "start",
+                                                    padding: 10,
+                                                    alignItems: "center",
+                                                    zIndex: 1000,paddingRight:30,
+                                                    marginTop:140
+                                                }}
+                                            >
+                                                <div>
+                                                    <div
+                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                       
+                                                    >
+                                                        <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                                                            Edit
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                        style={{ backgroundColor: "#fff" }}
+
+                                                    >
+                                                        <img
+                                                            src={Delete}
+                                                            style={{ height: 16, width: 16 }}
+                                                        />{" "}
+                                                        <label
+                                                            style={{
+                                                                fontSize: 14,
+                                                                fontWeight: 500,
+                                                                fontFamily: "Gilroy,sans-serif",
+                                                                color: "#FF0000",
+                                                                cursor: "pointer",
+                                                            }}
+                                                        >
+                                                            Delete
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        )}
                   {/* {activeRow === v.eb_Id && (
                             <>
                               <div

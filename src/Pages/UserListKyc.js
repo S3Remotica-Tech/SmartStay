@@ -78,40 +78,35 @@ function UserListKyc(props) {
     }
   }, [state.UsersList.kycValidateOtpVerifySuccess])
   return (
-    <div>
+    <div style={{borderRadius:24}}>
       <Modal
         show={props.kycdetailsForm}
         onHide={handleCloseyc}
         backdrop="static"
         centered
         className="modal-dialog-centered"
-        style={{ width: 400 }}
+        style={{ width: 411,height:390,borderRadius:24 }}
       >
-        <Modal.Dialog
-          style={{
-            maxWidth: "400px",
-
-            paddingRight: "10px",
-
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
+      
           <Modal.Body>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center" style={{borderRadius:24}}>
 
-              <div className="container">
-                <div className="row mb-3"></div>
+              <div className="container" style={{
+            paddingLeft: "2px", // Adjust left padding
+            paddingRight: "2px", // Adjust right padding
+            borderRadius:24
+          }}>
 
                 <Modal.Header
-                  style={{ marginBottom: "30px", position: "relative" }}
+                  style={{ marginBottom: "20px", position: "relative" }}
                 >
                   <div
                     style={{
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      marginTop:-20
                     }}
                   >
                     KYC Verify
@@ -124,7 +119,7 @@ function UserListKyc(props) {
                     style={{
                       position: "absolute",
                       right: "10px",
-                      top: "16px",
+                      marginTop: "-15px",
                       border: "1px solid black",
                       background: "transparent",
                       cursor: "pointer",
@@ -132,8 +127,8 @@ function UserListKyc(props) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "32px",
-                      height: "32px",
+                      width: "20px",
+                      height: "20px",
                       borderRadius: "50%",
                     }}
                   >
@@ -278,8 +273,7 @@ function UserListKyc(props) {
             </div>
           </Modal.Body>
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-        </Modal.Dialog>
+       
       </Modal>
     </div>
   )

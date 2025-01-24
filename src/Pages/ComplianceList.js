@@ -19,10 +19,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { MdError } from "react-icons/md";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
-  console.log("state",state)
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
   const [status, setStatus] = useState("");
@@ -36,7 +36,7 @@ const ComplianceList = (props) => {
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
-  const [showAssignee,setShowAssigne] = useState("")
+  const [showAssignee, setShowAssigne] = useState("");
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -131,7 +131,9 @@ const ComplianceList = (props) => {
   }, [state.UsersList?.statusCodeCompliance]);
 
   const handleComplianceDelete = () => {
-    dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
+    if (deleteId) {
+      dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
+    }
   };
 
   useEffect(() => {
@@ -163,9 +165,125 @@ const ComplianceList = (props) => {
   const handleassignshow = () => {
     props.onAssignshow();
   };
+  const [customer_Id, setCustomer_Id] = useState("");
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [profile, setProfile] = useState("");
 
-  const handleIconClick = () => {
-    setShowCard(!showCard);
+  const handleIconClick = (item) => {
+    setCustomer_Id(item.ID);
+    setShowCard(true);
+    setName(item.Name);
+    let Dated = new Date(item.createdat);
+
+    let day = Dated.getDate();
+    let month = Dated.getMonth();
+    let year = Dated.getFullYear();
+
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    let formattedMonth = monthNames[month];
+    let formattedDate = `${day} ${formattedMonth} ${year}`;
+    setDate(formattedDate);
+    // setProfile(item.profile)
+    setProfile(item.profile && item.profile !== "0" ? item.profile : User);
+  };
+
+  useEffect(() => {
+    if (customer_Id) {
+      dispatch({
+        type: "GET_COMPLIANCE_COMMENT",
+        payload: { com_id: customer_Id },
+      });
+    }
+  }, [customer_Id]);
+
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_COMENET_LIST" });
+      }, 1000);
+    }
+  }, [state.ComplianceList.statusCodeForGetComplianceComment]);
+
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
+      setComments("");
+      setShowCard(false);
+      dispatch({
+        type: "GET_COMPLIANCE_COMMENT",
+        payload: { com_id: customer_Id },
+      });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+      }, 1000);
+    }
+  }, [state.ComplianceList.statusCodeForAddComplianceComment]);
+
+  const [comments, setComments] = useState("");
+  const handleComments = (e) => {
+    setComments(e.target.value);
+    setCommentError("");
+  };
+  const [commentError, setCommentError] = useState("");
+  const validateAssignField = (value, fieldName) => {
+    const isValueEmpty =
+      (typeof value === "string" && value.trim() === "") ||
+      value === undefined ||
+      value === null ||
+      value === "0";
+    if (isValueEmpty) {
+      switch (fieldName) {
+        case "comments":
+          setCommentError("comments is required");
+          break;
+
+        default:
+          break;
+      }
+      return false;
+    }
+
+    switch (fieldName) {
+      case "comments":
+        setCommentError("");
+        break;
+      default:
+        break;
+    }
+
+    return true;
+  };
+
+  const handleAddComment = () => {
+    const isFloorValid = validateAssignField(comments, "comments");
+    if (comments) {
+      dispatch({
+        type: "Add_COMPLIANCE_COMMENT",
+        payload: { complaint_id: customer_Id, message: comments },
+      });
+    }
+  };
+  const handleCloseIconClick = () => {
+    setShowCard(false);
+    setComments("");
+    setCustomer_Id("");
+    setCommentError("");
   };
 
   const handleChangeStatusClick = () => {
@@ -185,21 +303,19 @@ const ComplianceList = (props) => {
     }
   };
 
- 
   const handleChangeStatusOpenClose = (item) => {
-    console.log("status",item.Status)
-    setAssignId(item?.ID); 
+    setAssignId(item?.ID);
     setShowDots(false);
     // setStatus("");
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
-    setStatus(item.Status)
+    setStatus(item.Status);
   };
 
   //assign complaint
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
-    setStatusError("")
+    setStatusError("");
   };
   const handleAssignComplaintClick = () => {
     if (compliant === "") {
@@ -231,10 +347,7 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
-
-  
   const handleAssignOpenClose = (item) => {
-    console.log("handleAssignOpenClose", item);
     setAssignId(item?.ID);
     setShowDots(false);
     setCompliant(item?.Assign);
@@ -243,7 +356,7 @@ const ComplianceList = (props) => {
   };
   const handleCloseAssign = () => {
     setShowAssignComplaint(false);
-    setStatusError("")
+    setStatusError("");
   };
 
   const handleCompliant = (e) => {
@@ -262,13 +375,6 @@ const ComplianceList = (props) => {
       setStatusError("");
     }
   };
-
-  useEffect(() => {
-    if(hostel_id){
-      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:hostel_id} });
-    }
-    
-  }, [hostel_id]);
 
   useEffect(() => {
     const appearOptions = {
@@ -331,8 +437,17 @@ const ComplianceList = (props) => {
           <div className="d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex gap-2">
               <div className="">
-                <Image
+                {/* <Image
                   src={User}
+                  roundedCircle
+                  style={{ height: "60px", width: "60px" }}
+                /> */}
+                <Image
+                  src={
+                    props.complaints.profile === "0"
+                      ? User
+                      : props.complaints.profile
+                  }
                   roundedCircle
                   style={{ height: "60px", width: "60px" }}
                 />
@@ -679,7 +794,14 @@ const ComplianceList = (props) => {
                 >
                   {props.complaints.assigner_name === "" ||
                   props.complaints.assigner_name == null ? (
-                    <p style={{ color: "#1E45E1", fontSize: "16px" }}>
+                    <p
+                      style={{
+                        color: "#1E45E1",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleAssignOpenClose(props.complaints)}
+                    >
                       + Assign
                     </p>
                   ) : (
@@ -822,184 +944,306 @@ const ComplianceList = (props) => {
                   padding: "8px 12px",
                   cursor: "pointer",
                 }}
-                onClick={handleIconClick}
+                // onClick={handleIconClick}
               >
                 <label>
-                  <img src={CommentIcon} alt="Comments" /> 986
+                  <img
+                    src={CommentIcon}
+                    alt="Comments"
+                    onClick={() => handleIconClick(props.complaints)}
+                  />{" "}
+                  {props.complaints.comment_count}
                 </label>
               </div>
 
-              {showCard && (
-                <div
+              <Modal
+                show={showCard}
+                onHide={handleCloseIconClick}
+                centered
+                backdrop="static"
+              >
+                <Modal.Dialog
                   style={{
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    border: "1px solid #DCDCDC",
-                    borderRadius: 10,
-                    padding: "16px",
-                    backgroundColor: "#FFF",
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                    zIndex: 1000,
-                    width: 664,
-                    height: 279,
+                    maxWidth: 950,
+                    paddingRight: "5px",
+                    // paddingRight: "10px",
+                    borderRadius: "30px",
                   }}
+                  className="m-0 p-0"
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontWeight: 600,
-                        fontSize: 18,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      August 2024 . Monthly Report
-                    </p>
-                    <img
-                      src={closeicon}
-                      alt="Close"
-                      style={{ cursor: "pointer", width: 20, height: 20 }}
-                      onClick={handleIconClick} // Add this line to close the window when clicked
-                    />
-                  </div>
+                  <Modal.Body>
+                    <div>
+                      <Modal.Header
+                        style={{
+                          marginBottom: "30px",
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <img
+                            src={profile}
+                            alt="Profile"
+                            style={{
+                              cursor: "pointer",
+                              width: "40px",
+                              height: "40px",
+                              borderRadius: "50%",
+                              marginRight: "10px",
+                            }}
+                          />
+                          <div style={{ flexGrow: 1 }}>
+                            <p
+                              style={{
+                                margin: 0,
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              {name}
+                            </p>
+                            <p
+                              style={{
+                                margin: 0,
+                                fontSize: "14px",
+                                color: "gray",
+                              }}
+                            >
+                              {date}
+                            </p>
+                          </div>
+                        </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginTop: 20,
-                    }}
-                  >
-                    <label
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 12,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      <img
-                        src={manimg}
-                        alt="man"
-                        style={{ cursor: "pointer", width: 20, height: 20 }}
-                      />{" "}
-                      Akash Rathod
-                    </label>
-                    <p
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 12,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      01 September 2024
-                    </p>
-                  </div>
-
-                  <div style={{ marginTop: 10 }}>
-                    <p
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 14,
-                        fontFamily: "Gilroy, sans-serif",
-                        margin: 0,
-                      }}
-                    >
-                      Lorem ipsum dolor sit amet consectetur. Tellus sed libero
-                      commodo leo scelerisque turpis in gravida. Et facilisi
-                      eget id consequat maecenas diam velit eget accumsan. Nam
-                      suspendisse lectus vitae elementum integer. Velit sem nec
-                      eget id ac. Sagittis sit mauris massa eget vel integer
-                      mattis pulvinar. Eget aliquet
-                    </p>
-                  </div>
-
-                  <div
-                    style={{
-                      border: "1px solid #E7E7E7",
-                      marginTop: 15,
-                      width: "100%",
-                    }}
-                  ></div>
-
-                  <div
-                    style={{
-                      marginTop: 15,
-                      position: "relative",
-                      display: "inline-block",
-                      width: "100%",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      style={{
-                        border: "1px solid #E7E7E7",
-                        paddingTop: 6,
-                        paddingBottom: 6,
-                        paddingLeft: 16,
-                        width: "100%",
-                        height: "52px",
-                        borderRadius: "12px",
-                      }}
-                      placeholder="Post your reply here"
-                    />
+                        <button
+                          type="button"
+                          className="close"
+                          aria-label="Close"
+                          onClick={handleCloseIconClick}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              fontSize: "30px",
+                              paddingBottom: "6px",
+                            }}
+                          >
+                            &times;
+                          </span>
+                        </button>
+                      </Modal.Header>
+                    </div>
                     <div
                       style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        backgroundColor: "#1E45E1",
-                        border: "1px solid #E7E7E7",
-                        borderRadius: "60px",
-                        padding: "12px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
+                        height:
+                          state.ComplianceList?.getComplianceComments?.comments
+                            ?.length > 2
+                            ? "250px"
+                            : "auto",
+                        overflowY:
+                          state.ComplianceList?.getComplianceComments?.comments
+                            ?.length > 2
+                            ? "auto"
+                            : "hidden",
+                        padding: "10px",
+                        backgroundColor: "#F4F5F7",
+                        borderRadius: "10px",
                       }}
                     >
-                      <img
-                        src={send}
-                        alt="Send"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                        }}
-                      />
+                      {state.ComplianceList?.getComplianceComments?.comments &&
+                        state.ComplianceList?.getComplianceComments?.comments.map(
+                          (item, index) => {
+                            let Dated = new Date(item.created_at);
+
+                            let day = Dated.getDate();
+                            let month = Dated.getMonth();
+                            let year = Dated.getFullYear();
+
+                            const monthNames = [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ];
+
+                            let formattedMonth = monthNames[month];
+                            let formattedDate = `${day} ${formattedMonth} ${year}`;
+
+                            return (
+                              <div
+                                key={index}
+                                className="row"
+                                style={{
+                                  borderBottom: "1px solid #EDF0F4",
+                                  paddingBottom: "10px",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      item.profile?.trim() &&
+                                      item.profile !== "0"
+                                        ? item.profile
+                                        : User
+                                    }
+                                    alt="User"
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      borderRadius: "50%",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                  <div>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "16px",
+                                        fontWeight: "bold",
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      {item.name}
+                                    </p>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "14px",
+                                        color: "#666666",
+                                      }}
+                                    >
+                                      {formattedDate}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <p
+                                  style={{
+                                    wordWrap: "break-word",
+                                    overflowWrap: "break-word",
+                                    whiteSpace: "pre-wrap",
+                                    maxWidth: "100%",
+                                    marginTop: "8px",
+                                    fontSize: "16px",
+                                    fontWeight: "400",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {item.comment}
+                                </p>
+                              </div>
+                            );
+                          }
+                        )}
                     </div>
-                  </div>
-                </div>
-              )}
+                  </Modal.Body>
 
-              {/* Background overlay */}
-              {showCard && (
-                <div
-                  onClick={handleIconClick}
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    zIndex: 999,
-                  }}
-                />
-              )}
+                  <Modal.Footer style={{ border: "none" }}>
+                    <div
+                      style={{
+                        marginTop: 15,
+                        position: "relative",
+                        display: "inline-block",
+                        width: "100%",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={comments}
+                        onChange={(e) => handleComments(e)}
+                        style={{
+                          border: "1px solid #E7E7E7",
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          paddingLeft: 16,
+                          width: "100%",
+                          height: "52px",
+                          borderRadius: "12px",
+                        }}
+                        placeholder="Post your reply here"
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          backgroundColor: "#1E45E1",
+                          border: "1px solid #E7E7E7",
+                          borderRadius: "60px",
+                          padding: "12px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <img
+                          src={send}
+                          alt="Send"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                          }}
+                          onClick={handleAddComment}
+                        />
+                      </div>
+                      {commentError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {commentError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </Modal.Footer>
+                </Modal.Dialog>
+              </Modal>
             </div>
-
-            {/* change status card */}
 
             <Modal
               show={showChangeStatus}
@@ -1249,13 +1493,13 @@ const ComplianceList = (props) => {
                             Select a Complaint
                           </option>
                           {state.Settings.addSettingStaffList &&
-    state.Settings.addSettingStaffList.map((v, i) => {
-      return (
-        <option key={v.id} value={v.id}>
-          {v.first_name}
-        </option>
-      );
-    })}
+                            state.Settings.addSettingStaffList.map((v, i) => {
+                              return (
+                                <option key={v.id} value={v.id}>
+                                  {v.first_name}
+                                </option>
+                              );
+                            })}
                         </Form.Select>
                       </Form.Group>
                       {statusError && (

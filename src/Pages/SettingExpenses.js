@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import Editbtn from '../Assets/Images/Edit-blue.png';
 import Closebtn from '../Assets/Images/Delete_red.png';
-import { MdError } from "react-icons/md"; 
+import { MdError } from "react-icons/md";
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
@@ -13,38 +13,38 @@ import close from '../Assets/Images/close.svg';
 
 
 
-    function SettingExpenses({hostelid}){
+function SettingExpenses({ hostelid }) {
 
-    const state = useSelector(state => state)
-    const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
 
 
-    const [type, setType] = useState('');
-    const [subType, setSubType] = useState('');
-    const [typeerrmsg, setTypeErrmsg] = useState('')   
+  const [type, setType] = useState('');
+  const [subType, setSubType] = useState('');
+  const [typeerrmsg, setTypeErrmsg] = useState('')
 
-    const [typeidname, setTypeIdName] = useState('')
-    const [types, setTypes] = useState([]);
-    const [isSubCategory, setIsSubCategory] = useState(false);
-    const [expences, setExpences] = useState([])
-    const [expencerolePermission, setExpenceRolePermission] = useState("");
-    const [expencepermissionError, setExpencePermissionError] = useState("");
-    const [expenceAddPermission,setExpenceAddPermission]= useState("")
-    const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
-    const [expenceEditPermission,setExpenceEditPermission]=useState("")
-    const [showform, setShowForm] = useState(false);
-    const [edit, setEdit] = useState(false);
-    const [namefilter, setNamefilter] = useState()
-    const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
-    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
-    const [totalErrormsg,setTotalErrmsg]= useState('');
-    const [showModal, setShowModal] = useState(false);  
-    const [deleteItem, setDeleteItem] = useState(null);  
-    const [category_Id,setCategory_ID] = useState(null)
-    const [subcategory_Id,setSubCategory_ID] = useState(null)
-    const [deleteCategoryId, setDeleteCategoryId] = useState('')
-    const [subCategory_Id, setSubCategory_Id] = useState('')
-const [loading, setLoading] = useState(true)
+  const [typeidname, setTypeIdName] = useState('')
+  const [types, setTypes] = useState([]);
+  const [isSubCategory, setIsSubCategory] = useState(false);
+  const [expences, setExpences] = useState([])
+  const [expencerolePermission, setExpenceRolePermission] = useState("");
+  const [expencepermissionError, setExpencePermissionError] = useState("");
+  const [expenceAddPermission, setExpenceAddPermission] = useState("")
+  const [expenceDeletePermission, setExpenceDeletePermission] = useState("")
+  const [expenceEditPermission, setExpenceEditPermission] = useState("")
+  const [showform, setShowForm] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [namefilter, setNamefilter] = useState()
+  const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
+  const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
+  const [totalErrormsg, setTotalErrmsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null);
+  const [category_Id, setCategory_ID] = useState(null)
+  const [subcategory_Id, setSubCategory_ID] = useState(null)
+  const [deleteCategoryId, setDeleteCategoryId] = useState('')
+  const [subCategory_Id, setSubCategory_Id] = useState('')
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -100,302 +100,307 @@ const [loading, setLoading] = useState(true)
 
 
 
-     const uniqueExpences = expences.filter((expence, index, self) =>
-        index === self.findIndex((e) => e.category_Id === expence.category_Id)
-      );
-     
-//add electricity
-const [showPopup, setShowPopup] = useState(false);
-const handleShow = () => {
-  if (!hostelid) {
-    setShowPopup(true); 
-    return;
+  const uniqueExpences = expences.filter((expence, index, self) =>
+    index === self.findIndex((e) => e.category_Id === expence.category_Id)
+  );
+
+  //add electricity
+  const [showPopup, setShowPopup] = useState(false);
+  const handleShow = () => {
+    if (!hostelid) {
+      setShowPopup(true);
+      return;
+    }
+    setShowForm(true);
+    setEdit(false);
+    console.log("Opening the form...");
+  };
+
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    setSubType('');
+    setType('');
+    setIsSubCategory(false)
+  };
+
+  const [editsubcat, setEditsubCat] = useState(false)
+
+  const handleEditCategory = (item) => {
+
+    console.log("edititem", item);
+
+    setEdit(true);
+    setShowForm(true);
+    if (item.category_Id && item.category_Name) {
+      setType(item.category_Name)
+      setCategory_ID(item.category_Id || '')
+    }
+    else if (item.subcategory_Id && item.cat_id) {
+      setIsSubCategory(true)
+      setSubType(item.subcategory)
+      setSubCategory_ID(item.subcategory_Id)
+      setEditsubCat(true)
+    }
+
   }
-  setShowForm(true);
-  setEdit(false);
-  console.log("Opening the form...");
-};
 
-    
-      const handleCloseForm = () => {
+  console.log("edititem", subType);
+
+
+
+  const handleUpdateCategory = () => {
+    dispatch({
+      type: 'EDIT_EXPENCES_CATEGORY', payload: { id: 1, hostel_id: hostelid, name: type, type: 1 }
+    })
+  }
+
+
+
+  const handleDeleteExpensesCategory = (item) => {
+    setDeleteCategoryId(item.category_Id)
+    const sub = item.subcategory[0]?.subcategory_Id
+    setSubCategory_Id(sub)
+    setShowModal(true)
+  };
+
+
+  const [deletesubcatItems, setDeleteSubCatItems] = useState('')
+  const [deletesubcat, setDeleteSubCat] = useState(false)
+
+  const handleDeleteSubCategory = (item) => {
+    console.log("items", item);
+
+    setDeleteSubCatItems(item)
+    setShowModal(true)
+    setDeleteSubCat(true)
+  }
+
+  console.log("deletesubcatItems", deletesubcatItems);
+
+
+
+  const confirmDelete = () => {
+
+    if (deletesubcatItems && deletesubcat) {
+      dispatch({
+        type: 'DELETE-EXPENCES-CATEGORY',
+        payload: {
+          cat_id: deletesubcatItems.cat_id,
+          subcat_id: deletesubcatItems.subcategory_Id
+        },
+      });
+    }
+
+    else {
+      dispatch({
+        type: 'DELETE-EXPENCES-CATEGORY',
+        payload: {
+          cat_id: deleteCategoryId
+        },
+      });
+    }
+    setShowModal(false);
+
+    //   if ( deleteCategoryId && subCategory_Id) {
+    //     dispatch({
+    //         type: 'DELETE-EXPENCES-CATEGORY',
+    //         payload: {
+    //             id: deleteCategoryId,
+    //             subcat_id: subCategory_Id,
+    //             cat_id:''
+    //         },
+    //     });
+    // }
+    //  else {
+    //     dispatch({
+    //         type: 'DELETE-EXPENCES-CATEGORY',
+    //         payload: { id: deleteCategoryId,
+    //           sub_Category_Id: subCategory_Id},
+    //     });
+    // }
+
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false)
+  };
+
+
+  const updateType = () => {
+
+    if (hostelid && category_Id || subcategory_Id) {
+      if (category_Id && !editsubcat) {
+        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: category_Id, hostel_id: hostelid, name: type, type: 1 } })
         setShowForm(false);
-        setSubType('');
-        setType('');
         setIsSubCategory(false)
-      };
-
-   const [editsubcat, setEditsubCat] = useState(false)
-
-      const handleEditCategory = (item) => {  
-        
-        console.log("edititem", item);
-        
-        setEdit(true);
-        setShowForm(true);
-        if(item.category_Id && item.category_Name) { 
-          setType(item.category_Name)
-          setCategory_ID(item.category_Id || '')   
-        }
-        else if (item.subcategory_Id && item.cat_id){
-          setIsSubCategory(true)
-          setSubType(item.subcategory)
-          setSubCategory_ID(item.subcategory_Id)
-          setEditsubCat(true)
-        }
-      
+        setType('')
       }
-
-   console.log("edititem", subType);
-   
-
-
-      const handleUpdateCategory = () => {
-        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: 1 , hostel_id:hostelid, name: type, type:1}
-      })}
-
-
-
-    const handleDeleteExpensesCategory = (item) => {   
-        setDeleteCategoryId(item.category_Id)
-        const sub = item.subcategory[0]?.subcategory_Id
-        setSubCategory_Id(sub)
-        setShowModal(true)  
-    };
+      else if (subcategory_Id && subType && editsubcat) {
+        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
+        setShowForm(false);
+        setIsSubCategory(false)
+        setSubType('')
+      }
+    }
+    else {
+      console.log("doesn't update ");
+    }
+  }
 
 
-        const [deletesubcatItems, setDeleteSubCatItems] = useState('')
-        const [deletesubcat, setDeleteSubCat] = useState(false)
-    
-    const handleDeleteSubCategory = (item) => {
-      console.log("items",item);
-      
-      setDeleteSubCatItems(item)
-      setShowModal(true) 
-      setDeleteSubCat(true)
+
+  const addType = () => {
+    if (!type) {
+      setCategoryErrmsg("Please Enter a Category")
+      return;
     }
 
-    console.log("deletesubcatItems",deletesubcatItems);
+    if (type.trim()) {
+      if (isSubCategory) {
 
+        if (!subType) {
+          setSubCategoryErrmsg("Please Enter a Sub-Category")
+        }
 
-
-    const confirmDelete = () => {
-
-         if(deletesubcatItems && deletesubcat){
-          dispatch({
-            type: 'DELETE-EXPENCES-CATEGORY',
-            payload: {
-                cat_id:deletesubcatItems.cat_id,
-                subcat_id: deletesubcatItems.subcategory_Id
-            },
-        });
-         }
-
-         else {
-          dispatch({
-            type: 'DELETE-EXPENCES-CATEGORY',
-            payload: {
-                cat_id:deleteCategoryId
-            },
-        });
-         }
-         setShowModal(false);  
-
-        //   if ( deleteCategoryId && subCategory_Id) {
-        //     dispatch({
-        //         type: 'DELETE-EXPENCES-CATEGORY',
-        //         payload: {
-        //             id: deleteCategoryId,
-        //             subcat_id: subCategory_Id,
-        //             cat_id:''
-        //         },
-        //     });
-        // }
-        //  else {
-        //     dispatch({
-        //         type: 'DELETE-EXPENCES-CATEGORY',
-        //         payload: { id: deleteCategoryId,
-        //           sub_Category_Id: subCategory_Id},
-        //     });
-        // }
-       
-    };
-
-    const cancelDelete = () => {
-        setShowModal(false)
-    };
-
-
-    const updateType = () => {
-
-      if(hostelid && category_Id || subcategory_Id){
-        if(category_Id && !editsubcat){
-          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: category_Id , hostel_id:hostelid, name: type, type:1}})
-          setShowForm(false);  
+        if (!subType && !namefilter) {
+          setTotalErrmsg('Please enter All Field')
+          return;
+        }
+        else if (subType.trim()) {
+          dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
+          setSubType('');
+          setType('');
+          setShowForm(false);
           setIsSubCategory(false)
-          setType('')
         }
-        else if (subcategory_Id && subType && editsubcat){
-          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id , hostel_id:hostelid, name: subType, type:2}})
-          setShowForm(false); 
-          setIsSubCategory(false) 
-          setSubType('')
-        }
+
       }
-      else{
-        console.log("doesn't update ");  
+      else {
+        dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, category_Name: type, sub_Category: '' } });
+        setType('');
+        setShowForm(false);
+        setIsSubCategory(false)
       }
     }
 
+  };
 
 
-    const addType = () => {
-        if( !type ){
-            setCategoryErrmsg("Please Enter a Category")   
-           return;
-        }
+  useEffect(() => {
+    if (state.Settings?.alreadycategoryerror) {
 
-        if (type.trim()) {
-            if (isSubCategory) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
+      }, 3000);
+    }
+  }, [state.Settings?.alreadycategoryerror])
 
-                if(!subType){
-                    setSubCategoryErrmsg("Please Enter a Sub-Category")
-                }
-
-                if( !subType && !namefilter){
-                    setTotalErrmsg('Please enter All Field') 
-                   return;
-                }
-              else  if (subType.trim()) {
-                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
-                    setSubType('');
-                    setType('');
-                    setShowForm(false);
-                    setIsSubCategory(false)
-                } 
-            
-                }
-             else {
-                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, category_Name: type, sub_Category: '' } });
-                    setType('');  
-                    setShowForm(false);  
-                    setIsSubCategory(false)        
-            }
-        } 
-    
-    };
+  useEffect(() => {
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
+  }, [hostelid])
 
 
-    useEffect(() => {
-        if (state.Settings?.alreadycategoryerror) {
-            
-          setTimeout(() => {
-            dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
-          }, 3000);    
-        }
-      }, [state.Settings?.alreadycategoryerror])
-
-    useEffect(() => {
-        dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
-    }, [hostelid])
-
-
-    useEffect(() => {
-        if (state.Settings.getExpensesStatuscode === 200) {
-          setLoading(false)
-            setExpences(state.Settings.Expences.data)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
-            }, 100)
-        }
-    }, [state.Settings.getExpensesStatuscode])
+  useEffect(() => {
+    if (state.Settings.getExpensesStatuscode === 200) {
+      setLoading(false)
+      setExpences(state.Settings.Expences.data)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
+      }, 100)
+    }
+  }, [state.Settings.getExpensesStatuscode])
 
 
 
-    useEffect(() => {
-      if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-          setTimeout(() => {
-              dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
-          }, 100)
-          setDeleteSubCatItems('')
-          
-          setTimeout(() => {
-            dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
-        }, 1000)
+  useEffect(() => {
+    if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
+      }, 100)
+      setDeleteSubCatItems('')
 
-          setTimeout(() => {
-              dispatch({ type: 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE' })
-          }, 1000)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
+      }, 1000)
 
-          setTimeout(() => {
-              dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
-          }, 1000)
-      }
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE' })
+      }, 1000)
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
+      }, 1000)
+    }
   }, [hostelid, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
-  
 
 
-    const handleCategoryid = (e) => {
-        setType(e.target.value)
-        if (state.Settings.Expences.data && e.target.value !== undefined) {
-            const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-                return typename.category_Id == e.target.value;
-            });
-            setNamefilter(Typeidnamefilter[0].category_Name);
-        }
-        setTotalErrmsg('')
-        if(!e.target.value){
-            setCategoryErrmsg("Please Enter a Category")
-        }
-        else {
-            setCategoryErrmsg("")
-        }
+
+  const handleCategoryid = (e) => {
+    setType(e.target.value)
+    if (state.Settings.Expences.data && e.target.value !== undefined) {
+      const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
+        return typename.category_Id == e.target.value;
+      });
+      setNamefilter(Typeidnamefilter[0].category_Name);
     }
-
-    const handlecategoryAdd = (e) => {
-        setType(e.target.value)
-        setTotalErrmsg('')
-        if(!e.target.value){
-            setCategoryErrmsg("Please Enter a Category")
-        }
-        else {
-            setCategoryErrmsg("")
-        }
+    setTotalErrmsg('')
+    if (!e.target.value) {
+      setCategoryErrmsg("Please Enter a Category")
     }
-
-
-    const handlesubcategoryAdd = (e) => {
-        setSubType(e.target.value)
-        setTotalErrmsg('')
-        if(!e.target.value){
-            setSubCategoryErrmsg("Please Enter a Sub-Category")
-        }
-        else {
-            setSubCategoryErrmsg("")
-        }
+    else {
+      setCategoryErrmsg("")
     }
+  }
 
-    const [expandedCategoryId, setExpandedCategoryId] = useState(null); 
-
-   
-    const handleToggleDropdown = (categoryId) => {
-      setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
-    };
-
-
- 
-
-
-    return(
-        <div className="container" style={{position:"relative"}}> 
+  const handlecategoryAdd = (e) => {
+    setType(e.target.value)
+    setTotalErrmsg('')
+    if (!e.target.value) {
+      setCategoryErrmsg("Please Enter a Category")
+    }
+    else {
+      setCategoryErrmsg("")
+    }
+  }
 
 
-{loading &&
+  const handlesubcategoryAdd = (e) => {
+    setSubType(e.target.value)
+    setTotalErrmsg('')
+    if (!e.target.value) {
+      setSubCategoryErrmsg("Please Enter a Sub-Category")
+    }
+    else {
+      setSubCategoryErrmsg("")
+    }
+  }
+
+  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
+
+
+  const handleToggleDropdown = (categoryId) => {
+    setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
+  };
+
+
+
+
+
+  return (
+    <div className="container" style={{ position: "relative" }}>
+
+
+      {loading &&
         <div
           style={{
             position: 'absolute',
-            inset: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
             display: 'flex',
             height: "50vh",
             alignItems: 'center',
@@ -420,173 +425,195 @@ const handleShow = () => {
 
 
 
-             <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",
-                position:'sticky',
-                // top:20, 
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 63,}} >
-        <h3 style={{fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,marginTop:30}}> Expences Category</h3>
-        <div style={{marginTop:30}}>
-        <Button  onClick={handleShow} 
-        style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",width:140}}
-          disabled={showPopup}
+      <div style={{
+        display: "flex", flexDirection: "row", justifyContent: "space-between",
+        position: 'sticky',
+        // top:20, 
+        right: 0,
+        left: 0,
+        zIndex: 1000,
+        backgroundColor: "#FFFFFF",
+        height: 63,
+      }} >
+        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, marginTop: 30 }}> Expences Category</h3>
+        <div style={{ marginTop: 30 }}>
+          <Button onClick={handleShow}
+            // style={{
+            //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+            //   fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", width: 140
+            // }}
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "10px 12px",
+              width: "auto",
+              maxWidth: "100%",
+              marginBottom: "10px",
+              maxHeight: 50,
+              marginTop: "-10px",
+  
+            }}
+            disabled={showPopup}
           >{" "}+  Category</Button></div>
-           
+
       </div>
       {showPopup && (
-        <div className="d-flex flex-wrap mt-3 align-items-center" 
-        style={{ gap: "10px" }} >
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Expense information.
-        </p>
-        
-        <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+        <div className="d-flex flex-wrap mt-3 align-items-center"
+          style={{ gap: "10px" }} >
+          <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            !Please add a hostel before adding Expense information.
+          </p>
 
-      </div>
-      
-      
+          <img
+            src={close}
+            alt="close icon"
+            onClick={() => setShowPopup(false)}
+            className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+            style={{ width: '20px', height: 'auto', cursor: "pointer" }}
+          />
+
+        </div>
+
+
       )}
-    
 
-<div className="mt-4 d-flex row">
-  {expences.length > 0 ? (
-   expences.map((category) => (
-    <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3">
-      <button
-        className="btn btn-white w-100  d-flex justify-content-between align-items-center"
-        type="button"
-        onClick={() => handleToggleDropdown(category.category_Id)}
-        style={{
-          fontFamily: "Gilroy",
-          fontSize: 16,
-          fontWeight: 500,
-        }}
-      >
-        <span>{category.category_Name}</span>
-        <span className="d-flex align-items-center">
-      <img
-        src={Editbtn}
-        height={15}
-        width={15}
-        alt="edit"
-        style={{ marginRight: 10, cursor: "pointer" }}
-        onClick={(e) => {
-          e.stopPropagation(); 
-          handleEditCategory(category);
-        }}
-      />
-      <img
-        src={Closebtn}
-        height={15}
-        width={15}
-        alt="delete"
-        style={{ marginRight: 10, cursor: "pointer" }}
-        onClick={(e) => {
-          e.stopPropagation();
-          handleDeleteExpensesCategory(category);
-        }}
-      />
-      <i
-        className={`bi ${
-          expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
-        }`}
-        style={{ cursor: "pointer" }}
-      ></i>
-    </span>
-      </button>
 
-      {expandedCategoryId === category.category_Id && (
-        <>
-          <hr />
-          <ul
-            className="list-group mt-2"
-            style={{
-              padding: "10px",
-              borderRadius: "10px",
-              width: "100%",
-            }}
-          >
-            {category.subcategory && category.subcategory.length > 0 ? (
-              category.subcategory.map((sub) => (
-                <li
-                  key={sub.subcategory_Id}
-                  className="d-flex justify-content-between align-items-center"
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                  }}
-                >
-                  {sub.subcategory}
-                  <span>
-                    <img
-                      src={Editbtn}
-                      height={15}
-                      width={15}
-                      alt="edit"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleEditCategory(sub)}
-                    />
-                    <img
-                      src={Closebtn}
-                      height={15}
-                      width={15}
-                      alt="delete"
-                      style={{ cursor: "pointer", marginLeft: 10 }}
-                      onClick={() => handleDeleteSubCategory(sub)}
-                    />
-                  </span>
-                </li>
-              ))
-            ) : (
-              <li
-                className="text-muted"
+      <div className="mt-4 d-flex row">
+        {expences.length > 0 ? (
+          expences.map((category) => (
+            <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3"
+              style={{
+                height: expandedCategoryId === category.category_Id ? "auto" : "50px",
+           
+              }}>
+              <button
+                className="btn btn-white w-100  d-flex justify-content-between align-items-center"
+                type="button"
+                onClick={() => handleToggleDropdown(category.category_Id)}
                 style={{
                   fontFamily: "Gilroy",
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: 500,
                 }}
               >
-                No Subcategories Available
-              </li>
-            )}
-          </ul>
-        </>
-      )}
-    </div>
-  ))
+                <span>{category.category_Name}</span>
+                <span className="d-flex align-items-center">
+                  <img
+                    src={Editbtn}
+                    height={15}
+                    width={15}
+                    alt="edit"
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditCategory(category);
+                    }}
+                  />
+                  <img
+                    src={Closebtn}
+                    height={15}
+                    width={15}
+                    alt="delete"
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteExpensesCategory(category);
+                    }}
+                  />
+                  <i
+                    className={`bi ${expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
+                      }`}
+                    style={{ cursor: "pointer" }}
+                  ></i>
+                </span>
+              </button>
 
-  ) : !loading && (
-    <div style={{marginTop:85,alignItems:"center",justifyContent:"center"}}>
-      <div className="d-flex justify-content-center">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+              {expandedCategoryId === category.category_Id && (
+                < >
+                  <hr />
+                  <ul
+                    className="list-group mt-2"
+                    style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      width: "100%",
+                    }}
+                  >
+                    {category.subcategory && category.subcategory.length > 0 ? (
+                      category.subcategory.map((sub) => (
+                        <li
+                          key={sub.subcategory_Id}
+                          className="d-flex justify-content-between align-items-center"
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontSize: 14,
+                            fontWeight: 500,
+                            color: "#222",
+                          }}
+                        >
+                          {sub.subcategory}
+                          <span>
+                            <img
+                              src={Editbtn}
+                              height={15}
+                              width={15}
+                              alt="edit"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleEditCategory(sub)}
+                            />
+                            <img
+                              src={Closebtn}
+                              height={15}
+                              width={15}
+                              alt="delete"
+                              style={{ cursor: "pointer", marginLeft: 10 }}
+                              onClick={() => handleDeleteSubCategory(sub)}
+                            />
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <li
+                        className="text-muted"
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                        }}
+                      >
+                        No Subcategories Available
+                      </li>
+                    )}
+                  </ul>
+                </>
+              )}
+            </div>
+          ))
+
+        ) : !loading && (
+          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center" }}>
+            <div className="d-flex justify-content-center">
+              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+            </div>
+            <div
+              className="pb-1 mt-3"
+              style={{
+                textAlign: "center",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 20,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              No Expense available
+            </div>
+          </div>
+        )}
       </div>
-      <div
-        className="pb-1 mt-3"
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          fontSize: 20,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        No Expense available
-      </div>
-    </div>
-  )}
-</div>
 
 
 
@@ -607,163 +634,164 @@ const handleShow = () => {
             backdrop="static"
           >
             <Modal.Dialog
-              style={{   maxWidth: 950,   paddingRight: "10px",   paddingRight: "10px",  borderRadius: "30px" }}
+              style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }}
               className="m-0 p-0"
-            >  
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
+            >
+              <div>
+                <Modal.Header
+                  style={{ marginBottom: "30px", position: "relative" }}
+                >
+                  <div
+                    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
                   >
-                    <div
-                      style={{fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                    >
-                      {/* {edit ? "Edit Invoice" : "Add Invoice "} */}
-                      
-                      {edit ? "Edit Category" : "Add Category"}
+                    {/* {edit ? "Edit Invoice" : "Add Invoice "} */}
+
+                    {edit ? "Edit Category" : "Add Category"}
 
 
-                    </div>
-                    <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseForm}
-                      style={{ position: "absolute", right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
+                  </div>
+                  <button
+                    type="button"
+                    className="close"
+                    aria-label="Close"
+                    onClick={handleCloseForm}
+                    style={{
+                      position: "absolute", right: "10px",
+                      top: "16px",
+                      border: "1px solid black",
+                      background: "transparent",
+                      cursor: "pointer",
+                      padding: "0",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        fontSize: "30px",
+                        paddingBottom: "6px",
                       }}
                     >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button>
+                      &times;
+                    </span>
+                  </button>
 
-                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
-                  </Modal.Header>
-                </div>
-                <Modal.Body>
+                  {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                </Modal.Header>
+              </div>
+              <Modal.Body>
 
                 <div className="row ">
-                
-                   
-              
 
-                <div className='d-flex flex-column '>
-                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+
+
+
+                  <div className='d-flex flex-column '>
+                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category</Form.Label>
                         {isSubCategory ? (
-                            <Form.Control
-                                as="select"
-                                style={{ padding: '20px', marginTop: '10px' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
-                                value={type}
-                                onChange={(e) => handleCategoryid(e)}
-                            >
-                                <option value="">Select Category</option>
-                                {uniqueExpences.length > 0 && uniqueExpences.map((category, index) => (
-                                    <option key={index} value={category.category_Id}>
-                                        {category.category_Name}
-                                    </option>
-                                ))}
-                            </Form.Control>
+                          <Form.Control
+                            as="select"
+                            style={{ padding: '20px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                            value={type}
+                            onChange={(e) => handleCategoryid(e)}
+                          >
+                            <option value="">Select Category</option>
+                            {uniqueExpences.length > 0 && uniqueExpences.map((category, index) => (
+                              <option key={index} value={category.category_Id}>
+                                {category.category_Name}
+                              </option>
+                            ))}
+                          </Form.Control>
                         ) : (
-                            <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
-                                type="text"
-                                placeholder="Enter Category"
-                                value={type}
-                                onChange={(e) => handlecategoryAdd(e)}
-                            />
+                          <Form.Control
+                            style={{ padding: '20px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                            type="text"
+                            placeholder="Enter Category"
+                            value={type}
+                            onChange={(e) => handlecategoryAdd(e)}
+                          />
                         )}
-      
 
-{cateogoryerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {cateogoryerrmsg}
-    </p>
-  </div>
-)}
-                    </Form.Group>
-                </div>
 
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <input
-                    type='checkbox'
-                    className='mb-3 me-2'
-                    checked={isSubCategory}
-                    onChange={() => setIsSubCategory(!isSubCategory)}
-                    style={{ width: '20px', height: '20px', border: '4px solid black', borderRadius: '4px'}}
-                />
-                <p className='' style={{ fontFamily: 'Gilroy', fontSize: 15, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
-            </div>
+                        {cateogoryerrmsg.trim() !== "" && (
+                          <div>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {cateogoryerrmsg}
+                            </p>
+                          </div>
+                        )}
+                      </Form.Group>
+                    </div>
 
-                {/* {isSubCategory && ( */}
-                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                      <input
+                        type='checkbox'
+                        className='mb-3 me-2'
+                        checked={isSubCategory}
+                        onChange={() => setIsSubCategory(!isSubCategory)}
+                        style={{ width: '20px', height: '20px', border: '4px solid black', borderRadius: '4px' }}
+                      />
+                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 15, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
+                    </div>
 
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                    {/* {isSubCategory && ( */}
+                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
+
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                         <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : 'black', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 600 }}>Sub-Category</Form.Label>
                         <Form.Control
-                            style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
-                            className={!isSubCategory ? 'custom-disabled' : 'white !important'}
-                            type="text"
-                            placeholder="Enter sub-category"
-                            value={subType}
-                            onChange={(e) => handlesubcategoryAdd(e)}
-                            disabled={!isSubCategory}
+                          style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                          className={!isSubCategory ? 'custom-disabled' : 'white !important'}
+                          type="text"
+                          placeholder="Enter sub-category"
+                          value={subType}
+                          onChange={(e) => handlesubcategoryAdd(e)}
+                          disabled={!isSubCategory}
                         />
-       
-
-{subcateogoryerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
-    </p>
-  </div>
-)}
-                    </Form.Group>
-                </div>
-                {/* )} */}
-            </div>
-
-           
 
 
-            {totalErrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-    </p>
-  </div>
-)}   
-
-{state.Settings?.alreadycategoryerror && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {state.Settings?.alreadycategoryerror}
-                        </label>
+                        {subcateogoryerrmsg.trim() !== "" && (
+                          <div>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                              {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
+                            </p>
+                          </div>
+                        )}
+                      </Form.Group>
                     </div>
-                )}
-       
+                    {/* )} */}
+                  </div>
 
-                 
-                
+
+
+
+                  {totalErrormsg.trim() !== "" && (
+                    <div>
+                      <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                        {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                      </p>
+                    </div>
+                  )}
+
+                  {state.Settings?.alreadycategoryerror && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {state.Settings?.alreadycategoryerror}
+                      </label>
+                    </div>
+                  )}
+
+
+
+
                 </div>
               </Modal.Body>
 
@@ -781,9 +809,9 @@ const handleShow = () => {
                     lineHeight: "normal",
                   }}
 
-            onClick={edit ? updateType : addType}
+                  onClick={edit ? updateType : addType}
                 >
-                   {edit ? "Update Category" : "Add Category"}
+                  {edit ? "Update Category" : "Add Category"}
                   {/* Add Category */}
                   {/* {edit ? "Save invoice" : "Add invice"} */}
                 </Button>
@@ -794,79 +822,79 @@ const handleShow = () => {
       )}
 
 
-<Modal
- show={showModal} onHide={cancelDelete}
-  centered
-  backdrop="static"
-  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
->
-  <Modal.Header style={{ borderBottom: 'none' }}> 
-    <Modal.Title 
-      style={{
-        fontSize: '18px',
-        fontFamily: 'Gilroy',
-        textAlign: 'center',
-        fontWeight: 600,
-        color: '#222222',
-        flex: 1
-      }}
-    >
-      Delete Category?
-    </Modal.Title>
-  </Modal.Header>
-  
-  <Modal.Body
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: 'Gilroy',
-      color: '#646464',
-      textAlign: 'center',
-      marginTop: '-20px'
-    }}
-  >
-    Are you sure you want to delete this Expences-category? 
-  </Modal.Body>
-  
-  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: '12px 20px',
-        background: '#fff',
-        color: '#1E45E1',
-        border: '1px solid #1E45E1',
-        fontWeight: 600,
-        fontFamily: 'Gilroy',
-        fontSize: '14px',
-        marginRight: 10
-      }}
-      onClick={cancelDelete} // Cancel, close modal
-    >
-      Cancel
-    </Button>
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: '12px 20px',
-        background: '#1E45E1',
-        color: '#FFFFFF',
-        fontWeight: 600,
-        fontFamily: 'Gilroy',
-        fontSize: '14px'
-      }}
-      onClick={confirmDelete}  // Confirm delete, dispatch action
-    >
-      Delete
-    </Button>
-  </Modal.Footer>
-</Modal>
+      <Modal
+        show={showModal} onHide={cancelDelete}
+        centered
+        backdrop="static"
+        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+      >
+        <Modal.Header style={{ borderBottom: 'none' }}>
+          <Modal.Title
+            style={{
+              fontSize: '18px',
+              fontFamily: 'Gilroy',
+              textAlign: 'center',
+              fontWeight: 600,
+              color: '#222222',
+              flex: 1
+            }}
+          >
+            Delete Category?
+          </Modal.Title>
+        </Modal.Header>
 
-        </div> 
-    )
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: 'Gilroy',
+            color: '#646464',
+            textAlign: 'center',
+            marginTop: '-20px'
+          }}
+        >
+          Are you sure you want to delete this Expences-category?
+        </Modal.Body>
+
+        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#fff',
+              color: '#1E45E1',
+              border: '1px solid #1E45E1',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px',
+              marginRight: 10
+            }}
+            onClick={cancelDelete} // Cancel, close modal
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#1E45E1',
+              color: '#FFFFFF',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px'
+            }}
+            onClick={confirmDelete}  // Confirm delete, dispatch action
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+    </div>
+  )
 }
 export default SettingExpenses;

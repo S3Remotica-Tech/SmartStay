@@ -572,10 +572,8 @@ useEffect(() => {
           </div>
 
           <div className="row mt-4">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+              <Form.Group controlId="exampleForm.ControlInput1"
               >
                 <Form.Label
                   style={{
@@ -624,9 +622,9 @@ useEffect(() => {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
               <Form.Group
-                className="mb-3"
+               
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label
@@ -733,9 +731,7 @@ useEffect(() => {
                   }}
                 >
                   Email ID{" "}
-                  <span style={{ color: "transparent", fontSize: "20px" }}>
-                    *
-                  </span>
+                  
                 </Form.Label>
                 <Form.Control
                   value={email}
@@ -751,6 +747,7 @@ useEffect(() => {
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
+                    marginTop:4
                   }}
                 />
               </Form.Group>
@@ -772,9 +769,8 @@ useEffect(() => {
                 </div>
               )}
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
               <Form.Group
-                className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label

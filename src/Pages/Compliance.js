@@ -65,7 +65,6 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 const Compliance = () => {
 
   const state = useSelector(state => state)
-  console.log("Compliance", state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
 
@@ -131,7 +130,10 @@ const Compliance = () => {
   
 
   useEffect(()=>{
-    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+    if(hosId){
+      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+    }
+  
   },[hosId])
 
   useEffect(() => {
@@ -166,7 +168,6 @@ const Compliance = () => {
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportcompliance])
-  console.log("state.UsersList?.statusCodeCompliance", state.UsersList?.statusCodeCompliance)
 
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
@@ -239,13 +240,15 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: hosId },
-    });
+    if(hosId){
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: hosId },
+      });
+    }
+  
   }, [hosId])
-  console.log("state.ComplianceList.statusCodeForAddCompliance", state.ComplianceList.statusCodeForAddCompliance)
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
@@ -719,9 +722,7 @@ const Compliance = () => {
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
-      console.log("Complaintdata.Complainttype", Complaintdata.Complainttype)
       setEditcomplainttype(Complaintdata.complaint_name)
-      console.log("Complaintdata.complaint_name", Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
@@ -771,12 +772,25 @@ const Compliance = () => {
 
   const [complainttypelist, setComplainttypelist] = useState([])
 
+  // useEffect(() => {
+    
+  //     dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
+    
+  // }, [hosId])
   useEffect(() => {
-    if (hosId) {
-      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId } })
+      if (hosId) {
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
+      }
+    }, [hosId]);
+    useEffect(()=>{
+    if(state.Settings.StatusForaddSettingStaffList === 200){
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
+      }, 500);
     }
-  }, [hosId])
+      },[state.Settings.StatusForaddSettingStaffList])
 
+  
   useEffect(() => {
     setComplainttypelist(state.Settings.Complainttypelist)
   }, [state.Settings.Complainttypelist])
@@ -931,7 +945,7 @@ const Compliance = () => {
                   }}
                 >
                   <div>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600}}>Complaints</label>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-20}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
@@ -1109,10 +1123,25 @@ const Compliance = () => {
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
+                        // style={{
+                        //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
+                        //   padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
+                        // }}
                         style={{
-                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
-                          padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
-                        }}> + Complaint</Button>
+                          fontFamily: "Gilroy",
+                          fontSize: "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: "10px 12px",
+                          width: "auto",
+                          maxWidth: "100%",
+                          marginBottom: "10px",
+                          maxHeight: 45,marginTop:10
+              
+                        }}
+                        > + Complaint</Button>
                     </div>
                   </div>
                 </div>

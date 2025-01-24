@@ -54,21 +54,33 @@ function EBRoomReading(props) {
   //     setActiveRow(eb_Id);
   //   }
   // };
-  const handleShowDots = (eb_Id) => {
-    setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); // Toggle the activeRow
+
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+
+
+  const handleShowDots = (eb_Id,event) => {
+    setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null);  // Close the menu if clicked outside
+        setActiveRow(null);  
       }
     };
 
-    // Add event listener for detecting clicks outside the popup
+   
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup the event listener when the component unmounts
+   
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -573,6 +585,7 @@ function EBRoomReading(props) {
                     // height: "400px",
                     height: currentRowelectricity.length >= 6 ? "400px" : "auto",
                     overflowY: "auto",
+                    // overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     // borderBottom:"none"
@@ -603,7 +616,8 @@ function EBRoomReading(props) {
                             paddingTop: "10px",
                             paddingBottom: "10px",
                             textAlign: "start",
-                            paddingLeft: "20px"
+                            paddingLeft: "20px",
+                            borderTopLeftRadius:24
                           }}
                         >
                           Paying Guest
@@ -885,8 +899,9 @@ function EBRoomReading(props) {
                                     alignItems: "center",
                                     position: "relative",
                                     zIndex: 1000,
+                                    backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
                                   }}
-                                  onClick={() => handleShowDots(v.eb_Id)}
+                                  onClick={(e) => handleShowDots(v.eb_Id,e)}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     style={{ height: 20, width: 20 }}
@@ -898,9 +913,12 @@ function EBRoomReading(props) {
                                         style={{
                                           cursor: "pointer",
                                           backgroundColor: "#fff",
-                                          position: "absolute",
-                                          right: 50,
-                                          top: 20,
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+                                          // position: "absolute",
+                                          // right: 50,
+                                          // top: 20,
                                           width: 163,
                                           height: "auto",
                                           border: "1px solid #EBEBEB",

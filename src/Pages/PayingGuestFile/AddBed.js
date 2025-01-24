@@ -99,19 +99,20 @@ function AddBed({ show, handleClose, currentItem }) {
       setBedError("");
     }
 
-    if (!amount || isNaN(amount) || amount <= 0) {
+    // if (!amount || isNaN(amount) || amount <= 0) {
+      if (!amount || amount <= 0) {
       setAmountError("Please enter a valid amount.");
       // return;
     } else {
       setAmountError("");
     }
-
     if (
       currentItem.item.hostel_Id &&
       currentItem.item.floorID &&
       currentItem.Room_Id &&
       bedNo &&
-      amount
+      amount 
+      && amount > 0
     ) {
       dispatch({
         type: "CREATEBED",
@@ -159,7 +160,7 @@ function AddBed({ show, handleClose, currentItem }) {
           </Modal.Header>
 
           <Modal.Body>
-            <div className="row mt-2">
+            <div className="row mt-2 mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-3"
@@ -194,8 +195,9 @@ function AddBed({ show, handleClose, currentItem }) {
                   />
                 </Form.Group>
                 {bedError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  // <div className="d-flex align-items-center p-1 mb-2">
+                  <div className="d-flex align-items-center p-0">
+                    <MdError style={{ color: "red", marginRight: "5px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -245,8 +247,9 @@ function AddBed({ show, handleClose, currentItem }) {
                 </Form.Group>
 
                 {amountError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  // <div className="d-flex align-items-center p-1 mb-2">
+                  <div className="d-flex align-items-center p-0">
+                    <MdError style={{ color: "red", marginRight: "5px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -262,10 +265,11 @@ function AddBed({ show, handleClose, currentItem }) {
                 )}
               </div>
             </div>
-          </Modal.Body>
+         
 
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2">
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-0">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
                 className="mb-0"
@@ -282,8 +286,9 @@ function AddBed({ show, handleClose, currentItem }) {
           )}
 
           {state.PgList && state.PgList?.alreadyBedAvailable && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            // <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center p-0">
+              <MdError style={{ color: "red", marginRight: "5px"}} />
               <label
                 className="mb-0"
                 style={{
@@ -297,9 +302,10 @@ function AddBed({ show, handleClose, currentItem }) {
               </label>
             </div>
           )}
+           </Modal.Body>
           <Modal.Footer style={{ border: "none" }}>
             <Button
-              onClick={handleSubmit}
+              onClick={()=>{handleSubmit()}}
               className="w-100"
               style={{
                 backgroundColor: "#1E45E1",

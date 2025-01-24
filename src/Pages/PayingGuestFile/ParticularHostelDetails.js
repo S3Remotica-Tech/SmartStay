@@ -158,7 +158,7 @@ function ParticularHostelDetails(props) {
       setTimeout(() => {
         setRoomCountData(state.PgList?.roomCount);
       }, 100)
-
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 1000);
@@ -166,19 +166,19 @@ function ParticularHostelDetails(props) {
   }, [state.PgList?.roomCountStatusCode])
 
 
-
+  console.log("loader", loader)
 
 
   useEffect(() => {
-    if (state.PgList.noRoomsInFloorStatusCode === 201) {
+    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
       setRoomCountData([])
       setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 2000);
+      }, 100);
     }
 
-  }, [state.PgList.noRoomsInFloorStatusCode])
+  }, [state.PgList?.noRoomsInFloorStatusCode])
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -256,14 +256,22 @@ function ParticularHostelDetails(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
-    ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+  // const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
+  //   ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+  //   : [];
+
+
+  const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
+    ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
     : [];
 
-  //   console.log("currentItems",currentItems)
-  //   console.log("roomCountData",roomCountData)
-  //   console.log("roomCountData Length:", roomCountData.length);
-  //   console.log("itemsPerPage:", itemsPerPage);
+  const currentItems = sortedRoomData.slice(indexOfFirstItem, indexOfLastItem)
+
+
+  // console.log("currentItems", currentItems)
+  // console.log("roomCountData", roomCountData)
+  // console.log("roomCountData Length:", roomCountData.length);
+  // console.log("itemsPerPage:", itemsPerPage);
   // console.log("indexOfFirstItem:", indexOfFirstItem);
   // console.log("indexOfLastItem:", indexOfLastItem);
 
@@ -285,7 +293,7 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    if (roomCountData.length > 0) {
+    if (roomCountData) {
       setLoader(false)
     }
 
@@ -485,7 +493,10 @@ function ParticularHostelDetails(props) {
           {loader && <div
             style={{
               position: 'absolute',
-              inset: 0,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: '300px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

@@ -665,9 +665,25 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+  else if (response.data.status === 202 || response.data.statusCode === 202){
+      yield put ({type : 'ASSIGNED_ERROR' , payload:response.data.message});
+      toast.error(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      //   style: toastStyle,
+     });
    }
+
+
+   // else {
+   //    yield put ({type:'ERROR', payload:response.data.message})
+   // }
    if(response){
       refreshToken(response)
    }
@@ -728,8 +744,8 @@ function* handleAddStaffUserPage(detail) {
 function* handleGetAllStaffs(action) {
    const response = yield call(GetAllStaff,action.payload)
    console.log("handleGetAllStaffs",response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

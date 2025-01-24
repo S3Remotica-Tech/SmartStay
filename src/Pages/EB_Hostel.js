@@ -83,7 +83,9 @@ function EB_Hostel(props) {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
+    if(selectedHostel){
+      dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
+    }
   }, [selectedHostel]);
 
   const handleHostelForm = () => {
@@ -229,10 +231,13 @@ function EB_Hostel(props) {
   };
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+   
   }, [selectedHostel]);
 
   useEffect(() => {
@@ -245,17 +250,23 @@ function EB_Hostel(props) {
   }, [Floor]);
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "HOSTELDETAILLIST",
+        payload: { hostel_Id: selectedHostel },
+      });
+    }
+   
   }, [selectedHostel]);
 
   useEffect(() => {
-    dispatch({
-      type: "EB-BILLING-UNIT-LIST",
-      payload: { hostel_id: selectedHostel },
-    });
+    if(selectedHostel){
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+  
   }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
@@ -588,7 +599,7 @@ function EB_Hostel(props) {
   };
 
   return (
-    <div style={{ paddingLeft: 15,marginTop:15}}>
+    <div style={{ paddingLeft: 15}}>
       <div className="d-flex justify-content-between align-items-center ms-2  mb-2"
       //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
       >
@@ -607,7 +618,7 @@ function EB_Hostel(props) {
 
         <div
           className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25 }}
+          style={{ paddingRight: 25,marginTop:20 }}
         >
           {/* <div className="me-3">
             <Image
@@ -657,23 +668,37 @@ function EB_Hostel(props) {
           ) : (
             <div>
               <Button
+                // style={{
+                //   fontFamily: "Montserrat",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   height: 52,
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   width: 162,
+                //   padding: "12px 16px", // Corrected padding
+                //   border: "none",
+                //   cursor: "pointer",
+                //   whiteSpace: "nowrap",
+                //   paddingTop: 10,
+                //   paddingBottom: 10,
+                //   paddingLeft: 5,
+                //   paddingRight: 5,
+                // }}
                 style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
                   backgroundColor: "#1E45E1",
                   color: "white",
-                  height: 52,
                   fontWeight: 600,
-                  borderRadius: 8,
-                  width: 162,
-                  padding: "12px 16px", // Corrected padding
-                  border: "none",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 5,
-                  paddingRight: 5,
+                  borderRadius: "8px",
+                  padding: "10px 12px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  marginBottom: "10px",
+                  maxHeight: 45,
+      
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -827,7 +852,8 @@ function EB_Hostel(props) {
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
-                                paddingLeft:"20px"
+                                paddingLeft:"20px",
+                                borderTopLeftRadius:24
                                 // textAlign: hostelBased === 1 ? "start" : "center",
                               }}
                             >

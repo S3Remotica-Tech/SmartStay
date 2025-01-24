@@ -34,11 +34,11 @@ const SettingElectricity = ({ hostelid }) => {
   const [every_recurr, setEvery_Recurr] = useState("");
 
   const [editHostel, setEditHostel] = useState({ id: '', name: '', editamount: '' })
-    const [showdeleteform,setShowDeleteform] = useState(false)
-  
+  const [showdeleteform, setShowDeleteform] = useState(false)
 
-  const [ EbList, setEbList] = useState([])
-const [ loading , setLoading] = useState(true)
+
+  const [EbList, setEbList] = useState([])
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -48,11 +48,11 @@ const [ loading , setLoading] = useState(true)
   }, [hostelid])
 
 
-  console.log("state.Settings.addEbbillingUnitStatuscode",state.Settings.addEbbillingUnitStatuscode)
+  console.log("state.Settings.addEbbillingUnitStatuscode", state.Settings.addEbbillingUnitStatuscode)
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200 || state.Settings.deleteElectricityStatuscode === 200) {
 
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid}})
+      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
       handleClose()
 
       setTimeout(() => {
@@ -63,7 +63,7 @@ const [ loading , setLoading] = useState(true)
         dispatch({ type: 'CLEAR_DELETE_ELECTRICITY_STATUS_CODE' })
       }, 500);
     }
-  }, [state.Settings.addEbbillingUnitStatuscode , state.Settings.deleteElectricityStatuscode])
+  }, [state.Settings.addEbbillingUnitStatuscode, state.Settings.deleteElectricityStatuscode])
 
   const handleClose = () => {
     setShowFormElectricity(false)
@@ -83,7 +83,7 @@ const [ loading , setLoading] = useState(true)
   const [showPopup, setShowPopup] = useState(false);
   const handleShowFormElectricity = () => {
     if (!hostelid) {
-      setShowPopup(true); 
+      setShowPopup(true);
       return;
     }
     setShowFormElectricity(true);
@@ -92,27 +92,28 @@ const [ loading , setLoading] = useState(true)
 
 
 
- 
 
-   const [showDots, setShowDots] = useState(false);
-   const [edit , setEdit] = useState(false)
-    const handleShowDots = () => {
-      setShowDots(!showDots);
-    };
 
-    const handleEditElectricity = (item) => {
-      if (!hostelid) {
-        setShowPopup(true); 
-        return;
-      }
-      setEdit(true)
-      setShowFormElectricity(true); 
-      // setUnit(item.unit)
-      setAmount(item.amount)
-      setEditHostel({id: item.hostel_id, name: item.Name , editamount: item.amount})
-      
+  const [showDots, setShowDots] = useState(false);
+  const [edit, setEdit] = useState(false)
+  const handleShowDots = () => {
+    setShowDots(!showDots);
+  };
+
+  const handleEditElectricity = (item, v) => {
+
+    if (!hostelid) {
+      setShowPopup(true);
+      return;
     }
-  
+    setEdit(true)
+    setShowFormElectricity(true);
+    // setUnit(item.unit)
+    setAmount(item.amount)
+    setEditHostel({ id: item.hostel_id, name: item.Name, editamount: item.amount })
+
+  }
+
 
   const handleChangeUnit = (e) => {
     setUnit(e.target.value)
@@ -124,27 +125,27 @@ const [ loading , setLoading] = useState(true)
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
     setAmount(newAmount);
-  
+
     if (newAmount !== '') {
       setAmountErr('');
     }
-  
+
     if (editHostel && editHostel.editamount == newAmount) {
       setAmountErr('No changes Deducted');
     }
   };
-  
+
   const handleAddElectricity = () => {
     if (amount === '') {
       setAmountErr('Please Enter Amount');
       return;
     }
-  
+
     if (edit && editHostel && editHostel.editamount == amount) {
       setAmountErr('No changes Deducted');
-      return; 
+      return;
     }
-  
+
     if (edit && editHostel && amount !== '') {
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
@@ -158,26 +159,26 @@ const [ loading , setLoading] = useState(true)
     }
   };
 
-     const [deleteItems, setDeleteItems] = useState('')
-  
-   const handleDeleteElectricity = (item) => {
-    setDeleteItems(item)
-    setShowDeleteform (true)
-    
-   }
+  const [deleteItems, setDeleteItems] = useState('')
 
-   const handleConfirmDelete = () => {
-          if(deleteItems){
-            dispatch({ type: 'DELETE-ELECTRICITY', payload: { hostel_id: deleteItems.hostel_id , settings_id:deleteItems.id}});
-            setShowDeleteform (false)
-          }
-   }
+  //  const handleDeleteElectricity = (item) => {
+  //   setDeleteItems(item)
+  //   setShowDeleteform (true)
 
-   const handleCloseDeleteform = () => {
+  //  }
+
+  const handleConfirmDelete = () => {
+    if (deleteItems) {
+      dispatch({ type: 'DELETE-ELECTRICITY', payload: { hostel_id: deleteItems.hostel_id, settings_id: deleteItems.id } });
+      setShowDeleteform(false)
+    }
+  }
+
+  const handleCloseDeleteform = () => {
     setShowDeleteform(false)
-   }
+  }
 
-  
+
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
@@ -185,7 +186,7 @@ const [ loading , setLoading] = useState(true)
 
   const handleRecurringFormShow = (item) => {
     setIsRecurring(!isRecurring)
- 
+
     if (!isRecurring === false) {
       setRecurringForm(false);
       dispatch({
@@ -228,7 +229,7 @@ const [ loading , setLoading] = useState(true)
         setCalculatedEnddateErrMsg('Please Select date')
       }
       return;
-    } 
+    }
     else {
       dispatch({
         type: "SETTINGSADDRECURRING",
@@ -246,7 +247,7 @@ const [ loading , setLoading] = useState(true)
         dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
       }, 100)
     }
-  }, [state.InvoiceList.settingsaddRecurringStatusCode  ])
+  }, [state.InvoiceList.settingsaddRecurringStatusCode])
 
   const handleHostelBased = (v) => {
     setHostelBasedCalculation(true)
@@ -278,16 +279,16 @@ const [ loading , setLoading] = useState(true)
   }, [state.PgList.checkEBList])
 
 
-useEffect(()=>{
-  if(state.Settings?.getebStatuscode == 200){
-    setLoading(false)
-setEbList(state.Settings.EBBillingUnitlist)
-setTimeout(()=>{
-  dispatch({type:'CLEAR_GET_EBBILLINGS_STATUS_CODE'})
-},500)
-  }
+  useEffect(() => {
+    if (state.Settings?.getebStatuscode == 200) {
+      setLoading(false)
+      setEbList(state.Settings.EBBillingUnitlist)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_EBBILLINGS_STATUS_CODE' })
+      }, 500)
+    }
 
-},[state.Settings?.getebStatuscode])
+  }, [state.Settings?.getebStatuscode])
 
 
 
@@ -297,14 +298,17 @@ setTimeout(()=>{
 
   return (
 
-    <Container className="mt-4" style={{position:"relative"}}>
+    <Container className="mt-4" style={{ position: "relative" }}>
 
 
 {loading &&
                 <div
                     style={{
                         position: 'absolute',
-                        inset: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: '200px',
                         height:"60vh",
                        display: 'flex',
                         alignItems: 'center',
@@ -329,35 +333,75 @@ setTimeout(()=>{
 
 
 
-      <div className='d-flex row mb-4'   style={{position:'sticky' , top:0,   right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-               }} >
+      <div className='d-flex row mb-4' style={{
+        position: 'sticky', top: 0, right: 0,
+        left: 0,
+        zIndex: 1000,
+        backgroundColor: "#FFFFFF",
+      }} >
         <Col>
           <h4 style={{
             fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy",marginTop:5
+            fontFamily: "Gilroy", marginTop: 5
           }}>Electricity</h4>
         </Col>
         <Col className="d-flex justify-content-end">
-          <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
+          {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
           padding:"12px 16px 12px 16px"
            }} 
           onClick={handleShowFormElectricity}  disabled={showPopup}>
             + Electricity
-          </Button>
+          </Button> */}
+
+
+          {EbList.length > 0 ? (
+            EbList.map((v, i) => (
+              <Button
+                key={i}
+                onClick={() => handleEditElectricity(v)}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: 8,
+                  padding: "10px 12px",
+                }}
+              >
+                Edit Electricity
+              </Button>
+            ))
+          ) : (
+            <Button
+              onClick={handleShowFormElectricity}
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                fontWeight: 600,
+                borderRadius: 8,
+                padding: "10px 12px",
+              }}
+              disabled={showPopup}
+            >
+              + Electricity
+            </Button>
+          )}
+
+
         </Col>
 
         {showPopup && (
-        <div className="d-flex flex-wrap">
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Electricity information.
-        </p>
-        
-        {/* <img 
+          <div className="d-flex flex-wrap">
+            <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+              !Please add a hostel before adding Electricity information.
+            </p>
+
+            {/* <img 
   src={close} 
   alt="close icon" 
   onClick={() => setShowPopup(false)}
@@ -365,10 +409,10 @@ setTimeout(()=>{
   style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
 /> */}
 
-      </div>
-      
-      
-      )}
+          </div>
+
+
+        )}
       </div>
       {
         tableShow ?
@@ -376,29 +420,29 @@ setTimeout(()=>{
           :
           <>
             {EbList && EbList.length > 0 ? (
-               EbList.map((v, i) => {
+              EbList.map((v, i) => {
                 return (
-                  
+
                   <Row>
                     <Col lg={8} md={12} sm={12}>
                       <Card className="p-2 border" style={{ borderRadius: 16 }}>
                         <Card.Body>
-                        <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="d-flex gap-2">
-              <label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 18,
-                  color: "#222",
-                  fontWeight: 600,
-                  marginLeft: "10px",
-                }}
-              >
-                Electricity Information
-              </label>
-            </div>
+                          <div className="d-flex justify-content-between align-items-center flex-wrap">
+                            <div className="d-flex gap-2">
+                              <label
+                                style={{
+                                  fontFamily: "Gilroy",
+                                  fontSize: 18,
+                                  color: "#222",
+                                  fontWeight: 600,
+                                  marginLeft: "10px",
+                                }}
+                              >
+                                Electricity Information
+                              </label>
+                            </div>
 
-            <div>
+                            {/* <div>
               <div
                 style={{
                   height: 40,
@@ -500,8 +544,8 @@ setTimeout(()=>{
                   </>
                 )}
               </div>
-            </div>
-          </div>
+            </div> */}
+                          </div>
                           <hr />
                           <Form>
                             <Row className="mb-3">
@@ -576,7 +620,7 @@ setTimeout(()=>{
                 )
               })
             ) : !loading && (
-              <div style={{alignItems:"center",justifyContent:"center",marginTop:100}}>
+              <div style={{ alignItems: "center", justifyContent: "center", marginTop: 100 }}>
                 <div className="d-flex justify-content-center">
                   <img
                     src={EmptyState}
@@ -597,8 +641,8 @@ setTimeout(()=>{
                   No Electricity available
                 </div>
               </div>
-            )          
-            } 
+            )
+            }
           </>
       }
 
@@ -619,7 +663,7 @@ setTimeout(()=>{
               fontFamily: "Gilroy",
             }}
           >
-          {edit ?  "Edit Electricity" : "Add Electricity"}  
+            {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
           <button
             type="button"
@@ -684,7 +728,7 @@ setTimeout(()=>{
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
-                     backgroundColor: "#E7F1FF"
+                    backgroundColor: "#E7F1FF"
                   }}
                 />
               </Form.Group>
@@ -742,102 +786,102 @@ setTimeout(()=>{
             }}
             onClick={handleAddElectricity}
           >
-          {edit ?  "Update Electricity" :  "Add Electricity"}
+            {edit ? "Update Electricity" : "Add Electricity"}
           </Button>
         </Modal.Footer>
       </Modal>
 
 
-      {showdeleteform && 
-<div>
-   <Modal
-          show={showdeleteform}
-          onHide={handleCloseDeleteform}
-          centered
-          backdrop="static"
-          style={{
-            width: 388,
-            height: 250,
-            marginLeft: "500px",
-            marginTop: "200px",
-          }}
-        >
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
+      {showdeleteform &&
+        <div>
+          <Modal
+            show={showdeleteform}
+            onHide={handleCloseDeleteform}
+            centered
+            backdrop="static"
+            style={{
+              width: 388,
+              height: 250,
+              marginLeft: "500px",
+              marginTop: "200px",
+            }}
+          >
+            <Modal.Header style={{ borderBottom: "none" }}>
+              <Modal.Title
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  fontWeight: 600,
+                  color: "#222222",
+                  flex: 1,
+                }}
+              >
+                Delete Electricity?
+              </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body
               style={{
-                fontSize: "18px",
+                fontSize: 14,
+                fontWeight: 500,
                 fontFamily: "Gilroy",
+                color: "#646464",
                 textAlign: "center",
-                fontWeight: 600,
-                color: "#222222",
-                flex: 1,
+                marginTop: "-20px",
               }}
             >
-              Delete Electricity?
-            </Modal.Title>
-          </Modal.Header>
-  
-          <Modal.Body
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-              textAlign: "center",
-              marginTop: "-20px",
-            }}
-          >
-            Are you sure you want to delete this Eb ?
-          </Modal.Body>
-  
-          <Modal.Footer
-            style={{
-              justifyContent: "center",
-              borderTop: "none",
-              marginTop: "-10px",
-            }}
-          >
-            <Button
+              Are you sure you want to delete this Eb ?
+            </Modal.Body>
+
+            <Modal.Footer
               style={{
-                width: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                marginRight: 10,
-               
+                justifyContent: "center",
+                borderTop: "none",
+                marginTop: "-10px",
               }}
-              onClick={handleCloseDeleteform}
-             
             >
-              Cancel
-            </Button>
-            <Button
-              style={{
-                width: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={handleConfirmDelete}
-              
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
- </div> 
-}
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  marginRight: 10,
+
+                }}
+                onClick={handleCloseDeleteform}
+
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
+                onClick={handleConfirmDelete}
+
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      }
 
       {recurringform && (
         <div

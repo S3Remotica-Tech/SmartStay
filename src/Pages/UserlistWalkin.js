@@ -19,6 +19,8 @@ import { MdError } from "react-icons/md";
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
   console.log("UserlistWalkin",state)
+  console.log("props",props);
+  
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
@@ -28,12 +30,12 @@ function UserlistWalkin(props) {
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
   const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
-  const [hostel_Id,setHostelId]= useState("")
-  useEffect(()=>{
-if(state.login.selectedHostel_Id){
-setHostelId(state.login.selectedHostel_Id)
-}
-  },[state.login.selectedHostel_Id])
+  const [hostel_Id, setHostelId] = useState("")
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostelId(state.login.selectedHostel_Id)
+    }
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (
@@ -77,15 +79,16 @@ setHostelId(state.login.selectedHostel_Id)
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
 
-  useEffect(() => {
-    if(hostel_Id){
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id:hostel_Id},
-      });
-    }
+  // useEffect(() => {
+  //   if(hostel_Id){
+  //     dispatch({
+  //       type: "WALKINCUSTOMERLIST",
+  //       payload: { hostel_id:hostel_Id},
+  //     });
+  //   }
   
-  }, [hostel_Id]);
+  // }, [hostel_Id]);
+
   console.log("state.UsersList.getWalkInStatusCode",state.UsersList.getWalkInStatusCode)
 
   useEffect(() => {
@@ -93,7 +96,7 @@ setHostelId(state.login.selectedHostel_Id)
       // setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 2000);
+      }, 1000);
     }
   }, [state.UsersList.getWalkInStatusCode]);
 
@@ -113,7 +116,7 @@ setHostelId(state.login.selectedHostel_Id)
     ) {
       dispatch({
         type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id:hostel_Id},
+        payload: { hostel_id: hostel_Id },
       });
 
       setShowForm(false);
@@ -131,8 +134,18 @@ setHostelId(state.login.selectedHostel_Id)
     state.UsersList.deleteWalkInCustomerStatusCode,
   ]);
 
-  const handleDotsClick = (id) => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+
+  const handleDotsClick = (id, event) => {
     setDotsButton((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
   const handleDelete = (customer) => {
@@ -288,14 +301,16 @@ setHostelId(state.login.selectedHostel_Id)
                   // borderBottom:"none"
                 }}>
                   <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
-                    <thead style={{ border: "none",  position:"sticky",
-                        top:0,
-                        zIndex:1, }}>
+                    <thead style={{
+                      border: "none", position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                    }}>
                       <tr>
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
                             color: "#4B4B4B",
                             fontSize: "14px",
@@ -304,6 +319,7 @@ setHostelId(state.login.selectedHostel_Id)
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft: "20px"
                           }}
                         >
                           Name
@@ -387,10 +403,12 @@ setHostelId(state.login.selectedHostel_Id)
                       {currentCustomers?.map((customer) => (
                         <tr key={customer.id} className="customer-row">
 
-                          <td>
+                          <td style={{ verticalAlign: "middle" }}>
                             <div className="d-flex align-items-center">
                               {/* <Image
                                 src={Ellipse1}
+
+
                                 roundedCircle
                                 height={30}
                                 width={30}
@@ -419,6 +437,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.email_Id || "-"}
@@ -430,7 +449,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
-
+                              verticalAlign: "middle",
                               padding: "10px",
                             }}
                           >
@@ -447,6 +466,7 @@ setHostelId(state.login.selectedHostel_Id)
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               padding: "10px",
+                              verticalAlign: "middle"
                             }}
                           >
                             <span
@@ -459,6 +479,7 @@ setHostelId(state.login.selectedHostel_Id)
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 padding: "2px",
+                                verticalAlign: "middle"
                               }}
                             >
                               {moment(customer.walk_In_Date).format(
@@ -475,7 +496,8 @@ setHostelId(state.login.selectedHostel_Id)
                               color: "#000000",
                               textAlign: "start",
                               padding: "10px",
-                              whiteSpace: "nowrap"
+                              whiteSpace: "nowrap",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.comments || "-"}
@@ -493,10 +515,11 @@ setHostelId(state.login.selectedHostel_Id)
                                 justifyContent: "center",
                                 alignItems: "center",
                                 position: "relative",
+                                backgroundColor: dotsButton === customer.id   ? "#E7F1FF" : "white",
                                 zIndex:
                                   dotsButton === customer.id ? 1000 : "auto",
                               }}
-                              onClick={() => handleDotsClick(customer.id)}
+                              onClick={(e) => handleDotsClick(customer.id,e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -507,10 +530,9 @@ setHostelId(state.login.selectedHostel_Id)
                                   style={{
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    left: -170,
-                                    // bottom:0,
-                                    top: 30,
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
                                     overflow: "visible ! important",
                                     marginButtom: "30px",
                                     width: 163,
@@ -832,7 +854,7 @@ setHostelId(state.login.selectedHostel_Id)
             ) : (
               <div
                 className="d-flex align-items-center justify-content-center "
-                style={{ width: "100%", height:"60vh" }}
+                style={{ width: "100%", height: "60vh" }}
               >
                 <div>
                   <div className="no-data-container">
@@ -884,77 +906,88 @@ setHostelId(state.login.selectedHostel_Id)
 
       {/* Delete  Modal */}
       <Modal
-        show={showDeleteModal}
-        onHide={cancelDelete}
-        centered
-        style={{ margin: "40px" }}
-      >
-        <Modal.Title
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: "18px",
-            textAlign: "center",
-            color: "#222222",
-            paddingTop: "20px",
-          }}
-        >
-          Delete walk-in?
-        </Modal.Title>
-
-        {customerToDelete && (
-          <p
-            style={{
-              color: "#646464",
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-              textAlign: "center",
-              fontSize: "16px",
-              paddingTop: "20px",
-            }}
-          >
-            Are you sure you want to delete this walk-in?
-          </p>
-        )}
-
-        <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
-          <button
-            style={{
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
-              color: "#1E45E1",
-              transition: "all 0.3s ease",
-            }}
-            type="button"
-            className="btn hover-button"
-            onClick={cancelDelete}
-          >
-            Cancel
-          </button>
-
-          <button
-            style={{
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
-              color: "#1E45E1",
-              transition: "all 0.3s ease",
-            }}
-            type="button"
-            className="btn hover-button"
-            onClick={confirmDelete}
-          >
-            Delete
-          </button>
-        </div>
-      </Modal>
+              show={showDeleteModal}
+              onHide={cancelDelete}
+              centered
+              backdrop="static"
+              style={{
+                width: 388,
+                height: 250,
+                marginLeft: "500px",
+                marginTop: "200px",
+              }}
+            >
+              <Modal.Header style={{ borderBottom: "none" }}>
+                <Modal.Title
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: "Gilroy",
+                    textAlign: "center",
+                    fontWeight: 600,
+                    color: "#222222",
+                    flex: 1,
+                  }}
+                >
+                  Delete walk-in
+                </Modal.Title>
+              </Modal.Header>
+      
+              <Modal.Body
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#646464",
+                  textAlign: "center",
+                  marginTop: "-20px",
+                }}
+              >
+                 Are you sure you want to delete this walk-in?
+              </Modal.Body>
+      
+              <Modal.Footer
+                style={{
+                  justifyContent: "center",
+                  borderTop: "none",
+                  marginTop: "-10px",
+                }}
+              >
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#fff",
+                    color: "#1E45E1",
+                    border: "1px solid #1E45E1",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    marginRight: 10,
+                  }}
+                  onClick={cancelDelete}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#1E45E1",
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                  }}
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
       {/* <ToastContainer
                 position="bottom-center"

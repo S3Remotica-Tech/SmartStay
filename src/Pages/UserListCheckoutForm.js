@@ -470,7 +470,7 @@ if(checkOutDate){
   return (<>
     <Modal show={show} onHide={handlecloseform} centered backdrop="static">
       <Modal.Header className="d-flex justify-content-between align-items-center">
-        <Modal.Title style={{ fontWeight: '600', fontSize: '16px', fontFamily: "Gilroy" }}>
+        <Modal.Title style={{ fontWeight: '600', fontSize: '18px', fontFamily: "Gilroy" }}>
           {data && checkoutaction ? 'Confirm Check-out'  : (currentItem && checkouteditaction ? 'Edit check-out' : 'Add Check-out')}</Modal.Title>
         <img
           src={Closecircle}
@@ -523,7 +523,7 @@ if(checkOutDate){
               />
 
               {customerWError && (
-                <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                <div className="d-flex align-items-center p-1 mb-2 mt-1">
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {customerWError}
@@ -605,10 +605,10 @@ if(checkOutDate){
                           }}
                         >
                           Current Floor{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
+                          {/* <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
-                          </span>
+                          </span> */}
                         </Form.Label>
                         <FormControl
                           id="form-controls"
@@ -649,10 +649,10 @@ if(checkOutDate){
                           }}
                         >
                           Current Bed{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
+                          {/* <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
-                          </span>
+                          </span> */}
                         </Form.Label>
                         <FormControl
                           id="form-controls"
@@ -711,8 +711,8 @@ if(checkOutDate){
               </div>
             </Form.Group>
             {checkoUtDateError && (
-              <div className="d-flex align-items-center p-1 mb-2">
-                <MdError style={{ color: "red", marginRight: '5px' }} />
+              <div className="d-flex align-items-center p-1"style={{marginTop:"-6px" }}>
+                <MdError style={{ color: "red", marginRight: '5px'}} />
                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {checkoUtDateError}
                 </label>
@@ -749,7 +749,7 @@ if(checkOutDate){
               </div>
             </Form.Group>
             {checkoUtrequestDateError && (
-              <div className="d-flex align-items-center p-1 mb-2">
+              <div className="d-flex align-items-center p-1 mb-2"style={{marginTop:"-6px" }}>
                 <MdError style={{ color: "red", marginRight: '5px' }} />
                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {checkoUtrequestDateError}

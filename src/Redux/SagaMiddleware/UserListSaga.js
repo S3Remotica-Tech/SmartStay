@@ -13,6 +13,10 @@ function* handleuserlist(user) {
    if (response.status === 200 ) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
    }
+
+   else if (response.status === 201 || response.statusCode === 201){
+      yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.statusCode } })
+   }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
@@ -779,6 +783,8 @@ function* handleCountrylist() {
 
 function* handleGetWalkInCustomer(action) {
    const response = yield call(getWalkInCustomer, action.payload);
+  console.log("response", response);
+  
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -1399,6 +1405,9 @@ console.log("handleUploadDocument",response)
          progress: undefined,
          style: toastStyle,
       });
+   }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put ({type:'ERROR', payload:response.message})
