@@ -667,7 +667,8 @@ function* handleDeleteRolePermission(detail) {
 
   else if (response.data.status === 202 || response.data.statusCode === 202){
       yield put ({type : 'ASSIGNED_ERROR' , payload:response.data.message});
-      toast.error(`${response.data.message}`, {
+      // toast.error(`${response.data.message}`, {
+      toast.error("This role is assigned to user", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
