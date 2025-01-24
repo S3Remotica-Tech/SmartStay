@@ -103,6 +103,7 @@ function UserListKyc(props) {
                 <Modal.Header
                   style={{ marginBottom: "20px", position: "relative" }}
                 >
+                  
                   <div
                     style={{
                       fontSize: 16,
