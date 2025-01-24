@@ -391,18 +391,21 @@ const handleFilterd = () => {
     setSearchicon(false)
   }
 
-  const handleStatusFilter = (e) => {
-    const searchTerm = e.target.value;
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
+    console.log("searchTerm",searchTerm)
     setStatusfilter(searchTerm)
-    if (searchTerm == "ALL") {
-      setData(state.ComplianceList.Compliance)
+    if (searchTerm == "All") {
+      setFilteredUsers(state.ComplianceList.Compliance)
     }
     else {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
-      setData(filteredItems);
+      setFilteredUsers(filteredItems);
+      
     }
   }
+  console.log("data",data)
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -1120,6 +1123,8 @@ const handleFilterd = () => {
 
                     <div className='me-3' style={{border: "1px solid #D4D4D4"}}>
   <Form.Select 
+  onChange={(e)=>handleStatusFilter(e)}
+  value={statusfilter}
     aria-label="Select Price Range"
     className='' 
     id="statusselect" 
@@ -1127,7 +1132,7 @@ const handleFilterd = () => {
   >
     <option value="All">All</option>
     <option value="open">Open</option>
-    <option value="Inprogress">In Progress</option>
+    <option value="in-progress">In Progress</option>
     <option value="resolved">Resolved</option>
     
    
