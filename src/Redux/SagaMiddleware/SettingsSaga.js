@@ -677,7 +677,7 @@ function* handleDeleteRolePermission(detail) {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      //   style: toastStyle,
+        style: toastStyle,
      });
    }
 
