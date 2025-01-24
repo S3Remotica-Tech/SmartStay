@@ -783,9 +783,11 @@ function UserlistForm(props) {
                   >
                     <div
                       style={{
-                        fontSize: 20,
+                        marginTop:-20,
+                        fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",textAlign:"start",
+                        
                       }}
                     >
                       {props.edit === "Edit"
@@ -800,7 +802,7 @@ function UserlistForm(props) {
                       style={{
                         position: "absolute",
                         right: "10px",
-                        top: "16px",
+                        marginTop:-15,
                         border: "1px solid black",
                         background: "transparent",
                         cursor: "pointer",
@@ -808,8 +810,8 @@ function UserlistForm(props) {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: "32px",
-                        height: "32px",
+                        width: "24px",
+                        height: "24px",
                         borderRadius: "50%",
                       }}
                     >
@@ -895,7 +897,7 @@ function UserlistForm(props) {
                   </div>
 
                   <div className="row mt-4">
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
@@ -930,7 +932,7 @@ function UserlistForm(props) {
                         />
                       </Form.Group>
                       {firstnameError && (
-                        <div style={{ color: "red" }}>
+                        <div style={{ color: "red",marginTop:"-15px" }}>
                           {" "}
                           <MdError  />
                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
@@ -941,6 +943,7 @@ function UserlistForm(props) {
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
+                            marginTop:"10px",
                             fontSize: 14,
                             color: "#222222",
                             fontFamily: "Gilroy",
@@ -948,12 +951,12 @@ function UserlistForm(props) {
                           }}
                         >
                           Last Name{" "} 
-                          <span
+                          {/* <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
                             {" "}
                             *{" "}
-                          </span>
+                          </span> */}
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -976,7 +979,7 @@ function UserlistForm(props) {
                     </div>
 
                     <Form.Group
-                      className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                      className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label
@@ -1053,7 +1056,7 @@ function UserlistForm(props) {
                       </InputGroup>
                       <p
                         id="MobileNumberError"
-                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                        style={{ color: "red", fontSize: 11,marginTop:"-15px"}}
                       ></p>
                       {phoneError && (
                         <div style={{ color: "red" }}>
@@ -1082,15 +1085,16 @@ function UserlistForm(props) {
                             color: "#222222",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
+                            marginTop:"10px",
                           }}
                         >
                           Email Id{" "} 
-                          <span
+                          {/* <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
                             {" "}
                             *{" "}
-                          </span>
+                          </span> */}
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -1228,7 +1232,7 @@ function UserlistForm(props) {
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
-                      marginTop: 20,
+                      marginTop: 10,
                     }}
                     onClick={handleSaveUserlist}
                   >
@@ -1588,7 +1592,7 @@ function UserlistForm(props) {
             </div>
           </Modal.Body>
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+          {/* <Modal.Footer style={{ border: "none" }}></Modal.Footer> */}
         </Modal.Dialog>
       </Modal>
     </div>

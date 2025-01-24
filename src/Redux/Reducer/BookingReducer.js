@@ -40,7 +40,7 @@ const BookingReducer = (state = initialState, action) => {
       return {
         ...state,
         CustomerBookingList: action.payload.response,
-        StatusCodeAmenitiesGet: action.payload.statusCode,
+        statusCodeGetBooking: action.payload.statusCode,
       };
     case "CLEAR_BOOKING_LIST":
       return { ...state, statusCodeGetBooking: 0 };

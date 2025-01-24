@@ -667,7 +667,7 @@ function SettingInvoice({ hostelid }) {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px 16px",
+                  padding: "10px 12px",
                   width: "auto",
                   maxWidth: "100%",
                   marginBottom: "10px",
@@ -700,7 +700,7 @@ function SettingInvoice({ hostelid }) {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px 16px",
+                  padding: "10px 12px",
                   width: "auto",
                   maxWidth: "100%",
                   marginBottom: "10px",
@@ -838,11 +838,13 @@ function SettingInvoice({ hostelid }) {
                 <div className="row mt-1">
                   <div className="d-flex row ">
                     <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
-                          Prefix </Form.Label>
+                          Prefix 
+                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                          </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
@@ -858,14 +860,13 @@ function SettingInvoice({ hostelid }) {
                         <div>
                           <p
                             style={{
-                              fontSize: "15px",
+                              fontSize: "13px",
                               color: "red",
-                              // marginBottom: "15px",
                             }}
                           >
                             {prefixerrormsg !== " " && (
                               <MdError
-                                style={{ fontSize: "15px", color: "red" }}
+                                style={{ fontSize: "13px", color: "red",marginBottom:"3px" }}
                               />
                             )}{" "}
                             {prefixerrormsg}
@@ -877,13 +878,14 @@ function SettingInvoice({ hostelid }) {
 
                     <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
                       <Form.Group
-                        className="mb-3"
+                        className="mb-1"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
                         >
                           Suffix
+                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
                         </Form.Label>
                         <Form.Control
                           style={{
@@ -909,14 +911,14 @@ function SettingInvoice({ hostelid }) {
                           <div>
                             <p
                               style={{
-                                fontSize: "15px",
+                                fontSize: "13px",
                                 color: "red",
                                 marginTop: "3px",
                               }}
                             >
                               {suffixerrormsg !== " " && (
                                 <MdError
-                                  style={{ fontSize: "15px", color: "red" }}
+                                  style={{ fontSize: "13px", color: "red",marginBottom:"3px" }}
                                 />
                               )}{" "}
                               {suffixerrormsg}
@@ -968,8 +970,8 @@ function SettingInvoice({ hostelid }) {
                     </Form.Group>
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                    <Form.Group className="" controlId="purchaseDate">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -979,6 +981,7 @@ function SettingInvoice({ hostelid }) {
                         }}
                       >
                         Invoice date
+                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                       </Form.Label>
                       <div style={{ position: "relative", width: "100%" }}>
                         <DatePicker
@@ -1002,12 +1005,12 @@ function SettingInvoice({ hostelid }) {
 
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
                           style={{
                             color: "red",
-                            fontSize: "12px",
+                            fontSize: "13px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
@@ -1019,7 +1022,7 @@ function SettingInvoice({ hostelid }) {
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
+                    <Form.Group className="" controlId="purchaseDate">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1029,6 +1032,7 @@ function SettingInvoice({ hostelid }) {
                         }}
                       >
                         Due date
+                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                       </Form.Label>
                       <div style={{ position: "relative", width: "100%" }}>
 
@@ -1054,7 +1058,7 @@ function SettingInvoice({ hostelid }) {
 
                     {duedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1084,7 +1088,7 @@ function SettingInvoice({ hostelid }) {
                         }}
                       >
                         {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "15px", color: "red" }} />
+                          <MdError style={{ fontSize: "13px", color: "red" }} />
                         )}{" "}
                         {totalErrormsg}
                       </p>
@@ -1216,7 +1220,7 @@ function SettingInvoice({ hostelid }) {
                         <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1245,7 +1249,7 @@ function SettingInvoice({ hostelid }) {
                         <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

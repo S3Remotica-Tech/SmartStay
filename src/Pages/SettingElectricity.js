@@ -368,7 +368,7 @@ const SettingElectricity = ({ hostelid }) => {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: 8,
-                  padding: "12px 16px",
+                  padding: "10px 12px",
                 }}
               >
                 Edit Electricity
@@ -384,7 +384,7 @@ const SettingElectricity = ({ hostelid }) => {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: 8,
-                padding: "12px 16px",
+                padding: "10px 12px",
               }}
               disabled={showPopup}
             >

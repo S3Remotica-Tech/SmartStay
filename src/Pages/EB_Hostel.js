@@ -693,7 +693,7 @@ function EB_Hostel(props) {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px 14px",
+                  padding: "10px 12px",
                   width: "auto",
                   maxWidth: "100%",
                   marginBottom: "10px",
@@ -821,8 +821,7 @@ function EB_Hostel(props) {
                       style={{
                         // height: "400px",
                         height: currentRoomelectricity.length >= 6 ? "400px" : "auto",
-                        // overflowY: currentRoomelectricity.length >= 6 ? "auto" : "visible",
-                        overflowY: "auto",
+                        overflowY: currentRoomelectricity.length >= 6 ? "auto" : "visible",
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
@@ -853,7 +852,8 @@ function EB_Hostel(props) {
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
-                                paddingLeft:"20px"
+                                paddingLeft:"20px",
+                                borderTopLeftRadius:24
                                 // textAlign: hostelBased === 1 ? "start" : "center",
                               }}
                             >

@@ -422,10 +422,10 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         <>
             <Modal show={show} onHide={handleClose} centered backdrop="static">
                 <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
-                    <div style={{ fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
+                    <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
                         {initialData ? 'Edit Walk-in' : 'Add Walk-in'}
                     </div>
-                    <CloseCircle size="32" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
+                    <CloseCircle size="24" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
                 </Modal.Header>
 
 
@@ -496,16 +496,11 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 </div>
 </div>
                     <div className="row">
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
- 
-
-
-
-                            <Form.Group controlId="formCustomerName" className="mb-3">
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                             <Form.Group controlId="formCustomerName" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                     First Name
-                                    {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                    <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
@@ -526,7 +521,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                 {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
                             </Form.Group>
                             {nameError && (
-                                <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                                <div className="d-flex align-items-center p-1"style={{marginTop:"-13px"}}>
                                     <MdError style={{ color: "red", marginRight: '5px' }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {nameError}
@@ -569,7 +564,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         </div>
 
 
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group controlId="formCustomerMobile" className="mb-3">
                                 <Form.Label style={{
                                     fontSize: '14px',
@@ -578,7 +573,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                     fontWeight: 500
                                 }}>
                                     Mobile number
-                                    {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                    <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
 
                                 <InputGroup>
@@ -627,8 +622,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
 
                             {mobileError && (
-                                <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <div className="d-flex align-items-center p-1"style={{marginTop:"-12px"}}>
+                                    <MdError style={{ color: "red", marginRight: '5px' ,marginTop:"-16px"}} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {mobileError}
                                     </label>
@@ -646,7 +641,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group controlId="formCustomerEmail" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                                    Email ID <span style={{ color: '#fff', fontSize: '20px' }}>*</span>
+                                    Email ID 
                                 </Form.Label>
                                 <Form.Control
                                     type="email"
@@ -836,10 +831,10 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-2" controlId="purchaseDate">
+                            <Form.Group  controlId="purchaseDate">
                                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     Walk-In Date 
-                                    {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                    <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
                                 <div style={{ position: 'relative', width: "100%" }}>
                                     <DatePicker
@@ -870,7 +865,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
                         </div>
 
-                        <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
+                        <Modal.Footer style={{ border: "none" , paddingBottom: 0,}} className='mt-1 pt-1' >
 
                             <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                                 {initialData ? 'Save Changes' : 'Add Walk-in'}
