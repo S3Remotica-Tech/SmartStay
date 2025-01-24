@@ -489,6 +489,18 @@ function UserList(props) {
     });
     // }
   }, [uniqueostel_Id]);
+  const [userListPage, setUserListPage] = useState("");
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode === 200) {
+      setUserListPage(state.UsersList.Users);
+
+      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+      }, 1000);
+    }
+  }, [state.UsersList?.UserListStatusCode]);
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
       console.log("state.UsersList.userRoomfor", state.UsersList.userRoomfor);
@@ -600,16 +612,9 @@ function UserList(props) {
       setCustomerCheckoutAddPermission("Permission Denied");
     }
   }, [customerrolePermission]);
-  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
   useEffect(() => {
-    dispatch({
-      type: "CHECKOUTCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, [state.login.selectedHostel_Id]);
-
-  useEffect(() => {
+    setLoading(true);
     dispatch({
       type: "GET_BOOKING_LIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -619,12 +624,26 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
+      setLoading(false);
       setCustomerBooking(state.Booking.CustomerBookingList.bookings);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BOOKING_LIST" });
       }, 2000);
     }
   }, [state.Booking.statusCodeGetBooking]);
+
+
+
+  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+
+  useEffect(() => {
+    dispatch({
+      type: "CHECKOUTCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
+
+ 
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
@@ -652,18 +671,7 @@ function UserList(props) {
       }, 200);
     }
   }, [state.UsersList?.getWalkInStatusCode]);
-  const [userListPage, setUserListPage] = useState("");
-  useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      setUserListPage(state.UsersList.Users);
-
-      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
-    }
-  }, [state.UsersList?.UserListStatusCode]);
+ 
 
   useEffect(() => {
     const customerBookingpage = customerBooking || [];
@@ -2309,7 +2317,7 @@ function UserList(props) {
                     <div>
                       {!loading &&
                         currentItems &&
-                        currentItems.length === 0 && (
+                        currentItems?.length === 0 && (
                           // {currentItems?.length == 0 && (
                           <div>
                             <div style={{ textAlign: "center" }}>
@@ -2480,7 +2488,7 @@ function UserList(props) {
                               </tr>
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
-                              {loading ? (
+                              { loading && loading ? (
                                 <div
                                   style={{
                                     position: "absolute",
