@@ -788,7 +788,7 @@ function Expenses({ allPageHostel_Id }) {
               }}
             >
               <div className='d-flex align-items-center flex-wrap'>
-                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
+                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" ,marginTop:-20}}>Expenses</label>
 
 
 

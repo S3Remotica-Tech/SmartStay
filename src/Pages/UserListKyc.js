@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
-
+import { MdError } from "react-icons/md";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -77,6 +77,9 @@ function UserListKyc(props) {
 
     }
   }, [state.UsersList.kycValidateOtpVerifySuccess])
+
+  const [checkoUtDateError, setCheckOutDateError] = useState('')
+
   return (
     <div style={{borderRadius:24}}>
       <Modal
@@ -92,8 +95,8 @@ function UserListKyc(props) {
             <div className="d-flex align-items-center" style={{borderRadius:24}}>
 
               <div className="container" style={{
-            paddingLeft: "2px", // Adjust left padding
-            paddingRight: "2px", // Adjust right padding
+            paddingLeft: 1, 
+            paddingRight: 1,
             borderRadius:24
           }}>
 
@@ -155,12 +158,14 @@ function UserListKyc(props) {
                           fontFamily: "Gilroy",
                           display: "flex",
                           alignItems: "center",
-
+                          gap: "5px", // Add gap between icon and text
                         }}
                       >
                         Aadhar Number
 
+                        <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
+   
                       <FormControl
                         type="text"
                         id="form-controls"

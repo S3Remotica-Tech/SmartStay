@@ -651,7 +651,7 @@ function SettingGeneral() {
 
 
 
-        <div className="container">
+        <div>
           <label
             style={{
               fontSize: 18,
