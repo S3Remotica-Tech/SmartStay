@@ -709,6 +709,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   height: currentItems.length >= 8  || sortedData.length >= 8 ? "500px" : "auto",
                   overflowY: "auto",
                   borderTop: "1px solid #E8E8E8",
+                  marginBottom:20,
                   //  borderBottom:"1px solid #DCDCDC"
                 }}>
 
