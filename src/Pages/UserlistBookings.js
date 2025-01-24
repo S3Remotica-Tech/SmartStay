@@ -201,9 +201,9 @@ function Booking(props) {
     }
   };
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "HOSTELLIST" });
+  // }, []);
 
   useEffect(() => {
     dispatch({

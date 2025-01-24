@@ -84,7 +84,7 @@ function EB_Hostel(props) {
 
   useEffect(() => {
     if(selectedHostel){
-      dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: selectedHostel } });
     }
   }, [selectedHostel]);
 

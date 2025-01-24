@@ -1520,7 +1520,7 @@ console.log("end",formattedEndDate);
 
 
   useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
   }, [uniqueostel_Id])
 
   useEffect(() => {
