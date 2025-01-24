@@ -15,7 +15,6 @@ function SettingCompliance({ hostelid }) {
     const state = useSelector((state) => state);
     const popupRef = useRef(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const [activeRow, setActiveRow] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [complaintTypeName, setComplaintTypeName] = useState('')
     const [comlaintError, setComplaintError] = useState('')
@@ -25,7 +24,7 @@ function SettingCompliance({ hostelid }) {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [loading, setLoading] = useState(true)
-
+    const [showDots, setShowDots] = useState(false);
 
 
 
@@ -35,7 +34,6 @@ function SettingCompliance({ hostelid }) {
     };
 
     const handleConfirmDelete = () => {
-        setActiveRow(false)
         if (rowDetails.id) {
             dispatch({ type: 'DELETE-COMPLAINT-TYPE', payload: { id: rowDetails.id } })
         }
@@ -46,18 +44,22 @@ function SettingCompliance({ hostelid }) {
 
     const handleCancel = () => {
         setShowPopup(false);
-        setActiveRow(false)
     };
 
     useEffect(() => {
         dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
     }, [hostelid])
 
-    const handleShowDots = (e, row) => {
+    useEffect(() => {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, []);
+    
+    const handleShowDots = (e, row, index) => {
+        setShowDots((prev) => (prev === index ? null : index));
         setRowDetails(row)
-        if (activeRow === true) {
-            setActiveRow(false);
-        } else {
             const rect = e.currentTarget.getBoundingClientRect();
             // rect.top
             setPopupPosition({
@@ -66,19 +68,14 @@ function SettingCompliance({ hostelid }) {
                 top: rect.top + window.scrollY + 10,
                 left: rect.left + window.scrollX - 594,
             });
-            setActiveRow(true);
-        }
     };
 
-    // const handleEdit = () => {
-    //     setActiveRow(null)
-    //     setShowForm(true)
-    //     setEdit(true)
-    //     setId(rowDetails.id)
-    //     setComplaintTypeName(rowDetails.complaint_name)
-    // }
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+    };
     const handleEdit = () => {
-        setActiveRow(null)
         setShowEditForm(true)
         setEdit(true)
         setId(rowDetails.id)
@@ -285,7 +282,7 @@ function SettingCompliance({ hostelid }) {
                         <div className="row">
                             {
 
-                                state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u) => {
+                                state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
                                     return (
                                         <>
                                             <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
@@ -310,12 +307,13 @@ function SettingCompliance({ hostelid }) {
                                                     </div>
                                                     <button className="btn p-2">
                                                         <img src={round} width={34} height={34} alt="Menu Icon"
-                                                            onClick={(e) => handleShowDots(e, u)}
+                                                            onClick={(e) => handleShowDots(e, u, i)}
                                                         />
                                                     </button>
                                                 </div>
 
-                                                {activeRow && (
+                                                {/* {activeRow && showDots === i && ( */}
+                                                { showDots === i && (
                                                     <div
                                                         ref={popupRef}
                                                         className="position-absolute"
