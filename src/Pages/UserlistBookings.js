@@ -118,13 +118,19 @@ function Booking(props) {
   }, [props.uniqueostel_Id]);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
   }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if (state.Booking.statusCodeGetBooking === 200) {
+      // setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BOOKING_LIST" });
+      }, 2000);
+    }
+  }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
     if (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Table, Button,Form,FormControl} from "react-bootstrap";
+import { Table, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, MoreCircle } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -34,16 +34,15 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
-import { SearchNormal1 } from 'iconsax-react';
+import { SearchNormal1 } from "iconsax-react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
 
-
-import DatePicker from 'react-datepicker';
-import Closebtn from '../Assets/Images/CloseCircle.png';
-import Calendars from '../Assets/Images/New_images/calendar.png'
+import DatePicker from "react-datepicker";
+import Closebtn from "../Assets/Images/CloseCircle.png";
+import Calendars from "../Assets/Images/New_images/calendar.png";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -63,9 +62,12 @@ function UserList(props) {
   const [customerAddPermission, setCustomerAddPermission] = useState("");
   const [customerDeletePermission, setCustomerDeletePermission] = useState("");
   const [customerEditPermission, setCustomerEditPermission] = useState("");
-  const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState("");
-  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
-  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] = useState("");
+  const [customerBookingAddPermission, setCustomerBookingAddPermission] =
+    useState("");
+  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
+    useState("");
+  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
+    useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -84,391 +86,395 @@ function UserList(props) {
   const [amnityEdit, setamnityEdit] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
 
+  const [customername, setCustomerName] = useState("");
+  const [invoicenumber, setInvoiceNumber] = useState("");
+  const [startdate, setStartDate] = useState(null);
+  const [enddate, setEndDate] = useState(null);
+  const [invoicedate, setInvoiceDate] = useState(null);
+  const [invoiceduedate, setInvoiceDueDate] = useState(null);
+  const [formatstartdate, setFormatStartDate] = useState(null);
+  const [formatenddate, setFormatEndDate] = useState(null);
+  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+  const [formatduedate, setFormatDueDate] = useState(null);
+  const [customererrmsg, setCustomerErrmsg] = useState("");
+  const [billamounts, setBillAmounts] = useState([]);
 
-   const [customername , setCustomerName] =  useState ('');
-     const [invoicenumber , setInvoiceNumber] =  useState ('');
-     const [startdate , setStartDate] =  useState (null);
-     const [enddate , setEndDate] =  useState (null);
-     const [invoicedate , setInvoiceDate] =  useState (null);
-     const [invoiceduedate , setInvoiceDueDate] =  useState (null);
-     const [formatstartdate, setFormatStartDate] = useState(null)
-     const [formatenddate, setFormatEndDate] = useState(null)
-     const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-     const [formatduedate, setFormatDueDate] = useState(null)
-      const [customererrmsg , setCustomerErrmsg] = useState('')
-         const [billamounts, setBillAmounts] = useState([])
-          
-          const [totalAmount , setTotalAmount] = useState('')
-          const [selectedData, setSelectedData] = useState([]);
-          const [tableErrmsg, setTableErrmsg] = useState('');
-          const [newRows, setNewRows] = useState([{"S.NO": 1,"am_name":'', "amount" : "0"}]);
-           const [amenityArray,setamenityArray] = useState([])
-          const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-          const [startdateerrmsg , setStartdateErrmsg] = useState('')
-          const [enddateerrmsg , setEnddateErrmsg] = useState('')
-          const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
-          const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
-          const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-           const [isEditing, setIsEditing] = useState(false);
-        const[currentView,setCurrentView]  = useState(false) 
-        const [isDeleting, setIsDeleting] = useState(false);
-          const [deleteId, setDeleteId] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
+  const [selectedData, setSelectedData] = useState([]);
+  const [tableErrmsg, setTableErrmsg] = useState("");
+  const [newRows, setNewRows] = useState([
+    { "S.NO": 1, am_name: "", amount: "0" },
+  ]);
+  const [amenityArray, setamenityArray] = useState([]);
+  const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
+  const [startdateerrmsg, setStartdateErrmsg] = useState("");
+  const [enddateerrmsg, setEnddateErrmsg] = useState("");
+  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
+  const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
+  const [allfielderrmsg, setAllFieldErrmsg] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentView, setCurrentView] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
 
-          let serialNumber = 1;
+  let serialNumber = 1;
 
+  const handleEditItem = (details) => {
+    console.log("details", details);
+    setCurrentView(details);
+  };
 
-const handleEditItem = (details) => {
-console.log("details",details)
-setCurrentView(details)
-}
+  const handleDeleteItem = (detail) => {
+    console.log("details", detail);
+    setDeleteId(detail);
+  };
 
-const handleDeleteItem = (detail) => {
-  console.log("details",detail)
-  setDeleteId(detail)
-  }
+  const handleDeleteBilling = () => {
+    dispatch({
+      type: "MANUAL-INVOICE-DELETE",
+      payload: {
+        id: deleteId,
+      },
+    });
+    setIsDeleting(false);
+  };
 
- const handleDeleteBilling = () => {
-  dispatch({
-    type:'MANUAL-INVOICE-DELETE',
-    payload: {
-      id:deleteId ,
-    },
-  })
-  setIsDeleting(false)
- }
+  const handleEditBill = () => {
+    let isValid = true;
 
-const handleEditBill = () => {
-  let isValid = true;
+    // Reset error messages
+    setCustomerErrmsg("");
+    setInvoicenumberErrmsg("");
+    setStartdateErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
 
-  // Reset error messages
-  setCustomerErrmsg('');
-  setInvoicenumberErrmsg('');
-  setStartdateErrmsg('');
-  setInvoiceDateErrmsg('');
-  setInvoiceDueDateErrmsg('');
-  setAllFieldErrmsg('');
-
-  // Validate Customer
-  if (!customername) {
-      setCustomerErrmsg('Customer is required.');
+    // Validate Customer
+    if (!customername) {
+      setCustomerErrmsg("Customer is required.");
       isValid = false;
-  }
+    }
 
-  // Validate Invoice Number
-  if (!invoicenumber) {
-    setInvoicenumberErrmsg('Invoice number is required.');
+    // Validate Invoice Number
+    if (!invoicenumber) {
+      setInvoicenumberErrmsg("Invoice number is required.");
       isValid = false;
-  }
+    }
 
-  // Validate Start Date
-  if (!startdate) {
-      setStartdateErrmsg('Start date is required.');
+    // Validate Start Date
+    if (!startdate) {
+      setStartdateErrmsg("Start date is required.");
       isValid = false;
-  }
-  if (!enddate) {
-    setEnddateErrmsg('End date is required.');
-    isValid = false;
-}
-
-  // Validate Invoice Date
-  if (!invoicedate) {
-      setInvoiceDateErrmsg('Invoice date is required.');
+    }
+    if (!enddate) {
+      setEnddateErrmsg("End date is required.");
       isValid = false;
-  }
+    }
 
-  // Validate Due Date
-  if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg('Due date is required.');
+    // Validate Invoice Date
+    if (!invoicedate) {
+      setInvoiceDateErrmsg("Invoice date is required.");
       isValid = false;
-  }
+    }
 
-  // Check All Required Fields
-  if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate || !enddate) {
-      setAllFieldErrmsg('Please fill out all required fields.');
+    // Validate Due Date
+    if (!invoiceduedate) {
+      setInvoiceDueDateErrmsg("Due date is required.");
       isValid = false;
-  }
+    }
 
-  const isDataUnchanged =
-  customername === currentView.user_id &&
-  invoicenumber === currentView.invoicenumber &&
-  startdate === currentView.startdate &&
-  enddate === currentView.enddate &&
-  invoicedate === currentView.date &&
-  invoiceduedate === currentView.due_date;
+    // Check All Required Fields
+    if (
+      !customername ||
+      !invoicenumber ||
+      !startdate ||
+      !invoicedate ||
+      !invoiceduedate ||
+      !enddate
+    ) {
+      setAllFieldErrmsg("Please fill out all required fields.");
+      isValid = false;
+    }
 
-if (isDataUnchanged) {
-  setAllFieldErrmsg('No changes detected.');
-  isValid = false;
-}
+    const isDataUnchanged =
+      customername === currentView.user_id &&
+      invoicenumber === currentView.invoicenumber &&
+      startdate === currentView.startdate &&
+      enddate === currentView.enddate &&
+      invoicedate === currentView.date &&
+      invoiceduedate === currentView.due_date;
 
-  if (isValid) {
-    const dueDateObject = new Date(invoiceduedate);
-const formatduedate = `${dueDateObject.getFullYear()}-${String(
-dueDateObject.getMonth() + 1
-).padStart(2, '0')}-${String(dueDateObject.getDate()).padStart(2, '0')}`;
+    if (isDataUnchanged) {
+      setAllFieldErrmsg("No changes detected.");
+      isValid = false;
+    }
+
+    if (isValid) {
+      const dueDateObject = new Date(invoiceduedate);
+      const formatduedate = `${dueDateObject.getFullYear()}-${String(
+        dueDateObject.getMonth() + 1
+      ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
 
       const dateObject = new Date(invoicedate);
       const year = dateObject.getFullYear();
       const month = dateObject.getMonth() + 1;
       const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+        day
+      ).padStart(2, "0")}`;
 
-  const startDateObject = new Date(startdate);
-const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-startDateObject.getMonth() + 1
-).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
+      const startDateObject = new Date(startdate);
+      const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+        startDateObject.getMonth() + 1
+      ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
+        2,
+        "0"
+      )}`;
 
-const endDateObject = new Date(enddate);
-const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-endDateObject.getMonth() + 1
-).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
-  console.log("Customer Name (user_id):", customername);
-  console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
-  console.log("Due Date (due_date):", formatduedate);
-  console.log("Invoice ID (id):", currentView.id);
-  console.log("Amenity:", currentView.amenity);
-console.log("start",formattedStartDate);
-console.log("end",formattedEndDate);
+      const endDateObject = new Date(enddate);
+      const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+        endDateObject.getMonth() + 1
+      ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
+      console.log("Customer Name (user_id):", customername);
+      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
+      console.log("Due Date (due_date):", formatduedate);
+      console.log("Invoice ID (id):", currentView.id);
+      console.log("Amenity:", currentView.amenity);
+      console.log("start", formattedStartDate);
+      console.log("end", formattedEndDate);
 
-  dispatch({
-    type: 'MANUAL-INVOICE-EDIT',
-    payload: {
-      user_id: customername,
-      date: formattedDate,
-      due_date: formatduedate,
-      id: currentView.id,
-      amenity: currentView.amenity,
-      start_date:formattedStartDate,
-      end_date:formattedEndDate,
+      dispatch({
+        type: "MANUAL-INVOICE-EDIT",
+        payload: {
+          user_id: customername,
+          date: formattedDate,
+          due_date: formatduedate,
+          id: currentView.id,
+          amenity: currentView.amenity,
+          start_date: formattedStartDate,
+          end_date: formattedEndDate,
+        },
+      });
 
+      console.log("EditBill");
+      setIsEditing(false);
+      setRoomDetail(true);
+      setCustomerName("");
+      setInvoiceNumber("");
+      setStartDate("");
+      setEndDate("");
+      setInvoiceDate("");
+      setInvoiceDueDate("");
 
-    },
-  });
+      setTotalAmount("");
+      setBillAmounts([]);
+      setNewRows([]);
 
-  console.log("EditBill");
-  setIsEditing(false)
-  setRoomDetail(true)
-  setCustomerName('');
-  setInvoiceNumber('');
-  setStartDate('');
-  setEndDate('');
-  setInvoiceDate('')
-  setInvoiceDueDate('')
- 
-  setTotalAmount('')
-  setBillAmounts([]);
-  setNewRows([]);
-
-  setCustomerErrmsg('')
-  setStartdateErrmsg('')
-  setInvoiceDateErrmsg('')
-  setInvoiceDueDateErrmsg('')
-  setAllFieldErrmsg('')
-}
-};
-
+      setCustomerErrmsg("");
+      setStartdateErrmsg("");
+      setInvoiceDateErrmsg("");
+      setInvoiceDueDateErrmsg("");
+      setAllFieldErrmsg("");
+    }
+  };
 
   const handleAddColumn = () => {
-      const newRow = {
-        am_name: '',
-        used_unit: '',
-        per_unit_amount: '',
-        total_amount: '',
-        amount: ''
-      };
-      setNewRows([...newRows, newRow]);
-      console.log("Updated Rows:", [...newRows, newRow]);
+    const newRow = {
+      am_name: "",
+      used_unit: "",
+      per_unit_amount: "",
+      total_amount: "",
+      amount: "",
     };
-    console.log("currentView",props.currentView)
-  useEffect(()=> {
-  
-    if (newRows){
-    
-                        const allRows = newRows.map(detail => ({
-                          am_name: detail.am_name, 
-                          amount: Number(detail.amount)
-                        })).filter(detail => detail.am_name && detail.amount);
-                        
-                        setamenityArray(allRows)
-                        
-                          const Total_amout =  allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) 
-                          setTotalAmount(Total_amout);
-                      }
-                      
-    
-              },[newRows]) 
-              
-              const handleCustomerName = (e) => {
-                setCustomerName(e.target.value)
-                setAllFieldErrmsg('')
-                if(!e.target.value){
-                  setCustomerErrmsg("Please Select Name")
-                }
-                else{
-                  setCustomerErrmsg('')
-                }
-                setStartDate('');
-                setEndDate('');
-                setSelectedData('');
-                setBillAmounts('')
-                setTotalAmount('')
-              }
-            
-              const handlestartDate = (selectedDates) => {
-                setAllFieldErrmsg('')
-                const date = selectedDates
-                setStartDate(date);
-            
-                   if(!selectedDates){
-                    setStartdateErrmsg("Please Select Date")
-                   }
-                   else{
-                    setStartdateErrmsg('')
-                    setEnddateErrmsg('')
-                   }
-               
-               const formattedDate = formatDateForPayloadmanualinvoice(date);    
-               setFormatStartDate(formattedDate)
-            
-            }
-            
-            const handleEndDate = (selectedDates) => {
-              setAllFieldErrmsg('')
-              const date = selectedDates
-              setEndDate(date);
-              if(!selectedDates){
-               setEnddateErrmsg("Please Select Date")
-              }
-              else{
-               setEnddateErrmsg('')
-               setStartdateErrmsg('')
-              }
-            
-             const formattedDate = formatDateForPayloadmanualinvoice(date);
-             setFormatEndDate(formattedDate)
-            }
-            
-            const handleInvoiceDate = (selectedDates) => {
-              setAllFieldErrmsg('')
-              const date = selectedDates
-              setInvoiceDate(date);
-              if(!selectedDates){
-               setInvoiceDateErrmsg("Please Select Date")
-              }
-              else{
-               setInvoiceDateErrmsg('')
-               setEnddateErrmsg('')
-               setStartdateErrmsg('')
-              }
-            
-              const formattedDate = formatDateForPayloadmanualinvoice(date);
-              setFormatInvoiceDate(formattedDate)
-            }
-            
-             
-            const handleDueDate = (selectedDates) => {
-              setAllFieldErrmsg('')
-              const date = selectedDates
-              setInvoiceDueDate(date);
-              if(!selectedDates){
-                setInvoiceDueDateErrmsg("Please Select Date")
-               }
-               else{
-                setInvoiceDueDateErrmsg('')
-               }
-            
-              const formattedDate = formatDateForPayloadmanualinvoice(date);
-              setFormatDueDate(formattedDate)
-            }
-            
-            const handleNewRowChange = (index, field, value) => {
-              const updatedRows = [...newRows];
-              updatedRows[index][field] = value;
-               setNewRows(updatedRows);
-              };
-            
-              const handleDeleteNewRow = (index) => {
-                const updatedRows = newRows.filter((_, i) => i !== index);
-                setNewRows(updatedRows);
-               };  
-               
-               const formatDateForPayloadmanualinvoice = (date) => {
-                if (!date) return null;
-                const offset = date.getTimezoneOffset();
-                date.setMinutes(date.getMinutes() - offset);
-                return date.toISOString().split('T')[0]; 
-              };   
-              
-      
-              const handleBackBill = () => {
-                setIsEditing(false)
-                
-                setRoomDetail(true)
-                setCustomerName('');
-                setInvoiceNumber('');
-                setStartDate('');
-                setEndDate('');
-                setInvoiceDate('');
-                setInvoiceDueDate('');
-                setSelectedData('');
-               
-                setBillAmounts('')
-                setTotalAmount('')
-                setCustomerErrmsg('')
-                setStartdateErrmsg('')
-                setInvoiceDateErrmsg('')
-                setInvoiceDueDateErrmsg('')
-                setAllFieldErrmsg('')
-                
-              }   
-              
-     useEffect(() => {
-        if (currentView) {
-         console.log(currentView,"current");
-         
-          setCustomerName (currentView.hos_user_id);
-          setInvoiceNumber(currentView.Invoices)
-          if (currentView.DueDate) {
-            const parsedDate = new Date(currentView.DueDate); // Convert to Date object
-            if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-              setInvoiceDueDate(parsedDate); // Set the date object in state
-            } else {
-              console.error('Invalid DueDate:', currentView.DueDate);
-            }
-          }
-         
-          if (currentView.Date) {
-            const parsedDate = new Date(currentView.Date); // Convert to Date object
-            if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-              setInvoiceDate(parsedDate); // Set the date object in state
-            } else {
-              console.error('Invalid DueDate:', currentView.Date);
-            }
-          }
-          if (currentView.start_date ) {
-            console.log("StartDate", currentView.start_date);
-            const parsedDate = new Date(currentView.start_date); // Convert to Date object
-            if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-              setStartDate(parsedDate); // Set the date object in state
-            } else {
-              console.error('Invalid startDate:', currentView.start_date);
-            }
-          }
-          if (currentView.end_date ) {
-            console.log("Enddate", currentView.end_date);
-            const parsedDate = new Date(currentView.end_date); // Convert to Date object
-            if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-              setEndDate(parsedDate); // Set the date object in state
-            } else {
-              console.error('Invalid endDate:', currentView.end_date);
-            }
-          }
-          
-        setTotalAmount(currentView.Amount)
-      setNewRows(currentView.amenity)
-        
+    setNewRows([...newRows, newRow]);
+    console.log("Updated Rows:", [...newRows, newRow]);
+  };
+  console.log("currentView", props.currentView);
+  useEffect(() => {
+    if (newRows) {
+      const allRows = newRows
+        .map((detail) => ({
+          am_name: detail.am_name,
+          amount: Number(detail.amount),
+        }))
+        .filter((detail) => detail.am_name && detail.amount);
+
+      setamenityArray(allRows);
+
+      const Total_amout = allRows.reduce(
+        (sum, item) => sum + parseFloat(item.amount || 0),
+        0
+      );
+      setTotalAmount(Total_amout);
+    }
+  }, [newRows]);
+
+  const handleCustomerName = (e) => {
+    setCustomerName(e.target.value);
+    setAllFieldErrmsg("");
+    if (!e.target.value) {
+      setCustomerErrmsg("Please Select Name");
+    } else {
+      setCustomerErrmsg("");
+    }
+    setStartDate("");
+    setEndDate("");
+    setSelectedData("");
+    setBillAmounts("");
+    setTotalAmount("");
+  };
+
+  const handlestartDate = (selectedDates) => {
+    setAllFieldErrmsg("");
+    const date = selectedDates;
+    setStartDate(date);
+
+    if (!selectedDates) {
+      setStartdateErrmsg("Please Select Date");
+    } else {
+      setStartdateErrmsg("");
+      setEnddateErrmsg("");
+    }
+
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatStartDate(formattedDate);
+  };
+
+  const handleEndDate = (selectedDates) => {
+    setAllFieldErrmsg("");
+    const date = selectedDates;
+    setEndDate(date);
+    if (!selectedDates) {
+      setEnddateErrmsg("Please Select Date");
+    } else {
+      setEnddateErrmsg("");
+      setStartdateErrmsg("");
+    }
+
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatEndDate(formattedDate);
+  };
+
+  const handleInvoiceDate = (selectedDates) => {
+    setAllFieldErrmsg("");
+    const date = selectedDates;
+    setInvoiceDate(date);
+    if (!selectedDates) {
+      setInvoiceDateErrmsg("Please Select Date");
+    } else {
+      setInvoiceDateErrmsg("");
+      setEnddateErrmsg("");
+      setStartdateErrmsg("");
+    }
+
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatInvoiceDate(formattedDate);
+  };
+
+  const handleDueDate = (selectedDates) => {
+    setAllFieldErrmsg("");
+    const date = selectedDates;
+    setInvoiceDueDate(date);
+    if (!selectedDates) {
+      setInvoiceDueDateErrmsg("Please Select Date");
+    } else {
+      setInvoiceDueDateErrmsg("");
+    }
+
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatDueDate(formattedDate);
+  };
+
+  const handleNewRowChange = (index, field, value) => {
+    const updatedRows = [...newRows];
+    updatedRows[index][field] = value;
+    setNewRows(updatedRows);
+  };
+
+  const handleDeleteNewRow = (index) => {
+    const updatedRows = newRows.filter((_, i) => i !== index);
+    setNewRows(updatedRows);
+  };
+
+  const formatDateForPayloadmanualinvoice = (date) => {
+    if (!date) return null;
+    const offset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - offset);
+    return date.toISOString().split("T")[0];
+  };
+
+  const handleBackBill = () => {
+    setIsEditing(false);
+
+    setRoomDetail(true);
+    setCustomerName("");
+    setInvoiceNumber("");
+    setStartDate("");
+    setEndDate("");
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setSelectedData("");
+
+    setBillAmounts("");
+    setTotalAmount("");
+    setCustomerErrmsg("");
+    setStartdateErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
+  };
+
+  useEffect(() => {
+    if (currentView) {
+      console.log(currentView, "current");
+
+      setCustomerName(currentView.hos_user_id);
+      setInvoiceNumber(currentView.Invoices);
+      if (currentView.DueDate) {
+        const parsedDate = new Date(currentView.DueDate); // Convert to Date object
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
+          setInvoiceDueDate(parsedDate); // Set the date object in state
+        } else {
+          console.error("Invalid DueDate:", currentView.DueDate);
         }
-      }, [currentView]);          
+      }
+
+      if (currentView.Date) {
+        const parsedDate = new Date(currentView.Date); // Convert to Date object
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
+          setInvoiceDate(parsedDate); // Set the date object in state
+        } else {
+          console.error("Invalid DueDate:", currentView.Date);
+        }
+      }
+      if (currentView.start_date) {
+        console.log("StartDate", currentView.start_date);
+        const parsedDate = new Date(currentView.start_date); // Convert to Date object
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
+          setStartDate(parsedDate); // Set the date object in state
+        } else {
+          console.error("Invalid startDate:", currentView.start_date);
+        }
+      }
+      if (currentView.end_date) {
+        console.log("Enddate", currentView.end_date);
+        const parsedDate = new Date(currentView.end_date); // Convert to Date object
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
+          setEndDate(parsedDate); // Set the date object in state
+        } else {
+          console.error("Invalid endDate:", currentView.end_date);
+        }
+      }
+
+      setTotalAmount(currentView.Amount);
+      setNewRows(currentView.amenity);
+    }
+  }, [currentView]);
 
   useEffect(() => {
     setUniqostel_Id(state.login.selectedHostel_Id);
@@ -476,41 +482,37 @@ console.log("end",formattedEndDate);
 
   useEffect(() => {
     // if(uniqueostel_Id){
-      setLoading(true);
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: uniqueostel_Id },
-      });
+    setLoading(true);
+    dispatch({
+      type: "USERLIST",
+      payload: { hostel_id: uniqueostel_Id },
+    });
     // }
-   
   }, [uniqueostel_Id]);
-      useEffect(() =>{
-          if(state.UsersList.userRoomfor){
-           
-            console.log("state.UsersList.userRoomfor",state.UsersList.userRoomfor);
-            // setIsEditing(true);
-              // props.setRoomDetail(false)
-              setIsEditing(true)
-              setRoomDetail(false)
-              console.log(roomDetail,"roo");
-              
-               
-          }
-        },[state.UsersList.userRoomfor])
+  useEffect(() => {
+    if (state.UsersList.userRoomfor) {
+      console.log("state.UsersList.userRoomfor", state.UsersList.userRoomfor);
+      // setIsEditing(true);
+      // props.setRoomDetail(false)
+      setIsEditing(true);
+      setRoomDetail(false);
+      console.log(roomDetail, "roo");
+    }
+  }, [state.UsersList.userRoomfor]);
 
-        useEffect(() =>{
-          if(state.UsersList.userProfilebill){
-           
-            console.log("state.UsersList.userProfilebill",state.UsersList.userProfilebill);
-            // setIsEditing(true);
-              // props.setRoomDetail(false)
-              setIsDeleting(true)
-              setRoomDetail(true)
-              console.log(roomDetail,"roo");
-              
-               
-          }
-        },[state.UsersList.userProfilebill])     
+  useEffect(() => {
+    if (state.UsersList.userProfilebill) {
+      console.log(
+        "state.UsersList.userProfilebill",
+        state.UsersList.userProfilebill
+      );
+      // setIsEditing(true);
+      // props.setRoomDetail(false)
+      setIsDeleting(true);
+      setRoomDetail(true);
+      console.log(roomDetail, "roo");
+    }
+  }, [state.UsersList.userProfilebill]);
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
@@ -598,55 +600,93 @@ console.log("end",formattedEndDate);
       setCustomerCheckoutAddPermission("Permission Denied");
     }
   }, [customerrolePermission]);
-   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
-
-     useEffect(() => {
-       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-     }, [state.login.selectedHostel_Id]);
-   
-
-   useEffect(() => {
-      if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-        setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
-        }, 2000);
-      }
-    }, [state.UsersList.GetCheckOutCustomerStatusCode]);
-
-const [walkingCustomer,setWalkingCustomer]=useState("")
-    useEffect(() => {
-      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
-    }, [uniqueostel_Id])
-  
-    useEffect(() => {
-      if (state.UsersList?.getWalkInStatusCode === 200) {
-        setWalkingCustomer(state.UsersList.WalkInCustomerList)
-        // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-        }, 200);
-      }
-    }, [state.UsersList?.getWalkInStatusCode]);
+  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
   useEffect(() => {
+    dispatch({
+      type: "CHECKOUTCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
+  const [customerBooking, setCustomerBooking] = useState("");
+
+  useEffect(() => {
+    if (state.Booking.statusCodeGetBooking === 200) {
+      setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BOOKING_LIST" });
+      }, 2000);
+    }
+  }, [state.Booking.statusCodeGetBooking]);
+
+  useEffect(() => {
+    if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
+      }, 2000);
+    }
+  }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+
+  const [walkingCustomer, setWalkingCustomer] = useState("");
+  useEffect(() => {
+    dispatch({
+      type: "WALKINCUSTOMERLIST",
+      payload: { hostel_id: uniqueostel_Id },
+    });
+  }, [uniqueostel_Id]);
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
+      setWalkingCustomer(state.UsersList.WalkInCustomerList);
+      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
+  const [userListPage, setUserListPage] = useState("");
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode === 200) {
+      setUserListPage(state.UsersList.Users);
+
+      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+      }, 1000);
+    }
+  }, [state.UsersList?.UserListStatusCode]);
+
+  useEffect(() => {
+    const customerBookingpage = customerBooking || [];
     // Only filter when value is "1"
     if (value === "1") {
-      const FilterUser = state.UsersList.Users.filter((item) => {
-        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
-      });
-
+      const FilterUser = Array.isArray(userListPage)
+        ? userListPage.filter((item) =>
+            item.Name.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
       setFilteredUsers(FilterUser);
     }
-    
+
     if (value === "2") {
-      const FilterUsertwo =
-        state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
+      const FilterUsertwo = Array.isArray(customerBooking)
+      ? customerBooking.filter((item) => {
           const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
-        });
-      setFilteredUsers(FilterUsertwo);
+        })
+      : [];
+    setFilteredUsers(FilterUsertwo);
     }
+
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
@@ -655,7 +695,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
     if (value === "4" && Array.isArray(walkingCustomer)) {
       const FilterUsertwo = walkingCustomer?.filter((item) => {
-        return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
+        return item.first_name
+          ?.toLowerCase()
+          .includes(filterInput?.toLowerCase() || "");
       });
       setFilteredUsers(FilterUsertwo);
     }
@@ -663,7 +705,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     filterInput,
     state.UsersList.Users,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
+    state?.Booking?.CustomerBookingList?.bookings,
+    state.UsersList.WalkInCustomerList,
   ]);
   // useEffect(() => {
   //   let FilterUser = [];
@@ -697,7 +740,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   //   state.UsersList?.hostelList,
   // ]);
 
-
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
@@ -705,23 +747,17 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user.Name);
-    } 
-    else if (value === "2") {
+    } else if (value === "2") {
       setFilterInput(`${user.first_name} ${user.last_name}`);
-
-    }
-    else if (value === "3") {
+    } else if (value === "3") {
       setFilterInput(`${user.Name}`);
-
-    }
-     else if (value === "4") {
+    } else if (value === "4") {
       setFilterInput(user.first_name);
     }
 
     setFilteredUsers([]);
     setDropdownVisible(false);
   };
-
 
   // const handleUserSelect = (user) => {
   //   if (value === "1") {
@@ -767,7 +803,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-
   const handleShowDots = (id, event) => {
     if (activeRow == id) {
       setActiveRow(null);
@@ -777,18 +812,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     setSearch(false);
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
+    const popupTop = top + height / 2;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-
   };
-
-
-
-
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -868,32 +896,18 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     setExcelDownloadChecIn("");
     setExcelDownloadCheckout("");
     setIsDownloadTriggered(false);
-    setFilterInput("")
+    setFilterInput("");
   };
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      setFilteredUsers(state.UsersList.Users);
-
-      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+    if (state.UsersList?.NoUserListStatusCode === 201) {
+      setFilteredUsers([]);
       setLoading(false);
       setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
+        dispatch({ type: "CLEAR_NO_USER_LIST" });
+      }, 2000);
     }
-  }, [state.UsersList?.UserListStatusCode]);
-  
-
-  useEffect(() => {
-    if (state.UsersList?.NoUserListStatusCode === 201) {
-      setFilteredUsers([])
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NO_USER_LIST' })
-      }, 2000)
-    }
-
-  }, [state.UsersList?.NoUserListStatusCode])
+  }, [state.UsersList?.NoUserListStatusCode]);
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
@@ -1187,10 +1201,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   };
 
   const handleDeleteBill = () => {
-    setIsDeleting(false)
-  }
-
-  
+    setIsDeleting(false);
+  };
 
   useEffect(() => {
     if (
@@ -1327,8 +1339,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   };
 
   const [ref_id, setRef_Id] = useState("");
-
-
 
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
@@ -1515,9 +1525,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [excelDownloadCheckIn, isDownloadTriggered]);
 
-
-
-
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportDetails === 200) {
       setTimeout(() => {
@@ -1550,135 +1557,179 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-
-  
-
-   const customStartDateInput = (props) => {
-      return (
-          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-              <FormControl
-                  type="text"
-                  className='date_input'
-                  value={props.value || 'DD/MM/YYYY'}
-                  readOnly
-                  
-                  style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 9,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: props.value ? 600 : 500,
-                                             width: "100%", 
-                                             height: 50,
-                      boxSizing: "border-box",
-                      boxShadow:"none" 
-                  }}
-              />
-              <img 
-                  src={Calendars} 
-              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                  alt="Calendar" 
-                  onClick={props.onClick} 
-              />
-          </div>
-      );
+  const customStartDateInput = (props) => {
+    return (
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
   };
-  
+
   const customEndDateInput = (props) => {
     return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
     );
   };
-    
+
   const customInvoiceDateInput = (props) => {
     return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
     );
   };
-  
-  
+
   const customInvoiceDueDateInput = (props) => {
     return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
     );
   };
 
@@ -1719,8 +1770,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                   fontWeight: 600,
                   fontFamily: "Gilroy",
                   marginLeft: 20,
-                  marginRight: 20
-
+                  marginRight: 20,
                 }}
               >
                 Customers
@@ -1757,8 +1807,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
-
-
                         }}
                       />
                       <div className="input-group" style={{ marginRight: 20 }}>
@@ -1866,14 +1914,13 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                   {value === "1"
                                     ? user.Name
                                     : value === "2"
-                                      ? `${user.first_name} ${user.last_name}`
-                                      : value === "3"
-                                      ? user.Name
-                                      : value === "4"
-                                        ? user.first_name
-                                        : ""}
+                                    ? `${user.first_name} ${user.last_name}`
+                                    : value === "3"
+                                    ? user.Name
+                                    : value === "4"
+                                    ? user.first_name
+                                    : ""}
                                 </span>
-
                               </li>
                             );
                           })}
@@ -1884,11 +1931,14 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                 </>
               ) : (
                 <>
-                  <div className="me-5"style={{ marginTop: "10px" }}>
+                  <div className="me-5" style={{ marginTop: "10px" }}>
                     <Image
                       src={searchteam}
-
-                      style={{ height: "28px", width: "28px", cursor: "pointer" }}
+                      style={{
+                        height: "28px",
+                        width: "28px",
+                        cursor: "pointer",
+                      }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -1909,7 +1959,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handleCustomerExcel}
                   />
                 )}
@@ -1918,7 +1972,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handleBookingExcel}
                   />
                 )}
@@ -1927,7 +1985,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handlecheckoutExcel}
                   />
                 )}
@@ -1936,7 +1998,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handlewalkinExcel}
                   />
                 )}
@@ -1970,10 +2036,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
-                    +  Customer
+                    + Customer
                   </Button>
                 )}
                 {value === "2" && (
@@ -2003,7 +2068,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
                     + Bookings
@@ -2036,7 +2100,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
                     + Check-out
@@ -2069,10 +2132,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
-                    +  Walk-in
+                    + Walk-in
                   </Button>
                 )}
               </div>
@@ -2205,7 +2267,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                   />
                 </TabList>
               </Box>
-            
+
               <TabPanel value="1" style={{ paddingLeft: 0 }}>
                 {customerpermissionError ? (
                   <>
@@ -2245,8 +2307,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                 ) : (
                   <div style={{ marginLeft: "6px" }}>
                     <div>
-
-                      {!loading && currentItems && currentItems.length === 0 && (
+                      {!loading &&
+                        currentItems &&
+                        currentItems.length === 0 && (
                           // {currentItems?.length == 0 && (
                           <div>
                             <div style={{ textAlign: "center" }}>
@@ -2277,7 +2340,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                             >
                               There are no active Customer{" "}
                             </div>
-
                           </div>
                         )}
 
@@ -2288,18 +2350,22 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                             // height: "400px",
                             // position: "relative",
                             height: currentItems.length >= 6 ? "400px" : "auto",
-                            overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            overflowY:
+                              currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             // borderBottom:"none"
                           }}
                         >
-
                           <Table
-
                             responsive="md"
                             className="Table_Design"
-                            style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                            style={{
+                              border: "1px solid #DCDCDC",
+                              borderBottom: "1px solid transparent",
+                              borderEndStartRadius: 0,
+                              borderEndEndRadius: 0,
+                            }}
                           >
                             <thead
                               style={{
@@ -2307,7 +2373,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
-
                               }}
                             >
                               <tr>
@@ -2332,7 +2397,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     borderTopLeftRadius: 24,
-                                    paddingLeft: "20px"
+                                    paddingLeft: "20px",
                                   }}
                                 >
                                   Name
@@ -2415,34 +2480,34 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                               </tr>
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
-                              {loading
-                                ?
+                              {loading ? (
                                 <div
                                   style={{
-                                    position: 'absolute',
+                                    position: "absolute",
                                     top: 0,
                                     right: 0,
                                     bottom: 0,
-                                    left: '200px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: 'transparent',
+                                    left: "200px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: "transparent",
                                     opacity: 0.75,
                                     zIndex: 10,
                                   }}
                                 >
                                   <div
                                     style={{
-                                      borderTop: '4px solid #1E45E1',
-                                      borderRight: '4px solid transparent',
-                                      borderRadius: '50%',
-                                      width: '40px',
-                                      height: '40px',
-                                      animation: 'spin 1s linear infinite',
+                                      borderTop: "4px solid #1E45E1",
+                                      borderRight: "4px solid transparent",
+                                      borderRadius: "50%",
+                                      width: "40px",
+                                      height: "40px",
+                                      animation: "spin 1s linear infinite",
                                     }}
                                   ></div>
                                 </div>
+                              ) : (
                                 // Array.from({
                                 //   length: currentItems?.length || 5,
                                 // }).map((_, index) => (
@@ -2511,7 +2576,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                 //     </td>
                                 //   </tr>
                                 // ))
-                                : currentItems.map((user) => {
+                                currentItems.map((user) => {
                                   const imageUrl = user.profile || Profile;
                                   return (
                                     <tr
@@ -2521,7 +2586,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                         fontWeight: 600,
                                         textAlign: "center",
                                         // marginTop: 10,
-
                                       }}
                                     >
                                       {/* <td
@@ -2569,7 +2633,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                             color: "#1E45E1",
                                             cursor: "pointer",
                                             marginTop: 10,
-
                                           }}
                                           onClick={() =>
                                             handleRoomDetailsPage(user)
@@ -2640,8 +2703,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                             0,
                                             String(user.Phone).length - 10
                                           )}{" "}
-                                        {user &&
-                                          String(user.Phone)?.slice(-10)}
+                                        {user && String(user.Phone)?.slice(-10)}
                                       </td>
 
                                       <td
@@ -2695,9 +2757,14 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
-                                            zIndex: activeRow === user.ID ? 1000 : "auto",
-                                            backgroundColor: activeRow === user.ID ? "#E7F1FF" : "white"
-
+                                            zIndex:
+                                              activeRow === user.ID
+                                                ? 1000
+                                                : "auto",
+                                            backgroundColor:
+                                              activeRow === user.ID
+                                                ? "#E7F1FF"
+                                                : "white",
                                           }}
                                           onClick={(e) =>
                                             handleShowDots(user.ID, e)
@@ -2707,7 +2774,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                             style={{ height: 20, width: 20 }}
                                           />
                                           {activeRow === user.ID && (
-
                                             <div
                                               ref={popupRef}
                                               style={{
@@ -2740,14 +2806,11 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                                       if (
                                                         !customerAddPermission
                                                       ) {
-                                                        handleShowAddBed(
-                                                          user
-                                                        );
+                                                        handleShowAddBed(user);
                                                       }
                                                     }}
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -2804,8 +2867,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -2861,8 +2923,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -3013,7 +3074,6 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                                 </div>
                                               </div>
                                             </div>
-
                                           )}
                                         </div>
 
@@ -3021,10 +3081,10 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                       </td>
                                     </tr>
                                   );
-                                })}
+                                })
+                              )}
                             </tbody>
                           </Table>
-
                         </div>
                       )}
                     </div>
@@ -3137,7 +3197,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                       //   style={{
                       //     display: "flex",
                       //     alignItems: "center",
-                      //     justifyContent: "end", 
+                      //     justifyContent: "end",
                       //     padding: "10px",
                       //   }}
                       // >
@@ -3280,7 +3340,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                                 padding: "5px",
                                 textDecoration: "none",
                                 color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                cursor:
+                                  currentPage === 1 ? "not-allowed" : "pointer",
                                 borderRadius: "50%",
                                 display: "inline-block",
                                 minWidth: "30px",
@@ -3291,12 +3352,21 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                               onClick={() => handlePageChange(currentPage - 1)}
                               disabled={currentPage === 1}
                             >
-                              <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                              <ArrowLeft2
+                                size="16"
+                                color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                              />
                             </button>
                           </li>
 
                           {/* Current Page Indicator */}
-                          <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                          <li
+                            style={{
+                              margin: "0 10px",
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                            }}
+                          >
                             {currentPage} of {totalPages}
                           </li>
 
@@ -3306,8 +3376,14 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                               style={{
                                 padding: "5px",
                                 textDecoration: "none",
-                                color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                color:
+                                  currentPage === totalPages
+                                    ? "#ccc"
+                                    : "#1E45E1",
+                                cursor:
+                                  currentPage === totalPages
+                                    ? "not-allowed"
+                                    : "pointer",
                                 borderRadius: "50%",
                                 display: "inline-block",
                                 minWidth: "30px",
@@ -3320,15 +3396,16 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                             >
                               <ArrowRight2
                                 size="16"
-                                color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                color={
+                                  currentPage === totalPages
+                                    ? "#ccc"
+                                    : "#1E45E1"
+                                }
                               />
                             </button>
                           </li>
                         </ul>
                       </nav>
-
-
-
                     )}
                   </div>
                 )}
@@ -3371,7 +3448,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
                   customerCheckoutPermission={customerCheckoutPermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
-                  filteredUsers = {filteredUsers}
+                  filteredUsers={filteredUsers}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3528,279 +3605,363 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
         />
       ) : null}
 
-     {isEditing && 
-     
-     <div className='container ms-5 me-5 mt-4'>
-     
-       <div style={{display:'flex',flexDirection:'row'}}>
-       {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-       <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-       <p className="mt-1">Edit Bill</p>
-       </div>
-     
-       <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
-       <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-         <Form.Label 
-           style={{ 
-             fontFamily: 'Gilroy', 
-             fontSize: 14, 
-             fontWeight: 500, 
-             color: "#222", 
-             fontStyle: 'normal', 
-             lineHeight: 'normal' 
-           }}>
-           Customer
-         </Form.Label>
-         <Form.Select 
-           aria-label="Default select example" 
-           value={customername} 
-           onChange={handleCustomerName} 
-           className='border' 
-           style={{ 
-             fontSize: 16, 
-             color: "#4B4B4B", 
-             fontFamily: "Gilroy", 
-             lineHeight: '18.83px', 
-             fontWeight: 500, 
-             boxShadow: "none", 
-             border: "1px solid #D9D9D9", 
-             height: 38, 
-             borderRadius: 8 
-           }}>
-             <option value=''>Select Customer</option>
-             {state.UsersList?.Users && state.UsersList?.Users?.length > 0 && state?.UsersList?.Users?.filter(u => 
-                 u.Bed !== 'undefined' && 
-                 u.Bed !== '0' && 
-                 typeof u.Bed === 'string' && 
-                 u.Bed.trim() !== '' && 
-                 u.Rooms !== 'undefined' && 
-                 u.Rooms !== '0' && 
-                 typeof u.Rooms === 'string' && 
-                 u.Rooms.trim() !== '')
-       .map(u => (
-         <option value={u.ID} key={u.ID}>{u.Name}</option>
-       ))
-     }
-     
-         </Form.Select>
-         {customererrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {customererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {customererrmsg}
-         </p>
-       </div>
-     )}
-       </Form.Group>
-     </div>
-     
-     
-     
-                   <div className='col-lg-3 col-md-4 col-sm-12 col-xs-12'>
-             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-               <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
-               <Form.Control
-                 style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                 type="text"
-                 placeholder="Enter invoice number"
-                 value={invoicenumber || ''} 
-                 readOnly
-               />
-                        {invoicenumbererrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
-         </p>
-       </div>
-     )}
-         
-             </Form.Group>
-           </div>
-     
-           <div style={{display:'flex',flexDirection:'row'}}>
-           <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
-                        
-           <Form.Group className="mb-2" controlId="purchaseDate">
-                                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                         Start Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                         </Form.Label>
-                                         <div style={{ position: 'relative' ,width:"100%"}}>
-                                             <DatePicker
-                                                 selected={startdate}
-                                                 onChange={(date)=>handlestartDate(date)}
-                                             popperPlacement="bottom-start"
-                                             popperModifiers={[
-                                               {
-                                                 name: 'offset',
-                                                 options: {
-                                                   offset: [0, -200],                                             },
-                                               },
-                                             ]}
-                                                 dateFormat="dd/MM/yyyy"
-                                                 // minDate={new Date()}
-                                                
-                                                 customInput={customStartDateInput({
-                                                     value: startdate ? startdate.toLocaleDateString('en-GB') : '',
-                                                 })}
-                                             />
-                                         </div>
-                                     </Form.Group>
-     
-     
-                       
-     
-     
-                         {startdateerrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {startdateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {startdateerrmsg}
-         </p>
-       </div>
-     )}
-         
-                       </div>
-     
-                       <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                       <Form.Group className="mb-2" controlId="purchaseDate">
-                                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                         End Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                         </Form.Label>
-                                         <div style={{ position: 'relative' ,width:"100%"}}>
-                                             <DatePicker
-                                                 selected={enddate}
-                                                 onChange={(date)=>handleEndDate(date)}
-                                             popperPlacement="bottom-start"
-                                             popperModifiers={[
-                                               {
-                                                 name: 'offset',
-                                                 options: {
-                                                   offset: [0, -200],                                             },
-                                               },
-                                             ]}
-                                                 dateFormat="dd/MM/yyyy"
-                                                 // minDate={new Date()}
-                                                
-                                                 customInput={customEndDateInput({
-                                                     value: enddate ? enddate.toLocaleDateString('en-GB') : '',
-                                                 })}
-                                             />
-                                         </div>
-                                     </Form.Group>
-     
-     
-                         {enddateerrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {enddateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {enddateerrmsg}
-         </p>
-       </div>
-     )}
-                       </div>
-                       </div>
-     
-     
-     <div style={{display:'flex',flexDirection:'row'}}>
-           <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
-     
-     
-           <Form.Group className="mb-2" controlId="purchaseDate">
-                                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                         Invoice Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                         </Form.Label>
-                                         <div style={{ position: 'relative' ,width:"100%"}}>
-                                             <DatePicker
-                                                 selected={invoicedate}
-                                                 onChange={(date)=>handleInvoiceDate(date)}
-                                            
-                                                 dateFormat="dd/MM/yyyy"
-                                                 // minDate={new Date()}
-                                                
-                                                 customInput={customInvoiceDateInput({
-                                                     value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
-                                                 })}
-                                             />
-                                         </div>
-                                     </Form.Group>
-     
-                       
-                         {invoicedateerrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {invoicedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicedateerrmsg}
-         </p>
-       </div>
-     )}
-         
-                       </div>
-     
-                        <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-     
-                        <Form.Group className="mb-2" controlId="purchaseDate">
-                                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                         Due Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                         </Form.Label>
-                                         <div style={{ position: 'relative' ,width:"100%"}}>
-                                             <DatePicker
-                                                 selected={invoiceduedate}
-                                                 onChange={(date)=>handleDueDate(date)}
-                                            
-                                                 dateFormat="dd/MM/yyyy"
-                                                 minDate={null}
-                                                
-                                                 customInput={customInvoiceDueDateInput({
-                                                     value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
-                                                 })}
-                                             />
-                                         </div>
-                                     </Form.Group>
-     
-     
-                        
-                         {invoiceduedateerrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {invoiceduedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoiceduedateerrmsg}
-         </p>
-       </div>
-     )}
-         
-                       </div> 
-                       {allfielderrmsg.trim() !== "" && (
-       <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-           {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
-         </p>
-       </div>
-     )}
-                       </div>
-     
-     
-              
-     
-           
-     
-           {/* Table */}
-           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-             <Table className="ebtable mt-2" responsive>
-     
-               <thead style={{ backgroundColor: "#E7F1FF",
-                  position:"sticky",
-                  top:0,
-                  zIndex:1,
-                }}>
-                 <tr>
-                   <th>S.NO</th>  
-                   <th>Description</th>
-                   {/* <th>EB Unit </th>
+      {isEditing && (
+        <div className="container ms-5 me-5 mt-4">
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
+            <svg
+              onClick={handleBackBill}
+              style={{ fontSize: "22px", marginRight: "10px" }}
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                fill="#000000"
+                d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"
+              ></path>
+              <path
+                fill="#000000"
+                d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
+              ></path>
+            </svg>
+            <p className="mt-1">Edit Bill</p>
+          </div>
+
+          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+              <Form.Label
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#222",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+              >
+                Customer
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                value={customername}
+                onChange={handleCustomerName}
+                className="border"
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  lineHeight: "18.83px",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 38,
+                  borderRadius: 8,
+                }}
+              >
+                <option value="">Select Customer</option>
+                {state.UsersList?.Users &&
+                  state.UsersList?.Users?.length > 0 &&
+                  state?.UsersList?.Users?.filter(
+                    (u) =>
+                      u.Bed !== "undefined" &&
+                      u.Bed !== "0" &&
+                      typeof u.Bed === "string" &&
+                      u.Bed.trim() !== "" &&
+                      u.Rooms !== "undefined" &&
+                      u.Rooms !== "0" &&
+                      typeof u.Rooms === "string" &&
+                      u.Rooms.trim() !== ""
+                  ).map((u) => (
+                    <option value={u.ID} key={u.ID}>
+                      {u.Name}
+                    </option>
+                  ))}
+              </Form.Select>
+              {customererrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {customererrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {customererrmsg}
+                  </p>
+                </div>
+              )}
+            </Form.Group>
+          </div>
+
+          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+              <Form.Label
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#222",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+              >
+                Invoice Number
+              </Form.Label>
+              <Form.Control
+                style={{
+                  padding: "10px",
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  lineHeight: "18.83px",
+                  fontWeight: 500,
+                }}
+                type="text"
+                placeholder="Enter invoice number"
+                value={invoicenumber || ""}
+                readOnly
+              />
+              {invoicenumbererrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoicenumbererrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {invoicenumbererrmsg}
+                  </p>
+                </div>
+              )}
+            </Form.Group>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Start Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    selected={startdate}
+                    onChange={(date) => handlestartDate(date)}
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -200],
+                        },
+                      },
+                    ]}
+                    dateFormat="dd/MM/yyyy"
+                    // minDate={new Date()}
+
+                    customInput={customStartDateInput({
+                      value: startdate
+                        ? startdate.toLocaleDateString("en-GB")
+                        : "",
+                    })}
+                  />
+                </div>
+              </Form.Group>
+
+              {startdateerrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {startdateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {startdateerrmsg}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  End Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    selected={enddate}
+                    onChange={(date) => handleEndDate(date)}
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -200],
+                        },
+                      },
+                    ]}
+                    dateFormat="dd/MM/yyyy"
+                    // minDate={new Date()}
+
+                    customInput={customEndDateInput({
+                      value: enddate ? enddate.toLocaleDateString("en-GB") : "",
+                    })}
+                  />
+                </div>
+              </Form.Group>
+
+              {enddateerrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {enddateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {enddateerrmsg}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Invoice Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    selected={invoicedate}
+                    onChange={(date) => handleInvoiceDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    // minDate={new Date()}
+
+                    customInput={customInvoiceDateInput({
+                      value: invoicedate
+                        ? invoicedate.toLocaleDateString("en-GB")
+                        : "",
+                    })}
+                  />
+                </div>
+              </Form.Group>
+
+              {invoicedateerrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoicedateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {invoicedateerrmsg}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Due Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    selected={invoiceduedate}
+                    onChange={(date) => handleDueDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={null}
+                    customInput={customInvoiceDueDateInput({
+                      value: invoiceduedate
+                        ? invoiceduedate.toLocaleDateString("en-GB")
+                        : "",
+                    })}
+                  />
+                </div>
+              </Form.Group>
+
+              {invoiceduedateerrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoiceduedateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {invoiceduedateerrmsg}
+                  </p>
+                </div>
+              )}
+            </div>
+            {allfielderrmsg.trim() !== "" && (
+              <div>
+                <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+                  {allfielderrmsg !== " " && (
+                    <MdError style={{ fontSize: "15px", color: "red" }} />
+                  )}{" "}
+                  {allfielderrmsg}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Table */}
+          <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+            <Table className="ebtable mt-2" responsive>
+              <thead
+                style={{
+                  backgroundColor: "#E7F1FF",
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
+                <tr>
+                  <th>S.NO</th>
+                  <th>Description</th>
+                  {/* <th>EB Unit </th>
                    <th>Unit Price </th>
                    <th>Actual Amount</th> */}
-                   <th>Total Amount</th>
-                   <th>Action</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 
-     
-     {/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
+                  <th>Total Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
      <tr key={`bill-${index}`}>
      <td>{serialNumber++}</td>
      <td>
@@ -3833,153 +3994,199 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
      </td>
      </tr>
      ))} */}
-     
-     
-     {newRows && newRows.length > 0 && newRows.map((u, index) => (
-         <tr key={`new-${index}`}>
-     
-           <td>{serialNumber++}</td>
-           <td>
-             <div className='col-lg-8 col-md-8 col-sm-4 col-xs-4' style={{alignItems:'center'}}>
-               <Form.Control
-                 type="text"
-                 placeholder="Enter description"
-                 value={u.am_name}
-                 onChange={(e) => handleNewRowChange(index, 'am_name', e.target.value)}
-               />
-             </div>
-           </td>
-         
-         
-           <td className='col-lg-3 col-md-3 col-sm-4 col-xs-4' style={{alignItems:'center'}}>
-             <Form.Control
-               type="text"
-               placeholder="Enter total amount"
-               value={u.amount}
-               onChange={(e) => handleNewRowChange(index, 'amount', e.target.value)}
-             />
-           </td>
-           <td style={{alignItems:'center'}}>
-             <span style={{cursor: 'pointer', color: 'red', marginLeft: '10px'}} onClick={() => handleDeleteNewRow(index)}>
-               <img src={Closebtn} height={15} width={15} alt="delete" />
-             </span>
-           </td>
-         </tr>
-       ))}
-     
-     </tbody>
-            
-             </Table>
-           </div>
-     
-           <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600, cursor:'pointer'}} onClick={handleAddColumn}> + Add new column</p></div>
-     
-           <div style={{ float: 'right', marginRight: '130px' }}>
-             <h5>Total Amount ₹{totalAmount}</h5>
-             <Button 
-              onClick={handleEditBill}
-             className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", 
-               fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",
-                fontStyle: 'normal', lineHeight: 'normal' }} >
-                Save Changes
-             </Button>
-             {tableErrmsg && <div style={{ color: 'red', marginTop: '10px' }}>{tableErrmsg}</div>}
-     
-     
-             <div className='mb-3'></div>
-           
-           </div>
-         </div>
-       
-     } 
 
-     {isDeleting && 
-     <>
-      <Modal
-              show={isDeleting}
-              onHide={handleDeleteBill}
-              centered
-              backdrop="static"
+                {newRows &&
+                  newRows.length > 0 &&
+                  newRows.map((u, index) => (
+                    <tr key={`new-${index}`}>
+                      <td>{serialNumber++}</td>
+                      <td>
+                        <div
+                          className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                          style={{ alignItems: "center" }}
+                        >
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter description"
+                            value={u.am_name}
+                            onChange={(e) =>
+                              handleNewRowChange(
+                                index,
+                                "am_name",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                      </td>
+
+                      <td
+                        className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
+                        style={{ alignItems: "center" }}
+                      >
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter total amount"
+                          value={u.amount}
+                          onChange={(e) =>
+                            handleNewRowChange(index, "amount", e.target.value)
+                          }
+                        />
+                      </td>
+                      <td style={{ alignItems: "center" }}>
+                        <span
+                          style={{
+                            cursor: "pointer",
+                            color: "red",
+                            marginLeft: "10px",
+                          }}
+                          onClick={() => handleDeleteNewRow(index)}
+                        >
+                          <img
+                            src={Closebtn}
+                            height={15}
+                            width={15}
+                            alt="delete"
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </div>
+
+          <div>
+            <p
               style={{
-                width: 388,
-                height: 250,
-                marginLeft: "500px",
-                marginTop: "200px",
+                color: "#1E45E1",
+                fontSize: "14px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+              onClick={handleAddColumn}
+            >
+              {" "}
+              + Add new column
+            </p>
+          </div>
+
+          <div style={{ float: "right", marginRight: "130px" }}>
+            <h5>Total Amount ₹{totalAmount}</h5>
+            <Button
+              onClick={handleEditBill}
+              className="w-80 mt-3"
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 500,
+                height: 40,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                fontStyle: "normal",
+                lineHeight: "normal",
               }}
             >
-              <Modal.Header style={{ borderBottom: "none" }}>
-                <Modal.Title
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    color: "#222222",
-                    flex: 1,
-                  }}
-                >
-                  Delete Bill?
-                </Modal.Title>
-              </Modal.Header>
+              Save Changes
+            </Button>
+            {tableErrmsg && (
+              <div style={{ color: "red", marginTop: "10px" }}>
+                {tableErrmsg}
+              </div>
+            )}
 
-              <Modal.Body
+            <div className="mb-3"></div>
+          </div>
+        </div>
+      )}
+
+      {isDeleting && (
+        <>
+          <Modal
+            show={isDeleting}
+            onHide={handleDeleteBill}
+            centered
+            backdrop="static"
+            style={{
+              width: 388,
+              height: 250,
+              marginLeft: "500px",
+              marginTop: "200px",
+            }}
+          >
+            <Modal.Header style={{ borderBottom: "none" }}>
+              <Modal.Title
                 style={{
-                  fontSize: 14,
-                  fontWeight: 500,
+                  fontSize: "18px",
                   fontFamily: "Gilroy",
-                  color: "#646464",
                   textAlign: "center",
-                  marginTop: "-20px",
+                  fontWeight: 600,
+                  color: "#222222",
+                  flex: 1,
                 }}
               >
-                Are you sure you want to delete this Bill-details?
-              </Modal.Body>
+                Delete Bill?
+              </Modal.Title>
+            </Modal.Header>
 
-              <Modal.Footer
+            <Modal.Body
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                color: "#646464",
+                textAlign: "center",
+                marginTop: "-20px",
+              }}
+            >
+              Are you sure you want to delete this Bill-details?
+            </Modal.Body>
+
+            <Modal.Footer
+              style={{
+                justifyContent: "center",
+                borderTop: "none",
+                marginTop: "-10px",
+              }}
+            >
+              <Button
                 style={{
-                  justifyContent: "center",
-                  borderTop: "none",
-                  marginTop: "-10px",
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  marginRight: 10,
                 }}
+                onClick={handleDeleteBill}
               >
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#fff",
-                    color: "#1E45E1",
-                    border: "1px solid #1E45E1",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    marginRight: 10,
-                  }}
-                  onClick={handleDeleteBill}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#1E45E1",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                  }}
-                  onClick={handleDeleteBilling}
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
-     </>
-     }
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
+                onClick={handleDeleteBilling}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      )}
 
       {showMenu == true ? (
         <UserlistForm
