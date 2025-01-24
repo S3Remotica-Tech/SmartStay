@@ -1674,6 +1674,26 @@ console.log("loading",loading, "recurLoader", recurLoader)
     state.InvoiceList?.statusCodeForPDf,
   ]);
 
+  useEffect(()=>{
+    if(state.InvoiceList?.statusCodeForPDf === 200){
+      const pdfUrl = state.InvoiceList.invoicePDF;
+
+    if (pdfUrl) {
+      console.log("PDF URL", pdfUrl);
+
+      const pdfWindow = window.open(pdfUrl, "_blank");
+      if (pdfWindow) {
+      console.log("PDF opened successfully.");
+        setShowLoader(false);
+        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
+      
+      } else {
+        console.error("Failed to open the PDF.");
+      }
+    }
+
+    }
+  },[state.InvoiceList?.statusCodeForPDf])
   // useEffect(() => {
   //   dispatch({ type: "ALL-NOTIFICATION-LIST" });
   //   setNotification(state.login.Notification);
@@ -1692,21 +1712,21 @@ console.log("loading",loading, "recurLoader", recurLoader)
     }
   }, [state.login.UpdateNotificationMessage]);
 
-  useEffect(() => {
-    const pdfUrl = state.InvoiceList.invoicePDF;
+  // useEffect(() => {
+  //   const pdfUrl = state.InvoiceList.invoicePDF;
 
-    if (pdfUrl) {
-      console.log("PDF URL", pdfUrl);
+  //   if (pdfUrl) {
+  //     console.log("PDF URL", pdfUrl);
 
-      const pdfWindow = window.open(pdfUrl, "_blank");
-      if (pdfWindow) {
-        console.log("PDF opened successfully.");
-        setShowLoader(false);
-      } else {
-        console.error("Failed to open the PDF.");
-      }
-    }
-  }, [state.InvoiceList.invoicePDF]);
+  //     const pdfWindow = window.open(pdfUrl, "_blank");
+  //     if (pdfWindow) {
+  //       console.log("PDF opened successfully.");
+  //       setShowLoader(false);
+  //     } else {
+  //       console.error("Failed to open the PDF.");
+  //     }
+  //   }
+  // }, [state.InvoiceList.invoicePDF]);
 
   // useEffect(() => {
   //   dispatch({
