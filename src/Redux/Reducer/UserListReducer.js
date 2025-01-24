@@ -94,8 +94,10 @@ const initialState = {
     otherUploaddocu: [],
     adharuploadfileError: '',
     statuscodeForAdharFileError: 0,
-    NoUserListStatusCode: 0
-
+    NoUserListStatusCode: 0,
+   userRoomfor :null,
+   userProfilebill:null
+  
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -446,6 +448,15 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
             return { ...state, statusCodeForOtherDocu: 0 }
 
+                        case 'USERROOMAVAILABLETRUE':
+                            return {...state,userRoomfor:true}
+                        case 'USERROOMAVAILABLEFALSE':
+                            return {...state,userRoomfor:false}
+
+                            case 'USERPROFILEBILLTRUE':
+                                return {...state,userProfilebill:true}
+                            case 'USERPROFILEBILLFALSE':
+                                return {...state,userProfilebill:false}
 
         case 'ADHAR_UPLOAD_ERROR':
             return { ...state, adharuploadfileError: action.payload.response, statuscodeForAdharFileError: action.payload.statusCode }

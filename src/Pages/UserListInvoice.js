@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Dropdown, Table } from "react-bootstrap";
+import { MdError } from "react-icons/md";
+import DatePicker from 'react-datepicker';
+import Closebtn from '../Assets/Images/CloseCircle.png';
 import { useDispatch, useSelector } from "react-redux";
+import Calendars from '../Assets/Images/New_images/calendar.png';
+import UserList from "./UserList";
 import {
   Autobrightness,
   Call,
@@ -12,6 +17,19 @@ import {
   ArrowRight2,
   MoreCircle,
 } from "iconsax-react";
+import {
+  Modal,
+  Form,
+  Row,
+  Col,
+  Button,
+  FormControl,
+  InputGroup,
+} from "react-bootstrap";
+import { CloseCircle } from "iconsax-react";
+import Edit from '../Assets/Images/Edit-blue.png';
+import Delete from '../Assets/Images/Delete_red.png';
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { PinDropSharp } from "@material-ui/icons";
@@ -19,12 +37,21 @@ import { propsToClassKey } from "@mui/styles";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-
+  console.log(state,"statuss");
   
+  const dispatch = useDispatch();
+console.log("propss",props);
+
+  const popupRef = useRef(null);
   const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(10);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+ 
+  const [activeId, setActiveId] = useState(null);
+
+ 
+   
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
   const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
   const currentRowinvoice = invoiceFilterddata?.slice(
@@ -42,6 +69,13 @@ function UserListInvoice(props) {
   const totalPagesinvoice = Math.ceil(
     invoiceFilterddata?.length / invoicerowsPerPage
   );
+
+  const formatDateForPayloadmanualinvoice = (date) => {
+    if (!date) return null;
+    const offset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - offset);
+    return date.toISOString().split('T')[0]; 
+  };
 
   // const renderPageNumbersInvoice = () => {
   //   const pageNumbersInvoice = [];
@@ -101,16 +135,121 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details);
   }, [state.UsersList.customerdetails.invoice_details]);
 
+ 
+ 
+
+  const handleShowDots = (item) => {
+    console.log("ClickedID:", item); // Debugging
+    setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
+    
+  };
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveId(null);
+    }
+  };
+   useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+   
+  const handleEditBill = (item) => {
+    console.log(item,"items");
+    
+  props.handleEditItem(item)
+    
+    
+    
+    dispatch({ type: 'USERROOMAVAILABLETRUE' });
+  
+  
+  
+    // props.setRoomDetail(false)
+  };
+
+ 
+  // useEffect(() => {
+  //   if (currentView) {
+  //    console.log(currentView,"current");
+     
+  //     setCustomerName (currentView.hos_user_id);
+  //     setInvoiceNumber(currentView.Invoices)
+  //     if (currentView.DueDate) {
+  //       const parsedDate = new Date(currentView.DueDate); // Convert to Date object
+  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+  //         setInvoiceDueDate(parsedDate); // Set the date object in state
+  //       } else {
+  //         console.error('Invalid DueDate:', currentView.DueDate);
+  //       }
+  //     }
+     
+  //     if (currentView.Date) {
+  //       const parsedDate = new Date(currentView.Date); // Convert to Date object
+  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+  //         setInvoiceDate(parsedDate); // Set the date object in state
+  //       } else {
+  //         console.error('Invalid DueDate:', currentView.Date);
+  //       }
+  //     }
+  //     if (currentView.start_date ) {
+  //       console.log("StartDate", currentView.start_date);
+  //       const parsedDate = new Date(currentView.start_date); // Convert to Date object
+  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+  //         setStartDate(parsedDate); // Set the date object in state
+  //       } else {
+  //         console.error('Invalid startDate:', currentView.start_date);
+  //       }
+  //     }
+  //     if (currentView.end_date ) {
+  //       console.log("Enddate", currentView.end_date);
+  //       const parsedDate = new Date(currentView.end_date); // Convert to Date object
+  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+  //         setEndDate(parsedDate); // Set the date object in state
+  //       } else {
+  //         console.error('Invalid endDate:', currentView.end_date);
+  //       }
+  //     }
+      
+  //   setTotalAmount(currentView.Amount)
+  // setNewRows(currentView.amenity)
+    
+  //   }
+  // }, [currentView]);
+
+  useEffect(() => {
+    console.log("After", isEditing);
+  }, [isEditing]);
+
+  console.log("props",props)
+
+    
+ 
+const handleDeleteBill = (user) => {
+  
+    console.log(user,'users');
+    props.handleDeleteItem(user.id)
+    
+    
+    
+    dispatch({ type: 'USERPROFILEBILLTRUE' });
+    
+  };
+  
+ 
   return (
     <>
+
       <div style={{
                             // height: "400px",
-                            height: currentRowinvoice.length >= 3 ? "250px" : "auto",
+                            height: currentRowinvoice?.length >= 3 ? "250px" : "auto",
                             overflowY: "auto",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             // borderBottom:"none"
                           }}>
+                           
         <Table  responsive="md"
                             className="Table_Design"
                             style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}} >
@@ -314,8 +453,8 @@ function UserListInvoice(props) {
                     </span>
                   </td>
                   {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                  <td>
-                    {" "}
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
+                  <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <div
                       style={{
                         cursor: "pointer",
@@ -329,11 +468,105 @@ function UserListInvoice(props) {
                         position: "relative",
                         zIndex: 1000,
                       }}
+                      onClick={() =>
+                        handleShowDots(view)
+                      }
                     >
                       <PiDotsThreeOutlineVerticalFill
                         style={{ height: 20, width: 20 }}
                       />
+                    {activeId === view.id && (
+              <div
+                ref={popupRef}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#fff",
+                  position: "absolute",
+                  right: 50,
+                  top: 20,
+                  width: 163,
+                  border: "1px solid #EBEBEB",
+                  borderRadius: 10,
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  zIndex: 1000,
+                }}
+              >
+                <div style={{ padding: 10 }}>
+                  <div
+                    className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${
+                      props.billEditPermission ? "disabled" : ""
+                    }`}
+                    style={{
+                      cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                    }}
+                    onClick={() => {
+                      if (!props.billEditPermission) {
+                        handleEditBill(view);
+                      }
+                    }}
+                  >
+                    <img
+                      src={Edit}
+                      style={{
+                        height: 16,
+                        width: 16,
+                        filter: props.billEditPermission ? "grayscale(100%)" : "none",
+                      }}
+                      alt="Edit"
+                    />
+                    <label
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy, sans-serif",
+                        color: props.billEditPermission ? "#ccc" : "#222222",
+                      }}
+                    >
+                      Edit
+                    </label>
+                  </div>
+                  <div
+                    className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${
+                      props.billDeletePermission ? "disabled" : ""
+                    }`}
+                    style={{
+                      cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                    }}
+                    onClick={() => {
+                      if (!props.billDeletePermission) {
+                        handleDeleteBill(view)
+                      }
+                    }}
+                  >
+                    <img
+                      src={Delete}
+                      style={{
+                        height: 16,
+                        width: 16,
+                        filter: props.billDeletePermission ? "grayscale(100%)" : "none",
+                      }}
+                      alt="Delete"
+                    />
+                    <label
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy, sans-serif",
+                        color: props.billDeletePermission ? "#ccc" : "#FF0000",
+                      }}
+                    >
+                      Delete
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+              
                     </div>
+</div>
+      
                     {/* <img src={dottt} style={{ height: 40, width: 40, cursor:"pointer" }} /> */}
                   </td>
                 </tr>
@@ -349,6 +582,7 @@ function UserListInvoice(props) {
           </tbody>
         </Table>
       </div>
+    
 
       {currentRowinvoice?.length > 0 && (
       
@@ -449,6 +683,14 @@ function UserListInvoice(props) {
                                      </ul>
                                    </nav>
       )}
+  
+
+{/* {
+  viewdata == true ?(
+<UserList setCurrentView={setCurrentView} currentView={currentView}/>
+  ):null
+} */}
+
     </>
   );
 }
