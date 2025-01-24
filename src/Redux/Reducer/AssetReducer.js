@@ -9,6 +9,7 @@ const initialState = {
     alreadySerialNumberHere: '',
     alreadyAssetNameHere: '',
     NoDataAssetStatusCode: 0,
+    getRoomStatusCode: 0 ,
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -31,7 +32,10 @@ const AssetReducer = (state = initialState, action) => {
         case 'CLEAR_DELETE_ASSET_STATUS_CODE':
             return { ...state, deleteAssetStatusCode: 0 }
         case 'GET_ROOMS':
-            return { ...state, GetRoomList: action.payload.response }
+            return { ...state, GetRoomList: action.payload.response , getRoomStatusCode: action.payload.statusCode }
+            case 'REMOVE_GET_ROOMS':
+                return { ...state,  getRoomStatusCode: 0 }
+
         case 'ASSIGN_ASSET':
             return { ...state, addAssignAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_ASSIGN_STATUS_CODE':
