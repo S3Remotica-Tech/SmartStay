@@ -87,13 +87,13 @@ function UserList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if(uniqueostel_Id){
+    // if(uniqueostel_Id){
       setLoading(true);
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: uniqueostel_Id },
       });
-    }
+    // }
    
   }, [uniqueostel_Id]);
 
@@ -1310,7 +1310,7 @@ function UserList(props) {
                 </>
               ) : (
                 <>
-                  <div className=" " style={{ marginTop: "10px" }}>
+                  <div className="me-5"style={{ marginTop: "10px" }}>
                     <Image
                       src={searchteam}
 
@@ -1321,14 +1321,14 @@ function UserList(props) {
                 </>
               )}
 
-              <div className="me-4 " style={{}}>
+              {/* <div className="me-4 " style={{}}>
                 <Image
                   src={Filters}
 
                   style={{ height: "50px", width: "50px", cursor: "pointer" }}
                   onClick={handleShowSearch}
                 />
-              </div>
+              </div> */}
               <div style={{ paddingRight: "10px" }}>
                 {value === "1" && (
                   <img
@@ -1392,7 +1392,7 @@ function UserList(props) {
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "10px 12px",
-                      width: "auto",
+                      width: "100px",
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
@@ -1425,7 +1425,7 @@ function UserList(props) {
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "10px 12px",
-                      width: "auto",
+                      width: "100px",
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
@@ -1458,7 +1458,7 @@ function UserList(props) {
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "10px 12px",
-                      width: "auto",
+                      width: "110px",
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
@@ -1491,7 +1491,7 @@ function UserList(props) {
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "10px 12px",
-                      width: "auto",
+                      width: "100px",
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
