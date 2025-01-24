@@ -608,13 +608,13 @@ function Vendor() {
 
 
 
-                  <div className='me-3'>
+                  {/* <div className='me-3'>
                     <Sort
                       Size="24"
                       color="#222"
                       variant="Outline"
                     />
-                  </div>
+                  </div> */}
 
                   <div>
                     <Button disabled={vendorAddPermission} onClick={handleShow}

@@ -1116,6 +1116,7 @@ const Compliance = () => {
                     <div style={{ paddingRight: "15px" }}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
+                        
                       />
                     </div>
 
@@ -1123,25 +1124,10 @@ const Compliance = () => {
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
-                        // style={{
-                        //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
-                        //   padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
-                        // }}
                         style={{
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                          backgroundColor: "#1E45E1",
-                          color: "white",
-                          fontWeight: 600,
-                          borderRadius: "8px",
-                          padding: "10px 12px",
-                          width: "auto",
-                          maxWidth: "100%",
-                          marginBottom: "10px",
-                          maxHeight: 45,marginTop:10
-              
-                        }}
-                        > + Complaint</Button>
+                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8, width: 112,
+                          padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                        }} > + Complaint</Button>
                     </div>
                   </div>
                 </div>
