@@ -600,9 +600,9 @@ console.log("end",formattedEndDate);
   }, [customerrolePermission]);
    const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
-    //  useEffect(() => {
-    //    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    //  }, [state.login.selectedHostel_Id]);
+     useEffect(() => {
+       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+     }, [state.login.selectedHostel_Id]);
    
 
    useEffect(() => {
@@ -613,6 +613,21 @@ console.log("end",formattedEndDate);
         }, 2000);
       }
     }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+
+const [walkingCustomer,setWalkingCustomer]=useState("")
+    useEffect(() => {
+      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
+    }, [uniqueostel_Id])
+  
+    useEffect(() => {
+      if (state.UsersList?.getWalkInStatusCode === 200) {
+        setWalkingCustomer(state.UsersList.WalkInCustomerList)
+        // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+        }, 200);
+      }
+    }, [state.UsersList?.getWalkInStatusCode]);
 
   useEffect(() => {
     // Only filter when value is "1"
@@ -638,8 +653,8 @@ console.log("end",formattedEndDate);
       });
       setFilteredUsers(FilterUsertwo);
     }
-    if (value === "4" && Array.isArray(state.UsersList.WalkInCustomerList)) {
-      const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
+    if (value === "4" && Array.isArray(walkingCustomer)) {
+      const FilterUsertwo = walkingCustomer?.filter((item) => {
         return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
       });
       setFilteredUsers(FilterUsertwo);
@@ -1536,18 +1551,7 @@ console.log("end",formattedEndDate);
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
 
-  useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
-  }, [uniqueostel_Id])
-
-  useEffect(() => {
-    if (state.UsersList?.getWalkInStatusCode === 200) {
-      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 200);
-    }
-  }, [state.UsersList?.getWalkInStatusCode]);
+  
 
    const customStartDateInput = (props) => {
       return (
