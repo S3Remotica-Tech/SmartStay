@@ -117,12 +117,12 @@ function Booking(props) {
     setHostelIds(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
 
-  useEffect(() => {
-    dispatch({
-      type: "GET_BOOKING_LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "GET_BOOKING_LIST",
+  //     payload: { hostel_id: state.login.selectedHostel_Id },
+  //   });
+  // }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
       // setCustomerBooking(state.Booking.CustomerBookingList.bookings);

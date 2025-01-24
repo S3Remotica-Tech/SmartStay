@@ -91,9 +91,9 @@ function CheckOut(props) {
     }
   }, [props.customerrolePermission]);
 
-  useEffect(() => {
-    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  // }, [state.login.selectedHostel_Id]);
 
 
 
