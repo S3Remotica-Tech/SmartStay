@@ -16,7 +16,7 @@ import eyeClosed from '../../Assets/Images/Show_password.png';
 
 
 
-function User({ show, handleClose, editDetails ,hostelid}) {
+function User({ show, handleClose, editDetails, hostelid }) {
 
 
   const state = useSelector(state => state)
@@ -42,40 +42,40 @@ function User({ show, handleClose, editDetails ,hostelid}) {
   const [error, setError] = useState("");
 
 
- 
 
-useEffect(() => {
-  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
-  // dispatch({ type: "COUNTRYLIST" });
-}, [])
 
-useEffect(() => {
-  if (editDetails) {
-    const mobileNo = String(editDetails.mobileNo || "");
-    const countryCode = mobileNo.slice(0, 2);
-    const mobileNumber = mobileNo.slice(2);
+  useEffect(() => {
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
+    // dispatch({ type: "COUNTRYLIST" });
+  }, [])
 
-         const initial = {
-      name: editDetails.first_name || "",
-      email: editDetails.email_Id || "",
-      mobile: mobileNumber,
-      countryCode:countryCode,
-      role: editDetails.role_id || "",
-      description: editDetails.description || "",
-    };
+  useEffect(() => {
+    if (editDetails) {
+      const mobileNo = String(editDetails.mobileNo || "");
+      const countryCode = mobileNo.slice(0, 2);
+      const mobileNumber = mobileNo.slice(2);
 
-    setName(initial.name);
-    setEmail(initial.email);
-    setMobile(initial.mobile);
-    setCountryCode(initial.countryCode);
-    setRole(initial.role);
-    setDescription(initial.description);
+      const initial = {
+        name: editDetails.first_name || "",
+        email: editDetails.email_Id || "",
+        mobile: mobileNumber,
+        countryCode: countryCode,
+        role: editDetails.role_id || "",
+        description: editDetails.description || "",
+      };
 
-   
-    setInitialState(initial);
-     
-  }
-}, [editDetails]);
+      setName(initial.name);
+      setEmail(initial.email);
+      setMobile(initial.mobile);
+      setCountryCode(initial.countryCode);
+      setRole(initial.role);
+      setDescription(initial.description);
+
+
+      setInitialState(initial);
+
+    }
+  }, [editDetails]);
 
 
 
@@ -195,17 +195,17 @@ useEffect(() => {
     }
 
     const hasChanges =
-    name !== initialState.name ||
-    email !== initialState.email ||
-    mobile !== initialState.mobile ||
-    countryCode !== initialState.countryCode ||
-    role !== initialState.role ||
-    description !== initialState.description;
+      name !== initialState.name ||
+      email !== initialState.email ||
+      mobile !== initialState.mobile ||
+      countryCode !== initialState.countryCode ||
+      role !== initialState.role ||
+      description !== initialState.description;
 
-if (editDetails && !hasChanges) {
-  setError("No changes detected. Please update the fields.");
-  isValid = false;
-}
+    if (editDetails && !hasChanges) {
+      setError("No changes detected. Please update the fields.");
+      isValid = false;
+    }
 
     if (isValid) {
       if (editDetails) {
@@ -243,7 +243,7 @@ if (editDetails && !hasChanges) {
   };
 
 
- 
+
   return (
     <div
       className="modal show"
@@ -264,25 +264,53 @@ if (editDetails && !hasChanges) {
 
 
             <div className='row mt-2'>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3'>
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Name<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     value={name}
                     onChange={handleNameChange}
                     type="text" placeholder="Enter Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
-                {nameError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{nameError}</p>}
+                {nameError && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      margin: 0,
+                    }}
+                  >
+                    <span style={{ fontSize: 14, marginRight: "5px", display: "flex", alignItems: "center" }}>
+                      <MdError style={{ marginBottom: "2px" }} />
+                    </span>
+                    {nameError}
+                  </p>
+                )}
+
               </div>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     value={email}
                     onChange={handleEmailChange}
                     type="text" placeholder="Enter email" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
-                {emailError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{emailError}</p>}
+
+                {emailError && (
+                  <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy", display: "flex", alignItems: "center", margin: 0 }}>
+                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                      <MdError style={{ marginBottom: "3px" }} />
+                    </span>
+                    {emailError}
+                  </p>
+                )}
+
 
                 {state.Settings.emailIdError && (
                   <div className="d-flex align-items-center p-1 mb-2">
@@ -333,7 +361,7 @@ if (editDetails && !hasChanges) {
                         paddingRight: 10,
                       }}
                     >
-                     <option>+{countryCode}</option>
+                      <option>+{countryCode}</option>
                     </Form.Select>
                     <Form.Control
                       value={mobile}
@@ -362,8 +390,47 @@ if (editDetails && !hasChanges) {
                   ></p>
                 </Form.Group>
 
-                {mobileError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{mobileError}</p>}
-                {countryCodeError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{countryCodeError}</p>}
+                {/* {mobileError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{mobileError}</p>} */}
+                {mobileError && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      margin: 0,
+                      marginTop: "-10px"
+                    }}
+                  >
+                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                      <MdError style={{ marginBottom: "4px" }} />
+                    </span>
+                    {mobileError}
+                  </p>
+                )}
+
+                {/* {countryCodeError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{countryCodeError}</p>} */}
+                {countryCodeError && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      margin: 0,
+                    }}
+                  >
+                    <span style={{ fontSize: "15px", marginRight: "5px" }}>
+                      <MdError style={{ marginBottom: "4px" }} />
+                    </span>
+                    {countryCodeError}
+                  </p>
+                )}
+
 
                 {state.Settings.phoneNumError && (
                   <div className="d-flex align-items-center p-1 mb-2">
@@ -381,8 +448,8 @@ if (editDetails && !hasChanges) {
               {
                 !editDetails &&
 
-                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="mb-3">
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
+                  <Form.Group className="mb-1">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -432,14 +499,33 @@ if (editDetails && !hasChanges) {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</p>}
+                  {/* {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</p>} */}
+                  {passwordError && (
+                    <p
+                      style={{
+                        color: "red",
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        display: "flex",
+                        alignItems: "center",
+                        margin: 0,
+                      }}
+                    >
+                      <span style={{ fontSize: "15px", marginRight: "5px" }}>
+                        <MdError style={{ marginBottom: "4px" }} />
+                      </span>
+                      {passwordError}
+                    </p>
+                  )}
+
                 </div>
 
               }
 
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Role <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Select
                     aria-label="Default select example"
@@ -456,28 +542,47 @@ if (editDetails && !hasChanges) {
                     ))}
                   </Form.Select>
                 </Form.Group>
-                {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</p>}
+                {/* {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</p>} */}
+                {roleError && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      margin: 0,
+                    }}
+                  >
+                    <span style={{ fontSize: "15px", marginRight: "5px" }}>
+                      <MdError style={{ marginBottom: "4px" }} />
+                    </span>
+                    {roleError}
+                  </p>
+                )}
+
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Description <span style={{ color: 'white', fontSize: '20px' }}>*</span></Form.Label>
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Description </Form.Label>
                   <Form.Control
                     value={description}
                     onChange={handleDescriptionChange}
-                    type="text" placeholder="Enter Description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                    type="text" placeholder="Enter Description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8,marginTop:"6px" }} />
                 </Form.Group>
 
               </div>
 
-              {error && <p  style={{fontSize:12, color: "red",fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>}
+              {error && <p style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>}
 
 
 
             </div>
 
           </Modal.Body>
-         
-          <Modal.Footer style={{ border: "none" }}>
+
+          <Modal.Footer style={{ border: "none",marginBottom:"17px" }}>
 
             <Button
               onClick={handleSubmit}

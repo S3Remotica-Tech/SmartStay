@@ -301,35 +301,35 @@ const SettingElectricity = ({ hostelid }) => {
     <Container className="mt-4" style={{ position: "relative" }}>
 
 
-{loading &&
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: '200px',
-                        height:"60vh",
-                       display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>
-            }
+      {loading &&
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
+            height: "60vh",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
 
 
 
@@ -697,7 +697,7 @@ const SettingElectricity = ({ hostelid }) => {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{marginBottom:"0px"}}>
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -736,7 +736,7 @@ const SettingElectricity = ({ hostelid }) => {
             </div>
 
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -766,13 +766,30 @@ const SettingElectricity = ({ hostelid }) => {
                   }}
                 />
               </Form.Group>
-              {amountErr && <span style={{ color: "red", fontSize: 16 }}> {amountErr} </span>}
+              {/* {amountErr && <span style={{ color: "red", fontSize: 16 }}> {amountErr} </span>} */}
+              {amountErr && (
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: 14,
+                    display: "flex",
+                    alignItems: "center",
+                    margin: 0,
+                  }}
+                >
+                  <span style={{ fontSize: "20px", marginRight: "5px" }}>
+                    <MdError style={{fontSize: "15px",marginBottom:"5px"}}/>
+                  </span>
+                  {amountErr}
+                </p>
+              )}
+
             </div>
 
           </div>
         </Modal.Body>
 
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none",marginBottom:"20px"}}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -782,7 +799,7 @@ const SettingElectricity = ({ hostelid }) => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              // marginTop: 20,
             }}
             onClick={handleAddElectricity}
           >
@@ -839,6 +856,7 @@ const SettingElectricity = ({ hostelid }) => {
                 justifyContent: "center",
                 borderTop: "none",
                 marginTop: "-10px",
+                borderTopColor:"red"
               }}
             >
               <Button
@@ -1039,7 +1057,7 @@ const SettingElectricity = ({ hostelid }) => {
                 </div>
               </Modal.Body>
 
-              <Modal.Footer style={{ border: "none" }}>
+              <Modal.Footer style={{ borderTop: "none" }}>
                 <Button
                   className="w-100"
                   style={{

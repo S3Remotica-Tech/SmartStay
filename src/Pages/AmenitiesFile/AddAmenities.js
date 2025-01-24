@@ -184,7 +184,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               <div className="row mt-2">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group
-                    className="mb-3"
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label
@@ -216,12 +216,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                     />
                   </Form.Group>
                   {errorAmenity && (
-                    <div className="d-flex align-items-center mt-1">
+                    <div className="d-flex align-items-center">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
                       <span
                         style={{
                           color: "red",
-                          fontSize: "12px",
+                          fontSize: "13px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
@@ -233,7 +233,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group
-                    className="mb-3"
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label
@@ -266,12 +266,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   </Form.Group>
 
                   {errorAmount && (
-                    <div className="d-flex align-items-center mt-1">
+                    <div className="d-flex align-items-center">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
                       <span
                         style={{
                           color: "red",
-                          fontSize: "12px",
+                          fontSize: "13px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}

@@ -831,7 +831,7 @@ useEffect(() => {
               }}
             >
               Images{" "}
-              <span style={{ color: "transparent", fontSize: "20px" }}>*</span>
+             
             </Form.Label>
 
             {images.map((img, index) => {

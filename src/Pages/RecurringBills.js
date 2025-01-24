@@ -722,8 +722,8 @@ const handleDeleteNewRow = (index) => {
   </Form.Select>
   {customererrmsg.trim() !== "" && (
 <div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {customererrmsg}
+  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
+    {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"5px" }} />} {customererrmsg}
   </p>
 </div>
 )}
@@ -785,8 +785,8 @@ const handleDeleteNewRow = (index) => {
     </Form.Group>
     {invoicedateerrmsg.trim() !== "" && (
       <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px",marginBottom:"3px" }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
           {invoicedateerrmsg}
         </label>
       </div>
@@ -821,8 +821,8 @@ const handleDeleteNewRow = (index) => {
     </Form.Group>
     {invoiceduedateerrmsg.trim() !== "" && (
       <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        <MdError style={{ color: "red", marginRight: "5px",fontSize: "14px",marginBottom:"3px"  }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
           {invoiceduedateerrmsg}
         </label>
       </div>
@@ -833,8 +833,8 @@ const handleDeleteNewRow = (index) => {
 {/* Global Error Message */}
 {allfielderrmsg.trim() !== "" && (
   <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
+    <p style={{ fontSize: '14px', color: 'red', marginTop: '3px' }}>
+      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
     </p>
   </div>
 )}
