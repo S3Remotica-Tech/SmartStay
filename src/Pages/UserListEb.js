@@ -7,7 +7,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { PinDropSharp } from "@material-ui/icons";
 import { propsToClassKey } from "@mui/styles";
-
+import Edit from '../Assets/Images/Edit-blue.png';
+import Delete from '../Assets/Images/Delete_red.png';
 
 function UserEb(props) {
   const state = useSelector(state => state)
@@ -20,6 +21,11 @@ function UserEb(props) {
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
+const [activeId, setActiveId] = useState(null);
+ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showDots, setShowDots] = useState("");
+const popupRef = useRef(null);
+
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
 
@@ -27,6 +33,34 @@ function UserEb(props) {
     const handleItemsPerPageChange = (event) => {
       setEbrowsPerPage(Number(event.target.value));
     };
+
+    // const handleShowDots = (item) => {
+    //    console.log("ClickedID:", item); // Debugging
+    //    setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
+       
+    //  };
+    const handleShowDots = (eb_Id,event) => {
+      setActiveId((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
+  
+      const { top, left, width, height } = event.target.getBoundingClientRect();
+      const popupTop = top + (height / 2);
+      const popupLeft = left - 200;
+  
+      setPopupPosition({ top: popupTop, left: popupLeft });
+  
+
+    };
+     const handleClickOutside = (event) => {
+       if (popupRef.current && !popupRef.current.contains(event.target)) {
+         setActiveId(null);
+       }
+     };
+      useEffect(() => {
+         document.addEventListener('mousedown', handleClickOutside);
+         return () => {
+           document.removeEventListener('mousedown', handleClickOutside);
+         };
+       }, []); 
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
   // const renderPageNumbersEb = () => {
@@ -135,16 +169,123 @@ function UserEb(props) {
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
                     <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.floor_name}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_Id}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",}}>{u.Room_Id}</td>
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_meter}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_meter}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy"}}>{u.end_meter}</td>
                     <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,  backgroundColor: activeId === u.eb_Id  ? "#E7F1FF"  : "white", }}
+                    
+                        onClick={(e) => handleShowDots(u.eb_Id,e)}
+                      
+                      >
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                        {activeId === u.eb_Id && (
+                                    <>
+                                      <div
+                                        ref={popupRef}
+                                        style={{
+                                          cursor: "pointer",
+                                          backgroundColor: "#fff",
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+                                          // position: "absolute",
+                                          // right: 50,
+                                          // top: 20,
+                                          width: 163,
+                                          height: "auto",
+                                          border: "1px solid #EBEBEB",
+                                          borderRadius: 10,
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          padding: 10,
+                                          alignItems: "center",
+                                          zIndex: showDots ? 1000 : "auto",
+                                        }}
+                                      >
+                                        <div
+                                          style={{ backgroundColor: "#fff" }}
+                                          className=""
+                                        >
+                                          <div
+                                            className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
+                                            style={{
+                                              // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
+                                              cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                                            }}
+                                            // onClick={() => {
+                                            //   if (!props.ebEditPermission) {
+                                            //     handleEditRoomReading(u);
+                                            //   }
+                                            // }}
+                                          >
+                                            <img
+                                              src={Edit}
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                                              }}
+                                              alt="Edit"
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebEditPermission ? "#ccc" : "#222222",
+                                                cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
+
+
+
+                                          <div
+                                            className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
+                                            style={{
+                                              // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
+                                              cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                                            }}
+                                            // onClick={() => {
+                                            //   if (!props.ebDeletePermission) {
+                                            //     handleDeleteShow(u);
+                                            //   }
+                                            // }}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                                              }}
+                                              alt="Delete"
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                                                cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
                       </div>
                       {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                     </td>
@@ -154,9 +295,9 @@ function UserEb(props) {
 
               })}
               {currentRowsEb?.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                </tr>
+                <tr style={{width:"100%"}}>
+                <td colSpan="10" style={{ textAlign: "center", color: "red", fontFamily:"Gilroy", fontSize:14 }}>No data found</td>
+              </tr>
               )}
 
             </tbody>
