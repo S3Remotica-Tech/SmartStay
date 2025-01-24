@@ -122,6 +122,12 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
+  const handleEditItem = (item) =>{
+    props.onEditItem(item)
+  }
+  const handleDeleteItem = (items) =>{
+    props.onDeleteItem(items)
+  }
 
   const handleContactEdit = (u) => {
     setEditAdditional(true);
@@ -3526,7 +3532,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       <UserEb id={props.id} />{" "}
                     </TabPanel>
                     <TabPanel value="3">
-                      <UserListInvoice id={props.id} roomDetail={props.roomDetail} setRoomDetail={props.setRoomDetail} />
+                      <UserListInvoice id={props.id} handleEditItem={handleEditItem} handleDeleteItem={handleDeleteItem} />
                     </TabPanel>
 
                     {/* <TabPanel value="4">

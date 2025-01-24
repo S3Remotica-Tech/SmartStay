@@ -93,6 +93,7 @@ const initialState = {
     statusCodeForOtherDocu:0,
     otherUploaddocu:[],
    userRoomfor :null,
+   userProfilebill:null
   
 }
 
@@ -445,7 +446,10 @@ const UserListReducer = (state = initialState, action) => {
                         case 'USERROOMAVAILABLEFALSE':
                             return {...state,userRoomfor:false}
 
-                       
+                            case 'USERPROFILEBILLTRUE':
+                                return {...state,userProfilebill:true}
+                            case 'USERPROFILEBILLFALSE':
+                                return {...state,userProfilebill:false}
     }
     return state;
 }
