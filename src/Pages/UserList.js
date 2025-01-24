@@ -598,6 +598,21 @@ console.log("end",formattedEndDate);
       setCustomerCheckoutAddPermission("Permission Denied");
     }
   }, [customerrolePermission]);
+   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+
+    //  useEffect(() => {
+    //    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    //  }, [state.login.selectedHostel_Id]);
+   
+
+   useEffect(() => {
+      if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+        setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
+        }, 2000);
+      }
+    }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
   useEffect(() => {
     // Only filter when value is "1"
@@ -608,15 +623,7 @@ console.log("end",formattedEndDate);
 
       setFilteredUsers(FilterUser);
     }
-    // if (value === "2") {
-    //   const FilterUsertwo =
-    //     state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
-    //       return item.first_name
-    //         .toLowerCase()
-    //         .includes(filterInput.toLowerCase());
-    //     });
-    //   setFilteredUsers(FilterUsertwo);
-    // }
+    
     if (value === "2") {
       const FilterUsertwo =
         state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
@@ -625,12 +632,12 @@ console.log("end",formattedEndDate);
         });
       setFilteredUsers(FilterUsertwo);
     }
-    // if (value === "4") {
-    //   const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
-    //     return item.customer_Name.toLowerCase().includes(filterInput?.toLowerCase());
-    //   });
-    //   setFilteredUsers(FilterUsertwo);
-    // }
+    if (value === "3") {
+      const FilterUsertwo = checkOutCustomer?.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
+      });
+      setFilteredUsers(FilterUsertwo);
+    }
     if (value === "4" && Array.isArray(state.UsersList.WalkInCustomerList)) {
       const FilterUsertwo = state.UsersList.WalkInCustomerList.filter((item) => {
         return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
@@ -683,9 +690,16 @@ console.log("end",formattedEndDate);
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user.Name);
-    } else if (value === "2") {
+    } 
+    else if (value === "2") {
       setFilterInput(`${user.first_name} ${user.last_name}`);
-    } else if (value === "4") {
+
+    }
+    else if (value === "3") {
+      setFilterInput(`${user.Name}`);
+
+    }
+     else if (value === "4") {
       setFilterInput(user.first_name);
     }
 
@@ -1486,6 +1500,9 @@ console.log("end",formattedEndDate);
     }
   }, [excelDownloadCheckIn, isDownloadTriggered]);
 
+
+
+
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportDetails === 200) {
       setTimeout(() => {
@@ -1846,6 +1863,8 @@ console.log("end",formattedEndDate);
                                     ? user.Name
                                     : value === "2"
                                       ? `${user.first_name} ${user.last_name}`
+                                      : value === "3"
+                                      ? user.Name
                                       : value === "4"
                                         ? user.first_name
                                         : ""}
@@ -3348,6 +3367,7 @@ console.log("end",formattedEndDate);
                   customerCheckoutPermission={customerCheckoutPermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
+                  filteredUsers = {filteredUsers}
                 />
               </TabPanel>
               <TabPanel value="4">

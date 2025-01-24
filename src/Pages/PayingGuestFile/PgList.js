@@ -801,7 +801,7 @@ useEffect(() => {
                 <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
-                      <SearchNormal1 size="26" color="#222" />
+                      {/* <SearchNormal1 size="26" color="#222" /> */}
                     </div>
                   )}
                   {showFilter && (
@@ -896,9 +896,9 @@ useEffect(() => {
                     </div>
                   )}
 
-                  <div className="me-3">
+                  {/* <div className="me-3">
                     <Sort Size="24" color="#222" variant="Outline" />
-                  </div>
+                  </div> */}
 
                   <div>
                     <Button
@@ -1158,7 +1158,7 @@ useEffect(() => {
 
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3">
-                    <Sort Size="24" color="#222" variant="Outline" />
+                    {/* <Sort Size="24" color="#222" variant="Outline" /> */}
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   </div>
 

@@ -359,8 +359,14 @@ const Compliance = () => {
 
   const handleSearch = () => {
     setSearch(!search);
-    setFilterStatus(false);
+    // setFilterStatus(false);
   };
+  
+const handleFilterd = () => {
+  setFilterStatus(!filterStatus);
+}
+
+
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -1104,9 +1110,31 @@ const Compliance = () => {
                         src={Filters}
                         roundedCircle
                         style={{ height: "50px", width: "50px" }}
-                        onClick={handleSearch}
+                        onClick={handleFilterd}
                       />
                     </div>
+
+
+                    {
+                    filterStatus &&
+
+                    <div className='me-3' style={{border: "1px solid #D4D4D4"}}>
+  <Form.Select 
+    aria-label="Select Price Range"
+    className='' 
+    id="statusselect" 
+    style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+  >
+    <option value="All">All</option>
+    <option value="open">Open</option>
+    <option value="Inprogress">In Progress</option>
+    <option value="resolved">Resolved</option>
+    
+   
+  </Form.Select>
+</div>
+
+                  }
 
                     {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
         
