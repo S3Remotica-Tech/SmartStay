@@ -54,6 +54,13 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
 
   const calendarRef = useRef(null);
 
+
+
+  console.log("dueamount",dueamount)
+
+
+
+
   const handlecloseform = () => {
     handleClose()
     setSelectedCustomer('');
@@ -915,7 +922,7 @@ if(checkOutDate){
         <Button  className="mt-4" 
           style={{ borderRadius: '8px', fontFamily: "Gilroy", fontWeight: '600', fontSize: '14px', padding: '16px 24px', 
             width: '100%',  backgroundColor: "#1E45E1"}}
-  disabled={dueamount > 0}
+  disabled={!checkouteditaction && dueamount > 0}
   onClick={
     checkoutaction ? handleConfirmCheckout // Confirm Check-out
       : checkouteditaction 
