@@ -480,29 +480,31 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   backgroundColor: 'white',
                   zIndex: 10,
                   // padding: '10px',
-                  paddingLeft:32,paddingRight:20,
-                  height: 83,marginTop:-5
+                  paddingLeft:25,paddingRight:20,
+                  height: 83,
                 }}
               >
                 <div>
-                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
+                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+                    Assets</label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center flex-wrap ">
+                <div style={{marginTop:-7}} className="d-flex justify-content-between align-items-center flex-wrap ">
 
                   {
                     !showFilterData &&
 
-                    <div className='me-3' onClick={handleShowSearch}>
+                    <div className='me-3' style={{marginTop:-5}} onClick={handleShowSearch}>
                       <SearchNormal1
                         size="26"
                         color="#222"
+
                       />
                     </div>
                   }
                   {
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative' }}>
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',marginTop:-5 }}>
                       <InputGroup
                         style={{
                           display: 'flex',
@@ -518,7 +520,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                           value={searchQuery}
                           onChange={handleInputChange}
 
-                          style={{
+                          style={{marginTop:-5,
                             width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                             //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}
@@ -589,7 +591,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
-                  <div className='me-3' onClick={handleFilterByPrice}>
+                  <div className='me-3' style={{marginTop:-5}} onClick={handleFilterByPrice}>
                     <Sort
                       Size="24"
                       color="#222"
@@ -613,7 +615,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                       </Form.Select>
                     </div>
                   }
-                  <div style={{ paddingRight: "10px" }}>
+                  <div style={{ paddingRight: "10px",marginTop:-5 }}>
                     <img src={excelimg} width={38} height={38} style={{ marginTop: 5 }}
                       onClick={handleAssetsExcel}
                     />

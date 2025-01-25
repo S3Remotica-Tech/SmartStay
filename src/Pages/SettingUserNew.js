@@ -40,10 +40,12 @@ function SettingNewUser({ hostelid }) {
 
     const handleDotsClick = (index,event) => {
 
+        event.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
-const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+        const { top, left, width, height } = event.target.getBoundingClientRect();
+const popupTop = top + height / 2;
+const popupLeft = left - 200;
+            
 
     setPopupPosition({ top: popupTop, left: popupLeft });
 
@@ -224,8 +226,8 @@ const { top, left, width, height } = event.target.getBoundingClientRect();
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "10px 12px",
-                            width: "auto",
+                            padding: "8px 10px",
+                            // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
 
@@ -435,7 +437,10 @@ const { top, left, width, height } = event.target.getBoundingClientRect();
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
                                                         position: "relative",
-                                                        backgroundColor: showDots  ? "#E7F1FF" : "white",
+                                                        // backgroundColor: showDots  ? "#E7F1FF" : "white",
+                                                        backgroundColor: showDots === index ?"#E7F1FF" : "white",
+                                                      
+                                                        
                                                     }}
 
                                                     onClick={(e) => handleDotsClick(index,e)}

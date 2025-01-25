@@ -220,7 +220,7 @@ function SettingCompliance({ hostelid }) {
             <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "white" }}>
                 <div className="d-flex row mb-4 " style={{ marginTop: 30 }}>
                     <Col>
-                        <h4 style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
+                        <h4 style={{ fontSize: 20, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
                             Complaint Type </h4>
                     </Col>
 

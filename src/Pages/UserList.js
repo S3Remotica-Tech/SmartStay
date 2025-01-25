@@ -1777,7 +1777,8 @@ function UserList(props) {
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  marginLeft: 20,
+                  // marginLeft: 20,
+                  paddingLeft:10,
                   marginRight: 20,
                 }}
               >
@@ -1968,7 +1969,7 @@ function UserList(props) {
                     width={38}
                     height={38}
                     style={{
-                      marginLeft: "-20px",
+                      marginLeft: "-30px",
                       marginTop: 5,
                       cursor: "pointer",
                     }}
@@ -2033,6 +2034,7 @@ function UserList(props) {
                     //   fontFamily: "Gilroy",
                     // }}
                     style={{
+                      marginTop:3,
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
