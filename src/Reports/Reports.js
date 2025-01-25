@@ -261,7 +261,7 @@ function Reports() {
 <div className='container'>
 <div className="d-flex justify-content-between mb-2 flex-wrap">
               <div>
-                <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy" }}>Reports</label>
+                <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy",marginTop:5 }}>Reports</label>
 
               </div>
 
@@ -270,7 +270,7 @@ function Reports() {
                 {
                   !showFilterData &&
 
-                  <div className='me-3' onClick={handleShowSearch}>
+                  <div className='me-3' style={{marginTop:10}} onClick={handleShowSearch}>
                     <SearchNormal1
                       size="26"
                       color="#222"

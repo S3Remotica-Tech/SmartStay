@@ -547,7 +547,9 @@ function Booking(props) {
         profile: file,
         id: id,
       },
+     
     });
+   
 
     // Reset form state
     setFormEdit(false);
@@ -1078,7 +1080,9 @@ function Booking(props) {
                                   }}
                                   className="ms-2 customer-name"
                                 >
-                                  {customer.first_name} {customer.last_name}
+               {customer.first_name} {customer.last_name ? customer.last_name : ""}
+                                  {/* {`${customer.first_name || ""} ${customer.last_name || ""}`.trim() || ""} */}
+                                  
                                 </span>
                               </div>
                             </td>

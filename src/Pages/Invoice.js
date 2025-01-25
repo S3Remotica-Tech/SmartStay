@@ -68,9 +68,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
+
 import closecircle from "../Assets/Images/New_images/close-circle.png"
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import Filters from "../Assets/Images/Filters.svg";
+
+
+import Receipt from "./Receipt";
 
 
 const InvoicePage = () => {
@@ -212,6 +216,9 @@ const InvoicePage = () => {
   let serialNumber = 1;
 
   const [hostelId, setHostelId] = useState("");
+  const [receiptdata, setReceiptData] = useState([])
+  const [receiptLoader, setReceiptLoader] = useState(false);
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
@@ -1518,6 +1525,26 @@ const InvoicePage = () => {
   };
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
 
+
+    //Receipt pagination
+    const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
+    const [itemsperPage, setItemsPERPage] = useState(10);
+    const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
+    const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
+  
+    const currentReceiptData = receiptdata?.slice(
+      indexOfFirstItemReceipt,
+      indexOfLastItemReceipt
+    );
+  
+    const handlePageChangeReceipt = (pageNumber) => {
+      setCurrentRecurePage(pageNumber);
+    };
+    const handleItemsPerPageReceipt = (event) => {
+      setItemsPage(Number(event.target.value));
+    };
+    const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage);  //Receipt pagination
+
   //  const renderPageNumbers = () => {
   //    const pageNumbers = [];
   //    for (let i = 1; i <= totalPages; i++) {
@@ -2116,6 +2143,7 @@ const InvoicePage = () => {
   ]);
 
 
+
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("")
@@ -2181,6 +2209,52 @@ console.log("Name",bills)
    
   }, [
     filterInput,  
+
+//Receipt 
+  useEffect(() => {
+    setReceiptLoader(true);
+    if(hostelId){
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+    
+    }
+    
+  }, [hostelId]);
+
+  useEffect(() => {
+    if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
+      setReceiptData(state.InvoiceList.ReceiptList);
+      setReceiptLoader(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.ReceiptlistgetStatuscode]);
+
+  useEffect(() => {
+    if (
+      state.InvoiceList.RecurringBillAddStatusCode === 200 ||
+      state.InvoiceList.deleterecurringbillsStatuscode
+    ) {
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });
+      }, 1000);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [
+    state.InvoiceList.RecurringBillAddStatusCode,
+    state.InvoiceList.deleterecurringbillsStatuscode,
+
   ]);
 
   return (
@@ -2200,7 +2274,8 @@ console.log("Name",bills)
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",
+                color: "#222",marginTop:8,
+                marginLeft:-5
               }}
             >
               Bills
@@ -2402,7 +2477,9 @@ console.log("Name",bills)
 
                     </div>
                   </>
+
                 ) : (
+
                   <>
                     <div className="me-3">
                       <Image
@@ -2446,12 +2523,14 @@ console.log("Name",bills)
                   </div>
                 )}
 
+
                 {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
 
 <div className='me-3'>
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
                 
+
                 <div className="me-5">
                   {value == 1 && (
                     <Button
@@ -2479,7 +2558,7 @@ console.log("Name",bills)
                         padding: "10px 12px",
                         width: "120px",
                         maxWidth: "100%",
-                        marginBottom: "10px",
+                        marginBottom: "15px",
                         maxHeight: 45,
                       }}
                     >
@@ -4309,36 +4388,364 @@ console.log("Name",bills)
             </TabPanel>
 
             <TabPanel value="3">
-              <div style={{ marginTop: 20 }}>
-                <div style={{ textAlign: "center" }}>
-                  {" "}
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 24,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Receipt available{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no receipt added{" "}
-                </div>
-              </div>
+            {recurringPermission ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // height: "100vh",
+                    }}
+                  >
+                    {/* Image */}
+                    <img
+                      src={Emptystate}
+                      alt="Empty State"
+                      style={{ maxWidth: "100%", height: "auto" }}
+                    />
+
+                    {/* Permission Error */}
+                    {recurringPermission && (
+                      <div
+                        style={{
+                          color: "red",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                          marginTop: "1rem",
+                        }}
+                      >
+                        <MdError size={20} />
+                        <span>{recurringPermission}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {currentReceiptData && currentReceiptData.length === 0  && (
+                    <div style={{ marginTop: 20 }}>
+                      <div style={{ textAlign: "center" }}>
+                        {" "}
+                        <img src={Emptystate} alt="emptystate" />
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          fontSize: 24,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        No Receipt available{" "}
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 20,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There are no receipt added{" "}
+                      </div>
+                    </div>
+                  )}
+
+                  {currentReceiptData && currentReceiptData.length > 0 && (
+                    <div
+                      style={{
+                        // height: "400px",
+                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
+                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                        // borderBottom:"none"
+                      }}
+                    >
+                      <Table
+                        responsive="md"
+                        className="Table_Design"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
+                      >
+                        <thead
+                          style={{
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                          }}
+                        >
+                          <tr>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                // verticalAlign:'middle',
+                                paddingLeft: "20px",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopLeftRadius: 24,
+                              }}
+                            >
+                              Name
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Invoice Number
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Reference_Id
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                             Payment Mode
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Amount
+                            </th>
+
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopRightRadius: 24,
+                              }}
+                            ></th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
+                          {receiptLoader ?
+                              
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  left: '50%',
+                                  display: 'flex',
+                                  height: "50vh",
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: 'transparent',
+                                  opacity: 0.75,
+                                  zIndex: 10,
+                                }}
+                              >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>
+                            : currentReceiptData &&
+                            currentReceiptData.length > 0 &&
+                            currentReceiptData.map((item) => (
+                                <Receipt
+                                  key={item.id}
+                                  item={item}
+                                  handleDeleteRecurringbills={
+                                    handleDeleteRecurringbills
+                                  }
+                                  recuringbillAddPermission={
+                                    recuringbillAddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+                                 
+                                />
+                              ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
+
+                  {currentReceiptData.length > 0 && (
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div>
+                        <select
+                          value={itemsPage}
+                          onChange={handleItemsPerPage}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentRecurePage === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage - 1)
+                            }
+                            disabled={currentRecurePage === 1}
+                          >
+                            <ArrowLeft2
+                              size="16"
+                              color={
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentRecurePage} of {totalPage}
+                        </li>
+
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1",
+                              cursor:
+                                currentRecurePage === totalPage
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage + 1)
+                            }
+                            disabled={currentRecurePage === totalPage}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
+
+  
+                </>
+              )}
             </TabPanel>
           </TabContext>
         </div>
@@ -4500,7 +4907,7 @@ console.log("Name",bills)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4552,7 +4959,7 @@ console.log("Name",bills)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4602,6 +5009,17 @@ console.log("Name",bills)
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
+
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -4643,6 +5061,17 @@ console.log("Name",bills)
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
+
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate

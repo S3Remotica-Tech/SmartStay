@@ -723,8 +723,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       fontWeight: category ? 600 : 500,
                     }}
                   >
-                    <option>Select a Category</option>
-                    {state.Settings.Expences.data &&
+                    <option value="" >Select a Category</option>
+                    {state.Settings.Expences.data && state.Settings.Expences.data.length > 0 ? 
                       state.Settings.Expences.data.map((view) => (
                         <>
                           <option
@@ -734,7 +734,14 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                             {view.category_Name}
                           </option>
                         </>
-                      ))}
+                      ))
+                    :
+                    (
+                      <option value="" disabled>
+                      No category available
+                    </option>
+                    )
+                    }
                   </Form.Select>
                 </Form.Group>
                 {categoryError && (
@@ -1088,7 +1095,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       *{" "}
                     </span>
                   </Form.Label>
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     placeholder="Select no. of floor"
                     style={{
@@ -1113,7 +1120,44 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                         {u.bank_name}
                       </option>
                     ))}
+                  </Form.Select> */}
+
+
+
+
+                  <Form.Select
+                    aria-label="Default select example"
+                    placeholder="Select no. of floor"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                    id="form-selects"
+                    className="border"
+                    value={account}
+                    onChange={(e) => handleAccount(e)}
+                    disabled={currentItem}
+                  >
+                    <option value="">Select Account</option>
+                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
+                      state.bankingDetails.bankingList.banks.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
+                      </option>
+                    )}
                   </Form.Select>
+
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px" }} />

@@ -305,3 +305,12 @@ export async function uploadDocument(params) {
     console.error("Axios Error", error);
   }
 }
+
+
+
+
+export async function deleteCustomer(contact){
+  return await AxiosConfig.post('/users/delete',contact,{
+    data:contact
+  })
+}
