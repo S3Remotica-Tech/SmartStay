@@ -484,6 +484,20 @@ console.log("end",formattedEndDate);
     // }
    
   }, [uniqueostel_Id]);
+
+
+const [userListDetail,setUserListDetail] = useState("")
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode === 200) {
+      setUserListDetail(state.UsersList.Users);
+
+      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+      }, 1000);
+    }
+  }, [state.UsersList?.UserListStatusCode]);
       useEffect(() =>{
           if(state.UsersList.userRoomfor){
            
@@ -629,19 +643,36 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
       }
     }, [state.UsersList?.getWalkInStatusCode]);
 
-  useEffect(() => {
-    // Only filter when value is "1"
-    if (value === "1") {
-      const FilterUser = state.UsersList.Users.filter((item) => {
-        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
-      });
+const [customerBooking,setCustomerBooking] = useState("")
 
+    useEffect(() => {
+        dispatch({
+          type: "GET_BOOKING_LIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      }, [state.login.selectedHostel_Id]);
+      useEffect(() => {
+        if (state.Booking.statusCodeGetBooking === 200) {
+          setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_BOOKING_LIST" });
+          }, 2000);
+        }
+      }, [state.Booking.statusCodeGetBooking]);
+
+  useEffect(() => {
+    if (value === "1") {
+      const FilterUser = Array.isArray(userListDetail)
+          ? userListDetail.filter((item) =>
+              item.Name.toLowerCase().includes(filterInput.toLowerCase())
+            )
+          : []; 
+  
       setFilteredUsers(FilterUser);
-    }
+  }
     
     if (value === "2") {
-      const FilterUsertwo =
-        state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
+      const FilterUsertwo = customerBooking?.filter((item) => {
           const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
         });
@@ -871,17 +902,7 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     setFilterInput("")
   };
 
-  useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      setFilteredUsers(state.UsersList.Users);
-
-      const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
-    }
-  }, [state.UsersList?.UserListStatusCode]);
+ 
   
 
   useEffect(() => {
@@ -973,8 +994,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   useEffect(() => {
-    const users = Array.isArray(state.UsersList?.Users)
-      ? state.UsersList.Users
+    const users = Array.isArray(userListDetail)
+      ? userListDetail
       : [];
 
     // Filter Particular User Details
