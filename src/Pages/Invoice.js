@@ -1813,9 +1813,9 @@ console.log("loading",loading, "recurLoader", recurLoader)
   //     }));
   //   }
 
-  // useEffect(() => {
-  //   dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-  // }, []);
+  useEffect(() => {
+    dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
