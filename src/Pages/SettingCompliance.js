@@ -8,6 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
+import { MdError } from "react-icons/md";
 
 function SettingCompliance({ hostelid }) {
 
@@ -15,7 +16,6 @@ function SettingCompliance({ hostelid }) {
     const state = useSelector((state) => state);
     const popupRef = useRef(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const [activeRow, setActiveRow] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [complaintTypeName, setComplaintTypeName] = useState('')
     const [comlaintError, setComplaintError] = useState('')
@@ -25,7 +25,7 @@ function SettingCompliance({ hostelid }) {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [loading, setLoading] = useState(true)
-
+    const [showDots, setShowDots] = useState(false);
 
 
 
@@ -35,7 +35,6 @@ function SettingCompliance({ hostelid }) {
     };
 
     const handleConfirmDelete = () => {
-        setActiveRow(false)
         if (rowDetails.id) {
             dispatch({ type: 'DELETE-COMPLAINT-TYPE', payload: { id: rowDetails.id } })
         }
@@ -46,18 +45,22 @@ function SettingCompliance({ hostelid }) {
 
     const handleCancel = () => {
         setShowPopup(false);
-        setActiveRow(false)
     };
 
     useEffect(() => {
         dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
     }, [hostelid])
 
-    const handleShowDots = (e, row) => {
+    useEffect(() => {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, []);
+    
+    const handleShowDots = (e, row, index) => {
+        setShowDots((prev) => (prev === index ? null : index));
         setRowDetails(row)
-        if (activeRow === true) {
-            setActiveRow(false);
-        } else {
             const rect = e.currentTarget.getBoundingClientRect();
             // rect.top
             setPopupPosition({
@@ -66,19 +69,14 @@ function SettingCompliance({ hostelid }) {
                 top: rect.top + window.scrollY + 10,
                 left: rect.left + window.scrollX - 594,
             });
-            setActiveRow(true);
-        }
     };
 
-    // const handleEdit = () => {
-    //     setActiveRow(null)
-    //     setShowForm(true)
-    //     setEdit(true)
-    //     setId(rowDetails.id)
-    //     setComplaintTypeName(rowDetails.complaint_name)
-    // }
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+    };
     const handleEdit = () => {
-        setActiveRow(null)
         setShowEditForm(true)
         setEdit(true)
         setId(rowDetails.id)
@@ -223,31 +221,30 @@ function SettingCompliance({ hostelid }) {
                 <div className="d-flex row mb-4 " style={{ marginTop: 30 }}>
                     <Col>
                         <h4 style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
-                            Complaint Type
-                        </h4>
+                            Complaint Type </h4>
                     </Col>
 
                     <Col>
                         <div className="d-flex justify-content-end">
                             <Button
-                            //  style={{
-                            //     backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
-                            //     fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px"
-                            // }}
-                            style={{
-                                fontFamily: "Gilroy",
-                                fontSize: "14px",
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                fontWeight: 600,
-                                borderRadius: "8px",
-                                padding: "10px 12px",
-                                width: "auto",
-                                maxWidth: "100%",
-                                maxHeight: 50,
-                                marginTop: "-10px",
-                    
-                              }}
+                                //  style={{
+                                //     backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
+                                //     fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px"
+                                // }}
+                                style={{
+                                    fontFamily: "Gilroy",
+                                    fontSize: "14px",
+                                    backgroundColor: "#1E45E1",
+                                    color: "white",
+                                    fontWeight: 600,
+                                    borderRadius: "8px",
+                                    padding: "10px 12px",
+                                    width: "auto",
+                                    maxWidth: "100%",
+                                    maxHeight: 50,
+                                    marginTop: "-10px",
+
+                                }}
                                 onClick={handleShowForm} disabled={showPopupvalidation}>
                                 + Complaint Type
                             </Button>
@@ -285,7 +282,7 @@ function SettingCompliance({ hostelid }) {
                         <div className="row">
                             {
 
-                                state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u) => {
+                                state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
                                     return (
                                         <>
                                             <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
@@ -310,12 +307,13 @@ function SettingCompliance({ hostelid }) {
                                                     </div>
                                                     <button className="btn p-2">
                                                         <img src={round} width={34} height={34} alt="Menu Icon"
-                                                            onClick={(e) => handleShowDots(e, u)}
+                                                            onClick={(e) => handleShowDots(e, u, i)}
                                                         />
                                                     </button>
                                                 </div>
 
-                                                {activeRow && (
+                                                {/* {activeRow && showDots === i && ( */}
+                                                { showDots === i && (
                                                     <div
                                                         ref={popupRef}
                                                         className="position-absolute"
@@ -454,7 +452,7 @@ function SettingCompliance({ hostelid }) {
                 <Modal.Body>
                     <div className="col">
                         <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label
                                     style={{
                                         fontSize: 14,
@@ -464,7 +462,7 @@ function SettingCompliance({ hostelid }) {
                                     }}
                                 >
                                     Complaint Type{" "}
-                                    {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
+                                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                 </Form.Label>
                                 <FormControl
                                     type="text"
@@ -484,7 +482,9 @@ function SettingCompliance({ hostelid }) {
                                     }}
                                 />
                             </Form.Group>
-                            {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+                            <div>
+                                {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+                            </div>
                         </div>
 
 
@@ -564,14 +564,14 @@ function SettingCompliance({ hostelid }) {
                             <Form.Group className="mb-3">
                                 <Form.Label
                                     style={{
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: "#222222",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
                                     }}
                                 >
                                     Complaint Type{" "}
-                                    {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
+                                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                 </Form.Label>
                                 <FormControl
                                     type="text"
@@ -591,14 +591,24 @@ function SettingCompliance({ hostelid }) {
                                     }}
                                 />
                             </Form.Group>
-                            {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+                            <div style={{ marginTop: "-10px" }}>
+                                {comlaintError && (
+                                    <p style={{ display: "flex",fontSize: "14px", alignItems: "center" }}>
+                                        <span style={{ fontSize: "15px", color: "red", marginRight: "5px",marginBottom: "5px"  }}>
+                                            <MdError />
+                                        </span>
+                                        {comlaintError}
+                                    </p>
+                                )}
+                            </div>
+
                         </div>
 
 
                     </div>
                 </Modal.Body>
 
-                <Modal.Footer className="d-flex justify-content-center">
+                <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none"}}>
                     <Button
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                         style={{
@@ -609,7 +619,8 @@ function SettingCompliance({ hostelid }) {
                             fontSize: 14,
                             padding: "12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
-                            marginTop: 20,
+                            marginBottom: 15,
+                            
                         }}
                         onClick={handleAddComplaintType}
                     >

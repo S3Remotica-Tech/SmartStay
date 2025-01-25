@@ -77,9 +77,9 @@ function BookingModal(props) {
     setHostalId(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "HOSTELLIST" });
+  // }, []);
 
   useEffect(() => {
     dispatch({

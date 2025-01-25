@@ -116,10 +116,11 @@ function Banking() {
     // setLoading(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
+  const [bankList,setBankList] = useState("")
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-
+      setBankList(state.bankingDetails.bankingList.banks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -651,7 +652,7 @@ function Banking() {
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "10px 12px",
-                      width: "auto",
+                      width: "70px",
                       maxWidth: "100%",
                       marginBottom: "10px",
                       maxHeight: 45,
@@ -677,8 +678,8 @@ function Banking() {
       )} */}
 
             <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
-              {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
-                state.bankingDetails.bankingList.banks.map((item) => {
+              {bankList && bankList?.length > 0 ? (
+                bankList?.map((item) => {
                   return (
                     <div
                       key={item.id}

@@ -1072,7 +1072,7 @@ const ComplianceList = (props) => {
                         borderRadius: "10px",
                       }}
                     >
-                      {state.ComplianceList?.getComplianceComments?.comments &&
+                      {/* {state.ComplianceList?.getComplianceComments?.comments &&
                         state.ComplianceList?.getComplianceComments?.comments.map(
                           (item, index) => {
                             let Dated = new Date(item.created_at);
@@ -1170,7 +1170,108 @@ const ComplianceList = (props) => {
                               </div>
                             );
                           }
-                        )}
+                        )} */}
+
+{state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
+  state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
+    let Dated = new Date(item.created_at);
+
+    let day = Dated.getDate();
+    let month = Dated.getMonth();
+    let year = Dated.getFullYear();
+
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December",
+    ];
+
+    let formattedMonth = monthNames[month];
+    let formattedDate = `${day} ${formattedMonth} ${year}`;
+
+    return (
+      <div
+        key={index}
+        className="row"
+        style={{
+          borderBottom: "1px solid #EDF0F4",
+          paddingBottom: "10px",
+          marginBottom: "10px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={
+            item.profile === "null" && item.profile === "0" && item.profile === ""
+                ? item.profile
+                : User
+            }
+            alt="User"
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              marginRight: "10px",
+            }}
+          />
+          <div>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "16px",
+                fontWeight: "bold",
+                fontFamily: "Gilroy",
+              }}
+            >
+              {item.name}
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "14px",
+                color: "#666666",
+              }}
+            >
+              {formattedDate}
+            </p>
+          </div>
+        </div>
+
+        <p
+          style={{
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
+            whiteSpace: "pre-wrap",
+            maxWidth: "100%",
+            marginTop: "8px",
+            fontSize: "16px",
+            fontWeight: "400",
+            color: "#333",
+          }}
+        >
+          {item.comment}
+        </p>
+      </div>
+    );
+  })
+) : (
+  <div
+    style={{
+      textAlign: "center",
+      color: "#666",
+      fontSize: "16px",
+      padding: "20px",
+      fontFamily: "Gilroy",
+    }}
+  >
+    No data available
+  </div>
+)}
+
                     </div>
                   </Modal.Body>
 

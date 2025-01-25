@@ -117,14 +117,20 @@ function Booking(props) {
     setHostelIds(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
 
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "GET_BOOKING_LIST",
+  //     payload: { hostel_id: state.login.selectedHostel_Id },
+  //   });
+  // }, [state.login.selectedHostel_Id]);
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+    if (state.Booking.statusCodeGetBooking === 200) {
+      // setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BOOKING_LIST" });
+      }, 2000);
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
     if (
@@ -201,9 +207,9 @@ function Booking(props) {
     }
   };
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "HOSTELLIST" });
+  // }, []);
 
   useEffect(() => {
     dispatch({

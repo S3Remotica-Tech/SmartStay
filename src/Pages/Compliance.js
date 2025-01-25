@@ -359,8 +359,14 @@ const Compliance = () => {
 
   const handleSearch = () => {
     setSearch(!search);
-    setFilterStatus(false);
+    // setFilterStatus(false);
   };
+  
+const handleFilterd = () => {
+  setFilterStatus(!filterStatus);
+}
+
+
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -385,18 +391,21 @@ const Compliance = () => {
     setSearchicon(false)
   }
 
-  const handleStatusFilter = (e) => {
-    const searchTerm = e.target.value;
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
+    console.log("searchTerm",searchTerm)
     setStatusfilter(searchTerm)
-    if (searchTerm == "ALL") {
-      setData(state.ComplianceList.Compliance)
+    if (searchTerm == "All") {
+      setFilteredUsers(state.ComplianceList.Compliance)
     }
     else {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
-      setData(filteredItems);
+      setFilteredUsers(filteredItems);
+      
     }
   }
+  console.log("data",data)
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -1104,9 +1113,33 @@ const Compliance = () => {
                         src={Filters}
                         roundedCircle
                         style={{ height: "50px", width: "50px" }}
-                        onClick={handleSearch}
+                        onClick={handleFilterd}
                       />
                     </div>
+
+
+                    {
+                    filterStatus &&
+
+                    <div className='me-3' style={{border: "1px solid #D4D4D4"}}>
+  <Form.Select 
+  onChange={(e)=>handleStatusFilter(e)}
+  value={statusfilter}
+    aria-label="Select Price Range"
+    className='' 
+    id="statusselect" 
+    style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+  >
+    <option value="All">All</option>
+    <option value="open">Open</option>
+    <option value="in-progress">In Progress</option>
+    <option value="resolved">Resolved</option>
+    
+   
+  </Form.Select>
+</div>
+
+                  }
 
                     {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
         
@@ -1116,6 +1149,7 @@ const Compliance = () => {
                     <div style={{ paddingRight: "15px" }}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
+                        
                       />
                     </div>
 
@@ -1123,25 +1157,10 @@ const Compliance = () => {
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
-                        // style={{
-                        //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
-                        //   padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
-                        // }}
                         style={{
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                          backgroundColor: "#1E45E1",
-                          color: "white",
-                          fontWeight: 600,
-                          borderRadius: "8px",
-                          padding: "10px 12px",
-                          width: "auto",
-                          maxWidth: "100%",
-                          marginBottom: "10px",
-                          maxHeight: 45,marginTop:10
-              
-                        }}
-                        > + Complaint</Button>
+                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8, width: 112,
+                          padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                        }} > + Complaint</Button>
                     </div>
                   </div>
                 </div>

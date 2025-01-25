@@ -91,10 +91,20 @@ function CheckOut(props) {
     }
   }, [props.customerrolePermission]);
 
-  useEffect(() => {
-    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  // }, [state.login.selectedHostel_Id]);
 
+
+
+    useEffect(() => {
+        if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+          // setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
+          }, 2000);
+        }
+      }, [state.UsersList.GetCheckOutCustomerStatusCode]);
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       checkoutcloseModal()
@@ -152,8 +162,8 @@ function CheckOut(props) {
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const totalPages = Math.ceil(checkOutCustomer?.length / itemsPerPage);
+  const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

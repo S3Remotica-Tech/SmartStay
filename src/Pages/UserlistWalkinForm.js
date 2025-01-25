@@ -548,7 +548,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                         color: '#4B4B4B',
                                         fontWeight: 500,
                                         boxShadow: 'none',
-                                        border: '1px solid #D9D9D9'
+                                        border: '1px solid #D9D9D9',
+                                        marginTop:6
                                     }}
                                 />
                                 {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
@@ -656,7 +657,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                         color: '#4B4B4B',
                                         fontWeight: 500,
                                         boxShadow: 'none',
-                                        border: '1px solid #D9D9D9'
+                                        border: '1px solid #D9D9D9',
+                                        marginTop:6
                                     }}
                                 />
                                 {/* {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>} */}
