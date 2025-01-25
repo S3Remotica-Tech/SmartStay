@@ -2207,8 +2207,7 @@ console.log("Name",bills)
       setRecurringBills(FilterUsertwo);
     }
    
-  }, [
-    filterInput,  
+  }, [filterInput,])
 
 //Receipt 
   useEffect(() => {
@@ -2221,7 +2220,7 @@ console.log("Name",bills)
     
     }
     
-  }, [hostelId]);
+  }, [hostelId])
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
@@ -2231,13 +2230,14 @@ console.log("Name",bills)
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
     }
-  }, [state.InvoiceList.ReceiptlistgetStatuscode]);
+  }, [state.InvoiceList.ReceiptlistgetStatuscode])
 
   useEffect(() => {
     if (
       state.InvoiceList.RecurringBillAddStatusCode === 200 ||
       state.InvoiceList.deleterecurringbillsStatuscode
-    ) {
+    ) 
+    {
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
