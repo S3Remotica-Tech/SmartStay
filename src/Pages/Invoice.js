@@ -2591,7 +2591,7 @@ console.log("Name",bills)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "10px 12px",
-                        width: "100px",
+                        width: "170px",
                         maxWidth: "100%",
                         marginBottom: "10px",
                         maxHeight: 45,
