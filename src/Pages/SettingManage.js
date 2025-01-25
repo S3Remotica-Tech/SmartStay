@@ -833,7 +833,7 @@ const [loading, setLoading] = useState(true)
           {hidePgList && (
             <>
               <div
-                className="container justify-content-between d-flex align-items-center"
+                className=" justify-content-between d-flex align-items-center"
                 style={{
                   position: "sticky",
                   top: 0,
@@ -846,7 +846,7 @@ const [loading, setLoading] = useState(true)
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div className="settingGreneral">
+                <div >
                   <label
                     style={{
                       fontSize: 18,

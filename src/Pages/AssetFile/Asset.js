@@ -473,14 +473,15 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
           <div className='container p-0'>
             <div>
 
-              <div className="d-flex justify-content-between align-items-center mb-1 flex-wrap "
+              <div className="container d-flex justify-content-between align-items-center mb-1 flex-wrap"
                 style={{
                   position: 'sticky',
-                  top: 15,
+ 
                   backgroundColor: 'white',
                   zIndex: 10,
-                  padding: '10px',
-                  height: 83
+                  // padding: '10px',
+                  paddingLeft:32,paddingRight:20,
+                  height: 83,marginTop:-5
                 }}
               >
                 <div>

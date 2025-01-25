@@ -11,7 +11,7 @@ function SettingIntergration(){
         <>
        <div class="container ">
         <div style={{marginTop:25}}>
-            <p style={{fontSize:"30",fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
+            <p style={{fontSize:22,fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
         </div>
        <div className="row g-3">
   <div className="col-12 col-md-6">
