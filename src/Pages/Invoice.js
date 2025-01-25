@@ -1493,6 +1493,7 @@ const InvoicePage = () => {
 
   //  const itemsPerPage = 5;
   // bills
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -2142,72 +2143,105 @@ const InvoicePage = () => {
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
+  
+  const [originalBills, setOriginalBills] = useState([]);
+  const [originalRecuiring, setOriginalRecuiring] = useState([]);  // Store initial data
 
-
+  useEffect(() => {
+    if (value === "1") {
+      const FilterUser = Array.isArray(bills)
+        ? bills.filter((item) =>
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+      setBills(FilterUser);
+    }
+  
+    if (value === "2") {
+      const FilterUsertwo = Array.isArray(recurringbills)
+        ? recurringbills.filter((item) =>
+            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+      setRecurringBills(FilterUsertwo);
+    }
+  }, [filterInput, value]);
+  
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+  };
+  
+  // Function to handle user selection
+  const handleUserSelect = (user) => {
+    setFilterInput(user.Name);
+    setBills([user]); // Temporarily set selected user
+    setDropdownVisible(false);
+  };
+  
+  // Function to close the search and restore all data
   const handleCloseSearch = () => {
     setSearch(false);
-    setFilterInput("")
+    setFilterInput("");
+    setBills(originalBills);
+    setRecurringBills(originalRecuiring)  // Restore the original data
   };
-
-
+  
+  // Set initial data when component mounts
+  useEffect(() => {
+    if (bills.length > 0 && originalBills.length === 0) {
+      setOriginalBills(bills);
+    }
+  }, [bills]);
+  
+  useEffect(() => {
+    if (recurringbills.length > 0 && originalRecuiring.length === 0) {
+      setOriginalRecuiring(recurringbills);
+    }
+  }, [recurringbills]);
   const handleSearch = () => {
     setSearch(!search);
     // setFilterStatus(false);
   };
   
-const handleFilterd = () => {
-  setFilterStatus(!filterStatus);
-}
-
-
-
-  const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-  };
-
-  const handleUserSelect = (user) => {
-    // Set filter input based on the `value`
-    // const inputValue = value === "1" ? user.Name : user.user_name;
-    setFilterInput(user.Name);
-  
-    // Clear bills and recurring bills after selection
-    setBills([]);
-    // setRecurringBills([]);
-  
-    // Hide the dropdown
-    setDropdownVisible(false);
-  };
-
-
   const handleUserRecuire= (user) => {
-    // Set the selected user name in the input field
     setFilterInput(user.user_name);
-    setRecurringBills([]);
-    // Optionally, hide the dropdown after selection
+    setRecurringBills([user]);
     setDropdownVisible(false);
   };
 
 console.log("Name",bills)
-  useEffect(() => {
-    if (value === "1") {
-      const FilterUser = Array.isArray(bills)
-          ? bills.filter((item) =>
-              item.Name.toLowerCase().includes(filterInput.toLowerCase())
-            )
-          : []; 
-  
-      setBills(FilterUser);
-  }
-    
-    if (value === "2") {
-      const FilterUsertwo = recurringbills?.filter((item) => {
-        item.user_name.toLowerCase().includes(filterInput.toLowerCase())
-        });
-      setRecurringBills(FilterUsertwo);
-    }
+
+
+  // useEffect(() => {
+  //    if (value === "1") {
+  //      const FilterUser = Array.isArray(bills)
+  //          ? bills.filter((item) =>
+  //              item.Name.toLowerCase().includes(filterInput.toLowerCase())
+  //            )
+  //          : []; 
    
-  }, [filterInput,])
+  //      setBills(FilterUser);
+  //  }
+     
+  //    if (value === "2") {
+  //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) => 
+  //       item.user_name.toLowerCase().includes(filterInput.toLowerCase())
+  //        ) :[];
+  //      setRecurringBills(FilterUsertwo);
+  //    }
+    
+  //  }, [filterInput,value,]);
+
+
+
+   const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  }
+
+
 
 //Receipt 
   useEffect(() => {
