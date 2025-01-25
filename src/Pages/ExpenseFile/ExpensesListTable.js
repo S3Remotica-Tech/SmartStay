@@ -289,7 +289,7 @@ function ExpensesListTable(props) {
       </td>
     </tr>
 
-    {showTagAsset && (
+    {/* {showTagAsset && (
       <>
         <div
           style={{
@@ -435,7 +435,119 @@ function ExpensesListTable(props) {
           }}
         />
       </>
-    )}
+    )} */}
+
+
+
+    {
+      showTagAsset && 
+      <Modal
+      show={showTagAsset}
+      onHide={handleHideTagAsset}
+      centered
+      backdrop="static"
+    >
+      <Modal.Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid#E7E7E7",
+          paddingBottom: "10px",
+        }}
+      >
+        <Modal.Title
+          style={{
+            fontWeight: 600,
+            fontSize: 18,
+            fontFamily: "Gilroy, sans-serif",
+            margin: 0,
+          }}
+        >
+          Tag Asset
+        </Modal.Title>
+        <img
+          src={closeicon}
+          alt="Close"
+          style={{ cursor: "pointer", width: 20, height: 20 }}
+          onClick={handleHideTagAsset}
+        />
+      </Modal.Header>
+      <Modal.Body>
+        <div style={{ marginTop: 15, width: "100%" }}>
+          <label className='mb-1'
+            style={{
+              fontWeight: 500,
+              fontSize: 14,
+              fontFamily: "Gilroy, sans-serif",
+              display: "block",
+              textAlign: "left",
+            }}
+          >
+            Asset Unique Name
+          </label>
+          <Form.Select
+         id="vendor-select"
+         className='mb-2'
+              value={assetname}
+              onChange={handleAssetname}
+              style={{ fontWeight: 500, fontFamily: 'Gilroy, sans-serif' }}
+            >
+              <option value="" disabled>
+                Select an Asset
+              </option>
+              {state.AssetList.assetList.length > 0 ? (
+                state.AssetList.assetList.map((view) => (
+                  <option key={view.asset_id} value={view.asset_id}>
+                    {view.asset_name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  No assets available
+                </option>
+              )}
+            </Form.Select>
+
+
+          {state.AssetList.assetList &&
+            state.AssetList.assetList.length === 0 && (
+              <label
+                className="pb-1"
+                style={{
+                  fontSize: 14,
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Please add an 'Asset' option in Asset page, accessible after
+                adding an expense.
+              </label>
+            )}
+            
+          <Button
+            style={{
+              marginTop: 15,
+              width: "100%",
+              height: "45px",
+              borderRadius: "12px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              border: "none",
+              fontSize: "16px",
+              fontWeight: 400,
+              fontFamily:"Gilroy",
+              cursor: "pointer",
+            }}
+            onClick={handleTagAsset}
+          >
+            Tag Asset
+          </Button>
+        </div>
+      </Modal.Body>
+    </Modal>
+    }
 
 
   </>
