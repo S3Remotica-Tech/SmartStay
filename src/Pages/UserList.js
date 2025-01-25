@@ -682,13 +682,16 @@ const [customerBooking,setCustomerBooking] = useState("")
       setFilteredUsers(FilterUser);
   }
     
-    if (value === "2") {
-      const FilterUsertwo = customerBooking?.filter((item) => {
-          const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
+  if (value === "2") {
+    const FilterUsertwo = Array.isArray(customerBooking)
+      ? customerBooking.filter((item) => {
+          const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
-        });
-      setFilteredUsers(FilterUsertwo);
-    }
+        })
+      : [];  // Return empty array if not an array
+  
+    setFilteredUsers(FilterUsertwo);
+  }
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
@@ -707,39 +710,7 @@ const [customerBooking,setCustomerBooking] = useState("")
     value,
     state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
   ]);
-  // useEffect(() => {
-  //   let FilterUser = [];
-
-  //   if (value === "1") {
-  //     FilterUser = Array.isArray(state.UsersList?.Users)
-  //       ? state.UsersList.Users?.filter((item) =>
-  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   } else if (value === "2") {
-  //     FilterUser = Array.isArray(state?.Booking?.CustomerBookingList?.bookings)
-  //       ? state.Booking.CustomerBookingList.bookings?.filter((item) =>
-  //           item.first_name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   } else if (value === "4") {
-  //     FilterUser = Array.isArray(state.UsersList?.hostelList)
-  //       ? state.UsersList.hostelList?.filter((item) =>
-  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   }
-
-  //   setFilteredUsers(FilterUser)
-  // }, [
-  //   filterInput,
-  //   state.UsersList?.Users,
-  //   value,
-  //   state?.Booking?.CustomerBookingList?.bookings,
-  //   state.UsersList?.hostelList,
-  // ]);
-
-
+ 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
