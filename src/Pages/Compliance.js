@@ -954,7 +954,7 @@ const handleFilterd = () => {
                   }}
                 >
                   <div>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-20}}>Complaints</label>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-16}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
@@ -1157,8 +1157,9 @@ const handleFilterd = () => {
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
-                        style={{
-                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8, width: 112,
+                        style={{marginTop:-10,
+                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
+                           width: 112,
                           padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
                         }} > + Complaint</Button>
                     </div>

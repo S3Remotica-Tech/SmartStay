@@ -456,7 +456,7 @@ function Banking() {
               )}
             </div></>
         ) :
-          <div style={{ padding: 10, marginLeft: 10, }}>
+          <div style={{ padding: 8, marginLeft: 10, }}>
             <div className="d-flex flex-wrap justify-content-between align-items-center mb-3" style={{
     position: "fixed",
     top: 10,
@@ -466,7 +466,7 @@ function Banking() {
   }}>
               <div>
                 <label
-                  style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
+                  style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600,marginTop:3,marginLeft:-10}}
                 >
                   Banking
                 </label>
@@ -608,7 +608,7 @@ function Banking() {
                   </>
                 ) : (
                   <>
-                    <div className="me-3">
+                    <div className="me-2">
                       <Image
                         src={searchteam}
                         roundedCircle
@@ -619,7 +619,7 @@ function Banking() {
                   </>
                 )}
 
-                <div className="me-3">
+                <div className="me-2">
                   <Image
                     src={Filters}
                     roundedCircle

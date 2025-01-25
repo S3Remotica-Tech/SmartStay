@@ -2126,7 +2126,8 @@ console.log("loading",loading, "recurLoader", recurLoader)
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",
+                color: "#222",marginTop:8,
+                marginLeft:-5
               }}
             >
               Bills
@@ -2167,7 +2168,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     />
                   </>
                 )}
-                <BsSearch class=" me-4 mt-4" onClick={handleiconshow} />
+                <BsSearch class=" me-4 mt-3" width={30} height={30} onClick={handleiconshow} />
                 {filtericon && (
                   <>
                     <Form.Select
@@ -2201,7 +2202,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     </Form.Select>
                   </>
                 )}
-                <div className="me-3 mt-3">
+                <div className="me-3 mt-2">
                   <Image
                     src={Sort}
                     roundedCircle
@@ -2236,7 +2237,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                         padding: "10px 12px",
                         width: "auto",
                         maxWidth: "100%",
-                        marginBottom: "10px",
+                        marginBottom: "15px",
                         maxHeight: 45,
             
                       }}
@@ -4253,7 +4254,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4305,7 +4306,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4355,6 +4356,17 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
+
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -4396,6 +4408,17 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
+
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate

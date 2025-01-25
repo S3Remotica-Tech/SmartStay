@@ -1786,9 +1786,9 @@ const handleDeleteCustomer = () =>{
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  marginLeft: 20,
-                  marginRight: 20
-
+                  marginLeft: 11,
+                  marginRight: 20,
+marginTop:-2
                 }}
               >
                 Customers
@@ -2027,6 +2027,7 @@ const handleDeleteCustomer = () =>{
                     //   fontFamily: "Gilroy",
                     // }}
                     style={{
+                      marginTop:3,
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",

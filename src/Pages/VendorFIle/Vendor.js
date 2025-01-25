@@ -497,7 +497,7 @@ function Vendor() {
                 }}
               >
 
-                <div>
+                <div style={{marginLeft:-10}}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
                 </div>
 
@@ -508,7 +508,7 @@ function Vendor() {
                   {
                     !showFilterData &&
 
-                    <div className='me-3' onClick={handleShowSearch}>
+                    <div className='me-3' style={{marginTop:-10}} onClick={handleShowSearch}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -632,7 +632,7 @@ function Vendor() {
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",
-                        maxHeight: 45,
+                        maxHeight: 45,marginTop:-3
             
                       }}
                       > + Vendor</Button>
