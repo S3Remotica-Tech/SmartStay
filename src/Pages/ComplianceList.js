@@ -427,6 +427,9 @@ const ComplianceList = (props) => {
     };
   }, []);
 
+  console.log("props",props);
+  
+
   return (
     <>
       <Card
@@ -444,8 +447,9 @@ const ComplianceList = (props) => {
                 /> */}
                 <Image
                   src={
-                    props.complaints.profile === "0"
-                      ? User
+                    props.complaints.profile === "0" ||  props.complaints.profile === "null" ||   props.complaints.profile === null
+                      ? 
+                      User
                       : props.complaints.profile
                   }
                   roundedCircle
