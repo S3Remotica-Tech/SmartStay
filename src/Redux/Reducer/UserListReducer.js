@@ -96,13 +96,24 @@ const initialState = {
     statuscodeForAdharFileError: 0,
     NoUserListStatusCode: 0,
    userRoomfor :null,
-   userProfilebill:null
+   userProfilebill:null,
+   deleteCustomerSuccessStatusCode:0,
   
 }
 
 const UserListReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+
+        case 'DELETE_CUSTOMER' : 
+        return {...state, deleteCustomerSuccessStatusCode:action.payload.statusCode}
+
+        case 'REMOVE_DELETE_CUSTOMER' : 
+        return {...state, deleteCustomerSuccessStatusCode:0}
+
+
+
         case 'CLEAR_ERROR_MESSAGE':
             return {
                 ...state,
