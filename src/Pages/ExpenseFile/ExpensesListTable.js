@@ -12,6 +12,8 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import TagAsset from '../../Assets/Images/TagAsset.svg';
 import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button, Form } from "react-bootstrap";
+import { MdError } from "react-icons/md";
+
 
 function ExpensesListTable(props) {
 
@@ -123,6 +125,7 @@ function ExpensesListTable(props) {
   // close icon  in tag asset
   const handleHideTagAsset = () => {
     setshowTagAsset(false);
+    setAssetNameError('')
   };
 
 
@@ -473,8 +476,29 @@ function ExpensesListTable(props) {
           onClick={handleHideTagAsset}
         />
       </Modal.Header>
-      <Modal.Body>
-        <div style={{ marginTop: 15, width: "100%" }}>
+
+
+          {
+            assetnameerror &&
+
+
+            <div className="d-flex align-items-center p-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {assetnameerror}
+              </label>
+            </div>
+          }
+          <Modal.Body>
+        <div style={{ marginTop: 10, width: "100%" }}>
           <label className='mb-1'
             style={{
               fontWeight: 500,
