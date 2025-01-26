@@ -69,6 +69,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
 
+import closecircle from "../Assets/Images/New_images/close-circle.png"
+import searchteam from "../Assets/Images/New_images/Search Team.png";
+import Filters from "../Assets/Images/Filters.svg";
+
+
+import Receipt from "./Receipt";
+
+
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   console.log("status", state);
@@ -108,9 +116,7 @@ const InvoicePage = () => {
     transaction: "",
   });
 
-
-console.log("loading",loading, "recurLoader", recurLoader)
-  
+  console.log("loading", loading, "recurLoader", recurLoader);
 
   const [invoicePage, setInvoicePage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
@@ -200,11 +206,19 @@ console.log("loading",loading, "recurLoader", recurLoader)
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+   const [filterInput, setFilterInput] = useState("");
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [search, setSearch] = useState(false);
+    const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   let serialNumber = 1;
 
   const [hostelId, setHostelId] = useState("");
+  const [receiptdata, setReceiptData] = useState([])
+  const [receiptLoader, setReceiptLoader] = useState(false);
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
@@ -212,9 +226,12 @@ console.log("loading",loading, "recurLoader", recurLoader)
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if(hostelId){
-      setLoading(true)
-    dispatch({ type: "MANUALINVOICESLIST", payload: { hostel_id: hostelId } });
+    if (hostelId) {
+      setLoading(true);
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
     }
   }, [hostelId]);
 
@@ -1476,6 +1493,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
 
   //  const itemsPerPage = 5;
   // bills
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -1507,6 +1525,26 @@ console.log("loading",loading, "recurLoader", recurLoader)
     setItemsPage(Number(event.target.value));
   };
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
+
+
+    //Receipt pagination
+    const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
+    const [itemsperPage, setItemsPERPage] = useState(10);
+    const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
+    const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
+  
+    const currentReceiptData = receiptdata?.slice(
+      indexOfFirstItemReceipt,
+      indexOfLastItemReceipt
+    );
+  
+    const handlePageChangeReceipt = (pageNumber) => {
+      setCurrentRecurePage(pageNumber);
+    };
+    const handleItemsPerPageReceipt = (event) => {
+      setItemsPage(Number(event.target.value));
+    };
+    const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage);  //Receipt pagination
 
   //  const renderPageNumbers = () => {
   //    const pageNumbers = [];
@@ -1707,26 +1745,24 @@ console.log("loading",loading, "recurLoader", recurLoader)
   //     }
   //   }
   // }, [state.InvoiceList.invoicePDF]);
-  useEffect(()=>{
-    if(state.InvoiceList?.statusCodeForPDf === 200){
+  useEffect(() => {
+    if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
 
-    if (pdfUrl) {
-      console.log("PDF URL", pdfUrl);
+      if (pdfUrl) {
+        console.log("PDF URL", pdfUrl);
 
-      const pdfWindow = window.open(pdfUrl, "_blank");
-      if (pdfWindow) {
-      console.log("PDF opened successfully.");
-        setShowLoader(false);
-        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
-      
-      } else {
-        console.error("Failed to open the PDF.");
+        const pdfWindow = window.open(pdfUrl, "_blank");
+        if (pdfWindow) {
+          console.log("PDF opened successfully.");
+          setShowLoader(false);
+          dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+        } else {
+          console.error("Failed to open the PDF.");
+        }
       }
     }
-
-    }
-  },[state.InvoiceList?.statusCodeForPDf])
+  }, [state.InvoiceList?.statusCodeForPDf]);
 
   // useEffect(() => {
   //   dispatch({
@@ -2065,14 +2101,12 @@ console.log("loading",loading, "recurLoader", recurLoader)
 
   useEffect(() => {
     setRecurLoader(true);
-    if(hostelId){
+    if (hostelId) {
       dispatch({
         type: "RECURRING-BILLS-LIST",
         payload: { hostel_id: hostelId },
       });
-    
     }
-    
   }, [hostelId]);
 
   useEffect(() => {
@@ -2109,6 +2143,154 @@ console.log("loading",loading, "recurLoader", recurLoader)
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
+  
+  const [originalBills, setOriginalBills] = useState([]);
+  const [originalRecuiring, setOriginalRecuiring] = useState([]);  // Store initial data
+
+  useEffect(() => {
+    if (value === "1") {
+      const FilterUser = Array.isArray(bills)
+        ? bills.filter((item) =>
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+      setBills(FilterUser);
+    }
+  
+    if (value === "2") {
+      const FilterUsertwo = Array.isArray(recurringbills)
+        ? recurringbills.filter((item) =>
+            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+      setRecurringBills(FilterUsertwo);
+    }
+  }, [filterInput, value]);
+  
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+  };
+  
+  // Function to handle user selection
+  const handleUserSelect = (user) => {
+    setFilterInput(user.Name);
+    setBills([user]); // Temporarily set selected user
+    setDropdownVisible(false);
+  };
+  
+  // Function to close the search and restore all data
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("");
+    setBills(originalBills);
+    setRecurringBills(originalRecuiring)  // Restore the original data
+  };
+  
+  // Set initial data when component mounts
+  useEffect(() => {
+    if (bills.length > 0 && originalBills.length === 0) {
+      setOriginalBills(bills);
+    }
+  }, [bills]);
+  
+  useEffect(() => {
+    if (recurringbills.length > 0 && originalRecuiring.length === 0) {
+      setOriginalRecuiring(recurringbills);
+    }
+  }, [recurringbills]);
+  const handleSearch = () => {
+    setSearch(!search);
+    // setFilterStatus(false);
+  };
+  
+  const handleUserRecuire= (user) => {
+    setFilterInput(user.user_name);
+    setRecurringBills([user]);
+    setDropdownVisible(false);
+  };
+
+console.log("Name",bills)
+
+
+  // useEffect(() => {
+  //    if (value === "1") {
+  //      const FilterUser = Array.isArray(bills)
+  //          ? bills.filter((item) =>
+  //              item.Name.toLowerCase().includes(filterInput.toLowerCase())
+  //            )
+  //          : []; 
+   
+  //      setBills(FilterUser);
+  //  }
+     
+  //    if (value === "2") {
+  //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) => 
+  //       item.user_name.toLowerCase().includes(filterInput.toLowerCase())
+  //        ) :[];
+  //      setRecurringBills(FilterUsertwo);
+  //    }
+    
+  //  }, [filterInput,value,]);
+
+
+
+   const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  }
+
+
+
+//Receipt 
+  useEffect(() => {
+    setReceiptLoader(true);
+    if(hostelId){
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+    
+    }
+    
+  }, [hostelId])
+
+  useEffect(() => {
+    if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
+      setReceiptData(state.InvoiceList.ReceiptList);
+      setReceiptLoader(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.ReceiptlistgetStatuscode])
+
+  useEffect(() => {
+    if (
+      state.InvoiceList.RecurringBillAddStatusCode === 200 ||
+      state.InvoiceList.deleterecurringbillsStatuscode
+    ) 
+    {
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });
+      }, 1000);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [
+    state.InvoiceList.RecurringBillAddStatusCode,
+    state.InvoiceList.deleterecurringbillsStatuscode,
+
+  ]);
+
   return (
     <>
       {showAllBill && (
@@ -2126,7 +2308,8 @@ console.log("loading",loading, "recurLoader", recurLoader)
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",
+                color: "#222",marginTop:8,
+                marginLeft:-5
               }}
             >
               Bills
@@ -2136,79 +2319,252 @@ console.log("loading",loading, "recurLoader", recurLoader)
               {showLoader && <LoaderComponent />}
               {loading && <LoaderComponent />}
               {/* {recurLoader && <LoaderComponent />} */}
-              <div
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                {searchicon && (
+              <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+                {search ? (
                   <>
-                    <input
-                      type="text"
-                      value={searchItem}
-                      onChange={(e) => handleInputChange(e)}
-                      placeholder="Search By Name"
-                      class="form-control ps-4 pe-1 mt-4  searchinput"
+                    <div
                       style={{
-                        cursor: "pointer",
-                        marginRight: "20px",
-                        backgroundColor: "white",
-                        fontSize: "12px",
-                        fontWeight: "700",
-                        width: "150px",
-                        borderRadius: "10px",
-                        padding: "2px",
-                        border: "1px Solid #2E75EA",
-                        height: "30px",
-                        color: "#2E75EA",
-                      }}
-                    />
-                  </>
-                )}
-                <BsSearch class=" me-4 mt-4" onClick={handleiconshow} />
-                {filtericon && (
-                  <>
-                    <Form.Select
-                      aria-label="Default select example"
-                      value={statusfilter}
-                      onChange={(e) => handleStatusFilter(e)}
-                      id="vendor-select"
-                      className="ps-3 mt-3"
-                      style={{
-                        marginRight: "20px",
-                        fontFamily: "Gilroy",
-                        fontSize: "16px",
-                        fontWeight: "700",
-                        width: "150px",
-                        borderRadius: "10px",
-                        padding: "2px",
-                        border: "1px Solid #dcdcdc",
-                        height: "35px",
+                        position: "relative",
+                        width: "100%",
+                        marginRight: 20,
                       }}
                     >
-                      <option id="vendor-select" selected value="ALL">
-                        {" "}
-                        ALL
-                      </option>
-                      <option id="vendor-select" value="Success">
-                        Success
-                      </option>
-                      <option id="vendor-select" value="Pending">
-                        Pending
-                      </option>
-                    </Form.Select>
+                      <div
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        <Image
+                          src={searchteam}
+                          alt="Search"
+                          style={{
+                            position: "absolute",
+                            left: "10px",
+                            width: "24px",
+                            height: "24px",
+                            pointerEvents: "none",
+                          }}
+                        />
+                        <div
+                          className="input-group"
+                          style={{ marginRight: 20 }}
+                        >
+                          <span className="input-group-text bg-white border-end-0">
+                            <Image
+                              src={searchteam}
+                              style={{ height: 20, width: 20 }}
+                            />
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-start-0"
+                            placeholder="Search"
+                            aria-label="Search"
+                            style={{
+                              boxShadow: "none",
+                              outline: "none",
+                              borderColor: "rgb(207,213,219)",
+                              borderRight: "none",
+                            }}
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
+                          />
+                          <span className="input-group-text bg-white border-start-0">
+                            <img
+                              src={closecircle}
+                              onClick={handleCloseSearch}
+                              style={{ height: 20, width: 20 }}
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      {value === "1" && isDropdownVisible && bills?.length > 0 && (
+  <div
+    style={{
+      border: "1px solid #d9d9d9 ",
+      position: "absolute",
+      top: 60,
+      left: 0,
+      zIndex: 1000,
+      padding: 10,
+      borderRadius: 8,
+      backgroundColor: "#fff",
+      width: "94%",
+    }}
+  >
+    <ul
+      className="show-scroll p-0"
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "4px",
+        maxHeight: bills?.length > 1 ? "174px" : "auto",
+        minHeight: 100,
+        overflowY: bills?.length > 1 ? "auto" : "hidden",
+        margin: "0",
+        listStyleType: "none",
+        boxSizing: "border-box",
+      }}
+    >
+      {bills?.map((user, index) => {
+        const imagedrop = user.profile || Profile;
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-center"
+            style={{
+              cursor: "pointer",
+              padding: "10px 5px",
+              borderBottom:
+                index !== bills?.length - 1 ? "1px solid #eee" : "none",
+            }}
+            onClick={() => handleUserSelect(user)}
+          >
+            <Image
+              src={imagedrop}
+              alt={user.Name || "Default Profile"}
+              roundedCircle
+              style={{
+                height: "30px",
+                width: "30px",
+                marginRight: "10px",
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = Profile;
+              }}
+            />
+            <span>{user.Name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+{value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
+  <div
+    style={{
+      border: "1px solid #d9d9d9 ",
+      position: "absolute",
+      top: 60,
+      left: 0,
+      zIndex: 1000,
+      padding: 10,
+      borderRadius: 8,
+      backgroundColor: "#fff",
+      width: "94%",
+    }}
+  >
+    <ul
+      className="show-scroll p-0"
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "4px",
+        maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+        minHeight: 100,
+        overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+        margin: "0",
+        listStyleType: "none",
+        boxSizing: "border-box",
+      }}
+    >
+      {recurringbills?.map((user, index) => {
+        const imagedrop = user.profile || Profile;
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-center"
+            style={{
+              cursor: "pointer",
+              padding: "10px 5px",
+              borderBottom:
+                index !== recurringbills?.length - 1 ? "1px solid #eee" : "none",
+            }}
+            onClick={() => handleUserRecuire(user)}
+          >
+            <Image
+              src={imagedrop}
+              alt={user.user_name || "Default Profile"}
+              roundedCircle
+              style={{
+                height: "30px",
+                width: "30px",
+                marginRight: "10px",
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = Profile;
+              }}
+            />
+            <span>{user.user_name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
+                    </div>
+                  </>
+
+                ) : (
+
+                  <>
+                    <div className="me-3">
+                      <Image
+                        src={searchteam}
+                        roundedCircle
+                        style={{ height: "24px", width: "24px" }}
+                        onClick={handleSearch}
+                      />
+                    </div>
                   </>
                 )}
-                <div className="me-3 mt-3">
+
+                <div className="me-3">
                   <Image
-                    src={Sort}
+                    src={Filters}
                     roundedCircle
-                    style={{ cursor: "pointer", height: "30px", width: "30px" }}
-                    onClick={handleFiltershow}
+                    style={{ height: "50px", width: "50px" }}
+                    onClick={handleFilterd}
                   />
                 </div>
+
+                {filterStatus && (
+                  <div className="me-3" style={{ border: "1px solid #D4D4D4" }}>
+                    <Form.Select
+                      onChange={(e) => handleStatusFilter(e)}
+                      value={statusfilter}
+                      aria-label="Select Price Range"
+                      className=""
+                      id="statusselect"
+                      style={{
+                        color: "rgba(34, 34, 34, 1)",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <option value="All">All</option>
+                      <option value="open">Open</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="resolved">Resolved</option>
+                    </Form.Select>
+                  </div>
+                )}
+
+
+                {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
+
+<div className='me-3'>
+<Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
+</div> */}
+                
+
                 <div className="me-5">
                   {value == 1 && (
                     <Button
@@ -2234,14 +2590,12 @@ console.log("loading",loading, "recurLoader", recurLoader)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "10px 12px",
-                        width: "auto",
+                        width: "120px",
                         maxWidth: "100%",
-                        marginBottom: "10px",
+                        marginBottom: "15px",
                         maxHeight: 45,
-            
                       }}
                     >
-
                       {" "}
                       + Create Bill
                     </Button>
@@ -2271,11 +2625,10 @@ console.log("loading",loading, "recurLoader", recurLoader)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "10px 12px",
-                        width: "auto",
+                        width: "170px",
                         maxWidth: "100%",
                         marginBottom: "10px",
                         maxHeight: 45,
-            
                       }}
                     >
                       {" "}
@@ -2310,7 +2663,6 @@ console.log("loading",loading, "recurLoader", recurLoader)
                         maxWidth: "100%",
                         marginBottom: "10px",
                         maxHeight: 45,
-            
                       }}
                     >
                       {" "}
@@ -2981,9 +3333,10 @@ console.log("loading",loading, "recurLoader", recurLoader)
                               className="show-scroll p-2"
                               style={{ maxHeight: 700, overflowY: "auto" }}
                             >
-                              {bills  && bills.map((item) => (
-                                <>
-                                  {/* <div className="" style={{}}>
+                              {bills &&
+                                bills.map((item) => (
+                                  <>
+                                    {/* <div className="" style={{}}>
                           <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
 
 
@@ -3018,137 +3371,135 @@ console.log("loading",loading, "recurLoader", recurLoader)
 
                           </div>
                         </div> */}
-                                  <div className="" style={{}}>
-                                    <div className="d-flex align-items-start justify-content-between w-100 p-2">
-                                      <div>
-                                        <span>
-                                          <img
-                                            src={
-                                              item.user_profile &&
-                                              item.user_profile !== "0"
-                                                ? item.user_profile
-                                                : User
-                                            }
-                                            style={{ height: 40, width: 40 }}
-                                            alt="User"
-                                          />
-                                        </span>
-                                      </div>
-
-                                      <div className="flex-grow-1 ms-2">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                          <div
-                                            className="Invoice_Name"
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "14px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                              cursor: "pointer",
-                                            }}
-                                            onClick={() =>
-                                              handleDisplayInvoiceDownload(
-                                                true,
-                                                item
-                                              )
-                                            }
-                                          >
-                                            {item.Name}
-                                          </div>
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {item.Amount}
-                                          </div>
+                                    <div className="" style={{}}>
+                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                        <div>
+                                          <span>
+                                            <img
+                                              src={
+                                                item.user_profile &&
+                                                item.user_profile !== "0"
+                                                  ? item.user_profile
+                                                  : User
+                                              }
+                                              style={{ height: 40, width: 40 }}
+                                              alt="User"
+                                            />
+                                          </span>
                                         </div>
 
-                                        <div className="d-flex justify-content-between gap-3 mb-2">
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {item.Invoices == null ||
-                                            item.Invoices === ""
-                                              ? "0.00"
-                                              : item.Invoices}
+                                        <div className="flex-grow-1 ms-2">
+                                          <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <div
+                                              className="Invoice_Name"
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                                cursor: "pointer",
+                                              }}
+                                              onClick={() =>
+                                                handleDisplayInvoiceDownload(
+                                                  true,
+                                                  item
+                                                )
+                                              }
+                                            >
+                                              {item.Name}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Amount}
+                                            </div>
                                           </div>
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {moment(item.Date).format(
-                                              "DD MMM YYYY"
+
+                                          <div className="d-flex justify-content-between gap-3 mb-2">
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Invoices == null ||
+                                              item.Invoices === ""
+                                                ? "0.00"
+                                                : item.Invoices}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {moment(item.Date).format(
+                                                "DD MMM YYYY"
+                                              )}
+                                            </div>
+                                          </div>
+
+                                          <div className="mb-2">
+                                            {item.BalanceDue === 0 ? (
+                                              <span
+                                                style={{
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#D9FFD9",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  fontFamily: "Gilroy",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Paid
+                                              </span>
+                                            ) : (
+                                              <span
+                                                style={{
+                                                  cursor: "pointer",
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#FFD9D9",
+                                                  fontFamily: "Gilroy",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Unpaid
+                                              </span>
                                             )}
                                           </div>
                                         </div>
-
-                                        <div className="mb-2">
-                                          {item.BalanceDue === 0 ? (
-                                            <span
-                                              style={{
-                                                fontSize: "10px",
-                                                backgroundColor: "#D9FFD9",
-                                                color: "#000",
-                                                borderRadius: "14px",
-                                                fontFamily: "Gilroy",
-                                                padding: "8px 12px",
-                                              }}
-                                            >
-                                              Paid
-                                            </span>
-                                          ) : (
-                                            <span
-                                              style={{
-                                                cursor: "pointer",
-                                                fontSize: "10px",
-                                                backgroundColor: "#FFD9D9",
-                                                fontFamily: "Gilroy",
-                                                color: "#000",
-                                                borderRadius: "14px",
-                                                padding: "8px 12px",
-                                              }}
-                                            >
-                                              Unpaid
-                                            </span>
-                                          )}
-                                        </div>
                                       </div>
                                     </div>
-                                  </div>
 
-                                  <hr />
-                                </>
-                              ))}
+                                    <hr />
+                                  </>
+                                ))}
                             </div>
                           ) : (
                             <>
-                              
-                          
                               {currentItems && currentItems.length > 0 ? (
                                 <div
                                   style={{
@@ -3283,69 +3634,79 @@ console.log("loading",loading, "recurLoader", recurLoader)
                                         ></th>
                                       </tr>
                                     </thead>
-                                    <tbody style={{ fontSize: "10px" ,minHeight: "200px", position:"relative"}}>
+                                    <tbody
+                                      style={{
+                                        fontSize: "10px",
+                                        minHeight: "200px",
+                                        position: "relative",
+                                      }}
+                                    >
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                        Array.from({ length: 5 }).map((_, index) => (
-                                          <tr key={index}>
-                                            <td>
-                                              <div className="d-flex">
-                                                <span className="i-circle">
-                                                  <Skeleton circle width={24} height={24} />
-                                                </span>
-                                                <div>
-                                                  <Skeleton width={80} />
-                                                </div>
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <Skeleton width={100} />
-                                            </td>
-                                            <td>
-                                              <Skeleton width={100} />
-                                            </td>
-                                            <td>
-                                              <Skeleton width={50} />
-                                            </td>
-                                            <td>
-                                              <Skeleton width={50} />
-                                            </td>
-                                            <td>
-                                              <Skeleton width={100} />
-                                            </td>
-                                            <td>
-                                              <Skeleton width={100} />
-                                            </td>
-                                          </tr>
-                                        ))
-                                      //   <div
-                                      //   style={{
-                                      //     position: 'absolute',
-                                      //     inset: 0,
-                                      //     display: 'flex',
-                                      //     height: "50vh",
-                                      //     alignItems: 'center',
-                                      //     justifyContent: 'center',
-                                      //     backgroundColor: 'transparent',
-                                      //     opacity: 0.75,
-                                      //     zIndex: 10,
-                                      //   }}
-                                      // >
-                                      //   <div
-                                      //     style={{
-                                      //       borderTop: '4px solid #1E45E1',
-                                      //       borderRight: '4px solid transparent',
-                                      //       borderRadius: '50%',
-                                      //       width: '40px',
-                                      //       height: '40px',
-                                      //       animation: 'spin 1s linear infinite',
-                                      //     }}
-                                      //   ></div>
-                                      // </div>
+                                          Array.from({ length: 5 }).map(
+                                            (_, index) => (
+                                              <tr key={index}>
+                                                <td>
+                                                  <div className="d-flex">
+                                                    <span className="i-circle">
+                                                      <Skeleton
+                                                        circle
+                                                        width={24}
+                                                        height={24}
+                                                      />
+                                                    </span>
+                                                    <div>
+                                                      <Skeleton width={80} />
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                              </tr>
+                                            )
+                                          )
+                                        : //   <div
+                                          //   style={{
+                                          //     position: 'absolute',
+                                          //     inset: 0,
+                                          //     display: 'flex',
+                                          //     height: "50vh",
+                                          //     alignItems: 'center',
+                                          //     justifyContent: 'center',
+                                          //     backgroundColor: 'transparent',
+                                          //     opacity: 0.75,
+                                          //     zIndex: 10,
+                                          //   }}
+                                          // >
+                                          //   <div
+                                          //     style={{
+                                          //       borderTop: '4px solid #1E45E1',
+                                          //       borderRight: '4px solid transparent',
+                                          //       borderRadius: '50%',
+                                          //       width: '40px',
+                                          //       height: '40px',
+                                          //       animation: 'spin 1s linear infinite',
+                                          //     }}
+                                          //   ></div>
+                                          // </div>
 
-
-
-                                        : // Display table rows with actual data when loading is false
+                                          // Display table rows with actual data when loading is false
                                           currentItems.map((item) => (
                                             <InvoiceTable
                                               key={item.id}
@@ -3375,43 +3736,41 @@ console.log("loading",loading, "recurLoader", recurLoader)
                                     </tbody>
                                   </Table>
                                 </div>
-                              )
-                            
-                            :
-                            !loading && currentItems?.length == 0 && (
-                              <div>
-                                <div style={{ textAlign: "center" }}>
-                                  {" "}
-                                  <img src={Emptystate} alt="emptystate" />
-                                </div>
-                                <div
-                                  className="pb-1"
-                                  style={{
-                                    textAlign: "center",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    fontSize: 20,
-                                    color: "rgba(75, 75, 75, 1)",
-                                  }}
-                                >
-                                  No bills available{" "}
-                                </div>
-                                <div
-                                  className="pb-1"
-                                  style={{
-                                    textAlign: "center",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    fontSize: 16,
-                                    color: "rgba(75, 75, 75, 1)",
-                                  }}
-                                >
-                                  There are no bills added{" "}
-                                </div>
-                              </div>
-                            )
-                            
-                            }
+                              ) : (
+                                !loading &&
+                                currentItems?.length == 0 && (
+                                  <div>
+                                    <div style={{ textAlign: "center" }}>
+                                      {" "}
+                                      <img src={Emptystate} alt="emptystate" />
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 20,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      No bills available{" "}
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 16,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      There are no bills added{" "}
+                                    </div>
+                                  </div>
+                                )
+                              )}
 
                               {currentItems.length > 0 && (
                                 <nav
@@ -3608,7 +3967,6 @@ console.log("loading",loading, "recurLoader", recurLoader)
       </div>
 
     )} */}
-    
                   </div>
                 )}
               </>
@@ -3652,7 +4010,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                 </>
               ) : (
                 <>
-                  {currentItem && currentItem.length === 0  && (
+                  {currentItem && currentItem.length === 0 && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -3791,111 +4149,113 @@ console.log("loading",loading, "recurLoader", recurLoader)
                           </tr>
                         </thead>
                         <tbody style={{ fontSize: "10px" }}>
-                          {recurLoader ?
-                              // Array.from({ length: 5 }).map((_, index) => (
-                              //   <tr key={index}>
-                              //     <td>
-                              //       <div className="d-flex">
-                              //         <span className="i-circle">
-                              //           <Skeleton
-                              //             circle
-                              //             width={24}
-                              //             height={24}
-                              //             style={{
-                              //               padding: "10px",
-                              //               border: "none",
-                              //             }}
-                              //           />
-                              //         </span>
-                              //         <div>
-                              //           <Skeleton
-                              //             width={80}
-                              //             style={{
-                              //               padding: "5px",
-                              //               border: "none",
-                              //             }}
-                              //           />
-                              //         </div>
-                              //       </div>
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={100} />
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={100} />
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={50} />
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={50} />
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={100} />
-                              //     </td>
-                              //     <td
-                              //       style={{ padding: "10px", border: "none" }}
-                              //     >
-                              //       <Skeleton width={100} />
-                              //     </td>
-                              //   </tr>
-                              // ))
+                          {recurLoader ? (
+                            // Array.from({ length: 5 }).map((_, index) => (
+                            //   <tr key={index}>
+                            //     <td>
+                            //       <div className="d-flex">
+                            //         <span className="i-circle">
+                            //           <Skeleton
+                            //             circle
+                            //             width={24}
+                            //             height={24}
+                            //             style={{
+                            //               padding: "10px",
+                            //               border: "none",
+                            //             }}
+                            //           />
+                            //         </span>
+                            //         <div>
+                            //           <Skeleton
+                            //             width={80}
+                            //             style={{
+                            //               padding: "5px",
+                            //               border: "none",
+                            //             }}
+                            //           />
+                            //         </div>
+                            //       </div>
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={100} />
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={100} />
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={50} />
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={50} />
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={100} />
+                            //     </td>
+                            //     <td
+                            //       style={{ padding: "10px", border: "none" }}
+                            //     >
+                            //       <Skeleton width={100} />
+                            //     </td>
+                            //   </tr>
+                            // ))
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                left: "50%",
+                                display: "flex",
+                                height: "50vh",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                backgroundColor: "transparent",
+                                opacity: 0.75,
+                                zIndex: 10,
+                              }}
+                            >
                               <div
                                 style={{
-                                  position: 'absolute',
-                                  top: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  left: '50%',
-                                  display: 'flex',
-                                  height: "50vh",
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  backgroundColor: 'transparent',
-                                  opacity: 0.75,
-                                  zIndex: 10,
-                                }}
-                              >
-                              <div
-                                style={{
-                                  borderTop: '4px solid #1E45E1',
-                                  borderRight: '4px solid transparent',
-                                  borderRadius: '50%',
-                                  width: '40px',
-                                  height: '40px',
-                                  animation: 'spin 1s linear infinite',
+                                  borderTop: "4px solid #1E45E1",
+                                  borderRight: "4px solid transparent",
+                                  borderRadius: "50%",
+                                  width: "40px",
+                                  height: "40px",
+                                  animation: "spin 1s linear infinite",
                                 }}
                               ></div>
                             </div>
-                            : currentItem &&
-                              currentItem.length > 0 &&
-                              currentItem.map((item) => (
-                                <RecurringBillList
-                                  key={item.id}
-                                  item={item}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
-                                  // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                  // DisplayInvoice={handleDisplayInvoiceDownload}
-                                  // RecuringInvoice={handleDisplayInvoiceDownload}
-                                />
-                              ))}
+                          ) : (
+                            currentItem &&
+                            currentItem.length > 0 &&
+                            currentItem.map((item) => (
+                              <RecurringBillList
+                                key={item.id}
+                                item={item}
+                                handleDeleteRecurringbills={
+                                  handleDeleteRecurringbills
+                                }
+                                recuringbillAddPermission={
+                                  recuringbillAddPermission
+                                }
+                                billrolePermission={billrolePermission}
+                                OnHandleshowform={handleShowForm}
+                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                // DisplayInvoice={handleDisplayInvoiceDownload}
+                                // RecuringInvoice={handleDisplayInvoiceDownload}
+                              />
+                            ))
+                          )}
                         </tbody>
                       </Table>
                     </div>
@@ -4047,7 +4407,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
     </div>
 
   </div> */}
-                          {/* {DownloadInvoice && (
+                  {/* {DownloadInvoice && (
                           <>
             
                               <BillPdfModal
@@ -4062,36 +4422,364 @@ console.log("loading",loading, "recurLoader", recurLoader)
             </TabPanel>
 
             <TabPanel value="3">
-              <div style={{ marginTop: 20 }}>
-                <div style={{ textAlign: "center" }}>
-                  {" "}
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 24,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Receipt available{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no receipt added{" "}
-                </div>
-              </div>
+            {recurringPermission ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // height: "100vh",
+                    }}
+                  >
+                    {/* Image */}
+                    <img
+                      src={Emptystate}
+                      alt="Empty State"
+                      style={{ maxWidth: "100%", height: "auto" }}
+                    />
+
+                    {/* Permission Error */}
+                    {recurringPermission && (
+                      <div
+                        style={{
+                          color: "red",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                          marginTop: "1rem",
+                        }}
+                      >
+                        <MdError size={20} />
+                        <span>{recurringPermission}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {currentReceiptData && currentReceiptData.length === 0  && (
+                    <div style={{ marginTop: 20 }}>
+                      <div style={{ textAlign: "center" }}>
+                        {" "}
+                        <img src={Emptystate} alt="emptystate" />
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          fontSize: 24,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        No Receipt available{" "}
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 20,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There are no receipt added{" "}
+                      </div>
+                    </div>
+                  )}
+
+                  {currentReceiptData && currentReceiptData.length > 0 && (
+                    <div
+                      style={{
+                        // height: "400px",
+                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
+                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                        // borderBottom:"none"
+                      }}
+                    >
+                      <Table
+                        responsive="md"
+                        className="Table_Design"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
+                      >
+                        <thead
+                          style={{
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                          }}
+                        >
+                          <tr>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                // verticalAlign:'middle',
+                                paddingLeft: "20px",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopLeftRadius: 24,
+                              }}
+                            >
+                              Name
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Invoice Number
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Reference_Id
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                             Payment Mode
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Amount
+                            </th>
+
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopRightRadius: 24,
+                              }}
+                            ></th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
+                          {receiptLoader ?
+                              
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  left: '50%',
+                                  display: 'flex',
+                                  height: "50vh",
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: 'transparent',
+                                  opacity: 0.75,
+                                  zIndex: 10,
+                                }}
+                              >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>
+                            : currentReceiptData &&
+                            currentReceiptData.length > 0 &&
+                            currentReceiptData.map((item) => (
+                                <Receipt
+                                  key={item.id}
+                                  item={item}
+                                  handleDeleteRecurringbills={
+                                    handleDeleteRecurringbills
+                                  }
+                                  recuringbillAddPermission={
+                                    recuringbillAddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+                                 
+                                />
+                              ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
+
+                  {currentReceiptData.length > 0 && (
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div>
+                        <select
+                          value={itemsPage}
+                          onChange={handleItemsPerPage}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentRecurePage === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage - 1)
+                            }
+                            disabled={currentRecurePage === 1}
+                          >
+                            <ArrowLeft2
+                              size="16"
+                              color={
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentRecurePage} of {totalPage}
+                        </li>
+
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1",
+                              cursor:
+                                currentRecurePage === totalPage
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage + 1)
+                            }
+                            disabled={currentRecurePage === totalPage}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
+
+  
+                </>
+              )}
             </TabPanel>
           </TabContext>
         </div>
@@ -4253,7 +4941,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4305,7 +4993,7 @@ console.log("loading",loading, "recurLoader", recurLoader)
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -280],
                         },
                       },
                     ]}
@@ -4355,6 +5043,17 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
+
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -4396,6 +5095,17 @@ console.log("loading",loading, "recurLoader", recurLoader)
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
+
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
+
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate

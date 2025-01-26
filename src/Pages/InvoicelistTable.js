@@ -146,9 +146,35 @@ const InvoiceTable = (props) => {
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
+        <td 
+  style={{ 
+    border: "none", 
+    textAlign: 'start', 
+    verticalAlign: 'middle', 
+    fontSize: 16, 
+    fontWeight: 500, 
+    color: "#000000", 
+    fontFamily: "Gilroy" 
+  }} 
+> 
+  ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
+</td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td>
+        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td> */}
+        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td> */}
+        <td 
+  style={{ 
+    border: "none", 
+    textAlign: 'start', 
+    verticalAlign: 'middle', 
+    fontSize: 16, 
+    fontWeight: 500, 
+    color: "#000000", 
+    fontFamily: "Gilroy" 
+  }} 
+> 
+  ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
+</td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: props.item.BalanceDue === 0 ? "green" : "red", fontFamily: "Gilroy" }}>
           {props.item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
             style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}</td>

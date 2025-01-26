@@ -43,11 +43,12 @@ function DashboardAnnouncement(props) {
   const [Comments, setComments] = useState('')
   const [commentsList, setCommentsList] = useState([])
   const [displayError, setDisplayError] = useState("");
-  const [subCommentModal, setSubCommentModal] = useState(false)
+  const [subCommentModal, setSubCommentModal] = useState(true)
   const [subComment, setSubComment] = useState('')
   const [displaySubError, setDisplaySubError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
   const [CommentId, setCommentId] = useState('')
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
 
   const handleSubCommentsChange = (e) => {
     setSubComment(e.target.value)
@@ -56,16 +57,19 @@ function DashboardAnnouncement(props) {
 
 
 
-  console.log("sub-comment", subCommentModal, "comment", showCommentModal)
-  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  console.log("selectedCommentId", selectedCommentId, "CommentId", CommentId, "subCommentModal", subCommentModal)
+
+
 
   const handleCloseSubComment = () => {
     setSubCommentModal(false)
   }
 
   const handleCreateSubComments = (comment_id) => {
+    setDisplayError('')
+    setDisplaySubError('')
     setCommentId(comment_id)
-    setSubCommentModal(true)
+    setSubCommentModal(!subCommentModal)
     // setShowCommentModal(false)
     if (selectedCommentId === comment_id) {
       setSelectedCommentId(null);
@@ -124,6 +128,7 @@ function DashboardAnnouncement(props) {
     setDescriptionError("")
     setErrorMessage('')
     setTitleError("")
+    setDisplayError('')
     dispatch({ type: 'CLEAR_SAME_TITLE' });
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
   }
@@ -184,7 +189,16 @@ function DashboardAnnouncement(props) {
   //  modal close
   const handleCloseMain = () => setShowMainModal(false);
   const handleCloseLike = () => setShowLikeModal(false);
-  const handleCloseComment = () => setShowCommentModal(false);
+
+  const handleCloseComment = () => {
+    setDisplayError('')
+    setDisplaySubError('')
+    setShowCommentModal(false)
+    setSubCommentModal(true)
+    setSelectedCommentId(null);
+
+  }
+
   const handleCloseTittle = () => setshowTittleModal(false);
 
   const handleLikeClick = (card) => {
@@ -242,7 +256,7 @@ function DashboardAnnouncement(props) {
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-      setSubCommentModal(false)
+      setSubCommentModal(true)
       setSubComment('')
       setSelectedCommentId(null);
       setTimeout(() => {
@@ -1388,47 +1402,51 @@ function DashboardAnnouncement(props) {
                   <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
                 </div>
               )}
+              {/* main comments */}
+              {
+                subCommentModal &&
 
-              <div
-                style={{
-                  marginTop: "10px",
-                  position: "relative",
-                  paddingLeft: "25px",
-                }}
-              >
-                <textarea
-                  type="text"
-                  placeholder="Post your reply here..."
-                  value={Comments}
-                  onChange={(e) => handleCommentsChange(e)}
-
+                <div
                   style={{
-                    width: "100%",
-                    padding: "8px 40px 8px 8px",
-                    borderRadius: "8px",
-                    border: "1px solid #DCDCDC",
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    outline: "none",
+                    marginTop: "10px",
+                    position: "relative",
+                    paddingLeft: "25px",
                   }}
-                  row={0}
-                />
-                <img
-                  onClick={handleSendComments}
+                >
+                  <textarea
+                    type="text"
+                    placeholder="Post your reply here..."
+                    value={Comments}
+                    onChange={(e) => handleCommentsChange(e)}
 
-                  src={Search_Team}
-                  alt="Search_Team"
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "30px",
-                    height: "30px",
-                  }}
-                />
-              </div>
+                    style={{
+                      width: "100%",
+                      padding: "8px 40px 8px 8px",
+                      borderRadius: "8px",
+                      border: "1px solid #DCDCDC",
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      outline: "none",
+                    }}
+                    row={0}
+                  />
+                  <img
+                    onClick={handleSendComments}
+
+                    src={Search_Team}
+                    alt="Search_Team"
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      right: "10px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "30px",
+                      height: "30px",
+                    }}
+                  />
+                </div>
+              }
 
 
 

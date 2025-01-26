@@ -33,8 +33,17 @@ function AssetListTable(props) {
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)
     const { top, left, width, height } = e.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+
+    const popupHeight = 100; 
+    const viewportHeight = window.innerHeight;
+
+    let popupTop = top + (height / 2);
+    let popupLeft = left - 200;
+
+
+    if (popupTop + popupHeight > viewportHeight) {
+      popupTop = top - popupHeight; 
+    }
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
@@ -208,29 +217,37 @@ function AssetListTable(props) {
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.serial_number}</td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', }}>
-          <div style={{ display: "flex", justifyContent: "start" }}>
+        <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
+              
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
+      
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <div
               style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, width: "120px", padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}
             >{props.item.brand_name ? props.item.brand_name : "-"}</div>
           </div>
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle',whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-            <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 6, borderRadius: 60, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
+
+        <td style={{ textAlign: 'center', verticalAlign: 'middle',whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "start", }}>
+
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
+       
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "center", }}>
             <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
               {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
             </div >
           </div>
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>{props.item.hostel_Name || "-"}</td>
+
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>{props.item.hostel_Name || "-"}</td>
+       
+       
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >

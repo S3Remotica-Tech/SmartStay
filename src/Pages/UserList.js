@@ -62,7 +62,7 @@ function UserList(props) {
   const [customerrolePermission, setCustomerRolePermission] = useState("");
   const [customerpermissionError, setCustomerPermissionError] = useState("");
   const [customerAddPermission, setCustomerAddPermission] = useState("");
-  const [customerDeletePermission, setCustomerDeletePermission] = useState("");
+  const [customerDeletePermission, setCustomerDeletePermission] = useState(false);
   const [customerEditPermission, setCustomerEditPermission] = useState("");
   const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState("");
   const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
@@ -85,36 +85,42 @@ function UserList(props) {
   const [amnityEdit, setamnityEdit] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
 
-
-  const [customername, setCustomerName] = useState('');
-  const [invoicenumber, setInvoiceNumber] = useState('');
+  const [customername, setCustomerName] = useState("");
+  const [invoicenumber, setInvoiceNumber] = useState("");
   const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
-  const [formatstartdate, setFormatStartDate] = useState(null)
-  const [formatenddate, setFormatEndDate] = useState(null)
-  const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-  const [formatduedate, setFormatDueDate] = useState(null)
-  const [customererrmsg, setCustomerErrmsg] = useState('')
-  const [billamounts, setBillAmounts] = useState([])
+  const [formatstartdate, setFormatStartDate] = useState(null);
+  const [formatenddate, setFormatEndDate] = useState(null);
+  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+  const [formatduedate, setFormatDueDate] = useState(null);
+  const [customererrmsg, setCustomerErrmsg] = useState("");
+  const [billamounts, setBillAmounts] = useState([]);
 
-  const [totalAmount, setTotalAmount] = useState('')
+  const [totalAmount, setTotalAmount] = useState("");
   const [selectedData, setSelectedData] = useState([]);
-  const [tableErrmsg, setTableErrmsg] = useState('');
-  const [newRows, setNewRows] = useState([{ "S.NO": 1, "am_name": '', "amount": "0" }]);
-  const [amenityArray, setamenityArray] = useState([])
-  const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState('')
-  const [startdateerrmsg, setStartdateErrmsg] = useState('')
-  const [enddateerrmsg, setEnddateErrmsg] = useState('')
-  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState('')
-  const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState('')
-  const [allfielderrmsg, setAllFieldErrmsg] = useState('')
+  const [tableErrmsg, setTableErrmsg] = useState("");
+  const [newRows, setNewRows] = useState([
+    { "S.NO": 1, am_name: "", amount: "0" },
+  ]);
+  const [amenityArray, setamenityArray] = useState([]);
+  const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
+  const [startdateerrmsg, setStartdateErrmsg] = useState("");
+  const [enddateerrmsg, setEnddateErrmsg] = useState("");
+  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
+  const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
+  const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [currentView, setCurrentView] = useState(false)
+  const [currentView, setCurrentView] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+  const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
 
+
+  console.log("deleteDetails",deleteDetails)
+
+  
   let serialNumber = 1;
 
 
@@ -122,6 +128,7 @@ function UserList(props) {
     console.log("details", details)
     setCurrentView(details)
   }
+
 
   const handleDeleteItem = (detail) => {
     console.log("details", detail)
@@ -590,9 +597,9 @@ function UserList(props) {
       customerrolePermission[0]?.is_owner == 1 ||
       customerrolePermission[0]?.role_permissions[4]?.per_delete == 1
     ) {
-      setCustomerDeletePermission("");
+      setCustomerDeletePermission(false);
     } else {
-      setCustomerDeletePermission("Permission Denied");
+      setCustomerDeletePermission(true);
     }
   }, [customerrolePermission]);
 
@@ -627,7 +634,25 @@ function UserList(props) {
       setCustomerCheckoutAddPermission("Permission Denied");
     }
   }, [customerrolePermission]);
-  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+
+   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+
+ 
+const [walkingCustomer,setWalkingCustomer]=useState("")
+    useEffect(() => {
+      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
+    }, [uniqueostel_Id])
+  
+    useEffect(() => {
+      if (state.UsersList?.getWalkInStatusCode === 200) {
+        setWalkingCustomer(state.UsersList.WalkInCustomerList)
+        // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+        }, 200);
+      }
+    }, [state.UsersList?.getWalkInStatusCode]);
+
 
   useEffect(() => {
     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -643,21 +668,9 @@ function UserList(props) {
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
-  const [walkingCustomer, setWalkingCustomer] = useState("")
-  useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
-  }, [uniqueostel_Id])
+ 
 
-  useEffect(() => {
-    if (state.UsersList?.getWalkInStatusCode === 200) {
-      setWalkingCustomer(state.UsersList.WalkInCustomerList)
-      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 200);
-    }
-  }, [state.UsersList?.getWalkInStatusCode]);
-
+ 
   const [customerBooking, setCustomerBooking] = useState("")
 
   useEffect(() => {
@@ -684,15 +697,20 @@ function UserList(props) {
         : [];
 
       setFilteredUsers(FilterUser);
-    }
 
-    if (value === "2") {
-      const FilterUsertwo = customerBooking?.filter((item) => {
-        const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
-        return fullName.includes(filterInput.toLowerCase());
-      });
-      setFilteredUsers(FilterUsertwo);
-    }
+  }
+    
+  if (value === "2") {
+    const FilterUsertwo = Array.isArray(customerBooking)
+      ? customerBooking.filter((item) => {
+          const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
+          return fullName.includes(filterInput.toLowerCase());
+        })
+      : [];  // Return empty array if not an array
+  
+    setFilteredUsers(FilterUsertwo);
+  }
+
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
@@ -707,43 +725,11 @@ function UserList(props) {
     }
   }, [
     filterInput,
-    state.UsersList.Users,
+    state.UsersList.Users,state.UsersList?.UserListStatusCode,
     value,
     state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
   ]);
-  // useEffect(() => {
-  //   let FilterUser = [];
-
-  //   if (value === "1") {
-  //     FilterUser = Array.isArray(state.UsersList?.Users)
-  //       ? state.UsersList.Users?.filter((item) =>
-  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   } else if (value === "2") {
-  //     FilterUser = Array.isArray(state?.Booking?.CustomerBookingList?.bookings)
-  //       ? state.Booking.CustomerBookingList.bookings?.filter((item) =>
-  //           item.first_name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   } else if (value === "4") {
-  //     FilterUser = Array.isArray(state.UsersList?.hostelList)
-  //       ? state.UsersList.hostelList?.filter((item) =>
-  //           item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-  //         )
-  //       : [];
-  //   }
-
-  //   setFilteredUsers(FilterUser)
-  // }, [
-  //   filterInput,
-  //   state.UsersList?.Users,
-  //   value,
-  //   state?.Booking?.CustomerBookingList?.bookings,
-  //   state.UsersList?.hostelList,
-  // ]);
-
-
+ 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
@@ -1220,9 +1206,45 @@ function UserList(props) {
     setDeleteShow(false);
   };
 
-  const handleDeleteShow = () => {
+  const handleDeleteShow = (user) => {
+    console.log("user details",user)
     setDeleteShow(true);
+    setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user })
   };
+
+console.log("state",state)
+
+useEffect(()=>{
+  if(state.UsersList?.deleteCustomerSuccessStatusCode == 200){
+
+    setDeleteShow(false);
+    dispatch({type: "USERLIST",payload: { hostel_id: uniqueostel_Id }});
+
+    setDeleteDetails({ room: null, bed: null , user: null })
+
+    setTimeout(()=>{
+dispatch({ type: 'REMOVE_DELETE_CUSTOMER'})
+    },100)
+  }
+
+},[state.UsersList?.deleteCustomerSuccessStatusCode])
+
+
+
+
+
+
+const handleDeleteCustomer = () =>{
+     if(deleteDetails?.user.ID){
+      dispatch({ type :'DELETECUSTOMER', 
+         payload:{ id:deleteDetails?.user.ID}
+            })
+     }
+}
+
+
+
+
 
   const handleDeleteBill = () => {
     setIsDeleting(false)
@@ -1784,9 +1806,9 @@ function UserList(props) {
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  marginLeft: 20,
-                  marginRight: 20
-
+                  marginLeft: 11,
+                  marginRight: 20,
+marginTop:-2
                 }}
               >
                 Customers
@@ -2025,6 +2047,7 @@ function UserList(props) {
                     //   fontFamily: "Gilroy",
                     // }}
                     style={{
+                      marginTop:3,
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
@@ -3027,9 +3050,9 @@ function UserList(props) {
                                                         ? 0.6
                                                         : 1,
                                                   }}
-                                                  onClick={
+                                                  onClick={() =>
                                                     !customerDeletePermission
-                                                      ? handleDeleteShow
+                                                      ? handleDeleteShow(user)
                                                       : null
                                                   }
                                                 >
@@ -3459,11 +3482,10 @@ function UserList(props) {
               flex: 1,
             }}
           >
-            Delete Check-out?
+            Delete Customer ?
           </Modal.Title>
         </Modal.Header>
-
-        <Modal.Body
+               <Modal.Body
           style={{
             fontSize: 14,
             fontWeight: 500,
@@ -3473,7 +3495,7 @@ function UserList(props) {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Customer?
         </Modal.Body>
 
         <Modal.Footer
@@ -3513,11 +3535,13 @@ function UserList(props) {
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={handleCloseDelete}
+            onClick={handleDeleteCustomer}
           >
             Delete
           </Button>
         </Modal.Footer>
+      
+
       </Modal>
 
       {roomDetail == true ? (

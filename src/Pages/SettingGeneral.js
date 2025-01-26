@@ -654,7 +654,7 @@ function SettingGeneral() {
         <div>
           <label
             style={{
-              fontSize: 18,
+              fontSize: 20,
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy",
@@ -691,7 +691,7 @@ function SettingGeneral() {
                 fontWeight: 600,
                 borderRadius: "8px",
                 padding: "10px 12px",
-                width: "160px",
+                width: "140px",
                 // maxWidth: "100%",
                 // marginBottom: "10px",
                 maxHeight: 45,

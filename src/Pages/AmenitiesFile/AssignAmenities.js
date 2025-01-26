@@ -63,6 +63,13 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
           am_id: assignAmenitiesDetails.id,
         }
       })
+
+
+      setTimeout(()=>{
+        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE'})
+      },100)
+
+
     }
     setAssignedCheckedUsers([])
 
@@ -78,6 +85,12 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
           am_id: assignAmenitiesDetails.id,
         }
       })
+
+      setTimeout(()=>{
+        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE'})
+      },100)
+
+
     }
     setUnassignedCheckedUsers([])
 
