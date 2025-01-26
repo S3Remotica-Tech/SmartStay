@@ -56,6 +56,11 @@ function Banking() {
   const [bankingDeletePermission, setBankingDeletePermission] = useState("")
   const [bankingEditPermission, setBankingEditPermission] = useState("")
   const [hostel_id, setHostel_Id] = useState("")
+   const [filterInput, setFilterInput] = useState("");
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filterStatus, setFilterStatus] = useState(false);
+    const [originalBills, setOriginalBills] = useState([]);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
@@ -317,14 +322,7 @@ function Banking() {
     setAddBankAmount("");
   };
 
-  const handleSearch = () => {
-    setSearch(!search);
-    // setFilterStatus(false);
-  };
-  const handleCloseSearch = () => {
-    setSearch(false);
-    // setFilterInput("")
-  };
+
   const handleAddBankAmount = (e) => {
     setAddBankAmount(e.target.value);
   };
@@ -413,9 +411,64 @@ function Banking() {
   //   return pageNumbersTransaction;
   // };
 
+
+ 
+
   useEffect(() => {
     settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
   }, [state?.bankingDetails?.bankingList?.bank_trans])
+
+
+ useEffect(() => {
+   
+      const FilterUser = Array.isArray(transactionFilterddata)
+        ? transactionFilterddata?.filter((item) =>
+            item.bank_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+        settransactionFilterddata(FilterUser);
+    
+  
+    
+  }, [filterInput]);
+   useEffect(() => {
+      if (transactionFilterddata.length > 0 && originalBills?.length === 0) {
+        setOriginalBills(transactionFilterddata);
+      }
+    }, [transactionFilterddata]);
+
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("")
+    settransactionFilterddata(originalBills)
+  };
+
+
+  const handleSearch = () => {
+    setSearch(!search);
+    // setFilterStatus(false);
+  };
+  
+const handleFilterd = () => {
+  setFilterStatus(!filterStatus);
+}
+
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+  };
+  const handleUserSelect = (user) => {
+    setFilterInput(user.bank_name);
+
+    // Set filteredUsers to only the selected user's data
+    const selectedUserData = transactionFilterddata?.filter(
+      (item) => item.bank_name === user.bank_name
+    );
+    settransactionFilterddata(selectedUserData);
+
+    setDropdownVisible(false);  // Close the dropdown after selection
+  };
 
   return (
 
@@ -521,8 +574,8 @@ function Banking() {
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
                             }}
-                          //   value={filterInput}
-                          //   onChange={(e) => handlefilterInput(e)}
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
                           />
                           <span className="input-group-text bg-white border-start-0">
                             <img
@@ -534,7 +587,7 @@ function Banking() {
                         </div>
                       </div>
 
-                      {/* {isDropdownVisible && filteredUsers?.length > 0 && (
+                      {isDropdownVisible && transactionFilterddata?.length > 0 && (
                       <div
                         style={{
                           border: "1px solid #d9d9d9 ",
@@ -555,10 +608,10 @@ function Banking() {
                             borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
-                              filteredUsers?.length > 1 ? "174px" : "auto",
+                            transactionFilterddata?.length > 1 ? "174px" : "auto",
                             minHeight: 100,
                             overflowY:
-                              filteredUsers?.length > 1 ? "auto" : "hidden",
+                            transactionFilterddata?.length > 1 ? "auto" : "hidden",
 
                             margin: "0",
                             listStyleType: "none",
@@ -566,8 +619,8 @@ function Banking() {
                             boxSizing: "border-box",
                           }}
                         >
-                          {filteredUsers?.map((user, index) => {
-                            const imagedrop = user.profile || Profile;
+                          {transactionFilterddata?.map((user, index) => {
+                            // const imagedrop = user.profile || Profile;
                             return (
                               <li
                                 key={index}
@@ -576,13 +629,13 @@ function Banking() {
                                   cursor: "pointer",
                                   padding: "10px 5px",
                                   borderBottom:
-                                    index !== filteredUsers.length - 1
+                                    index !== transactionFilterddata?.length - 1
                                       ? "1px solid #eee"
                                       : "none",
                                 }}
                                 onClick={() => handleUserSelect(user)}
                               >
-                                <Image
+                                {/* <Image
                                   src={imagedrop}
                                   alt={user.Name || "Default Profile"}
                                   roundedCircle
@@ -595,15 +648,15 @@ function Banking() {
                                     e.target.onerror = null;
                                     e.target.src = Profile;
                                   }}
-                                />
+                                /> */}
                                
-                                <span>{ user.Name }</span>
+                                <span>{ user.bank_name }</span>
                               </li>
                             );
                           })}
                         </ul>
                       </div>
-                    )} */}
+                    )}
                     </div>
                   </>
                 ) : (
