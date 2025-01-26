@@ -61,6 +61,8 @@ function Banking() {
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filterStatus, setFilterStatus] = useState(false);
     const [originalBills, setOriginalBills] = useState([]);
+    const [statusfilter, setStatusfilter] = useState("");
+    const [originalBillsFilter, setOriginalBillsFilter] = useState([]); 
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
@@ -469,6 +471,32 @@ const handleFilterd = () => {
 
     setDropdownVisible(false);  // Close the dropdown after selection
   };
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
+    console.log("searchTerm", searchTerm);
+    setStatusfilter(searchTerm);
+  
+    if (searchTerm === "All") {
+      settransactionFilterddata(originalBillsFilter);  // Reset to full original data
+    } else {
+      const filteredItems = originalBillsFilter?.filter((user) => {
+        return user.type !== undefined && String(user.type) === String(searchTerm);
+      });
+  
+      settransactionFilterddata(filteredItems);
+    }
+  };
+  
+  // Store original data once when it is first loaded
+  useEffect(() => {
+    if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
+      setOriginalBillsFilter(transactionFilterddata);  
+    }
+  }, [transactionFilterddata]);
+  
+  console.log("transactionFilterddata", transactionFilterddata);
+  
+    console.log("transactionFilterddata",transactionFilterddata)
 
   return (
 
@@ -677,10 +705,29 @@ const handleFilterd = () => {
                     src={Filters}
                     roundedCircle
                     style={{ height: "50px", width: "50px" }}
-                    onClick={handleSearch}
+                    onClick={handleFilterd}
                   />
                 </div>
 
+                    {
+                    filterStatus &&
+
+                    <div className='me-5' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "180px" : "120px",marginRight:20}}>
+ <Form.Select 
+  onChange={(e) => handleStatusFilter(e)}
+  value={statusfilter}
+  aria-label="Select Price Range"
+  id="statusselect"
+  style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+>
+  <option value="All">All</option>
+  <option value="1">Credit</option>
+  <option value="2">Debit</option>
+</Form.Select>
+
+</div>
+
+                  }
 
                 <div>
                   <Button

@@ -1121,7 +1121,7 @@ const handleFilterd = () => {
                     {
                     filterStatus &&
 
-                    <div className='me-3' style={{border: "1px solid #D4D4D4"}}>
+                    <div className='me-3' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "250px" : "140px"}}>
   <Form.Select 
   onChange={(e)=>handleStatusFilter(e)}
   value={statusfilter}
