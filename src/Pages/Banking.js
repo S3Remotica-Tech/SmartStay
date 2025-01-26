@@ -63,6 +63,7 @@ function Banking() {
     const [originalBills, setOriginalBills] = useState([]);
     const [statusfilter, setStatusfilter] = useState("");
     const [originalBillsFilter, setOriginalBillsFilter] = useState([]); 
+    const [transactionFilterddata, settransactionFilterddata] = useState([]);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
@@ -123,11 +124,12 @@ function Banking() {
     // setLoading(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
-  const [bankList,setBankList] = useState("")
+  
+  
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBankList(state.bankingDetails.bankingList.banks)
+      settransactionFilterddata(state.bankingDetails.bankingList.banks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -337,18 +339,14 @@ function Banking() {
 
 
 
-  // const transactionrowsPerPage = 5;
+ 
   const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(10);
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
-  const [transactionFilterddata, settransactionFilterddata] = useState([]);
+  
   const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
   const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
   const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
-
-  // const handleTransactionPageChange = (transactionpageNumber) => {
-  //   settransactioncurrentPage(transactionpageNumber);
-  // };
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
   };
@@ -359,66 +357,11 @@ function Banking() {
 
   const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
 
-  // const renderPageNumbersTransaction = () => {
-  //   const pageNumbersTransaction = [];
-  //   let startPageTransaction = transactioncurrentPage - 1;
-  //   let endPageTransaction = transactioncurrentPage + 1;
-
-  //   if (transactioncurrentPage === 1) {
-  //     startPageTransaction = 1;
-  //     endPageTransaction = 3;
-  //   }
-
-  //   if (transactioncurrentPage === totalPagesTransaction) {
-  //     startPageTransaction = totalPagesTransaction - 2;
-  //     endPageTransaction = totalPagesTransaction;
-  //   }
-
-  //   if (transactioncurrentPage === 2) {
-  //     startPageTransaction = 1;
-  //     endPageTransaction = 3;
-  //   }
-
-  //   if (transactioncurrentPage === totalPagesTransaction - 1) {
-  //     startPageTransaction = totalPagesTransaction - 2;
-  //     endPageTransaction = totalPagesTransaction;
-  //   }
-
-  //   for (let i = startPageTransaction; i <= endPageTransaction; i++) {
-  //     if (i > 0 && i <= totalPagesTransaction) {
-  //       pageNumbersTransaction.push(
-  //         <li key={i} style={{ margin: '0 5px' }}>
-  //           <button
-  //             style={{
-  //               padding: '5px 10px',
-  //               textDecoration: 'none',
-  //               color: i === transactioncurrentPage ? '#007bff' : '#000000',
-  //               cursor: 'pointer',
-  //               borderRadius: '5px',
-  //               display: 'inline-block',
-  //               minWidth: '30px',
-  //               textAlign: 'center',
-  //               backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
-  //               border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
-  //             }}
-  //             onClick={() => handleTransactionPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumbersTransaction;
-  // };
-
-
  
 
-  useEffect(() => {
-    settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
-  }, [state?.bankingDetails?.bankingList?.bank_trans])
+  // useEffect(() => {
+  //   settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
+  // }, [state?.bankingDetails?.bankingList?.bank_trans])
 
 
  useEffect(() => {
@@ -778,8 +721,8 @@ const handleFilterd = () => {
       )} */}
 
             <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
-              {bankList && bankList?.length > 0 ? (
-                bankList?.map((item) => {
+              {transactionFilterddata && transactionFilterddata?.length > 0 ? (
+                transactionFilterddata?.map((item) => {
                   return (
                     <div
                       key={item.id}
