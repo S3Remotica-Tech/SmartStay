@@ -522,19 +522,42 @@ const InvoicePage = () => {
     setFiltericon(!filtericon);
     setSearchicon(false);
   };
+ 
 
-  const handleStatusFilter = (e) => {
-    const searchTerm = e.target.value;
+  const [originalBillsFilter, setOriginalBillsFilter] = useState([]); // Store original data
+
+  useEffect(() => {
+    if (originalBillsFilter.length === 0 && bills.length > 0) {
+      setOriginalBillsFilter(bills);  
+    }
+  }, [bills]);
+  
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
-    if (searchTerm == "ALL") {
-      // setBills(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
+  
+    if (searchTerm === "All") {
+      setBills(originalBillsFilter);  
     } else {
-      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItems = originalBillsFilter.filter((user) =>
+        user.Status?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBills(filteredItems);
     }
   };
+  
+  // const handleStatusFilter = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusfilter(searchTerm);
+  //   if (searchTerm === "All") {
+  //     setBills(bills)
+  //   } else {
+  //     const filteredItems = bills?.filter((user) =>
+  //       user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setBills(filteredItems);
+  //   }
+  // };
 
   const randomNumberInRange = (hostelName, min, max) => {
     const prefix = hostelName.slice(0, 4);
@@ -2526,7 +2549,9 @@ console.log("Name",bills)
                   </>
                 )}
 
-                <div className="me-3">
+               {
+                value === "1" &&(
+                  <div className="me-3">
                   <Image
                     src={Filters}
                     roundedCircle
@@ -2534,8 +2559,10 @@ console.log("Name",bills)
                     onClick={handleFilterd}
                   />
                 </div>
+                )
+               }
 
-                {filterStatus && (
+                {value === "1" && filterStatus && (
                   <div className="me-3" style={{ border: "1px solid #D4D4D4" }}>
                     <Form.Select
                       onChange={(e) => handleStatusFilter(e)}
@@ -2550,9 +2577,9 @@ console.log("Name",bills)
                       }}
                     >
                       <option value="All">All</option>
-                      <option value="open">Open</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="resolved">Resolved</option>
+                      <option value="Pending">UnPaid</option>
+                      <option value="Success">Paid</option>
+                     
                     </Form.Select>
                   </div>
                 )}
