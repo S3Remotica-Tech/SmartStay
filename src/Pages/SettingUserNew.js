@@ -344,7 +344,8 @@ const popupLeft = left - 200;
                                                     border: "none",
                                                     // display: "flex",
                                                     padding: "10px",
-                                                    paddingLeft: "20px"
+                                                    paddingLeft: "20px",
+                                                    paddingTop:18
                                                 }}
                                             >
                                                 {/* <Image
