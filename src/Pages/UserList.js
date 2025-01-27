@@ -1823,7 +1823,7 @@ marginTop:-2
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "-10px",
+                      marginTop: "-15px",
                     }}
                   >
                     <div
@@ -1976,7 +1976,7 @@ marginTop:-2
                     <Image
                       src={searchteam}
 
-                      style={{ height: "28px", width: "28px", cursor: "pointer" }}
+                      style={{ height: "24px", width: "24px", cursor: "pointer" }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -2332,7 +2332,7 @@ marginTop:-2
                     </div>
                   </>
                 ) : (
-                  <div style={{ marginLeft: "6px" }}>
+                  <div className="p-10">
                     <div>
 
                       {
@@ -2374,7 +2374,7 @@ marginTop:-2
 
                       {currentItems && currentItems.length > 0 && (
                         <div
-                          className="z-0"
+                          // className="z-0"
                           style={{
                             // height: "400px",
                             // position: "relative",
