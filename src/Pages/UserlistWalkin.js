@@ -878,7 +878,7 @@ function UserlistWalkin(props) {
                         textAlign: "center",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
-                        fontSize: 20,
+                        fontSize: 16,
                         color: "rgba(75, 75, 75, 1)",
                       }}
                     >
