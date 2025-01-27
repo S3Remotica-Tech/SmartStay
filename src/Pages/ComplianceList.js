@@ -3,7 +3,7 @@ import Edit from "../Assets/Images/edit-Complaints.svg";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import User from "../Assets/Images/Profile-complaint.png";
+import User from "../Assets/Images/New_images/profile-picture.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
@@ -522,11 +522,12 @@ const ComplianceList = (props) => {
                   justifyContent: "center",
                   alignItems: "center",
                   position: "relative",
+                  cursor:"pointer"
                 }}
                 onClick={() => handleShowDots(props.complaints.ID)}
               >
                 <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
+                  style={{ height: 20, width: 20,cursor:"pointer" }}
                 />
 
                 {showDots === props.complaints.ID && (
@@ -950,8 +951,9 @@ const ComplianceList = (props) => {
                 }}
                 // onClick={handleIconClick}
               >
-                <label>
+                <label style={{cursor: "pointer"}}>
                   <img
+                  
                     src={CommentIcon}
                     alt="Comments"
                     onClick={() => handleIconClick(props.complaints)}
@@ -1209,11 +1211,11 @@ const ComplianceList = (props) => {
           }}
         >
           <img
-            src={
-            item.profile === "null" && item.profile === "0" && item.profile === ""
-                ? item.profile
-                : User
-            }
+           src={
+            !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim()) 
+              ? User 
+              : item.profile
+          }
             alt="User"
             style={{
               width: "40px",
