@@ -498,7 +498,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setUserListDetail(state.UsersList.Users);
-      setFilteredUsers(state.UsersList.Users)
+      // setFilteredUsers(state.UsersList.Users)
       setLoading(false);
       if (state.UsersList.Users.length > 0) {
 
