@@ -727,7 +727,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     filterInput,
     state.UsersList.Users,state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
+    state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
+     state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
  
   const handlefilterInput = (e) => {
