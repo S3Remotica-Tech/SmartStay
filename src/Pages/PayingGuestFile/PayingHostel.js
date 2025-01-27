@@ -241,10 +241,11 @@ function PayingHostel(props) {
                                                     style={{
                                                         pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
                                                         opacity: props.editPermissionError ? 0.5 : 1, // Visual indication
-                                                        cursor: props.editPermissionError ? "not-allowed" : "pointer", // Cursor style
+                                                        // cursor: props.editPermissionError ? "not-allowed" : "pointer",
+
                                                     }}
                                                 >
-                                                    <div>
+                                                    <div style={{ cursor: "pointer" }}>
                                                         <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
                                                     </div>
                                                     <div>
@@ -254,6 +255,7 @@ function PayingHostel(props) {
                                                                 fontWeight: 600,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#222222",
+                                                                cursor: "pointer"
                                                             }}
                                                         >
                                                             Edit
@@ -279,11 +281,12 @@ function PayingHostel(props) {
                                                     style={{
                                                         pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
                                                         opacity: props.editPermissionError ? 0.5 : 1, // Dims element when disabled
-                                                        cursor: props.editPermissionError ? "not-allowed" : "pointer", // Changes cursor style
+                                                        // cursor: props.editPermissionError ? "not-allowed" : "pointer", 
+                                                        cursor: "pointer"
                                                     }}
                                                 >
                                                     {/* Trash Icon */}
-                                                    <div>
+                                                    <div style={{ cursor: "pointer" }}>
                                                         <Trash
                                                             size="16"
                                                             color={props.editPermissionError ? "#A0A0A0" : "red"} // Gray when disabled
@@ -298,6 +301,7 @@ function PayingHostel(props) {
                                                                 fontWeight: 600,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+                                                                cursor: "pointer"
                                                             }}
                                                         >
                                                             Delete
@@ -481,7 +485,7 @@ function PayingHostel(props) {
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
+                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
 

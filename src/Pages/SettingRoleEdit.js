@@ -420,8 +420,8 @@ useEffect(()=>{
                 {u.role_name}
               </span>
             </div>
-            <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
-              <img src={round} width={34} height={34} alt="Menu Icon" />
+            <button className="btn p-0  hover:cursor-pointer"  onClick={(e) => handleShowDots(u.id, e)} style={{cursor:"pointer"}}>
+              <img src={round} width={34} height={34} alt="Menu Icon"  />
             </button>
           </div>
           {activeRow === u.id && (

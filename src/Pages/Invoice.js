@@ -2357,6 +2357,7 @@ console.log("Name",bills)
                         position: "relative",
                         width: "100%",
                         marginRight: 20,
+                        marginTop:"-10px"
                       }}
                     >
                       <div
@@ -2549,7 +2550,7 @@ console.log("Name",bills)
                       <Image
                         src={searchteam}
                         roundedCircle
-                        style={{ height: "24px", width: "24px" }}
+                        style={{ height: "24px", width: "24px" ,marginTop:"-5px"}}
                         onClick={handleSearch}
                       />
                     </div>
@@ -2693,7 +2694,7 @@ console.log("Name",bills)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "10px 12px",
-                        width: "auto",
+                        width: "140px",
                         maxWidth: "100%",
                         marginBottom: "10px",
                         maxHeight: 45,

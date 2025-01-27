@@ -1528,7 +1528,7 @@ const [loading, setLoading] = useState(true)
                                           }
                                         }}
                                         style={{
-                                          cursor: editPermissionError ? "not-allowed" : "pointer",
+                                          // cursor: editPermissionError ? "not-allowed" : "pointer",
                                           opacity: editPermissionError ? 0.6 : 1,
                                         }}
                                       >
@@ -1536,6 +1536,7 @@ const [loading, setLoading] = useState(true)
                                           <Edit
                                             size="16"
                                             color={editPermissionError ? "#888888" : "#1E45E1"}
+                                            style={{cursor:"pointer"}}
                                           />
                                         </div>
                                         <div>
@@ -1545,7 +1546,8 @@ const [loading, setLoading] = useState(true)
                                               fontWeight: 500,
                                               fontFamily: "Outfit, sans-serif",
                                               color: editPermissionError ? "#888888" : "#222222",
-                                              cursor: editPermissionError ? "not-allowed" : "pointer",
+                                              // cursor: editPermissionError ? "not-allowed" : "pointer",
+                                              cursor:"pointer"
                                             }}
                                           >
                                             Edit
@@ -1579,7 +1581,8 @@ const [loading, setLoading] = useState(true)
                                               fontWeight: 500,
                                               fontFamily: "Gilroy",
                                               color: deletePermissionError ? "#888888" : "#FF0000",
-                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                              // cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                                 cursor:"pointer"
                                             }}
                                           >
                                             Delete
