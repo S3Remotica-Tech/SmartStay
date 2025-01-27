@@ -42,7 +42,9 @@ const initialState = {
     GetAssignAmenitiesList:[],
     GetUnAssignAmenitiesList:[],
     UnAssignAmenitiesSuccessStatusCode:0,
-    deletemanualError:''
+    deletemanualError:'',
+    ReceiptList:[],
+    ReceiptlistgetStatuscode:0,
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -177,6 +179,12 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, settingsaddRecurringStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING':
             return { ...state, settingsaddRecurringStatusCode: 0 }
+
+
+        case 'RECEIPTS_LIST':
+            return { ...state, ReceiptList: action.payload.response ? action.payload.response : [], ReceiptlistgetStatuscode: action.payload.statusCode }
+        case 'REMOVE_STATUS_CODE_RECEIPTS_LIST':
+            return { ...state, ReceiptlistgetStatuscode: 0 }
     }
 
     return state;

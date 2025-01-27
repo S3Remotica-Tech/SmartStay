@@ -12,7 +12,7 @@ function SettingSubscription() {
  const [activeRow, setActiveRow] = useState(false);
  
   return (
-    <div>
+    <div className="container">
       <div style={{marginTop:25}}>
         <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 

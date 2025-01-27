@@ -381,21 +381,36 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                 <Form.Select
                                     aria-label="Default select example"
-                                    placeholder='Select no. of floor'
-                                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: Floor ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                    placeholder="Select no. of floor"
+                                    style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: Floor ? 600 : 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                    }}
                                     id="form-selects"
-                                    className='border'
+                                    className="border"
                                     value={Floor}
                                     onChange={(e) => handleFloor(e)}
                                 >
-                                    <option>Selected Floor</option>
-                                    {state.UsersList?.hosteldetailslist
-                                        ?.map((u) => (
-                                            <option key={u.floor_id} value={u.floor_id} >
+                                    <option value="">Select a Floor</option>
+                                    {state.UsersList?.hosteldetailslist?.length > 0 ? (
+                                        state.UsersList.hosteldetailslist.map((u) => (
+                                            <option key={u.floor_id} value={u.floor_id}>
                                                 {u.floor_name}
                                             </option>
-                                        ))}
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>
+                                            No floors available
+                                        </option>
+                                    )}
                                 </Form.Select>
+
                                 {floorError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
                                         <MdError style={{ color: "red", marginRight: '5px' }} />

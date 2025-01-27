@@ -267,37 +267,40 @@ const handleDeleteBill = (user) => {
             <tr className="" style={{ height: "30px" }}>
               <th
                 style={{
-                  textAlign: "center",
-                  color: "#939393",
-                  fontWeight: 500,
+                  textAlign: "start",
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  paddingLeft:"20px"
                 }}
               >
                 Invoice number
               </th>
               <th
                 style={{
-                  color: "#939393",
-                  fontWeight: 500,
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  textAlign: "start",
                 }}
               >
                 Dated
               </th>
               <th
                 style={{
-                  color: "#939393",
-                  fontWeight: 500,
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  textAlign: "start",
                 }}
               >
                 Due Date
@@ -305,24 +308,26 @@ const handleDeleteBill = (user) => {
 
               <th
                 style={{
-                  color: "#939393",
-                  fontWeight: 500,
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  textAlign: "start",
                 }}
               >
                 Amount
               </th>
               <th
                 style={{
-                  color: "#939393",
-                  fontWeight: 500,
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  textAlign: "start",
                 }}
               >
                 Due
@@ -330,12 +335,13 @@ const handleDeleteBill = (user) => {
 
               <th
                 style={{
-                  color: "#939393",
-                  fontWeight: 500,
+                  color: "rgba(34, 34, 34, 1)",
+                  fontWeight: 600,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  textAlign: "start",
                 }}
               >
                 Status
@@ -371,16 +377,17 @@ const handleDeleteBill = (user) => {
                 <tr key={view.id} style={{ marginTop: "20px" }}>
                   <td
                     style={{
-                      textAlign: "center",
+                      textAlign: "start",
                       fontWeight: 500,
                       fontSize: "16px",
                       fontFamily: "Gilroy",
+                      paddingLeft:"20px"
                     }}
                   >
                     {view.Invoices}
                   </td>
 
-                  <td>
+                  <td style={{textAlign:"start"}}>
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -394,12 +401,13 @@ const handleDeleteBill = (user) => {
                         fontSize: "14px",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
+                        textAlign:"start"
                       }}
                     >
                       {formattedDate}
                     </span>
                   </td>
-                  <td>
+                  <td style={{textAlign:"start"}}>
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -413,6 +421,7 @@ const handleDeleteBill = (user) => {
                         fontSize: "14px",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
+                        textAlign:"start"
                       }}
                     >
                       {DueformattedDate}
@@ -423,6 +432,7 @@ const handleDeleteBill = (user) => {
                       fontWeight: 500,
                       fontSize: "16px",
                       fontFamily: "Gilroy",
+                      textAlign:"start"
                     }}
                   >
                     ₹{view.Amount}
@@ -432,11 +442,12 @@ const handleDeleteBill = (user) => {
                       fontWeight: 500,
                       fontSize: "16px",
                       fontFamily: "Gilroy",
+                      textAlign:"start"
                     }}
                   >
                     ₹{view.BalanceDue}
                   </td>
-                  <td>
+                  <td style={{textAlign:"start"}}>
                     <span
                       style={{
                         color: "black",
@@ -453,8 +464,8 @@ const handleDeleteBill = (user) => {
                     </span>
                   </td>
                   {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
-                  <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                  <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }} className=''>
+                  <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
                     <div
                       style={{
                         cursor: "pointer",

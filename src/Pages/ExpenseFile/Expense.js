@@ -856,7 +856,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer' ,marginTop:-25}}
                     />
                   </div>
                 }
@@ -940,7 +940,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 }
 
-                <div className='me-3' style={{ position: 'relative' }}>
+                <div className='me-3' style={{ position: 'relative',marginTop:-25 }}>
                   <Sort
                     Size="24"
                     color="#222"
@@ -1101,7 +1101,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px", cursor: 'pointer' }}>
+                <div style={{ paddingRight: "10px", cursor: 'pointer',marginTop:-25 }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
@@ -1126,7 +1126,7 @@ function Expenses({ allPageHostel_Id }) {
                     maxWidth: "100%",
                     marginBottom: "10px",
                     maxHeight: 45,
-        
+        marginTop:-20
                   }}
                   > + Expense</Button>
                 </div>

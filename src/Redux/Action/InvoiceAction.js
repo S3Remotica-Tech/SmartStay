@@ -84,6 +84,18 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function GetReceiptData(receipt) {
+    return await AxiosConfig.post('/receipts/all_receipts',receipt,{  //Receipts data
+      data:receipt
+    })
+  }
+
+  export async function DeleteReceipt(receipt) {
+    return await AxiosConfig.post('/delete_recuring_bill',receipt, { // Delete receipt 
+      data:receipt
+    })
+  }
+
   export async function InvoicePDf(datum) {
     return await AxiosConfig.post('/invoice/invoice-list-pdf',datum, {
       data:datum
