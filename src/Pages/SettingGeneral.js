@@ -666,8 +666,9 @@ function SettingGeneral() {
 
         <div
           className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25 }}
+          
         >
+          
           <div>
             <Button
               // style={{
@@ -695,7 +696,8 @@ function SettingGeneral() {
                 // maxWidth: "100%",
                 // marginBottom: "10px",
                 maxHeight: 45,
-                marginTop:5
+                marginTop:5,
+
     
               }}
               //   disabled={ebAddPermission}
