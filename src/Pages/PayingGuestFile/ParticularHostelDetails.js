@@ -567,7 +567,8 @@ function ParticularHostelDetails(props) {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Outfit, sans-serif",
-                                      color: props.editPermissionError ? "#888888" : "#222222"
+                                      color: props.editPermissionError ? "#888888" : "#222222",
+                                      cursor:"pointer"
                                     }}
                                   >
                                     Edit

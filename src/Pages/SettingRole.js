@@ -115,8 +115,9 @@ useEffect(()=>{
                        {u.role_name}
                        </span>
                      </div>
-                     <button className="btn p-0">
-                       <img src={round} width={34} height={34} alt="Menu Icon" onClick={(e) => handleShowDots(u.id, e)}/>
+                     <button className="btn p-0" style={{cursor:"pointer"}}>
+                       <img src={round} width={34} height={34} alt="Menu Icon" onClick={(e) => handleShowDots(u.id, e)}
+                       />
                      </button>
                    </div>
                    

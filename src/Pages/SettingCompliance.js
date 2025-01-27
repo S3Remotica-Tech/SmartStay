@@ -339,7 +339,7 @@ function SettingCompliance({ hostelid }) {
                                                                 onClick={() => handleEdit(u)}
                                                             >
                                                                 <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" ,cursor:"pointer"}}>
                                                                     Edit
                                                                 </label>
                                                             </div>

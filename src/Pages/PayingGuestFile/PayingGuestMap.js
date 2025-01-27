@@ -254,6 +254,7 @@ function PayingGuestMap(props) {
                                                         fontWeight: 600,
                                                         fontFamily: "Gilroy",
                                                         color: props.editPermissionError ? "#A0A0A0" : "#222222",
+                                                        cursor:"pointer"
                                                     }}
                                                 >
                                                     Edit
@@ -298,6 +299,7 @@ function PayingGuestMap(props) {
                                                         fontWeight: 600,
                                                         fontFamily: "Gilroy",
                                                         color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+                                                         cursor:"pointer"
                                                     }}
                                                 >
                                                     Delete
