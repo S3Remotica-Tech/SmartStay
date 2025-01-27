@@ -564,7 +564,7 @@ function Banking() {
                             width: "24px",
                             height: "24px",
                             pointerEvents: "none",
-                            cursor:"pointer"
+                            cursor:"pointer",
 
                             boxShadow: "none",
                             outline: "none",
