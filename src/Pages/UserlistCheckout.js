@@ -891,6 +891,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           // color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Confirm Check-Out
@@ -951,6 +954,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#222222",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Edit
@@ -989,6 +995,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Delete

@@ -729,8 +729,8 @@ function UserList(props) {
     filterInput,
     state.UsersList.Users, state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.Booking.statusCodeGetBooking,
-    state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
+     state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
     state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
 
