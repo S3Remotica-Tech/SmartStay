@@ -3607,6 +3607,18 @@ console.log("Name",bills)
                                             fontWeight: 600,
                                           }}
                                         >
+                                          Type
+                                        </th>
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
                                           Created
                                         </th>
                                         <th
