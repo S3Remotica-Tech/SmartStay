@@ -158,7 +158,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
         }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Assign Amenities</Modal.Title>
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
           <Modal.Body>
             {errorAssign && (
@@ -190,11 +190,11 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" style={{ cursor: "pointer", boxShadow: "none" }}
+                              <Form.Check aria-label="option 1" 
 
                                 checked={assignedCheckedUsers.includes(list.user_id)}
                                 onChange={() => handleAssignedCheckboxChange(list.user_id)}
-
+                                style={{ cursor: "pointer", boxShadow: "none" }}
                               />
                             </div>
                           </div>

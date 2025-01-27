@@ -525,13 +525,14 @@ const handleFilterd = () => {
                             width: "24px",
                             height: "24px",
                             pointerEvents: "none",
+                            cursor:"pointer"
                           }}
                         />
                         <div className="input-group" style={{ marginRight: 20 }}>
                           <span className="input-group-text bg-white border-end-0">
                             <Image
                               src={searchteam}
-                              style={{ height: 20, width: 20 }}
+                              style={{ height: 20, width: 20 , cursor:"pointer"}}
                             />
                           </span>
                           <input
@@ -552,7 +553,7 @@ const handleFilterd = () => {
                             <img
                               src={closecircle}
                               onClick={handleCloseSearch}
-                              style={{ height: 20, width: 20 }}
+                              style={{ height: 20, width: 20, cursor:"pointer" }}
                             />
                           </span>
                         </div>
