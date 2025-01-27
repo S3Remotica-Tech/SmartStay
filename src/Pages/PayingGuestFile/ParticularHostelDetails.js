@@ -28,41 +28,41 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { Edit, Trash } from 'iconsax-react';
 
-function getFormattedRoomId(floor_Id, room_Id) {
-  const roomIdString = String(room_Id);
-  switch (floor_Id) {
-    case 1:
-      return `G${roomIdString}`;
-    case 2:
-      return `F${roomIdString}`;
-    case 3:
-      return `S${roomIdString}`;
-    case 4:
-      return `T${roomIdString}`;
-    default:
-      const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-      return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
-  }
-}
+// function getFormattedRoomId(floor_Id, room_Id) {
+//   const roomIdString = String(room_Id);
+//   switch (floor_Id) {
+//     case 1:
+//       return `G${roomIdString}`;
+//     case 2:
+//       return `F${roomIdString}`;
+//     case 3:
+//       return `S${roomIdString}`;
+//     case 4:
+//       return `T${roomIdString}`;
+//     default:
+//       const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
+//       return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+//   }
+// }
 
-function getFloorAbbreviation(floor_Id) {
+// function getFloorAbbreviation(floor_Id) {
 
-  switch (floor_Id) {
-    case 5:
-      return 'F';
-    case 6:
-      return 'S';
-    case 8:
-      return 'E';
-    case 9:
-      return 'N';
-    case 10:
-      return 'T';
+//   switch (floor_Id) {
+//     case 5:
+//       return 'F';
+//     case 6:
+//       return 'S';
+//     case 8:
+//       return 'E';
+//     case 9:
+//       return 'N';
+//     case 10:
+//       return 'T';
 
-    default:
-      return `${floor_Id}`;
-  }
-}
+//     default:
+//       return `${floor_Id}`;
+//   }
+// }
 
 
 function ParticularHostelDetails(props) {
@@ -136,10 +136,12 @@ function ParticularHostelDetails(props) {
     if (props.floorID && props.hostel_Id) {
              setLoader(true)
         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    }else{
+      setLoader(false)
     }
   }, [props.hostel_Id, props.floorID])
 
-
+console.log("hostel-hostel, floor",props.hostel_Id, props.floorID)
 
   const getRooms = (count) => {
     return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
@@ -202,7 +204,7 @@ function ParticularHostelDetails(props) {
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-      }, 4000)
+      }, 100)
     }
   }, [state.PgList.statusCodeCreateRoom])
 
