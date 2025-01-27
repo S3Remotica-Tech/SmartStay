@@ -163,12 +163,12 @@ console.log("hostel-hostel, floor",props.hostel_Id, props.floorID)
     }
   }, [state.PgList?.roomCountStatusCode])
 
-
+console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode,"state.PgList?.noRoomsInFloorStatusCode",state.PgList?.noRoomsInFloorStatusCode )
   console.log("loader", loader)
 
 
   useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
+    if (state.PgList?.noRoomsInFloorStatusCode == 201) {
       setLoader(false)
       setRoomCountData([])
            setTimeout(() => {
