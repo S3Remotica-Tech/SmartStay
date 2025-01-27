@@ -72,6 +72,18 @@ const [loading, setLoading] = useState(true)
         setDeleteRole(false)
     }
 
+    useEffect(() => {
+      if (state.Settings?.assignedUserRoleStatusCode == 202) {
+        setDeleteRole(false)
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_ASSIGNED_ERROR' })
+        })
+      }
+  
+    }, [state.Settings?.assignedUserRoleStatusCode])
+
+
+
 
     const handleDeleteRole = () => {
         if(deletedId){
