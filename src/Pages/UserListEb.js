@@ -12,7 +12,7 @@ import Delete from '../Assets/Images/Delete_red.png';
 
 function UserEb(props) {
   const state = useSelector(state => state)
-
+ const dispatch = useDispatch();
 
   // const EbrowsPerPage = 10;
   const [EbrowsPerPage, setEbrowsPerPage] = useState(10);
@@ -61,6 +61,24 @@ const popupRef = useRef(null);
            document.removeEventListener('mousedown', handleClickOutside);
          };
        }, []); 
+
+       const handleEditRoomReading = (item) => {
+        console.log(item,"items");
+        
+      props.handleEditRoomItem(item)
+        
+         dispatch({ type: 'USERREADINGTRUE' });
+       
+      };
+      const handleEditHostelReading = (item) => {
+        console.log(item,"items");
+        
+      props.handleEditHostelItem(item)
+        
+       dispatch({ type: 'USERREADINGTRUE' });
+       
+      };
+  
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
   // const renderPageNumbersEb = () => {
@@ -218,11 +236,16 @@ const popupRef = useRef(null);
                                               // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
                                               cursor: props.ebEditPermission ? "not-allowed" : "pointer",
                                             }}
-                                            // onClick={() => {
-                                            //   if (!props.ebEditPermission) {
-                                            //     handleEditRoomReading(u);
-                                            //   }
-                                            // }}
+                                            onClick={() => {
+                                              if (!props.ebEditPermission) {
+                                                // Check if it's a room or hostel and trigger the correct modal
+                                                if (u.type == 1) {
+                                                  handleEditRoomReading(u); // Trigger room-based modal
+                                                } else{
+                                                  handleEditHostelReading(u); // Trigger hostel-based modal
+                                                }
+                                              }
+                                            }}
                                           >
                                             <img
                                               src={Edit}

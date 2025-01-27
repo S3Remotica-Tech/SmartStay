@@ -118,8 +118,22 @@ function UserList(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
+  const [isroomReading,setIsRoomReading] = useState(false);
+  const [ishostelReading,setIsHostelReading] = useState(false)
 
-
+  const [Floor, setFloor] = useState("");
+  const [Rooms, setRooms] = useState("");
+  const [reading, setReading] = useState("");
+  const [readingError, setReadingError] = useState("");
+  const [formError, setFormError] = useState("");
+    const [floorError, setfloorError] = useState("");
+    const [roomError, setRoomError] = useState(""); 
+ const [selectedDate, setSelectedDate] = useState("");
+const [ebErrorunit, setEbErrorunit] = useState("");
+  const [roomId, setRoomId] = useState("")
+    const [unitAmount, setUnitAmount] = useState("");
+      const [dateError, setDateError] = useState("");
+ const [selectedHostel, setSelectedHostel] = useState("");
 
   console.log("deleteDetails",deleteDetails)
 
@@ -587,6 +601,51 @@ function UserList(props) {
       state.InvoiceList.manualInvoiceDeleteStatusCode,
       state.InvoiceList.ManualInvoices,
     ]);
+
+    useEffect(() => {
+      if(state.UsersList.userReading){
+        console.log("userreading",state.UsersList.userReading);
+        setIsRoomReading(true)
+        setRoomDetail(false)
+      }
+    },[state.UsersList.userReading])   
+    
+    const handleClose = () => {
+      setIsRoomReading(false);
+      setFormError("");
+      setEbErrorunit("");
+    };
+
+    const handleRoom = (e) => {
+      setRooms(e.target.value);
+      setRoomError("");
+      setFormError("");
+      setEbErrorunit("");
+    };
+    const handleFloor = (e) => {
+      setFloor(e.target.value);
+      setRooms("");
+      setfloorError("");
+      setFormError("");
+      setRoomId("")
+      setEbErrorunit("");
+    };
+    const handleReadingChange = (e) => {
+      setReading(e.target.value);
+      setReadingError('')
+      setFormError('')
+      setEbErrorunit("");
+      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+    };
+
+    const handleDateChange = (date) => {
+
+      setSelectedDate(date);
+      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+      setDateError('');
+      setEbErrorunit('');
+      setFormError("")
+    };
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
@@ -1782,6 +1841,50 @@ function UserList(props) {
         <img
           src={Calendars}
           style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
+  };
+  const customDateInput = (props) => {
+    return (
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
+          readOnly
+          // disabled={edit}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -3595,6 +3698,8 @@ function UserList(props) {
         <UserListRoomDetail
           onEditItem={handleEditItem}
           onDeleteItem={handleDeleteItem}
+          onEditRoomItem={handleEditRoomReading}
+          onEditHostelItem={handleEditHostelReading}
           AfterEditHostels={AfterEditHostel}
           AfterEditFloors={AfterEditFloor}
           AfterEditRoomses={AfterEditRooms}
@@ -3645,6 +3750,270 @@ function UserList(props) {
           setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
+
+{isroomReading && 
+     <>
+    <Modal
+        show={isroomReading}
+        onHide={() => handleClose()}
+        backdrop="static"
+        centered
+      >
+
+
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+          <div
+            style={{
+              fontSize: 20,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Edit Reading
+          </div>
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={handleClose}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "16px",
+              border: "1px solid black",
+              background: "transparent",
+              cursor: "pointer",
+              padding: "0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                fontSize: "30px",
+                paddingBottom: "6px",
+              }}
+            >
+              &times;
+            </span>
+          </button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row ">
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Floor{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                className="border"
+                disabled={
+                  unitAmount &&
+                  unitAmount?.length === 0 &&
+                  selectedHostel != ""
+                }
+                value={Floor}
+                onChange={(e) => handleFloor(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              >
+                <option
+                  style={{ fontSize: 14, fontWeight: 600 }}
+                  selected
+                  value=""
+                >
+                  Select Floor
+                </option>
+                {state?.UsersList?.hosteldetailslist &&
+                  state?.UsersList?.hosteldetailslist.map((item) => (
+                    <>
+                      <option key={item.floor_id} value={item.floor_id}>
+                        {item.floor_name}
+                      </option>
+                    </>
+                  ))}
+              </Form.Select>
+              {floorError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                </div>
+              )}
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Room{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                className="border"
+                disabled={
+                  unitAmount &&
+                  unitAmount?.length === 0 &&
+                  selectedHostel != ""
+                }
+                value={Rooms}
+                onChange={(e) => handleRoom(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              >
+                <option>Select a Room</option>
+                {state.UsersList?.roomdetails &&
+                  state.UsersList?.roomdetails.map((item) => (
+                    <>
+                      <option key={item.Room_Id} value={item.Room_Id}>
+                        {item.Room_Name}
+                      </option>
+                    </>
+                  ))}
+              </Form.Select>
+              {roomError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {roomError}
+                </div>
+              )}
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Reading{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="6542310"
+                  value={reading}
+                  onChange={(e) => handleReadingChange(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {readingError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
+                </div>
+              )}
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={null}
+                    // disabled={edit}
+                    customInput={customDateInput({
+                      value: selectedDate
+                        ? selectedDate.toLocaleDateString("en-GB")
+                        : "",
+                    })}
+                  />
+                </div>
+              </Form.Group>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {dateError}
+                </div>
+              )}
+            </div>
+          </div>
+        </Modal.Body>
+        {formError && (
+          <div style={{ color: "red" }}>
+            <MdError />
+            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+          </div>
+        )}
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: 50,
+              borderRadius: 12,
+              fontSize: 16,
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: 10,
+            }}
+            // onClick={handleSaveChanges}
+            disabled={!!formError}
+          >
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+     </>
+     }
 
       {isEditing &&
 
