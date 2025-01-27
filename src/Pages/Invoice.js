@@ -1980,20 +1980,6 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
-  // useEffect(() => {
-  //   console.log("useEffect", state.InvoiceList);
-  //   if (state.InvoiceList?.invoicePDF === 200) {
-
-  //     console.log("Invoice");
-  //     setLoading(false);
-  //     dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
-  //     setBills(state.InvoiceList.ManualInvoices)
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_INVOICE_LIST' });
-  //     }, 1000);
-  //   }
-  // }, [state.InvoiceList?.invoicePDF])
-
   useEffect(() => {
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
       dispatch({
