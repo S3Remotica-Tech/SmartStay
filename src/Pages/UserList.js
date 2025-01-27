@@ -671,24 +671,30 @@ const [customerBooking,setCustomerBooking] = useState("")
         }
       }, [state.Booking.statusCodeGetBooking]);
 
+
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
-          ? userListDetail.filter((item) =>
-              item.Name.toLowerCase().includes(filterInput.toLowerCase())
-            )
-          : []; 
-  
+        ? userListDetail.filter((item) =>
+          item.Name.toLowerCase().includes(filterInput.toLowerCase())
+        )
+        : [];
+
       setFilteredUsers(FilterUser);
+
   }
     
-    if (value === "2") {
-      const FilterUsertwo = customerBooking?.filter((item) => {
-          const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
+  if (value === "2") {
+    const FilterUsertwo = Array.isArray(customerBooking)
+      ? customerBooking.filter((item) => {
+          const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
-        });
-      setFilteredUsers(FilterUsertwo);
-    }
+        })
+      : [];  // Return empty array if not an array
+  
+    setFilteredUsers(FilterUsertwo);
+  }
+
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
@@ -705,8 +711,13 @@ const [customerBooking,setCustomerBooking] = useState("")
     filterInput,
     state.UsersList.Users,state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
+    state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
+     state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
+
+
+
   // useEffect(() => {
   //   let FilterUser = [];
 
@@ -739,6 +750,7 @@ const [customerBooking,setCustomerBooking] = useState("")
   //   state.UsersList?.hostelList,
   // ]);
 
+console.log("filteredUsers",filteredUsers);
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
