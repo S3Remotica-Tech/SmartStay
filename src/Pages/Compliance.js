@@ -29,7 +29,7 @@ import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 import Filter from '../Assets/Images/New_images/Group 13.png';
 import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
