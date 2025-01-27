@@ -47,6 +47,8 @@ import Calendars from '../Assets/Images/New_images/calendar.png'
 
 function UserList(props) {
   const state = useSelector((state) => state);
+  console.log(state,"users");
+  
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const popupRef = useRef(null);
@@ -116,6 +118,7 @@ function UserList(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
+
 
 
   console.log("deleteDetails",deleteDetails)
@@ -547,6 +550,43 @@ function UserList(props) {
 
     }
   }, [state.UsersList.userProfilebill])
+   useEffect(() => {
+      if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+        dispatch({
+          type: "MANUALINVOICESLIST",
+          payload: { hostel_id: uniqueostel_Id },
+        });
+        setLoading(false);
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
+          setLoading(false);
+  
+        
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.manualInvoiceEditStatusCode,
+      state.InvoiceList.ManualInvoices,
+    ]);
+    useEffect(() => {
+      if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
+        dispatch({
+          type: "MANUALINVOICESLIST",
+          payload: { hostel_id: uniqueostel_Id },
+        });
+        setLoading(false);
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
+          // setLoading(false);
+  
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.manualInvoiceDeleteStatusCode,
+      state.InvoiceList.ManualInvoices,
+    ]);
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
