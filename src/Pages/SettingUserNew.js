@@ -34,6 +34,7 @@ function SettingNewUser({ hostelid }) {
     const [isConfirmDelete, setIsConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(true)
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+    const [edit,setEdit] =useState(false)
 
 
     // Function Declare//////////////////////////////////////////////////////////
@@ -73,6 +74,7 @@ const popupLeft = left - 200;
             return;
         }
         setAddUserForm(true);
+        setEdit(false)
         console.log("Opening Add User Form...");
     };
 
@@ -84,6 +86,7 @@ const popupLeft = left - 200;
     const handleEditForm = (item) => {
         setAddUserForm(true)
         setEditDetails(item)
+        setEdit(true)
     }
 
     const handleDeleteForm = (item) => {
@@ -152,15 +155,7 @@ const popupLeft = left - 200;
     }, [state.Settings?.StatusForaddSettingStaffList])
 
 
-    useEffect(() => {
-        if (state.Settings.StatusForaddSettingUser === 200) {
-            setAddUserForm(false)
-            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_ADD_STAFF_USER" });
-            }, 200);
-        }
-    }, [state.Settings.StatusForaddSettingUser])
+    
 
     return (
 
@@ -349,7 +344,8 @@ const popupLeft = left - 200;
                                                     border: "none",
                                                     // display: "flex",
                                                     padding: "10px",
-                                                    paddingLeft: "20px"
+                                                    paddingLeft: "20px",
+                                                    paddingTop:18
                                                 }}
                                             >
                                                 {/* <Image
@@ -607,7 +603,7 @@ const popupLeft = left - 200;
 
 
 
-            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} />}
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
 
 
 
