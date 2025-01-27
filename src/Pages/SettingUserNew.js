@@ -433,6 +433,7 @@ const popupLeft = left - 200;
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
                                                         position: "relative",
+                                                        cursor: "pointer",
                                                         // backgroundColor: showDots  ? "#E7F1FF" : "white",
                                                         backgroundColor: showDots === index ?"#E7F1FF" : "white",
                                                       
@@ -442,7 +443,9 @@ const popupLeft = left - 200;
                                                     onClick={(e) => handleDotsClick(index,e)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
-                                                        style={{ height: "20px", width: "20px" }}
+                                                        style={{ height: "20px", width: "20px",
+                                                            cursor: "pointer",
+                                                         }}
                                                     />
 
                                                     {showDots === index && (

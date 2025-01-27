@@ -558,21 +558,54 @@ function Banking() {
                           placeholder="Search"
                           aria-label="Search"
                           style={{
+
+                            position: "absolute",
+                            left: "10px",
+                            width: "24px",
+                            height: "24px",
+                            pointerEvents: "none",
+                            cursor:"pointer"
+
                             boxShadow: "none",
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
+
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
                         />
-                        <span className="input-group-text bg-white border-start-0">
-                          <img
-                            src={closecircle}
-                            onClick={handleCloseSearch}
-                            style={{ height: 20, width: 20 }}
+
+                        <div className="input-group" style={{ marginRight: 20 }}>
+                          <span className="input-group-text bg-white border-end-0">
+                            <Image
+                              src={searchteam}
+                              style={{ height: 20, width: 20 , cursor:"pointer"}}
+                            />
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-start-0"
+                            placeholder="Search"
+                            aria-label="Search"
+                            style={{
+                              boxShadow: "none",
+                              outline: "none",
+                              borderColor: "rgb(207,213,219)",
+                              borderRight: "none",
+                            }}
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
                           />
-                        </span>
+                          <span className="input-group-text bg-white border-start-0">
+                            <img
+                              src={closecircle}
+                              onClick={handleCloseSearch}
+                              style={{ height: 20, width: 20, cursor:"pointer" }}
+                            />
+                          </span>
+                        </div>
+
                       </div>
                     </div>
 

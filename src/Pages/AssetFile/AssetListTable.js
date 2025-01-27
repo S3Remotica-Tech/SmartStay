@@ -34,7 +34,7 @@ function AssetListTable(props) {
     setShowDots(!showDots)
     const { top, left, width, height } = e.target.getBoundingClientRect();
 
-    const popupHeight = 100; 
+    const popupHeight = 100;
     const viewportHeight = window.innerHeight;
 
     let popupTop = top + (height / 2);
@@ -42,7 +42,7 @@ function AssetListTable(props) {
 
 
     if (popupTop + popupHeight > viewportHeight) {
-      popupTop = top - popupHeight; 
+      popupTop = top - popupHeight;
     }
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -218,9 +218,9 @@ function AssetListTable(props) {
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
         <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
-              
+
         <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
-      
+
         <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div
@@ -229,15 +229,15 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle',whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
-       
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
+
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center", }}>
             <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
               {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
@@ -245,9 +245,9 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",}}>{props.item.hostel_Name || "-"}</td>
-       
-       
+        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.hostel_Name || "-"}</td>
+
+
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
@@ -317,6 +317,7 @@ function AssetListTable(props) {
                           fontWeight: 600,
                           fontFamily: "Gilroy",
                           color: "#222222",
+                          cursor: "pointer"
                         }}
                       >
                         Edit
