@@ -636,7 +636,7 @@ function UserlistWalkin(props) {
                     </tbody>
                   </Table>
                 </div>
-                {currentCustomers?.length > 0 && (
+                {props.filteredUsers?.length > itemsPerPage && (
                   // <nav
                   //   style={{
                   //     display: "flex",
