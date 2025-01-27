@@ -802,6 +802,7 @@ function SettingGeneral() {
                       height="30"
                       alt="icon"
                       onClick={() => handlegeneralform(item.id)}
+                      style={{cursor:"pointer"}}
                     />
                     {generalEdit === item.id && (
                       <div

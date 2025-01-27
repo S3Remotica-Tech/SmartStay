@@ -18,7 +18,7 @@ import "./PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "./AddRoom";
 import { IoIosArrowDropleft } from "react-icons/io";
-import { ArrowLeft } from "iconsax-react";
+import { ArrowLeft, Pointer } from "iconsax-react";
 import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
 import Notify from "../../Assets/Images/New_images/notify.png";
@@ -1351,6 +1351,7 @@ function PgList(props) {
                                     : "#000000"
                                 }
                                 variant="Bold"
+                               style={{cursor:"pointer"}}
                               />
                             </div>
                           </div>

@@ -156,7 +156,7 @@ function AddBed({ show, handleClose, currentItem }) {
               Add bed
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
 
           <Modal.Body>
