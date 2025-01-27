@@ -1768,20 +1768,41 @@ const InvoicePage = () => {
   //     }
   //   }
   // }, [state.InvoiceList.invoicePDF]);
+  // useEffect(() => {
+  //   if (state.InvoiceList?.statusCodeForPDf === 200) {
+  //     const pdfUrl = state.InvoiceList.invoicePDF;
+
+  //     if (pdfUrl) {
+  //       console.log("PDF URL", pdfUrl);
+
+  //       const pdfWindow = window.open(pdfUrl, "_blank");
+  //       if (pdfWindow) {
+  //         console.log("PDF opened successfully.");
+  //         setShowLoader(false);
+  //         dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+  //       } else {
+  //         console.error("Failed to open the PDF.");
+  //       }
+  //     }
+  //   }
+  // }, [state.InvoiceList?.statusCodeForPDf]);
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
-
+  
       if (pdfUrl) {
-        console.log("PDF URL", pdfUrl);
-
-        const pdfWindow = window.open(pdfUrl, "_blank");
+        console.log("pdfURL", pdfUrl);
+        setShowLoader(false);
+  
+        // Pre-open the tab
+        const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
+          pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           console.log("PDF opened successfully.");
-          setShowLoader(false);
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
         } else {
-          console.error("Failed to open the PDF.");
+          console.error("Failed to open the PDF. Popup blocker might be enabled.");
+          // alert("Popup blocked. Please allow popups for this site to view the PDF.");
         }
       }
     }
