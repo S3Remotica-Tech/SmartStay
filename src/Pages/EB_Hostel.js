@@ -845,8 +845,8 @@ function EB_Hostel(props) {
 
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -861,8 +861,8 @@ function EB_Hostel(props) {
                             </th>
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -877,8 +877,8 @@ function EB_Hostel(props) {
                               <>
                                 <th
                                   style={{
-                                    color: "#939393",
-                                    fontWeight: 500,
+                                    color: "rgba(34, 34, 34, 1)",
+                                    fontWeight: 600,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
@@ -890,8 +890,8 @@ function EB_Hostel(props) {
                                 </th>
                                 <th
                                   style={{
-                                    color: "#939393",
-                                    fontWeight: 500,
+                                    color: "rgba(34, 34, 34, 1)",
+                                    fontWeight: 600,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
@@ -906,8 +906,8 @@ function EB_Hostel(props) {
 
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -919,8 +919,8 @@ function EB_Hostel(props) {
                             </th>
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -932,8 +932,8 @@ function EB_Hostel(props) {
                             </th>
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -945,8 +945,8 @@ function EB_Hostel(props) {
                             </th>
                             <th
                               style={{
-                                color: "#939393",
-                                fontWeight: 500,
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
@@ -960,7 +960,7 @@ function EB_Hostel(props) {
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "#939393",
+                                color: "rgba(34, 34, 34, 1)",
                                 fontSize: 14,
                                 fontWeight: 600,
                               }}
