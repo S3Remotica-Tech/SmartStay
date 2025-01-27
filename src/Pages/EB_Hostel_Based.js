@@ -586,6 +586,7 @@ function EBHostelReading(props) {
                     paddingTop: "10px",
                     paddingBottom: "10px",
                     textAlign: "center",
+                    borderTopLeftRadius:24
                   }}
                 >
                   Paying Guest
