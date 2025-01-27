@@ -792,7 +792,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-                <div style={{ margin: 20, position: 'relative' }}>
+                <div style={{ margin: 20, position: 'relative',marginTop:"-2px" }}>
                   <label
                     htmlFor="date-input"
                     style={{

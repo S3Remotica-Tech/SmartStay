@@ -177,7 +177,7 @@ function StaticExample({
               {updateFloor ? " Edit Floor" : "Add floor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
           <Modal.Body style={{ padding: 20 }}>
             <div className="row mt-1">

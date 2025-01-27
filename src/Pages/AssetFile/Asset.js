@@ -520,7 +520,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                           value={searchQuery}
                           onChange={handleInputChange}
 
-                          style={{marginTop:-5,
+                          style={{
                             width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                             //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}

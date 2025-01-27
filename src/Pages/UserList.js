@@ -47,6 +47,8 @@ import Calendars from '../Assets/Images/New_images/calendar.png'
 
 function UserList(props) {
   const state = useSelector((state) => state);
+  console.log(state,"users");
+  
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const popupRef = useRef(null);
@@ -57,7 +59,7 @@ function UserList(props) {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [currentItems, setCurrentItem] = useState([])
+  // const [currentItems, setCurrentItem] = useState([])
   const [value, setValue] = React.useState("1");
   const [customerrolePermission, setCustomerRolePermission] = useState("");
   const [customerpermissionError, setCustomerPermissionError] = useState("");
@@ -118,9 +120,10 @@ function UserList(props) {
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
 
 
+
   console.log("deleteDetails",deleteDetails)
 
-  
+
   let serialNumber = 1;
 
 
@@ -498,23 +501,23 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setUserListDetail(state.UsersList.Users);
-      // setFilteredUsers(state.UsersList.Users)
+      setFilteredUsers(state.UsersList.Users)
       setLoading(false);
-      if (state.UsersList.Users.length > 0) {
+      // if (state.UsersList.Users.length > 0) {
 
-        const indexOfLastItem = currentPage * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
-        console.log("tempArray123", tempArray);
+        // const indexOfLastItem = currentPage * itemsPerPage;
+        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
+        // console.log("tempArray123", tempArray);
 
-        const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-        setCurrentItem(tempArray)
+        // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+        // setCurrentItem(tempArray)
         // setLoading(false);
-      }
-      else {
-        setCurrentItem([])
+      // }
+      // else {
+        // setCurrentItem([])
         // setLoading(false);
-      }
+      // }
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
@@ -547,6 +550,43 @@ function UserList(props) {
 
     }
   }, [state.UsersList.userProfilebill])
+   useEffect(() => {
+      if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+        dispatch({
+          type: "MANUALINVOICESLIST",
+          payload: { hostel_id: uniqueostel_Id },
+        });
+        setLoading(false);
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
+          setLoading(false);
+  
+        
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.manualInvoiceEditStatusCode,
+      state.InvoiceList.ManualInvoices,
+    ]);
+    useEffect(() => {
+      if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
+        dispatch({
+          type: "MANUALINVOICESLIST",
+          payload: { hostel_id: uniqueostel_Id },
+        });
+        setLoading(false);
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
+          // setLoading(false);
+  
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.manualInvoiceDeleteStatusCode,
+      state.InvoiceList.ManualInvoices,
+    ]);
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
@@ -635,23 +675,23 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
 
-   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
- 
-const [walkingCustomer,setWalkingCustomer]=useState("")
-    useEffect(() => {
-      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
-    }, [uniqueostel_Id])
-  
-    useEffect(() => {
-      if (state.UsersList?.getWalkInStatusCode === 200) {
-        setWalkingCustomer(state.UsersList.WalkInCustomerList)
-        // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-        }, 200);
-      }
-    }, [state.UsersList?.getWalkInStatusCode]);
+
+  const [walkingCustomer, setWalkingCustomer] = useState("")
+  useEffect(() => {
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
+  }, [uniqueostel_Id])
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
+      setWalkingCustomer(state.UsersList.WalkInCustomerList)
+      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
 
 
   useEffect(() => {
@@ -668,9 +708,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
- 
 
- 
+
+
   const [customerBooking, setCustomerBooking] = useState("")
 
   useEffect(() => {
@@ -688,6 +728,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [state.Booking.statusCodeGetBooking]);
 
+
+
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
@@ -698,18 +740,18 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
 
       setFilteredUsers(FilterUser);
 
-  }
-    
-  if (value === "2") {
-    const FilterUsertwo = Array.isArray(customerBooking)
-      ? customerBooking.filter((item) => {
+    }
+
+    if (value === "2") {
+      const FilterUsertwo = Array.isArray(customerBooking)
+        ? customerBooking.filter((item) => {
           const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
         })
-      : [];  // Return empty array if not an array
-  
-    setFilteredUsers(FilterUsertwo);
-  }
+        : [];  // Return empty array if not an array
+
+      setFilteredUsers(FilterUsertwo);
+    }
 
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
@@ -725,11 +767,15 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [
     filterInput,
-    state.UsersList.Users,state.UsersList?.UserListStatusCode,
+    state.UsersList.Users, state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.UsersList.WalkInCustomerList
+    state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
+     state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
- 
+
+  console.log("filteredUsers", filteredUsers);
+
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
@@ -842,9 +888,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // const itemsPerPage = 7;
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
   const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
@@ -1207,40 +1253,41 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   };
 
   const handleDeleteShow = (user) => {
-    console.log("user details",user)
+    console.log("user details", user)
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user })
   };
 
-console.log("state",state)
+  console.log("state", state)
 
-useEffect(()=>{
-  if(state.UsersList?.deleteCustomerSuccessStatusCode == 200){
+  useEffect(() => {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode == 200) {
 
-    setDeleteShow(false);
-    dispatch({type: "USERLIST",payload: { hostel_id: uniqueostel_Id }});
+      setDeleteShow(false);
+      dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
-    setDeleteDetails({ room: null, bed: null , user: null })
+      setDeleteDetails({ room: null, bed: null, user: null })
 
-    setTimeout(()=>{
-dispatch({ type: 'REMOVE_DELETE_CUSTOMER'})
-    },100)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_CUSTOMER' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.deleteCustomerSuccessStatusCode])
+
+
+
+
+
+
+  const handleDeleteCustomer = () => {
+    if (deleteDetails?.user.ID) {
+      dispatch({
+        type: 'DELETECUSTOMER',
+        payload: { id: deleteDetails?.user.ID }
+      })
+    }
   }
-
-},[state.UsersList?.deleteCustomerSuccessStatusCode])
-
-
-
-
-
-
-const handleDeleteCustomer = () =>{
-     if(deleteDetails?.user.ID){
-      dispatch({ type :'DELETECUSTOMER', 
-         payload:{ id:deleteDetails?.user.ID}
-            })
-     }
-}
 
 
 
@@ -1741,7 +1788,7 @@ const handleDeleteCustomer = () =>{
       </div>
     );
   };
-
+  console.log("currentItems?.length > itemsPerPage", currentItems?.length ,itemsPerPage);
   return (
     // <div style={{ padding: 10, marginLeft: 20 }}>
     <div>
@@ -1808,7 +1855,7 @@ const handleDeleteCustomer = () =>{
                   fontFamily: "Gilroy",
                   marginLeft: 11,
                   marginRight: 20,
-marginTop:-2
+                  marginTop: -2
                 }}
               >
                 Customers
@@ -1823,7 +1870,7 @@ marginTop:-2
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "-10px",
+                      marginTop: "-15px",
                     }}
                   >
                     <div
@@ -1976,7 +2023,7 @@ marginTop:-2
                     <Image
                       src={searchteam}
 
-                      style={{ height: "28px", width: "28px", cursor: "pointer" }}
+                      style={{ height: "24px", width: "24px", cursor: "pointer" }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -2047,7 +2094,7 @@ marginTop:-2
                     //   fontFamily: "Gilroy",
                     // }}
                     style={{
-                      marginTop:3,
+                      marginTop: 3,
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
@@ -2332,7 +2379,7 @@ marginTop:-2
                     </div>
                   </>
                 ) : (
-                  <div style={{ marginLeft: "6px" }}>
+                  <div className="p-10">
                     <div>
 
                       {
@@ -2374,7 +2421,7 @@ marginTop:-2
 
                       {currentItems && currentItems.length > 0 && (
                         <div
-                          className="z-0"
+                          // className="z-0"
                           style={{
                             // height: "400px",
                             // position: "relative",
@@ -3096,7 +3143,9 @@ marginTop:-2
                         </div>
                       )}
                     </div>
-                    {currentItems?.length > 0 && (
+                    {                    
+                        state.UsersList.Users?.length > itemsPerPage &&
+                        // (
                       // <nav>
                       //   <ul
                       //     style={{
@@ -3294,6 +3343,7 @@ marginTop:-2
                       //   </ul>
                       // </nav>
 
+                     
                       <nav
                         style={{
                           display: "flex",
@@ -3397,7 +3447,8 @@ marginTop:-2
 
 
 
-                    )}
+                    // )
+                    }
                   </div>
                 )}
 
@@ -3485,7 +3536,7 @@ marginTop:-2
             Delete Customer ?
           </Modal.Title>
         </Modal.Header>
-               <Modal.Body
+        <Modal.Body
           style={{
             fontSize: 14,
             fontWeight: 500,
@@ -3540,7 +3591,7 @@ marginTop:-2
             Delete
           </Button>
         </Modal.Footer>
-      
+
 
       </Modal>
 

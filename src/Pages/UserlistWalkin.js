@@ -18,9 +18,9 @@ import { MdError } from "react-icons/md";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
-  console.log("UserlistWalkin",state)
-  console.log("props",props);
-  
+  console.log("UserlistWalkin", state)
+  console.log("props", props);
+
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
@@ -86,10 +86,10 @@ function UserlistWalkin(props) {
   //       payload: { hostel_id:hostel_Id},
   //     });
   //   }
-  
+
   // }, [hostel_Id]);
 
-  console.log("state.UsersList.getWalkInStatusCode",state.UsersList.getWalkInStatusCode)
+  console.log("state.UsersList.getWalkInStatusCode", state.UsersList.getWalkInStatusCode)
 
   useEffect(() => {
     if (state.UsersList.getWalkInStatusCode === 200) {
@@ -135,7 +135,7 @@ function UserlistWalkin(props) {
   ]);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
+
 
   const handleDotsClick = (id, event) => {
     setDotsButton((prevId) => (prevId === id ? null : id));
@@ -515,11 +515,11 @@ function UserlistWalkin(props) {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 position: "relative",
-                                backgroundColor: dotsButton === customer.id   ? "#E7F1FF" : "white",
+                                backgroundColor: dotsButton === customer.id ? "#E7F1FF" : "white",
                                 zIndex:
                                   dotsButton === customer.id ? 1000 : "auto",
                               }}
-                              onClick={(e) => handleDotsClick(customer.id,e)}
+                              onClick={(e) => handleDotsClick(customer.id, e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -580,6 +580,7 @@ function UserlistWalkin(props) {
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                         color: "#222222",
+                                        cursor: "pointer"
                                       }}
                                     >
                                       Edit
@@ -620,6 +621,7 @@ function UserlistWalkin(props) {
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                         color: "#FF0000",
+                                        cursor: "pointer"
                                       }}
                                     >
                                       Delete
@@ -634,7 +636,7 @@ function UserlistWalkin(props) {
                     </tbody>
                   </Table>
                 </div>
-                {currentCustomers?.length > 0 && (
+                {props.filteredUsers?.length > itemsPerPage && (
                   // <nav
                   //   style={{
                   //     display: "flex",
@@ -906,88 +908,88 @@ function UserlistWalkin(props) {
 
       {/* Delete  Modal */}
       <Modal
-              show={showDeleteModal}
-              onHide={cancelDelete}
-              centered
-              backdrop="static"
-              style={{
-                width: 388,
-                height: 250,
-                marginLeft: "500px",
-                marginTop: "200px",
-              }}
-            >
-              <Modal.Header style={{ borderBottom: "none" }}>
-                <Modal.Title
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    color: "#222222",
-                    flex: 1,
-                  }}
-                >
-                  Delete walk-in
-                </Modal.Title>
-              </Modal.Header>
-      
-              <Modal.Body
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  color: "#646464",
-                  textAlign: "center",
-                  marginTop: "-20px",
-                }}
-              >
-                 Are you sure you want to delete this walk-in?
-              </Modal.Body>
-      
-              <Modal.Footer
-                style={{
-                  justifyContent: "center",
-                  borderTop: "none",
-                  marginTop: "-10px",
-                }}
-              >
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#fff",
-                    color: "#1E45E1",
-                    border: "1px solid #1E45E1",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    marginRight: 10,
-                  }}
-                  onClick={cancelDelete}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#1E45E1",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                  }}
-                  onClick={confirmDelete}
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
+        show={showDeleteModal}
+        onHide={cancelDelete}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete walk-in
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this walk-in?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={cancelDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={confirmDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* <ToastContainer
                 position="bottom-center"

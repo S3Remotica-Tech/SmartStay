@@ -268,8 +268,8 @@ const handleDeleteBill = (user) => {
               <th
                 style={{
                   textAlign: "start",
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
@@ -281,8 +281,8 @@ const handleDeleteBill = (user) => {
               </th>
               <th
                 style={{
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
@@ -294,8 +294,8 @@ const handleDeleteBill = (user) => {
               </th>
               <th
                 style={{
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
@@ -308,8 +308,8 @@ const handleDeleteBill = (user) => {
 
               <th
                 style={{
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
@@ -321,8 +321,8 @@ const handleDeleteBill = (user) => {
               </th>
               <th
                 style={{
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
@@ -335,8 +335,8 @@ const handleDeleteBill = (user) => {
 
               <th
                 style={{
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
+                  color: "#939393",
+                  fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
