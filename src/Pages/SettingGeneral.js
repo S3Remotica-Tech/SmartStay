@@ -668,6 +668,7 @@ function SettingGeneral() {
           className="d-flex justify-content-between align-items-center"
           
         >
+          
           <div>
             <Button
               // style={{
