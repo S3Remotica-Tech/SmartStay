@@ -491,235 +491,188 @@ function Banking() {
       ) : (
         <div style={{ padding: 8, marginLeft: 10 }}>
           <div
-            className="d-flex flex-wrap justify-content-between align-items-center mb-3"
-            style={{
-              position: "fixed",
-              top: 10,
-              left: 260,
-              right: 25,
-              zIndex: 1000,
-            }}
-          >
-            <div>
-              <label
-                style={{
+                 className="d-flex flex-wrap justify-content-between align-items-center mb-3"
+                 
+                >
+                  <div>
+                    <label style={{
                   fontSize: 18,
-                  fontFamily: "Gilroy",
+                  color: "#000000",
                   fontWeight: 600,
-                  marginTop: 3,
-                  marginLeft: -10,
-                }}
-              >
-                Banking
-              </label>
-            </div>
+                  fontFamily: "Gilroy",
+                  marginLeft: 11,
+                  marginRight: 20,
+                  marginTop: -2
+                }}>Banking</label>
+                  </div>
 
-            <div className="mt-1 d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
-              {search ? (
-                <>
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      marginRight: 20,
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "relative",
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <Image
-                        src={searchteam}
-                        alt="Search"
-                        style={{
-                          position: "absolute",
-                          left: "10px",
-                          width: "24px",
-                          height: "24px",
-                          pointerEvents: "none",
-                        }}
-                      />
-                      <div className="input-group" style={{ marginRight: 20 }}>
-                        <span className="input-group-text bg-white border-end-0">
-                          <Image
-                            src={searchteam}
-                            style={{ height: 20, width: 20 }}
-                          />
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control border-start-0"
-                          placeholder="Search"
-                          aria-label="Search"
-                          style={{
+                  <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
 
-                            position: "absolute",
-                            left: "10px",
-                            width: "24px",
-                            height: "24px",
-                            pointerEvents: "none",
-                            cursor:"pointer",
 
-                            boxShadow: "none",
-                            outline: "none",
-                            borderColor: "rgb(207,213,219)",
-                            borderRight: "none",
-
-                          }}
-                          value={filterInput}
-                          onChange={(e) => handlefilterInput(e)}
-                        />
-
-                        <div className="input-group" style={{ marginRight: 20 }}>
-                          <span className="input-group-text bg-white border-end-0">
-                            <Image
-                              src={searchteam}
-                              style={{ height: 20, width: 20 , cursor:"pointer"}}
-                            />
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control border-start-0"
-                            placeholder="Search"
-                            aria-label="Search"
-                            style={{
-                              boxShadow: "none",
-                              outline: "none",
-                              borderColor: "rgb(207,213,219)",
-                              borderRight: "none",
-                            }}
-                            value={filterInput}
-                            onChange={(e) => handlefilterInput(e)}
-                          />
-                          <span className="input-group-text bg-white border-start-0">
-                            <img
-                              src={closecircle}
-                              onClick={handleCloseSearch}
-                              style={{ height: 20, width: 20, cursor:"pointer" }}
-                            />
-                          </span>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    {isDropdownVisible &&
-                      transactionFilterddata?.length > 0 && (
+                    {search ? (
+                      <>
                         <div
                           style={{
-                            border: "1px solid #d9d9d9 ",
-                            position: "absolute",
-                            top: 60,
-                            left: 0,
-                            zIndex: 1000,
-                            padding: 10,
-                            borderRadius: 8,
-                            backgroundColor: "#fff",
-                            width: "94%",
+                            position: "relative",
+                            width: "100%",
+                            marginRight: 20,
+                            marginTop: "-10px",
                           }}
                         >
-                          <ul
-                            className="show-scroll p-0"
+                          <div
                             style={{
-                              backgroundColor: "#fff",
-                              borderRadius: "4px",
-                              // maxHeight: 174,
-                              maxHeight:
-                                transactionFilterddata?.length > 1
-                                  ? "174px"
-                                  : "auto",
-                              minHeight: 100,
-                              overflowY:
-                                transactionFilterddata?.length > 1
-                                  ? "auto"
-                                  : "hidden",
-
-                              margin: "0",
-                              listStyleType: "none",
-                              borderRadius: 8,
-                              boxSizing: "border-box",
+                              position: "relative",
+                              display: "flex",
+                              alignItems: "center",
+                              // width: "100%",
+                              marginTop: '10px',
+                              marginBottom: '10px'
                             }}
                           >
-                            {transactionFilterddata?.map((user, index) => {
-                              // const imagedrop = user.profile || Profile;
-                              return (
-                                <li
-                                  key={index}
-                                  className="list-group-item d-flex align-items-center"
-                                  style={{
-                                    cursor: "pointer",
-                                    padding: "10px 5px",
-                                    borderBottom:
-                                      index !==
-                                      transactionFilterddata?.length - 1
-                                        ? "1px solid #eee"
-                                        : "none",
-                                  }}
-                                  onClick={() => handleUserSelect(user)}
-                                >
-                                  {/* <Image
-                                  src={imagedrop}
-                                  alt={user.Name || "Default Profile"}
-                                  roundedCircle
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    marginRight: "10px",
-                                  }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profile;
-                                  }}
-                                /> */}
+                            <Image
+                              src={searchteam}
+                              alt="Search"
+                              style={{
+                                position: "absolute",
+                                left: "10px",
+                                width: "24px",
+                                height: "24px",
+                                pointerEvents: "none",
+                              }}
+                            />
+                            <div
+                              className="input-group"
+                              style={{ marginRight: 20 }}
+                            >
+                              <span className="input-group-text bg-white border-end-0">
+                                <Image
+                                  src={searchteam}
+                                  style={{ height: 20, width: 20 }}
+                                />
+                              </span>
+                              <input
+                                type="text"
+                                className="form-control border-start-0"
+                                placeholder="Search"
+                                aria-label="Search"
+                                style={{
+                                  boxShadow: "none",
+                                  outline: "none",
+                                  borderColor: "rgb(207,213,219)",
+                                  borderRight: "none"
 
-                                  <span>{user.bank_name}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
+                                }}
+                                value={filterInput}
+                                onChange={(e) => handlefilterInput(e)}
+                              />
+                              <span className="input-group-text bg-white border-start-0">
+                                <img src={closecircle} onClick={handleCloseSearch}
+                                  style={{ height: 20, width: 20 }}
+                                />
+                              </span>
+                            </div>
+                          </div>
+
+                          {isDropdownVisible && transactionFilterddata?.length > 0 && (
+                            <div
+                              style={{
+                                border: "1px solid #d9d9d9 ",
+                                position: "absolute",
+                                top: 60,
+                                left: 0,
+                                zIndex: 1000,
+                                padding: 10,
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                width: "94%",
+                              }}
+                            >
+                              <ul
+                                className="show-scroll p-0"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  borderRadius: "4px",
+                                  // maxHeight: 174,
+                                  maxHeight:
+                                  transactionFilterddata?.length > 1 ? "174px" : "auto",
+                                  minHeight: 100,
+                                  overflowY:
+                                  transactionFilterddata?.length > 1 ? "auto" : "hidden",
+
+                                  margin: "0",
+                                  listStyleType: "none",
+                                  borderRadius: 8,
+                                  boxSizing: "border-box",
+                                }}
+                              >
+                                {transactionFilterddata?.map((user, index) => {
+                                  // const imagedrop = user.profile || Profile;
+                                  return (
+                                    <li
+                                      key={index}
+                                      className="list-group-item d-flex align-items-center"
+                                      style={{
+                                        cursor: "pointer",
+                                        padding: "10px 5px",
+                                        borderBottom:
+                                          index !== transactionFilterddata.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                      }}
+                                      onClick={() => handleUserSelect(user)}
+                                    >
+                                      {/* <Image
+                                        src={imagedrop}
+                                        alt={user.Name || "Default Profile"}
+                                        roundedCircle
+                                        style={{
+                                          height: "30px",
+                                          width: "30px",
+                                          marginRight: "10px",
+                                        }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      /> */}
+                                      {/* <span>{user.Name}</span> */}
+                                      <span>{user.bank_name}</span>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          )}
                         </div>
-                      )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="me-2">
-                    <Image
-                      src={searchteam}
-                      roundedCircle
-                      style={{ height: "24px", width: "24px" }}
-                      onClick={handleSearch}
-                    />
-                  </div>
-                </>
-              )}
+                      </>
+                    ) : (
+                      <>
+                        <div className="me-3">
+                          <Image
+                            src={searchteam}
+                            roundedCircle
+                            style={{ height: "24px", width: "24px" }}
+                            onClick={handleSearch}
+                          />
+                        </div>
+                      </>
+                    )}
 
-              <div className="me-2">
-                <Image
-                  src={Filters}
-                  roundedCircle
-                  style={{ height: "50px", width: "50px" }}
-                  onClick={handleFilterd}
-                />
-              </div>
+                    <div className="me-3">
+                      <Image
+                        src={Filters}
+                        roundedCircle
+                        style={{ height: "50px", width: "50px" }}
+                        onClick={handleFilterd}
+                      />
+                    </div>
 
-              {filterStatus && (
-                <div
-                  className="me-5"
-                  style={{
-                    border: "1px solid #D4D4D4",
-                    borderRadius: 8,
-                    width: search ? "180px" : "120px",
-                    marginRight: 20,
-                  }}
-                >
-                  <Form.Select
+
+                    {
+                    filterStatus &&
+
+                    <div className='me-3' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "250px" : "140px"}}>
+     <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
                     aria-label="Select Price Range"
@@ -734,58 +687,26 @@ function Banking() {
                     <option value="1">Credit</option>
                     <option value="2">Debit</option>
                   </Form.Select>
+</div>
+
+                  }
+
+                 
+
+                    <div style={{ paddingRight: "15px" }}>
+                      <Button
+                       disabled={bankingAddPermission}
+                       onClick={handleShowForm}
+                        style={{marginTop:-10,
+                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
+                           width: 70,
+                          padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                        }} > + Bank</Button>
+                    </div>
+                  </div>
                 </div>
-              )}
-
-              <div>
-                <Button
-                  disabled={bankingAddPermission}
-                  onClick={handleShowForm}
-                  // style={{
-                  //   fontSize: 15,
-                  //   backgroundColor: "#1E45E1",
-                  //   color: "white",
-                  //   height: 50,
-                  //   fontWeight: 600,
-                  //   borderRadius: 12,
-                  //   width: 113,
-                  //   padding: "16px, 24px, 16px, 24px",
-                  //   fontFamily: "Gilroy",
-                  // }}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "10px 12px",
-                    width: "70px",
-                    maxWidth: "100%",
-                    marginBottom: "10px",
-                    maxHeight: 45,
-                    marginRight: 20,
-                  }}
-                >
-                  {" "}
-                  + Bank
-                </Button>
-              </div>
-            </div>
-          </div>
-          {/* {filterInput && (
-        <div  className='container ms-4 mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-          {filteredUsers.length > 0 ? (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {filteredUsers.length} result{filteredUsers.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{filterInput}"</span>
-            </span>
-          ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{filterInput}"</span></span>
-          )}
-        </div>
-      )} */}
-
-          <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
+     
+          <div className="d-flex overflow-auto" >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
                 return (
