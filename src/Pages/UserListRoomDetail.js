@@ -127,6 +127,12 @@ function UserListRoomDetail(props) {
   const handleEditItem = (item) =>{
     props.onEditItem(item)
   }
+  const handleEditRoomItem = (item) => {
+    props.onEditRoomItem(item)
+  }
+  const handleEditHostelItem = (item) => {
+    props.onEditHostelItem (item)
+  }
   const handleDeleteItem = (items) =>{
     props.onDeleteItem(items)
   }
@@ -3571,7 +3577,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         </Modal.Footer>
       </Modal>
                     <TabPanel value="2">
-                      <UserEb id={props.id} />{" "}
+                      <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem} />{" "}
                     </TabPanel>
                     <TabPanel value="3">
                       <UserListInvoice id={props.id} handleEditItem={handleEditItem} handleDeleteItem={handleDeleteItem} />

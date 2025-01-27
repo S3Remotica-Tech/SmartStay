@@ -98,6 +98,7 @@ const initialState = {
    userRoomfor :null,
    userProfilebill:null,
    deleteCustomerSuccessStatusCode:0,
+   userReading:null,
   
 }
 
@@ -476,7 +477,10 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE':
             return { ...state, statuscodeForAdharFileError: 0 }
 
-
+       case 'USERREADINGTRUE':
+        return {...state,userReading:true}
+        case 'USERREADINGFALSE':
+        return {...state,userReading:false}
     }
     return state;
 }
