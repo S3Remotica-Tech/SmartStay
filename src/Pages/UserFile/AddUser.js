@@ -277,7 +277,7 @@ const handleCloseForm = ()=>{
       <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editDetails ? 'Edit User' : 'Add User'}</Modal.Title>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{edit ? 'Edit User' : 'Add User'}</Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{cursor:"pointer"}} />
 
@@ -621,7 +621,7 @@ const handleCloseForm = ()=>{
             <Button
               onClick={handleSubmit}
               className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
-              {editDetails ? 'Save Changes' : ' + Create User'}
+              {edit ? 'Save Changes' : ' + Create User'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
