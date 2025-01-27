@@ -717,8 +717,8 @@ const handleFilterd = () => {
 
   const [editdata, setEditData] = useState('')
   const [editcomplainttype, setEditcomplainttype] = useState('')
-
-
+  const [floor_name, setFloorName] = useState('')
+  const [room_name, setRoomName] = useState('')
 
 
   const handleEditcomplaint = (Complaintdata) => {

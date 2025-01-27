@@ -75,6 +75,7 @@ import Filters from "../Assets/Images/Filters.svg";
 
 
 import Receipt from "./Receipt";
+import AddReceiptForm from "./AddReceipt";
 
 
 const InvoicePage = () => {
@@ -175,6 +176,7 @@ const InvoicePage = () => {
   const dueRef = useRef(null);
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
+  const [receiptformShow , setReceiptFormShow] = useState(false)
   const [showAllBill, setShowAllBill] = useState(true);
   const [billrolePermission, setBillRolePermission] = useState("");
   const [billpermissionError, setBillPermissionError] = useState("");
@@ -184,6 +186,10 @@ const InvoicePage = () => {
   const [recuringbillAddPermission, setRecuringBillAddPermission] =
     useState("");
   const [recurringPermission, setRecurringPermission] = useState("");
+  const [receiptPermission, setReceiptPermission] = useState("");
+  const [receiptaddPermission, setReceiptAddPermission] = useState("");
+  const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState("");
   const [paiddate, setPaidDate] = useState(null);
@@ -245,6 +251,12 @@ const InvoicePage = () => {
     setShowAllBill(false);
     setShowRecurringBillForm(true);
   };
+
+  const handleReceiptShow = () => {
+    setShowAllBill(false);
+    setReceiptFormShow(true)
+    dispatch({ type: "GET_REFERENCE_ID"})
+  }
 
   const handleAccount = (e) => {
     setAccount(e.target.value);
@@ -894,6 +906,7 @@ const InvoicePage = () => {
       console.log("EditBill");
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
+      setReceiptFormShow(false)
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -1141,6 +1154,7 @@ const InvoicePage = () => {
   const handleBackBill = () => {
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
+    setReceiptFormShow(false)
     setShowAllBill(true);
     setCustomerName("");
     setInvoiceNumber("");
@@ -1462,6 +1476,7 @@ const InvoicePage = () => {
       });
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
+      setReceiptFormShow(false)
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -1684,6 +1699,46 @@ const InvoicePage = () => {
       setRecurringPermission("Permission Denied");
     }
   }, [billrolePermission]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+    ) {
+      setReceiptPermission("");
+    } else {
+      setReceiptPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+    ) {
+      setReceiptAddPermission("");
+    } else {
+      setReceiptAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+    ) {
+      setReceiptDeletePermission("");
+    } else {
+      setReceiptDeletePermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+  useEffect(() => {
+    if(hostelId){
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+    }
+  }, [hostelId]);
 
   useEffect(() => {
     if (
@@ -2291,8 +2346,8 @@ console.log("Name",bills)
 
   useEffect(() => {
     if (
-      state.InvoiceList.RecurringBillAddStatusCode === 200 ||
-      state.InvoiceList.deleterecurringbillsStatuscode
+      state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode
     ) 
     {
       dispatch({
@@ -2301,16 +2356,16 @@ console.log("Name",bills)
       });
 
       setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });
+        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
       }, 1000);
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE" });
+        dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
       }, 1000);
     }
   }, [
-    state.InvoiceList.RecurringBillAddStatusCode,
-    state.InvoiceList.deleterecurringbillsStatuscode,
+    state.InvoiceList.ReceiptAddsuccessStatuscode,
+    state.InvoiceList.ReceiptDeletesuccessStatuscode,
 
   ]);
 
@@ -2665,6 +2720,8 @@ console.log("Name",bills)
 
                   {value == 3 && (
                     <Button
+                    disabled={receiptaddPermission}
+                      onClick={handleReceiptShow}
                       // style={{
                       //   fontSize: 14,
                       //   backgroundColor: "#1E45E1",
@@ -4449,7 +4506,7 @@ console.log("Name",bills)
             </TabPanel>
 
             <TabPanel value="3">
-            {recurringPermission ? (
+            {receiptPermission ? (
                 <>
                   <div
                     style={{
@@ -4468,7 +4525,7 @@ console.log("Name",bills)
                     />
 
                     {/* Permission Error */}
-                    {recurringPermission && (
+                    {receiptPermission && (
                       <div
                         style={{
                           color: "red",
@@ -4479,7 +4536,7 @@ console.log("Name",bills)
                         }}
                       >
                         <MdError size={20} />
-                        <span>{recurringPermission}</span>
+                        <span>{receiptPermission}</span>
                       </div>
                     )}
                   </div>
@@ -5334,6 +5391,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
           <RecurringBill onhandleback={handleBackBill} />
         </>
       )}
+
+
+ {receiptformShow && (
+        <>
+          <AddReceiptForm onhandleback={handleBackBill} />
+        </>
+      )}
+
+
     </>
   );
 };
