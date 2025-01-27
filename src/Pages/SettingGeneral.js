@@ -802,6 +802,7 @@ function SettingGeneral() {
                       height="30"
                       alt="icon"
                       onClick={() => handlegeneralform(item.id)}
+                      style={{cursor:"pointer"}}
                     />
                     {generalEdit === item.id && (
                       <div
@@ -1669,7 +1670,7 @@ function SettingGeneral() {
           width: "80vw",
         }}
       >
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "5px", position: "relative" }}>
           <div
             style={{
               fontSize: "1.25rem",
@@ -1770,7 +1771,8 @@ function SettingGeneral() {
             {passError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                {passError}
+               
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
               </div>
             )}
 

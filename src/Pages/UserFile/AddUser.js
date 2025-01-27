@@ -256,7 +256,7 @@ function User({ show, handleClose, editDetails, hostelid }) {
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editDetails ? 'Edit User' : 'Add User'}</Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
 
           </Modal.Header>
 
@@ -535,11 +535,22 @@ function User({ show, handleClose, editDetails, hostelid }) {
                     onChange={handleRoleChange}
                   >
                     <option value="">Select a Role</option>
-                    {state.Settings?.getsettingRoleList?.map((u) => (
+                    {/* {state.Settings?.getsettingRoleList?.map((u) => (
                       <option key={u.id} value={u.id}>
                         {u.role_name}
                       </option>
-                    ))}
+                    ))} */}
+                    {state.Settings?.getsettingRoleList?.length > 0 ? (
+                      state.Settings.getsettingRoleList.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.role_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No roles available
+                      </option>
+                    )}
                   </Form.Select>
                 </Form.Group>
                 {/* {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</p>} */}
@@ -569,7 +580,7 @@ function User({ show, handleClose, editDetails, hostelid }) {
                   <Form.Control
                     value={description}
                     onChange={handleDescriptionChange}
-                    type="text" placeholder="Enter Description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8,marginTop:"6px" }} />
+                    type="text" placeholder="Enter Description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8, marginTop: "6px" }} />
                 </Form.Group>
 
               </div>
@@ -582,7 +593,7 @@ function User({ show, handleClose, editDetails, hostelid }) {
 
           </Modal.Body>
 
-          <Modal.Footer style={{ border: "none",marginBottom:"17px" }}>
+          <Modal.Footer style={{ border: "none", marginBottom: "17px" }}>
 
             <Button
               onClick={handleSubmit}

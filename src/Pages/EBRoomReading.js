@@ -706,7 +706,7 @@ function EBRoomReading(props) {
                             fontFamily: "Gilroy",
                             color: "#939393",
                             fontSize: 14,
-                            fontWeight: 600,
+                            fontWeight: 500,
                             // borderTopRightRadius: 24
                           }}
                         >
@@ -716,9 +716,9 @@ function EBRoomReading(props) {
                           style={{
                             textAlign: "center",
                             fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)",
+                            color: "#939393",
                             fontSize: 14,
-                            fontWeight: 600,
+                            fontWeight: 500,
                             borderTopRightRadius: 24,
                           }}
                         >

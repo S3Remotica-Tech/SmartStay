@@ -33,8 +33,17 @@ function AssetListTable(props) {
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)
     const { top, left, width, height } = e.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+
+    const popupHeight = 100; 
+    const viewportHeight = window.innerHeight;
+
+    let popupTop = top + (height / 2);
+    let popupLeft = left - 200;
+
+
+    if (popupTop + popupHeight > viewportHeight) {
+      popupTop = top - popupHeight; 
+    }
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
@@ -208,7 +217,7 @@ function AssetListTable(props) {
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
+        <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
               
         <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
       

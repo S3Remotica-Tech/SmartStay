@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -917,6 +917,23 @@ function* handleAddInvoiceRecurringSettings (param){
 }
 
 
+function* handleGetReceipts(action) {
+   const response = yield call(GetReceiptData, action.payload)
+   
+    console.log("responseforreceipt", response);
+    
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'RECEIPTS_LIST', payload:{response: response.data.all_receipts, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
@@ -959,7 +976,7 @@ function* InvoiceSaga() {
       yield takeEvery('UNASSIGNAMENITIES', handleUnAssignAmenities)
           yield takeEvery('GETASSIGNAMENITIES', handleGetAssignAmenities)
 
-     
+          yield takeEvery('RECEIPTSLIST',handleGetReceipts)
       
       
 

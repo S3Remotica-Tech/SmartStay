@@ -139,8 +139,8 @@ function CheckOut(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.addCheckoutCustomerStatusCode == 200 ||
-      state.UsersList.deleteCheckoutCustomerStatusCode == 200
+      state.UsersList.addCheckoutCustomerStatusCode === 200 ||
+      state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
@@ -864,7 +864,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                       padding: 15,
                                       boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                       zIndex: 10,
-                                      marginTop: "140px",
+                                      // marginTop: "140px",
                                       marginRight: "20px",
                                     }}
                                   >
@@ -891,6 +891,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           // color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Confirm Check-Out
@@ -951,6 +954,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#222222",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Edit
@@ -989,6 +995,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Delete

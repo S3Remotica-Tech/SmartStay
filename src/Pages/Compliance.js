@@ -29,7 +29,7 @@ import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 import Filter from '../Assets/Images/New_images/Group 13.png';
 import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
@@ -1121,7 +1121,7 @@ const handleFilterd = () => {
                     {
                     filterStatus &&
 
-                    <div className='me-3' style={{border: "1px solid #D4D4D4"}}>
+                    <div className='me-3' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "250px" : "140px"}}>
   <Form.Select 
   onChange={(e)=>handleStatusFilter(e)}
   value={statusfilter}
@@ -1179,7 +1179,7 @@ const handleFilterd = () => {
                   }
 
 
-                  {currentItems.length == 0 &&
+                  {currentItems && currentItems.length == 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
@@ -1479,8 +1479,8 @@ const handleFilterd = () => {
                               </Form.Label>
                               <Form.Control
                                 type="text"
-                                placeholder="Paying Guests"
-                                value={hostelname}
+                                placeholder="Floor"
+                                value={Floor}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}
@@ -1616,9 +1616,9 @@ const handleFilterd = () => {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                              // style={labelStyle}
+                                // style={labelStyle}
                               >
-                                Bet<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Bed<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <Form.Control
                                 type="text"

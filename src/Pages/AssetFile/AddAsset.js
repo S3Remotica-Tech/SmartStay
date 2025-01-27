@@ -456,7 +456,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       style={{
         display: "block",
         position: "initial",
-      
+
       }}
     >
       <Modal show={show} onHide={handleClose} backdrop="static"
@@ -478,7 +478,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               {currentItem ? "Edit an asset" : "Add an asset"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }}/>
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
           {isChangedError && (
@@ -653,20 +653,23 @@ function StaticExample({ show, handleClose, currentItem }) {
                     aria-label="Default select example"
                     value={vendorName}
                     onChange={handleVendorNameChange}
-                    className=""
                     id="vendor-select"
                     style={{ fontWeight: vendorName ? 600 : 500 }}
                   >
-                    <option>Select a vendor</option>
-                    {state.ComplianceList.VendorList &&
+                    <option value="">Select a vendor</option>
+                    {state.ComplianceList.VendorList && state.ComplianceList.VendorList.length > 0 ? (
                       state.ComplianceList.VendorList.map((view) => (
-                        <>
-                          <option key={view.id} value={view.id}>
-                            {view.Vendor_Name}
-                          </option>
-                        </>
-                      ))}
+                        <option key={view.id} value={view.id}>
+                          {view.Vendor_Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No vendors available
+                      </option>
+                    )}
                   </Form.Select>
+
                 </Form.Group>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1025,7 +1028,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       *{" "}
                     </span>
                   </Form.Label>
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     placeholder="Select no. of floor"
                     style={{
@@ -1050,7 +1053,45 @@ function StaticExample({ show, handleClose, currentItem }) {
                         {u.bank_name}
                       </option>
                     ))}
+                  </Form.Select> */}
+
+                  <Form.Select
+                    aria-label="Default select example"
+                    placeholder="Select no. of floor"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                    id="form-selects"
+                    className="border"
+                    value={account}
+                    onChange={(e) => handleAccount(e)}
+                    disabled={currentItem}
+                  >
+                    <option value="">Select Account</option>
+                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
+                      state.bankingDetails.bankingList.banks.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
+                      </option>
+                    )}
                   </Form.Select>
+
+
+
+
+
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px" }} />

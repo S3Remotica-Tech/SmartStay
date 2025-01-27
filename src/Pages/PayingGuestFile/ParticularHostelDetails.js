@@ -124,6 +124,7 @@ function ParticularHostelDetails(props) {
   const [roomCountData, setRoomCountData] = useState([])
 
   const [activeRoomId, setActiveRoomId] = useState(null);
+  const [loader, setLoader] = useState(false)
 
 
   const handleShowDots = (roomId) => {
@@ -132,36 +133,31 @@ function ParticularHostelDetails(props) {
   }
 
   useEffect(() => {
-
     if (props.floorID && props.hostel_Id) {
-      setTimeout(() => {
-        setLoader(true)
-      }, 100)
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
-
+             setLoader(true)
+        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
     }
   }, [props.hostel_Id, props.floorID])
+
+
 
   const getRooms = (count) => {
     return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
   }
 
 
-  const [loader, setLoader] = useState(false)
+
 
 
 
 
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setTimeout(() => {
-        setRoomCountData(state.PgList?.roomCount);
-      }, 100)
       setLoader(false)
-      setTimeout(() => {
+              setRoomCountData(state.PgList?.roomCount);
+              setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 1000);
+      }, 500);
     }
   }, [state.PgList?.roomCountStatusCode])
 
@@ -171,9 +167,9 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-      setRoomCountData([])
       setLoader(false)
-      setTimeout(() => {
+      setRoomCountData([])
+           setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
       }, 100);
     }
@@ -256,16 +252,19 @@ function ParticularHostelDetails(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+
+
   // const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
   //   ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   //   : [];
 
 
-  const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
-    ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
-    : [];
+  // const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
+  //   ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
+  //   : [];
 
-  const currentItems = sortedRoomData.slice(indexOfFirstItem, indexOfLastItem)
+  
 
 
   // console.log("currentItems", currentItems)
@@ -285,19 +284,19 @@ function ParticularHostelDetails(props) {
   // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  console.log("roomCountData Length:", roomCountData.length);
-  console.log("itemsPerPage:", itemsPerPage);
-  console.log("indexOfFirstItem:", indexOfFirstItem);
-  console.log("indexOfLastItem:", indexOfLastItem);
-  console.log("currentItems:", currentItems);
+  // console.log("roomCountData Length:", roomCountData.length);
+  // console.log("itemsPerPage:", itemsPerPage);
+  // console.log("indexOfFirstItem:", indexOfFirstItem);
+  // console.log("indexOfLastItem:", indexOfLastItem);
+  // console.log("currentItems:", currentItems);
 
 
-  useEffect(() => {
-    if (roomCountData) {
-      setLoader(false)
-    }
+  // useEffect(() => {
+  //   if (roomCountData) {
+  //     setLoader(false)
+  //   }
 
-  }, [roomCountData])
+  // }, [roomCountData])
 
 
 
@@ -568,7 +567,8 @@ function ParticularHostelDetails(props) {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Outfit, sans-serif",
-                                      color: props.editPermissionError ? "#888888" : "#222222"
+                                      color: props.editPermissionError ? "#888888" : "#222222",
+                                      cursor:"pointer"
                                     }}
                                   >
                                     Edit

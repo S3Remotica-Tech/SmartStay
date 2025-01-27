@@ -56,6 +56,14 @@ function Banking() {
   const [bankingDeletePermission, setBankingDeletePermission] = useState("")
   const [bankingEditPermission, setBankingEditPermission] = useState("")
   const [hostel_id, setHostel_Id] = useState("")
+   const [filterInput, setFilterInput] = useState("");
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filterStatus, setFilterStatus] = useState(false);
+    const [originalBills, setOriginalBills] = useState([]);
+    const [statusfilter, setStatusfilter] = useState("");
+    const [originalBillsFilter, setOriginalBillsFilter] = useState([]); 
+    const [transactionFilterddata, settransactionFilterddata] = useState([]);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
@@ -116,11 +124,12 @@ function Banking() {
     // setLoading(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
-  const [bankList,setBankList] = useState("")
+  
+  
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBankList(state.bankingDetails.bankingList.banks)
+      settransactionFilterddata(state.bankingDetails.bankingList.banks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -317,14 +326,7 @@ function Banking() {
     setAddBankAmount("");
   };
 
-  const handleSearch = () => {
-    setSearch(!search);
-    // setFilterStatus(false);
-  };
-  const handleCloseSearch = () => {
-    setSearch(false);
-    // setFilterInput("")
-  };
+
   const handleAddBankAmount = (e) => {
     setAddBankAmount(e.target.value);
   };
@@ -337,18 +339,14 @@ function Banking() {
 
 
 
-  // const transactionrowsPerPage = 5;
+ 
   const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(10);
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
-  const [transactionFilterddata, settransactionFilterddata] = useState([]);
+  
   const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
   const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
   const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
-
-  // const handleTransactionPageChange = (transactionpageNumber) => {
-  //   settransactioncurrentPage(transactionpageNumber);
-  // };
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
   };
@@ -359,63 +357,89 @@ function Banking() {
 
   const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
 
-  // const renderPageNumbersTransaction = () => {
-  //   const pageNumbersTransaction = [];
-  //   let startPageTransaction = transactioncurrentPage - 1;
-  //   let endPageTransaction = transactioncurrentPage + 1;
+ 
 
-  //   if (transactioncurrentPage === 1) {
-  //     startPageTransaction = 1;
-  //     endPageTransaction = 3;
-  //   }
+  // useEffect(() => {
+  //   settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
+  // }, [state?.bankingDetails?.bankingList?.bank_trans])
 
-  //   if (transactioncurrentPage === totalPagesTransaction) {
-  //     startPageTransaction = totalPagesTransaction - 2;
-  //     endPageTransaction = totalPagesTransaction;
-  //   }
 
-  //   if (transactioncurrentPage === 2) {
-  //     startPageTransaction = 1;
-  //     endPageTransaction = 3;
-  //   }
+ useEffect(() => {
+   
+      const FilterUser = Array.isArray(transactionFilterddata)
+        ? transactionFilterddata?.filter((item) =>
+            item.bank_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+  
+        settransactionFilterddata(FilterUser);
+    
+  
+    
+  }, [filterInput]);
+   useEffect(() => {
+      if (transactionFilterddata.length > 0 && originalBills?.length === 0) {
+        setOriginalBills(transactionFilterddata);
+      }
+    }, [transactionFilterddata]);
 
-  //   if (transactioncurrentPage === totalPagesTransaction - 1) {
-  //     startPageTransaction = totalPagesTransaction - 2;
-  //     endPageTransaction = totalPagesTransaction;
-  //   }
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("")
+    settransactionFilterddata(originalBills)
+  };
 
-  //   for (let i = startPageTransaction; i <= endPageTransaction; i++) {
-  //     if (i > 0 && i <= totalPagesTransaction) {
-  //       pageNumbersTransaction.push(
-  //         <li key={i} style={{ margin: '0 5px' }}>
-  //           <button
-  //             style={{
-  //               padding: '5px 10px',
-  //               textDecoration: 'none',
-  //               color: i === transactioncurrentPage ? '#007bff' : '#000000',
-  //               cursor: 'pointer',
-  //               borderRadius: '5px',
-  //               display: 'inline-block',
-  //               minWidth: '30px',
-  //               textAlign: 'center',
-  //               backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
-  //               border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
-  //             }}
-  //             onClick={() => handleTransactionPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
 
-  //   return pageNumbersTransaction;
-  // };
+  const handleSearch = () => {
+    setSearch(!search);
+    // setFilterStatus(false);
+  };
+  
+const handleFilterd = () => {
+  setFilterStatus(!filterStatus);
+}
 
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+  };
+  const handleUserSelect = (user) => {
+    setFilterInput(user.bank_name);
+
+    // Set filteredUsers to only the selected user's data
+    const selectedUserData = transactionFilterddata?.filter(
+      (item) => item.bank_name === user.bank_name
+    );
+    settransactionFilterddata(selectedUserData);
+
+    setDropdownVisible(false);  // Close the dropdown after selection
+  };
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
+    console.log("searchTerm", searchTerm);
+    setStatusfilter(searchTerm);
+  
+    if (searchTerm === "All") {
+      settransactionFilterddata(originalBillsFilter);  // Reset to full original data
+    } else {
+      const filteredItems = originalBillsFilter?.filter((user) => {
+        return user.type !== undefined && String(user.type) === String(searchTerm);
+      });
+  
+      settransactionFilterddata(filteredItems);
+    }
+  };
+  
+  // Store original data once when it is first loaded
   useEffect(() => {
-    settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
-  }, [state?.bankingDetails?.bankingList?.bank_trans])
+    if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
+      setOriginalBillsFilter(transactionFilterddata);  
+    }
+  }, [transactionFilterddata]);
+  
+  console.log("transactionFilterddata", transactionFilterddata);
+  
+    console.log("transactionFilterddata",transactionFilterddata)
 
   return (
 
@@ -521,8 +545,8 @@ function Banking() {
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
                             }}
-                          //   value={filterInput}
-                          //   onChange={(e) => handlefilterInput(e)}
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
                           />
                           <span className="input-group-text bg-white border-start-0">
                             <img
@@ -534,7 +558,7 @@ function Banking() {
                         </div>
                       </div>
 
-                      {/* {isDropdownVisible && filteredUsers?.length > 0 && (
+                      {isDropdownVisible && transactionFilterddata?.length > 0 && (
                       <div
                         style={{
                           border: "1px solid #d9d9d9 ",
@@ -555,10 +579,10 @@ function Banking() {
                             borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
-                              filteredUsers?.length > 1 ? "174px" : "auto",
+                            transactionFilterddata?.length > 1 ? "174px" : "auto",
                             minHeight: 100,
                             overflowY:
-                              filteredUsers?.length > 1 ? "auto" : "hidden",
+                            transactionFilterddata?.length > 1 ? "auto" : "hidden",
 
                             margin: "0",
                             listStyleType: "none",
@@ -566,8 +590,8 @@ function Banking() {
                             boxSizing: "border-box",
                           }}
                         >
-                          {filteredUsers?.map((user, index) => {
-                            const imagedrop = user.profile || Profile;
+                          {transactionFilterddata?.map((user, index) => {
+                            // const imagedrop = user.profile || Profile;
                             return (
                               <li
                                 key={index}
@@ -576,13 +600,13 @@ function Banking() {
                                   cursor: "pointer",
                                   padding: "10px 5px",
                                   borderBottom:
-                                    index !== filteredUsers.length - 1
+                                    index !== transactionFilterddata?.length - 1
                                       ? "1px solid #eee"
                                       : "none",
                                 }}
                                 onClick={() => handleUserSelect(user)}
                               >
-                                <Image
+                                {/* <Image
                                   src={imagedrop}
                                   alt={user.Name || "Default Profile"}
                                   roundedCircle
@@ -595,15 +619,15 @@ function Banking() {
                                     e.target.onerror = null;
                                     e.target.src = Profile;
                                   }}
-                                />
+                                /> */}
                                
-                                <span>{ user.Name }</span>
+                                <span>{ user.bank_name }</span>
                               </li>
                             );
                           })}
                         </ul>
                       </div>
-                    )} */}
+                    )}
                     </div>
                   </>
                 ) : (
@@ -624,10 +648,29 @@ function Banking() {
                     src={Filters}
                     roundedCircle
                     style={{ height: "50px", width: "50px" }}
-                    onClick={handleSearch}
+                    onClick={handleFilterd}
                   />
                 </div>
 
+                    {
+                    filterStatus &&
+
+                    <div className='me-5' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "180px" : "120px",marginRight:20}}>
+ <Form.Select 
+  onChange={(e) => handleStatusFilter(e)}
+  value={statusfilter}
+  aria-label="Select Price Range"
+  id="statusselect"
+  style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+>
+  <option value="All">All</option>
+  <option value="1">Credit</option>
+  <option value="2">Debit</option>
+</Form.Select>
+
+</div>
+
+                  }
 
                 <div>
                   <Button
@@ -678,8 +721,8 @@ function Banking() {
       )} */}
 
             <div className="d-flex overflow-auto" style={{ marginTop: "80px" }}>
-              {bankList && bankList?.length > 0 ? (
-                bankList?.map((item) => {
+              {transactionFilterddata && transactionFilterddata?.length > 0 ? (
+                transactionFilterddata?.map((item) => {
                   return (
                     <div
                       key={item.id}
