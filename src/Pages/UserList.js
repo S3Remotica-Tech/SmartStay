@@ -118,9 +118,9 @@ function UserList(props) {
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
 
 
-  console.log("deleteDetails",deleteDetails)
+  console.log("deleteDetails", deleteDetails)
 
-  
+
   let serialNumber = 1;
 
 
@@ -635,23 +635,23 @@ function UserList(props) {
     }
   }, [customerrolePermission]);
 
-   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
+  const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
- 
-const [walkingCustomer,setWalkingCustomer]=useState("")
-    useEffect(() => {
-      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id}});
-    }, [uniqueostel_Id])
-  
-    useEffect(() => {
-      if (state.UsersList?.getWalkInStatusCode === 200) {
-        setWalkingCustomer(state.UsersList.WalkInCustomerList)
-        // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-        }, 200);
-      }
-    }, [state.UsersList?.getWalkInStatusCode]);
+
+  const [walkingCustomer, setWalkingCustomer] = useState("")
+  useEffect(() => {
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
+  }, [uniqueostel_Id])
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
+      setWalkingCustomer(state.UsersList.WalkInCustomerList)
+      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
 
 
   useEffect(() => {
@@ -668,9 +668,9 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
- 
 
- 
+
+
   const [customerBooking, setCustomerBooking] = useState("")
 
   useEffect(() => {
@@ -688,6 +688,8 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [state.Booking.statusCodeGetBooking]);
 
+
+
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
@@ -698,18 +700,18 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
 
       setFilteredUsers(FilterUser);
 
-  }
-    
-  if (value === "2") {
-    const FilterUsertwo = Array.isArray(customerBooking)
-      ? customerBooking.filter((item) => {
+    }
+
+    if (value === "2") {
+      const FilterUsertwo = Array.isArray(customerBooking)
+        ? customerBooking.filter((item) => {
           const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
         })
-      : [];  // Return empty array if not an array
-  
-    setFilteredUsers(FilterUsertwo);
-  }
+        : [];  // Return empty array if not an array
+
+      setFilteredUsers(FilterUsertwo);
+    }
 
     if (value === "3") {
       const FilterUsertwo = checkOutCustomer?.filter((item) => {
@@ -725,13 +727,15 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
     }
   }, [
     filterInput,
-    state.UsersList.Users,state.UsersList?.UserListStatusCode,
+    state.UsersList.Users, state.UsersList?.UserListStatusCode,
     value,
     state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
      state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
     state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
- 
+
+  console.log("filteredUsers", filteredUsers);
+
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value?.length > 0);
@@ -1209,40 +1213,41 @@ const [walkingCustomer,setWalkingCustomer]=useState("")
   };
 
   const handleDeleteShow = (user) => {
-    console.log("user details",user)
+    console.log("user details", user)
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user })
   };
 
-console.log("state",state)
+  console.log("state", state)
 
-useEffect(()=>{
-  if(state.UsersList?.deleteCustomerSuccessStatusCode == 200){
+  useEffect(() => {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode == 200) {
 
-    setDeleteShow(false);
-    dispatch({type: "USERLIST",payload: { hostel_id: uniqueostel_Id }});
+      setDeleteShow(false);
+      dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
-    setDeleteDetails({ room: null, bed: null , user: null })
+      setDeleteDetails({ room: null, bed: null, user: null })
 
-    setTimeout(()=>{
-dispatch({ type: 'REMOVE_DELETE_CUSTOMER'})
-    },100)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_CUSTOMER' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.deleteCustomerSuccessStatusCode])
+
+
+
+
+
+
+  const handleDeleteCustomer = () => {
+    if (deleteDetails?.user.ID) {
+      dispatch({
+        type: 'DELETECUSTOMER',
+        payload: { id: deleteDetails?.user.ID }
+      })
+    }
   }
-
-},[state.UsersList?.deleteCustomerSuccessStatusCode])
-
-
-
-
-
-
-const handleDeleteCustomer = () =>{
-     if(deleteDetails?.user.ID){
-      dispatch({ type :'DELETECUSTOMER', 
-         payload:{ id:deleteDetails?.user.ID}
-            })
-     }
-}
 
 
 
@@ -1810,7 +1815,7 @@ const handleDeleteCustomer = () =>{
                   fontFamily: "Gilroy",
                   marginLeft: 11,
                   marginRight: 20,
-marginTop:-2
+                  marginTop: -2
                 }}
               >
                 Customers
@@ -1825,7 +1830,7 @@ marginTop:-2
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "-10px",
+                      marginTop: "-15px",
                     }}
                   >
                     <div
@@ -1978,7 +1983,7 @@ marginTop:-2
                     <Image
                       src={searchteam}
 
-                      style={{ height: "28px", width: "28px", cursor: "pointer" }}
+                      style={{ height: "24px", width: "24px", cursor: "pointer" }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -2049,7 +2054,7 @@ marginTop:-2
                     //   fontFamily: "Gilroy",
                     // }}
                     style={{
-                      marginTop:3,
+                      marginTop: 3,
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
@@ -2334,7 +2339,7 @@ marginTop:-2
                     </div>
                   </>
                 ) : (
-                  <div style={{ marginLeft: "6px" }}>
+                  <div className="p-10">
                     <div>
 
                       {
@@ -2376,7 +2381,7 @@ marginTop:-2
 
                       {currentItems && currentItems.length > 0 && (
                         <div
-                          className="z-0"
+                          // className="z-0"
                           style={{
                             // height: "400px",
                             // position: "relative",
@@ -3487,7 +3492,7 @@ marginTop:-2
             Delete Customer ?
           </Modal.Title>
         </Modal.Header>
-               <Modal.Body
+        <Modal.Body
           style={{
             fontSize: 14,
             fontWeight: 500,
@@ -3542,7 +3547,7 @@ marginTop:-2
             Delete
           </Button>
         </Modal.Footer>
-      
+
 
       </Modal>
 
