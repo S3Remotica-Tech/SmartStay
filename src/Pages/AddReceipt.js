@@ -523,58 +523,82 @@ const AddReceiptForm = (props) => {
     </div>
 
    
-    <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
     <Form.Label
       style={{
-        fontFamily: 'Gilroy',
+        fontFamily: "Gilroy",
         fontSize: 14,
         fontWeight: 500,
         color: "#222",
-        fontStyle: 'normal',
-        lineHeight: 'normal',
+        fontStyle: "normal",
+        lineHeight: "normal",
       }}
     >
       Invoice Number
     </Form.Label>
-    <Form.Select
-  aria-label="Default select example"
-  value={invoicenumber}
-  onChange={handleInvoiceNumber} 
-  disabled={edit}
-  className="border"
-  style={{
-    fontSize: 16,
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    lineHeight: "18.83px",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-    height: 38,
-    borderRadius: 8,
-    backgroundColor:edit? "#E7F1FF": "white"
-  }}
->
-  <option value="">Select Invoice number</option>
-  {customerinvoicefilter && !edit &&
-    customerinvoicefilter.map((u) => (
-      <option key={u.id} value={u.Invoices}>
-        {u.Invoices}
-      </option>
-    ))}
-</Form.Select>
 
+    {edit ? (
+      <Form.Control
+        type="text"
+        value={invoicenumber}
+        readOnly
+        className="border"
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          lineHeight: "18.83px",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 38,
+          borderRadius: 8,
+          backgroundColor: "#E7F1FF",
+        }}
+      />
+    ) : (
+      <Form.Select
+        aria-label="Default select example"
+        value={invoicenumber}
+        onChange={handleInvoiceNumber}
+        className="border"
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          lineHeight: "18.83px",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 38,
+          borderRadius: 8,
+          backgroundColor: "white",
+        }}
+      >
+        <option value="">Select Invoice number</option>
+        {customerinvoicefilter &&
+          customerinvoicefilter.map((u) => (
+            <option key={u.id} value={u.Invoices}>
+              {u.Invoices}
+            </option>
+          ))}
+      </Form.Select>
+    )}
 
     {invoicenumbererrmsg.trim() !== "" && (
       <div>
-        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-          {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
+        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+          {invoicenumbererrmsg !== " " && (
+            <MdError style={{ fontSize: "15px", color: "red" }} />
+          )}{" "}
+          {invoicenumbererrmsg}
         </p>
       </div>
     )}
   </Form.Group>
 </div>
+
 
 
     </div>
