@@ -276,7 +276,7 @@ function Booking(props) {
     if (selectedDates.length > 0) {
       const localDate = new Date(
         selectedDates[0].getTime() -
-          selectedDates[0].getTimezoneOffset() * 60000
+        selectedDates[0].getTimezoneOffset() * 60000
       )
         .toISOString()
         .split("T")[0];
@@ -507,7 +507,7 @@ function Booking(props) {
     const isChangedBed =
       (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
         ? new Date(joiningDate).toISOString().split("T")[0] !==
-          new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
+        new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
         : joiningDate !== initialStateAssign.joiningDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
@@ -547,9 +547,9 @@ function Booking(props) {
         profile: file,
         id: id,
       },
-     
+
     });
-   
+
 
     // Reset form state
     setFormEdit(false);
@@ -1080,9 +1080,9 @@ function Booking(props) {
                                   }}
                                   className="ms-2 customer-name"
                                 >
-               {customer.first_name} {customer.last_name ? customer.last_name : ""}
+                                  {customer.first_name} {customer.last_name ? customer.last_name : ""}
                                   {/* {`${customer.first_name || ""} ${customer.last_name || ""}`.trim() || ""} */}
-                                  
+
                                 </span>
                               </div>
                             </td>
@@ -1327,6 +1327,7 @@ function Booking(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           color: "#222222",
+                                          cursor: "pointer"
                                         }}
                                       >
                                         Check In
@@ -1369,6 +1370,7 @@ function Booking(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           color: "#222222",
+                                          cursor: "pointer"
                                         }}
                                       >
                                         Edit
@@ -1410,6 +1412,7 @@ function Booking(props) {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           color: "#FF0000",
+                                          cursor: "pointer"
                                         }}
                                       >
                                         Delete
@@ -1426,7 +1429,7 @@ function Booking(props) {
                   </Table>
                 </div>
 
-                {currentItems?.length > 0 && (
+                {props.filteredUsers?.length > itemsPerPage && (
                   //  <nav
                   //                       style={{
                   //                         display: "flex",
@@ -1724,8 +1727,8 @@ function Booking(props) {
                   file && (file === "0" || file === 0) // Check if file is "0" or number 0
                     ? Profile2
                     : file instanceof File || file instanceof Blob
-                    ? URL.createObjectURL(file)
-                    : file || Profile2 // Fallback to file or Profile2
+                      ? URL.createObjectURL(file)
+                      : file || Profile2 // Fallback to file or Profile2
                 }
                 roundedCircle
                 style={{ height: 100, width: 100 }}

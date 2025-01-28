@@ -218,19 +218,17 @@ function SettingCompliance({ hostelid }) {
 
 
             <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "white" }}>
-                <div className="d-flex row mb-4 " style={{ marginTop: 30 }}>
+                <div className="d-flex row mb-4 " >
+                    <div style={{marginTop:28}}>
                     <Col>
                         <h4 style={{ fontSize: 20, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
                             Complaint Type </h4>
-                    </Col>
-
+                    </Col></div>
+<div style={{marginTop:-27}}>
                     <Col>
                         <div className="d-flex justify-content-end">
                             <Button
-                                //  style={{
-                                //     backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
-                                //     fontSize: 14, fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px"
-                                // }}
+                            
                                 style={{
                                     fontFamily: "Gilroy",
                                     fontSize: "14px",
@@ -249,7 +247,7 @@ function SettingCompliance({ hostelid }) {
                                 + Complaint Type
                             </Button>
                         </div>
-                    </Col>
+                    </Col></div>
                 </div>
             </div>
 
@@ -339,7 +337,7 @@ function SettingCompliance({ hostelid }) {
                                                                 onClick={() => handleEdit(u)}
                                                             >
                                                                 <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" ,cursor:"pointer"}}>
                                                                     Edit
                                                                 </label>
                                                             </div>

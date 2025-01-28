@@ -18,7 +18,7 @@ import "./PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "./AddRoom";
 import { IoIosArrowDropleft } from "react-icons/io";
-import { ArrowLeft } from "iconsax-react";
+import { ArrowLeft, Pointer } from "iconsax-react";
 import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
 import Notify from "../../Assets/Images/New_images/notify.png";
@@ -678,6 +678,7 @@ function PgList(props) {
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
     setFloorName(floorName);
+    // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorNumber, hostel_Id: showHostelDetails.id } })
   };
 
 
@@ -771,8 +772,8 @@ function PgList(props) {
         <div className="container">
           {hidePgList && (
             <>
-              <div
-                className="container justify-content-between d-flex align-items-center flex-wrap"
+              <div 
+                className="container justify-content-between d-flex align-items-center flex-wrap "
                 style={{
                   height: 83,
                   position: "sticky",
@@ -785,7 +786,7 @@ function PgList(props) {
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div>
+                <div style={{marginTop:-5}}>
                   <label
                     style={{
                       fontSize: 18,
@@ -1182,7 +1183,7 @@ function PgList(props) {
                 </div>
               </div>
 
-              <div style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div  style={{ maxHeight: "500px", overflowY: "auto" }}>
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1269,8 +1270,11 @@ function PgList(props) {
                                       >
                                         {/* {floor.floor_id == 1 ? 'G' : floor.floor_id - 1} */}
                                         {floor.floor_name
-                                          ? floor.floor_name.charAt(0)
-                                          : floor.floor.id}
+                                          ? isNaN(floor.floor_name)
+                                            ? floor.floor_name.charAt(0) 
+                                            : floor.floor_name            
+                                          : floor.floor.id                
+                                        }
                                       </div>
                                       <div
                                         className={
@@ -1351,6 +1355,7 @@ function PgList(props) {
                                     : "#000000"
                                 }
                                 variant="Bold"
+                               style={{cursor:"pointer"}}
                               />
                             </div>
                           </div>

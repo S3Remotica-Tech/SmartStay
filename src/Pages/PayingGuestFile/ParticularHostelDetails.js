@@ -28,41 +28,41 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { Edit, Trash } from 'iconsax-react';
 
-function getFormattedRoomId(floor_Id, room_Id) {
-  const roomIdString = String(room_Id);
-  switch (floor_Id) {
-    case 1:
-      return `G${roomIdString}`;
-    case 2:
-      return `F${roomIdString}`;
-    case 3:
-      return `S${roomIdString}`;
-    case 4:
-      return `T${roomIdString}`;
-    default:
-      const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-      return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
-  }
-}
+// function getFormattedRoomId(floor_Id, room_Id) {
+//   const roomIdString = String(room_Id);
+//   switch (floor_Id) {
+//     case 1:
+//       return `G${roomIdString}`;
+//     case 2:
+//       return `F${roomIdString}`;
+//     case 3:
+//       return `S${roomIdString}`;
+//     case 4:
+//       return `T${roomIdString}`;
+//     default:
+//       const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
+//       return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+//   }
+// }
 
-function getFloorAbbreviation(floor_Id) {
+// function getFloorAbbreviation(floor_Id) {
 
-  switch (floor_Id) {
-    case 5:
-      return 'F';
-    case 6:
-      return 'S';
-    case 8:
-      return 'E';
-    case 9:
-      return 'N';
-    case 10:
-      return 'T';
+//   switch (floor_Id) {
+//     case 5:
+//       return 'F';
+//     case 6:
+//       return 'S';
+//     case 8:
+//       return 'E';
+//     case 9:
+//       return 'N';
+//     case 10:
+//       return 'T';
 
-    default:
-      return `${floor_Id}`;
-  }
-}
+//     default:
+//       return `${floor_Id}`;
+//   }
+// }
 
 
 function ParticularHostelDetails(props) {
@@ -124,6 +124,7 @@ function ParticularHostelDetails(props) {
   const [roomCountData, setRoomCountData] = useState([])
 
   const [activeRoomId, setActiveRoomId] = useState(null);
+  const [loader, setLoader] = useState(false)
 
 
   const handleShowDots = (roomId) => {
@@ -132,48 +133,45 @@ function ParticularHostelDetails(props) {
   }
 
   useEffect(() => {
-
     if (props.floorID && props.hostel_Id) {
-      setTimeout(() => {
-        setLoader(true)
-      }, 100)
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
-
+             setLoader(true)
+        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    }else{
+      setLoader(false)
     }
   }, [props.hostel_Id, props.floorID])
+
+console.log("hostel-hostel, floor",props.hostel_Id, props.floorID)
 
   const getRooms = (count) => {
     return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
   }
 
 
-  const [loader, setLoader] = useState(false)
+
 
 
 
 
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setTimeout(() => {
-        setRoomCountData(state.PgList?.roomCount);
-      }, 100)
       setLoader(false)
-      setTimeout(() => {
+              setRoomCountData(state.PgList?.roomCount);
+              setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 1000);
+      }, 500);
     }
   }, [state.PgList?.roomCountStatusCode])
 
-
+console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode,"state.PgList?.noRoomsInFloorStatusCode",state.PgList?.noRoomsInFloorStatusCode )
   console.log("loader", loader)
 
 
   useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-      setRoomCountData([])
+    if (state.PgList?.noRoomsInFloorStatusCode == 201) {
       setLoader(false)
-      setTimeout(() => {
+      setRoomCountData([])
+           setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
       }, 100);
     }
@@ -206,7 +204,7 @@ function ParticularHostelDetails(props) {
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-      }, 4000)
+      }, 100)
     }
   }, [state.PgList.statusCodeCreateRoom])
 
@@ -256,16 +254,19 @@ function ParticularHostelDetails(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+
+
   // const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
   //   ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   //   : [];
 
 
-  const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
-    ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
-    : [];
+  // const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
+  //   ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
+  //   : [];
 
-  const currentItems = sortedRoomData.slice(indexOfFirstItem, indexOfLastItem)
+  
 
 
   // console.log("currentItems", currentItems)
@@ -285,19 +286,19 @@ function ParticularHostelDetails(props) {
   // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  console.log("roomCountData Length:", roomCountData.length);
-  console.log("itemsPerPage:", itemsPerPage);
-  console.log("indexOfFirstItem:", indexOfFirstItem);
-  console.log("indexOfLastItem:", indexOfLastItem);
-  console.log("currentItems:", currentItems);
+  // console.log("roomCountData Length:", roomCountData.length);
+  // console.log("itemsPerPage:", itemsPerPage);
+  // console.log("indexOfFirstItem:", indexOfFirstItem);
+  // console.log("indexOfLastItem:", indexOfLastItem);
+  // console.log("currentItems:", currentItems);
 
 
-  useEffect(() => {
-    if (roomCountData) {
-      setLoader(false)
-    }
+  // useEffect(() => {
+  //   if (roomCountData) {
+  //     setLoader(false)
+  //   }
 
-  }, [roomCountData])
+  // }, [roomCountData])
 
 
 
@@ -568,7 +569,8 @@ function ParticularHostelDetails(props) {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Outfit, sans-serif",
-                                      color: props.editPermissionError ? "#888888" : "#222222"
+                                      color: props.editPermissionError ? "#888888" : "#222222",
+                                      cursor:"pointer"
                                     }}
                                   >
                                     Edit

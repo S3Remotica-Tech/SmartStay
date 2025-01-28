@@ -484,7 +484,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   height: 83,
                 }}
               >
-                <div>
+                <div style={{marginTop:-5}}>
                   <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     Assets</label>
                 </div>
@@ -520,7 +520,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                           value={searchQuery}
                           onChange={handleInputChange}
 
-                          style={{marginTop:-5,
+                          style={{
                             width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                             //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}
@@ -636,7 +636,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                 width: "auto",
                 maxWidth: "100%",
                 marginBottom: "10px",
-                maxHeight: 45,marginTop:5
+                maxHeight: 45,marginTop:8
     
               }}
                  >

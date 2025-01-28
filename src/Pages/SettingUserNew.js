@@ -34,6 +34,7 @@ function SettingNewUser({ hostelid }) {
     const [isConfirmDelete, setIsConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(true)
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+    const [edit,setEdit] =useState(false)
 
 
     // Function Declare//////////////////////////////////////////////////////////
@@ -73,6 +74,7 @@ const popupLeft = left - 200;
             return;
         }
         setAddUserForm(true);
+        setEdit(false)
         console.log("Opening Add User Form...");
     };
 
@@ -84,6 +86,7 @@ const popupLeft = left - 200;
     const handleEditForm = (item) => {
         setAddUserForm(true)
         setEditDetails(item)
+        setEdit(true)
     }
 
     const handleDeleteForm = (item) => {
@@ -152,15 +155,7 @@ const popupLeft = left - 200;
     }, [state.Settings?.StatusForaddSettingStaffList])
 
 
-    useEffect(() => {
-        if (state.Settings.StatusForaddSettingUser === 200) {
-            setAddUserForm(false)
-            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_ADD_STAFF_USER" });
-            }, 200);
-        }
-    }, [state.Settings.StatusForaddSettingUser])
+    
 
     return (
 
@@ -261,16 +256,17 @@ const popupLeft = left - 200;
             <div className="container mt-4">
                 {usersFilterddata?.length > 0 ? (
 
-
+<div style={{ maxHeight: "400px", overflowY: "auto" }}> 
                     <Table
                         responsive="md"
                         className='Table_Design'
                         style={{
                             height: "auto",
-                            tableLayout: "auto",
+                            // tableLayout: "auto",
                             overflow: "visible",
                             borderRadius: "24px",
-                            border: "1px solid #DCDCDC"
+                            border: "1px solid #DCDCDC",
+                            tableLayout: "fixed",
                         }}
                     >
                         <thead style={{
@@ -349,7 +345,8 @@ const popupLeft = left - 200;
                                                     border: "none",
                                                     // display: "flex",
                                                     padding: "10px",
-                                                    paddingLeft: "20px"
+                                                    paddingLeft: "20px",
+                                                    paddingTop:18
                                                 }}
                                             >
                                                 {/* <Image
@@ -437,6 +434,7 @@ const popupLeft = left - 200;
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
                                                         position: "relative",
+                                                        cursor: "pointer",
                                                         // backgroundColor: showDots  ? "#E7F1FF" : "white",
                                                         backgroundColor: showDots === index ?"#E7F1FF" : "white",
                                                       
@@ -446,7 +444,9 @@ const popupLeft = left - 200;
                                                     onClick={(e) => handleDotsClick(index,e)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
-                                                        style={{ height: "20px", width: "20px" }}
+                                                        style={{ height: "20px", width: "20px",
+                                                            cursor: "pointer",
+                                                         }}
                                                     />
 
                                                     {showDots === index && (
@@ -521,7 +521,7 @@ const popupLeft = left - 200;
                             }
 
                         </tbody>
-                    </Table>
+                    </Table></div>
 
                 ) : !loading && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
@@ -604,7 +604,7 @@ const popupLeft = left - 200;
 
 
 
-            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} />}
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
 
 
 

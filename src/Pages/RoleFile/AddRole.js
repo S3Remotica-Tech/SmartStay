@@ -308,7 +308,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role ' : 'Create Role' }</Modal.Title>
 
-                        <CloseCircle size="24" color="#000" onClick={handleClose} />
+                        <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
 
                     </Modal.Header>
 
