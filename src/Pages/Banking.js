@@ -516,7 +516,7 @@ function Banking() {
                             position: "relative",
                             width: "100%",
                             marginRight: 20,
-                            marginTop: "-10px",
+                            marginTop: "-8px",
                           }}
                         >
                           <div
