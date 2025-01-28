@@ -3694,6 +3694,7 @@ const handleCloseDeleteHostel = () => {
                   customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
+                  filterInput ={filterInput}
                 />
               </TabPanel>
               <TabPanel value="3">
