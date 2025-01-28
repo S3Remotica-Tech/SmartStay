@@ -2286,19 +2286,19 @@ const InvoicePage = () => {
     setRecurringBills(originalRecuiring)
   };
 
-  // Function to handle user selection
+ 
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
-    setBills([user]); // Temporarily set selected user
+    setBills([user]); 
     setDropdownVisible(false);
   };
 
-  // Function to close the search and restore all data
+  
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
     setBills(originalBills);
-    setRecurringBills(originalRecuiring)  // Restore the original data
+    setRecurringBills(originalRecuiring)  
   };
 
   // Set initial data when component mounts
