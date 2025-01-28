@@ -48,11 +48,7 @@ const InvoiceTable = (props) => {
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-
   }
-
 
   const handleShowform = (props) => {
     props.OnHandleshowform(props)
@@ -137,7 +133,7 @@ const InvoiceTable = (props) => {
                             </span></div> */}
             <div className="Invoice_Name" style={{
               fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start"
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"
             }}
               onClick={() => handleDownload(props.item)}
 
@@ -146,7 +142,7 @@ const InvoiceTable = (props) => {
           </div>
         </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",textTransform:"capitalize"  }} className=''>{props.item.action === 'auto' ? "Recurring"  : props.item.action }</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize" }} className=''>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
@@ -182,12 +178,6 @@ const InvoiceTable = (props) => {
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: props.item.BalanceDue === 0 ? "green" : "red", fontFamily: "Gilroy" }}>
           {props.item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
             style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}</td>
-
-
-
-
-
-
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{
@@ -326,35 +316,14 @@ const InvoiceTable = (props) => {
                         Delete
                       </label>
                     </div>
-
-
-
-
                   </div>
                 </div>
-
-
               </>}
-
-
             </div>
           </div>
         </td>
-
-
-
-
-
-
-
       </tr>
-
-
-
-
     </>
-
-
   )
 }
 export default InvoiceTable;
