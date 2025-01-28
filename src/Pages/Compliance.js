@@ -95,6 +95,7 @@ const Compliance = () => {
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
+  const [room_name, setRoomName] = useState('')
   const [beds, setBeds] = useState('');
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
@@ -531,6 +532,8 @@ const handleFilterd = () => {
       }
       )
       if (filteredDetails.length > 0) {
+        console.log('filteredDetails',filteredDetails );
+        
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         // setName(firstFilteredDetail.Name || '');
@@ -541,6 +544,7 @@ const handleFilterd = () => {
         setBeds(firstFilteredDetail.Bed || '');
         setRooms(firstFilteredDetail.room_id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
+        setRoomName(firstFilteredDetail.Rooms || '')
 
       } else {
         setFilteredUserDetails([]);
@@ -718,7 +722,7 @@ const handleFilterd = () => {
   const [editdata, setEditData] = useState('')
   const [editcomplainttype, setEditcomplainttype] = useState('')
   const [floor_name, setFloorName] = useState('')
-  const [room_name, setRoomName] = useState('')
+  // const [room_name, setRoomName] = useState('')
 
 
   const handleEditcomplaint = (Complaintdata) => {
@@ -1519,7 +1523,7 @@ const handleFilterd = () => {
                               <Form.Control
                                 type="text"
                                 placeholder="Rooms"
-                                value={Rooms}
+                                value={room_name}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}

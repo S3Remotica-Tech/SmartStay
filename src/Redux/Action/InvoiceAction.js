@@ -96,6 +96,13 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  
+  export async function EditReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/edit', receipt, { // Edit Receipt
+      data: receipt
+    })
+  }
+
   export async function DeleteReceipt(receipt) {
     return await AxiosConfig.post('/receipts/delete',receipt, { // Delete receipt 
       data:receipt

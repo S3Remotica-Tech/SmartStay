@@ -33,9 +33,6 @@ const AddReceiptForm = (props) => {
 
       const state = useSelector(state => state)
       const dispatch = useDispatch()
-
-   
-      const [selectedHostel, setSelectedHostel] = useState('');
      
       const [customerinvoicefilter , setCustomerInvoiceFilter] = useState([])
 
@@ -61,33 +58,47 @@ const AddReceiptForm = (props) => {
       const [bank_errmsg , setBank_Errmsg] = useState('')
       const [allfielderrmsg , setAllFieldErrmsg] = useState('')
 
-//
 
-      const [ebamount, setEBAmount] = useState('')
-      const [rentamount , setRentAmount] = useState('')
-      const [advanceAmount,setAdvanceAmount] = useState('')
-      const [amenityDetail , setAmenityDetails] = useState([])
-      const [totalAmount , setTotalAmount] = useState('')
-      const [recurringbills , setRecurringBills] = useState([])
-      const [newRows, setNewRows] = useState([]);
-      const [dataFetched, setDataFetched] = useState(false);
-      const [amenityArray,setamenityArray] = useState([])
-      const [allFieldErrmsg] = useState('');
-      let serialNumber = 1;
-    
-    
-      const startRef = useRef(null);
-      const endRef = useRef(null);
       const receiptRef = useRef(null);
-      const dueRef = useRef(null);
+      
+      const [edit_Id , setEdit_Id] = useState(null)
+      const [edit, setEdit] = useState(false)
     
     
+     useEffect(() => {
+        if (props.editvalue && props.receiptedit) {
+          setEdit(true)
+          console.log("receiptedit",props.editvalue);
+          setEdit_Id(props.editvalue.hos_user_id)
+          setCustomerName(props.editvalue.hos_user_id);
+          setInvoiceNumber(props.editvalue.invoice_number || '');
     
+          if (props.editvalue.payment_date) {
+            const parsedDate = new Date(props.editvalue.payment_date); 
+            if (!isNaN(parsedDate.getTime())) {
+              setPaymentDate(parsedDate); 
+              const formattedDate = formatDateForReceipt(parsedDate);
+          setFormatPaymentDate(formattedDate)
+            } else {
+              console.error("Invalid Date:", props.editvalue.payment_date);
+            }
+          }
+
+          
     
+          setReferenceId(props.editvalue.reference_id || '');
+          setDueAmount(props.editvalue.BalanceDue || '');
+          setReceivedAmount(props.editvalue.amount_received || '')
+          setBank_Id(props.editvalue.bank_id || '') ;
+          setPaymentMode(props.editvalue.payment_mode || '') 
+          setNotes(props.editvalue.notes? props.editvalue.notes : '');
+        }
+      }, [props.editvalue , props.receiptedit]);
    
     
     
-   
+     
+     
     
     
       const handleCustomerName = (e) => {
@@ -108,7 +119,7 @@ const AddReceiptForm = (props) => {
 
       
         console.log("customerfilter", state?.InvoiceList?.ManualInvoices);
-        console.log("customerfilter", Value);
+        console.log("customerfilter", CustomerinvoicedetailsFilter);
       
         if (!Value) {
           setCustomerErrmsg("Please Select Name");
@@ -116,28 +127,35 @@ const AddReceiptForm = (props) => {
           setCustomerErrmsg("");
         }
       };
+
+   
+      
       
 
       const [dropdownClicked, setDropdownClicked] = useState(false);
 
       const handleInvoiceNumber = (e) => {
-        setInvoiceNumber(e.target.value)
-        setDropdownClicked(true)
-        setAllFieldErrmsg('')
-
-        const DueAmountFilter = customerinvoicefilter && customerinvoicefilter.filter((u)=> u.Invoices == e.target.value)
-        setDueAmount(DueAmountFilter[0]?.BalanceDue)
-        if(!e.target.value){
-          setInvoicenumberErrmsg("Please Enter Invoice")
+        const selectedValue = e.target.value;
+      
+        setInvoiceNumber(selectedValue);
+        setDropdownClicked(true);
+        setAllFieldErrmsg("");
+      
+        const DueAmountFilter =
+          customerinvoicefilter &&
+          !edit &&
+          customerinvoicefilter.filter((u) => u.Invoices == selectedValue);
+      
+        setDueAmount(DueAmountFilter[0]?.BalanceDue);
+      
+        // Handle validation
+        if (!selectedValue) {
+          setInvoicenumberErrmsg("Please Enter Invoice");
+        } else {
+          setInvoicenumberErrmsg("");
         }
-        else if (customerinvoicefilter.length === 0){
-            setInvoicenumberErrmsg("Create a bill in bills page")
-        }
-        else{
-            setInvoicenumberErrmsg('')
-        }
-    
-      }
+      };
+      
 
       const handleReceivedAmount = (e) => {
         setReceivedAmount(e.target.value)
@@ -188,6 +206,14 @@ const AddReceiptForm = (props) => {
 
       const handleBackBill = () => {
         props.onhandleback()
+        setCustomerName('');
+        setInvoiceNumber('');
+        setReferenceId('')
+        setPaymentDate('')
+        setReceivedAmount('')     
+        setPaymentMode('')
+        setBank_Id('')
+        setNotes('')
    }
  
    const formatDateForReceipt = (date) => {
@@ -266,7 +292,7 @@ const AddReceiptForm = (props) => {
            return;
           }
          
-          if(customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
+          if( !edit && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
            dispatch({
              type: 'ADD_RECEIPT',
              payload: { user_id: customername, payment_date: formatpaymentdate , reference_id: reference_id ,
@@ -284,6 +310,26 @@ const AddReceiptForm = (props) => {
              setPaymentMode('')
              setBank_Id('')
              setNotes('')
+          }
+
+          else if(edit && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
+            dispatch({
+              type: 'EDIT_RECEIPTS',
+              payload: {id:props.editvalue.id, user_id: customername, payment_date: formatpaymentdate ,
+  amount : received_amount , invoice_number: invoicenumber, payment_mode: payment_mode ,notes : notes 
+            
+              }
+              });
+ 
+              props.onhandleback()
+              setCustomerName('');
+              setInvoiceNumber('');
+              setReferenceId('')
+              setPaymentDate('')
+              setReceivedAmount('')     
+              setPaymentMode('')
+              setBank_Id('')
+              setNotes('')
           }
 
      
@@ -380,7 +426,6 @@ const AddReceiptForm = (props) => {
 
         
     
-    
   
 
     
@@ -416,6 +461,7 @@ const AddReceiptForm = (props) => {
     aria-label="Default select example" 
     value={customername} 
     onChange={handleCustomerName} 
+    disabled={edit}
     className='border' 
     style={{ 
       fontSize: 16, 
@@ -426,7 +472,8 @@ const AddReceiptForm = (props) => {
       boxShadow: "none", 
       border: "1px solid #D9D9D9", 
       height: 38, 
-      borderRadius: 8 
+      borderRadius: 8 ,
+      backgroundColor:edit? "#E7F1FF": "white"
     }}>
       <option value=''>Select Customer</option>
       {state?.UsersList?.Users && state?.UsersList?.Users.length > 0 && state?.UsersList?.Users.filter(u => 
@@ -478,38 +525,47 @@ const AddReceiptForm = (props) => {
    
     <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-    <Form.Label 
-      style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} 
+    <Form.Label
+      style={{
+        fontFamily: 'Gilroy',
+        fontSize: 14,
+        fontWeight: 500,
+        color: "#222",
+        fontStyle: 'normal',
+        lineHeight: 'normal',
+      }}
     >
       Invoice Number
     </Form.Label>
-    <Form.Select 
-      aria-label="Default select example" 
-      value={invoicenumber} 
-      onChange={handleInvoiceNumber} 
-      onClick={() => setDropdownClicked(true)} 
-      className='border' 
-      style={{ 
-        fontSize: 16, 
-        color: "#4B4B4B", 
-        fontFamily: "Gilroy", 
-        lineHeight: '18.83px', 
-        fontWeight: 500, 
-        boxShadow: "none", 
-        border: "1px solid #D9D9D9", 
-        height: 38, 
-        borderRadius: 8 
-      }}
-    >
-      <option value=''>Select Invoice number</option>
-      {customerinvoicefilter && customerinvoicefilter.length > 0 
-        && customerinvoicefilter.map(u => (
-          <option value={u.Invoices} key={u.id}>{u.Invoices}</option>
-        ))
-      }
-    </Form.Select>
+    <Form.Select
+  aria-label="Default select example"
+  value={invoicenumber}
+  onChange={handleInvoiceNumber} 
+  disabled={edit}
+  className="border"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    lineHeight: "18.83px",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 38,
+    borderRadius: 8,
+    backgroundColor:edit? "#E7F1FF": "white"
+  }}
+>
+  <option value="">Select Invoice number</option>
+  {customerinvoicefilter && !edit &&
+    customerinvoicefilter.map((u) => (
+      <option key={u.id} value={u.Invoices}>
+        {u.Invoices}
+      </option>
+    ))}
+</Form.Select>
 
-   
+
     {invoicenumbererrmsg.trim() !== "" && (
       <div>
         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
@@ -517,16 +573,9 @@ const AddReceiptForm = (props) => {
         </p>
       </div>
     )}
-
-    {/* {dropdownClicked && customerinvoicefilter.length === 0 && (
-      <div>
-        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-          <MdError style={{ fontSize: '15px', color: 'red' }} /> Create a bill in bills page
-        </p>
-      </div>
-    )} */}
   </Form.Group>
 </div>
+
 
     </div>
 

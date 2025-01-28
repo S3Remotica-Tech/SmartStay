@@ -46,6 +46,7 @@ const initialState = {
     ReceiptList:[],
     ReceiptlistgetStatuscode:0,
     ReceiptAddsuccessStatuscode:0,
+    ReceiptEditsuccessStatuscode:0,
     ReceiptDeletesuccessStatuscode:0,
     Reference_Id:'',
     ReferenceIdgetsuccessStatuscode:0,
@@ -194,6 +195,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } //Receipt Add
         case 'REMOVE_STATUS_CODE_RECEIPTS_ADD':
             return { ...state, ReceiptAddsuccessStatuscode: 0 }
+
+        case 'RECEIPTS_EDIT':
+            return { ...state, ReceiptEditsuccessStatuscode: action.payload.statusCode } //Receipt edit
+        case 'REMOVE_STATUS_CODE_RECEIPTS_EDIT':
+            return { ...state, ReceiptEditsuccessStatuscode: 0 }
 
         case 'DELETERECEIPT':
             return { ...state, ReceiptDeletesuccessStatuscode: action.payload.statusCode }

@@ -188,7 +188,6 @@ const InvoicePage = () => {
   const [recurringPermission, setRecurringPermission] = useState("");
   const [receiptPermission, setReceiptPermission] = useState("");
   const [receiptaddPermission, setReceiptAddPermission] = useState("");
-  const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState("");
@@ -705,6 +704,16 @@ const InvoicePage = () => {
     setShowModal(!showModal);
   };
 
+  const [editvalue, setEditvalue] = useState('')
+  const [receiptedit, setReceiptEdit] = useState(false)
+
+  const handleEditReceipt = (item) => {
+    setShowAllBill(false);
+    setReceiptFormShow(true)
+    setEditvalue(item)
+    setReceiptEdit(true)
+  }
+
   const handleEdit = (props) => {
     setShowManualInvoice(true);
     setShowAllBill(false);
@@ -1156,6 +1165,8 @@ const InvoicePage = () => {
     setShowRecurringBillForm(false);
     setReceiptFormShow(false)
     setShowAllBill(true);
+    setEditvalue('')
+    setReceiptEdit(false)
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1723,16 +1734,16 @@ const InvoicePage = () => {
   }, [billrolePermission]);
 
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
-    ) {
-      setReceiptDeletePermission("");
-    } else {
-      setReceiptDeletePermission("Permission Denied");
-    }
-  }, [billrolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     billrolePermission[0]?.is_owner == 1 ||
+  //     billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+  //   ) {
+  //     setReceiptDeletePermission("");
+  //   } else {
+  //     setReceiptDeletePermission("Permission Denied");
+  //   }
+  // }, [billrolePermission]);
 
   useEffect(() => {
     if(hostelId){
@@ -4543,7 +4554,7 @@ console.log("Name",bills)
                 </>
               ) : (
                 <>
-                  {currentReceiptData && currentReceiptData.length === 0  && (
+                  {/* {currentReceiptData && currentReceiptData.length === 0  && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4717,11 +4728,9 @@ console.log("Name",bills)
                                 <Receipt
                                   key={item.id}
                                   item={item}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
+                                 
+                                  receiptaddPermission={
+                                    receiptaddPermission
                                   }
                                   billrolePermission={billrolePermission}
                                   OnHandleshowform={handleShowForm}
@@ -4859,10 +4868,496 @@ console.log("Name",bills)
                         </li>
                       </ul>
                     </nav>
+                  )} */}
+
+
+<Container fluid className="p-0">
+                      <Row
+                        className={` ${
+                          DownloadInvoice
+                            ? "m-0 g-2 d-flex justify-content-between"
+                            : "m-0 g-0"
+                        }`}
+                      >
+                        <Col
+                          lg={DownloadInvoice ? 4 : 12}
+                          md={DownloadInvoice ? 4 : 12}
+                          sm={DownloadInvoice ? 4 : 12}
+                          xs={DownloadInvoice ? 4 : 12}
+                        >
+                          {DownloadInvoice ? (
+                            <div
+                              className="show-scroll p-2"
+                              style={{ maxHeight: 700, overflowY: "auto" }}
+                            >
+                              {receiptdata &&
+                                receiptdata.map((item) => (
+                                  <>
+                    
+                                    <div className="" style={{}}>
+                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                        <div>
+                                          <span>
+                                            <img
+                                              src={
+                                                item.user_profile &&
+                                                item.user_profile !== "0"
+                                                  ? item.user_profile
+                                                  : User
+                                              }
+                                              style={{ height: 40, width: 40 }}
+                                              alt="User"
+                                            />
+                                          </span>
+                                        </div>
+
+                                        <div className="flex-grow-1 ms-2">
+                                          <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <div
+                                              className="Invoice_Name"
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                                cursor: "pointer",
+                                              }}
+                                              onClick={() =>
+                                                handleDisplayInvoiceDownload(
+                                                  true,
+                                                  item
+                                                )
+                                              }
+                                            >
+                                              {item.Name}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Amount}
+                                            </div>
+                                          </div>
+
+                                          <div className="d-flex justify-content-between gap-3 mb-2">
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Invoices == null ||
+                                              item.Invoices === ""
+                                                ? "0.00"
+                                                : item.Invoices}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {moment(item.Date).format(
+                                                "DD MMM YYYY"
+                                              )}
+                                            </div>
+                                          </div>
+
+                                          <div className="mb-2">
+                                            {item.BalanceDue === 0 ? (
+                                              <span
+                                                style={{
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#D9FFD9",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  fontFamily: "Gilroy",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Paid
+                                              </span>
+                                            ) : (
+                                              <span
+                                                style={{
+                                                  cursor: "pointer",
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#FFD9D9",
+                                                  fontFamily: "Gilroy",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Unpaid
+                                              </span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <hr />
+                                  </>
+                                ))}
+                            </div>
+                          ) : (
+                            <>
+                              {currentReceiptData && currentReceiptData.length > 0 && (
+                    <div
+                      style={{
+                        // height: "400px",
+                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
+                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                        // borderBottom:"none"
+                      }}
+                    >
+                      <Table
+                        responsive="md"
+                        className="Table_Design"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
+                      >
+                        <thead
+                          style={{
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                          }}
+                        >
+                          <tr>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                // verticalAlign:'middle',
+                                paddingLeft: "20px",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopLeftRadius: 24,
+                              }}
+                            >
+                              Name
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Invoice Number
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Reference_Id
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                             Payment Mode
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Amount
+                            </th>
+
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopRightRadius: 24,
+                              }}
+                            ></th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
+                          {receiptLoader ?
+                              
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  left: '50%',
+                                  display: 'flex',
+                                  height: "50vh",
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: 'transparent',
+                                  opacity: 0.75,
+                                  zIndex: 10,
+                                }}
+                              >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>
+                            : currentReceiptData &&
+                            currentReceiptData.length > 0 &&
+                            currentReceiptData.map((item) => (
+                                <Receipt
+                                  key={item.id}
+                                  item={item}
+                                 
+                                  receiptaddPermission={
+                                    receiptaddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+
+                                  OnHandleshowInvoicePdf={
+                                    handleInvoiceDetail
+                                  }
+
+                                  onhandleEdit = {handleEditReceipt}
+                                
+                                  DisplayInvoice={
+                                    handleDisplayInvoiceDownload
+                                  }
+                                 
+                                />
+                              ))}
+                        </tbody>
+                      </Table>
+                    </div>
                   )}
 
+{currentReceiptData.length > 0 && (
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div>
+                        <select
+                          value={itemsPage}
+                          onChange={handleItemsPerPage}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentRecurePage === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage - 1)
+                            }
+                            disabled={currentRecurePage === 1}
+                          >
+                            <ArrowLeft2
+                              size="16"
+                              color={
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentRecurePage} of {totalPage}
+                        </li>
+
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1",
+                              cursor:
+                                currentRecurePage === totalPage
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage + 1)
+                            }
+                            disabled={currentRecurePage === totalPage}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
+                            </>
+                          )}
+                        </Col>
+
+                        {DownloadInvoice && (
+                          <>
+                            {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
+                  <div
+                    style={{
+                      borderLeft: "1px solid rgba(225, 225, 225, 1)",
+                      height: "100%",
+
+                    }}
+                  ></div>
+                </Col> */}
+
+                            <Col
+                              lg={8}
+                              md={8}
+                              sm={12}
+                              xs={12}
+                              style={{
+                                borderLeft: DownloadInvoice
+                                  ? "1px solid #ccc"
+                                  : "none",
+                              }}
+                            >
+                              <BillPdfModal
+                                show={showPdfModal}
+                                handleClosed={handleClosePdfModal}
+                                rowData={rowData}
+                              />
+
+                              {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                            </Col>
+                          </>
+                        )}
+                      </Row>
+                    </Container>
   
                 </>
+
+                
               )}
             </TabPanel>
           </TabContext>
@@ -5395,7 +5890,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 
  {receiptformShow && (
         <>
-          <AddReceiptForm onhandleback={handleBackBill} />
+          <AddReceiptForm onhandleback={handleBackBill} editvalue={editvalue} receiptedit={receiptedit}/>
         </>
       )}
 
