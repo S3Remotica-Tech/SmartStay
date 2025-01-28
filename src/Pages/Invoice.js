@@ -1550,7 +1550,11 @@ const InvoicePage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems =
+  filterInput.length > 0
+    ? bills 
+    : bills?.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(bills.length / itemsPerPage);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -1565,10 +1569,14 @@ const InvoicePage = () => {
   const indexOfLastItemRecure = currentRecurePage * itemsPage;
   const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
-  const currentItem = recurringbills?.slice(
-    indexOfFirstItemRecure,
-    indexOfLastItemRecure
-  );
+  // const currentItem = recurringbills?.slice(
+  //   indexOfFirstItemRecure,
+  //   indexOfLastItemRecure
+  // );
+  const currentItem =
+  filterInput.length > 0
+    ? recurringbills 
+    : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
