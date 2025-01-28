@@ -953,8 +953,8 @@ const handleFilterd = () => {
                     height: 83,
                   }}
                 >
-                  <div>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-16}}>Complaints</label>
+                  <div style={{marginTop:-8}}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">

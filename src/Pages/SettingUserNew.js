@@ -256,16 +256,17 @@ const popupLeft = left - 200;
             <div className="container mt-4">
                 {usersFilterddata?.length > 0 ? (
 
-
+<div style={{ maxHeight: "400px", overflowY: "auto" }}> 
                     <Table
                         responsive="md"
                         className='Table_Design'
                         style={{
                             height: "auto",
-                            tableLayout: "auto",
+                            // tableLayout: "auto",
                             overflow: "visible",
                             borderRadius: "24px",
-                            border: "1px solid #DCDCDC"
+                            border: "1px solid #DCDCDC",
+                            tableLayout: "fixed",
                         }}
                     >
                         <thead style={{
@@ -520,7 +521,7 @@ const popupLeft = left - 200;
                             }
 
                         </tbody>
-                    </Table>
+                    </Table></div>
 
                 ) : !loading && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>

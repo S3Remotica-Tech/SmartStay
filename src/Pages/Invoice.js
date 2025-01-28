@@ -2354,8 +2354,8 @@ const InvoicePage = () => {
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222", marginTop: 8,
-                marginLeft: -5
+                color: "#222",marginTop:5,
+                marginLeft:-5
               }}
             >
               Bills

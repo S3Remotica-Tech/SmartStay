@@ -306,7 +306,7 @@ function SettingAmenities({ hostelid }) {
                             width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
-
+                            marginTop:5
                 
                           }}
                         disabled={showPopup}
