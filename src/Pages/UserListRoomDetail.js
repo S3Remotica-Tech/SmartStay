@@ -130,6 +130,22 @@ function UserListRoomDetail(props) {
   const handleDeleteItem = (items) =>{
     props.onDeleteItem(items)
   }
+  const handleEditRoomItem = (item) => {
+    props.onEditRoomItem(item)
+  }
+  const handleEditHostelItem = (item) => {
+    props.onEditHostelItem (item)
+  }
+
+ const handleDeleteHostelItem = (user) => {
+  console.log("user",user);
+  
+  props.onDeleteHostelItem(user)
+ }
+
+ const handleDeleteRoomItem = (user) => {
+  props.onDeleteRoomItem(user)
+ }
 
   const handleContactEdit = (u) => {
     setEditAdditional(true);
@@ -3571,7 +3587,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         </Modal.Footer>
       </Modal>
                     <TabPanel value="2">
-                      <UserEb id={props.id} />{" "}
+                      {/* <UserEb id={props.id} />{" "} */}
+                      <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}
+                      handleDeleteHostelItem={handleDeleteHostelItem}
+                      handleDeleteRoomItem={handleDeleteRoomItem}
+                      />
                     </TabPanel>
                     <TabPanel value="3">
                       <UserListInvoice id={props.id} handleEditItem={handleEditItem} handleDeleteItem={handleDeleteItem} />
