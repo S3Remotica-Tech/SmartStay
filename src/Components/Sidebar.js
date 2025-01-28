@@ -86,6 +86,7 @@ function Sidebar() {
   const [currentPageDrop, setCurrentPageDrop] = useState('settingNewDesign');
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState('payingGuest');
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const [currentPage, setCurrentPage] = useState('dashboard');
   const toggleDropdown = () => {
@@ -307,8 +308,6 @@ function Sidebar() {
 
 
 
-  console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(allPageHostel_Id))
-
   useEffect(() => {
     console.log("isLoggedIn:", state.login?.isLoggedIn);
     if (state.login?.isLoggedIn === false) {
@@ -322,6 +321,23 @@ function Sidebar() {
       setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
+  useEffect(() => {
+    if (state.login?.isLoggedIn === true && state.UsersList.hostelList?.length > 0) {
+      const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
+        prev.id < current.id ? prev : current
+      );
+  
+      setAllPageHostel_Id(firstHostel.id); // State update here
+      setPayingGuestName(firstHostel.Name); // State update here
+      setSelectedProfileImage(
+        firstHostel.profile && firstHostel.profile !== "0" && firstHostel.profile !== ""
+          ? firstHostel.profile
+          : Profile
+      );
+      dispatch(StoreSelectedHostelAction(firstHostel.id));
+    }
+  }, [state.login?.isLoggedIn, state.UsersList.hostelList]);
+  
 
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
   const toggleSidebar = () => {
@@ -404,18 +420,16 @@ function Sidebar() {
   }
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("")
+  
   const handleHostelId = (id, name, profile) => {
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
-
-
-
-
+    setSelectedProfileImage(profile && profile !== "0" && profile !== "" ? profile : Profile);
     setIsDropdownOpen(false);
-    setSelectedProfileImage(
-      profile && profile !== "0" && profile !== "" ? profile : Profile
-    );
-
+  
+    // Save selected hostel ID and name to localStorage
+    localStorage.setItem("selectedHostelId", id);
+    localStorage.setItem("selectedHostelName", name);
   };
 
   const handleSettingspage = () => {
@@ -434,40 +448,44 @@ function Sidebar() {
   console.log("state.UsersList.hosteListStatusCode ", state.UsersList.hosteListStatusCode)
 
 
-  const [isInitialized, setIsInitialized] = useState(false);
+  
 
   useEffect(() => {
-
-    console.log("state.UsersList.hosteListStatusCode:", state.UsersList.hosteListStatusCode);
-
-
-    if (!isInitialized && state.UsersList.hostelList.length > 0 && state.UsersList.hosteListStatusCode == 200) {
-
-      console.log(state.UsersList.hostelList, " state.UsersList.hostelList");
-
-
-      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
-        prev.id < current.id ? prev : current
-      );
-      console.log("lowestIdItem.Name", lowestIdItem.Name)
-      setPayingGuestName(lowestIdItem.Name);
-      setAllPageHostel_Id(lowestIdItem.id);
-      setIsDropdownOpen(false);
-      setSelectedProfileImage(
-        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
-          ? lowestIdItem.profile
-          : Profile
-      );
-
+    const savedHostelId = localStorage.getItem("selectedHostelId");
+    const savedHostelName = localStorage.getItem("selectedHostelName");
+  
+    if (!isInitialized && state.UsersList.hostelList.length > 0 && state.UsersList.hosteListStatusCode === 200) {
+      const currentHostel =
+        savedHostelId && state.UsersList.hostelList.find(item => item.id === parseInt(savedHostelId, 10));
+  
+      if (currentHostel) {
+        setPayingGuestName(currentHostel.Name);
+        setAllPageHostel_Id(currentHostel.id);
+        setSelectedProfileImage(
+          currentHostel.profile && currentHostel.profile !== "0" && currentHostel.profile !== ""
+            ? currentHostel.profile
+            : Profile
+        );
+      } else {
+        const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
+          prev.id < current.id ? prev : current
+        );
+        setPayingGuestName(lowestIdItem.Name);
+        setAllPageHostel_Id(lowestIdItem.id);
+        setSelectedProfileImage(
+          lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
+            ? lowestIdItem.profile
+            : Profile
+        );
+      }
+  
       setIsInitialized(true);
     }
-
+  
     else if (state.UsersList.hosteListStatusCode === 0) {
-      // setPayingGuestName("");
-      // setAllPageHostel_Id("");
-      setIsDropdownOpen("");
+      setIsDropdownOpen(false);
     }
-  }, [state.UsersList.hostelList, state.UsersList.hosteListStatusCode, isInitialized, Profile]);
+  }, [state.UsersList.hostelList, state.UsersList.hosteListStatusCode, isInitialized]);
 
 
 
@@ -509,198 +527,80 @@ function Sidebar() {
               </div>
 
 
-              {/* <li className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`} onClick={() => handlePageClick('settingNewDesign')} style={{ listStyleType: "none", display: "flex" }}>
-                  <img src={Manage} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>payingGuest</span>
-                  <span className="ms-auto ">
-                    <ArrowDown2
-                      size="16"
-                      color="#4B4B4B"
-                    />
-                  </span>
-                </li> */}
-              {/* <li
-  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
-  onClick={toggleDropdown}
-  style={{
-    listStyleType: 'none',
-    display: 'flex',
-    position: 'relative', 
-    cursor: 'pointer',
-  }}
->
-  
-  <img
-    src={
-      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
-        ? selectedProfileImage
-        : hostelimage 
-    }
-    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
-    alt="Selected Profile"
-  />
-  <span
-    className="Title"
-    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
-  >
-    {payingGuestName}
-  </span>
-  <span className="ms-auto">
-    {isDropdownOpen ? (
-      <ArrowUp2 size="16" color="#4B4B4B" />
-    ) : (
-      <ArrowDown2 size="16" color="#4B4B4B" />
-    )}
-  </span>
 
-  {isDropdownOpen && (
-    <div
-      style={{
-        position: 'absolute',
-        top: '100%', 
-        left: 0,
-        backgroundColor: 'white',
-        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-        padding: '5px 0',
-        borderRadius: '4px',
-        width: '100%',
-        zIndex: 10,
-      }}
-    >
-      <ul style={{ margin: 0, padding: 0 }}>
-        {state.UsersList?.hostelList?.map((item) => (
-          <li
-            key={item.id}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '8px 12px',
-              cursor: 'pointer',
-              color: '#007bff',
-            }}
-            onClick={() => handleHostelId(item.id, item.Name, item.profile)} 
-          >
-
-            <img
-              src={
-                item.profile && item.profile !== "0" && item.profile !== ""
-                  ? item.profile
-                  : Profile
-              }
-              style={{
-                height: 25,
-                width: 25,
-                borderRadius: '50%',
-                marginRight: 8,
-              }}
-              alt={item.Name || "Default Profile"}
-            />
-            {item.Name}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</li> */}
 
               {state.UsersList?.hostelList && state.UsersList?.hostelList?.length > 0 && (
-                <li
-                  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
-                  onClick={toggleDropdown}
-                  style={{
-                    listStyleType: 'none',
-                    display: 'flex',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    fontFamily: "Gilroy"
-                  }}
-                >
-                  <img
-                    src={
-                      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
-                        ? selectedProfileImage
-                        : hostelimage
-                    }
-                    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8, fontFamily: "Gilroy" }}
-                    alt="Selected Profile"
-                  />
-                  <span
-                    className="Title"
-                    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
-                  >
-                    {payingGuestName}
-                  </span>
-                  <span className="ms-auto">
-                    {isDropdownOpen ? (
-                      <ArrowUp2 size="16" color="#4B4B4B" />
-                    ) : (
-                      <ArrowDown2 size="16" color="#4B4B4B" />
-                    )}
-                  </span>
+  <li
+    className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
+    onClick={toggleDropdown}
+    style={{
+      listStyleType: 'none',
+      display: 'flex',
+      position: 'relative',
+      cursor: 'pointer',
+      fontFamily: "Gilroy"
+    }}
+  >
+    <img
+      src={
+        selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
+          ? selectedProfileImage
+          : hostelimage
+      }
+      style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
+      alt="Selected Profile"
+    />
+    <span
+      className="Title"
+      style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
+    >
+      {payingGuestName}
+    </span>
+    <span className="ms-auto">
+      {isDropdownOpen ? <ArrowUp2 size="16" color="#4B4B4B" /> : <ArrowDown2 size="16" color="#4B4B4B" />}
+    </span>
 
-                  {/* Dropdown */}
-                  {isDropdownOpen && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: 0,
-                        backgroundColor: 'white',
-                        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-                        padding: '5px 0',
-                        borderRadius: '4px',
-                        width: '100%',
-                        zIndex: 10,
-                      }}
-                    >
-                      <ul style={{ margin: 0, padding: 0 }}>
-                        {state.UsersList?.hostelList && state.UsersList?.hostelList.length > 0 ? (
-                          state.UsersList.hostelList.map((item) => (
-                            <li
-                              key={item.id}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: '8px 12px',
-                                cursor: 'pointer',
-                                color: '#007bff',
-                              }}
-                              onClick={() => handleHostelId(item.id, item.Name, item.profile)} // Pass profile image as well
-                            >
-                              {/* Profile Image with fallback */}
-                              <img
-                                src={
-                                  item.profile && item.profile !== "0" && item.profile !== ""
-                                    ? item.profile
-                                    : Profile
-                                }
-                                style={{
-                                  height: 25,
-                                  width: 25,
-                                  borderRadius: '50%',
-                                  marginRight: 8,
-                                }}
-                                alt={item.Name || "Default Profile"}
-                              />
-                              {item.Name}
-                            </li>
-                          ))
-                        ) : (
-                          <li
-                            style={{
-                              padding: '8px 12px',
-                              textAlign: 'center',
-                              color: '#6c757d',
-                            }}
-                          >
-                            No hostel available
-                          </li>
-                        )}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              )}
+    {/* Dropdown */}
+    {isDropdownOpen && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          backgroundColor: 'white',
+          boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
+          padding: '5px 0',
+          borderRadius: '4px',
+          width: '100%',
+          zIndex: 10,
+        }}
+      >
+        <ul style={{ margin: 0, padding: 0 }}>
+          {state.UsersList?.hostelList.map((item) => (
+            <li
+              key={item.id}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px 12px',
+                cursor: 'pointer',
+                color: '#007bff',
+              }}
+              onClick={() => handleHostelId(item.id, item.Name, item.profile)}
+            >
+              <img
+                src={item.profile && item.profile !== "0" && item.profile !== "" ? item.profile : Profile}
+                style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
+                alt={item.Name || "Default Profile"}
+              />
+              {item.Name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </li>
+)}
 
               {state.UsersList?.hostelList && state.UsersList?.hostelList.length === 0 && (
                 <li
