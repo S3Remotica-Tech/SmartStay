@@ -786,7 +786,7 @@ function PgList(props) {
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div>
+                <div style={{marginTop:-5}}>
                   <label
                     style={{
                       fontSize: 18,

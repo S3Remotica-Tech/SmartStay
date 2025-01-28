@@ -2350,7 +2350,7 @@ console.log("Name",bills)
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",marginTop:8,
+                color: "#222",marginTop:5,
                 marginLeft:-5
               }}
             >

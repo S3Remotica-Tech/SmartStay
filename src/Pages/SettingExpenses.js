@@ -428,20 +428,19 @@ function SettingExpenses({ hostelid }) {
       <div style={{
         display: "flex", flexDirection: "row", justifyContent: "space-between",
         position: 'sticky',
-        // top:20, 
+        top:0, 
         right: 0,
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
         height: 63,
+        alignItems: "center",
+     
       }} >
-        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, marginTop: 30 }}> Expences Category</h3>
-        <div style={{ marginTop: 30 }}>
+        <div style={{marginTop:25}}>
+        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}> Expences Category</h3></div>
+        <div >
           <Button onClick={handleShow}
-            // style={{
-            //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-            //   fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", width: 140
-            // }}
             style={{
               fontFamily: "Gilroy",
               fontSize: "14px",
@@ -454,13 +453,14 @@ function SettingExpenses({ hostelid }) {
               maxWidth: "100%",
               marginBottom: "10px",
               maxHeight: 50,
-              marginTop: "-10px",
-  
+            marginTop:38 
             }}
             disabled={showPopup}
           >{" "}+ Category</Button></div>
 
       </div>
+
+
       {showPopup && (
         <div className="d-flex flex-wrap mt-3 align-items-center"
           style={{ gap: "10px" }} >
@@ -482,7 +482,7 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-      <div className="mt-4 d-flex row">
+      <div className="mt-4 d-flex row container">
         {expences.length > 0 ? (
           expences.map((category) => (
             <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3"

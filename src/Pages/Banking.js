@@ -500,9 +500,9 @@ function Banking() {
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  marginLeft: 11,
+                  marginLeft: 5,
                   marginRight: 20,
-                  marginTop: -2
+               marginTop:10
                 }}>Banking</label>
                   </div>
 
@@ -697,10 +697,10 @@ function Banking() {
                       <Button
                        disabled={bankingAddPermission}
                        onClick={handleShowForm}
-                        style={{marginTop:-10,
+                        style={{marginTop:10,
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
                            width: 70,
-                          padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                          padding: "8px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
                         }} > + Bank</Button>
                     </div>
                   </div>

@@ -92,17 +92,19 @@ function UserListKyc(props) {
         style={{ width: 411,height:390,borderRadius:24 }}
       >
       
-          <Modal.Body>
-            <div className="d-flex align-items-center" style={{borderRadius:24}}>
+          <Modal.Body style={{ padding: "0px"}}>
+            <div className="d-flex align-items-center" style={{borderRadius:24,padding:0,margin:0,width: "100%",}}>
 
               <div className="container" style={{
-            paddingLeft: 1, 
-            paddingRight: 1,
+                padding:10,
+            
             borderRadius:24
           }}>
 
                 <Modal.Header
-                  style={{ marginBottom: "20px", position: "relative" }}
+                  style={{  position: "relative",
+                    marginBottom: "10px",
+                    padding: "20px", }}
                 >
                   
                   <div
@@ -267,7 +269,7 @@ function UserListKyc(props) {
                     fontWeight: 600,
                     height: 50,
                     borderRadius: 12,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontFamily: "Montserrat",
                   }}
                   // onClick={handleSubmit}
