@@ -46,7 +46,7 @@ import InvoiceTable from "./InvoicelistTable";
 import leftArrow from "../Assets/Images/New_images/left-arrow.png";
 import rightarrow from "../Assets/Images/New_images/right-arrow.png";
 import Notify from "../Assets/Images/New_images/notify.png";
-import Profile from "../Assets/Images/New_images/profile.png";
+import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
