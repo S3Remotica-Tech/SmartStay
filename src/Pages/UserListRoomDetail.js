@@ -391,10 +391,10 @@ function UserListRoomDetail(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const handleEmail = (e) => {
-    const emailValue = e.target.value;
+    const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
 
-    const hasUpperCase = /[A-Z]/.test(emailValue);
+    
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
     const isValidEmail = emailRegex.test(emailValue);
@@ -402,10 +402,7 @@ function UserListRoomDetail(props) {
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    } else if (hasUpperCase) {
-      setEmailErrorMessage("Email should be in lowercase *");
-      setEmailError("Invalid Email Id *");
-    } else if (!isValidEmail) {
+    }  else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
     } else {
