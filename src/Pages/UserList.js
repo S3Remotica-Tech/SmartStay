@@ -3327,7 +3327,7 @@ const handleCloseDeleteHostel = () => {
                       )}
                     </div>
                     {                    
-                        state.UsersList.Users?.length > itemsPerPage &&
+                     currentItems?.length > 0 &&   state.UsersList.Users?.length > itemsPerPage &&
                         // (
                       // <nav>
                       //   <ul
