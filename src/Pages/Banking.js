@@ -340,17 +340,21 @@ function Banking() {
     });
   };
 
-  const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(10);
+  const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
 
   const indexOfLastRowTransaction =
     transactioncurrentPage * transactionrowsPerPage;
   const indexOfFirstRowTransaction =
     indexOfLastRowTransaction - transactionrowsPerPage;
-  const currentRowTransaction = transactionFilterddata?.slice(
-    indexOfFirstRowTransaction,
-    indexOfLastRowTransaction
-  );
+  // const currentRowTransaction = transactionFilterddata?.slice(
+  //   indexOfFirstRowTransaction,
+  //   indexOfLastRowTransaction
+  // );
+  const currentRowTransaction =
+  filterInput.length > 0
+    ? transactionFilterddata 
+    : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
