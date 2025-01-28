@@ -5,18 +5,32 @@ import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import Download from '../Assets/Images/New_images/download.png';
 
 const Receipt = (props) => {
 
-  const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
-  const [recurringBillEditPermission, setRecurringBillEditPermission] = useState("")
+      const state = useSelector((state) => state);
+    
+      const dispatch = useDispatch();
+
+      const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+
+  const [receiptEditPermission, setReceiptEditPermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
+  const [deleteitem, setDeleteItem] = useState('')
 
+   const [hostelId, setHostelId] = useState("");
 
-  const handleDeleteForm = () => {
+   useEffect(() => {
+      if (state.login.selectedHostel_Id) {
+        setHostelId(state.login.selectedHostel_Id);
+      }
+    }, [state.login.selectedHostel_Id]);
+
+  const handleDeleteForm = (item) => {
     setDeleteShow(true)
+    setDeleteItem(item)
   }
 
   const handleCloseDelete = () => {
@@ -29,19 +43,20 @@ const Receipt = (props) => {
       props.billrolePermission[0]?.is_owner == 1 ||
       props.billrolePermission[0]?.role_permissions[11]?.per_delete == 1
     ) {
-      setRecurringBillDeletePermission("");
+        setReceiptDeletePermission("");
     } else {
-      setRecurringBillDeletePermission("Permission Denied");
+        setReceiptDeletePermission("Permission Denied");
     }
   }, [props.billrolePermission]);
+
   useEffect(() => {
     if (
       props.billrolePermission[0]?.is_owner == 1 ||
       props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
     ) {
-      setRecurringBillEditPermission("");
+        setReceiptEditPermission("");
     } else {
-      setRecurringBillEditPermission("Permission Denied");
+        setReceiptEditPermission("Permission Denied");
     }
   }, [props.billrolePermission]);
 
@@ -57,13 +72,24 @@ const Receipt = (props) => {
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
+  
 
   const handleDelete = () => {
 
-    props.handleDeleteRecurringbills(props.item);
+    if (deleteitem) {
+        dispatch({
+          type: "DELETE_RECEIPT",
+          payload: { id: deleteitem.id},
+        });
+      }
 
   }
 
+
+  const handleEdit = (item) => {
+    props.onhandleEdit(item)
+    
+  }
 
   const handleShowform = (props) => {
     props.OnHandleshowform(props)
@@ -116,7 +142,17 @@ const Receipt = (props) => {
     };
   }, []);
 
-  //   const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+  const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+
+  const handleDownload = (item) => {
+
+    props.DisplayInvoice(true, item)
+
+    setDownloadInvoiceTable(true)
+
+  }
+
+  
   
   //   const handleDownload = (item) => {
   // console.log(item);
@@ -142,6 +178,37 @@ const Receipt = (props) => {
   //   }
   // }, [selectedItem]);
 
+   useEffect(() => {
+      if (
+        state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||  state.InvoiceList.ReceiptEditsuccessStatuscode === 200 ||
+        state.InvoiceList.ReceiptDeletesuccessStatuscode === 200
+      ) 
+      {
+        dispatch({
+          type: "RECEIPTSLIST",
+          payload: { hostel_id: hostelId },
+        });
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
+        }, 1000);
+
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
+        }, 1000);
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.ReceiptAddsuccessStatuscode, state.InvoiceList.ReceiptEditsuccessStatuscode ,
+      state.InvoiceList.ReceiptDeletesuccessStatuscode,
+  
+    ]);
+
+    
+
     
   return (
 
@@ -165,7 +232,7 @@ const Receipt = (props) => {
               </span>
             </div> */}
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }}
-            // onClick={()=>handleDownload(props.item)}
+            onClick={()=>handleDownload(props.item)}
 
             >{props.item.Name}</div><br />
 
@@ -179,7 +246,7 @@ const Receipt = (props) => {
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ cursor: "pointer",backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
-            //  onClick={(e)=>handleShowDots(e)}
+             onClick={(e)=>handleShowDots(e)}
              >
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
@@ -203,21 +270,21 @@ const Receipt = (props) => {
                     <div
                       className={"mb-3 d-flex justify-content-start align-items-center gap-2 "}
                       style={{
-                        // backgroundColor: recurringBillEditPermission ? "#f9f9f9" : "#fff",
-                        cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
+                        backgroundColor: receiptEditPermission ? "#f9f9f9" : "#fff",
+                        cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       }}
-                    //   onClick={() => {
-                    //     if (!recurringBillEditPermission) {
-                    //       handleEdit();
-                    //     }
-                    //   }}
+                      onClick={() => {
+                        if (!receiptEditPermission) {
+                          handleEdit(props.item);
+                        }
+                      }}
                     >
                       <img
                         src={Edit}
                         style={{
                           height: 16,
                           width: 16,
-                          filter: recurringBillEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                          filter: receiptEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
                         }}
                         alt="Edit"
                       />
@@ -226,8 +293,8 @@ const Receipt = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: recurringBillEditPermission ? "#ccc" : "#222222", // Change text color if disabled
-                          cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
+                          color: receiptEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+                          cursor: receiptEditPermission ? "not-allowed" : "pointer",
                         }}
                       >
                         Edit
@@ -235,14 +302,14 @@ const Receipt = (props) => {
                     </div>
 
                     <div
-                      className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? 'disabled' : ''}`}
+                      className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${receiptdeletePermission ? 'disabled' : ''}`}
                       style={{
-                        // backgroundColor: recurringBillDeletePermission ? "#f9f9f9" : "#fff",
-                        cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+                        backgroundColor: receiptdeletePermission ? "#f9f9f9" : "#fff",
+                        cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
-                        if (!recurringBillDeletePermission) {
-                          handleDeleteForm();
+                        if (!receiptdeletePermission) {
+                          handleDeleteForm(props.item);
                         }
                       }}
                     >
@@ -251,7 +318,7 @@ const Receipt = (props) => {
                         style={{
                           height: 16,
                           width: 16,
-                          filter: recurringBillDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                          filter: receiptdeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
                         }}
                         alt="Delete"
                       />
@@ -260,22 +327,25 @@ const Receipt = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: recurringBillDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
-                          cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+                          color: receiptdeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                          cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                         }}
                       >
                         Delete
                       </label>
                     </div>
 
+                    {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                      onClick={() => handleInvoicepdf(props.item)}
+
+                      style={{ backgroundColor: "#fff" }}
+                    >
+                      <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
+                    </div> */}
 
 
-                    {/* <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}>
-                                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}
-                                                   onClick={handleDelete}>
-                                                    Delete</label>
-                                            </div> */}
+
+              
                   </div>
                 </div>
               </>}
@@ -316,7 +386,7 @@ const Receipt = (props) => {
               flex: 1,
             }}
           >
-            Delete Recurring Bill?
+            Delete Receipt?
           </Modal.Title>
         </Modal.Header>
 
@@ -330,7 +400,7 @@ const Receipt = (props) => {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this Recurring Bill?
+          Are you sure you want to delete this Receipt?
         </Modal.Body>
 
         <Modal.Footer
