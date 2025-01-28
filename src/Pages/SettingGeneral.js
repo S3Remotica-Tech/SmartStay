@@ -239,20 +239,20 @@ function SettingGeneral() {
 
 
   const handleEmailId = (e) => {
-    const emailValue = e.target.value.trim();
+    const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
   
     // Regex to validate email
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    const hasUpperCase = /[A-Z]/.test(emailValue);
+    // const hasUpperCase = /[A-Z]/.test(emailValue);
     const isValidEmail = emailRegex.test(emailValue);
   
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    } else if (hasUpperCase) {
-      setEmailErrorMessage("Email should be in lowercase *");
-      setEmailError("Invalid Email Id *");
+    // } else if (hasUpperCase) {
+    //   setEmailErrorMessage("Email should be in lowercase *");
+    //   setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
