@@ -922,11 +922,17 @@ const handleCloseDeleteHostel = () => {
   
     // Filter the full list of users based on the search value
     if (searchValue.length > 0) {
-      const filtered = filteredUsers.filter((user) =>
-        user.Name.toLowerCase().includes(searchValue) ||
-        user.first_name?.toLowerCase().includes(searchValue) ||
-        user.last_name?.toLowerCase().includes(searchValue)
-      );
+      const filtered = filteredUsers.filter((user) => {
+        const name = user.Name?.toLowerCase() || ""; 
+        const firstName = user.first_name?.toLowerCase() || ""; 
+        const lastName = user.last_name?.toLowerCase() || ""; 
+      
+        return (
+          name.includes(searchValue) ||
+          firstName.includes(searchValue) ||
+          lastName.includes(searchValue)
+        );
+      });
       setFilteredUsers(filtered);
       setDropdownVisible(true);
       setCurrentPage(1); // Reset to the first page
