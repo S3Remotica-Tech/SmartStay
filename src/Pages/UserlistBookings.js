@@ -749,10 +749,15 @@ function Booking(props) {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = props.filteredUsers?.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  // const currentItems = props.filteredUsers?.slice(
+  //   indexOfFirstItem,
+  //   indexOfLastItem
+  // );
+  const currentItems =
+  props.filterInput.length > 0
+    ? props.filteredUsers 
+    : props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

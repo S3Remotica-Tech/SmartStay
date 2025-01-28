@@ -917,30 +917,28 @@ const handleCloseDeleteHostel = () => {
 
 
   const handlefilterInput = (e) => {
-    const searchValue = e.target.value.toLowerCase();
+    const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
     setFilterInput(searchValue);
-  
-    // Filter the full list of users based on the search value
+
     if (searchValue.length > 0) {
-      const filtered = filteredUsers.filter((user) => {
-        const name = user.Name?.toLowerCase() || ""; 
-        const firstName = user.first_name?.toLowerCase() || ""; 
-        const lastName = user.last_name?.toLowerCase() || ""; 
-      
-        return (
-          name.includes(searchValue) ||
-          firstName.includes(searchValue) ||
-          lastName.includes(searchValue)
-        );
-      });
-      setFilteredUsers(filtered);
-      setDropdownVisible(true);
-      setCurrentPage(1); // Reset to the first page
+        const filtered = filteredUsers.filter((user) => { 
+            const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
+            const name = user?.Name?.toLowerCase() || "";
+
+            return (
+                name.startsWith(searchValue) || 
+                fullName.startsWith(searchValue) 
+            );
+        });
+
+        setFilteredUsers(filtered);
+        setDropdownVisible(true);
+        setCurrentPage(1); // Reset to first page
     } else {
-      setFilteredUsers(filteredUsers);
-      setDropdownVisible(false);
+        setFilteredUsers(filteredUsers); // Reset when input is cleared
+        setDropdownVisible(false);
     }
-  };
+};
 
   // const handlefilterInput = (e) => {
   //   setFilterInput(e.target.value);
@@ -948,23 +946,22 @@ const handleCloseDeleteHostel = () => {
   // };
   const handleUserSelect = (user) => {
     if (value === "1") {
-      setFilterInput(user.Name);
+      setFilterInput(user?.Name || "");
     }
     else if (value === "2") {
-      setFilterInput(`${user.first_name} ${user.last_name}`);
-
+      setFilterInput([user?.first_name, user?.last_name].filter(Boolean).join(" ")); // Ensures last name is optional
     }
     else if (value === "3") {
-      setFilterInput(`${user.Name}`);
-
+      setFilterInput(user?.Name || "");
     }
     else if (value === "4") {
-      setFilterInput(user.first_name);
+      setFilterInput(user?.first_name || "");
     }
 
     setFilteredUsers([]);
     setDropdownVisible(false);
-  };
+};
+
 
 
   // const handleUserSelect = (user) => {
@@ -1058,7 +1055,7 @@ const handleCloseDeleteHostel = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems =
     filterInput.length > 0
-      ? filteredUsers // Show all filtered results when searching
+      ? filteredUsers 
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
@@ -2214,7 +2211,7 @@ const handleCloseDeleteHostel = () => {
                                   {value === "1"
                                     ? user.Name
                                     : value === "2"
-                                      ? `${user.first_name} ${user.last_name}`
+                                      ?  [user?.first_name, user?.last_name].filter(Boolean).join(" ")
                                       : value === "3"
                                         ? user.Name
                                         : value === "4"
@@ -3705,6 +3702,7 @@ const handleCloseDeleteHostel = () => {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
+                  filterInput={filterInput}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3715,6 +3713,7 @@ const handleCloseDeleteHostel = () => {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
+                  filterInput = {filterInput}
                 />
               </TabPanel>
             </TabContext>
