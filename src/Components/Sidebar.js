@@ -321,22 +321,32 @@ function Sidebar() {
       setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
-  useEffect(() => {
-    if (state.login?.isLoggedIn === true && state.UsersList.hostelList?.length > 0) {
-      const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
-        prev.id < current.id ? prev : current
-      );
-  
-      setAllPageHostel_Id(firstHostel.id); // State update here
-      setPayingGuestName(firstHostel.Name); // State update here
-      setSelectedProfileImage(
-        firstHostel.profile && firstHostel.profile !== "0" && firstHostel.profile !== ""
-          ? firstHostel.profile
-          : Profile
-      );
-      dispatch(StoreSelectedHostelAction(firstHostel.id));
-    }
-  }, [state.login?.isLoggedIn, state.UsersList.hostelList]);
+
+ useEffect(() => {
+  // Check if the user is logged in
+  if (state.login?.isLoggedIn === true && state.UsersList.hostelList?.length > 0) {
+    const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
+      prev.id < current.id ? prev : current
+    );
+
+    // Update state after login with the first hostel
+    setAllPageHostel_Id(firstHostel.id); // State update here
+    setPayingGuestName(firstHostel.Name); // State update here
+    setSelectedProfileImage(
+      firstHostel.profile && firstHostel.profile !== "0" && firstHostel.profile !== ""
+        ? firstHostel.profile
+        : Profile
+    );
+
+    // Store the selected hostel id in the Redux store
+    dispatch(StoreSelectedHostelAction(firstHostel.id));
+
+    // Clear localStorage when logging out
+    localStorage.removeItem("selectedHostelId");
+    localStorage.removeItem("selectedHostelName");
+  }
+}, [state.login?.isLoggedIn, state.UsersList.hostelList]);
+
   
 
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
@@ -455,10 +465,10 @@ function Sidebar() {
     const savedHostelName = localStorage.getItem("selectedHostelName");
   
     if (!isInitialized && state.UsersList.hostelList.length > 0 && state.UsersList.hosteListStatusCode === 200) {
-      const currentHostel =
-        savedHostelId && state.UsersList.hostelList.find(item => item.id === parseInt(savedHostelId, 10));
+      const currentHostel = savedHostelId && state.UsersList.hostelList.find(item => item.id === parseInt(savedHostelId, 10));
   
       if (currentHostel) {
+        // Restore saved hostel data if available
         setPayingGuestName(currentHostel.Name);
         setAllPageHostel_Id(currentHostel.id);
         setSelectedProfileImage(
@@ -480,10 +490,6 @@ function Sidebar() {
       }
   
       setIsInitialized(true);
-    }
-  
-    else if (state.UsersList.hosteListStatusCode === 0) {
-      setIsDropdownOpen(false);
     }
   }, [state.UsersList.hostelList, state.UsersList.hosteListStatusCode, isInitialized]);
 
