@@ -2282,6 +2282,8 @@ const InvoicePage = () => {
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
+    setBills(originalBills);
+    setRecurringBills(originalRecuiring)
   };
 
   // Function to handle user selection
