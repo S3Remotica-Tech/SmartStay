@@ -421,7 +421,7 @@ useEffect(()=>{
               </span>
             </div>
             <button className="btn p-0  hover:cursor-pointer"  onClick={(e) => handleShowDots(u.id, e)} style={{cursor:"pointer"}}>
-              <img src={round} width={34} height={34} alt="Menu Icon"  />
+              <img src={round} width={34} height={34} alt="Menu Icon" style={{cursor:"pointer"}} />
             </button>
           </div>
           {activeRow === u.id && (

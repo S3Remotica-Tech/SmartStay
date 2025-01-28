@@ -852,7 +852,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                       cursor: "pointer",
                                       backgroundColor: "#EBEBEB",
                                       position: "fixed",
-                                      top: currentCustomers.length >= 6 ?  popupPosition.top : 5,
+                                      top: currentCustomers.length >= 6 ?  popupPosition.top  : 150,
                                       left: currentCustomers.length >= 6 ? popupPosition.left :  popupPosition.left - 20,
                                       
                                       width: 200,
@@ -1015,7 +1015,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                     </tbody>
                   </Table>
                 </div>
-                {currentCustomers.length > 0 && (
+                {props.filteredUsers.length > itemsPerPage && (
 
                   //  <nav
                   //                 style={{

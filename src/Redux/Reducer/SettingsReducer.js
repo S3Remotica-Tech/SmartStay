@@ -49,12 +49,24 @@ const initialState = {
   notmatchpass:"",
   conformPassNotmatch:"",
   editComplaintSuccessStatusCode:0,
-  deleteElectricityStatuscode:0
+  deleteElectricityStatuscode:0,
+  assignedUserRoleStatusCode: 0,
+
 };
 
 const SettingsReducer = (state = initialState, action) => {
+  console.log("action",action)
   switch (action.type) {
     //Expenses category for settings ==>
+
+
+case 'ASSIGNED_ERROR':
+  return { ...state, assignedUserRoleStatusCode: action.payload.statusCode}
+
+  case 'REMOVE_ASSIGNED_ERROR':
+  return { ...state, assignedUserRoleStatusCode: 0}
+
+
     case "EXPENCES_CATEGORY_LIST":
       return {
         ...state,

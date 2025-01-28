@@ -60,7 +60,7 @@ function UserList(props) {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [currentItems, setCurrentItem] = useState([])
+  // const [currentItems, setCurrentItem] = useState([])
   const [value, setValue] = React.useState("1");
   const [customerrolePermission, setCustomerRolePermission] = useState("");
   const [customerpermissionError, setCustomerPermissionError] = useState("");
@@ -561,23 +561,23 @@ const handleCloseDeleteHostel = () => {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setUserListDetail(state.UsersList.Users);
-      // setFilteredUsers(state.UsersList.Users)
+      setFilteredUsers(state.UsersList.Users)
       setLoading(false);
-      if (state.UsersList.Users.length > 0) {
+      // if (state.UsersList.Users.length > 0) {
 
-        const indexOfLastItem = currentPage * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
-        console.log("tempArray123", tempArray);
+        // const indexOfLastItem = currentPage * itemsPerPage;
+        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
+        // console.log("tempArray123", tempArray);
 
-        const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-        setCurrentItem(tempArray)
+        // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+        // setCurrentItem(tempArray)
         // setLoading(false);
-      }
-      else {
-        setCurrentItem([])
+      // }
+      // else {
+        // setCurrentItem([])
         // setLoading(false);
-      }
+      // }
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
@@ -1027,9 +1027,9 @@ const handleCloseDeleteHostel = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // const itemsPerPage = 7;
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
   const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
@@ -3326,7 +3326,9 @@ const handleCloseDeleteHostel = () => {
                         </div>
                       )}
                     </div>
-                    {currentItems?.length > 0 && (
+                    {                    
+                        state.UsersList.Users?.length > itemsPerPage &&
+                        // (
                       // <nav>
                       //   <ul
                       //     style={{
@@ -3524,6 +3526,7 @@ const handleCloseDeleteHostel = () => {
                       //   </ul>
                       // </nav>
 
+                     
                       <nav
                         style={{
                           display: "flex",
@@ -3627,7 +3630,8 @@ const handleCloseDeleteHostel = () => {
 
 
 
-                    )}
+                    // )
+                    }
                   </div>
                 )}
 

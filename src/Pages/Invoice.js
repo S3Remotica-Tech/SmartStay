@@ -94,6 +94,7 @@ const InvoicePage = () => {
   const [invoiceDetail, setInvoiceDetails] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [file, setFile] = useState(null);
+  const [bankking,setBanking] = useState("")
   const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -1644,9 +1645,20 @@ const InvoicePage = () => {
     setDownloadInvoice(false);
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-  // }, []);
+  useEffect(() => {
+       // setLoading(true);
+       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+     }, [state.login.selectedHostel_Id]);
+ 
+     useEffect(() => {
+         if (state.bankingDetails.statusCodeForGetBanking === 200) {
+           
+           setBanking(state.bankingDetails.bankingList.banks)
+           setTimeout(() => {
+             dispatch({ type: "CLEAR_BANKING_LIST" });
+           }, 200);
+         }
+       }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
@@ -3270,13 +3282,17 @@ console.log("Name",bills)
                                       onChange={(e) => handleAccount(e)}
                                     >
                                       <option value="">Select Account</option>
-                                      {state.bankingDetails?.bankingList?.banks?.map(
-                                        (u) => (
-                                          <option key={u.id} value={u.id}>
-                                            {u.bank_name}
-                                          </option>
-                                        )
-                                      )}
+                                      {bankking?.length > 0 ? (
+                      bankking.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
+                      </option>
+                    )}
                                     </Form.Select>
                                     {accountError.trim() !== "" && (
                                       <div>
@@ -3596,6 +3612,18 @@ console.log("Name",bills)
                                           }}
                                         >
                                           Invoice number
+                                        </th>
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Type
                                         </th>
                                         <th
                                           style={{

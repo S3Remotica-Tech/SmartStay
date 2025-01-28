@@ -52,6 +52,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [paymentError, setPaymentError] = useState("");
   const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+  const [bankking,setBanking] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -63,10 +64,20 @@ function StaticExample({ show, handleClose, currentItem }) {
     productName: "",
   });
 
-  useEffect(() => {
-    // setLoading(true);
-    dispatch({ type: "BANKINGLIST", hostel_id: state.login.selectedHostel_Id });
-  }, []);
+    useEffect(() => {
+      // setLoading(true);
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }, [state.login.selectedHostel_Id]);
+
+    useEffect(() => {
+        if (state.bankingDetails.statusCodeForGetBanking === 200) {
+          
+          setBanking(state.bankingDetails.bankingList.banks)
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_BANKING_LIST" });
+          }, 200);
+        }
+      }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     dispatch({
@@ -1075,8 +1086,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                     disabled={currentItem}
                   >
                     <option value="">Select Account</option>
-                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
-                      state.bankingDetails.bankingList.banks.map((u) => (
+                    {bankking?.length > 0 ? (
+                      bankking.map((u) => (
                         <option key={u.id} value={u.id}>
                           {u.bank_name}
                         </option>
