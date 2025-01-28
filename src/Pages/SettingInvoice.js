@@ -24,6 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
+import Select from "react-select";
 
 function SettingInvoice({ hostelid }) {
 
@@ -75,7 +76,7 @@ function SettingInvoice({ hostelid }) {
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
   const [InvoiceList, setInvoiceList] = useState([]);
-  
+
 
 
   useEffect(() => {
@@ -419,13 +420,13 @@ function SettingInvoice({ hostelid }) {
 
 
 
-  const handlestartDateChange = (e) => {
-    setCalculatedstartdate(e.target.value);
-  };
+  // const handlestartDateChange = (e) => {
+  //   setCalculatedstartdate(e.target.value);
+  // };
 
-  const handleEndDateChange = (e) => {
-    setCalculatedEnddate(e.target.value);
-  };
+  // const handleEndDateChange = (e) => {
+  //   setCalculatedEnddate(e.target.value);
+  // };
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value)
@@ -592,6 +593,18 @@ function SettingInvoice({ hostelid }) {
 
   console.log("InvoiceList:", InvoiceList);
 
+  // start date change
+  const options = Array.from({ length: 31 }, (_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  }));
+
+  const handleStartDateChange = (selectedOption) => {
+    console.log(selectedOption?.value);
+  };
+  const handleEndDateChange = (selectedOption) => {
+    console.log(selectedOption?.value); 
+  };
 
 
   return (
@@ -674,7 +687,7 @@ function SettingInvoice({ hostelid }) {
                   marginBottom: "10px",
                   maxHeight: 50,
                   marginTop: "-6px",
-      borderColor:"#1E45E1"
+                  borderColor: "#1E45E1"
                 }}
                 disabled={showPopup}
               >
@@ -843,9 +856,9 @@ function SettingInvoice({ hostelid }) {
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
-                          Prefix 
+                          Prefix
                           <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                          </Form.Label>
+                        </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
@@ -867,7 +880,7 @@ function SettingInvoice({ hostelid }) {
                           >
                             {prefixerrormsg !== " " && (
                               <MdError
-                                style={{ fontSize: "13px", color: "red",marginBottom:"3px" }}
+                                style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
                               />
                             )}{" "}
                             {prefixerrormsg}
@@ -919,7 +932,7 @@ function SettingInvoice({ hostelid }) {
                             >
                               {suffixerrormsg !== " " && (
                                 <MdError
-                                  style={{ fontSize: "13px", color: "red",marginBottom:"3px" }}
+                                  style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
                                 />
                               )}{" "}
                               {suffixerrormsg}
@@ -1006,7 +1019,7 @@ function SettingInvoice({ hostelid }) {
 
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1059,7 +1072,7 @@ function SettingInvoice({ hostelid }) {
 
                     {duedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1203,7 +1216,7 @@ function SettingInvoice({ hostelid }) {
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be</label>
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
                         value={calculatedstartdate}
                         onChange={handlestartDateChange}
@@ -1215,6 +1228,52 @@ function SettingInvoice({ hostelid }) {
                           </option>
                         ))}
                       </select>
+                    </div> */}
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleStartDateChange}
+                        value={options.find((option) => option.value === calculatedstartdate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
@@ -1233,7 +1292,7 @@ function SettingInvoice({ hostelid }) {
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be</label>
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
                         value={calculatedenddate}
                         onChange={handleEndDateChange}
@@ -1244,6 +1303,52 @@ function SettingInvoice({ hostelid }) {
                           </option>
                         ))}
                       </select>
+                    </div> */}
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleEndDateChange}
+                        value={options.find((option) => option.value === calculatedenddate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            overflowY: "auto",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
