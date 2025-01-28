@@ -484,7 +484,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   height: 83,
                 }}
               >
-                <div>
+                <div style={{marginTop:-5}}>
                   <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     Assets</label>
                 </div>
@@ -636,7 +636,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                 width: "auto",
                 maxWidth: "100%",
                 marginBottom: "10px",
-                maxHeight: 45,marginTop:5
+                maxHeight: 45,marginTop:8
     
               }}
                  >

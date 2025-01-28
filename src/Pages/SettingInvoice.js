@@ -635,7 +635,8 @@ function SettingInvoice({ hostelid }) {
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
-        height: 83, marginTop: 5
+        // height: 83, 
+        marginTop: 5
       }}>
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
 
@@ -672,7 +673,7 @@ function SettingInvoice({ hostelid }) {
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 50,
-                  marginTop: "-12px",
+                  marginTop: "-6px",
       borderColor:"#1E45E1"
                 }}
                 disabled={showPopup}
@@ -705,7 +706,7 @@ function SettingInvoice({ hostelid }) {
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 50,
-                  marginTop: "-12px",
+                  marginTop: "-6px",
                   borderColor:"#1E45E1"
       
                 }}
