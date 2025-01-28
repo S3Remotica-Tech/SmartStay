@@ -75,9 +75,21 @@ const popupRef = useRef(null);
         
       props.handleEditHostelItem(item)
         
-       dispatch({ type: 'USERREADINGTRUE' });
+       dispatch({ type: 'USERHOSTELREADINGTRUE' });
        
       };
+
+      const handleDeleteHostelReading = (detail) => {
+         props.handleDeleteHostelItem(detail)
+
+         dispatch({type:'USERHOSTEL_READING_DELETETRUE'})
+      }
+
+     const handleDeleteRoomReading = (read) => {
+      props.handleDeleteRoomItem(read)
+
+      dispatch({type:'USERREADING_DELETETRUE'})
+     }
   
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
@@ -145,7 +157,7 @@ const popupRef = useRef(null);
 
         <div   style={{
                             // height: "400px",
-                            height: currentRowsEb.length >= 3 ? "250px" : "auto",
+                            height: currentRowsEb?.length >= 3 ? "250px" : "auto",
                             overflowY: "auto",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
@@ -238,14 +250,16 @@ const popupRef = useRef(null);
                                             }}
                                             onClick={() => {
                                               if (!props.ebEditPermission) {
-                                                // Check if it's a room or hostel and trigger the correct modal
-                                                if (u.type == 1) {
-                                                  handleEditRoomReading(u); // Trigger room-based modal
-                                                } else{
-                                                  handleEditHostelReading(u); // Trigger hostel-based modal
+                                                if (u.type === 1) {
+                                                  console.log("Calling read", u);
+                                                  handleEditRoomReading(u);
+                                                } else {
+                                                  console.log("Calling hostel", u);
+                                                  handleEditHostelReading(u);
                                                 }
                                               }
                                             }}
+                                            
                                           >
                                             <img
                                               src={Edit}
@@ -277,11 +291,13 @@ const popupRef = useRef(null);
                                               // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
                                               cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
                                             }}
-                                            // onClick={() => {
-                                            //   if (!props.ebDeletePermission) {
-                                            //     handleDeleteShow(u);
-                                            //   }
-                                            // }}
+                                            onClick={() => {
+                                              if (!props.ebEditPermission) {
+                                               
+                                                u.type === 1 ? handleDeleteRoomReading(u) : handleDeleteHostelReading(u);
+                                              
+                                              }
+                                            }}
                                           >
                                             <img
                                               src={Delete}
