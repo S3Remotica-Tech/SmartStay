@@ -311,7 +311,11 @@ const Compliance = () => {
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems =
+  filterInput.length > 0
+    ? filteredUsers 
+    : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
