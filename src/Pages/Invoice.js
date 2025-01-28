@@ -46,7 +46,7 @@ import InvoiceTable from "./InvoicelistTable";
 import leftArrow from "../Assets/Images/New_images/left-arrow.png";
 import rightarrow from "../Assets/Images/New_images/right-arrow.png";
 import Notify from "../Assets/Images/New_images/notify.png";
-import Profile from "../Assets/Images/New_images/profile.png";
+import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -75,6 +75,7 @@ import Filters from "../Assets/Images/Filters.svg";
 
 
 import Receipt from "./Receipt";
+import AddReceiptForm from "./AddReceipt";
 
 
 const InvoicePage = () => {
@@ -94,6 +95,7 @@ const InvoicePage = () => {
   const [invoiceDetail, setInvoiceDetails] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [file, setFile] = useState(null);
+  const [bankking, setBanking] = useState("")
   const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -175,6 +177,7 @@ const InvoicePage = () => {
   const dueRef = useRef(null);
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
+  const [receiptformShow , setReceiptFormShow] = useState(false)
   const [showAllBill, setShowAllBill] = useState(true);
   const [billrolePermission, setBillRolePermission] = useState("");
   const [billpermissionError, setBillPermissionError] = useState("");
@@ -184,6 +187,9 @@ const InvoicePage = () => {
   const [recuringbillAddPermission, setRecuringBillAddPermission] =
     useState("");
   const [recurringPermission, setRecurringPermission] = useState("");
+  const [receiptPermission, setReceiptPermission] = useState("");
+  const [receiptaddPermission, setReceiptAddPermission] = useState("");
+
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState("");
   const [paiddate, setPaidDate] = useState(null);
@@ -206,11 +212,11 @@ const InvoicePage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-   const [filterInput, setFilterInput] = useState("");
-    const [isDropdownVisible, setDropdownVisible] = useState(false);
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [search, setSearch] = useState(false);
-    const [filterStatus, setFilterStatus] = useState(false);
+  const [filterInput, setFilterInput] = useState("");
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [search, setSearch] = useState(false);
+  const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   let serialNumber = 1;
@@ -245,6 +251,12 @@ const InvoicePage = () => {
     setShowAllBill(false);
     setShowRecurringBillForm(true);
   };
+
+  const handleReceiptShow = () => {
+    setShowAllBill(false);
+    setReceiptFormShow(true)
+    dispatch({ type: "GET_REFERENCE_ID"})
+  }
 
   const handleAccount = (e) => {
     setAccount(e.target.value);
@@ -522,22 +534,22 @@ const InvoicePage = () => {
     setFiltericon(!filtericon);
     setSearchicon(false);
   };
- 
+
 
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]); // Store original data
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
-      setOriginalBillsFilter(bills);  
+      setOriginalBillsFilter(bills);
     }
   }, [bills]);
-  
+
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
-  
+
     if (searchTerm === "All") {
-      setBills(originalBillsFilter);  
+      setBills(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter.filter((user) =>
         user.Status?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -545,7 +557,7 @@ const InvoicePage = () => {
       setBills(filteredItems);
     }
   };
-  
+
   // const handleStatusFilter = (event) => {
   //   const searchTerm = event.target.value;
   //   setStatusfilter(searchTerm);
@@ -693,6 +705,16 @@ const InvoicePage = () => {
     setShowModal(!showModal);
   };
 
+  const [editvalue, setEditvalue] = useState('')
+  const [receiptedit, setReceiptEdit] = useState(false)
+
+  const handleEditReceipt = (item) => {
+    setShowAllBill(false);
+    setReceiptFormShow(true)
+    setEditvalue(item)
+    setReceiptEdit(true)
+  }
+
   const handleEdit = (props) => {
     setShowManualInvoice(true);
     setShowAllBill(false);
@@ -705,7 +727,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (invoiceValue) {
       setCustomerName(invoiceValue.hos_user_id);
-
+      console.log("UpdatedCustomerInvoice", invoiceValue.Invoices);
       console.log("UpdatedCustomerName", invoiceValue.Name);
       setInvoiceNumber(invoiceValue.Invoices);
       console.log("number", invoiceValue.Invoices);
@@ -894,6 +916,7 @@ const InvoicePage = () => {
       console.log("EditBill");
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
+      setReceiptFormShow(false)
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -917,6 +940,8 @@ const InvoicePage = () => {
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
+    console.log(props.item, "invoices");
+
     if (props.item.id !== undefined) {
       setEditOption("Edit");
       const dateObject = new Date(props.item.Date);
@@ -1141,7 +1166,10 @@ const InvoicePage = () => {
   const handleBackBill = () => {
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
+    setReceiptFormShow(false)
     setShowAllBill(true);
+    setEditvalue('')
+    setReceiptEdit(false)
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1462,6 +1490,7 @@ const InvoicePage = () => {
       });
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
+      setReceiptFormShow(false)
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -1516,7 +1545,7 @@ const InvoicePage = () => {
 
   //  const itemsPerPage = 5;
   // bills
- 
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -1550,24 +1579,24 @@ const InvoicePage = () => {
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
 
 
-    //Receipt pagination
-    const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
-    const [itemsperPage, setItemsPERPage] = useState(10);
-    const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
-    const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
-  
-    const currentReceiptData = receiptdata?.slice(
-      indexOfFirstItemReceipt,
-      indexOfLastItemReceipt
-    );
-  
-    const handlePageChangeReceipt = (pageNumber) => {
-      setCurrentRecurePage(pageNumber);
-    };
-    const handleItemsPerPageReceipt = (event) => {
-      setItemsPage(Number(event.target.value));
-    };
-    const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage);  //Receipt pagination
+  //Receipt pagination
+  const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
+  const [itemsperPage, setItemsPERPage] = useState(10);
+  const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
+  const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
+
+  const currentReceiptData = receiptdata?.slice(
+    indexOfFirstItemReceipt,
+    indexOfLastItemReceipt
+  );
+
+  const handlePageChangeReceipt = (pageNumber) => {
+    setCurrentRecurePage(pageNumber);
+  };
+  const handleItemsPerPageReceipt = (event) => {
+    setItemsPage(Number(event.target.value));
+  };
+  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage);  //Receipt pagination
 
   //  const renderPageNumbers = () => {
   //    const pageNumbers = [];
@@ -1644,9 +1673,20 @@ const InvoicePage = () => {
     setDownloadInvoice(false);
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-  // }, []);
+  useEffect(() => {
+    // setLoading(true);
+    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+
+      setBanking(state.bankingDetails.bankingList.banks)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
@@ -1684,6 +1724,46 @@ const InvoicePage = () => {
       setRecurringPermission("Permission Denied");
     }
   }, [billrolePermission]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+    ) {
+      setReceiptPermission("");
+    } else {
+      setReceiptPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+  useEffect(() => {
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+    ) {
+      setReceiptAddPermission("");
+    } else {
+      setReceiptAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  // useEffect(() => {
+  //   if (
+  //     billrolePermission[0]?.is_owner == 1 ||
+  //     billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+  //   ) {
+  //     setReceiptDeletePermission("");
+  //   } else {
+  //     setReceiptDeletePermission("Permission Denied");
+  //   }
+  // }, [billrolePermission]);
+
+  useEffect(() => {
+    if(hostelId){
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+    }
+  }, [hostelId]);
 
   useEffect(() => {
     if (
@@ -1789,11 +1869,11 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
-  
+
       if (pdfUrl) {
         console.log("pdfURL", pdfUrl);
         setShowLoader(false);
-  
+
         // Pre-open the tab
         const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
@@ -1979,20 +2059,6 @@ const InvoicePage = () => {
       }, 1000);
     }
   }, [state.InvoiceList?.InvoiceListStatusCode]);
-
-  // useEffect(() => {
-  //   console.log("useEffect", state.InvoiceList);
-  //   if (state.InvoiceList?.invoicePDF === 200) {
-
-  //     console.log("Invoice");
-  //     setLoading(false);
-  //     dispatch({type:'MANUAL-INVOICES-LIST' ,payload:{hostel_id:state.login.selectedHostel_Id}})
-  //     setBills(state.InvoiceList.ManualInvoices)
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_INVOICE_LIST' });
-  //     }, 1000);
-  //   }
-  // }, [state.InvoiceList?.invoicePDF])
 
   useEffect(() => {
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
@@ -2187,7 +2253,7 @@ const InvoicePage = () => {
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
-  
+
   const [originalBills, setOriginalBills] = useState([]);
   const [originalRecuiring, setOriginalRecuiring] = useState([]);  // Store initial data
 
@@ -2195,36 +2261,36 @@ const InvoicePage = () => {
     if (value === "1") {
       const FilterUser = Array.isArray(bills)
         ? bills.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
-  
+
       setBills(FilterUser);
     }
-  
+
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
-  
+
       setRecurringBills(FilterUsertwo);
     }
   }, [filterInput, value]);
-  
+
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
   };
-  
+
   // Function to handle user selection
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
     setBills([user]); // Temporarily set selected user
     setDropdownVisible(false);
   };
-  
+
   // Function to close the search and restore all data
   const handleCloseSearch = () => {
     setSearch(false);
@@ -2232,14 +2298,14 @@ const InvoicePage = () => {
     setBills(originalBills);
     setRecurringBills(originalRecuiring)  // Restore the original data
   };
-  
+
   // Set initial data when component mounts
   useEffect(() => {
     if (bills.length > 0 && originalBills.length === 0) {
       setOriginalBills(bills);
     }
   }, [bills]);
-  
+
   useEffect(() => {
     if (recurringbills.length > 0 && originalRecuiring.length === 0) {
       setOriginalRecuiring(recurringbills);
@@ -2249,14 +2315,14 @@ const InvoicePage = () => {
     setSearch(!search);
     // setFilterStatus(false);
   };
-  
-  const handleUserRecuire= (user) => {
+
+  const handleUserRecuire = (user) => {
     setFilterInput(user.user_name);
     setRecurringBills([user]);
     setDropdownVisible(false);
   };
 
-console.log("Name",bills)
+  console.log("Name", bills)
 
 
   // useEffect(() => {
@@ -2266,38 +2332,38 @@ console.log("Name",bills)
   //              item.Name.toLowerCase().includes(filterInput.toLowerCase())
   //            )
   //          : []; 
-   
+
   //      setBills(FilterUser);
   //  }
-     
+
   //    if (value === "2") {
   //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) => 
   //       item.user_name.toLowerCase().includes(filterInput.toLowerCase())
   //        ) :[];
   //      setRecurringBills(FilterUsertwo);
   //    }
-    
+
   //  }, [filterInput,value,]);
 
 
 
-   const handleFilterd = () => {
+  const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   }
 
 
 
-//Receipt 
+  //Receipt 
   useEffect(() => {
     setReceiptLoader(true);
-    if(hostelId){
+    if (hostelId) {
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
-    
+
     }
-    
+
   }, [hostelId])
 
   useEffect(() => {
@@ -2312,28 +2378,33 @@ console.log("Name",bills)
 
   useEffect(() => {
     if (
-      state.InvoiceList.RecurringBillAddStatusCode === 200 ||
-      state.InvoiceList.deleterecurringbillsStatuscode
+
+      state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode
     ) 
     {
+
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
 
       setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });
+        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
       }, 1000);
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE" });
+        dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
       }, 1000);
     }
   }, [
-    state.InvoiceList.RecurringBillAddStatusCode,
-    state.InvoiceList.deleterecurringbillsStatuscode,
+    state.InvoiceList.ReceiptAddsuccessStatuscode,
+    state.InvoiceList.ReceiptDeletesuccessStatuscode,
 
   ]);
+
+
+
 
   return (
     <>
@@ -2352,7 +2423,7 @@ console.log("Name",bills)
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",marginTop:8,
+                color: "#222",marginTop:5,
                 marginLeft:-5
               }}
             >
@@ -2371,7 +2442,7 @@ console.log("Name",bills)
                         position: "relative",
                         width: "100%",
                         marginRight: 20,
-                        marginTop:"-10px"
+                        marginTop: "-10px"
                       }}
                     >
                       <div
@@ -2430,129 +2501,129 @@ console.log("Name",bills)
                       </div>
 
                       {value === "1" && isDropdownVisible && bills?.length > 0 && (
-  <div
-    style={{
-      border: "1px solid #d9d9d9 ",
-      position: "absolute",
-      top: 60,
-      left: 0,
-      zIndex: 1000,
-      padding: 10,
-      borderRadius: 8,
-      backgroundColor: "#fff",
-      width: "94%",
-    }}
-  >
-    <ul
-      className="show-scroll p-0"
-      style={{
-        backgroundColor: "#fff",
-        borderRadius: "4px",
-        maxHeight: bills?.length > 1 ? "174px" : "auto",
-        minHeight: 100,
-        overflowY: bills?.length > 1 ? "auto" : "hidden",
-        margin: "0",
-        listStyleType: "none",
-        boxSizing: "border-box",
-      }}
-    >
-      {bills?.map((user, index) => {
-        const imagedrop = user.profile || Profile;
-        return (
-          <li
-            key={index}
-            className="list-group-item d-flex align-items-center"
-            style={{
-              cursor: "pointer",
-              padding: "10px 5px",
-              borderBottom:
-                index !== bills?.length - 1 ? "1px solid #eee" : "none",
-            }}
-            onClick={() => handleUserSelect(user)}
-          >
-            <Image
-              src={imagedrop}
-              alt={user.Name || "Default Profile"}
-              roundedCircle
-              style={{
-                height: "30px",
-                width: "30px",
-                marginRight: "10px",
-              }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = Profile;
-              }}
-            />
-            <span>{user.Name}</span>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-)}
-{value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
-  <div
-    style={{
-      border: "1px solid #d9d9d9 ",
-      position: "absolute",
-      top: 60,
-      left: 0,
-      zIndex: 1000,
-      padding: 10,
-      borderRadius: 8,
-      backgroundColor: "#fff",
-      width: "94%",
-    }}
-  >
-    <ul
-      className="show-scroll p-0"
-      style={{
-        backgroundColor: "#fff",
-        borderRadius: "4px",
-        maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-        minHeight: 100,
-        overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-        margin: "0",
-        listStyleType: "none",
-        boxSizing: "border-box",
-      }}
-    >
-      {recurringbills?.map((user, index) => {
-        const imagedrop = user.profile || Profile;
-        return (
-          <li
-            key={index}
-            className="list-group-item d-flex align-items-center"
-            style={{
-              cursor: "pointer",
-              padding: "10px 5px",
-              borderBottom:
-                index !== recurringbills?.length - 1 ? "1px solid #eee" : "none",
-            }}
-            onClick={() => handleUserRecuire(user)}
-          >
-            <Image
-              src={imagedrop}
-              alt={user.user_name || "Default Profile"}
-              roundedCircle
-              style={{
-                height: "30px",
-                width: "30px",
-                marginRight: "10px",
-              }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = Profile;
-              }}
-            />
-            <span>{user.user_name}</span>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-)}
+                        <div
+                          style={{
+                            border: "1px solid #d9d9d9 ",
+                            position: "absolute",
+                            top: 60,
+                            left: 0,
+                            zIndex: 1000,
+                            padding: 10,
+                            borderRadius: 8,
+                            backgroundColor: "#fff",
+                            width: "94%",
+                          }}
+                        >
+                          <ul
+                            className="show-scroll p-0"
+                            style={{
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              maxHeight: bills?.length > 1 ? "174px" : "auto",
+                              minHeight: 100,
+                              overflowY: bills?.length > 1 ? "auto" : "hidden",
+                              margin: "0",
+                              listStyleType: "none",
+                              boxSizing: "border-box",
+                            }}
+                          >
+                            {bills?.map((user, index) => {
+                              const imagedrop = user.profile || Profile;
+                              return (
+                                <li
+                                  key={index}
+                                  className="list-group-item d-flex align-items-center"
+                                  style={{
+                                    cursor: "pointer",
+                                    padding: "10px 5px",
+                                    borderBottom:
+                                      index !== bills?.length - 1 ? "1px solid #eee" : "none",
+                                  }}
+                                  onClick={() => handleUserSelect(user)}
+                                >
+                                  <Image
+                                    src={imagedrop}
+                                    alt={user.Name || "Default Profile"}
+                                    roundedCircle
+                                    style={{
+                                      height: "30px",
+                                      width: "30px",
+                                      marginRight: "10px",
+                                    }}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = Profile;
+                                    }}
+                                  />
+                                  <span>{user.Name}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      )}
+                      {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
+                        <div
+                          style={{
+                            border: "1px solid #d9d9d9 ",
+                            position: "absolute",
+                            top: 60,
+                            left: 0,
+                            zIndex: 1000,
+                            padding: 10,
+                            borderRadius: 8,
+                            backgroundColor: "#fff",
+                            width: "94%",
+                          }}
+                        >
+                          <ul
+                            className="show-scroll p-0"
+                            style={{
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+                              minHeight: 100,
+                              overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+                              margin: "0",
+                              listStyleType: "none",
+                              boxSizing: "border-box",
+                            }}
+                          >
+                            {recurringbills?.map((user, index) => {
+                              const imagedrop = user.profile || Profile;
+                              return (
+                                <li
+                                  key={index}
+                                  className="list-group-item d-flex align-items-center"
+                                  style={{
+                                    cursor: "pointer",
+                                    padding: "10px 5px",
+                                    borderBottom:
+                                      index !== recurringbills?.length - 1 ? "1px solid #eee" : "none",
+                                  }}
+                                  onClick={() => handleUserRecuire(user)}
+                                >
+                                  <Image
+                                    src={imagedrop}
+                                    alt={user.user_name || "Default Profile"}
+                                    roundedCircle
+                                    style={{
+                                      height: "30px",
+                                      width: "30px",
+                                      marginRight: "10px",
+                                    }}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = Profile;
+                                    }}
+                                  />
+                                  <span>{user.user_name}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      )}
 
                     </div>
                   </>
@@ -2564,28 +2635,28 @@ console.log("Name",bills)
                       <Image
                         src={searchteam}
                         roundedCircle
-                        style={{ height: "24px", width: "24px" ,marginTop:"-5px"}}
+                        style={{ height: "24px", width: "24px", marginTop: "-5px" }}
                         onClick={handleSearch}
                       />
                     </div>
                   </>
                 )}
 
-               {
-                value === "1" &&(
-                  <div className="me-3">
-                  <Image
-                    src={Filters}
-                    roundedCircle
-                    style={{ height: "50px", width: "50px" }}
-                    onClick={handleFilterd}
-                  />
-                </div>
-                )
-               }
+                {
+                  value === "1" && (
+                    <div className="me-3">
+                      <Image
+                        src={Filters}
+                        roundedCircle
+                        style={{ height: "50px", width: "50px" }}
+                        onClick={handleFilterd}
+                      />
+                    </div>
+                  )
+                }
 
                 {value === "1" && filterStatus && (
-                  <div className="me-3" style={{ border: "1px solid #D4D4D4",borderRadius:8, width: search ? "180px" : "120px" }}>
+                  <div className="me-3" style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "180px" : "120px" }}>
                     <Form.Select
                       onChange={(e) => handleStatusFilter(e)}
                       value={statusfilter}
@@ -2601,7 +2672,7 @@ console.log("Name",bills)
                       <option value="All">All</option>
                       <option value="Pending">UnPaid</option>
                       <option value="Success">Paid</option>
-                     
+
                     </Form.Select>
                   </div>
                 )}
@@ -2612,7 +2683,7 @@ console.log("Name",bills)
 <div className='me-3'>
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
-                
+
 
                 <div className="me-5">
                   {value == 1 && (
@@ -2687,6 +2758,8 @@ console.log("Name",bills)
 
                   {value == 3 && (
                     <Button
+                    disabled={receiptaddPermission}
+                      onClick={handleReceiptShow}
                       // style={{
                       //   fontSize: 14,
                       //   backgroundColor: "#1E45E1",
@@ -2990,7 +3063,9 @@ console.log("Name",bills)
                                   fontWeight: 600,
                                 }}
                               >
-                                Record payment
+                               
+                                {`Record payment ${invoiceValue?.Name ? `- ${invoiceValue.Name}` : ""} ${invoiceValue?.Invoices ? `-  ${invoiceValue.Invoices}` : ""
+                                  }`}
                               </Modal.Title>
                             </Modal.Header>
 
@@ -3099,8 +3174,8 @@ console.log("Name",bills)
                                         customInput={customDateInput({
                                           value: selectedDate
                                             ? selectedDate.toLocaleDateString(
-                                                "en-GB"
-                                              )
+                                              "en-GB"
+                                            )
                                             : "",
                                         })}
                                       />
@@ -3284,12 +3359,16 @@ console.log("Name",bills)
                                       onChange={(e) => handleAccount(e)}
                                     >
                                       <option value="">Select Account</option>
-                                      {state.bankingDetails?.bankingList?.banks?.map(
-                                        (u) => (
+                                      {bankking?.length > 0 ? (
+                                        bankking.map((u) => (
                                           <option key={u.id} value={u.id}>
                                             {u.bank_name}
                                           </option>
-                                        )
+                                        ))
+                                      ) : (
+                                        <option value="" disabled>
+                                          No accounts available
+                                        </option>
                                       )}
                                     </Form.Select>
                                     {accountError.trim() !== "" && (
@@ -3365,11 +3444,10 @@ console.log("Name",bills)
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${
-                          DownloadInvoice
-                            ? "m-0 g-2 d-flex justify-content-between"
-                            : "m-0 g-0"
-                        }`}
+                        className={` ${DownloadInvoice
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
+                          }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3427,7 +3505,7 @@ console.log("Name",bills)
                                             <img
                                               src={
                                                 item.user_profile &&
-                                                item.user_profile !== "0"
+                                                  item.user_profile !== "0"
                                                   ? item.user_profile
                                                   : User
                                               }
@@ -3488,7 +3566,7 @@ console.log("Name",bills)
                                               }}
                                             >
                                               {item.Invoices == null ||
-                                              item.Invoices === ""
+                                                item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
                                             </div>
@@ -3621,6 +3699,18 @@ console.log("Name",bills)
                                             fontWeight: 600,
                                           }}
                                         >
+                                          Type
+                                        </th>
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
                                           Created
                                         </th>
                                         <th
@@ -3692,96 +3782,96 @@ console.log("Name",bills)
                                     >
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                          Array.from({ length: 5 }).map(
-                                            (_, index) => (
-                                              <tr key={index}>
-                                                <td>
-                                                  <div className="d-flex">
-                                                    <span className="i-circle">
-                                                      <Skeleton
-                                                        circle
-                                                        width={24}
-                                                        height={24}
-                                                      />
-                                                    </span>
-                                                    <div>
-                                                      <Skeleton width={80} />
-                                                    </div>
+                                        Array.from({ length: 5 }).map(
+                                          (_, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                <div className="d-flex">
+                                                  <span className="i-circle">
+                                                    <Skeleton
+                                                      circle
+                                                      width={24}
+                                                      height={24}
+                                                    />
+                                                  </span>
+                                                  <div>
+                                                    <Skeleton width={80} />
                                                   </div>
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                              </tr>
-                                            )
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={50} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={50} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                            </tr>
                                           )
+                                        )
                                         : //   <div
-                                          //   style={{
-                                          //     position: 'absolute',
-                                          //     inset: 0,
-                                          //     display: 'flex',
-                                          //     height: "50vh",
-                                          //     alignItems: 'center',
-                                          //     justifyContent: 'center',
-                                          //     backgroundColor: 'transparent',
-                                          //     opacity: 0.75,
-                                          //     zIndex: 10,
-                                          //   }}
-                                          // >
-                                          //   <div
-                                          //     style={{
-                                          //       borderTop: '4px solid #1E45E1',
-                                          //       borderRight: '4px solid transparent',
-                                          //       borderRadius: '50%',
-                                          //       width: '40px',
-                                          //       height: '40px',
-                                          //       animation: 'spin 1s linear infinite',
-                                          //     }}
-                                          //   ></div>
-                                          // </div>
+                                        //   style={{
+                                        //     position: 'absolute',
+                                        //     inset: 0,
+                                        //     display: 'flex',
+                                        //     height: "50vh",
+                                        //     alignItems: 'center',
+                                        //     justifyContent: 'center',
+                                        //     backgroundColor: 'transparent',
+                                        //     opacity: 0.75,
+                                        //     zIndex: 10,
+                                        //   }}
+                                        // >
+                                        //   <div
+                                        //     style={{
+                                        //       borderTop: '4px solid #1E45E1',
+                                        //       borderRight: '4px solid transparent',
+                                        //       borderRadius: '50%',
+                                        //       width: '40px',
+                                        //       height: '40px',
+                                        //       animation: 'spin 1s linear infinite',
+                                        //     }}
+                                        //   ></div>
+                                        // </div>
 
-                                          // Display table rows with actual data when loading is false
-                                          currentItems.map((item) => (
-                                            <InvoiceTable
-                                              key={item.id}
-                                              item={item}
-                                              OnHandleshowform={handleShowForm}
-                                              OnHandleshowEditform={handleEdit}
-                                              OnHandleshowInvoicePdf={
-                                                handleInvoiceDetail
-                                              }
-                                              OnHandleshowDeleteform={
-                                                handleBillDelete
-                                              }
-                                              DisplayInvoice={
-                                                handleDisplayInvoiceDownload
-                                              }
-                                              billAddPermission={
-                                                billAddPermission
-                                              }
-                                              billEditPermission={
-                                                billEditPermission
-                                              }
-                                              billDeletePermission={
-                                                billDeletePermission
-                                              }
-                                            />
-                                          ))}
+                                        // Display table rows with actual data when loading is false
+                                        currentItems.map((item) => (
+                                          <InvoiceTable
+                                            key={item.id}
+                                            item={item}
+                                            OnHandleshowform={handleShowForm}
+                                            OnHandleshowEditform={handleEdit}
+                                            OnHandleshowInvoicePdf={
+                                              handleInvoiceDetail
+                                            }
+                                            OnHandleshowDeleteform={
+                                              handleBillDelete
+                                            }
+                                            DisplayInvoice={
+                                              handleDisplayInvoiceDownload
+                                            }
+                                            billAddPermission={
+                                              billAddPermission
+                                            }
+                                            billEditPermission={
+                                              billEditPermission
+                                            }
+                                            billDeletePermission={
+                                              billDeletePermission
+                                            }
+                                          />
+                                        ))}
                                     </tbody>
                                   </Table>
                                 </div>
@@ -4299,9 +4389,9 @@ console.log("Name",bills)
                                 }
                                 billrolePermission={billrolePermission}
                                 OnHandleshowform={handleShowForm}
-                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                // DisplayInvoice={handleDisplayInvoiceDownload}
-                                // RecuringInvoice={handleDisplayInvoiceDownload}
+                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                              // DisplayInvoice={handleDisplayInvoiceDownload}
+                              // RecuringInvoice={handleDisplayInvoiceDownload}
                               />
                             ))
                           )}
@@ -4471,7 +4561,9 @@ console.log("Name",bills)
             </TabPanel>
 
             <TabPanel value="3">
-            {recurringPermission ? (
+
+            {receiptPermission ? (
+
                 <>
                   <div
                     style={{
@@ -4490,7 +4582,7 @@ console.log("Name",bills)
                     />
 
                     {/* Permission Error */}
-                    {recurringPermission && (
+                    {receiptPermission && (
                       <div
                         style={{
                           color: "red",
@@ -4501,14 +4593,16 @@ console.log("Name",bills)
                         }}
                       >
                         <MdError size={20} />
-                        <span>{recurringPermission}</span>
+                        <span>{receiptPermission}</span>
                       </div>
                     )}
                   </div>
                 </>
               ) : (
                 <>
-                  {currentReceiptData && currentReceiptData.length === 0  && (
+
+                  {/* {currentReceiptData && currentReceiptData.length === 0  && (
+
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4542,6 +4636,445 @@ console.log("Name",bills)
                   )}
 
                   {currentReceiptData && currentReceiptData.length > 0 && (
+                    <div
+                      style={{
+                        // height: "400px",
+                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
+                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                        // borderBottom:"none"
+                      }}
+                    >
+                      <Table
+                        responsive="md"
+                        className="Table_Design"
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
+                      >
+                        <thead
+                          style={{
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                          }}
+                        >
+                          <tr>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                // verticalAlign:'middle',
+                                paddingLeft: "20px",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopLeftRadius: 24,
+                              }}
+                            >
+                              Name
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Invoice Number
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Reference_Id
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Payment Mode
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Amount
+                            </th>
+
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderTopRightRadius: 24,
+                              }}
+                            ></th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
+                          {receiptLoader ?
+
+                            <div
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                left: '50%',
+                                display: 'flex',
+                                height: "50vh",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>
+                            : currentReceiptData &&
+                            currentReceiptData.length > 0 &&
+                            currentReceiptData.map((item) => (
+
+                                <Receipt
+                                  key={item.id}
+                                  item={item}
+                                 
+                                  receiptaddPermission={
+                                    receiptaddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+                                 
+                                />
+                              ))}
+
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
+
+                  {currentReceiptData.length > 0 && (
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div>
+                        <select
+                          value={itemsPage}
+                          onChange={handleItemsPerPage}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentRecurePage === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage - 1)
+                            }
+                            disabled={currentRecurePage === 1}
+                          >
+                            <ArrowLeft2
+                              size="16"
+                              color={
+                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentRecurePage} of {totalPage}
+                        </li>
+
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1",
+                              cursor:
+                                currentRecurePage === totalPage
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() =>
+                              handlePageChangeRecure(currentRecurePage + 1)
+                            }
+                            disabled={currentRecurePage === totalPage}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentRecurePage === totalPage
+                                  ? "#ccc"
+                                  : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )} */}
+
+
+
+<Container fluid className="p-0">
+                      <Row
+                        className={` ${
+                          DownloadInvoice
+                            ? "m-0 g-2 d-flex justify-content-between"
+                            : "m-0 g-0"
+                        }`}
+                      >
+                        <Col
+                          lg={DownloadInvoice ? 4 : 12}
+                          md={DownloadInvoice ? 4 : 12}
+                          sm={DownloadInvoice ? 4 : 12}
+                          xs={DownloadInvoice ? 4 : 12}
+                        >
+                          {DownloadInvoice ? (
+                            <div
+                              className="show-scroll p-2"
+                              style={{ maxHeight: 700, overflowY: "auto" }}
+                            >
+                              {receiptdata &&
+                                receiptdata.map((item) => (
+                                  <>
+                    
+                                    <div className="" style={{}}>
+                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                        <div>
+                                          <span>
+                                            <img
+                                              src={
+                                                item.user_profile &&
+                                                item.user_profile !== "0"
+                                                  ? item.user_profile
+                                                  : User
+                                              }
+                                              style={{ height: 40, width: 40 }}
+                                              alt="User"
+                                            />
+                                          </span>
+                                        </div>
+
+                                        <div className="flex-grow-1 ms-2">
+                                          <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <div
+                                              className="Invoice_Name"
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                                cursor: "pointer",
+                                              }}
+                                              onClick={() =>
+                                                handleDisplayInvoiceDownload(
+                                                  true,
+                                                  item
+                                                )
+                                              }
+                                            >
+                                              {item.Name}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Amount}
+                                            </div>
+                                          </div>
+
+                                          <div className="d-flex justify-content-between gap-3 mb-2">
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Invoices == null ||
+                                              item.Invoices === ""
+                                                ? "0.00"
+                                                : item.Invoices}
+                                            </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {moment(item.Date).format(
+                                                "DD MMM YYYY"
+                                              )}
+                                            </div>
+                                          </div>
+
+                                          <div className="mb-2">
+                                            {item.BalanceDue === 0 ? (
+                                              <span
+                                                style={{
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#D9FFD9",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  fontFamily: "Gilroy",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Paid
+                                              </span>
+                                            ) : (
+                                              <span
+                                                style={{
+                                                  cursor: "pointer",
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#FFD9D9",
+                                                  fontFamily: "Gilroy",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Unpaid
+                                              </span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <hr />
+                                  </>
+                                ))}
+                            </div>
+                          ) : (
+                            <>
+                              {currentReceiptData && currentReceiptData.length > 0 && (
                     <div
                       style={{
                         // height: "400px",
@@ -4682,14 +5215,22 @@ console.log("Name",bills)
                                 <Receipt
                                   key={item.id}
                                   item={item}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
+                                 
+                                  receiptaddPermission={
+                                    receiptaddPermission
                                   }
                                   billrolePermission={billrolePermission}
                                   OnHandleshowform={handleShowForm}
+
+                                  OnHandleshowInvoicePdf={
+                                    handleInvoiceDetail
+                                  }
+
+                                  onhandleEdit = {handleEditReceipt}
+                                
+                                  DisplayInvoice={
+                                    handleDisplayInvoiceDownload
+                                  }
                                  
                                 />
                               ))}
@@ -4698,7 +5239,7 @@ console.log("Name",bills)
                     </div>
                   )}
 
-                  {currentReceiptData.length > 0 && (
+{currentReceiptData.length > 0 && (
                     <nav
                       style={{
                         display: "flex",
@@ -4825,9 +5366,49 @@ console.log("Name",bills)
                       </ul>
                     </nav>
                   )}
+                            </>
+                          )}
+                        </Col>
 
+                        {DownloadInvoice && (
+                          <>
+                            {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
+                  <div
+                    style={{
+                      borderLeft: "1px solid rgba(225, 225, 225, 1)",
+                      height: "100%",
+
+                    }}
+                  ></div>
+                </Col> */}
+
+                            <Col
+                              lg={8}
+                              md={8}
+                              sm={12}
+                              xs={12}
+                              style={{
+                                borderLeft: DownloadInvoice
+                                  ? "1px solid #ccc"
+                                  : "none",
+                              }}
+                            >
+                              <BillPdfModal
+                                show={showPdfModal}
+                                handleClosed={handleClosePdfModal}
+                                rowData={rowData}
+                              />
+
+                              {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                            </Col>
+                          </>
+                        )}
+                      </Row>
+                    </Container>
   
                 </>
+
+                
               )}
             </TabPanel>
           </TabContext>
@@ -5356,6 +5937,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
           <RecurringBill onhandleback={handleBackBill} />
         </>
       )}
+
+
+ {receiptformShow && (
+        <>
+          <AddReceiptForm onhandleback={handleBackBill} editvalue={editvalue} receiptedit={receiptedit}/>
+        </>
+      )}
+
+
     </>
   );
 };

@@ -11,6 +11,9 @@ import Delete from "../Assets/Images/Delete_red.png";
 function SettingSubscription() {
  const [activeRow, setActiveRow] = useState(false);
  
+ const toggleActiveRow = () => {
+  setActiveRow((prev) => !prev); // Toggles the activeRow state
+};
   return (
     <div className="container">
       <div style={{marginTop:25}}>
@@ -357,10 +360,15 @@ console.log('Formatted Date:', formattedDate);
                     position: "relative",
                     zIndex: 1000,
                   }}
+                  onClick={toggleActiveRow} 
                 // onClick={() => handleShowDots(v.eb_Id)}
                 >
                   <PiDotsThreeOutlineVerticalFill
-                    style={{ height: 20, width: 20 }}  onClick={setActiveRow}
+                    style={{ height: 20, width: 20 ,
+                      color: activeRow? "red" : "#000",
+                    }} 
+                    //  onClick={setActiveRow}
+
                   />
         
         {activeRow && (
@@ -386,7 +394,7 @@ console.log('Formatted Date:', formattedDate);
                                                        
                                                     >
                                                         <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" ,cursor:"pointer"}}>
                                                             Edit
                                                         </label>
                                                     </div>

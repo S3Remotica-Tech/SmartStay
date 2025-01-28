@@ -497,7 +497,7 @@ function Vendor() {
                 }}
               >
 
-                <div style={{marginLeft:-10}}>
+                <div style={{marginLeft:-10,marginTop:-7}}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
                 </div>
 
@@ -632,8 +632,8 @@ function Vendor() {
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",
-                        maxHeight: 45,marginTop:-3
-            
+                        maxHeight: 45,
+           
                       }}
                       > + Vendor</Button>
                   </div>

@@ -189,7 +189,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
               {modalTitle}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
           </Modal.Header>
 
           <Modal.Body>

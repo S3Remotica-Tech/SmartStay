@@ -29,7 +29,7 @@ import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 import Filter from '../Assets/Images/New_images/Group 13.png';
 import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
@@ -95,6 +95,7 @@ const Compliance = () => {
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
+  const [room_name, setRoomName] = useState('')
   const [beds, setBeds] = useState('');
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
@@ -531,6 +532,8 @@ const handleFilterd = () => {
       }
       )
       if (filteredDetails.length > 0) {
+        console.log('filteredDetails',filteredDetails );
+        
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         // setName(firstFilteredDetail.Name || '');
@@ -541,6 +544,7 @@ const handleFilterd = () => {
         setBeds(firstFilteredDetail.Bed || '');
         setRooms(firstFilteredDetail.room_id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
+        setRoomName(firstFilteredDetail.Rooms || '')
 
       } else {
         setFilteredUserDetails([]);
@@ -717,8 +721,8 @@ const handleFilterd = () => {
 
   const [editdata, setEditData] = useState('')
   const [editcomplainttype, setEditcomplainttype] = useState('')
-
-
+  const [floor_name, setFloorName] = useState('')
+  // const [room_name, setRoomName] = useState('')
 
 
   const handleEditcomplaint = (Complaintdata) => {
@@ -953,8 +957,8 @@ const handleFilterd = () => {
                     height: 83,
                   }}
                 >
-                  <div>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:-16}}>Complaints</label>
+                  <div style={{marginTop:-8}}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,}}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
@@ -1519,7 +1523,7 @@ const handleFilterd = () => {
                               <Form.Control
                                 type="text"
                                 placeholder="Rooms"
-                                value={Rooms}
+                                value={room_name}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}

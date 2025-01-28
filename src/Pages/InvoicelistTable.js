@@ -37,7 +37,7 @@ const InvoiceTable = (props) => {
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
+
 
 
   const handleShowDots = (event) => {
@@ -48,11 +48,7 @@ const InvoiceTable = (props) => {
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-
   }
-
 
   const handleShowform = (props) => {
     props.OnHandleshowform(props)
@@ -135,72 +131,74 @@ const InvoiceTable = (props) => {
                                 style={{ height: 40, width: 40 }}
                             />
                             </span></div> */}
-            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", 
-            fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start" }} 
-            onClick={() => handleDownload(props.item)}
+            <div className="Invoice_Name" style={{
+              fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1",
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"
+            }}
+              onClick={() => handleDownload(props.item)}
 
             >{props.item.Name}</div><br />
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize" }} className=''>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
+
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
-        <td 
-  style={{ 
-    border: "none", 
-    textAlign: 'start', 
-    verticalAlign: 'middle', 
-    fontSize: 16, 
-    fontWeight: 500, 
-    color: "#000000", 
-    fontFamily: "Gilroy" 
-  }} 
-> 
-  ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
-</td>
+        <td
+          style={{
+            border: "none",
+            textAlign: 'start',
+            verticalAlign: 'middle',
+            fontSize: 16,
+            fontWeight: 500,
+            color: "#000000",
+            fontFamily: "Gilroy"
+          }}
+        >
+          ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
+        </td>
 
         {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td> */}
         {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td> */}
-        <td 
-  style={{ 
-    border: "none", 
-    textAlign: 'start', 
-    verticalAlign: 'middle', 
-    fontSize: 16, 
-    fontWeight: 500, 
-    color: "#000000", 
-    fontFamily: "Gilroy" 
-  }} 
-> 
-  ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
-</td>
+        <td
+          style={{
+            border: "none",
+            textAlign: 'start',
+            verticalAlign: 'middle',
+            fontSize: 16,
+            fontWeight: 500,
+            color: "#000000",
+            fontFamily: "Gilroy"
+          }}
+        >
+          ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
+        </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: props.item.BalanceDue === 0 ? "green" : "red", fontFamily: "Gilroy" }}>
           {props.item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
             style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}</td>
-
-
-
-
-
-
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer",
-              backgroundColor: showDots  ? "#E7F1FF" : "white",
-              height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e)=>handleShowDots(e)}>
+            <div style={{
+              cursor: "pointer",
+              backgroundColor: showDots ? "#E7F1FF" : "white",
+              height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
+            }} onClick={(e) => handleShowDots(e)}>
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
               {showDots && <>
-                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", 
+                <div ref={popupRef} style={{
+                  cursor: "pointer", backgroundColor: "#fff",
                   // position: "absolute", right: 50, top: 20, 
-                  
+
                   position: "fixed",
-   top: popupPosition.top,
-   left: popupPosition.left,
+                  top: popupPosition.top,
+                  left: popupPosition.left,
 
 
-                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
+                }}>
                   <div style={{ backgroundColor: "#fff" }} className=''>
 
                     <div
@@ -244,41 +242,46 @@ const InvoiceTable = (props) => {
                     >
                       <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                     </div>
-                    <div
-                      className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
-                      onClick={() => {
-                        if (!props.billAddPermission) {
-                          handleShowform(props);
-                        }
-                      }}
-                      style={{
-                        // backgroundColor: props.billAddPermission ? "#f9f9f9" : "#fff",
-                        cursor: props.billAddPermission ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      <img
-                        src={Assign}
-                        style={{
-                          height: 16,
-                          width: 16,
-                          filter: props.billAddPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+
+                    {
+                      props.item.BalanceDue !== 0 &&
+
+
+                      <div
+                        className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+                        onClick={() => {
+                          if (!props.billAddPermission) {
+                            handleShowform(props);
+                          }
                         }}
-                        alt="Assign"
-                      />
-                      <label
                         style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: props.billAddPermission ? "#ccc" : "#222222", // Disabled color
+                          // backgroundColor: props.billAddPermission ? "#f9f9f9" : "#fff",
                           cursor: props.billAddPermission ? "not-allowed" : "pointer",
                         }}
                       >
-                        Record Payment
-                      </label>
-                    </div>
+                        <img
+                          src={Assign}
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: props.billAddPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+                          }}
+                          alt="Assign"
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: props.billAddPermission ? "#ccc" : "#222222", // Disabled color
+                            cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Record Payment
+                        </label>
+                      </div>
 
-
+                    }
 
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${props.billDeletePermission ? 'disabled' : ''}`}
@@ -313,35 +316,14 @@ const InvoiceTable = (props) => {
                         Delete
                       </label>
                     </div>
-
-
-
-
                   </div>
                 </div>
-
-
               </>}
-
-
             </div>
           </div>
         </td>
-
-
-
-
-
-
-
       </tr>
-
-
-
-
     </>
-
-
   )
 }
 export default InvoiceTable;

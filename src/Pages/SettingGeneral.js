@@ -239,20 +239,20 @@ function SettingGeneral() {
 
 
   const handleEmailId = (e) => {
-    const emailValue = e.target.value.trim();
+    const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
   
     // Regex to validate email
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    const hasUpperCase = /[A-Z]/.test(emailValue);
+    // const hasUpperCase = /[A-Z]/.test(emailValue);
     const isValidEmail = emailRegex.test(emailValue);
   
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    } else if (hasUpperCase) {
-      setEmailErrorMessage("Email should be in lowercase *");
-      setEmailError("Invalid Email Id *");
+    // } else if (hasUpperCase) {
+    //   setEmailErrorMessage("Email should be in lowercase *");
+    //   setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
@@ -666,8 +666,9 @@ function SettingGeneral() {
 
         <div
           className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25 }}
+          
         >
+          
           <div>
             <Button
               // style={{
@@ -695,7 +696,8 @@ function SettingGeneral() {
                 // maxWidth: "100%",
                 // marginBottom: "10px",
                 maxHeight: 45,
-                marginTop:5
+                marginTop:5,
+
     
               }}
               //   disabled={ebAddPermission}
@@ -802,6 +804,7 @@ function SettingGeneral() {
                       height="30"
                       alt="icon"
                       onClick={() => handlegeneralform(item.id)}
+                      style={{cursor:"pointer"}}
                     />
                     {generalEdit === item.id && (
                       <div

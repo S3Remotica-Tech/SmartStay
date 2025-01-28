@@ -634,6 +634,9 @@ function* handleEditRolePermission(detail) {
 function* handleDeleteRolePermission(detail) {
    const response = yield call (deleteRolePermission, detail.payload);
 
+console.log("response",response)
+
+
    var toastStyle = {
      backgroundColor: "#E6F6E6",
      color: "black",
@@ -665,8 +668,8 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-  else if (response.data.status === 202 || response.data.statusCode === 202){
-      yield put ({type : 'ASSIGNED_ERROR' , payload:response.data.message});
+  else if (response.data.status === 202 || response.data.statusCode === 202 || response.status === 202){
+      yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.data.status || response.data.statusCode }});
       // toast.error(`${response.data.message}`, {
       toast.error("This role is assigned to user", {
         position: "bottom-center",
