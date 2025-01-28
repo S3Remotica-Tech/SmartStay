@@ -401,17 +401,18 @@ function Banking() {
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
+    settransactionFilterddata(originalBillsFilter)
   };
   const handleUserSelect = (user) => {
     setFilterInput(user.bank_name);
 
-    // Set filteredUsers to only the selected user's data
+    
     const selectedUserData = transactionFilterddata?.filter(
       (item) => item.bank_name === user.bank_name
     );
     settransactionFilterddata(selectedUserData);
 
-    setDropdownVisible(false); // Close the dropdown after selection
+    setDropdownVisible(false); 
   };
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
@@ -419,7 +420,7 @@ function Banking() {
     setStatusfilter(searchTerm);
 
     if (searchTerm === "All") {
-      settransactionFilterddata(originalBillsFilter); // Reset to full original data
+      settransactionFilterddata(originalBillsFilter); 
     } else {
       const filteredItems = originalBillsFilter?.filter((user) => {
         return (
