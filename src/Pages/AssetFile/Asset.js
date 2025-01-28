@@ -265,7 +265,8 @@ function Asset() {
   const filteredData = filterByPriceRange(getData);
   console.log("filteredData ",filteredData )
 
-  const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
+  // const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
 
 
 console.log("currentItems",currentItems)
