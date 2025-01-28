@@ -915,10 +915,31 @@ const handleCloseDeleteHostel = () => {
 
   console.log("filteredUsers", filteredUsers);
 
+
   const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value?.length > 0);
+    const searchValue = e.target.value.toLowerCase();
+    setFilterInput(searchValue);
+  
+    // Filter the full list of users based on the search value
+    if (searchValue.length > 0) {
+      const filtered = filteredUsers.filter((user) =>
+        user.Name.toLowerCase().includes(searchValue) ||
+        user.first_name?.toLowerCase().includes(searchValue) ||
+        user.last_name?.toLowerCase().includes(searchValue)
+      );
+      setFilteredUsers(filtered);
+      setDropdownVisible(true);
+      setCurrentPage(1); // Reset to the first page
+    } else {
+      setFilteredUsers(filteredUsers);
+      setDropdownVisible(false);
+    }
   };
+
+  // const handlefilterInput = (e) => {
+  //   setFilterInput(e.target.value);
+  //   setDropdownVisible(e.target.value?.length > 0);
+  // };
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user.Name);
@@ -1029,7 +1050,10 @@ const handleCloseDeleteHostel = () => {
   // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems =
+    filterInput.length > 0
+      ? filteredUsers // Show all filtered results when searching
+      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
   const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
@@ -3327,7 +3351,7 @@ const handleCloseDeleteHostel = () => {
                       )}
                     </div>
                     {                    
-                     currentItems?.length > 0 &&   state.UsersList.Users?.length > itemsPerPage &&
+                      state.UsersList.Users?.length > itemsPerPage &&
                         // (
                       // <nav>
                       //   <ul
