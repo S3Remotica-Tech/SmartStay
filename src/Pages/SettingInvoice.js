@@ -117,9 +117,9 @@ function SettingInvoice({ hostelid }) {
   }, [billrolePermission]);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    // if (state.login.selectedHostel_Id) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
+    // }
   }, [state.login.selectedHostel_Id]);
 
   console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
@@ -591,6 +591,20 @@ function SettingInvoice({ hostelid }) {
   console.log("UsersListSTATUSCODE", state?.UsersList?.statuscodeForhotelDetailsinPg);
 
 
+useEffect(()=>{
+  if(InvoiceList.length == 0){
+    setLoading(false)
+  }
+else if( InvoiceList && InvoiceList?.every(
+  (item) =>
+    (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+    (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+)) {
+setLoading(false)
+}
+},[InvoiceList])
+
+
   console.log("InvoiceList:", InvoiceList);
 
   // start date change
@@ -741,8 +755,8 @@ function SettingInvoice({ hostelid }) {
 
       {showPopup && (
         <div className="d-flex flex-wrap">
-          <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            !Please add a hostel before adding Invoice information.
+          <p style={{ color: "red", fontFamily:"Gilroy", fontSize:14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            Please add a hostel before adding Invoice information.
           </p>
         </div>)}
 
