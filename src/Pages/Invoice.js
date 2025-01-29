@@ -76,6 +76,7 @@ import Filters from "../Assets/Images/Filters.svg";
 
 import Receipt from "./Receipt";
 import AddReceiptForm from "./AddReceipt";
+import ReceiptPdfCard from "./ReceiptPdfModal";
 
 
 const InvoicePage = () => {
@@ -5128,6 +5129,20 @@ const InvoicePage = () => {
                             >
                               Name
                             </th>
+                       
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Reference_Id
+                            </th>
+
                             <th
                               style={{
                                 textAlign: "start",
@@ -5140,6 +5155,7 @@ const InvoicePage = () => {
                             >
                               Invoice Number
                             </th>
+
                             <th
                               style={{
                                 textAlign: "start",
@@ -5150,7 +5166,20 @@ const InvoicePage = () => {
                                 fontWeight: 600,
                               }}
                             >
-                              Reference_Id
+                              Date
+                            </th>
+
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Amount
                             </th>
                             <th
                               style={{
@@ -5164,18 +5193,7 @@ const InvoicePage = () => {
                             >
                              Payment Mode
                             </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Amount
-                            </th>
+                        
 
                             <th
                               style={{
@@ -5403,7 +5421,7 @@ const InvoicePage = () => {
                                   : "none",
                               }}
                             >
-                              <BillPdfModal
+                              <ReceiptPdfCard
                                 show={showPdfModal}
                                 handleClosed={handleClosePdfModal}
                                 rowData={rowData}
