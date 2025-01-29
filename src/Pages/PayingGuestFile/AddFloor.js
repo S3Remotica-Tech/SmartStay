@@ -179,7 +179,7 @@ function StaticExample({
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
-          <Modal.Body style={{ padding: 20 }}>
+          <Modal.Body style={{ paddingTop: 20, paddingLeft:20, paddingRight:20, paddingBottom:15 }}>
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
@@ -245,10 +245,10 @@ function StaticExample({
                             </div> */}
             </div>
           </Modal.Body>
-
+{/*  p-1 mb-2 */}
           {floorId && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -264,8 +264,8 @@ function StaticExample({
           )}
 
           {floorError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -280,8 +280,8 @@ function StaticExample({
             </div>
           )}
           {state.UsersList?.alreadyFloorHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -296,7 +296,7 @@ function StaticExample({
             </div>
           )}
           {state.PgList?.alreadyfloorNameHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
+            <div className="d-flex align-items-center">
               <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"

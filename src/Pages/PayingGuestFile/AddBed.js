@@ -141,7 +141,11 @@ function AddBed({ show, handleClose, currentItem }) {
     >
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog
-          style={{ maxWidth: 850, width: "100%" }}
+          style={{ maxWidth: 850, width: "100%", 
+            paddingTop: 5,
+            paddingBottom:10,
+            paddingLeft:10,
+            paddingRight:10 }}
           className="m-0 p-0"
         >
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
@@ -159,11 +163,11 @@ function AddBed({ show, handleClose, currentItem }) {
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body  style={{paddingBottom: "0px"}} >
             <div className="row mt-2 mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -214,7 +218,7 @@ function AddBed({ show, handleClose, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -303,17 +307,20 @@ function AddBed({ show, handleClose, currentItem }) {
             </div>
           )}
            </Modal.Body>
-          <Modal.Footer style={{ border: "none" }}>
+          <Modal.Footer style={{ border: "none",  paddingTop: 5 }}>
             <Button
               onClick={()=>{handleSubmit()}}
               className="w-100"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,
-                padding: 12,
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
+                // paddingTop: 5,
+                paddingBottom:12,
+                paddingLeft:12,
+                paddingRight:12
               }}
             >
               Add bed
