@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { InputGroup, FormControl, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profileimage from '../Assets/Images/New_images/profile.png';
+import Profileimage from '../Assets/Images/New_images/profile-picture.png';
 import Image from 'react-bootstrap/Image';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
