@@ -885,13 +885,20 @@ function EBRoomReading(props) {
                               >
                                 {v.total_amount}
                               </td>
-                              <td style={{ paddingTop: 12, border: "none" }}>
+                              <td  style={{
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  textAlign: "start",
+                                  verticalAlign: "middle",
+                                  borderBottom: "none",
+                                }}>
 
                                 <div
                                   style={{
                                     cursor: "pointer",
-                                    height: 40,
-                                    width: 40,
+                                    height: 35,
+                                    width: 35,
                                     borderRadius: 100,
                                     border: "1px solid #EFEFEF",
                                     display: "flex",

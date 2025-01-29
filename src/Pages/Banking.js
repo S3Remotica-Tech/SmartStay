@@ -1399,13 +1399,15 @@ function Banking() {
                           <td
                             style={{
                               cursor: "pointer",
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                              position: "relative",
+                                    height: 40,
+                                    width: 40,
+                                    borderRadius: 100,
+                                    border: "1px solid #EFEFEF",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    position: "relative",
+                                    marginTop:10,
                               backgroundColor:
                                 EditTransaction === user.id
                                   ? "#E7F1FF"
