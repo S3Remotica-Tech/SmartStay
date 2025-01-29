@@ -72,7 +72,7 @@ function RolePage() {
 
   useEffect(() => {
     dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [])
+  }, [state.login.selectedHostel_Id])
 
   const handleCreateNew = () => {
     setRolePage(true)
