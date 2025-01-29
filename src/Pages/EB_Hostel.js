@@ -960,14 +960,14 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   <>
                   {
                     value === "1" &&
-                    <div className="me-2">
+                    <div className="me-4">
                     <Image
                       src={searchteam}
                       roundedCircle
                       style={{
                         height: "24px",
                         width: "24px",
-                        marginTop: "-5px",
+                        marginTop: "-8px",
                         cursor:"pointer"
                       }}
                       onClick={handleSearch}
