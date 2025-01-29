@@ -27,6 +27,8 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
+import closecircle from "../Assets/Images/New_images/close-circle.png";
+import searchteam from "../Assets/Images/New_images/Search Team.png";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
@@ -75,16 +77,21 @@ function EB_Hostel(props) {
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
   const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
-
-
+  const [filterInput, setFilterInput] = useState("");
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [filterStatus, setFilterStatus] = useState(false);
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if(selectedHostel){
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: selectedHostel } });
+    if (selectedHostel) {
+      dispatch({
+        type: "ALL_HOSTEL_DETAILS",
+        payload: { hostel_id: selectedHostel },
+      });
     }
   }, [selectedHostel]);
 
@@ -182,15 +189,29 @@ function EB_Hostel(props) {
   useEffect(() => {
     dispatch({ type: "EBLIST" });
   }, []);
+  const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "CUSTOMEREBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [selectedHostel]);
+    dispatch({
+      type: "CUSTOMEREBLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    dispatch({
+      type: "EBSTARTMETERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
 
+  useEffect(() => {
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+      setRoomBasedDetail(state.PgList?.EB_startmeterlist);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForEbRoomList]);
   const options = {
     dateFormat: "Y/m/d",
     maxDate: new Date(),
@@ -207,9 +228,9 @@ function EB_Hostel(props) {
     }
   }, [selectedDate]);
 
-  useEffect(() => {
-    setSelectedHostel(state.login.selectedHostel_Id);
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   setSelectedHostel(state.login.selectedHostel_Id);
+  // }, [state.login.selectedHostel_Id]);
 
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -231,13 +252,12 @@ function EB_Hostel(props) {
   };
 
   useEffect(() => {
-    if(selectedHostel){
+    if (selectedHostel) {
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
       });
     }
-   
   }, [selectedHostel]);
 
   useEffect(() => {
@@ -250,23 +270,21 @@ function EB_Hostel(props) {
   }, [Floor]);
 
   useEffect(() => {
-    if(selectedHostel){
+    if (selectedHostel) {
       dispatch({
         type: "HOSTELDETAILLIST",
         payload: { hostel_Id: selectedHostel },
       });
     }
-   
   }, [selectedHostel]);
 
   useEffect(() => {
-    if(selectedHostel){
+    if (selectedHostel) {
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: selectedHostel },
       });
     }
-  
   }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
@@ -323,8 +341,7 @@ function EB_Hostel(props) {
         dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
       }, 200);
     }
-  }, [state.PgList.statusCodeForEbRoomList])
-
+  }, [state.PgList.statusCodeForEbRoomList]);
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
@@ -427,11 +444,7 @@ function EB_Hostel(props) {
       setRoomError("");
     }
 
-    if (
-
-      !isEndMeterValid ||
-      (!isFloorValid && !isRoomValid && !isDatevalid)
-    ) {
+    if (!isEndMeterValid || (!isFloorValid && !isRoomValid && !isDatevalid)) {
       return;
     }
     if (Floor && Rooms && endmeter && selectedDate) {
@@ -472,10 +485,14 @@ function EB_Hostel(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRoomelectricity = electricityFilterddata?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+  // const currentRoomelectricity = electricityFilterddata?.slice(
+  //   indexOfFirstRowelectricity,
+  //   indexOfLastRowelectricity
+  // );
+  const currentRoomelectricity =
+    filterInput.length > 0
+      ? electricityFilterddata
+      : electricityFilterddata?.slice(indexOfFirstRowelectricity, indexOfLastRowelectricity);
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -597,19 +614,62 @@ function EB_Hostel(props) {
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
+  const handleSearch = () => {
+    setSearch(!search);
+    // setFilterStatus(false);
+  };
 
+const [originalElec,setOriginalElec] = useState("")
+const [originalElecRoom,etOriginalElecRoom] = useState("")
+  const handleUserSelect = (user) => {
+    setFilterInput(user.Name);
+    setelectricityFilterddata([user]);
+    setDropdownVisible(false);
+  };
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+    setelectricityFilterddata(originalElec);
+    setRoomBasedDetail(originalElecRoom);
+    // setReceiptData(originalReceipt);
+  };
+  useEffect(() => {
+      if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
+        setOriginalElec(electricityFilterddata);
+      }
+    }, [electricityFilterddata]);
+    useEffect(() => {
+      if (roomBasedDetail?.length > 0 && originalElecRoom?.length === 0) {
+        etOriginalElecRoom(roomBasedDetail);
+      }
+    }, [roomBasedDetail]);
+    const handleCloseSearch = () => {
+      setSearch(false);
+      setFilterInput("");
+      setelectricityFilterddata(originalElec);
+      setRoomBasedDetail(originalElecRoom);
+      // setReceiptData(originalReceipt);
+    };
+    const handleRoomUserSelect = (user) => {
+      setFilterInput(user.floor_name);
+      setRoomBasedDetail([user]);
+      setDropdownVisible(false);
+    };
+  
   return (
-    <div style={{ paddingLeft: 15}}>
-      <div className="d-flex justify-content-between align-items-center ms-2  mb-2"
-      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
+    <div style={{ paddingLeft: 15 }}>
+      <div
+        className="d-flex justify-content-between align-items-center ms-2  mb-2"
+        //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
       >
-        <div >
+        <div>
           <label
             style={{
               fontSize: 18,
               color: "#000000",
               fontWeight: 600,
-              fontFamily: "Gilroy",marginTop:7
+              fontFamily: "Gilroy",
+              marginTop: 7,
             }}
           >
             Electricity
@@ -618,25 +678,302 @@ function EB_Hostel(props) {
 
         <div
           className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25,marginTop:20 }}
+          style={{ paddingRight: 25, marginTop: 20 }}
         >
-          {/* <div className="me-3">
-            <Image
-              src={Filter}
-              roundedCircle
-              style={{ height: "30px", width: "30px" }}
-            />
-          </div> */}
-          <div style={{ paddingRight: "50px" ,marginTop:-10}}>
-            <div  style={{paddingLeft:40}}>
-                        {value === "1" && (
-              <img
-                src={excelimg}
-                width={38}
-                height={38}
-                onClick={handleEbExcel}
-              />
-            )}</div>
+         {search && value === "1" ? (
+                  <>
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        marginRight: 20,
+                        marginTop: "-10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        <Image
+                          src={searchteam}
+                          alt="Search"
+                          style={{
+                            position: "absolute",
+                            left: "10px",
+                            width: "24px",
+                            height: "24px",
+                            pointerEvents: "none",
+                          }}
+                        />
+                        <div
+                          className="input-group"
+                          style={{ marginRight: 20 }}
+                        >
+                          <span className="input-group-text bg-white border-end-0">
+                            <Image
+                              src={searchteam}
+                              style={{ height: 20, width: 20 }}
+                            />
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-start-0"
+                            placeholder="Search"
+                            aria-label="Search"
+                            style={{
+                              boxShadow: "none",
+                              outline: "none",
+                              borderColor: "rgb(207,213,219)",
+                              borderRight: "none",
+                            }}
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
+                          />
+                          <span className="input-group-text bg-white border-start-0">
+                            <img
+                              src={closecircle}
+                              onClick={handleCloseSearch}
+                              style={{ height: 20, width: 20 }}
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      {value === "1" &&
+                        isDropdownVisible &&
+                        electricityFilterddata?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight: electricityFilterddata?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                electricityFilterddata?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {electricityFilterddata?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== electricityFilterddata?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleUserSelect(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.Name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
+                      {/* {value === "2" &&
+                        isDropdownVisible &&
+                        roomBasedDetail?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                roomBasedDetail?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                roomBasedDetail?.length > 1
+                                    ? "auto"
+                                    : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {roomBasedDetail?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== roomBasedDetail?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleRoomUserSelect(user)}
+                                  >
+                                   
+                                    <span>{user.floor_name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )} */}
+
+                      {/* {value === "3" &&
+                        isDropdownVisible &&
+                        receiptdata?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                  receiptdata?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                  receiptdata?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {receiptdata?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== receiptdata?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleUserReceipt(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.Name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )} */}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                  {
+                    value === "1" &&
+                    <div className="me-2">
+                    <Image
+                      src={searchteam}
+                      roundedCircle
+                      style={{
+                        height: "24px",
+                        width: "24px",
+                        marginTop: "-5px",
+                        cursor:"pointer"
+                      }}
+                      onClick={handleSearch}
+                    />
+                  </div>
+                    
+                  }
+                   
+                  </>
+                )}
+          <div className="me-3" style={{ marginTop: -10 }}>
+            
+              {value === "1" && (
+                <img
+                  src={excelimg}
+                  width={38}
+                  height={38}
+                  onClick={handleEbExcel}
+                  style={{cursor:"pointer"}}
+                />
+              )}
+           
           </div>
 
           {hostelBased == 1 ? (
@@ -658,12 +995,13 @@ function EB_Hostel(props) {
                   paddingTop: 10,
                   paddingBottom: 10,
                   paddingLeft: 5,
-                  paddingRight: 5,marginTop:-3
+                  paddingRight: 5,
+                  marginTop: -3,
                 }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
-                +  Hostel Reading
+                + Hostel Reading
               </Button>
             </div>
           ) : (
@@ -695,11 +1033,11 @@ function EB_Hostel(props) {
                   fontWeight: 600,
                   borderRadius: "8px",
                   padding: "10px 12px",
-                  width: "auto",
+                  width: "140px",
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 45,
-      marginTop:-3
+                  marginTop: -3,
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -809,7 +1147,16 @@ function EB_Hostel(props) {
                       }}
                     >
                       <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{ebpermissionError}</span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {ebpermissionError}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -821,29 +1168,38 @@ function EB_Hostel(props) {
                     <div
                       style={{
                         // height: "400px",
-                        height: currentRoomelectricity.length >= 6 ? "400px" : "auto",
-                        overflowY: currentRoomelectricity.length >= 6 ? "auto" : "visible",
+                        height:
+                          currentRoomelectricity.length >= 6 ? "400px" : "auto",
+                        overflowY:
+                          currentRoomelectricity.length >= 6
+                            ? "auto"
+                            : "visible",
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
-                      }}>
+                      }}
+                    >
                       <Table
                         responsive="md"
                         className="Table_Design"
-                        style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
                       >
                         <thead
                           style={{
                             color: "gray",
                             fontSize: "11px",
                             backgroundColor: "#E7F1FF",
-                            position:"sticky",
-                            top:0,
-                            zIndex:1,
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
                           }}
                         >
                           <tr style={{ height: "30px" }}>
-
                             <th
                               style={{
                                 color: "#939393",
@@ -853,8 +1209,8 @@ function EB_Hostel(props) {
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
-                                paddingLeft:"20px",
-                                borderTopLeftRadius:24
+                                paddingLeft: "20px",
+                                borderTopLeftRadius: 24,
                                 // textAlign: hostelBased === 1 ? "start" : "center",
                               }}
                             >
@@ -993,13 +1349,12 @@ function EB_Hostel(props) {
 
                             return (
                               <tr key={v.id}>
-
                                 <td
                                   style={{
                                     border: "none",
                                     display: "flex",
                                     padding: "10px",
-                                    paddingLeft:"20px"
+                                    paddingLeft: "20px",
                                   }}
                                 >
                                   {/* <Image
@@ -1198,7 +1553,7 @@ function EB_Hostel(props) {
                       </Table>
                     </div>
                   ) : (
-                    <div  style={{marginTop:40}}>
+                    <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
                           src={emptyimg}
@@ -1420,8 +1775,6 @@ function EB_Hostel(props) {
                   //   </ul>
                   // </nav>
 
-
-
                   <nav
                     style={{
                       display: "flex",
@@ -1451,7 +1804,6 @@ function EB_Hostel(props) {
                           cursor: "pointer",
                           outline: "none",
                           boxShadow: "none",
-
                         }}
                       >
                         <option value={5}>5</option>
@@ -1477,8 +1829,12 @@ function EB_Hostel(props) {
                           style={{
                             padding: "5px",
                             textDecoration: "none",
-                            color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
-                            cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                            color:
+                              electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                            cursor:
+                              electricitycurrentPage === 1
+                                ? "not-allowed"
+                                : "pointer",
                             borderRadius: "50%",
                             display: "inline-block",
                             minWidth: "30px",
@@ -1486,15 +1842,28 @@ function EB_Hostel(props) {
                             backgroundColor: "transparent",
                             border: "none",
                           }}
-                          onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                          onClick={() =>
+                            handlePageChange(electricitycurrentPage - 1)
+                          }
                           disabled={electricitycurrentPage === 1}
                         >
-                          <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                          <ArrowLeft2
+                            size="16"
+                            color={
+                              electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"
+                            }
+                          />
                         </button>
                       </li>
 
                       {/* Current Page Indicator */}
-                      <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                      <li
+                        style={{
+                          margin: "0 10px",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
                         {electricitycurrentPage} of {totalPagesinvoice}
                       </li>
 
@@ -1504,8 +1873,14 @@ function EB_Hostel(props) {
                           style={{
                             padding: "5px",
                             textDecoration: "none",
-                            color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
-                            cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                            color:
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "#ccc"
+                                : "#1E45E1",
+                            cursor:
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "not-allowed"
+                                : "pointer",
                             borderRadius: "50%",
                             display: "inline-block",
                             minWidth: "30px",
@@ -1513,12 +1888,20 @@ function EB_Hostel(props) {
                             backgroundColor: "transparent",
                             border: "none",
                           }}
-                          onClick={() => handlePageChange(electricitycurrentPage + 1)}
-                          disabled={electricitycurrentPage === totalPagesinvoice}
+                          onClick={() =>
+                            handlePageChange(electricitycurrentPage + 1)
+                          }
+                          disabled={
+                            electricitycurrentPage === totalPagesinvoice
+                          }
                         >
                           <ArrowRight2
                             size="16"
-                            color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                            color={
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "#ccc"
+                                : "#1E45E1"
+                            }
                           />
                         </button>
                       </li>
@@ -1626,7 +2009,16 @@ function EB_Hostel(props) {
                 {floorError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {floorError}
+                    </span>
                   </div>
                 )}
               </div>
@@ -1671,7 +2063,16 @@ function EB_Hostel(props) {
                 {roomError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {roomError}
+                    </span>
                   </div>
                 )}
               </div>
@@ -1710,7 +2111,16 @@ function EB_Hostel(props) {
                 {endMeterError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{endMeterError}</span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {endMeterError}
+                    </span>
                   </div>
                 )}
               </div>
@@ -1781,6 +2191,7 @@ function EB_Hostel(props) {
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
             selectedHostel={selectedHostel}
+            roomBasedDetail={roomBasedDetail}
           />
         </TabPanel>
 
