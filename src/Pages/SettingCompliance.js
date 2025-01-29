@@ -423,10 +423,10 @@ if(state.Settings.errorCompliants){
                 backdrop="static"
                 centered
             >
-                <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                <Modal.Header style={{ position: "relative" }}>
                     <div
                         style={{
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
                         }}
@@ -449,8 +449,8 @@ if(state.Settings.errorCompliants){
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "20px",
+                            height: "20px",
                             borderRadius: "50%",
                         }}
                     >
@@ -497,6 +497,7 @@ if(state.Settings.errorCompliants){
                                         borderRadius: 8,
                                     }}
                                 />
+                                
                             </Form.Group>
                             <div>
                                 {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
@@ -505,9 +506,6 @@ if(state.Settings.errorCompliants){
 
 
                     </div>
-                </Modal.Body>
-
-                <Modal.Footer className="d-flex justify-content-center">
                     <Button
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                         style={{
@@ -523,7 +521,7 @@ if(state.Settings.errorCompliants){
                     >
                         Edit Complaint Type
                     </Button>
-                </Modal.Footer>
+                </Modal.Body>
             </Modal>
 
             <Modal
