@@ -27,6 +27,7 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
+import UserEb from "./UserListEb";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
@@ -778,6 +779,7 @@ function EB_Hostel(props) {
               value={value}
               hostelBased={hostelBased}
             />
+            <UserEb hostelName={hostelName}/>
 
             {ebpermissionError ? (
               <>

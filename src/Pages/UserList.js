@@ -593,7 +593,7 @@ function UserList(props) {
       setRoomDetail(false)
       console.log(roomDetail, "roo");
 
-
+      dispatch({type:'USERROOMAVAILABLEFALSE'})
     }
   }, [state.UsersList.userRoomfor])
 
@@ -606,7 +606,7 @@ function UserList(props) {
       setIsDeleting(true)
       setRoomDetail(true)
       console.log(roomDetail, "roo");
-
+      dispatch({type:'USERPROFILEBILLFALSE'})
 
     }
   }, [state.UsersList.userProfilebill])
@@ -653,6 +653,7 @@ function UserList(props) {
       console.log("userreading", state.UsersList.userReading);
       setIsRoomReading(true)
       setRoomDetail(true)
+      dispatch({type:'USERREADINGFALSE'})
     }
   }, [state.UsersList.userReading])
 
@@ -662,20 +663,24 @@ function UserList(props) {
       console.log("userhosteleading", state.UsersList.userHostelRead);
       setIsHostelReading(true)
       setRoomDetail(true)
+      dispatch({type:'USERHOSTELREADINGFALSE'})
     }
   }, [state.UsersList.userHostelRead])
 
   useEffect(() => {
     if (state.UsersList.userReadingdelete) {
       setRoomDelete(true)
+      dispatch({type:'USERREADING_DELETEFALSE'})
     }
   }, [state.UsersList.userReadingdelete])
 
   useEffect(() => {
     if (state.UsersList.userHosteldelete) {
       setHostelDelete(true)
+      dispatch({type:'USERHOSTEL_READING_DELETEFALSE'})
     }
   }, [state.UsersList.userHosteldelete])
+  
 
   const handleCloseHostel = () => {
     setIsHostelReading(false);
