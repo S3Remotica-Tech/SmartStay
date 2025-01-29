@@ -11,6 +11,8 @@ import close from '../Assets/Images/close.svg';
 import Delete from "../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from "../Assets/Images/New_images/edit.png";
+import Select from "react-select";
+
 
 
 const SettingElectricity = ({ hostelid }) => {
@@ -211,9 +213,9 @@ const SettingElectricity = ({ hostelid }) => {
     setCalculatedstartdate(e.target.value);
   };
 
-  const handleEndDateChange = (e) => {
-    setCalculatedEnddate(e.target.value);
-  };
+  // const handleEndDateChange = (e) => {
+  //   setCalculatedEnddate(e.target.value);
+  // };
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value)
@@ -291,7 +293,18 @@ const SettingElectricity = ({ hostelid }) => {
   }, [state.Settings?.getebStatuscode])
 
 
+  const options = Array.from({ length: 31 }, (_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  }));
 
+
+  const handleStartDateChange = (selectedOption) => {
+    console.log(selectedOption?.value); // Update this to your logic
+  };
+  const handleEndDateChange = (selectedOption) => {
+    console.log(selectedOption?.value); // Update this to your logic
+  };
 
 
 
@@ -697,7 +710,7 @@ const SettingElectricity = ({ hostelid }) => {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body style={{marginBottom:"0px"}}>
+        <Modal.Body style={{ marginBottom: "0px" }}>
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -778,7 +791,7 @@ const SettingElectricity = ({ hostelid }) => {
                   }}
                 >
                   <span style={{ fontSize: "20px", marginRight: "5px" }}>
-                    <MdError style={{fontSize: "15px",marginBottom:"5px"}}/>
+                    <MdError style={{ fontSize: "15px", marginBottom: "5px" }} />
                   </span>
                   {amountErr}
                 </p>
@@ -789,7 +802,7 @@ const SettingElectricity = ({ hostelid }) => {
           </div>
         </Modal.Body>
 
-        <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none",marginBottom:"20px"}}>
+        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none", marginBottom: "20px" }}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -856,7 +869,7 @@ const SettingElectricity = ({ hostelid }) => {
                 justifyContent: "center",
                 borderTop: "none",
                 marginTop: "-10px",
-                borderTopColor:"red"
+                borderTopColor: "red"
               }}
             >
               <Button
@@ -980,19 +993,75 @@ const SettingElectricity = ({ hostelid }) => {
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">EB calculation Start Date will be</label>
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="hi col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
                         value={calculatedstartdate}
                         onChange={handlestartDateChange}
+                        size={5} 
                       >
                         <option value="">Select</option>
                         {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
+                          <option key={index + 1} value={index + 1} className='ReSELECT'>
                             {index + 1}
                           </option>
                         ))}
                       </select>
+                       </div> */}
+
+
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleStartDateChange}
+                        placeholder="Select"
+                        classNamePrefix="custom-select"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            overflowY: "auto",
+                            scrollbarWidth: "thin",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            maxHeight: "40px",
+                            overflow: "hidden",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
+
+
+
+
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
@@ -1010,7 +1079,7 @@ const SettingElectricity = ({ hostelid }) => {
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">EB Calculation End date wil be</label>
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
                         value={calculatedenddate}
                         onChange={handleEndDateChange}
@@ -1021,6 +1090,57 @@ const SettingElectricity = ({ hostelid }) => {
                           </option>
                         ))}
                       </select>
+                    </div> */}
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleEndDateChange}
+                        value={options.find((option) => option.value === calculatedenddate)}
+                        placeholder="Select"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            overflowY: "auto",
+                            scrollbarWidth: "thin",
+                           
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            maxHeight: "40px",
+                            overflow: "hidden",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>

@@ -89,32 +89,27 @@ function User({ show, handleClose, editDetails, hostelid,setAddUserForm,setEdit,
   }
 
   const handleEmailChange = (e) => {
-    setEmailError('')
-    setError('')
-    const emailValue = e.target.value;
+    setEmailError('');
+    setError('');
+  
+    // Automatically convert email to lowercase
+    const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
-
-    const hasUpperCase = /[A-Z]/.test(emailValue);
-
-
+  
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(emailValue);
-
-
+  
     if (!emailValue) {
       setEmailError("Please enter Email");
-    } else if (hasUpperCase) {
-      setEmailError("Email should be in lowercase");
     } else if (!isValidEmail) {
       setEmailError("Invalid Email Id *");
     } else {
       setEmailError("");
-
     }
-
-
+  
     dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
   };
+  
 
 
 
@@ -277,7 +272,7 @@ const handleCloseForm = ()=>{
       <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editDetails ? 'Edit User' : 'Add User'}</Modal.Title>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{edit ? 'Edit User' : 'Add User'}</Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{cursor:"pointer"}} />
 
@@ -317,35 +312,47 @@ const handleCloseForm = ()=>{
               </div>
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
-                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                  <Form.Control
-                    value={email}
-                    onChange={handleEmailChange}
-                    type="text" placeholder="Enter email" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                </Form.Group>
+  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+      Email <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+    </Form.Label>
+    <Form.Control
+      value={email}
+      onChange={handleEmailChange}
+      type="text"
+      placeholder="Enter email"
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 50,
+        borderRadius: 8,
+      }}
+    />
+  </Form.Group>
 
-                {emailError && (
-                  <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy", display: "flex", alignItems: "center", margin: 0 }}>
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
-                      <MdError style={{ marginBottom: "3px" }} />
-                    </span>
-                    {emailError}
-                  </p>
-                )}
+  {emailError && (
+    <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy", display: "flex", alignItems: "center", margin: 0 }}>
+      <span style={{ fontSize: "14px", marginRight: "5px" }}>
+        <MdError style={{ marginBottom: "3px" }} />
+      </span>
+      {emailError}
+    </p>
+  )}
 
+  {state.Settings.emailIdError && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {state.Settings.emailIdError}
+      </label>
+    </div>
+  )}
+</div>
 
-                {state.Settings.emailIdError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {state.Settings.emailIdError}
-                    </label>
-                  </div>
-                )}
-
-
-              </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group
                 >
@@ -621,7 +628,7 @@ const handleCloseForm = ()=>{
             <Button
               onClick={handleSubmit}
               className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
-              {editDetails ? 'Save Changes' : ' + Create User'}
+              {edit ? 'Save Changes' : ' + Create User'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

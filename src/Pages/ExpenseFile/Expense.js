@@ -781,18 +781,19 @@ function Expenses({ allPageHostel_Id }) {
             <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
               style={{
                 position: 'sticky',
-                top: 15,
+                // top: 15,
+                marginTop:-2,
                 backgroundColor: 'white',
                 zIndex: 10,
                 padding: '10px',
               }}
             >
               <div className='d-flex align-items-center flex-wrap'>
-                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" ,marginTop:-20}}>Expenses</label>
+                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" ,marginTop:-25}}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative',marginTop:"-2px" }}>
+                <div style={{ margin: 20, position: 'relative',marginTop:"20px" }}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -1126,7 +1127,7 @@ function Expenses({ allPageHostel_Id }) {
                     maxWidth: "100%",
                     marginBottom: "10px",
                     maxHeight: 45,
-        marginTop:-20
+        marginTop:-15
                   }}
                   > + Expense</Button>
                 </div>

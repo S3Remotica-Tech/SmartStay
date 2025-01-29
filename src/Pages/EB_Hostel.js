@@ -609,7 +609,7 @@ function EB_Hostel(props) {
               fontSize: 18,
               color: "#000000",
               fontWeight: 600,
-              fontFamily: "Gilroy",marginTop:12
+              fontFamily: "Gilroy",marginTop:7
             }}
           >
             Electricity
@@ -657,7 +657,7 @@ function EB_Hostel(props) {
                   paddingTop: 10,
                   paddingBottom: 10,
                   paddingLeft: 5,
-                  paddingRight: 5,marginTop:-6
+                  paddingRight: 5,marginTop:-3
                 }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
@@ -698,7 +698,7 @@ function EB_Hostel(props) {
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 45,
-      marginTop:-6
+      marginTop:-3
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}

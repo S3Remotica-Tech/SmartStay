@@ -261,7 +261,7 @@ function Reports() {
 <div className='container'>
 <div className="d-flex justify-content-between mb-2 flex-wrap">
               <div>
-                <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy",marginTop:5 }}>Reports</label>
+                <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy",}}>Reports</label>
 
               </div>
 
@@ -364,7 +364,7 @@ function Reports() {
 
 
             {searchQuery && (
-        <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+        <div  className='container mb-4'   style={{fontWeight: 600, fontSize: 16 }}>
           {reports.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
               {reports.length} result{reports.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>

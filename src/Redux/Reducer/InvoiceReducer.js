@@ -45,6 +45,11 @@ const initialState = {
     deletemanualError:'',
     ReceiptList:[],
     ReceiptlistgetStatuscode:0,
+    ReceiptAddsuccessStatuscode:0,
+    ReceiptEditsuccessStatuscode:0,
+    ReceiptDeletesuccessStatuscode:0,
+    Reference_Id:'',
+    ReferenceIdgetsuccessStatuscode:0,
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -185,6 +190,26 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptList: action.payload.response ? action.payload.response : [], ReceiptlistgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECEIPTS_LIST':
             return { ...state, ReceiptlistgetStatuscode: 0 }
+
+        case 'RECEIPTS_ADD':
+            return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } //Receipt Add
+        case 'REMOVE_STATUS_CODE_RECEIPTS_ADD':
+            return { ...state, ReceiptAddsuccessStatuscode: 0 }
+
+        case 'RECEIPTS_EDIT':
+            return { ...state, ReceiptEditsuccessStatuscode: action.payload.statusCode } //Receipt edit
+        case 'REMOVE_STATUS_CODE_RECEIPTS_EDIT':
+            return { ...state, ReceiptEditsuccessStatuscode: 0 }
+
+        case 'DELETERECEIPT':
+            return { ...state, ReceiptDeletesuccessStatuscode: action.payload.statusCode }
+        case 'CLEAR_DELETE_RECEIPT_STATUS_CODE':
+            return { ...state, ReceiptDeletesuccessStatuscode: 0 }
+
+       case 'REFERENCEID_GET':
+            return { ...state, Reference_Id:action.payload.response, ReferenceIdgetsuccessStatuscode: action.payload.statusCode } //Receipt Add
+       case 'REMOVE_STATUS_CODE_REFERENCEID_GET':
+            return { ...state, ReferenceIdgetsuccessStatuscode: 0 }
     }
 
     return state;

@@ -162,7 +162,9 @@ function CheckOut(props) {
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+
   const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {

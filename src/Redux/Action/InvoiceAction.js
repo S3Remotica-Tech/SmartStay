@@ -90,9 +90,27 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function AddReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/add', receipt, { // create new Receipt
+      data: receipt
+    })
+  }
+
+  
+  export async function EditReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/edit', receipt, { // Edit Receipt
+      data: receipt
+    })
+  }
+
   export async function DeleteReceipt(receipt) {
-    return await AxiosConfig.post('/delete_recuring_bill',receipt, { // Delete receipt 
+    return await AxiosConfig.post('/receipts/delete',receipt, { // Delete receipt 
       data:receipt
+    })
+  }
+
+  export async function ReferenceIdGet() {
+    return await AxiosConfig.get('/receipts/gen_reference',{ //refrence id
     })
   }
 

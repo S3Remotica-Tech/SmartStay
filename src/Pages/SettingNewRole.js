@@ -72,6 +72,18 @@ const [loading, setLoading] = useState(true)
         setDeleteRole(false)
     }
 
+    useEffect(() => {
+      if (state.Settings?.assignedUserRoleStatusCode == 202) {
+        setDeleteRole(false)
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_ASSIGNED_ERROR' })
+        })
+      }
+  
+    }, [state.Settings?.assignedUserRoleStatusCode])
+
+
+
 
     const handleDeleteRole = () => {
         if(deletedId){
@@ -159,7 +171,7 @@ const handleEditForm = (view) =>{
 
     return (
         <div className="container " style={{position:"relative"}}>
-            <div className='container d-flex justify-content-between align-items-center'
+            <div className=' d-flex justify-content-between align-items-center'
                 style={{
                     position: "sticky",
                     top: 0,
@@ -178,7 +190,7 @@ const handleEditForm = (view) =>{
                     <Button
                         onClick={handleAddRole}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px", }}
+                          fontWeight: 600, borderRadius: 8, padding: "8px 10px", }}
                         disabled={showPopup}
                   >
 
