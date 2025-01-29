@@ -175,21 +175,21 @@ function EBRoomReading(props) {
     dispatch({ type: "EBLIST" });
 
   }, []);
-  useEffect(() => {
-    if (props.selectedHostel) {
-      dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: hostelId } });
-    }
-  }, [hostelId])
+  // useEffect(() => {
+  //   if (props.selectedHostel) {
+  //     dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: hostelId } });
+  //   }
+  // }, [hostelId])
 
-  useEffect(() => {
-    if (state.PgList?.statusCodeForEbRoomList === 200) {
-      setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+  // useEffect(() => {
+  //   if (state.PgList?.statusCodeForEbRoomList === 200) {
+  //     setelectricityFilterddata(state.PgList?.EB_startmeterlist);
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-      }, 1000);
-    }
-  }, [state.PgList.statusCodeForEbRoomList])
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+  //     }, 1000);
+  //   }
+  // }, [state.PgList.statusCodeForEbRoomList])
 
 
 
@@ -364,7 +364,7 @@ function EBRoomReading(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = electricityFilterddata?.slice(
+  const currentRowelectricity = props.roomBasedDetail?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -377,7 +377,7 @@ function EBRoomReading(props) {
   };
 
   const totalPagesinvoice = Math.ceil(
-    electricityFilterddata?.length / electricityrowsPerPage
+    props.roomBasedDetail?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -1056,7 +1056,7 @@ function EBRoomReading(props) {
               )}
             </div>
 
-            {electricityFilterddata.length > electricityrowsPerPage && (
+            {props.roomBasedDetail?.length > electricityrowsPerPage && (
               <nav
                 style={{
                   display: "flex",

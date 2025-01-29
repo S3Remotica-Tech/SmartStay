@@ -51,6 +51,8 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   const [advanceamount,setAdvanceAmount] = useState('')
   const [dueamount, SetDueAmount] = useState('')
   const [invoicenumber, SetInvoiceNumber] = useState('')
+  const [bedname,setBedname] = useState('')
+  const [floorname,setFloorname] = useState('')
 
   const calendarRef = useRef(null);
 
@@ -138,6 +140,8 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       setCurrentFloor(currentItem.Floor )
       setNoticeDays(currentItem.notice_period);
       setComments(currentItem.checkout_comment );
+      setBedname(currentItem.bed_name);
+      setFloorname(currentItem.floor_name)
 
     } else {
       setCheckOutDate('');
@@ -621,7 +625,7 @@ if(checkOutDate){
                           id="form-controls"
                           placeholder="Enter name"
                           type="text"
-                          value={currentFloor}
+                          value={floorname}
                         //   onChange={(e) => handleFirstName(e)}
                           style={{
                             fontSize: 16,
@@ -665,7 +669,7 @@ if(checkOutDate){
                           id="form-controls"
                           placeholder="Enter name"
                           type="text"
-                          value={currentBed}
+                          value={bedname}
                         //   onChange={(e) => handleFirstName(e)}
                           style={{
                             fontSize: 16,
