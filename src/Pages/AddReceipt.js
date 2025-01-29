@@ -248,15 +248,17 @@ const AddReceiptForm = (props) => {
 
 
   
+   
 
 
 
-
-
-
-
-
-
+   console.log("editedname",props.editvalue.user_id,customername)
+   console.log("editedreferebc",props.editvalue.reference_id,reference_id)
+   console.log("editedamount_received",props.editvalue.amount_received,received_amount)
+   console.log("editedinvoice_numberc",props.editvalue.invoice_number,invoicenumber)
+   console.log("editedpayment_mode",props.editvalue.payment_mode,payment_mode)
+   console.log("editednotes",props.editvalue.notes,notes)
+   console.log("editedbank_id",props.editvalue.bank_id,bank_id)
 
 
      const handleCreateReceipt = () => {
@@ -291,6 +293,23 @@ const AddReceiptForm = (props) => {
            setAllFieldErrmsg('Please Enter All Field')
            return;
           }
+
+          const isChanged =
+          Number(props.editvalue.user_id) !== Number(customername) ||
+          String(props.editvalue.payment_date) !== String(formatpaymentdate) ||
+          String(props.editvalue.reference_id) !== String(reference_id) ||
+          Number(props.editvalue.amount_received) !== Number(received_amount) ||
+          String(props.editvalue.invoice_number) !== String(invoicenumber) ||
+          String(props.editvalue.payment_mode) !== String(payment_mode) ||
+          String(props.editvalue.bank_id) !== String(bank_id) 
+          // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
+        
+        if (!isChanged) {
+          setAllFieldErrmsg("No changes detected!");
+          return;
+        }
+        
+
          
           if( !edit && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
            dispatch({
@@ -312,14 +331,16 @@ const AddReceiptForm = (props) => {
              setNotes('')
           }
 
-          else if(edit && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
+          else if(edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id ){
             dispatch({
               type: 'EDIT_RECEIPTS',
-              payload: {id:props.editvalue.id, user_id: customername, payment_date: formatpaymentdate ,
-  amount : received_amount , invoice_number: invoicenumber, payment_mode: payment_mode ,notes : notes 
+              payload: {id:props.editvalue.id, user_id: customername, payment_date: formatpaymentdate ,reference_id: reference_id ,
+  amount : received_amount , invoice_number: invoicenumber, payment_mode: payment_mode ,notes : notes , bank_id: bank_id
             
               }
               });
+
+        
  
               props.onhandleback()
               setCustomerName('');
@@ -438,7 +459,7 @@ const AddReceiptForm = (props) => {
 
             <div style={{display:'flex',flexDirection:'row',marginTop:'20px'}} >
   <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-  <p className='mt-1'>New Bill</p>
+  <p className='mt-1'>{edit? "Edit Receipt":"New Receipt"} </p>
   </div>
 
 
@@ -801,7 +822,7 @@ const AddReceiptForm = (props) => {
       onClick={handleCreateReceipt}
        className='w-80 mt-5 me-5' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
        borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
-        Create Receipt
+     {edit ? "Update Receipt" : "Create Receipt"}    
       </Button>
    </div>
   
