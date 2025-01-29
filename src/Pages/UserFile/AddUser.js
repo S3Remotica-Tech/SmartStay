@@ -284,7 +284,8 @@ const handleCloseForm = ()=>{
             <div className='row mt-2'>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3'>
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Name<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                  >Name<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     value={name}
                     onChange={handleNameChange}
