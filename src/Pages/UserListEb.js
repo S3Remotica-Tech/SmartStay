@@ -207,7 +207,8 @@ const popupRef = useRef(null);
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,  backgroundColor: activeId === u.eb_Id  ? "#E7F1FF"  : "white", }}
+                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
+                        }}
                     
                         onClick={(e) => handleShowDots(u.eb_Id,e)}
                       

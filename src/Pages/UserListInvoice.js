@@ -47,9 +47,9 @@ console.log("propss",props);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
- 
+  const [showDots, setShowDots] = useState("");
   const [activeId, setActiveId] = useState(null);
-
+ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
  
    
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
@@ -138,10 +138,13 @@ console.log("propss",props);
  
  
 
-  const handleShowDots = (item) => {
+  const handleShowDots = (item,event) => {
     console.log("ClickedID:", item); // Debugging
     setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
-    
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+    setPopupPosition({ top: popupTop, left: popupLeft });
   };
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -479,8 +482,8 @@ const handleDeleteBill = (user) => {
                         position: "relative",
                         zIndex: 1000,
                       }}
-                      onClick={() =>
-                        handleShowDots(view)
+                      onClick={(e) =>
+                        handleShowDots(view,e)
                       }
                     >
                       <PiDotsThreeOutlineVerticalFill
@@ -491,15 +494,23 @@ const handleDeleteBill = (user) => {
                 ref={popupRef}
                 style={{
                   cursor: "pointer",
-                  backgroundColor: "#fff",
-                  position: "absolute",
-                  right: 50,
-                  top: 20,
-                  width: 163,
-                  border: "1px solid #EBEBEB",
-                  borderRadius: 10,
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                  zIndex: 1000,
+                                          backgroundColor: "#fff",
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+                                          // position: "absolute",
+                                          // right: 50,
+                                          // top: 20,
+                                          width: 163,
+                                          height: "auto",
+                                          border: "1px solid #EBEBEB",
+                                          borderRadius: 10,
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          padding: 10,
+                                          alignItems: "center",
+                                          zIndex: showDots ? 1000 : "auto",
+
                 }}
               >
                 <div style={{ padding: 10 }}>
