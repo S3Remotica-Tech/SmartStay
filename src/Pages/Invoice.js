@@ -3921,7 +3921,7 @@ const InvoicePage = () => {
                                 )
                               )}
 
-                              {currentItems.length > 0 && (
+                              {bills.length > itemsPerPage && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -4410,7 +4410,7 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                  {currentItem.length > 0 && (
+                  {recurringbills.length > itemsPage && (
                     <nav
                       style={{
                         display: "flex",
@@ -4802,7 +4802,7 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                  {currentReceiptData.length > 0 && (
+                  {receiptdata.length > itemsPage && (
                     <nav
                       style={{
                         display: "flex",

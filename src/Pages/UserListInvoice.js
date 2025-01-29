@@ -595,7 +595,7 @@ const handleDeleteBill = (user) => {
       </div>
     
 
-      {currentRowinvoice?.length > 0 && (
+      {invoiceFilterddata?.length > invoicerowsPerPage && (
       
                  <nav
                                      style={{

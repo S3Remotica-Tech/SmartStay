@@ -1207,7 +1207,7 @@ const handleFilterd = () => {
                   }
 
                 </div>
-                {currentItems?.length > 0 && (
+                {filteredUsers?.length > itemsPerPage && (
                   <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
                   // style={{
                   //   display: "flex",

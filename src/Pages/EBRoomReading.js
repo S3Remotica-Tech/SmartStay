@@ -1056,7 +1056,7 @@ function EBRoomReading(props) {
               )}
             </div>
 
-            {currentRowelectricity.length > 0 && (
+            {electricityFilterddata.length > electricityrowsPerPage && (
               <nav
                 style={{
                   display: "flex",

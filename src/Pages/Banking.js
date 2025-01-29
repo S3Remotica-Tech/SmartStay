@@ -1560,7 +1560,7 @@ function Banking() {
               </div>
             )}
 
-            {currentRowTransaction?.length > 0 && (
+            {transactionFilterddata?.length > transactionrowsPerPage && (
               <nav
                 style={{
                   display: "flex",

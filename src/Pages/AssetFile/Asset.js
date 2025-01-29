@@ -837,7 +837,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
             {/* </div>  */}
             {/*  Pagination code */}
-            {currentItems.length > 0 &&
+            {filteredData.length > itemsPerPage &&
               // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
               //   <Pagination.Prev style={{ visibility: "visible" }}
               //     onClick={() => paginate(currentPage - 1)}

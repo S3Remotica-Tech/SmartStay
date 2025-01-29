@@ -1295,7 +1295,7 @@ function EB_Hostel(props) {
                   )}
                 </div>
 
-                {currentRoomelectricity?.length > 0 && (
+                {electricityFilterddata?.length > electricityrowsPerPage && (
                   // <nav>
                   //   <ul
                   //     style={{
