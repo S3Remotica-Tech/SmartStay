@@ -459,7 +459,7 @@ function Expenses({ allPageHostel_Id }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   let filteredData = [];
@@ -1327,7 +1327,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
           {/*  Pagination code */}
-          {currentItems.length > 0 &&
+          {filteredData.length > itemsPerPage &&
             <nav
               style={{
                 display: "flex",

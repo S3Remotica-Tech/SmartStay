@@ -719,7 +719,7 @@ function UserListAmenities(props) {
           </tbody>
         </Table>
       </div>
-      {currentRowAmnities.length > 0 && (
+      {amnitiesFilterddata.length > amentiesrowsPerPage && (
         <nav
           style={{
             display: "flex",

@@ -3807,7 +3807,7 @@ console.log("Name",bills)
                                 )
                               )}
 
-                              {currentItems.length > 0 && (
+                              {bills.length > itemsPerPage && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -4296,7 +4296,7 @@ console.log("Name",bills)
                     </div>
                   )}
 
-                  {currentItem.length > 0 && (
+                  {recurringbills.length > itemsPage && (
                     <nav
                       style={{
                         display: "flex",
@@ -4684,7 +4684,7 @@ console.log("Name",bills)
                     </div>
                   )}
 
-                  {currentReceiptData.length > 0 && (
+                  {receiptdata.length > itemsPage && (
                     <nav
                       style={{
                         display: "flex",

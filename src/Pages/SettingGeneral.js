@@ -985,7 +985,7 @@ function SettingGeneral() {
         )}
       </div>
 
-      {currentRowGeneral?.length > 0 && (
+      {generalFilterddata?.length > generalrowsPerPage && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>
