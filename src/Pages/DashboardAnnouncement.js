@@ -402,7 +402,7 @@ function DashboardAnnouncement(props) {
 
 
 
-
+console.log("state.PgList?.announcementList?.announcements",state.PgList?.announcementList?.announcements)
 
 
   return (
@@ -528,7 +528,14 @@ function DashboardAnnouncement(props) {
                         <p style={{ marginBottom: "0px" }}>
                           <Image
                             roundedCircle
-                            src={data?.profile || Profile}
+                            // src={data?.profile || Profile}
+                            // src={data?.profile && data.profile !== 0 ? data.profile : Profile}
+                            src={
+                              !data.profile || ["0", "", "undefined", "null", "NULL",null,undefined,0].includes(String(data.profile).trim()) 
+                                ? Profile 
+                                : data.profile
+                            }
+
                             alt="Ellipse5"
                             width={25}
                             height={25}
