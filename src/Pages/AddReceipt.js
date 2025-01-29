@@ -293,15 +293,28 @@ const AddReceiptForm = (props) => {
            setAllFieldErrmsg('Please Enter All Field')
            return;
           }
-
+          const formatDateToLocal = (date) => {
+            if (!date) return ""; // Handle null/undefined cases
+            const d = new Date(date);
+            return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+          };
+          
           const isChanged =
-          Number(props.editvalue.user_id) !== Number(customername) ||
-          String(props.editvalue.payment_date) !== String(formatpaymentdate) ||
-          String(props.editvalue.reference_id) !== String(reference_id) ||
-          Number(props.editvalue.amount_received) !== Number(received_amount) ||
-          String(props.editvalue.invoice_number) !== String(invoicenumber) ||
-          String(props.editvalue.payment_mode) !== String(payment_mode) ||
-          String(props.editvalue.bank_id) !== String(bank_id) 
+          (() => {
+            return (
+              Number(props.editvalue.user_id) !== Number(customername) ||
+              // String(props.editvalue.payment_date) !== String(formatpaymentdate) ||
+              formatDateToLocal(props.editvalue.payment_date) !== formatDateToLocal(formatpaymentdate) || 
+              String(props.editvalue.reference_id) !== String(reference_id) ||
+              Number(props.editvalue.amount_received) !== Number(received_amount) ||
+              String(props.editvalue.invoice_number) !== String(invoicenumber) ||
+              String(props.editvalue.payment_mode) !== String(payment_mode) ||
+              String(props.editvalue.bank_id) !== String(bank_id)
+            );
+          })();
+        
+        console.log("Final isChanged Value:", isChanged);
+        
           // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
         
         if (!isChanged) {
