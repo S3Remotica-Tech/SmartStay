@@ -2642,7 +2642,7 @@ const InvoicePage = () => {
                 ) : (
 
                   <>
-                    <div className="me-3">
+                    <div className="me-3" style={{marginTop:-10}}>
                       <Image
                         src={searchteam}
                         roundedCircle
@@ -2655,7 +2655,7 @@ const InvoicePage = () => {
 
                 {
                   value === "1" && (
-                    <div className="me-3">
+                    <div className="me-3" style={{marginTop:-10}}>
                       <Image
                         src={Filters}
                         roundedCircle
@@ -2696,7 +2696,7 @@ const InvoicePage = () => {
 </div> */}
 
 
-                <div className="me-5">
+                <div className="me-4">
                   {value == 1 && (
                     <Button
                       disabled={billAddPermission}

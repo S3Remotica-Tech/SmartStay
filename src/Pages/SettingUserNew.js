@@ -96,6 +96,7 @@ const popupLeft = left - 200;
 
     const handleClose = () => {
         setIsConfirmDelete(false)
+        
     }
 
 
@@ -568,23 +569,76 @@ const popupLeft = left - 200;
             {
                 isConfirmDelete &&
 
-                <Modal show={isConfirmDelete} onHide={handleClose} centered backdrop="static">
-                    <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
-                        <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete User ?</Modal.Title>
+                <Modal show={isConfirmDelete} onHide={handleClose} 
+                centered
+                    backdrop="static"
+                    style={{
+                        width: 388,
+                        height: 250,
+                        marginLeft: "500px",
+                        marginTop: "200px",
+                    }}>
+                    <Modal.Header style={{ borderBottom: "none" }} >
+                        <Modal.Title style={{
+                                fontSize: "18px",
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                fontWeight: 600,
+                                color: "#222222",
+                                flex: 1,
+                            }}
+                        >Delete User ?</Modal.Title>
                     </Modal.Header>
 
 
 
-                    <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+                    <Modal.Body style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            color: "#646464",
+                            textAlign: "center",
+                            marginTop: "-20px",
+                        }}>
                         Are you sure you want to delete the User ?    </Modal.Body>
-                    <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
+                    <Modal.Footer 
+                    style={{
+                        justifyContent: "center",
+                        borderTop: "none",
+                        marginTop: "-10px",
+                    }}
+                    >
                         <Button
-                            onClick={handleClose}
-                            style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                           style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#fff",
+                            color: "#1E45E1",
+                            border: "1px solid #1E45E1",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            marginRight: 10,
+                        }}
+                        onClick={handleClose}
+                             >
                             Cancel
                         </Button>
 
-                        <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                        <Button 
+                        style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#1E45E1",
+                            color: "#FFFFFF",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                        }}
                             onClick={handleDelete}
                         >
                             Delete

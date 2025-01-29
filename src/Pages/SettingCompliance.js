@@ -405,10 +405,10 @@ function SettingCompliance({ hostelid }) {
                 backdrop="static"
                 centered
             >
-                <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                <Modal.Header style={{ position: "relative" }}>
                     <div
                         style={{
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
                         }}
@@ -431,8 +431,8 @@ function SettingCompliance({ hostelid }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "20px",
+                            height: "20px",
                             borderRadius: "50%",
                         }}
                     >
@@ -487,9 +487,6 @@ function SettingCompliance({ hostelid }) {
 
 
                     </div>
-                </Modal.Body>
-
-                <Modal.Footer className="d-flex justify-content-center">
                     <Button
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                         style={{
@@ -505,7 +502,7 @@ function SettingCompliance({ hostelid }) {
                     >
                         Edit Complaint Type
                     </Button>
-                </Modal.Footer>
+                </Modal.Body>
             </Modal>
 
             <Modal
