@@ -186,10 +186,10 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        if (state.login.selectedHostel_Id) {
+        // if (state.login.selectedHostel_Id) {
 
             dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-        }
+        // }
     }, [state.login.selectedHostel_Id])
 
 
@@ -200,11 +200,21 @@ function SettingAmenities({ hostelid }) {
             setAmenitiesList(state.InvoiceList.AmenitiesList)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
-            }, 2000)
+            }, 200)
         }
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
 
+    useEffect(()=>{
+        if(state.InvoiceList.errorAmenities){
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ERROR_AMENITIES' })
+            }, 200)
+
+        }
+
+    },[state.InvoiceList.errorAmenities])
   
 
 
@@ -319,7 +329,7 @@ function SettingAmenities({ hostelid }) {
 
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red" , fontSize:14, fontFamily:"Gilroy"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding Amentities information.
                     </p>
 

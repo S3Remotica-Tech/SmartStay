@@ -47,6 +47,9 @@ function SettingExpenses({ hostelid }) {
   const [loading, setLoading] = useState(true)
 
 
+  
+
+
   useEffect(() => {
     setExpenceRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
@@ -311,6 +314,18 @@ function SettingExpenses({ hostelid }) {
     }
   }, [state.Settings.getExpensesStatuscode])
 
+useEffect(()=>{
+  if(state.Settings.categoryError){
+    setLoading(false)
+    setTimeout(() => {
+      dispatch({ type: 'REMOVE_ERROR_CATEGORY' })
+    }, 100)
+  }
+
+},[state.Settings.categoryError])
+
+console.log("state.Settings.categoryError",state.Settings.categoryError)
+
 
 
   useEffect(() => {
@@ -464,17 +479,17 @@ function SettingExpenses({ hostelid }) {
       {showPopup && (
         <div className="d-flex flex-wrap mt-3 align-items-center"
           style={{ gap: "10px" }} >
-          <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            !Please add a hostel before adding Expense information.
+          <p style={{ color: "red" , fontFamily:"Gilroy",fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            Please add a hostel before adding Expense information.
           </p>
 
-          <img
+          {/* <img
             src={close}
             alt="close icon"
             onClick={() => setShowPopup(false)}
             className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
             style={{ width: '20px', height: 'auto', cursor: "pointer" }}
-          />
+          /> */}
 
         </div>
 

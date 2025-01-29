@@ -51,7 +51,11 @@ const initialState = {
   editComplaintSuccessStatusCode:0,
   deleteElectricityStatuscode:0,
   assignedUserRoleStatusCode: 0,
-
+  categoryError:0,
+  errorEbUnitStatusCode:0,
+  errorCompliants:0,
+  errorUser:0,
+  errorRole:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -59,6 +63,15 @@ const SettingsReducer = (state = initialState, action) => {
   switch (action.type) {
     //Expenses category for settings ==>
 
+case 'ERROR_USER':
+  return {...state, errorUser:action.payload.statusCode}
+  case 'REMOVE_ERROR_USER':
+    return {...state, errorUser:0}
+
+case 'ERROR_ROLE':
+  return {...state, errorRole:action.payload.statusCode}
+  case 'REMOVE_ERROR_ROLE':
+    return {...state, errorRole:0}
 
 case 'ASSIGNED_ERROR':
   return { ...state, assignedUserRoleStatusCode: action.payload.statusCode}
@@ -66,6 +79,10 @@ case 'ASSIGNED_ERROR':
   case 'REMOVE_ASSIGNED_ERROR':
   return { ...state, assignedUserRoleStatusCode: 0}
 
+  case 'ERROR_CATEGORY':
+    return {...state, categoryError:action.payload.statusCode}
+    case 'REMOVE_ERROR_CATEGORY':
+      return {...state, categoryError:0}
 
     case "EXPENCES_CATEGORY_LIST":
       return {
@@ -150,6 +167,22 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
       };
     case "CLEAR_ADD_EB_BILLING_STATUS_CODE":
       return { ...state, addEbbillingUnitStatuscode: 0 };
+
+case 'ERROR_EB_BILLING_UNIT_LIST':
+  return {...state, errorEbUnitStatusCode:action.payload.statusCode}
+
+  case 'REMOVE_ERROR_EB_BILLING_UNIT_LIST':
+    return {...state, errorEbUnitStatusCode:0}
+
+case 'ERROR_COMPLIANTS':
+  return {...state, errorCompliants:action.payload.statusCode}
+  case 'REMOVE_ERROR_COMPLIANTS':
+    return {...state, errorCompliants:0}
+
+
+
+
+
 
     case "EB_BILLING_UNIT_LIST":
       return {
