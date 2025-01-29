@@ -27,7 +27,6 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
-import UserEb from "./UserListEb";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 
@@ -622,17 +621,33 @@ function EB_Hostel(props) {
 
 const [originalElec,setOriginalElec] = useState("")
 const [originalElecRoom,etOriginalElecRoom] = useState("")
+
+  // const handleUserSelect = (user) => {
+  //   setFilterInput(user.Name);
+  //   setelectricityFilterddata([user]);
+  //   setDropdownVisible(false);
+  // };
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
     setelectricityFilterddata([user]);
-    setDropdownVisible(false);
+  
+    setDropdownVisible(false);  
   };
+  
+  
   const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-    setelectricityFilterddata(originalElec);
-    setRoomBasedDetail(originalElecRoom);
-    // setReceiptData(originalReceipt);
+    const inputValue = e.target.value;
+    setFilterInput(inputValue);
+    setDropdownVisible(inputValue.length > 0);
+  
+    if (inputValue.length === 0) {
+      setelectricityFilterddata(originalElec);
+    } else {
+      const filteredData = originalElec?.filter((item) =>
+        item.Name.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setelectricityFilterddata(filteredData);
+    }
   };
   useEffect(() => {
       if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
@@ -1117,7 +1132,6 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               value={value}
               hostelBased={hostelBased}
             />
-            <UserEb hostelName={hostelName}/>
 
             {ebpermissionError ? (
               <>
