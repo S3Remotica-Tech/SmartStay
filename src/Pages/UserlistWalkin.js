@@ -856,12 +856,18 @@ function UserlistWalkin(props) {
               </div>
             ) : (
               <div
-                className="d-flex align-items-center justify-content-center "
+                className=" "
                 style={{ width: "100%", height: "60vh" }}
               >
                 <div>
                   <div className="no-data-container">
-                    <Image src={Emptystate} alt="No Data" />
+                    <div style={{ marginTop: 30, textAlign: "center" }}>
+                      <img
+                        src={Emptystate}
+                        alt="Empty State"
+                        style={{ maxWidth: "100%", height: "auto" }}
+                      />
+                    </div>
                     <div
                       className="pb-1"
                       style={{

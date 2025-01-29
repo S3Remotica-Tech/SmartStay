@@ -414,7 +414,7 @@ function* handleGetAmenities(action) {
       yield put({ type: 'AMENITIES_LIST', payload:{response: response.data.data, statusCode:response.status || response.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_AMENITIES', payload: {statusCode:response.status || response.statusCode} })
    }
    if(response){
       refreshToken(response)

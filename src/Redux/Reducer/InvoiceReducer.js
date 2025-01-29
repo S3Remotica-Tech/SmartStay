@@ -50,12 +50,22 @@ const initialState = {
     ReceiptDeletesuccessStatuscode:0,
     Reference_Id:'',
     ReferenceIdgetsuccessStatuscode:0,
+    errorAmenities: 0,
 }
 
 const InvoiceReducer = (state = initialState, action) => {
     console.log("action",action);
     
     switch (action.type) {
+
+        case 'ERROR_AMENITIES':
+            return {...state, errorAmenities:action.payload.statusCode}
+          
+            case 'REMOVE_ERROR_AMENITIES':
+              return {...state, errorAmenities: 0}
+
+
+
 
         case 'DELETE_USER':
             return { ...state, deleteUserSuccessStatusCode: action.payload.statusCode }

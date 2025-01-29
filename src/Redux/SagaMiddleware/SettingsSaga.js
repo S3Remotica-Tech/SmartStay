@@ -76,7 +76,7 @@ function* handleCategorylist(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_CATEGORY', payload: {statusCode: response.status || response.statusCode} })
    }
    if (response) {
       refreshToken(response)
@@ -214,7 +214,7 @@ function* handleComplainttypelist(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_COMPLIANTS', payload: {statusCode: response.status || response.data.statusCode} })
    }
    if (response) {
       refreshToken(response)
@@ -450,7 +450,7 @@ function* handleEBBillingUnitGet(action) {
       yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_EB_BILLING_UNIT_LIST', payload: {  statusCode: response.status || response.statusCode  } })
    }
    if (response) {
       refreshToken(response)
@@ -521,7 +521,7 @@ function* handleGetAllRoles(action) {
       yield put({ type: 'ROLE_LIST', payload:{response: response.data.roles, statusCode:response.status || response.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_ROLE', payload: {statusCode:response.status || response.statusCode}})
    }
    if(response){
       refreshToken(response)
@@ -752,7 +752,7 @@ function* handleGetAllStaffs(action) {
       yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_USER', payload:{statusCode:response.status || response.data.statusCode}  })
    }
    if(response){
       refreshToken(response)

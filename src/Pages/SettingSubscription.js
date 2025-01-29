@@ -1,18 +1,42 @@
 import{ React,useState} from "react";
 import crown from "../Assets/Images/New_images/crown.png"
-import { Button, Offcanvas, Form, FormControl, FormSelect, } from "react-bootstrap";
+import { Button, Offcanvas, Form, FormControl, FormSelect, Modal,Row,Col} from "react-bootstrap";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
+import { CloseCircle } from 'iconsax-react';
+import DatePicker from "react-datepicker";
 
 function SettingSubscription() {
  const [activeRow, setActiveRow] = useState(false);
  
  const toggleActiveRow = () => {
-  setActiveRow((prev) => !prev); // Toggles the activeRow state
+  setActiveRow((prev) => !prev); 
+};
+
+
+const [show, setShow] = useState(false);
+
+const handleShow = () => {
+  setShow(true); 
+  setActiveRow(false);
+};
+
+
+const handleClose = () => {
+  setShow(false); 
+  setActiveRow(true); 
+  setIsConfirmDelete(false); 
+  }
+
+  const [isConfirmDelete, setIsConfirmDelete] = useState(false); 
+  const handleDelete = () => {
+    
+    console.log("User deleted");
+    setIsConfirmDelete(false); 
 };
   return (
     <div className="container">
@@ -388,8 +412,12 @@ console.log('Formatted Date:', formattedDate);
                                                     marginTop:140
                                                 }}
                                             >
+                                              {!show && (
                                                 <div>
-                                                    <div
+                                                  {/* Edit */}
+                                                
+                                                    <div 
+                                                    onClick={handleShow}
                                                         className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                                        
                                                     >
@@ -398,7 +426,14 @@ console.log('Formatted Date:', formattedDate);
                                                             Edit
                                                         </label>
                                                     </div>
-                                                    <div
+                                                   
+
+
+
+
+                                                    {/* Delete */}
+                                                    <div 
+                                                       onClick={() => setIsConfirmDelete(true)}
                                                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                                         style={{ backgroundColor: "#fff" }}
 
@@ -420,9 +455,171 @@ console.log('Formatted Date:', formattedDate);
                                                         </label>
                                                     </div>
 
-                                                </div>
-                                            </div>
+                                                </div>)}
+                                            </div> 
                                         )}
+
+                                        {/* Edit form */}
+                                        <Modal show={show} onHide={handleClose} centered backdrop="static">
+        <Modal.Header >
+          <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Edit Subscription Details</Modal.Title>
+          <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
+        </Modal.Header>
+        <Modal.Body>
+        <Form>
+  {/* Billing Date and Paying Guest */}
+  <Row>
+    <Col lg={6} md={12} className="mb-3">
+    <Form.Group className="mb-2" controlId="billingDate">
+  <Form.Label
+    style={{
+      fontSize: 14,
+      color: "#222222",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+  >
+    Billing Date{" "}
+    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+  </Form.Label>
+  <Form.Control
+    type="date"
+  
+  />
+</Form.Group>
+
+    </Col>
+    <Col lg={6} md={12} className="mb-3">
+      <Form.Group>
+        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                  >Paying Guest<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+        <Form.Control type="text" placeholder="Enter name" />
+      </Form.Group>
+    </Col>
+  </Row>
+
+  {/* Amount and Expiry Date */}
+  <Row>
+    <Col lg={6} md={12} className="mb-3">
+      <Form.Group>
+        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                  >Amount<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+        <Form.Control type="number" placeholder="Enter amount" />
+      </Form.Group>
+    </Col>
+    <Col lg={6} md={12} className="mb-3">
+      <Form.Group>
+        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                  >Expiry Date<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+        <Form.Control type="date" />
+      </Form.Group>
+    </Col>
+  </Row>
+
+  {/* Status */}
+  <Row>
+    <Col lg={6} md={12} className="mb-3">
+      <Form.Group>
+        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                  >Status<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+        <Form.Control type="text" placeholder="Enter status" />
+      </Form.Group>
+    </Col>
+  </Row>
+</Form>
+<Button variant="secondary" onClick={handleClose}
+ className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1",borderColor:"#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8,
+  fontSize: 16, fontFamily: "Gilroy" }}>
+           Save Changes
+          </Button>
+        </Modal.Body>
+     
+          
+          
+      </Modal>
+
+{/* Delete form */}
+
+ {isConfirmDelete && (
+                <Modal show={isConfirmDelete} onHide={handleClose}    centered
+                backdrop="static"
+                style={{
+                    width: 388,
+                    height: 250,
+                    marginLeft: "500px",
+                    marginTop: "200px",
+                }}>
+                    <Modal.Header style={{ borderBottom: "none" }}>
+                        <Modal.Title 
+                          style={{
+                            fontSize: "18px",
+                            fontFamily: "Gilroy",
+                            textAlign: "center",
+                            fontWeight: 600,
+                            color: "#222222",
+                            flex: 1,
+                        }}>
+                            Delete Subscription?
+                        </Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body
+                       style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: "#646464",
+                        textAlign: "center",
+                        marginTop: "-20px",
+                    }}
+                    >
+                        Are you sure you want to delete the Subscription Details?
+                    </Modal.Body>
+
+                    <Modal.Footer style={{
+                            justifyContent: "center",
+                            borderTop: "none",
+                            marginTop: "-10px",
+                        }}>
+                        <Button
+                            onClick={handleClose}
+                            style={{
+                              width: 160,
+                              height: 52,
+                              borderRadius: 8,
+                              padding: "12px 20px",
+                              background: "#fff",
+                              color: "#1E45E1",
+                              border: "1px solid #1E45E1",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: "14px",
+                              marginRight: 10,
+                          }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                           style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#1E45E1",
+                            color: "#FFFFFF",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                        }}
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
+
                   {/* {activeRow === v.eb_Id && (
                             <>
                               <div

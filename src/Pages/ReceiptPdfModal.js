@@ -14,7 +14,7 @@ import jsPDF from "jspdf";
 
 
 
-const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
+const ReceiptPdfCard = ({ rowData, handleClosed ,selectedItem}) => {
     const invoiceData = {
         payment: {
             bank: 'Rimberio Bank',
@@ -171,7 +171,7 @@ console.log("Bill Row Data:",rowData);
   
 
                                     <div>
-                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
+                                        <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
                                     </div>
                                     </div>
                                 </div>
@@ -186,6 +186,16 @@ console.log("Bill Row Data:",rowData);
                                         </div>
                                         <div>
                                             <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Invoices ? rowData?.Invoices : '0.00'}</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="d-flex justify-content-between gap-2">
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Reference ID</label>
+                                        </div>
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id ? rowData?.reference_id : '0.00'}</label>
                                         </div>
 
                                     </div>
@@ -242,89 +252,20 @@ console.log("Bill Row Data:",rowData);
                             </div>
 
 {/* EB Unit Details */}
-<div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+{/* <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
                                 <div>
 
-                                <div style={{ display: "flex", alignItems: "center" }}>
-  <label
-    style={{
-      fontSize: 15,
-      fontWeight: 600,
-      color: "#000000",
-      fontFamily: "Gilroy",
-      marginRight: "10px", // Adds space between label and value
-    }}
-  >
-    EB Per Unit Price:
-  </label>
-  <label
-    style={{
-      fontSize: 15,
-      fontWeight: 600,
-      color: "#000000",
-      fontFamily: "Gilroy",
-    }}
-  >
-    {rowData?.eb_unit_amount}
-  </label>
-</div>
+                         <div >
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>EB Per Unit Price :
 
-                                   
-<div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-  <div>
-    <label 
-      style={{ 
-        fontSize: 15, 
-        fontWeight: 600, 
-        color: "#000000", 
-        fontFamily: "Gilroy", 
-        marginRight: 10 
-      }}
-    >
-      EB Start Date :
-    </label>
-  </div>
-  <div>
-    <label 
-      style={{ 
-        fontSize: 15, 
-        fontWeight: 600, 
-        color: "#000000", 
-        fontFamily: "Gilroy" 
-      }}
-    >
-      {rowData?.eb_start_date}
-    </label>
-  </div>
-</div>
-
-                                   
-                                   
-<div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-  <label 
-    style={{ 
-      fontSize: 15, 
-      fontWeight: 600, 
-      color: "#000000", 
-      fontFamily: "Gilroy", 
-      marginRight: 10 
-    }}
-  >
-    EB End Date :
-  </label>
-  <label 
-    style={{ 
-      fontSize: 15, 
-      fontWeight: 600, 
-      color: "#000000", 
-      fontFamily: "Gilroy" 
-    }}
-  >
-    {rowData?.eb_end_date}
-  </label>
-</div>
-
-
+</label>
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB Start Date :</label>
+                                    </div>
+                                    <div className="" style={{ width: 100 }}>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB End Date :</label>
+                                    </div>
 
 
                                 </div>
@@ -341,9 +282,9 @@ console.log("Bill Row Data:",rowData);
 </div>
 </div>
                                 
-                            </div>
+                            </div> */}
 
-{/* {rowData.action === "recuring" && (
+{rowData.action === "recuring" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
       <div>
@@ -414,7 +355,7 @@ console.log("Bill Row Data:",rowData);
       </div>
     </div>
   </div>
-)} */}
+)}
 
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
@@ -555,4 +496,4 @@ console.log("Bill Row Data:",rowData);
     );
 };
 
-export default InvoiceCard;
+export default ReceiptPdfCard;

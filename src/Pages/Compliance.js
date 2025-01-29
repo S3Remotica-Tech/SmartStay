@@ -1161,7 +1161,7 @@ const handleFilterd = () => {
                       />
                     </div>
 
-                    <div style={{ paddingRight: "15px" }}>
+                    <div >
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}

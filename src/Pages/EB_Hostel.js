@@ -627,15 +627,16 @@ function EB_Hostel(props) {
               style={{ height: "30px", width: "30px" }}
             />
           </div> */}
-          <div style={{ paddingRight: "10px" ,marginTop:-10}}>
-            {value === "1" && (
+          <div style={{ paddingRight: "50px" ,marginTop:-10}}>
+            <div  style={{paddingLeft:40}}>
+                        {value === "1" && (
               <img
                 src={excelimg}
                 width={38}
                 height={38}
                 onClick={handleEbExcel}
               />
-            )}
+            )}</div>
           </div>
 
           {hostelBased == 1 ? (

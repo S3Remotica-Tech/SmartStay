@@ -69,7 +69,7 @@ const popupLeft = left - 200;
     const [showPopup, setShowPopup] = useState(false);
 
     const handleOpenAddUser = () => {
-        if (!hostelid) {
+        if (!state.login.selectedHostel_Id) {
             setShowPopup(true);
             return;
         }
@@ -96,6 +96,7 @@ const popupLeft = left - 200;
 
     const handleClose = () => {
         setIsConfirmDelete(false)
+        
     }
 
 
@@ -110,15 +111,15 @@ const popupLeft = left - 200;
     // useEffect/////////////////////
 
     useEffect(() => {
-        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
-    }, [state.login.Settings_Hostel_Id])
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }, [state.login.selectedHostel_Id])
 
 
 
     useEffect(() => {
         if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
             setIsConfirmDelete(false)
-            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
+            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:state.login.selectedHostel_Id } });
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE' })
             }, 2000)
@@ -150,11 +151,20 @@ const popupLeft = left - 200;
             setLoading(false)
             setTimeout(() => {
                 dispatch({ type: "CLEAR_USER_STAFF_LIST" });
-            }, 1000)
+            }, 200)
         }
     }, [state.Settings?.StatusForaddSettingStaffList])
 
+useEffect(()=>{
+    if(state.Settings?.errorUser){
+        setLoading(false)
+        setTimeout(() => {
+            dispatch({ type: "REMOVE_ERROR_USER" });
+        }, 100)
 
+    }
+
+},[state.Settings?.errorUser])
     
 
     return (
@@ -239,7 +249,7 @@ const popupLeft = left - 200;
             </div>
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red", fontFamily:"Gilroy", fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding User information.
                     </p>
 
@@ -568,23 +578,76 @@ const popupLeft = left - 200;
             {
                 isConfirmDelete &&
 
-                <Modal show={isConfirmDelete} onHide={handleClose} centered backdrop="static">
-                    <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
-                        <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete User ?</Modal.Title>
+                <Modal show={isConfirmDelete} onHide={handleClose} 
+                centered
+                    backdrop="static"
+                    style={{
+                        width: 388,
+                        height: 250,
+                        marginLeft: "500px",
+                        marginTop: "200px",
+                    }}>
+                    <Modal.Header style={{ borderBottom: "none" }} >
+                        <Modal.Title style={{
+                                fontSize: "18px",
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                fontWeight: 600,
+                                color: "#222222",
+                                flex: 1,
+                            }}
+                        >Delete User ?</Modal.Title>
                     </Modal.Header>
 
 
 
-                    <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+                    <Modal.Body style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            color: "#646464",
+                            textAlign: "center",
+                            marginTop: "-20px",
+                        }}>
                         Are you sure you want to delete the User ?    </Modal.Body>
-                    <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
+                    <Modal.Footer 
+                    style={{
+                        justifyContent: "center",
+                        borderTop: "none",
+                        marginTop: "-10px",
+                    }}
+                    >
                         <Button
-                            onClick={handleClose}
-                            style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                           style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#fff",
+                            color: "#1E45E1",
+                            border: "1px solid #1E45E1",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            marginRight: 10,
+                        }}
+                        onClick={handleClose}
+                             >
                             Cancel
                         </Button>
 
-                        <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                        <Button 
+                        style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: "12px 20px",
+                            background: "#1E45E1",
+                            color: "#FFFFFF",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                        }}
                             onClick={handleDelete}
                         >
                             Delete
@@ -604,7 +667,7 @@ const popupLeft = left - 200;
 
 
 
-            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={state.login.selectedHostel_Id} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
 
 
 

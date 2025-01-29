@@ -69,14 +69,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
 
-import closecircle from "../Assets/Images/New_images/close-circle.png"
+import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import Filters from "../Assets/Images/Filters.svg";
 
-
 import Receipt from "./Receipt";
 import AddReceiptForm from "./AddReceipt";
-
+import ReceiptPdfCard from "./ReceiptPdfModal";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -95,7 +94,7 @@ const InvoicePage = () => {
   const [invoiceDetail, setInvoiceDetails] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [file, setFile] = useState(null);
-  const [bankking, setBanking] = useState("")
+  const [bankking, setBanking] = useState("");
   const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -177,7 +176,7 @@ const InvoicePage = () => {
   const dueRef = useRef(null);
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
-  const [receiptformShow , setReceiptFormShow] = useState(false)
+  const [receiptformShow, setReceiptFormShow] = useState(false);
   const [showAllBill, setShowAllBill] = useState(true);
   const [billrolePermission, setBillRolePermission] = useState("");
   const [billpermissionError, setBillPermissionError] = useState("");
@@ -222,7 +221,7 @@ const InvoicePage = () => {
   let serialNumber = 1;
 
   const [hostelId, setHostelId] = useState("");
-  const [receiptdata, setReceiptData] = useState([])
+  const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
 
   useEffect(() => {
@@ -254,9 +253,9 @@ const InvoicePage = () => {
 
   const handleReceiptShow = () => {
     setShowAllBill(false);
-    setReceiptFormShow(true)
-    dispatch({ type: "GET_REFERENCE_ID"})
-  }
+    setReceiptFormShow(true);
+    dispatch({ type: "GET_REFERENCE_ID" });
+  };
 
   const handleAccount = (e) => {
     setAccount(e.target.value);
@@ -535,8 +534,8 @@ const InvoicePage = () => {
     setSearchicon(false);
   };
 
-
-  const [originalBillsFilter, setOriginalBillsFilter] = useState([]); // Store original data
+  const [originalBillsFilter, setOriginalBillsFilter] = useState([]); 
+  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState([]); // Store original data
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
@@ -557,20 +556,25 @@ const InvoicePage = () => {
       setBills(filteredItems);
     }
   };
+  const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
-  // const handleStatusFilter = (event) => {
-  //   const searchTerm = event.target.value;
-  //   setStatusfilter(searchTerm);
-  //   if (searchTerm === "All") {
-  //     setBills(bills)
-  //   } else {
-  //     const filteredItems = bills?.filter((user) =>
-  //       user.Status.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //     setBills(filteredItems);
-  //   }
-  // };
-
+  const handleStatusFilterReceipt = (event) => {
+    const searchTerm = event.target.value;
+    setStatusFilterReceipt(searchTerm);
+    if (searchTerm === "All") {
+      setReceiptData(originalBillsFilterReceipt);
+    } else {
+      const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
+        user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setReceiptData(filteredItemsReceipt);
+    }
+  };
+useEffect(() => {
+    if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
+      setOriginalBillsFilterReceipt(receiptdata);
+    }
+  }, [receiptdata]);
   const randomNumberInRange = (hostelName, min, max) => {
     const prefix = hostelName.slice(0, 4);
     const invoice =
@@ -705,15 +709,15 @@ const InvoicePage = () => {
     setShowModal(!showModal);
   };
 
-  const [editvalue, setEditvalue] = useState('')
-  const [receiptedit, setReceiptEdit] = useState(false)
+  const [editvalue, setEditvalue] = useState("");
+  const [receiptedit, setReceiptEdit] = useState(false);
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
-    setReceiptFormShow(true)
-    setEditvalue(item)
-    setReceiptEdit(true)
-  }
+    setReceiptFormShow(true);
+    setEditvalue(item);
+    setReceiptEdit(true);
+  };
 
   const handleEdit = (props) => {
     setShowManualInvoice(true);
@@ -916,7 +920,7 @@ const InvoicePage = () => {
       console.log("EditBill");
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
-      setReceiptFormShow(false)
+      setReceiptFormShow(false);
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -1166,10 +1170,10 @@ const InvoicePage = () => {
   const handleBackBill = () => {
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
-    setReceiptFormShow(false)
+    setReceiptFormShow(false);
     setShowAllBill(true);
-    setEditvalue('')
-    setReceiptEdit(false)
+    setEditvalue("");
+    setReceiptEdit(false);
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1490,7 +1494,7 @@ const InvoicePage = () => {
       });
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
-      setReceiptFormShow(false)
+      setReceiptFormShow(false);
       setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
@@ -1552,9 +1556,9 @@ const InvoicePage = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems =
-  filterInput.length > 0
-    ? bills 
-    : bills?.slice(indexOfFirstItem, indexOfLastItem);
+    filterInput.length > 0
+      ? bills
+      : bills?.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(bills.length / itemsPerPage);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -1574,9 +1578,9 @@ const InvoicePage = () => {
   //   indexOfLastItemRecure
   // );
   const currentItem =
-  filterInput.length > 0
-    ? recurringbills 
-    : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+    filterInput.length > 0
+      ? recurringbills
+      : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
@@ -1585,7 +1589,6 @@ const InvoicePage = () => {
     setItemsPage(Number(event.target.value));
   };
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
-
 
   //Receipt pagination
   const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
@@ -1604,7 +1607,7 @@ const InvoicePage = () => {
   const handleItemsPerPageReceipt = (event) => {
     setItemsPage(Number(event.target.value));
   };
-  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage);  //Receipt pagination
+  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage); //Receipt pagination
 
   //  const renderPageNumbers = () => {
   //    const pageNumbers = [];
@@ -1683,13 +1686,15 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({
+      type: "BANKINGLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-
-      setBanking(state.bankingDetails.bankingList.banks)
+      setBanking(state.bankingDetails.bankingList.banks);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -1755,7 +1760,6 @@ const InvoicePage = () => {
     }
   }, [billrolePermission]);
 
-
   // useEffect(() => {
   //   if (
   //     billrolePermission[0]?.is_owner == 1 ||
@@ -1768,7 +1772,7 @@ const InvoicePage = () => {
   // }, [billrolePermission]);
 
   useEffect(() => {
-    if(hostelId){
+    if (hostelId) {
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
     }
   }, [hostelId]);
@@ -1889,7 +1893,9 @@ const InvoicePage = () => {
           console.log("PDF opened successfully.");
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
         } else {
-          console.error("Failed to open the PDF. Popup blocker might be enabled.");
+          console.error(
+            "Failed to open the PDF. Popup blocker might be enabled."
+          );
           // alert("Popup blocked. Please allow popups for this site to view the PDF.");
         }
       }
@@ -2261,16 +2267,16 @@ const InvoicePage = () => {
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
-
   const [originalBills, setOriginalBills] = useState([]);
-  const [originalRecuiring, setOriginalRecuiring] = useState([]);  // Store initial data
+  const [originalRecuiring, setOriginalRecuiring] = useState([]);
+  const [originalReceipt, setOriginalReceipt] = useState([]);
 
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(bills)
         ? bills.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setBills(FilterUser);
@@ -2279,11 +2285,21 @@ const InvoicePage = () => {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setRecurringBills(FilterUsertwo);
+    }
+
+    if (value == 3) {
+      const FilterUserReceipt = Array.isArray(receiptdata)
+        ? receiptdata.filter((item) =>
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+        : [];
+
+      setReceiptData(FilterUserReceipt);
     }
   }, [filterInput, value]);
 
@@ -2291,25 +2307,30 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
     setBills(originalBills);
-    setRecurringBills(originalRecuiring)
+    setRecurringBills(originalRecuiring);
+    setReceiptData(originalReceipt);
   };
 
- 
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
-    setBills([user]); 
+    setBills([user]);
     setDropdownVisible(false);
   };
 
-  
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
     setBills(originalBills);
-    setRecurringBills(originalRecuiring)  
+    setRecurringBills(originalRecuiring);
+    setReceiptData(originalReceipt);
   };
 
   // Set initial data when component mounts
+  useEffect(() => {
+    if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
+      setOriginalReceipt(receiptdata);
+    }
+  }, [receiptdata]);
   useEffect(() => {
     if (bills.length > 0 && originalBills.length === 0) {
       setOriginalBills(bills);
@@ -2332,8 +2353,13 @@ const InvoicePage = () => {
     setDropdownVisible(false);
   };
 
-  console.log("Name", bills)
+  const handleUserReceipt = (user) => {
+    setFilterInput(user.Name);
+    setReceiptData([user]);
+    setDropdownVisible(false);
+  };
 
+  console.log("Name", bills);
 
   // useEffect(() => {
   //    if (value === "1") {
@@ -2341,13 +2367,13 @@ const InvoicePage = () => {
   //          ? bills.filter((item) =>
   //              item.Name.toLowerCase().includes(filterInput.toLowerCase())
   //            )
-  //          : []; 
+  //          : [];
 
   //      setBills(FilterUser);
   //  }
 
   //    if (value === "2") {
-  //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) => 
+  //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) =>
   //       item.user_name.toLowerCase().includes(filterInput.toLowerCase())
   //        ) :[];
   //      setRecurringBills(FilterUsertwo);
@@ -2355,15 +2381,11 @@ const InvoicePage = () => {
 
   //  }, [filterInput,value,]);
 
-
-
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
-  }
+  };
 
-
-
-  //Receipt 
+  //Receipt
   useEffect(() => {
     setReceiptLoader(true);
     if (hostelId) {
@@ -2371,10 +2393,8 @@ const InvoicePage = () => {
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
-
     }
-
-  }, [hostelId])
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
@@ -2384,16 +2404,13 @@ const InvoicePage = () => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
     }
-  }, [state.InvoiceList.ReceiptlistgetStatuscode])
+  }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
   useEffect(() => {
     if (
-
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptDeletesuccessStatuscode
-    ) 
-    {
-
+    ) {
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2410,11 +2427,7 @@ const InvoicePage = () => {
   }, [
     state.InvoiceList.ReceiptAddsuccessStatuscode,
     state.InvoiceList.ReceiptDeletesuccessStatuscode,
-
   ]);
-
-
-
 
   return (
     <>
@@ -2433,8 +2446,9 @@ const InvoicePage = () => {
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
-                color: "#222",marginTop:5,
-                marginLeft:-5
+                color: "#222",
+                marginTop: 5,
+                marginLeft: -5,
               }}
             >
               Bills
@@ -2452,7 +2466,7 @@ const InvoicePage = () => {
                         position: "relative",
                         width: "100%",
                         marginRight: 20,
-                        marginTop: "-10px"
+                        marginTop: "-10px",
                       }}
                     >
                       <div
@@ -2510,163 +2524,251 @@ const InvoicePage = () => {
                         </div>
                       </div>
 
-                      {value === "1" && isDropdownVisible && bills?.length > 0 && (
-                        <div
-                          style={{
-                            border: "1px solid #d9d9d9 ",
-                            position: "absolute",
-                            top: 60,
-                            left: 0,
-                            zIndex: 1000,
-                            padding: 10,
-                            borderRadius: 8,
-                            backgroundColor: "#fff",
-                            width: "94%",
-                          }}
-                        >
-                          <ul
-                            className="show-scroll p-0"
+                      {value === "1" &&
+                        isDropdownVisible &&
+                        bills?.length > 0 && (
+                          <div
                             style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
                               backgroundColor: "#fff",
-                              borderRadius: "4px",
-                              maxHeight: bills?.length > 1 ? "174px" : "auto",
-                              minHeight: 100,
-                              overflowY: bills?.length > 1 ? "auto" : "hidden",
-                              margin: "0",
-                              listStyleType: "none",
-                              boxSizing: "border-box",
+                              width: "94%",
                             }}
                           >
-                            {bills?.map((user, index) => {
-                              const imagedrop = user.profile || Profile;
-                              return (
-                                <li
-                                  key={index}
-                                  className="list-group-item d-flex align-items-center"
-                                  style={{
-                                    cursor: "pointer",
-                                    padding: "10px 5px",
-                                    borderBottom:
-                                      index !== bills?.length - 1 ? "1px solid #eee" : "none",
-                                  }}
-                                  onClick={() => handleUserSelect(user)}
-                                >
-                                  <Image
-                                    src={imagedrop}
-                                    alt={user.Name || "Default Profile"}
-                                    roundedCircle
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight: bills?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                  bills?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {bills?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
                                     style={{
-                                      height: "30px",
-                                      width: "30px",
-                                      marginRight: "10px",
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== bills?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
                                     }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src = Profile;
-                                    }}
-                                  />
-                                  <span>{user.Name}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      )}
-                      {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
-                        <div
-                          style={{
-                            border: "1px solid #d9d9d9 ",
-                            position: "absolute",
-                            top: 60,
-                            left: 0,
-                            zIndex: 1000,
-                            padding: 10,
-                            borderRadius: 8,
-                            backgroundColor: "#fff",
-                            width: "94%",
-                          }}
-                        >
-                          <ul
-                            className="show-scroll p-0"
+                                    onClick={() => handleUserSelect(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.Name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
+                      {value === "2" &&
+                        isDropdownVisible &&
+                        recurringbills?.length > 0 && (
+                          <div
                             style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
                               backgroundColor: "#fff",
-                              borderRadius: "4px",
-                              maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-                              minHeight: 100,
-                              overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-                              margin: "0",
-                              listStyleType: "none",
-                              boxSizing: "border-box",
+                              width: "94%",
                             }}
                           >
-                            {recurringbills?.map((user, index) => {
-                              const imagedrop = user.profile || Profile;
-                              return (
-                                <li
-                                  key={index}
-                                  className="list-group-item d-flex align-items-center"
-                                  style={{
-                                    cursor: "pointer",
-                                    padding: "10px 5px",
-                                    borderBottom:
-                                      index !== recurringbills?.length - 1 ? "1px solid #eee" : "none",
-                                  }}
-                                  onClick={() => handleUserRecuire(user)}
-                                >
-                                  <Image
-                                    src={imagedrop}
-                                    alt={user.user_name || "Default Profile"}
-                                    roundedCircle
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                  recurringbills?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                  recurringbills?.length > 1
+                                    ? "auto"
+                                    : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {recurringbills?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
                                     style={{
-                                      height: "30px",
-                                      width: "30px",
-                                      marginRight: "10px",
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== recurringbills?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
                                     }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src = Profile;
-                                    }}
-                                  />
-                                  <span>{user.user_name}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      )}
+                                    onClick={() => handleUserRecuire(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.user_name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.user_name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
 
+                      {value === "3" &&
+                        isDropdownVisible &&
+                        receiptdata?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                  receiptdata?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                  receiptdata?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {receiptdata?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== receiptdata?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleUserReceipt(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.Name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
                     </div>
                   </>
-
                 ) : (
-
                   <>
                     <div className="me-3">
                       <Image
                         src={searchteam}
                         roundedCircle
-                        style={{ height: "24px", width: "24px", marginTop: "-5px" }}
+                        style={{
+                          height: "24px",
+                          width: "24px",
+                          marginTop: "-5px",
+                        }}
                         onClick={handleSearch}
                       />
                     </div>
                   </>
                 )}
 
-                {
-                  value === "1" && (
-                    <div className="me-3">
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px" }}
-                        onClick={handleFilterd}
-                      />
-                    </div>
-                  )
-                }
+                {(value === "1" || value === "3") && (
+                  <div className="me-3">
+                    <Image
+                      src={Filters}
+                      roundedCircle
+                      style={{ height: "50px", width: "50px" }}
+                      onClick={handleFilterd}
+                    />
+                  </div>
+                )}
 
                 {value === "1" && filterStatus && (
-                  <div className="me-3" style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "180px" : "120px" }}>
+                  <div
+                    className="me-3"
+                    style={{
+                      border: "1px solid #D4D4D4",
+                      borderRadius: 8,
+                      width: search ? "180px" : "120px",
+                    }}
+                  >
                     <Form.Select
                       onChange={(e) => handleStatusFilter(e)}
                       value={statusfilter}
@@ -2682,18 +2784,44 @@ const InvoicePage = () => {
                       <option value="All">All</option>
                       <option value="Pending">UnPaid</option>
                       <option value="Success">Paid</option>
-
                     </Form.Select>
                   </div>
                 )}
 
-
+                {value === "3" && filterStatus && (
+                  <div
+                    className="me-3"
+                    style={{
+                      border: "1px solid #D4D4D4",
+                      borderRadius: 8,
+                      width: search ? "180px" : "120px",
+                    }}
+                  >
+                    <Form.Select
+                      onChange={(e) => handleStatusFilterReceipt(e)}
+                      value={statusFilterReceipt}
+                      aria-label="Select Price Range"
+                      className=""
+                      id="statusselect"
+                      style={{
+                        color: "rgba(34, 34, 34, 1)",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <option value="All">All</option>
+                      <option value="Cash">Cash</option>
+                      <option value="upi">UPI</option>
+                      <option value="Credit Card">Credit Card</option>
+                      <option value="Debit Card">Debit Card</option>
+                    </Form.Select>
+                  </div>
+                )}
                 {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
 
 <div className='me-3'>
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
-
 
                 <div className="me-5">
                   {value == 1 && (
@@ -2730,7 +2858,7 @@ const InvoicePage = () => {
                       + Create Bill
                     </Button>
                   )}
-                  {value == 2 && (
+                  {value === "2" && (
                     <Button
                       disabled={recuringbillAddPermission}
                       onClick={handleRecurrBillShow}
@@ -2766,9 +2894,9 @@ const InvoicePage = () => {
                     </Button>
                   )}
 
-                  {value == 3 && (
+                  {value === "3" && (
                     <Button
-                    disabled={receiptaddPermission}
+                      disabled={receiptaddPermission}
                       onClick={handleReceiptShow}
                       // style={{
                       //   fontSize: 14,
@@ -3073,9 +3201,15 @@ const InvoicePage = () => {
                                   fontWeight: 600,
                                 }}
                               >
-                               
-                                {`Record payment ${invoiceValue?.Name ? `- ${invoiceValue.Name}` : ""} ${invoiceValue?.Invoices ? `-  ${invoiceValue.Invoices}` : ""
-                                  }`}
+                                {`Record payment ${
+                                  invoiceValue?.Name
+                                    ? `- ${invoiceValue.Name}`
+                                    : ""
+                                } ${
+                                  invoiceValue?.Invoices
+                                    ? `-  ${invoiceValue.Invoices}`
+                                    : ""
+                                }`}
                               </Modal.Title>
                             </Modal.Header>
 
@@ -3184,8 +3318,8 @@ const InvoicePage = () => {
                                         customInput={customDateInput({
                                           value: selectedDate
                                             ? selectedDate.toLocaleDateString(
-                                              "en-GB"
-                                            )
+                                                "en-GB"
+                                              )
                                             : "",
                                         })}
                                       />
@@ -3454,10 +3588,11 @@ const InvoicePage = () => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${DownloadInvoice
-                          ? "m-0 g-2 d-flex justify-content-between"
-                          : "m-0 g-0"
-                          }`}
+                        className={` ${
+                          DownloadInvoice
+                            ? "m-0 g-2 d-flex justify-content-between"
+                            : "m-0 g-0"
+                        }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3515,7 +3650,7 @@ const InvoicePage = () => {
                                             <img
                                               src={
                                                 item.user_profile &&
-                                                  item.user_profile !== "0"
+                                                item.user_profile !== "0"
                                                   ? item.user_profile
                                                   : User
                                               }
@@ -3576,7 +3711,7 @@ const InvoicePage = () => {
                                               }}
                                             >
                                               {item.Invoices == null ||
-                                                item.Invoices === ""
+                                              item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
                                             </div>
@@ -3792,96 +3927,96 @@ const InvoicePage = () => {
                                     >
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                        Array.from({ length: 5 }).map(
-                                          (_, index) => (
-                                            <tr key={index}>
-                                              <td>
-                                                <div className="d-flex">
-                                                  <span className="i-circle">
-                                                    <Skeleton
-                                                      circle
-                                                      width={24}
-                                                      height={24}
-                                                    />
-                                                  </span>
-                                                  <div>
-                                                    <Skeleton width={80} />
+                                          Array.from({ length: 5 }).map(
+                                            (_, index) => (
+                                              <tr key={index}>
+                                                <td>
+                                                  <div className="d-flex">
+                                                    <span className="i-circle">
+                                                      <Skeleton
+                                                        circle
+                                                        width={24}
+                                                        height={24}
+                                                      />
+                                                    </span>
+                                                    <div>
+                                                      <Skeleton width={80} />
+                                                    </div>
                                                   </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={50} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={50} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                            </tr>
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                              </tr>
+                                            )
                                           )
-                                        )
                                         : //   <div
-                                        //   style={{
-                                        //     position: 'absolute',
-                                        //     inset: 0,
-                                        //     display: 'flex',
-                                        //     height: "50vh",
-                                        //     alignItems: 'center',
-                                        //     justifyContent: 'center',
-                                        //     backgroundColor: 'transparent',
-                                        //     opacity: 0.75,
-                                        //     zIndex: 10,
-                                        //   }}
-                                        // >
-                                        //   <div
-                                        //     style={{
-                                        //       borderTop: '4px solid #1E45E1',
-                                        //       borderRight: '4px solid transparent',
-                                        //       borderRadius: '50%',
-                                        //       width: '40px',
-                                        //       height: '40px',
-                                        //       animation: 'spin 1s linear infinite',
-                                        //     }}
-                                        //   ></div>
-                                        // </div>
+                                          //   style={{
+                                          //     position: 'absolute',
+                                          //     inset: 0,
+                                          //     display: 'flex',
+                                          //     height: "50vh",
+                                          //     alignItems: 'center',
+                                          //     justifyContent: 'center',
+                                          //     backgroundColor: 'transparent',
+                                          //     opacity: 0.75,
+                                          //     zIndex: 10,
+                                          //   }}
+                                          // >
+                                          //   <div
+                                          //     style={{
+                                          //       borderTop: '4px solid #1E45E1',
+                                          //       borderRight: '4px solid transparent',
+                                          //       borderRadius: '50%',
+                                          //       width: '40px',
+                                          //       height: '40px',
+                                          //       animation: 'spin 1s linear infinite',
+                                          //     }}
+                                          //   ></div>
+                                          // </div>
 
-                                        // Display table rows with actual data when loading is false
-                                        currentItems.map((item) => (
-                                          <InvoiceTable
-                                            key={item.id}
-                                            item={item}
-                                            OnHandleshowform={handleShowForm}
-                                            OnHandleshowEditform={handleEdit}
-                                            OnHandleshowInvoicePdf={
-                                              handleInvoiceDetail
-                                            }
-                                            OnHandleshowDeleteform={
-                                              handleBillDelete
-                                            }
-                                            DisplayInvoice={
-                                              handleDisplayInvoiceDownload
-                                            }
-                                            billAddPermission={
-                                              billAddPermission
-                                            }
-                                            billEditPermission={
-                                              billEditPermission
-                                            }
-                                            billDeletePermission={
-                                              billDeletePermission
-                                            }
-                                          />
-                                        ))}
+                                          // Display table rows with actual data when loading is false
+                                          currentItems.map((item) => (
+                                            <InvoiceTable
+                                              key={item.id}
+                                              item={item}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowEditform={handleEdit}
+                                              OnHandleshowInvoicePdf={
+                                                handleInvoiceDetail
+                                              }
+                                              OnHandleshowDeleteform={
+                                                handleBillDelete
+                                              }
+                                              DisplayInvoice={
+                                                handleDisplayInvoiceDownload
+                                              }
+                                              billAddPermission={
+                                                billAddPermission
+                                              }
+                                              billEditPermission={
+                                                billEditPermission
+                                              }
+                                              billDeletePermission={
+                                                billDeletePermission
+                                              }
+                                            />
+                                          ))}
                                     </tbody>
                                   </Table>
                                 </div>
@@ -4399,9 +4534,9 @@ const InvoicePage = () => {
                                 }
                                 billrolePermission={billrolePermission}
                                 OnHandleshowform={handleShowForm}
-                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                              // DisplayInvoice={handleDisplayInvoiceDownload}
-                              // RecuringInvoice={handleDisplayInvoiceDownload}
+                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                // DisplayInvoice={handleDisplayInvoiceDownload}
+                                // RecuringInvoice={handleDisplayInvoiceDownload}
                               />
                             ))
                           )}
@@ -4571,9 +4706,7 @@ const InvoicePage = () => {
             </TabPanel>
 
             <TabPanel value="3">
-
-            {receiptPermission ? (
-
+              {receiptPermission ? (
                 <>
                   <div
                     style={{
@@ -4610,40 +4743,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-
-                  {/* {currentReceiptData && currentReceiptData.length === 0  && (
-
-                    <div style={{ marginTop: 20 }}>
-                      <div style={{ textAlign: "center" }}>
-                        {" "}
-                        <img src={Emptystate} alt="emptystate" />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 24,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Receipt available{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 20,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no receipt added{" "}
-                      </div>
-                    </div>
-                  )}
+                  {/* 
 
                   {currentReceiptData && currentReceiptData.length > 0 && (
                     <div
@@ -4930,459 +5030,520 @@ const InvoicePage = () => {
                     </nav>
                   )} */}
 
-
-
-<Container fluid className="p-0">
-                      <Row
-                        className={` ${
-                          DownloadInvoice
-                            ? "m-0 g-2 d-flex justify-content-between"
-                            : "m-0 g-0"
-                        }`}
+                  <Container fluid className="p-0">
+                    <Row
+                      className={` ${
+                        DownloadInvoice
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
+                      }`}
+                    >
+                      <Col
+                        lg={DownloadInvoice ? 4 : 12}
+                        md={DownloadInvoice ? 4 : 12}
+                        sm={DownloadInvoice ? 4 : 12}
+                        xs={DownloadInvoice ? 4 : 12}
                       >
-                        <Col
-                          lg={DownloadInvoice ? 4 : 12}
-                          md={DownloadInvoice ? 4 : 12}
-                          sm={DownloadInvoice ? 4 : 12}
-                          xs={DownloadInvoice ? 4 : 12}
-                        >
-                          {DownloadInvoice ? (
-                            <div
-                              className="show-scroll p-2"
-                              style={{ maxHeight: 700, overflowY: "auto" }}
-                            >
-                              {receiptdata &&
-                                receiptdata.map((item) => (
-                                  <>
-                    
-                                    <div className="" style={{}}>
-                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
-                                        <div>
-                                          <span>
-                                            <img
-                                              src={
-                                                item.user_profile &&
-                                                item.user_profile !== "0"
-                                                  ? item.user_profile
-                                                  : User
-                                              }
-                                              style={{ height: 40, width: 40 }}
-                                              alt="User"
-                                            />
-                                          </span>
+                        {DownloadInvoice ? (
+                          <div
+                            className="show-scroll p-2"
+                            style={{ maxHeight: 700, overflowY: "auto" }}
+                          >
+                            {receiptdata &&
+                              receiptdata.map((item) => (
+                                <>
+                                  <div className="" style={{}}>
+                                    <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                      <div>
+                                        <span>
+                                          <img
+                                            src={
+                                              item.user_profile &&
+                                              item.user_profile !== "0"
+                                                ? item.user_profile
+                                                : User
+                                            }
+                                            style={{ height: 40, width: 40 }}
+                                            alt="User"
+                                          />
+                                        </span>
+                                      </div>
+
+                                      <div className="flex-grow-1 ms-2">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                          <div
+                                            className="Invoice_Name"
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              wordWrap: "break-word",
+                                              color: "#222",
+                                              fontStyle: "normal",
+                                              lineHeight: "normal",
+                                              fontWeight: 600,
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() =>
+                                              handleDisplayInvoiceDownload(
+                                                true,
+                                                item
+                                              )
+                                            }
+                                          >
+                                            {item.Name}
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "12px",
+                                              wordWrap: "break-word",
+                                              color: "#222",
+                                              fontStyle: "normal",
+                                              lineHeight: "normal",
+                                              fontWeight: 600,
+                                            }}
+                                          >
+                                            {item.Amount}
+                                          </div>
                                         </div>
 
-                                        <div className="flex-grow-1 ms-2">
-                                          <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div
-                                              className="Invoice_Name"
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                              }}
-                                              onClick={() =>
-                                                handleDisplayInvoiceDownload(
-                                                  true,
-                                                  item
-                                                )
-                                              }
-                                            >
-                                              {item.Name}
-                                            </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.Amount}
-                                            </div>
+                                        <div className="d-flex justify-content-between gap-3 mb-2">
+                                          <div
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "12px",
+                                              wordWrap: "break-word",
+                                              color: "#222",
+                                              fontStyle: "normal",
+                                              lineHeight: "normal",
+                                              fontWeight: 600,
+                                            }}
+                                          >
+                                            {item.Invoices == null ||
+                                            item.Invoices === ""
+                                              ? "0.00"
+                                              : item.Invoices}
                                           </div>
-
-                                          <div className="d-flex justify-content-between gap-3 mb-2">
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.Invoices == null ||
-                                              item.Invoices === ""
-                                                ? "0.00"
-                                                : item.Invoices}
-                                            </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {moment(item.Date).format(
-                                                "DD MMM YYYY"
-                                              )}
-                                            </div>
-                                          </div>
-
-                                          <div className="mb-2">
-                                            {item.BalanceDue === 0 ? (
-                                              <span
-                                                style={{
-                                                  fontSize: "10px",
-                                                  backgroundColor: "#D9FFD9",
-                                                  color: "#000",
-                                                  borderRadius: "14px",
-                                                  fontFamily: "Gilroy",
-                                                  padding: "8px 12px",
-                                                }}
-                                              >
-                                                Paid
-                                              </span>
-                                            ) : (
-                                              <span
-                                                style={{
-                                                  cursor: "pointer",
-                                                  fontSize: "10px",
-                                                  backgroundColor: "#FFD9D9",
-                                                  fontFamily: "Gilroy",
-                                                  color: "#000",
-                                                  borderRadius: "14px",
-                                                  padding: "8px 12px",
-                                                }}
-                                              >
-                                                Unpaid
-                                              </span>
+                                          <div
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "12px",
+                                              wordWrap: "break-word",
+                                              color: "#222",
+                                              fontStyle: "normal",
+                                              lineHeight: "normal",
+                                              fontWeight: 600,
+                                            }}
+                                          >
+                                            {moment(item.Date).format(
+                                              "DD MMM YYYY"
                                             )}
                                           </div>
                                         </div>
+
+                                        <div className="mb-2">
+                                          {item.BalanceDue === 0 ? (
+                                            <span
+                                              style={{
+                                                fontSize: "10px",
+                                                backgroundColor: "#D9FFD9",
+                                                color: "#000",
+                                                borderRadius: "14px",
+                                                fontFamily: "Gilroy",
+                                                padding: "8px 12px",
+                                              }}
+                                            >
+                                              Paid
+                                            </span>
+                                          ) : (
+                                            <span
+                                              style={{
+                                                cursor: "pointer",
+                                                fontSize: "10px",
+                                                backgroundColor: "#FFD9D9",
+                                                fontFamily: "Gilroy",
+                                                color: "#000",
+                                                borderRadius: "14px",
+                                                padding: "8px 12px",
+                                              }}
+                                            >
+                                              Unpaid
+                                            </span>
+                                          )}
+                                        </div>
                                       </div>
                                     </div>
+                                  </div>
 
-                                    <hr />
-                                  </>
-                                ))}
-                            </div>
-                          ) : (
-                            <>
-                              {currentReceiptData && currentReceiptData.length > 0 && (
-                    <div
-                      style={{
-                        // height: "400px",
-                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
-                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
-                        borderRadius: "24px",
-                        border: "1px solid #DCDCDC",
-                        // borderBottom:"none"
-                      }}
-                    >
-                      <Table
-                        responsive="md"
-                        className="Table_Design"
-                        style={{
-                          border: "1px solid #DCDCDC",
-                          borderBottom: "1px solid transparent",
-                          borderEndStartRadius: 0,
-                          borderEndEndRadius: 0,
-                        }}
-                      >
-                        <thead
-                          style={{
-                            backgroundColor: "#E7F1FF",
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                          }}
-                        >
-                          <tr>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                // verticalAlign:'middle',
-                                paddingLeft: "20px",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 600,
-                                borderTopLeftRadius: 24,
-                              }}
-                            >
-                              Name
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Invoice Number
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Reference_Id
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                             Payment Mode
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Amount
-                            </th>
+                                  <hr />
+                                </>
+                              ))}
+                          </div>
+                        ) : (
+                          <>
+                            {currentReceiptData &&
+                              currentReceiptData.length > 0 && (
+                                <div
+                                  style={{
+                                    // height: "400px",
+                                    height:
+                                      currentReceiptData.length >= 6
+                                        ? "380px"
+                                        : "auto",
+                                    overflowY:
+                                      currentReceiptData.length >= 6
+                                        ? "auto"
+                                        : "visible",
+                                    borderRadius: "24px",
+                                    border: "1px solid #DCDCDC",
+                                    // borderBottom:"none"
+                                  }}
+                                >
+                                  <Table
+                                    responsive="md"
+                                    className="Table_Design"
+                                    style={{
+                                      border: "1px solid #DCDCDC",
+                                      borderBottom: "1px solid transparent",
+                                      borderEndStartRadius: 0,
+                                      borderEndEndRadius: 0,
+                                    }}
+                                  >
+                                    <thead
+                                      style={{
+                                        backgroundColor: "#E7F1FF",
+                                        position: "sticky",
+                                        top: 0,
+                                        zIndex: 1,
+                                      }}
+                                    >
+                                      <tr>
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            // verticalAlign:'middle',
+                                            paddingLeft: "20px",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            borderTopLeftRadius: 24,
+                                          }}
+                                        >
+                                          Name
+                                        </th>
 
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 600,
-                                borderTopRightRadius: 24,
-                              }}
-                            ></th>
-                          </tr>
-                        </thead>
-                        <tbody style={{ fontSize: "10px" }}>
-                          {receiptLoader ?
-                              
-                              <div
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Reference_Id
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Invoice Number
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Date
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Amount
+                                        </th>
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontStyle: "normal",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          Payment Mode
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgba(34, 34, 34, 1)",
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            borderTopRightRadius: 24,
+                                          }}
+                                        ></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody style={{ fontSize: "10px" }}>
+                                      {receiptLoader ? (
+                                        <div
+                                          style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            left: "50%",
+                                            display: "flex",
+                                            height: "50vh",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            backgroundColor: "transparent",
+                                            opacity: 0.75,
+                                            zIndex: 10,
+                                          }}
+                                        >
+                                          <div
+                                            style={{
+                                              borderTop: "4px solid #1E45E1",
+                                              borderRight:
+                                                "4px solid transparent",
+                                              borderRadius: "50%",
+                                              width: "40px",
+                                              height: "40px",
+                                              animation:
+                                                "spin 1s linear infinite",
+                                            }}
+                                          ></div>
+                                        </div>
+                                      ) : (
+                                        currentReceiptData &&
+                                        currentReceiptData.length > 0 &&
+                                        currentReceiptData.map((item) => (
+                                          <Receipt
+                                            key={item.id}
+                                            item={item}
+                                            receiptaddPermission={
+                                              receiptaddPermission
+                                            }
+                                            billrolePermission={
+                                              billrolePermission
+                                            }
+                                            OnHandleshowform={handleShowForm}
+                                            OnHandleshowInvoicePdf={
+                                              handleInvoiceDetail
+                                            }
+                                            onhandleEdit={handleEditReceipt}
+                                            DisplayInvoice={
+                                              handleDisplayInvoiceDownload
+                                            }
+                                          />
+                                        ))
+                                      )}
+                                    </tbody>
+                                  </Table>
+                                </div>
+                              )}
+
+                            {currentReceiptData.length > 0 && (
+                              <nav
                                 style={{
-                                  position: 'absolute',
-                                  top: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  left: '50%',
-                                  display: 'flex',
-                                  height: "50vh",
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  backgroundColor: 'transparent',
-                                  opacity: 0.75,
-                                  zIndex: 10,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "end",
+                                  padding: "10px",
+                                  position: "fixed",
+                                  bottom: "10px",
+                                  right: "10px",
+                                  backgroundColor: "#fff",
+                                  borderRadius: "5px",
+                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                  zIndex: 1000,
                                 }}
                               >
-                              <div
-                                style={{
-                                  borderTop: '4px solid #1E45E1',
-                                  borderRight: '4px solid transparent',
-                                  borderRadius: '50%',
-                                  width: '40px',
-                                  height: '40px',
-                                  animation: 'spin 1s linear infinite',
-                                }}
-                              ></div>
-                            </div>
-                            : currentReceiptData &&
-                            currentReceiptData.length > 0 &&
-                            currentReceiptData.map((item) => (
-                                <Receipt
-                                  key={item.id}
-                                  item={item}
-                                 
-                                  receiptaddPermission={
-                                    receiptaddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
+                                <div>
+                                  <select
+                                    value={itemsPage}
+                                    onChange={handleItemsPerPage}
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid #1E45E1",
+                                      borderRadius: "5px",
+                                      color: "#1E45E1",
+                                      fontWeight: "bold",
+                                      cursor: "pointer",
+                                      outline: "none",
+                                      boxShadow: "none",
+                                    }}
+                                  >
+                                    <option value={5}>5</option>
+                                    <option value={10}>10</option>
+                                    <option value={50}>50</option>
+                                    <option value={100}>100</option>
+                                  </select>
+                                </div>
 
-                                  OnHandleshowInvoicePdf={
-                                    handleInvoiceDetail
-                                  }
+                                <ul
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    listStyleType: "none",
+                                    margin: 0,
+                                    padding: 0,
+                                  }}
+                                >
+                                  <li style={{ margin: "0 10px" }}>
+                                    <button
+                                      style={{
+                                        padding: "5px",
+                                        textDecoration: "none",
+                                        color:
+                                          currentRecurePage === 1
+                                            ? "#ccc"
+                                            : "#1E45E1",
+                                        cursor:
+                                          currentRecurePage === 1
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        borderRadius: "50%",
+                                        display: "inline-block",
+                                        minWidth: "30px",
+                                        textAlign: "center",
+                                        backgroundColor: "transparent",
+                                        border: "none",
+                                      }}
+                                      onClick={() =>
+                                        handlePageChangeRecure(
+                                          currentRecurePage - 1
+                                        )
+                                      }
+                                      disabled={currentRecurePage === 1}
+                                    >
+                                      <ArrowLeft2
+                                        size="16"
+                                        color={
+                                          currentRecurePage === 1
+                                            ? "#ccc"
+                                            : "#1E45E1"
+                                        }
+                                      />
+                                    </button>
+                                  </li>
 
-                                  onhandleEdit = {handleEditReceipt}
-                                
-                                  DisplayInvoice={
-                                    handleDisplayInvoiceDownload
-                                  }
-                                 
-                                />
-                              ))}
-                        </tbody>
-                      </Table>
-                    </div>
-                  )}
+                                  <li
+                                    style={{
+                                      margin: "0 10px",
+                                      fontSize: "14px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    {currentRecurePage} of {totalPage}
+                                  </li>
 
-{currentReceiptData.length > 0 && (
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                      }}
-                    >
-                      <div>
-                        <select
-                          value={itemsPage}
-                          onChange={handleItemsPerPage}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
-                          }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
+                                  <li style={{ margin: "0 10px" }}>
+                                    <button
+                                      style={{
+                                        padding: "5px",
+                                        textDecoration: "none",
+                                        color:
+                                          currentRecurePage === totalPage
+                                            ? "#ccc"
+                                            : "#1E45E1",
+                                        cursor:
+                                          currentRecurePage === totalPage
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        borderRadius: "50%",
+                                        display: "inline-block",
+                                        minWidth: "30px",
+                                        textAlign: "center",
+                                        backgroundColor: "transparent",
+                                        border: "none",
+                                      }}
+                                      onClick={() =>
+                                        handlePageChangeRecure(
+                                          currentRecurePage + 1
+                                        )
+                                      }
+                                      disabled={currentRecurePage === totalPage}
+                                    >
+                                      <ArrowRight2
+                                        size="16"
+                                        color={
+                                          currentRecurePage === totalPage
+                                            ? "#ccc"
+                                            : "#1E45E1"
+                                        }
+                                      />
+                                    </button>
+                                  </li>
+                                </ul>
+                              </nav>
+                            )}
+                            {currentReceiptData && currentReceiptData.length === 0  && (
 
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
-                              cursor:
-                                currentRecurePage === 1
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage - 1)
-                            }
-                            disabled={currentRecurePage === 1}
-                          >
-                            <ArrowLeft2
-                              size="16"
-                              color={
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
+<div style={{ marginTop: 20 }}>
+  <div style={{ textAlign: "center" }}>
+    {" "}
+    <img src={Emptystate} alt="emptystate" />
+  </div>
+  <div
+    className="pb-1"
+    style={{
+      textAlign: "center",
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      fontSize: 24,
+      color: "rgba(75, 75, 75, 1)",
+    }}
+  >
+    No Receipt available{" "}
+  </div>
+  <div
+    className="pb-1"
+    style={{
+      textAlign: "center",
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      fontSize: 20,
+      color: "rgba(75, 75, 75, 1)",
+    }}
+  >
+    There are no receipt added{" "}
+  </div>
+</div>
+)}
+                          </>
+                        )}
+                      </Col>
 
-                        <li
-                          style={{
-                            margin: "0 10px",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {currentRecurePage} of {totalPage}
-                        </li>
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1",
-                              cursor:
-                                currentRecurePage === totalPage
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage + 1)
-                            }
-                            disabled={currentRecurePage === totalPage}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )}
-                            </>
-                          )}
-                        </Col>
-
-                        {DownloadInvoice && (
-                          <>
-                            {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
+                      {DownloadInvoice && (
+                        <>
+                          {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
                   <div
                     style={{
                       borderLeft: "1px solid rgba(225, 225, 225, 1)",
@@ -5392,33 +5553,30 @@ const InvoicePage = () => {
                   ></div>
                 </Col> */}
 
-                            <Col
-                              lg={8}
-                              md={8}
-                              sm={12}
-                              xs={12}
-                              style={{
-                                borderLeft: DownloadInvoice
-                                  ? "1px solid #ccc"
-                                  : "none",
-                              }}
-                            >
-                              <BillPdfModal
-                                show={showPdfModal}
-                                handleClosed={handleClosePdfModal}
-                                rowData={rowData}
-                              />
+                          <Col
+                            lg={8}
+                            md={8}
+                            sm={12}
+                            xs={12}
+                            style={{
+                              borderLeft: DownloadInvoice
+                                ? "1px solid #ccc"
+                                : "none",
+                            }}
+                          >
+                            <ReceiptPdfCard
+                              show={showPdfModal}
+                              handleClosed={handleClosePdfModal}
+                              rowData={rowData}
+                            />
 
-                              {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
-                            </Col>
-                          </>
-                        )}
-                      </Row>
-                    </Container>
-  
+                            {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                          </Col>
+                        </>
+                      )}
+                    </Row>
+                  </Container>
                 </>
-
-                
               )}
             </TabPanel>
           </TabContext>
@@ -5692,8 +5850,6 @@ const InvoicePage = () => {
                         },
                       },
                     ]}
-
-
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -5735,7 +5891,6 @@ const InvoicePage = () => {
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
-
                     popperPlacement="bottom-start"
                     popperModifiers={[
                       {
@@ -5745,7 +5900,6 @@ const InvoicePage = () => {
                         },
                       },
                     ]}
-
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate
@@ -5948,14 +6102,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
         </>
       )}
 
-
- {receiptformShow && (
+      {receiptformShow && (
         <>
-          <AddReceiptForm onhandleback={handleBackBill} editvalue={editvalue} receiptedit={receiptedit}/>
+          <AddReceiptForm
+            onhandleback={handleBackBill}
+            editvalue={editvalue}
+            receiptedit={receiptedit}
+          />
         </>
       )}
-
-
     </>
   );
 };

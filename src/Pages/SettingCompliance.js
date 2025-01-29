@@ -146,6 +146,24 @@ function SettingCompliance({ hostelid }) {
         }
     }, [state.Settings.getcomplainttypeStatuscode])
 
+
+useEffect(()=>{
+if(state.Settings.errorCompliants){
+    setLoading(false)
+    setTimeout(() => {
+        dispatch({ type: 'REMOVE_ERROR_COMPLIANTS' })
+    }, 1000);
+}
+},[state.Settings.errorCompliants])
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (state.Settings.addComplaintSuccessStatusCode === 200) {
             dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
@@ -254,17 +272,17 @@ function SettingCompliance({ hostelid }) {
             {showPopupvalidation && (
                 <div className="d-flex flex-wrap mt-3 align-items-center"
                     style={{ gap: "10px" }} >
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-                        !Please add a hostel before adding Complaints information.
+                    <p style={{ color: "red" , fontFamily:"Gilroy",fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                        Please add a hostel before adding Complaints information.
                     </p>
 
-                    <img
+                    {/* <img
                         src={close}
                         alt="close icon"
                         onClick={() => setShowPopupValidation(false)}
                         className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
                         style={{ width: '20px', height: 'auto', cursor: "pointer" }}
-                    />
+                    /> */}
 
                 </div>
 
@@ -405,10 +423,10 @@ function SettingCompliance({ hostelid }) {
                 backdrop="static"
                 centered
             >
-                <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                <Modal.Header style={{ position: "relative" }}>
                     <div
                         style={{
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
                         }}
@@ -431,8 +449,8 @@ function SettingCompliance({ hostelid }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "20px",
+                            height: "20px",
                             borderRadius: "50%",
                         }}
                     >
@@ -479,6 +497,7 @@ function SettingCompliance({ hostelid }) {
                                         borderRadius: 8,
                                     }}
                                 />
+                                
                             </Form.Group>
                             <div>
                                 {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
@@ -487,9 +506,6 @@ function SettingCompliance({ hostelid }) {
 
 
                     </div>
-                </Modal.Body>
-
-                <Modal.Footer className="d-flex justify-content-center">
                     <Button
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                         style={{
@@ -505,7 +521,7 @@ function SettingCompliance({ hostelid }) {
                     >
                         Edit Complaint Type
                     </Button>
-                </Modal.Footer>
+                </Modal.Body>
             </Modal>
 
             <Modal
