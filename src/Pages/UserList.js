@@ -817,20 +817,35 @@ function UserList(props) {
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
 
-  const [walkingCustomer, setWalkingCustomer] = useState("")
-  useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: uniqueostel_Id } });
-  }, [uniqueostel_Id])
+  const [walkingCustomer, setWalkingCustomer] = useState([])
+
 
   useEffect(() => {
-    if (state.UsersList?.getWalkInStatusCode === 200) {
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id  } });
+  }, [state.login.selectedHostel_Id ])
+
+
+  console.log("state", state)
+  console.log("walkingCustomer", walkingCustomer)
+
+  useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode == 200) {
       setWalkingCustomer(state.UsersList.WalkInCustomerList)
-      // dispatch({ type: "WALKINCUSTOMERLIST",payload:{hostel_id:uniqueostel_Id} });
-      setTimeout(() => {
+           setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 200);
     }
   }, [state.UsersList?.getWalkInStatusCode]);
+
+  useEffect(()=>{
+    if(state.UsersList?.NoDataWalkInCustomerStatusCode == 201){
+      setWalkingCustomer([])
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
+      }, 200);
+    }
+
+  },[state.UsersList?.NoDataWalkInCustomerStatusCode])
 
 
   useEffect(() => {
@@ -867,7 +882,23 @@ function UserList(props) {
     }
   }, [state.Booking.statusCodeGetBooking]);
 
+useEffect(()=>{
+  if (value === "1") {
+    dispatch({type: "USERLIST", payload: { hostel_id:  state.login.selectedHostel_Id},
+    });
+  }else if(value === "2"){
 
+    dispatch({type: "GET_BOOKING_LIST",payload: { hostel_id: state.login.selectedHostel_Id }});
+
+  }else if(value === "3"){
+    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    
+  }else if(value === "4"){
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id  } });
+    
+  }
+
+},[value])
 
   useEffect(() => {
     if (value === "1") {
@@ -893,23 +924,31 @@ function UserList(props) {
     }
 
     if (value === "3") {
-      const FilterUsertwo = checkOutCustomer?.filter((item) => {
+      const FilterUsertwo = Array.isArray(checkOutCustomer) ? checkOutCustomer?.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
-      });
+      })
+        :
+        [];
+
       setFilteredUsers(FilterUsertwo);
     }
-    if (value === "4" && Array.isArray(walkingCustomer)) {
-      const FilterUsertwo = walkingCustomer?.filter((item) => {
-        return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
-      });
+    if (value === "4") {
+      const FilterUsertwo = Array.isArray(walkingCustomer) ?
+        walkingCustomer?.filter((item) => {
+          return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
+        })
+        : [];
+
+console.log("FilterUsertwo",FilterUsertwo)
+
       setFilteredUsers(FilterUsertwo);
     }
   }, [
     filterInput,
-    state.UsersList.Users, state.UsersList?.UserListStatusCode,
+    state.UsersList?.Users, state.UsersList?.UserListStatusCode,
     value,
     state?.Booking?.CustomerBookingList?.bookings, state.Booking.statusCodeGetBooking,
-    state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state.UsersList?.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
     state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
 
@@ -2596,12 +2635,12 @@ function UserList(props) {
                         !loading &&
                         currentItems && currentItems.length === 0 && (
                           // {currentItems?.length == 0 && (
-                          <div style={{ marginTop:28,marginLeft:"2px"}}>
+                          <div style={{ marginTop: 28, marginLeft: "2px" }}>
                             <div style={{ textAlign: "center" }}>
                               <img
                                 src={Emptystate}
                                 alt="Empty State"
-                              
+
                               />
                             </div>
                             <div
