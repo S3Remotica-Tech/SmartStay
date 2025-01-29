@@ -69,7 +69,7 @@ const popupLeft = left - 200;
     const [showPopup, setShowPopup] = useState(false);
 
     const handleOpenAddUser = () => {
-        if (!hostelid) {
+        if (!state.login.selectedHostel_Id) {
             setShowPopup(true);
             return;
         }
@@ -111,15 +111,15 @@ const popupLeft = left - 200;
     // useEffect/////////////////////
 
     useEffect(() => {
-        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
-    }, [state.login.Settings_Hostel_Id])
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }, [state.login.selectedHostel_Id])
 
 
 
     useEffect(() => {
         if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
             setIsConfirmDelete(false)
-            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
+            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:state.login.selectedHostel_Id } });
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE' })
             }, 2000)
@@ -151,11 +151,20 @@ const popupLeft = left - 200;
             setLoading(false)
             setTimeout(() => {
                 dispatch({ type: "CLEAR_USER_STAFF_LIST" });
-            }, 1000)
+            }, 200)
         }
     }, [state.Settings?.StatusForaddSettingStaffList])
 
+useEffect(()=>{
+    if(state.Settings?.errorUser){
+        setLoading(false)
+        setTimeout(() => {
+            dispatch({ type: "REMOVE_ERROR_USER" });
+        }, 100)
 
+    }
+
+},[state.Settings?.errorUser])
     
 
     return (
@@ -240,7 +249,7 @@ const popupLeft = left - 200;
             </div>
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red", fontFamily:"Gilroy", fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding User information.
                     </p>
 
@@ -658,7 +667,7 @@ const popupLeft = left - 200;
 
 
 
-            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={state.login.selectedHostel_Id} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
 
 
 

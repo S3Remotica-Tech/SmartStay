@@ -106,7 +106,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             Amount: amount,
             setAsDefault: isChecked,
             Status: editDetails.Status,
-            Hostel_Id: state.login.Settings_Hostel_Id,
+            Hostel_Id: state.login.selectedHostel_Id,
           },
         });
       } else {
@@ -116,7 +116,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             amenitiesName: amenity,
             Amount: amount,
             setAsDefault: isChecked,
-            Hostel_Id: state.login.Settings_Hostel_Id,
+            Hostel_Id: state.login.selectedHostel_Id,
           },
         });
       }

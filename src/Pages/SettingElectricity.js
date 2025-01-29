@@ -293,6 +293,17 @@ const SettingElectricity = ({ hostelid }) => {
   }, [state.Settings?.getebStatuscode])
 
 
+  useEffect(()=>{
+    if(state.Settings?.errorEbUnitStatusCode){
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_ERROR_EB_BILLING_UNIT_LIST' })
+      }, 500)
+    }
+
+  },[state.Settings?.errorEbUnitStatusCode])
+
+
   const options = Array.from({ length: 31 }, (_, index) => ({
     value: index + 1,
     label: index + 1,
@@ -307,7 +318,12 @@ const SettingElectricity = ({ hostelid }) => {
   };
 
 
+// useEffect(()=>{
+//   if(EbList.length == 0){
+//     setLoading(false)
+//   }
 
+// },[EbList])
 
   return (
 
@@ -410,8 +426,8 @@ const SettingElectricity = ({ hostelid }) => {
 
         {showPopup && (
           <div className="d-flex flex-wrap">
-            <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-              !Please add a hostel before adding Electricity information.
+            <p style={{ color: "red", fontFamily:"Gilroy",fontSize:14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+              Please add a hostel before adding Electricity information.
             </p>
 
             {/* <img 

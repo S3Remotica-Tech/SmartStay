@@ -322,30 +322,7 @@ function Sidebar() {
     }
   }, [state.login?.isLoggedIn]);
 
- useEffect(() => {
-  // Check if the user is logged in
-  if (state.login?.isLoggedIn === true && state.UsersList.hostelList?.length > 0) {
-    const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
-      prev.id < current.id ? prev : current
-    );
-
-    // Update state after login with the first hostel
-    setAllPageHostel_Id(firstHostel.id); // State update here
-    setPayingGuestName(firstHostel.Name); // State update here
-    setSelectedProfileImage(
-      firstHostel.profile && firstHostel.profile !== "0" && firstHostel.profile !== ""
-        ? firstHostel.profile
-        : Profile
-    );
-
-    // Store the selected hostel id in the Redux store
-    dispatch(StoreSelectedHostelAction(firstHostel.id));
-
-    // Clear localStorage when logging out
-    localStorage.removeItem("selectedHostelId");
-    localStorage.removeItem("selectedHostelName");
-  }
-}, [state.login?.isLoggedIn, state.UsersList.hostelList]);
+ 
 
   
 
@@ -387,6 +364,8 @@ function Sidebar() {
     localStorage.setItem("NameId", '')
     localStorage.setItem("phoneId", '')
     localStorage.setItem("emilidd", '')
+    localStorage.setItem("selectedHostelId", '');
+    localStorage.setItem("selectedHostelName",'');
     // localStorage.setItem('currentPage', 'dashboard');
 
 
@@ -493,7 +472,30 @@ function Sidebar() {
     }
   }, [state.UsersList.hostelList, state.UsersList.hosteListStatusCode, isInitialized]);
 
-
+  useEffect(() => {
+    // Check if the user is logged in
+    if (state.login?.isLoggedIn  && state.UsersList.hostelList?.length > 0) {
+      const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
+        prev.id < current.id ? prev : current
+      );
+  
+      // Update state after login with the first hostel
+      setAllPageHostel_Id(firstHostel.id); // State update here
+      setPayingGuestName(firstHostel.Name); // State update here
+      setSelectedProfileImage(
+        firstHostel.profile && firstHostel.profile !== "0" && firstHostel.profile !== ""
+          ? firstHostel.profile
+          : Profile
+      );
+  
+      // Store the selected hostel id in the Redux store
+      dispatch(StoreSelectedHostelAction(firstHostel.id));
+  
+      // Clear localStorage when logging out
+      // localStorage.removeItem("selectedHostelId");
+     
+    }
+  }, [state.login?.isLoggedIn, state.UsersList.hostelList,state.UsersList.hosteListStatusCode]);
 
   console.log("state.UsersList.hostelList", state.UsersList.hostelList.length)
 

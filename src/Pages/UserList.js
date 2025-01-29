@@ -48,8 +48,8 @@ import { setDate } from "date-fns";
 
 function UserList(props) {
   const state = useSelector((state) => state);
-  console.log(state,"users");
-  
+  console.log(state, "users");
+
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const popupRef = useRef(null);
@@ -119,33 +119,33 @@ function UserList(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
-  const [isroomReading,setIsRoomReading] = useState(false);
-  const [ishostelReading,setIsHostelReading] = useState(false)
-  const [isReading,setIsReading] =useState("")
+  const [isroomReading, setIsRoomReading] = useState(false);
+  const [ishostelReading, setIsHostelReading] = useState(false)
+  const [isReading, setIsReading] = useState("")
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [reading, setReading] = useState("");
   const [readingError, setReadingError] = useState("");
   const [formError, setFormError] = useState("");
-    const [floorError, setfloorError] = useState("");
-    const [roomError, setRoomError] = useState(""); 
- const [selectedDate, setSelectedDate] = useState("");
-const [ebErrorunit, setEbErrorunit] = useState("");
+  const [floorError, setfloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [ebErrorunit, setEbErrorunit] = useState("");
   const [roomId, setRoomId] = useState("")
-    const [unitAmount, setUnitAmount] = useState("");
-      const [dateError, setDateError] = useState("");
- const [selectedHostel, setSelectedHostel] = useState("");
+  const [unitAmount, setUnitAmount] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [selectedHostel, setSelectedHostel] = useState("");
 
- const [editId, setEditId] = useState("");
- const [hos_Name, setHos_Name] = useState("");
- const [hostelIdError, setHostelIdError] = useState("");
+  const [editId, setEditId] = useState("");
+  const [hos_Name, setHos_Name] = useState("");
+  const [hostelIdError, setHostelIdError] = useState("");
 
- const [hostelDelete,setHostelDelete] = useState(false)
- const [roomDelete,setRoomDelete] = useState(false)
+  const [hostelDelete, setHostelDelete] = useState(false)
+  const [roomDelete, setRoomDelete] = useState(false)
 
- const [deleteIdhostel,setdeleteIdhostel] = useState("")
- const [deleteIdroom,setdeleteIdroom] = useState("")
-  console.log("deleteDetails",deleteDetails)
+  const [deleteIdhostel, setdeleteIdhostel] = useState("")
+  const [deleteIdroom, setdeleteIdroom] = useState("")
+  console.log("deleteDetails", deleteDetails)
 
 
   let serialNumber = 1;
@@ -164,22 +164,22 @@ const [ebErrorunit, setEbErrorunit] = useState("");
 
   const handleEditRoomReading = (user) => {
     setIsRoomReading(user)
-    
+
   }
   const handleEditHostelReading = (users) => {
-    console.log(users,"uuu");
-    
+    console.log(users, "uuu");
+
     setIsReading(users)
     setEditId(users.eb_Id);
   }
 
-  const handleDeleteHostelItem =(data) =>{
+  const handleDeleteHostelItem = (data) => {
     setdeleteIdhostel(data)
   }
 
- const  handleDeleteRoomItem = (data) =>{
-  setdeleteIdroom(data)
- }
+  const handleDeleteRoomItem = (data) => {
+    setdeleteIdroom(data)
+  }
 
 
   const handleDeleteBilling = () => {
@@ -453,12 +453,12 @@ const [ebErrorunit, setEbErrorunit] = useState("");
     date.setMinutes(date.getMinutes() - offset);
     return date.toISOString().split('T')[0];
   };
-const handleCloseDeleteroom = () => {
-  setRoomDelete(false)
-}
-const handleCloseDeleteHostel = () => {
-  setHostelDelete(false)
-}
+  const handleCloseDeleteroom = () => {
+    setRoomDelete(false)
+  }
+  const handleCloseDeleteHostel = () => {
+    setHostelDelete(false)
+  }
 
   const handleBackBill = () => {
     setIsEditing(false)
@@ -480,7 +480,7 @@ const handleCloseDeleteHostel = () => {
     setInvoiceDueDateErrmsg('')
     setAllFieldErrmsg('')
 
-  
+
 
   }
 
@@ -532,14 +532,14 @@ const handleCloseDeleteHostel = () => {
     }
   }, [currentView]);
 
-  useEffect(()=> {
-    if(isReading){
+  useEffect(() => {
+    if (isReading) {
       setHos_Name(isReading.HostelName)
       setReading(isReading.unit);
       setSelectedDate(new Date(isReading.reading_date));
-         
+
     }
-  },[isReading])
+  }, [isReading])
 
   useEffect(() => {
     setUniqostel_Id(state.login.selectedHostel_Id);
@@ -565,18 +565,18 @@ const handleCloseDeleteHostel = () => {
       setLoading(false);
       // if (state.UsersList.Users.length > 0) {
 
-        // const indexOfLastItem = currentPage * itemsPerPage;
-        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
-        // console.log("tempArray123", tempArray);
+      // const indexOfLastItem = currentPage * itemsPerPage;
+      // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
+      // console.log("tempArray123", tempArray);
 
-        // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-        // setCurrentItem(tempArray)
-        // setLoading(false);
+      // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+      // setCurrentItem(tempArray)
+      // setLoading(false);
       // }
       // else {
-        // setCurrentItem([])
-        // setLoading(false);
+      // setCurrentItem([])
+      // setLoading(false);
       // }
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
@@ -610,122 +610,122 @@ const handleCloseDeleteHostel = () => {
 
     }
   }, [state.UsersList.userProfilebill])
-   useEffect(() => {
-      if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-        dispatch({
-          type: "MANUALINVOICESLIST",
-          payload: { hostel_id: uniqueostel_Id },
-        });
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: uniqueostel_Id },
+      });
+      setLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
         setLoading(false);
-  
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-          setLoading(false);
-  
-        
-        }, 1000);
-      }
-    }, [
-      state.InvoiceList.manualInvoiceEditStatusCode,
-      state.InvoiceList.ManualInvoices,
-    ]);
-    useEffect(() => {
-      if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-        dispatch({
-          type: "MANUALINVOICESLIST",
-          payload: { hostel_id: uniqueostel_Id },
-        });
-        setLoading(false);
-  
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-          // setLoading(false);
-  
-        }, 1000);
-      }
-    }, [
-      state.InvoiceList.manualInvoiceDeleteStatusCode,
-      state.InvoiceList.ManualInvoices,
-    ]);
 
-    useEffect(() => {
-      if(state.UsersList.userReading){
-        console.log("userreading",state.UsersList.userReading);
-        setIsRoomReading(true)
-        setRoomDetail(true)
-      }
-    },[state.UsersList.userReading])   
 
-    
-    useEffect(() => {
-      if(state.UsersList.userHostelRead){
-        console.log("userhosteleading",state.UsersList.userHostelRead);
-        setIsHostelReading(true)
-        setRoomDetail(true)
-      } 
-    },[state.UsersList.userHostelRead]) 
+      }, 1000);
+    }
+  }, [
+    state.InvoiceList.manualInvoiceEditStatusCode,
+    state.InvoiceList.ManualInvoices,
+  ]);
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: uniqueostel_Id },
+      });
+      setLoading(false);
 
-    useEffect(() => {
-      if(state.UsersList.userReadingdelete){
-        setRoomDelete(true)
-      }
-    },[state.UsersList.userReadingdelete])
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
+        // setLoading(false);
 
-    useEffect(()=> {
-      if(state.UsersList.userHosteldelete){
-       setHostelDelete(true)
-      }
-    },[state.UsersList.userHosteldelete])
+      }, 1000);
+    }
+  }, [
+    state.InvoiceList.manualInvoiceDeleteStatusCode,
+    state.InvoiceList.ManualInvoices,
+  ]);
 
-    const handleCloseHostel = () => {
-      setIsHostelReading(false);
+  useEffect(() => {
+    if (state.UsersList.userReading) {
+      console.log("userreading", state.UsersList.userReading);
+      setIsRoomReading(true)
       setRoomDetail(true)
-      setReading("");
-      setSelectedDate("");
-      setDateError("");
-      setReadingError("");
-      setFormError("");
-      setDateError("");
-      setEditId("")
-    };
-    
-    const handleCloseRoom = () => {
-      setIsRoomReading(false);
+    }
+  }, [state.UsersList.userReading])
+
+
+  useEffect(() => {
+    if (state.UsersList.userHostelRead) {
+      console.log("userhosteleading", state.UsersList.userHostelRead);
+      setIsHostelReading(true)
       setRoomDetail(true)
-      setFormError("");
-      setEbErrorunit("");
-    };
+    }
+  }, [state.UsersList.userHostelRead])
 
-    const handleRoom = (e) => {
-      setRooms(e.target.value);
-      setRoomError("");
-      setFormError("");
-      setEbErrorunit("");
-    };
-    const handleFloor = (e) => {
-      setFloor(e.target.value);
-      setRooms("");
-      setfloorError("");
-      setFormError("");
-      setRoomId("")
-      setEbErrorunit("");
-    };
-    const handleReadingChange = (e) => {
-      setReading(e.target.value);
-      setReadingError('')
-      setFormError('')
-      setEbErrorunit("");
-      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-    };
+  useEffect(() => {
+    if (state.UsersList.userReadingdelete) {
+      setRoomDelete(true)
+    }
+  }, [state.UsersList.userReadingdelete])
 
-    const handleDateChange = (date) => {
+  useEffect(() => {
+    if (state.UsersList.userHosteldelete) {
+      setHostelDelete(true)
+    }
+  }, [state.UsersList.userHosteldelete])
 
-      setSelectedDate(date);
-      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-      setDateError('');
-      setEbErrorunit('');
-      setFormError("")
-    };
+  const handleCloseHostel = () => {
+    setIsHostelReading(false);
+    setRoomDetail(true)
+    setReading("");
+    setSelectedDate("");
+    setDateError("");
+    setReadingError("");
+    setFormError("");
+    setDateError("");
+    setEditId("")
+  };
+
+  const handleCloseRoom = () => {
+    setIsRoomReading(false);
+    setRoomDetail(true)
+    setFormError("");
+    setEbErrorunit("");
+  };
+
+  const handleRoom = (e) => {
+    setRooms(e.target.value);
+    setRoomError("");
+    setFormError("");
+    setEbErrorunit("");
+  };
+  const handleFloor = (e) => {
+    setFloor(e.target.value);
+    setRooms("");
+    setfloorError("");
+    setFormError("");
+    setRoomId("")
+    setEbErrorunit("");
+  };
+  const handleReadingChange = (e) => {
+    setReading(e.target.value);
+    setReadingError('')
+    setFormError('')
+    setEbErrorunit("");
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+  };
+
+  const handleDateChange = (date) => {
+
+    setSelectedDate(date);
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+    setDateError('');
+    setEbErrorunit('');
+    setFormError("")
+  };
 
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
@@ -908,8 +908,8 @@ const handleCloseDeleteHostel = () => {
     filterInput,
     state.UsersList.Users, state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings,state.Booking.statusCodeGetBooking ,
-     state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
+    state?.Booking?.CustomerBookingList?.bookings, state.Booking.statusCodeGetBooking,
+    state.UsersList.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
     state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
   ]);
 
@@ -921,24 +921,24 @@ const handleCloseDeleteHostel = () => {
     setFilterInput(searchValue);
 
     if (searchValue.length > 0) {
-        const filtered = filteredUsers.filter((user) => { 
-            const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
-            const name = user?.Name?.toLowerCase() || "";
+      const filtered = filteredUsers.filter((user) => {
+        const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
+        const name = user?.Name?.toLowerCase() || "";
 
-            return (
-                name.startsWith(searchValue) || 
-                fullName.startsWith(searchValue) 
-            );
-        });
+        return (
+          name.startsWith(searchValue) ||
+          fullName.startsWith(searchValue)
+        );
+      });
 
-        setFilteredUsers(filtered);
-        setDropdownVisible(true);
-        setCurrentPage(1); // Reset to first page
+      setFilteredUsers(filtered);
+      setDropdownVisible(true);
+      setCurrentPage(1); // Reset to first page
     } else {
-        setFilteredUsers(filteredUsers); // Reset when input is cleared
-        setDropdownVisible(false);
+      setFilteredUsers(filteredUsers); // Reset when input is cleared
+      setDropdownVisible(false);
     }
-};
+  };
 
   // const handlefilterInput = (e) => {
   //   setFilterInput(e.target.value);
@@ -960,7 +960,7 @@ const handleCloseDeleteHostel = () => {
 
     setFilteredUsers([]);
     setDropdownVisible(false);
-};
+  };
 
 
 
@@ -1055,7 +1055,7 @@ const handleCloseDeleteHostel = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems =
     filterInput.length > 0
-      ? filteredUsers 
+      ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
@@ -2211,7 +2211,7 @@ const handleCloseDeleteHostel = () => {
                                   {value === "1"
                                     ? user.Name
                                     : value === "2"
-                                      ?  [user?.first_name, user?.last_name].filter(Boolean).join(" ")
+                                      ? [user?.first_name, user?.last_name].filter(Boolean).join(" ")
                                       : value === "3"
                                         ? user.Name
                                         : value === "4"
@@ -2589,17 +2589,20 @@ const handleCloseDeleteHostel = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="p-10">
+                  <div className="">
                     <div>
 
                       {
                         !loading &&
                         currentItems && currentItems.length === 0 && (
                           // {currentItems?.length == 0 && (
-                          <div>
+                          <div style={{ marginTop:28,marginLeft:"2px"}}>
                             <div style={{ textAlign: "center" }}>
-                              {" "}
-                              <img src={Emptystate} alt="emptystate" />
+                              <img
+                                src={Emptystate}
+                                alt="Empty State"
+                              
+                              />
                             </div>
                             <div
                               className="pb-1"
@@ -3353,9 +3356,9 @@ const handleCloseDeleteHostel = () => {
                         </div>
                       )}
                     </div>
-                    {                    
+                    {
                       state.UsersList.Users?.length > itemsPerPage &&
-                        // (
+                      // (
                       // <nav>
                       //   <ul
                       //     style={{
@@ -3553,7 +3556,7 @@ const handleCloseDeleteHostel = () => {
                       //   </ul>
                       // </nav>
 
-                     
+
                       <nav
                         style={{
                           display: "flex",
@@ -3657,7 +3660,7 @@ const handleCloseDeleteHostel = () => {
 
 
 
-                    // )
+                      // )
                     }
                   </div>
                 )}
@@ -3691,7 +3694,7 @@ const handleCloseDeleteHostel = () => {
                   customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
-                  filterInput ={filterInput}
+                  filterInput={filterInput}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3713,7 +3716,7 @@ const handleCloseDeleteHostel = () => {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
-                  filterInput = {filterInput}
+                  filterInput={filterInput}
                 />
               </TabPanel>
             </TabContext>
@@ -3867,698 +3870,698 @@ const handleCloseDeleteHostel = () => {
         />
       ) : null}
 
-{isroomReading && 
-     <>
-    <Modal
-        show={isroomReading}
-        onHide={() => handleCloseRoom()}
-        backdrop="static"
-        centered
-      >
-
-
-        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
+      {isroomReading &&
+        <>
+          <Modal
+            show={isroomReading}
+            onHide={() => handleCloseRoom()}
+            backdrop="static"
+            centered
           >
-            Edit Reading
-          </div>
-          <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseRoom}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row ">
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
+
+            <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+              <div
                 style={{
-                  fontSize: 14,
-                  color: "#222222",
+                  fontSize: 20,
+                  fontWeight: 600,
                   fontFamily: "Gilroy",
-                  fontWeight: 500,
                 }}
               >
-                Floor{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != ""
-                }
-                value={Floor}
-                onChange={(e) => handleFloor(e)}
+                Edit Reading
+              </div>
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={handleCloseRoom}
                 style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
+                  position: "absolute",
+                  right: "10px",
+                  top: "16px",
+                  border: "1px solid black",
+                  background: "transparent",
+                  cursor: "pointer",
+                  padding: "0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontSize: "30px",
+                    paddingBottom: "6px",
+                  }}
+                >
+                  &times;
+                </span>
+              </button>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="row ">
+
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Floor{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    className="border"
+                    disabled={
+                      unitAmount &&
+                      unitAmount?.length === 0 &&
+                      selectedHostel != ""
+                    }
+                    value={Floor}
+                    onChange={(e) => handleFloor(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <option
+                      style={{ fontSize: 14, fontWeight: 600 }}
+                      selected
+                      value=""
+                    >
+                      Select Floor
+                    </option>
+                    {state?.UsersList?.hosteldetailslist &&
+                      state?.UsersList?.hosteldetailslist.map((item) => (
+                        <>
+                          <option key={item.floor_id} value={item.floor_id}>
+                            {item.floor_name}
+                          </option>
+                        </>
+                      ))}
+                  </Form.Select>
+                  {floorError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Room{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    className="border"
+                    disabled={
+                      unitAmount &&
+                      unitAmount?.length === 0 &&
+                      selectedHostel != ""
+                    }
+                    value={Rooms}
+                    onChange={(e) => handleRoom(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <option>Select a Room</option>
+                    {state.UsersList?.roomdetails &&
+                      state.UsersList?.roomdetails.map((item) => (
+                        <>
+                          <option key={item.Room_Id} value={item.Room_Id}>
+                            {item.Room_Name}
+                          </option>
+                        </>
+                      ))}
+                  </Form.Select>
+                  {roomError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      {roomError}
+                    </div>
+                  )}
+                </div>
+
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Group className="mb-3">
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Reading{" "}
+                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="6542310"
+                      value={reading}
+                      onChange={(e) => handleReadingChange(e)}
+                      style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                      }}
+                    />
+                  </Form.Group>
+                  {readingError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Group className="mb-2" controlId="purchaseDate">
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    </Form.Label>
+                    <div style={{ position: "relative", width: "100%" }}>
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        dateFormat="dd/MM/yyyy"
+                        minDate={null}
+                        // disabled={edit}
+                        customInput={customDateInput({
+                          value: selectedDate
+                            ? selectedDate.toLocaleDateString("en-GB")
+                            : "",
+                        })}
+                      />
+                    </div>
+                  </Form.Group>
+                  {dateError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      {dateError}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Modal.Body>
+            {formError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+              </div>
+            )}
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button
+                className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
                   height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select Floor
-                </option>
-                {state?.UsersList?.hosteldetailslist &&
-                  state?.UsersList?.hosteldetailslist.map((item) => (
-                    <>
-                      <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-              {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
-                </div>
-              )}
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Room{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != ""
-                }
-                value={Rooms}
-                onChange={(e) => handleRoom(e)}
-                style={{
+                  borderRadius: 12,
                   fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
+                  fontFamily: "Montserrat, sans-serif",
+                  marginTop: 10,
                 }}
+                // onClick={handleSaveChanges}
+                disabled={!!formError}
               >
-                <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
-                    <>
-                      <option key={item.Room_Id} value={item.Room_Id}>
-                        {item.Room_Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-              {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {roomError}
-                </div>
-              )}
-            </div>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      }
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Reading{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={reading}
-                  onChange={(e) => handleReadingChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-              {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
-                </div>
-              )}
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={null}
-                    // disabled={edit}
-                    customInput={customDateInput({
-                      value: selectedDate
-                        ? selectedDate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {dateError}
-                </div>
-              )}
-            </div>
-          </div>
-        </Modal.Body>
-        {formError && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
-          </div>
-        )}
-        <Modal.Footer className="d-flex justify-content-center">
-          <Button
-            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 50,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: 10,
-            }}
-            // onClick={handleSaveChanges}
-            disabled={!!formError}
+      {ishostelReading &&
+        <>
+          <Modal
+            show={ishostelReading}
+            onHide={() => handleCloseHostel()}
+            backdrop="static"
+            centered
           >
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-     </>
-     }
-
-   {ishostelReading && 
-   <>
-    <Modal
-        show={ishostelReading}
-        onHide={() => handleCloseHostel()}
-        backdrop="static"
-        centered
-      >
-        {/* <Modal.Header closeButton className="text-center">
+            {/* <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
               Add a Reading
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
-            Hostel Reading
-          </div>
-          <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseHostel}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row ">
-           
-
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
-                <Form.Label
+            <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+              <div
+                style={{
+                  fontSize: 20,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Hostel Reading
+              </div>
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={handleCloseHostel}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "16px",
+                  border: "1px solid black",
+                  background: "transparent",
+                  cursor: "pointer",
+                  padding: "0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                }}
+              >
+                <span
+                  aria-hidden="true"
                   style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontSize: "30px",
+                    paddingBottom: "6px",
                   }}
                 >
-                  HostelName{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={hos_Name}
-                  //   onChange={(e) => handleReadingChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-              {hostelIdError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {hostelIdError}
-                  </span>
-                </div>
-              )}
+                  &times;
+                </span>
+              </button>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="row ">
 
-              {/* {readingError && (
+
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Form.Group className="mb-3">
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      HostelName{" "}
+                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="6542310"
+                      value={hos_Name}
+                      //   onChange={(e) => handleReadingChange(e)}
+                      style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                      }}
+                    />
+                  </Form.Group>
+                  {hostelIdError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {hostelIdError}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* {readingError && (
                   <div style={{ color: "red" }}>
                     <MdError />
                     {readingError}
                   </div>
                 )} */}
-            </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Reading{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={reading}
-                  onChange={(e) => handleReadingChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-              {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {" "}
-                    {readingError}
-                  </span>
                 </div>
-              )}
-              {/* {readingError && (
+
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Group className="mb-3">
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Reading{" "}
+                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="6542310"
+                      value={reading}
+                      onChange={(e) => handleReadingChange(e)}
+                      style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                      }}
+                    />
+                  </Form.Group>
+                  {readingError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {" "}
+                        {readingError}
+                      </span>
+                    </div>
+                  )}
+                  {/* {readingError && (
                 <div style={{ color: "red" }}>
                   <MdError />
                   {readingError}
                 </div>
               )} */}
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Group className="mb-2" controlId="purchaseDate">
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    </Form.Label>
+                    <div style={{ position: "relative", width: "100%" }}>
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        dateFormat="dd/MM/yyyy"
+                        minDate={null}
+                        // disabled={edit}
+                        customInput={customDateInput({
+                          value: selectedDate
+                            ? selectedDate.toLocaleDateString("en-GB")
+                            : "",
+                        })}
+                      />
+                    </div>
+                  </Form.Group>
+                  {dateError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {dateError}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Modal.Body>
+            {formError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                <span
                   style={{
-                    fontSize: 14,
-                    color: "#222222",
+                    fontSize: "12px",
+                    color: "red",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
                 >
-                  Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={null}
-                    // disabled={edit}
-                    customInput={customDateInput({
-                      value: selectedDate
-                        ? selectedDate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {dateError}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        </Modal.Body>
-        {formError && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span
+                  {formError}
+                </span>
+              </div>
+            )}
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button
+                className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  height: 50,
+                  borderRadius: 12,
+                  fontSize: 16,
+                  fontFamily: "Montserrat, sans-serif",
+                  marginTop: 10,
+                }}
+              // onClick={handleSaveEb}
+              // disabled={!!formError}
+              >
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      }
+
+      {roomDelete &&
+        <>
+          <Modal
+            show={roomDelete}
+            onHide={handleCloseDeleteroom}
+            centered
+            backdrop="static"
+            style={{
+              width: 388,
+              height: 250,
+              marginLeft: "500px",
+              marginTop: "200px",
+            }}
+          >
+            <Modal.Header style={{ borderBottom: "none" }}>
+              <Modal.Title
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  fontWeight: 600,
+                  color: "#222222",
+                  flex: 1,
+                }}
+              >
+                Delete RoomReading?
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body
               style={{
-                fontSize: "12px",
-                color: "red",
-                fontFamily: "Gilroy",
+                fontSize: 14,
                 fontWeight: 500,
+                fontFamily: "Gilroy",
+                color: "#646464",
+                textAlign: "center",
+                marginTop: "-20px",
               }}
             >
-              {formError}
-            </span>
-          </div>
-        )}
-        <Modal.Footer className="d-flex justify-content-center">
-          <Button
-            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 50,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: 10,
-            }}
-            // onClick={handleSaveEb}
-            // disabled={!!formError}
-          >
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-   </>
-   } 
+              Are you sure you want to delete this  RoomReading?
+            </Modal.Body>
 
-   {roomDelete && 
-   <>
-    <Modal
-        show={roomDelete}
-        onHide={handleCloseDeleteroom}
-        centered
-        backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
-        }}
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
-          >
-             Delete RoomReading?
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
-          }}
-        >
-          Are you sure you want to delete this  RoomReading?
-        </Modal.Body>
-
-        <Modal.Footer
-          style={{
-            justifyContent: "center",
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseDeleteroom}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            // onClick={handleDeleteRoom}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
+            <Modal.Footer
+              style={{
+                justifyContent: "center",
+                borderTop: "none",
+                marginTop: "-10px",
+              }}
+            >
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  marginRight: 10,
+                }}
+                onClick={handleCloseDeleteroom}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
+              // onClick={handleDeleteRoom}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
 
 
-      </Modal>
-   </>
-   } 
+          </Modal>
+        </>
+      }
 
-   {hostelDelete && 
-   <>
-    <Modal
-        show={hostelDelete}
-        onHide={handleCloseDeleteHostel}
-        centered
-        backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
-        }}
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
+      {hostelDelete &&
+        <>
+          <Modal
+            show={hostelDelete}
+            onHide={handleCloseDeleteHostel}
+            centered
+            backdrop="static"
             style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
+              width: 388,
+              height: 250,
+              marginLeft: "500px",
+              marginTop: "200px",
             }}
           >
-             Delete HostelReading?
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
-          }}
-        >
-          Are you sure you want to delete this  HostelReading?
-        </Modal.Body>
+            <Modal.Header style={{ borderBottom: "none" }}>
+              <Modal.Title
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  fontWeight: 600,
+                  color: "#222222",
+                  flex: 1,
+                }}
+              >
+                Delete HostelReading?
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                color: "#646464",
+                textAlign: "center",
+                marginTop: "-20px",
+              }}
+            >
+              Are you sure you want to delete this  HostelReading?
+            </Modal.Body>
 
-        <Modal.Footer
-          style={{
-            justifyContent: "center",
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseDeleteHostel}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            // onClick={handleDeletehostel}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
+            <Modal.Footer
+              style={{
+                justifyContent: "center",
+                borderTop: "none",
+                marginTop: "-10px",
+              }}
+            >
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  marginRight: 10,
+                }}
+                onClick={handleCloseDeleteHostel}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
+              // onClick={handleDeletehostel}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
 
 
-      </Modal>
-   </>
-   }
+          </Modal>
+        </>
+      }
 
       {isEditing &&
 

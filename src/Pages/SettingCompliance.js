@@ -146,6 +146,24 @@ function SettingCompliance({ hostelid }) {
         }
     }, [state.Settings.getcomplainttypeStatuscode])
 
+
+useEffect(()=>{
+if(state.Settings.errorCompliants){
+    setLoading(false)
+    setTimeout(() => {
+        dispatch({ type: 'REMOVE_ERROR_COMPLIANTS' })
+    }, 1000);
+}
+},[state.Settings.errorCompliants])
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (state.Settings.addComplaintSuccessStatusCode === 200) {
             dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
@@ -254,17 +272,17 @@ function SettingCompliance({ hostelid }) {
             {showPopupvalidation && (
                 <div className="d-flex flex-wrap mt-3 align-items-center"
                     style={{ gap: "10px" }} >
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-                        !Please add a hostel before adding Complaints information.
+                    <p style={{ color: "red" , fontFamily:"Gilroy",fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                        Please add a hostel before adding Complaints information.
                     </p>
 
-                    <img
+                    {/* <img
                         src={close}
                         alt="close icon"
                         onClick={() => setShowPopupValidation(false)}
                         className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
                         style={{ width: '20px', height: 'auto', cursor: "pointer" }}
-                    />
+                    /> */}
 
                 </div>
 

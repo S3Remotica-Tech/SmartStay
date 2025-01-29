@@ -46,7 +46,7 @@ function User({ show, handleClose, editDetails, hostelid,setAddUserForm,setEdit,
 
 
   useEffect(() => {
-    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.Settings_Hostel_Id } })
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id:state.login.selectedHostel_Id } })
     // dispatch({ type: "COUNTRYLIST" });
   }, [])
 
@@ -255,7 +255,7 @@ const handleCloseForm = ()=>{
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
       handleCloseForm()
-        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.Settings_Hostel_Id } });
+        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
         setTimeout(() => {
             dispatch({ type: "CLEAR_ADD_STAFF_USER" });
         }, 200);
