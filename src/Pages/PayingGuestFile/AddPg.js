@@ -97,7 +97,7 @@ function AddPg({ show, handleClose, currentItem }) {
   };
 
   const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
+    const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
     setGeneralError("");
     setIsChangedError("");
