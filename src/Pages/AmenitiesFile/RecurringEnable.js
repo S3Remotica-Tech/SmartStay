@@ -10,6 +10,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Select from "react-select";
+import { borderRadius, fontSize } from '@mui/system';
 
 function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails }) {
 
@@ -33,61 +34,79 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     // };
 
 
-    const dayOptionsEnd = Array.from({ length: 31 }, (_, i) => i + 1);
-
-const dayOptions = Array.from({ length: 31 }, (_, i) => ({
-  value: i + 1,
-  label: i + 1 ,
-}));
 
 
-console.log(dayOptions,"dayOptions")
+    const dayOptions = Array.from({ length: 31 }, (_, i) => ({
+        value: i + 1,
+        label: i + 1,
+    }));
 
+    const dayOptionsEnd = Array.from({ length: 31 }, (_, i) => ({
+        value: i + 1,
+        label: i + 1,
+    }));
 
+    console.log(dayOptions, "dayOptions")
 
-const customStyles = {
-  control: (base) => ({
-    ...base,
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    color: "#222222",
-    height: "40px", // Adjust height for the select box
-  }),
-  menu: (base) => ({
-    ...base,
-    maxHeight: "150px", // Limits dropdown height
-    overflowY: "auto", // Enables scrolling
-  }),
-  menuList: (base) => ({
-    ...base,
-    "::-webkit-scrollbar": {
-      width: "4px", // Thin scrollbar
-    },
-    "::-webkit-scrollbar-thumb": {
-      background: "#cccccc", // Scrollbar color
-    },
-    "::-webkit-scrollbar-thumb:hover": {
-      background: "#888888", // Scrollbar color on hover
-    },
-  }),
-};
+  
+    const customStyles = {
+        control: (base) => ({
+            ...base,
+            height: "50px",
+            border: "1px solid #ced4da",
+            borderRadius: "7px",
+            fontSize: 14, 
+            color: "#222222", 
+            fontFamily: "Gilroy", 
+            fontWeight: 500
+          }),
+          menu: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            border: "1px solid #ced4da",
+          }),
+          menuList: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            overflowY: "auto",
+            maxHeight: "120px",
+            padding: 0,
+            scrollbarWidth: "thin",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#555",
+          }),
+          dropdownIndicator: (base) => ({
+            ...base,
+            color: "#555",
+            display: "inline-block",
+            fill: "currentColor",
+            lineHeight: 1,
+            stroke: "currentColor",
+            strokeWidth: 0,
+          }),
+          indicatorSeparator: () => ({
+            display: "none",
+          }),
+    }
+  
     const handleStartDateChange = (selectedOption) => {
         setStartDate(selectedOption ? selectedOption.value : null);
-      };
-
-    const handleEndDateChange = (e) => {
-        setEndDate(e.target.value);
-        setErrorEndDate('');
-
     };
+    const handleEndDateChange = (selectedOption) => {
+        setEndDate(selectedOption ? selectedOption.value : null);
+        setErrorEndDate('');
+    };
+
+   
 
     const handleRecurringDayChange = (e) => {
         setRecurringDay(e.target.value);
         setErrorRecurringDay('');
 
     };
-     
+
 
 
 
@@ -169,15 +188,16 @@ const customStyles = {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                            <Select
-      options={dayOptions}
-      value={dayOptions.find((option) => option.value === startDate) || null}
-      onChange={handleStartDateChange}
-      placeholder="Start Day"
-      styles={customStyles}
-      isClearable
-    />
-                                {/* <Form.Select
+                                <Select
+                                    options={dayOptions}
+                                    value={dayOptions.find((option) => option.value === startDate) || null}
+                                    onChange={handleStartDateChange}
+                                    placeholder="Start Day"
+                                    styles={customStyles}
+                                   
+                                />
+                            </div>
+                            {/* <Form.Select
                                     value={startDate}
                                     onChange={handleStartDateChange}
                                     id="vendor-select"
@@ -191,7 +211,7 @@ const customStyles = {
                                     ))}
                                 </Form.Select> */}
 
-                            </div>
+
 
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
@@ -203,6 +223,16 @@ const customStyles = {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                                <Select
+                                    options={dayOptionsEnd}
+                                    value={dayOptionsEnd.find((option) => option.value === endDate) || null}
+                                    onChange={handleEndDateChange}
+                                    placeholder="End Day"
+                                    styles={customStyles}
+                                    
+                                />
+                            </div>
+                            {/* <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
                                     value={endDate}
                                     id="vendor-select"
@@ -218,7 +248,7 @@ const customStyles = {
                                 </Form.Select>
 
 
-                            </div>
+                            </div> */}
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
