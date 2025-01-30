@@ -196,20 +196,12 @@ function CreateAccountPage() {
   //   };
 
   const handleEmailID = (e) => {
-    const emailInput = e.target.value;
+    const emailInput = e.target.value.toLowerCase();
     setEmailID(emailInput);
 
     setEmailError('');
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-
-
-    const hasUpperCase = /[A-Z]/.test(emailInput);
-
-    if (hasUpperCase) {
-      setEmailError('Email address cannot contain uppercase letters');
-      return;
-    }
 
 
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;

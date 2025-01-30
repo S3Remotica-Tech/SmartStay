@@ -217,7 +217,7 @@ function AddVendor({ show, handleClose, currentItem }) {
   // }
 
   const handleEmailChange = (e) => {
-    const email = e.target.value;
+    const email = e.target.value.toLowerCase();
     setEmail_Id(email);
     setGeneralError("");
     setIsChangedError("");
