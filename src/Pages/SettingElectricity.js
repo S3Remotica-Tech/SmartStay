@@ -1007,7 +1007,12 @@ const SettingElectricity = ({ hostelid }) => {
                 <div className="row mt-1">
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">EB calculation Start Date will be</label>
+                      <label for="startDayDropdown" class="form-label">EB calculation Start Date will be
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                      </label>
                     </div>
                     {/* <div className="hi col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
@@ -1080,10 +1085,10 @@ const SettingElectricity = ({ hostelid }) => {
 
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-8px" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "15px", color: "red",marginBottom:"4px"  }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1093,7 +1098,12 @@ const SettingElectricity = ({ hostelid }) => {
 
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">EB Calculation End date wil be</label>
+                      <label for="startDayDropdown" class="form-label">EB Calculation End date wil be
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                      </label>
                     </div>
                     {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
@@ -1160,10 +1170,10 @@ const SettingElectricity = ({ hostelid }) => {
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-8px" }}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "15px", color: "red",marginBottom:"4px" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

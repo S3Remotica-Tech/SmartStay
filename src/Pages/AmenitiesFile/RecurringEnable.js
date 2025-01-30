@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
+import Select from "react-select";
 
 function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails }) {
 
@@ -25,11 +26,50 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     const [errorEndDate, setErrorEndDate] = useState('');
     const [errorRecurringDay, setErrorRecurringDay] = useState('');
 
-    const handleStartDateChange = (e) => {
-        setStartDate(e.target.value);
-        setErrorStartDate('');
+    // const handleStartDateChange = (e) => {
+    //     setStartDate(e.target.value);
+    //     setErrorStartDate('');
 
-    };
+    // };
+
+
+   
+
+const dayOptions = Array.from({ length: 31 }, (_, i) => ({
+  value: i + 1,
+  label: i + 1,
+}));
+
+const customStyles = {
+  control: (base) => ({
+    ...base,
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    color: "#222222",
+    height: "40px", // Adjust height for the select box
+  }),
+  menu: (base) => ({
+    ...base,
+    maxHeight: "150px", // Limits dropdown height
+    overflowY: "auto", // Enables scrolling
+  }),
+  menuList: (base) => ({
+    ...base,
+    "::-webkit-scrollbar": {
+      width: "4px", // Thin scrollbar
+    },
+    "::-webkit-scrollbar-thumb": {
+      background: "#cccccc", // Scrollbar color
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      background: "#888888", // Scrollbar color on hover
+    },
+  }),
+};
+    const handleStartDateChange = (selectedOption) => {
+        setStartDate(selectedOption?.value || "");
+      };
 
     const handleEndDateChange = (e) => {
         setEndDate(e.target.value);
@@ -42,7 +82,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
         setErrorRecurringDay('');
 
     };
-    const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
+    // const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
 
 
@@ -124,7 +164,15 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Form.Select
+                            <Select
+      options={dayOptions}
+      value={dayOptions.find((option) => option.value === startDate)}
+      onChange={handleStartDateChange}
+      placeholder="Start Day"
+      styles={customStyles}
+      isClearable
+    />
+                                {/* <Form.Select
                                     value={startDate}
                                     onChange={handleStartDateChange}
                                     id="vendor-select"
@@ -136,7 +184,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                             {day}
                                         </option>
                                     ))}
-                                </Form.Select>
+                                </Form.Select> */}
 
                             </div>
 

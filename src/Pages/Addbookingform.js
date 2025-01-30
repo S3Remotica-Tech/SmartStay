@@ -945,6 +945,10 @@ function BookingModal(props) {
                   }}
                 >
                   Joining_Date
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
                 <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
@@ -991,6 +995,10 @@ function BookingModal(props) {
                   }}
                 >
                   Booking Amount
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
                 <FormControl
                   type="text"
