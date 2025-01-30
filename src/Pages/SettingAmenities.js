@@ -188,7 +188,7 @@ function SettingAmenities({ hostelid }) {
     useEffect(() => {
         // if (state.login.selectedHostel_Id) {
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
         // }
     }, [state.login.selectedHostel_Id])
 
@@ -205,8 +205,21 @@ function SettingAmenities({ hostelid }) {
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
 
-    useEffect(()=>{
-        if(state.InvoiceList.errorAmenities){
+
+    useEffect(() => {
+        if (state.InvoiceList.alreadyAssignAmenitiesStatusCode == 201) {
+            setDeleteAmenities(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ALREADY_ASSIGN_ERROR' })
+            }, 200)
+        }
+
+    }, [state.InvoiceList.alreadyAssignAmenitiesStatusCode])
+
+
+
+    useEffect(() => {
+        if (state.InvoiceList.errorAmenities) {
             setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_ERROR_AMENITIES' })
@@ -214,8 +227,8 @@ function SettingAmenities({ hostelid }) {
 
         }
 
-    },[state.InvoiceList.errorAmenities])
-  
+    }, [state.InvoiceList.errorAmenities])
+
 
 
     useEffect(() => {
@@ -316,9 +329,9 @@ function SettingAmenities({ hostelid }) {
                             width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
-                            marginTop:5
-                
-                          }}
+                            marginTop: 5
+
+                        }}
                         disabled={showPopup}
                     >
                         {" "}
@@ -329,18 +342,18 @@ function SettingAmenities({ hostelid }) {
 
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red" , fontSize:14, fontFamily:"Gilroy"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding Amentities information.
                     </p>
 
-                   
+
 
                 </div>
 
 
             )}
 
-            <div className='container mt-4 mb-3' style={{position:"relative"}}>
+            <div className='container mt-4 mb-3' style={{ position: "relative" }}>
 
 
                 <div className='row row-gap-3'>
@@ -536,9 +549,9 @@ function SettingAmenities({ hostelid }) {
 
 
                 {loading &&
-                <div
-                    style={{
-                        position: 'absolute',
+                    <div
+                        style={{
+                            position: 'absolute',
                             top: 0,
                             right: 0,
                             bottom: 0,
@@ -547,23 +560,23 @@ function SettingAmenities({ hostelid }) {
                             height: "50vh",
                             alignItems: 'center',
                             justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
                         }}
-                    ></div>
-                </div>
-            }
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>
+                }
 
 
 
@@ -573,7 +586,7 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-           
+
 
 
 
