@@ -127,7 +127,7 @@ const SettingsElectricityTable = ({ hostelid }) => {
                             <div className="modal-body">
                                 <div className="mb-3">
                                     <label className="form-label">
-                                        EB calculation Start Date will be
+                                        EB calculation Start Date will beaa
                                     </label>
                                     <select className="form-select">
                                         <option>Start Day</option>

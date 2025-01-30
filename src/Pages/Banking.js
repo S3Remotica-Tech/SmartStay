@@ -38,7 +38,7 @@ function Banking() {
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const editRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [dotsshowbank, setdotsshowbank] = useState(false);
@@ -128,11 +128,12 @@ function Banking() {
   }, [bankingrolePermission]);
 
   useEffect(() => {
-    // setLoading(true);
+    setLoader(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, [hostel_id]);
 
   useEffect(() => {
+    setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
       settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans);
       setBanking(state.bankingDetails.bankingList.banks)
@@ -1150,6 +1151,7 @@ function Banking() {
                   // borderBottom:"none"
                 }}
               >
+                
                 <Table
                   responsive="md"
                   className="Table_Design"
@@ -1526,8 +1528,13 @@ function Banking() {
                 </Table>
               </div>
             ) : (
+              
               <div>
-                <div style={{ textAlign: "center" }}>
+                  {!loader && currentRowTransaction.length == 0 &&
+
+              <div>
+                
+                 <div style={{ textAlign: "center" }}>
                   <img
                     src={emptyimg}
                     width={240}
@@ -1559,6 +1566,36 @@ function Banking() {
                 >
                   There are no Transaction available.{" "}
                 </div>
+              </div>
+}
+{loader &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
               </div>
             )}
 
