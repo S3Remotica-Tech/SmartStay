@@ -532,7 +532,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 fontWeight: 600,
               }}
             >
-              {check === "EDIT" ? "Edit a vendor " : ""}
+              {check === "EDIT" ? "Edit a vendor " : "Add a vendor"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose}
