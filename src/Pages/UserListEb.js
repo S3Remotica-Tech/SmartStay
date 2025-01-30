@@ -12,6 +12,10 @@ import Delete from '../Assets/Images/Delete_red.png';
 
 function UserEb(props) {
   const state = useSelector(state => state)
+  console.log(state,"statuss");
+  console.log(props,'props');
+  
+  
  const dispatch = useDispatch();
 
   // const EbrowsPerPage = 10;
@@ -24,6 +28,10 @@ function UserEb(props) {
 const [activeId, setActiveId] = useState(null);
  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showDots, setShowDots] = useState("");
+  const [selectedHostel, setSelectedHostel] = useState("");
+    const [hostelBased, setHostelBased] = useState("");
+     const [hostelName, setHostelName] = useState("");
+     const [roomBased, setRoomBased] = useState(null);
 const popupRef = useRef(null);
 
   const handleEbPageChange = (EbpageNumber) => {
@@ -91,6 +99,96 @@ const popupRef = useRef(null);
       dispatch({type:'USERREADING_DELETETRUE'})
      }
   
+      useEffect(() => {
+         if(selectedHostel){
+           dispatch({
+             type: "EB-BILLING-UNIT-LIST",
+             payload: { hostel_id: selectedHostel },
+           });
+         }
+       
+       }, [selectedHostel]);
+        // useEffect(() => {
+        //    const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
+        //      (item) => item.hostel_id == selectedHostel
+        //    );
+       
+        //    if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
+        //      setHostelBased(FilterHostelBased[0]?.hostel_based);
+        //      setHostelName(FilterHostelBased[0]?.Name);
+        //    } else {
+        //      console.log("unitAmount is not a valid array or is empty.");
+        //    }
+        //  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
+
+        useEffect(() => {
+          if (selectedHostel) {
+            console.log("selectedHostel", selectedHostel);
+            const FilterRoomBased = state.Settings.EBBillingUnitlist?.filter(
+              (item) => item.hostel_id == selectedHostel
+            );
+        
+            if (Array.isArray(FilterRoomBased) && FilterRoomBased.length > 0) {
+              const roomValue = Number(FilterRoomBased[0]?.room_based);
+              console.log("Setting roomBased to:", roomValue);
+              setRoomBased(roomValue);
+              setHostelName(FilterRoomBased[0]?.Name);
+            }
+          }
+        }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+        
+
+        //  useEffect(() => {
+        //   if (selectedHostel) {
+        //     console.log("selectedHostel", selectedHostel);
+        //     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
+        //       (item) => item.hostel_id == selectedHostel
+        //     );
+        
+        //     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
+        //       console.log("hostelBased updated to:", FilterHostelBased[0]?.hostel_based);
+        //       setHostelBased(FilterHostelBased[0]?.hostel_based);
+        //       setHostelName(FilterHostelBased[0]?.Name);
+        //     }
+        //   }
+        // }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+        
+        useEffect(() => {
+          setSelectedHostel(state.login.selectedHostel_Id);
+        
+          // Check if EBBillingUnitlist is available and is an array
+          if (Array.isArray(state.Settings.EBBillingUnitlist)) {
+            const selectedHostelData = state.Settings.EBBillingUnitlist.find(
+              (item) => item.hostel_id == state.login.selectedHostel_Id
+            );
+        
+            if (selectedHostelData) {
+              setHostelName(selectedHostelData.Name); 
+              console.log('names',selectedHostelData.Name);
+              
+            } else {
+              setHostelName(""); // Reset if no match is found
+            }
+          }
+        
+        }, [props, state.login.selectedHostel_Id, state.Settings.EBBillingUnitlist]);
+        
+
+        // useEffect(() => {
+        //    setSelectedHostel(state.login.selectedHostel_Id);
+        //  }, [state.login.selectedHostel_Id]);
+
+        //    useEffect(() => {
+        //      setSelectedHostel(state.login.selectedHostel_Id);
+        //      setHostelName(state.Settings.EBBillingUnitlist.Name);
+             
+             
+        //    }, [props, state.login.selectedHostel_Id,state.Settings.EBBillingUnitlist.Name]);
+
+           useEffect(() => {
+            console.log("Forcing hostelBased update:", hostelBased);
+          }, [hostelBased]);
+          
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
   // const renderPageNumbersEb = () => {
@@ -249,17 +347,33 @@ const popupRef = useRef(null);
                                               // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
                                               cursor: props.ebEditPermission ? "not-allowed" : "pointer",
                                             }}
+                                            // onClick={() => {
+                                            //   if (!props.ebEditPermission) {
+                                            //     if (hostelBased == 1) {
+                                            //       console.log("Calling read", u);
+                                            //       handleEditRoomReading(u);
+                                            //     } else {
+                                            //       console.log("Calling hostel", u);
+                                            //       handleEditHostelReading(u);
+                                            //     }
+                                            //   }
+                                            // }}
                                             onClick={() => {
                                               if (!props.ebEditPermission) {
-                                                if (u.type === 1) {
-                                                  console.log("Calling read", u);
+                                                console.log("Current roomBased value before click:", roomBased, typeof roomBased);
+                                            
+                                                if (Number(roomBased) === 1) {
+                                                  console.log("Executing handleEditRoomReading", u);
                                                   handleEditRoomReading(u);
-                                                } else {
-                                                  console.log("Calling hostel", u);
+                                                } else if (Number(roomBased) === 0) {
+                                                  console.log("Executing handleEditHostelReading", u);
                                                   handleEditHostelReading(u);
+                                                } else {
+                                                  console.log("Unexpected roomBased value:", roomBased);
                                                 }
                                               }
                                             }}
+                                            
                                             
                                           >
                                             <img
@@ -294,9 +408,17 @@ const popupRef = useRef(null);
                                             }}
                                             onClick={() => {
                                               if (!props.ebEditPermission) {
+                                                if (Number(roomBased) === 1) {
+                                                  console.log("Executing handledeleteRoomReading", u);
+                                                  handleDeleteRoomReading(u);
+                                                } else if (Number(roomBased) === 0) {
+                                                  console.log("Executing handledeleteHostelReading", u);
+                                                  handleDeleteHostelReading(u);
+                                                } else {
+                                                  console.log("Unexpected roomBased value:", roomBased);
+                                                }
                                                
-                                                u.type === 1 ? handleDeleteRoomReading(u) : handleDeleteHostelReading(u);
-                                              
+                                                
                                               }
                                             }}
                                           >
