@@ -71,7 +71,9 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
     setNoticeDays('');
     setComments('');
     setCheckOutDate('');
-    setCheckOutRequestDate('')
+    setCheckOutRequestDate('');
+    setBedname('');
+    setFloorname('')
   }
 
   const [isChecked, setIsChecked] = useState(false);
@@ -152,6 +154,8 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       setCurrentFloor('')
       setNoticeDays('');
       setComments('');
+      setBedname('');
+      setFloorname('');
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
     }
   }, [currentItem, show ])
@@ -169,6 +173,8 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       setCurrentFloor(data.Floor)
       setNoticeDays(data.notice_period);
       setComments( data.checkout_comment);
+      setBedname(data.bed_name);
+      setFloorname(data.floor_name);
 
     } else {
       setCheckOutDate('');
@@ -179,29 +185,66 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       setCurrentFloor('')
       setNoticeDays('');
       setComments('');
+      setBedname('');
+      setFloorname('');
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
     }
   }, [data, show ])
 
 
-  useEffect(() => {
-
-    if (selectedCustomer && !data && !currentItem) {
+  // useEffect(() => {
+  //   console.log("SelectedCustomer:", selectedCustomer);
+  //   if (selectedCustomer && !data && !currentItem) {
      
   
     
+  //     const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
+  //     console.log("Filtered User List:", filteruserlist);
+  //     if (filteruserlist && filteruserlist.length > 0) {
+  //       setCurrentBed(filteruserlist[0].Bed);
+  //       setCurrentFloor(filteruserlist[0].Floor);
+  //       setBedname(filteruserlist[0].bed_name);
+  //       setFloorname(filteruserlist[0].floor_name);
+  //     } else {
+  //       console.log("No matching user found for selectedCustomer:", selectedCustomer);
+  //     }
+  //   }
+  // }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
+  
+
+  useEffect(() => {
+    console.log("SelectedCustomer:", selectedCustomer);
+  
+    if (selectedCustomer && !data && !currentItem) {
       const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
+      console.log("Filtered User List:", filteruserlist);
+  
       if (filteruserlist && filteruserlist.length > 0) {
-        setCurrentBed(filteruserlist[0].Bed);
-        setCurrentFloor(filteruserlist[0].Floor);
+        const user = filteruserlist[0];
+  
+        if (user.Bed !== undefined && user.Bed !== null) {
+          setCurrentBed(user.Bed);
+          setBedname(user.Bed)
+        }
+  
+        if (user.bed_name !== undefined && user.bed_name !== null) {
+          setBedname(user.bed_name);
+        }
+  
+        if (user.Floor !== undefined && user.Floor !== null) {
+          setCurrentFloor(user.Floor);
+          setFloorname(user.Floor)
+        }
+  
+        if (user.floor_name !== undefined && user.floor_name !== null) {
+          setFloorname(user.floor_name);
+        }
       } else {
         console.log("No matching user found for selectedCustomer:", selectedCustomer);
       }
     }
   }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
   
-
-
 
 
 
@@ -429,7 +472,9 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
     setNoticeDays('');
     setComments('');
     setCheckOutDate('');
-    setCheckOutRequestDate('')
+    setCheckOutRequestDate('');
+    setBedname('');
+    setFloorname('');
   }
 
   
