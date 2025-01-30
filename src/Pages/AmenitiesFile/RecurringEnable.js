@@ -18,7 +18,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     const dispatch = useDispatch();
 
 
-    const [startDate, setStartDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState('');
     const [recurringDay, setRecurringDay] = useState('');
 
@@ -33,12 +33,17 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     // };
 
 
-   
+    const dayOptionsEnd = Array.from({ length: 31 }, (_, i) => i + 1);
 
 const dayOptions = Array.from({ length: 31 }, (_, i) => ({
   value: i + 1,
-  label: i + 1,
+  label: i + 1 ,
 }));
+
+
+console.log(dayOptions,"dayOptions")
+
+
 
 const customStyles = {
   control: (base) => ({
@@ -68,7 +73,7 @@ const customStyles = {
   }),
 };
     const handleStartDateChange = (selectedOption) => {
-        setStartDate(selectedOption?.value || "");
+        setStartDate(selectedOption ? selectedOption.value : null);
       };
 
     const handleEndDateChange = (e) => {
@@ -82,7 +87,7 @@ const customStyles = {
         setErrorRecurringDay('');
 
     };
-    // const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
+     
 
 
 
@@ -166,7 +171,7 @@ const customStyles = {
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                             <Select
       options={dayOptions}
-      value={dayOptions.find((option) => option.value === startDate)}
+      value={dayOptions.find((option) => option.value === startDate) || null}
       onChange={handleStartDateChange}
       placeholder="Start Day"
       styles={customStyles}
@@ -205,7 +210,7 @@ const customStyles = {
                                     onChange={handleEndDateChange}
                                 >
                                     <option value="">End day</option>
-                                    {dayOptions.map((day) => (
+                                    {dayOptionsEnd.map((day) => (
                                         <option key={day} value={day}>
                                             {day}
                                         </option>
