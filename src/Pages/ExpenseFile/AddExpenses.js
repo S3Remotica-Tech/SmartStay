@@ -29,6 +29,7 @@ import { FormControl } from "react-bootstrap";
 
 function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const state = useSelector((state) => state);
+  console.log("StaticExample",state)
   const dispatch = useDispatch();
   const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
@@ -58,6 +59,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [formattedDate, setFormattedDate] = useState("");
+  const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -91,6 +93,11 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
+  useEffect(()=>{
+if(state.ExpenseList.expenceNetBanking){
+setNetPaymentError(state.ExpenseList.expenceNetBanking)
+}
+  },[state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
     dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
@@ -184,6 +191,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setAccount(e.target.value);
     setAccountError("");
     setIsChangedError("");
+    setNetPaymentError("")
   };
 
   const handleModeOfPaymentChange = (e) => {
@@ -191,6 +199,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setGeneralError("");
     setPaymentError("");
     setIsChangedError("");
+    setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
   const handlePurchaseDateChange = (e) => {
@@ -1179,6 +1189,12 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       </label>
                     </div>
                   )}
+                   {netPaymentError && (
+                                            <div style={{ color: "red" }}>
+                                              <MdError />
+                                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {netPaymentError}</span>
+                                            </div>
+                                          )}
                 </div>
               )}
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
