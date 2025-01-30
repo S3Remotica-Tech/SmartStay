@@ -35,7 +35,7 @@ function* handleGetExpenses(action) {
  }
 function* handleAddExpense(action) {
     const response = yield call (AddExpense, action.payload);
-
+cosole.log("handleAddExpense",response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",

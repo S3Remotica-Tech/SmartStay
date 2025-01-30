@@ -93,7 +93,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   }, []);
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", hostel_id: state.login.selectedHostel_Id });
+    dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
   }, []);
 
   useEffect(() => {
