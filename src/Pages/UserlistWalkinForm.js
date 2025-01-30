@@ -297,7 +297,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
     const handleEmailChange = (e) => {
-        const value = e.target.value;
+        const value = e.target.value.toLowerCase();
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
         setEmailError('')
 

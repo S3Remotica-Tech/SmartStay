@@ -52,7 +52,7 @@ function ForgetPasswordPage() {
 
 
   const handleEmailid = (e) => {
-    const email = e.target.value;
+    const email = e.target.value.toLowerCase();
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
   
     dispatch({ type: 'CLEAR_ERROR' });
