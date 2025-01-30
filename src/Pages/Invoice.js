@@ -534,7 +534,7 @@ const InvoicePage = () => {
     setSearchicon(false);
   };
 
-  const [originalBillsFilter, setOriginalBillsFilter] = useState([]); 
+  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState([]); // Store original data
 
   useEffect(() => {
@@ -570,7 +570,7 @@ const InvoicePage = () => {
       setReceiptData(filteredItemsReceipt);
     }
   };
-useEffect(() => {
+  useEffect(() => {
     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
       setOriginalBillsFilterReceipt(receiptdata);
     }
@@ -730,46 +730,47 @@ useEffect(() => {
 
   useEffect(() => {
     if (invoiceValue) {
+
+
+      console.log("bill edit", invoiceValue)
+
       setCustomerName(invoiceValue.hos_user_id);
       console.log("UpdatedCustomerInvoice", invoiceValue.Invoices);
       console.log("UpdatedCustomerName", invoiceValue.Name);
       setInvoiceNumber(invoiceValue.Invoices);
       console.log("number", invoiceValue.Invoices);
       if (invoiceValue.DueDate) {
-        const parsedDate = new Date(invoiceValue.DueDate); // Convert to Date object
+        const parsedDate = new Date(invoiceValue.DueDate); 
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setInvoiceDueDate(parsedDate); // Set the date object in state
+         
+          setInvoiceDueDate(parsedDate); 
         } else {
           console.error("Invalid DueDate:", invoiceValue.DueDate);
         }
       }
 
       if (invoiceValue.Date) {
-        const parsedDate = new Date(invoiceValue.Date); // Convert to Date object
+        const parsedDate = new Date(invoiceValue.Date);
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setInvoiceDate(parsedDate); // Set the date object in state
+          setInvoiceDate(parsedDate); 
         } else {
           console.error("Invalid DueDate:", invoiceValue.Date);
         }
       }
       if (invoiceValue.start_date) {
         console.log("StartDate", invoiceValue.start_date);
-        const parsedDate = new Date(invoiceValue.start_date); // Convert to Date object
+        const parsedDate = new Date(invoiceValue.start_date); 
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setStartDate(parsedDate); // Set the date object in state
+          setStartDate(parsedDate); 
         } else {
           console.error("Invalid startDate:", invoiceValue.start_date);
         }
       }
       if (invoiceValue.end_date) {
         console.log("Enddate", invoiceValue.end_date);
-        const parsedDate = new Date(invoiceValue.end_date); // Convert to Date object
+        const parsedDate = new Date(invoiceValue.end_date); 
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setEndDate(parsedDate); // Set the date object in state
+                  setEndDate(parsedDate); 
         } else {
           console.error("Invalid endDate:", invoiceValue.end_date);
         }
@@ -2275,8 +2276,8 @@ useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(bills)
         ? bills.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setBills(FilterUser);
@@ -2285,8 +2286,8 @@ useEffect(() => {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setRecurringBills(FilterUsertwo);
@@ -2295,8 +2296,8 @@ useEffect(() => {
     if (value == 3) {
       const FilterUserReceipt = Array.isArray(receiptdata)
         ? receiptdata.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setReceiptData(FilterUserReceipt);
@@ -3201,15 +3202,13 @@ useEffect(() => {
                                   fontWeight: 600,
                                 }}
                               >
-                                {`Record payment ${
-                                  invoiceValue?.Name
+                                {`Record payment ${invoiceValue?.Name
                                     ? `- ${invoiceValue.Name}`
                                     : ""
-                                } ${
-                                  invoiceValue?.Invoices
+                                  } ${invoiceValue?.Invoices
                                     ? `-  ${invoiceValue.Invoices}`
                                     : ""
-                                }`}
+                                  }`}
                               </Modal.Title>
                             </Modal.Header>
 
@@ -3318,8 +3317,8 @@ useEffect(() => {
                                         customInput={customDateInput({
                                           value: selectedDate
                                             ? selectedDate.toLocaleDateString(
-                                                "en-GB"
-                                              )
+                                              "en-GB"
+                                            )
                                             : "",
                                         })}
                                       />
@@ -3588,11 +3587,10 @@ useEffect(() => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${
-                          DownloadInvoice
+                        className={` ${DownloadInvoice
                             ? "m-0 g-2 d-flex justify-content-between"
                             : "m-0 g-0"
-                        }`}
+                          }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3650,7 +3648,7 @@ useEffect(() => {
                                             <img
                                               src={
                                                 item.user_profile &&
-                                                item.user_profile !== "0"
+                                                  item.user_profile !== "0"
                                                   ? item.user_profile
                                                   : User
                                               }
@@ -3711,7 +3709,7 @@ useEffect(() => {
                                               }}
                                             >
                                               {item.Invoices == null ||
-                                              item.Invoices === ""
+                                                item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
                                             </div>
@@ -3927,96 +3925,96 @@ useEffect(() => {
                                     >
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                          Array.from({ length: 5 }).map(
-                                            (_, index) => (
-                                              <tr key={index}>
-                                                <td>
-                                                  <div className="d-flex">
-                                                    <span className="i-circle">
-                                                      <Skeleton
-                                                        circle
-                                                        width={24}
-                                                        height={24}
-                                                      />
-                                                    </span>
-                                                    <div>
-                                                      <Skeleton width={80} />
-                                                    </div>
+                                        Array.from({ length: 5 }).map(
+                                          (_, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                <div className="d-flex">
+                                                  <span className="i-circle">
+                                                    <Skeleton
+                                                      circle
+                                                      width={24}
+                                                      height={24}
+                                                    />
+                                                  </span>
+                                                  <div>
+                                                    <Skeleton width={80} />
                                                   </div>
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                              </tr>
-                                            )
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={50} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={50} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                              <td>
+                                                <Skeleton width={100} />
+                                              </td>
+                                            </tr>
                                           )
+                                        )
                                         : //   <div
-                                          //   style={{
-                                          //     position: 'absolute',
-                                          //     inset: 0,
-                                          //     display: 'flex',
-                                          //     height: "50vh",
-                                          //     alignItems: 'center',
-                                          //     justifyContent: 'center',
-                                          //     backgroundColor: 'transparent',
-                                          //     opacity: 0.75,
-                                          //     zIndex: 10,
-                                          //   }}
-                                          // >
-                                          //   <div
-                                          //     style={{
-                                          //       borderTop: '4px solid #1E45E1',
-                                          //       borderRight: '4px solid transparent',
-                                          //       borderRadius: '50%',
-                                          //       width: '40px',
-                                          //       height: '40px',
-                                          //       animation: 'spin 1s linear infinite',
-                                          //     }}
-                                          //   ></div>
-                                          // </div>
+                                        //   style={{
+                                        //     position: 'absolute',
+                                        //     inset: 0,
+                                        //     display: 'flex',
+                                        //     height: "50vh",
+                                        //     alignItems: 'center',
+                                        //     justifyContent: 'center',
+                                        //     backgroundColor: 'transparent',
+                                        //     opacity: 0.75,
+                                        //     zIndex: 10,
+                                        //   }}
+                                        // >
+                                        //   <div
+                                        //     style={{
+                                        //       borderTop: '4px solid #1E45E1',
+                                        //       borderRight: '4px solid transparent',
+                                        //       borderRadius: '50%',
+                                        //       width: '40px',
+                                        //       height: '40px',
+                                        //       animation: 'spin 1s linear infinite',
+                                        //     }}
+                                        //   ></div>
+                                        // </div>
 
-                                          // Display table rows with actual data when loading is false
-                                          currentItems.map((item) => (
-                                            <InvoiceTable
-                                              key={item.id}
-                                              item={item}
-                                              OnHandleshowform={handleShowForm}
-                                              OnHandleshowEditform={handleEdit}
-                                              OnHandleshowInvoicePdf={
-                                                handleInvoiceDetail
-                                              }
-                                              OnHandleshowDeleteform={
-                                                handleBillDelete
-                                              }
-                                              DisplayInvoice={
-                                                handleDisplayInvoiceDownload
-                                              }
-                                              billAddPermission={
-                                                billAddPermission
-                                              }
-                                              billEditPermission={
-                                                billEditPermission
-                                              }
-                                              billDeletePermission={
-                                                billDeletePermission
-                                              }
-                                            />
-                                          ))}
+                                        // Display table rows with actual data when loading is false
+                                        currentItems.map((item) => (
+                                          <InvoiceTable
+                                            key={item.id}
+                                            item={item}
+                                            OnHandleshowform={handleShowForm}
+                                            OnHandleshowEditform={handleEdit}
+                                            OnHandleshowInvoicePdf={
+                                              handleInvoiceDetail
+                                            }
+                                            OnHandleshowDeleteform={
+                                              handleBillDelete
+                                            }
+                                            DisplayInvoice={
+                                              handleDisplayInvoiceDownload
+                                            }
+                                            billAddPermission={
+                                              billAddPermission
+                                            }
+                                            billEditPermission={
+                                              billEditPermission
+                                            }
+                                            billDeletePermission={
+                                              billDeletePermission
+                                            }
+                                          />
+                                        ))}
                                     </tbody>
                                   </Table>
                                 </div>
@@ -4534,9 +4532,9 @@ useEffect(() => {
                                 }
                                 billrolePermission={billrolePermission}
                                 OnHandleshowform={handleShowForm}
-                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                // DisplayInvoice={handleDisplayInvoiceDownload}
-                                // RecuringInvoice={handleDisplayInvoiceDownload}
+                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                              // DisplayInvoice={handleDisplayInvoiceDownload}
+                              // RecuringInvoice={handleDisplayInvoiceDownload}
                               />
                             ))
                           )}
@@ -5032,11 +5030,10 @@ useEffect(() => {
 
                   <Container fluid className="p-0">
                     <Row
-                      className={` ${
-                        DownloadInvoice
+                      className={` ${DownloadInvoice
                           ? "m-0 g-2 d-flex justify-content-between"
                           : "m-0 g-0"
-                      }`}
+                        }`}
                     >
                       <Col
                         lg={DownloadInvoice ? 4 : 12}
@@ -5059,7 +5056,7 @@ useEffect(() => {
                                           <img
                                             src={
                                               item.user_profile &&
-                                              item.user_profile !== "0"
+                                                item.user_profile !== "0"
                                                 ? item.user_profile
                                                 : User
                                             }
@@ -5120,7 +5117,7 @@ useEffect(() => {
                                             }}
                                           >
                                             {item.Invoices == null ||
-                                            item.Invoices === ""
+                                              item.Invoices === ""
                                               ? "0.00"
                                               : item.Invoices}
                                           </div>
@@ -5504,39 +5501,39 @@ useEffect(() => {
                                 </ul>
                               </nav>
                             )}
-                            {currentReceiptData && currentReceiptData.length === 0  && (
+                            {currentReceiptData && currentReceiptData.length === 0 && (
 
-<div style={{ marginTop: 20 }}>
-  <div style={{ textAlign: "center" }}>
-    {" "}
-    <img src={Emptystate} alt="emptystate" />
-  </div>
-  <div
-    className="pb-1"
-    style={{
-      textAlign: "center",
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      fontSize: 24,
-      color: "rgba(75, 75, 75, 1)",
-    }}
-  >
-    No Receipt available{" "}
-  </div>
-  <div
-    className="pb-1"
-    style={{
-      textAlign: "center",
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      fontSize: 20,
-      color: "rgba(75, 75, 75, 1)",
-    }}
-  >
-    There are no receipt added{" "}
-  </div>
-</div>
-)}
+                              <div style={{ marginTop: 20 }}>
+                                <div style={{ textAlign: "center" }}>
+                                  {" "}
+                                  <img src={Emptystate} alt="emptystate" />
+                                </div>
+                                <div
+                                  className="pb-1"
+                                  style={{
+                                    textAlign: "center",
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    fontSize: 24,
+                                    color: "rgba(75, 75, 75, 1)",
+                                  }}
+                                >
+                                  No Receipt available{" "}
+                                </div>
+                                <div
+                                  className="pb-1"
+                                  style={{
+                                    textAlign: "center",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    fontSize: 20,
+                                    color: "rgba(75, 75, 75, 1)",
+                                  }}
+                                >
+                                  There are no receipt added{" "}
+                                </div>
+                              </div>
+                            )}
                           </>
                         )}
                       </Col>
