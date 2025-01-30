@@ -321,6 +321,8 @@ const handleCloseForm = ()=>{
       value={email}
       onChange={handleEmailChange}
       type="text"
+      autoComplete="off"
+      autoCorrect="off"
       placeholder="Enter email"
       style={{
         fontSize: 16,
@@ -376,6 +378,8 @@ const handleCloseForm = ()=>{
                   <InputGroup>
                     <Form.Select
                       value={countryCode}
+                       autoComplete="off"
+      autoCorrect="off"
                       // onChange={handleCountryCodeChange}
                       id="vendor-select-pg"
                       style={{
@@ -398,6 +402,8 @@ const handleCloseForm = ()=>{
                       value={mobile}
                       onChange={handleMobileChange}
                       type="text"
+                       autoComplete="off"
+      autoCorrect="off"
                       placeholder="9876543210"
                       maxLength={10}
                       style={{
@@ -494,6 +500,9 @@ const handleCloseForm = ()=>{
                     <InputGroup>
                       <FormControl
                         id="form-controls"
+                       autoComplete="new-password"
+                        autoCorrect="off"
+
                         placeholder="Enter password"
                         type={showPassword ? "text" : "password"}
                         value={password}
