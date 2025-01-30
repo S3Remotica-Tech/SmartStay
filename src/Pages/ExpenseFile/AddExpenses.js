@@ -204,10 +204,15 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    if (/^\d*$/.test(value)) {
+    // if (/^\d*$/.test(value)) {
+    //   setPrice(value);
+    // }
+    if (/^\d*\.?\d*$/.test(value)) {
       setPrice(value);
     }
   };
+ 
+  
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
