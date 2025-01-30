@@ -1,6 +1,6 @@
 const config = {
-    // apiBaseUrl: "http://localhost:2001",  
-    apiBaseUrl: "https://smartstayapi.qbatz.com" 
+    apiBaseUrl: "http://localhost:2001",  
+    // apiBaseUrl: "https://smartstayapi.qbatz.com" 
   
 
 };
