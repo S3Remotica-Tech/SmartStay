@@ -268,7 +268,7 @@ function Banking() {
     setEditTransaction((prevId) => (prevId === id ? null : id));
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
+    const popupTop = top - 20;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
@@ -1141,7 +1141,7 @@ function Banking() {
               <div
                 style={{
                   // height: "400px",
-                  height: currentRowTransaction.length >= 4 ? "280px" : "auto",
+                  height: currentRowTransaction.length >= 4 ? "240px" : "auto",
                   overflowY:
                     currentRowTransaction.length >= 4 ? "auto" : "visible",
                   borderRadius: "24px",
@@ -1355,7 +1355,7 @@ function Banking() {
                               paddingTop: 15,
                             }}
                           >
-                            {user.description}
+                            {user.desc}
                           </td>
                           <td
                             style={{
@@ -1574,8 +1574,9 @@ function Banking() {
                   right: "10px",
                   backgroundColor: "#fff",
                   borderRadius: "5px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: 1000,
+                  marginTop:10
                 }}
               >
                 {/* Dropdown for Items Per Page */}
