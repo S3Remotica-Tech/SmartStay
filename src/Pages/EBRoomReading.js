@@ -1221,7 +1221,7 @@ function EBRoomReading(props) {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{marginTop:"-10px"}}>
           <div className="row ">
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1276,7 +1276,7 @@ function EBRoomReading(props) {
               {floorError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{floorError}</span>
                 </div>
               )}
             </div>
@@ -1326,13 +1326,13 @@ function EBRoomReading(props) {
               {roomError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {roomError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{roomError}</span>
                 </div>
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1365,12 +1365,12 @@ function EBRoomReading(props) {
               {readingError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{readingError}</span>
                 </div>
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Group  controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1399,7 +1399,7 @@ function EBRoomReading(props) {
               {dateError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {dateError}
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{dateError}</span>
                 </div>
               )}
             </div>
@@ -1408,7 +1408,7 @@ function EBRoomReading(props) {
         {formError && (
           <div style={{ color: "red" }}>
             <MdError />
-            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{formError}</span>
           </div>
         )}
         <Modal.Footer className="d-flex justify-content-center">

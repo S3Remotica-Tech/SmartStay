@@ -95,8 +95,11 @@ function EB_Hostel(props) {
     }
   }, [selectedHostel]);
 
+  const [editeb, setEditEb] = useState(false);
+
   const handleHostelForm = () => {
     setHostelBasedForm(true);
+    setEditEb(false)
   };
 
   useEffect(() => {
@@ -1131,6 +1134,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               setHostelName={setHostelName}
               value={value}
               hostelBased={hostelBased}
+              editeb={editeb}
+              setEditEb = {setEditEb}
             />
 
             {ebpermissionError ? (
@@ -1976,7 +1981,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </span>
             </button>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{marginTop:"-10px"}}>
             <div className="row ">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -2031,6 +2036,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                        marginLeft:5
                       }}
                     >
                       {floorError}
@@ -2085,6 +2091,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                        marginLeft:5
                       }}
                     >
                       {roomError}
@@ -2094,7 +2101,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
+                <Form.Group >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2133,6 +2140,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                        marginLeft:5
                       }}
                     >
                       {endMeterError}
@@ -2142,7 +2150,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Group  controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2172,7 +2180,17 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 {dateError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {dateError}
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        marginLeft:5
+                      }}
+                    >
+                      {dateError}
+                    </span>
                   </div>
                 )}
               </div>
@@ -2221,6 +2239,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
             value={value}
             handleHostelForm={handleHostelForm}
             hostelBased={hostelBased}
+            editeb={editeb}
+            setEditEb = {setEditEb}
           />
         </TabPanel>
       </TabContext>

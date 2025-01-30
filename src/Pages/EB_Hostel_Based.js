@@ -38,7 +38,7 @@ function EBHostelReading(props) {
   const [hostelIdError, setHostelIdError] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
-  const [editeb, setEditEb] = useState(false);
+  
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -103,7 +103,7 @@ function EBHostelReading(props) {
   }, [state.PgList.statusCodeForDeleteHostelBased]);
 
   const handleEditEb = (user) => {
-    setEditEb(true);
+    props.setEditEb(true);
     props.setHostelBasedForm(true);
     setHos_Name(user.hoatel_Name);
     setReading(user.reading);
@@ -135,7 +135,7 @@ function EBHostelReading(props) {
   }, [state.PgList.dateAlready]);
 
   useEffect(() => {
-    if (editeb) {
+    if (props.editeb) {
       setDateError(state.PgList.editDateAlready);
     }
   }, [state.PgList.editDateAlready]);
@@ -236,7 +236,7 @@ function EBHostelReading(props) {
     // Helper function to check if a date is valid
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
-    if (editeb && editId) {
+    if (props.editeb && editId) {
       const isChangedBed =
         (isValidDate(selectedDate) &&
           isValidDate(initialStateAssign.selectedDate)
@@ -370,7 +370,7 @@ function EBHostelReading(props) {
   useEffect(() => {
     if (state.PgList.statusCodeForEditHostelBased === 200) {
       handleCloseHostel();
-      setEditEb(false);
+      props.setEditEb(false);
       // dispatch({ type: "EBSTARTMETERLIST" });
       dispatch({
         type: "HOSTELBASEDEBLIST",
@@ -1082,7 +1082,8 @@ function EBHostelReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Hostel Reading
+          {/* {editeb ? "Edit Hostel Readig":"Add Hostel Reading"}   */}
+          {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
           <button
             type="button"
@@ -1116,7 +1117,7 @@ function EBHostelReading(props) {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{marginTop:"-13px"}}>
           <div className="row ">
             {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 {ebErrorunit && (
@@ -1357,7 +1358,7 @@ function EBHostelReading(props) {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1396,6 +1397,7 @@ function EBHostelReading(props) {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginLeft:5
                     }}
                   >
                     {" "}
@@ -1411,7 +1413,7 @@ function EBHostelReading(props) {
               )} */}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Group  controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1446,6 +1448,7 @@ function EBHostelReading(props) {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginLeft:5
                     }}
                   >
                     {dateError}
@@ -1464,6 +1467,7 @@ function EBHostelReading(props) {
                 color: "red",
                 fontFamily: "Gilroy",
                 fontWeight: 500,
+                marginLeft:5
               }}
             >
               {formError}
@@ -1485,7 +1489,8 @@ function EBHostelReading(props) {
             onClick={handleSaveEb}
           // disabled={!!formError}
           >
-            Save Changes
+            {/* Save Changes */}
+            {props.editeb ? "Save Changes" : "Add Reading"}
           </Button>
         </Modal.Footer>
       </Modal>
