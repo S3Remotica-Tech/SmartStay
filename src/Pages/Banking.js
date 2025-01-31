@@ -1180,6 +1180,7 @@ function Banking() {
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           paddingLeft: "20px",
+                          borderTopLeftRadius: 24,
                         }}
                       >
                         Account Name
