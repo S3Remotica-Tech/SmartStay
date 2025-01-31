@@ -691,11 +691,8 @@ function SettingGeneral() {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: "8px",
-                padding: "10px 12px",
-                width: "140px",
-                // maxWidth: "100%",
-                // marginBottom: "10px",
-                maxHeight: 45,
+                padding: "12px 20px",
+                 maxHeight: 45,
                 marginTop:5,
 
     

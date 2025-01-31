@@ -861,10 +861,10 @@ style={{
                         top:0,
                         zIndex:1, }}>
           <tr>
-            <th style={{paddingLeft:10,borderTopLeftRadius:24}}>S.No</th>
-            <th>Description</th>
-            <th>Total Amount</th>
-            <th style={{borderTopRightRadius:24}}>Action</th>
+            <th style={{paddingLeft:10,borderTopLeftRadius:24,color:"rgb(147, 147, 147)",fontSize:14,fontWeight:500}}>S.No</th>
+            <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontWeight:500}}>Description</th>
+            <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontWeight:500}}>Total Amount</th>
+            <th style={{borderTopRightRadius:24,color:"rgb(147, 147, 147)",fontSize:14,fontWeight:500}}>Action</th>
           </tr>
         </thead>
         <tbody>

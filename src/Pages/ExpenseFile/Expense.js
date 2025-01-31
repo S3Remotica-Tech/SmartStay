@@ -1122,7 +1122,7 @@ function Expenses({ allPageHostel_Id }) {
                     color: "white",
                     fontWeight: 600,
                     borderRadius: "8px",
-                    padding: "10px 12px",
+                    padding: "12px 40px",
                     width: "auto",
                     maxWidth: "100%",
                     marginBottom: "10px",
@@ -1206,18 +1206,18 @@ function Expenses({ allPageHostel_Id }) {
                       {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
                 <input type='checkbox' style={customCheckboxStyle} />
               </th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700, paddingLeft: "20px", borderTopLeftRadius: 24 }}>Date</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500, paddingLeft: "20px", borderTopLeftRadius: 24 }}>Date</th>
 
                       {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
                       {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Description</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Unit Count</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Per Unit Price</th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
-                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Amount</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
+                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
                     </tr>
                   </thead>
                   {/* <tbody>

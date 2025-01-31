@@ -2891,8 +2891,8 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
-                        width: "120px",
+                        padding: "12px 32px",
+                        
                         maxWidth: "100%",
                         marginBottom: "15px",
                         maxHeight: 45,
@@ -2926,7 +2926,7 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
+                        padding: "12px 4px",
                         width: "170px",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -2962,7 +2962,7 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
+                        padding: "12px 12px",
                         width: "140px",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -3855,9 +3855,9 @@ console.log("isRowValue",newRows)
                                             textAlign: "start",
                                             paddingLeft: "20px",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopLeftRadius: 24,
                                           }}
                                         >
@@ -3867,10 +3867,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Invoice number
@@ -3879,10 +3879,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Type
@@ -3891,10 +3891,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Created
@@ -3903,10 +3903,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Due Date
@@ -3915,10 +3915,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Amount
@@ -3927,10 +3927,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Due
@@ -3939,10 +3939,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Status
@@ -3951,9 +3951,9 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "center",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopRightRadius: 24,
                                           }}
                                         ></th>
@@ -4404,9 +4404,9 @@ console.log("isRowValue",newRows)
                                 // verticalAlign:'middle',
                                 paddingLeft: "20px",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 borderTopLeftRadius: 24,
                               }}
                             >
@@ -4416,10 +4416,10 @@ console.log("isRowValue",newRows)
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Created
@@ -4428,10 +4428,10 @@ console.log("isRowValue",newRows)
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Due Date
@@ -4440,22 +4440,22 @@ console.log("isRowValue",newRows)
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
-                              Next Invoice Date-
+                              Next Invoice Date
                             </th>
                             <th
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Amount
@@ -4465,9 +4465,9 @@ console.log("isRowValue",newRows)
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 borderTopRightRadius: 24,
                               }}
                             ></th>
@@ -5264,9 +5264,9 @@ console.log("isRowValue",newRows)
                                             // verticalAlign:'middle',
                                             paddingLeft: "20px",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopLeftRadius: 24,
                                           }}
                                         >
@@ -5277,10 +5277,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Reference_Id
@@ -5290,10 +5290,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Invoice Number
@@ -5303,10 +5303,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Date
@@ -5316,10 +5316,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Amount
@@ -5328,10 +5328,10 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Payment Mode
@@ -5341,9 +5341,9 @@ console.log("isRowValue",newRows)
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopRightRadius: 24,
                                           }}
                                         ></th>
@@ -5980,13 +5980,13 @@ console.log("isRowValue",newRows)
                 }}
               >
                 <tr>
-                  <th className="ps-3" style={{fontFamily:"Gilroy", fontWeight:500 }}>S.No</th>
-                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Description</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>S.NO</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Description</th>
                   {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Total Amount</th>
-                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Action</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Total Amount</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Action</th>
                 </tr>
               </thead>
               <tbody>

@@ -231,7 +231,7 @@ useEffect(()=>{
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "8px 10px",
+                            padding: "10px 52px",
                             // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
@@ -288,8 +288,8 @@ useEffect(()=>{
                             <tr>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         borderTopLeftRadius: "24px",
@@ -301,8 +301,8 @@ useEffect(()=>{
                                 </th>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
@@ -313,8 +313,8 @@ useEffect(()=>{
                                 </th>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
@@ -325,8 +325,8 @@ useEffect(()=>{
                                 </th>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",

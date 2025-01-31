@@ -254,7 +254,7 @@ if(state.Settings.errorCompliants){
                                     color: "white",
                                     fontWeight: 600,
                                     borderRadius: "8px",
-                                    padding: "10px 12px",
+                                    padding: "10px 18px",
                                     width: "auto",
                                     maxWidth: "100%",
                                     maxHeight: 50,

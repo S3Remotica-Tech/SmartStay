@@ -609,7 +609,7 @@ function EBRoomReading(props) {
 
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -624,7 +624,7 @@ function EBRoomReading(props) {
                         </th>
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -637,7 +637,7 @@ function EBRoomReading(props) {
                         </th>
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -663,7 +663,7 @@ function EBRoomReading(props) {
                 </th> */}
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -676,7 +676,7 @@ function EBRoomReading(props) {
                         </th>
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -689,7 +689,7 @@ function EBRoomReading(props) {
                         </th>
                         <th
                           style={{
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontWeight: 500,
                             fontSize: "14px",
                             fontFamily: "Gilroy",
@@ -704,7 +704,7 @@ function EBRoomReading(props) {
                           style={{
                             textAlign: "start",
                             fontFamily: "Gilroy",
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontSize: 14,
                             fontWeight: 500,
                             // borderTopRightRadius: 24
@@ -716,7 +716,7 @@ function EBRoomReading(props) {
                           style={{
                             textAlign: "center",
                             fontFamily: "Gilroy",
-                            color: "#939393",
+                            color: "rgb(147, 147, 147)",
                             fontSize: 14,
                             fontWeight: 500,
                             borderTopRightRadius: 24,

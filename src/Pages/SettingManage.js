@@ -977,7 +977,7 @@ const [loading, setLoading] = useState(true)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "8px 12px",
+                        padding: "10px 60px",
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -1276,14 +1276,14 @@ const [loading, setLoading] = useState(true)
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
-                        borderRadius: 12,
-                        padding: "16px 20px 16px 20px",
+                        borderRadius: 8,
+                        padding: "10px 54px",
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
                       onClick={() => handleAddFloors(showHostelDetails.id)}
                     >
-                      + Add floor
+                      +  Floor
                     </Button>
                   </div>
                 </div>
@@ -1653,7 +1653,7 @@ const [loading, setLoading] = useState(true)
                     >
                       There is no floor added to this paying guest.
                     </div>
-                    <div className="d-flex justify-content-center pb-1 mt-3">
+                    {/* <div className="d-flex justify-content-center pb-1 mt-3">
                       {" "}
                       <Button
                         style={{
@@ -1670,7 +1670,7 @@ const [loading, setLoading] = useState(true)
                         {" "}
                         + Add floor
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                   <div></div>
                 </div>

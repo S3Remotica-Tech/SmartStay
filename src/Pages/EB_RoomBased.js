@@ -330,7 +330,7 @@ const EBROOM = (props) => {
             <div class="table-responsive mt-3" style={{ width: "100%" }}>
                 <table class="table text-center" >
                     <thead style={{
-                        backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px", position: "sticky",
+                        backgroundColor: "#E6EDF5", color: "rgb(147, 147, 147)",fontWeight:500, fontSize: "10px", position: "sticky",
                         top: 0,
                         zIndex: 1,
                     }}>

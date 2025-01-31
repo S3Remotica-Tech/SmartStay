@@ -205,7 +205,7 @@ const handleEditForm = (view) =>{
                     <Button
                         onClick={handleAddRole}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                          fontWeight: 600, borderRadius: 8, padding: "8px 10px", }}
+                          fontWeight: 600, borderRadius: 8, padding: "10px 56px", }}
                         disabled={showPopup}
                   >
 
