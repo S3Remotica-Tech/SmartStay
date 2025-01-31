@@ -10,6 +10,7 @@ const initialState = {
     alreadyAssetNameHere: '',
     NoDataAssetStatusCode: 0,
     getRoomStatusCode: 0 ,
+    bankAmountError:''
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -27,6 +28,10 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, addAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_ADD_ASSET_STATUS_CODE':
             return { ...state, addAssetStatusCode: 0 }
+            case 'BANK_AMOUNT_ERROR':
+                return { ...state, bankAmountError: action.payload }
+                case 'CLEAR_BANK_AMOUNT_ERROR':
+                return { ...state, bankAmountError:''}
         case 'DELETE_ASSET':
             return { ...state, deleteAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_ASSET_STATUS_CODE':

@@ -69,6 +69,10 @@ console.log("handleAddExpense",response)
 
  
     }
+
+    else  if(response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'EXPENCE_NETBANKIG', payload:response.data.message})
+   }
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
@@ -112,6 +116,9 @@ console.log("handleAddExpense",response)
      });
 
 
+   }
+   else  if(response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'EXPENCE_NETBANKIG', payload:response.data.message})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})

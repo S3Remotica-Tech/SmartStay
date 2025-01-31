@@ -455,7 +455,8 @@ function SettingInvoice({ hostelid }) {
 
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-
+      setCalculatedstartdate("")
+      setCalculatedEnddate("")
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
@@ -614,10 +615,10 @@ setLoading(false)
   }));
 
   const handleStartDateChange = (selectedOption) => {
-    console.log(selectedOption?.value);
+    setCalculatedstartdate(selectedOption?.value);
   };
   const handleEndDateChange = (selectedOption) => {
-    console.log(selectedOption?.value); 
+    setCalculatedEnddate(selectedOption?.value); 
   };
 
 

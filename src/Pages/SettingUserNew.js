@@ -293,8 +293,8 @@ useEffect(()=>{
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         borderTopLeftRadius: "24px",
-                                        textAlign: "start",
-                                        paddingLeft: 20
+                                        textAlign: "center",
+                                       
                                     }}
                                 >
                                     Users
@@ -306,7 +306,7 @@ useEffect(()=>{
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "start",
+                                        textAlign: "center",
                                     }}
                                 >
                                     Email
@@ -318,7 +318,7 @@ useEffect(()=>{
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "start",
+                                        textAlign: "center",
                                     }}
                                 >
                                     Mobile
@@ -330,18 +330,22 @@ useEffect(()=>{
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
-                                        textAlign: "start",
+                                        textAlign: "center",
                                     }}
                                 >
                                     Role
                                 </th>
                                 <th
                                     style={{
+                                        color: "#222",
+                                        fontWeight: 600,
+                                        fontSize: "14px",
+                                        fontFamily: "Gilroy",
                                         padding: "10px",
                                         borderTopRightRadius: "24px",
                                         textAlign: "center",
                                     }}
-                                ></th>
+                                >Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -350,13 +354,16 @@ useEffect(()=>{
                                     const imageUrl = item.profile || Profile;
                                     return (
                                         <tr style={{ overflowX: 'auto' }}>
-                                            <td
+                                            <td title={item.first_name}
                                                 style={{
                                                     border: "none",
                                                     // display: "flex",
                                                     padding: "10px",
-                                                    paddingLeft: "20px",
-                                                    paddingTop:18
+                                                  textAlign:"center",
+                                                    paddingTop:18,
+                                                    overflow:"hidden",
+                                                    textOverflow:"ellipsis",
+
                                                 }}
                                             >
                                                 {/* <Image
@@ -388,29 +395,33 @@ useEffect(()=>{
                                                     {item.first_name}
                                                 </span>
                                             </td>
-                                            <td
+                                            <td title={item.email_Id}
                                                 style={{
                                                     fontWeight: 500,
                                                     fontSize: "16px",
                                                     fontFamily: "Gilroy",
-                                                    textAlign: "start",
-                                                    paddingTop: 17
+                                                    textAlign: "center",
+                                                    paddingTop: 17,
+                                                    overflow:"hidden",
+                                                    textOverflow:"ellipsis",
 
                                                 }}
                                             >
                                                 {item.email_Id}
                                             </td>
 
-                                            <td
+                                            <td  title={item.mobileNo}
                                                 style={{
-                                                    paddingTop: 15,
+                                                    paddingTop: 17,
                                                     border: "none",
-                                                    textAlign: "start",
+                                                    textAlign: "center",
                                                     fontSize: "16px",
                                                     fontWeight: 500,
                                                     fontFamily: "Gilroy",
                                                     marginTop: 10,
-                                                    whiteSpace: "nowrap"
+                                                    whiteSpace: "nowrap",
+                                                    overflow:"hidden",
+                                                    textOverflow:"ellipsis",
                                                 }}
                                             >
                                                 +
@@ -421,22 +432,26 @@ useEffect(()=>{
                                                     )}{" "}
                                                 {item && String(item.mobileNo).slice(-10)}
                                             </td>
-                                            <td
+                                            <td title={item.role_name}
                                                 style={{
                                                     fontWeight: 500,
                                                     fontSize: "16px",
                                                     fontFamily: "Gilroy",
-                                                    textAlign: "start",
-                                                    paddingTop: 15
+                                                    textAlign: "center",
+                                                    paddingTop: 17,
+                                                    overflow:"hidden",
+                                                    textOverflow:"ellipsis",
                                                 }}
                                             >
                                                 {item.role_name}
                                             </td>
-                                            <td style={{ textAlign: "center" }}>
+                                            <td style={{ textAlign: "center", display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center", }}>
                                                 <div
                                                     style={{
-                                                        height: "40px",
-                                                        width: "40px",
+                                                        height: "35px",
+                                                        width: "35px",
                                                         borderRadius: "50%",
                                                         border: "1px solid #EFEFEF",
                                                         display: "flex",
@@ -454,7 +469,7 @@ useEffect(()=>{
                                                     onClick={(e) => handleDotsClick(index,e)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
-                                                        style={{ height: "20px", width: "20px",
+                                                        style={{ height: "18px", width: "18px",
                                                             cursor: "pointer",
                                                          }}
                                                     />

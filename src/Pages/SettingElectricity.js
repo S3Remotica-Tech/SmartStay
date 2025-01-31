@@ -29,7 +29,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [amountErr, setAmountErr] = useState('');
   const [tableShow, setTableShow] = useState(false);
   const [recurringform, setRecurringForm] = useState(false);
-  const [calculatedstartdate, setCalculatedstartdate] = useState("");
+  const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
@@ -242,6 +242,8 @@ const SettingElectricity = ({ hostelid }) => {
 
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
+      setCalculatedstartdate("")
+      setCalculatedEnddate("")
 
       dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
       setRecurringForm(false);
@@ -309,12 +311,12 @@ const SettingElectricity = ({ hostelid }) => {
     label: index + 1,
   }));
 
-
   const handleStartDateChange = (selectedOption) => {
-    console.log(selectedOption?.value); // Update this to your logic
+    console.log("Selected Start Date:", selectedOption?.value);
+    setCalculatedstartdate(selectedOption?.value);
   };
   const handleEndDateChange = (selectedOption) => {
-    console.log(selectedOption?.value); // Update this to your logic
+    setCalculatedEnddate(selectedOption?.value); 
   };
 
 
