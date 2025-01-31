@@ -217,11 +217,11 @@ function AssetListTable(props) {
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className='' style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
+        <td className=''  title={props.item.product_name}  style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
+        <td  title={props.item.serial_number} style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+        <td title={props.item.brand_name  || "-"} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div
               style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, width: "120px", padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}
@@ -229,15 +229,15 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+        <td title={props.item.asset_name} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
+        <td title={props.item.price} style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center", }}>
             <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
               {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
@@ -245,7 +245,7 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.hostel_Name || "-"}</td>
+        <td title={props.item.hostel_Name || "-"}  style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.hostel_Name || "-"}</td>
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>

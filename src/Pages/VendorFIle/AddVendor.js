@@ -326,6 +326,7 @@ function AddVendor({ show, handleClose, currentItem }) {
     if (!isChanged) {
       setIsChangedError("No changes detected");
       isValid = false;
+     
     }
 
     const MobileNumber = `${countryCode}${vendor_Mobile}`;
@@ -556,7 +557,7 @@ function AddVendor({ show, handleClose, currentItem }) {
             </div>
           )}
 
-          {isChangedError && (
+          {/* {isChangedError && (
             <div className="d-flex align-items-center p-1 mb-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
@@ -571,7 +572,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 {isChangedError}
               </label>
             </div>
-          )}
+          )} */}
           <Modal.Body>
             <div className="d-flex align-items-center">
               <div
@@ -1025,6 +1026,23 @@ function AddVendor({ show, handleClose, currentItem }) {
                       </label>
                     </div>
                   )}
+                {isChangedError && (
+            <div style={{color: "red", marginTop: "30px"}}>
+              <MdError  />
+              <span
+               
+                style={{
+                  marginTop: "10px",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </span>
+            </div>
+          )} 
+
                 </Form.Group>
               </div>
 
@@ -1076,6 +1094,8 @@ function AddVendor({ show, handleClose, currentItem }) {
                       </label>
                     </div>
                   )}
+                
+
                 </Form.Group>
               </div>
             </div>

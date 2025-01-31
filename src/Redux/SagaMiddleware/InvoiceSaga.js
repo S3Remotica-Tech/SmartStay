@@ -55,26 +55,25 @@ function* handleDeleteUser(action) {
 function* handleDeleteAmenities(action) {
    const response = yield call(DeleteAmenities, action.payload)
   
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
   
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'DELETE_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
- 
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center", 
-         padding: "10px",
-        
-       };
- 
+  
        toast.success('Deleted Successfully', {
          position: "bottom-center",
          autoClose: 2000,
@@ -91,8 +90,20 @@ function* handleDeleteAmenities(action) {
  
  
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else  if (response.status === 201 || response.statusCode === 201 ) {
+      yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: { statusCode:response.status || response.statusCode} })
+      toast.error('This amenity is assigned and cannot be deleted', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         // style: toastStyle
+       })
+
    }
    if(response){
       refreshToken(response)
