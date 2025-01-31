@@ -108,6 +108,15 @@ const popupRef = useRef(null);
          }
        
        }, [selectedHostel]);
+
+        useEffect(() => {
+           if (selectedHostel) {
+             dispatch({
+               type: "HOSTELBASEDEBLIST",
+               payload: { hostel_id: selectedHostel },
+             });
+           }
+         }, [selectedHostel]);
         // useEffect(() => {
         //    const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
         //      (item) => item.hostel_id == selectedHostel

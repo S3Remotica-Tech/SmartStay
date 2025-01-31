@@ -1227,7 +1227,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Cutomer Profile
+                      Customer Profile
                     </span>{" "}
                   </div>
                   <div className="card mt-1" style={{ borderRadius: "24px",marginLeft:'20px' }}>

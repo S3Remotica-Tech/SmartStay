@@ -1669,7 +1669,7 @@ function SettingGeneral() {
           width: "80vw",
         }}
       >
-        <Modal.Header style={{ marginBottom: "5px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "0px", position: "relative" }}>
           <div
             style={{
               fontSize: "1.25rem",
