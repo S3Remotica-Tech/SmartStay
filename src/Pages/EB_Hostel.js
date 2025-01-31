@@ -2031,8 +2031,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                     ))}
                 </Form.Select>
                 {floorError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
+                  <div >
+                    <MdError style={{ color: "red",fontSize:"13px" }}/>
                     <span
                       style={{
                         fontSize: "12px",
@@ -2086,8 +2086,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                     ))}
                 </Form.Select>
                 {roomError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
+                  <div >
+                    <MdError style={{ color: "red",fontSize:"13px" }} />
                     <span
                       style={{
                         fontSize: "12px",
@@ -2136,7 +2136,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Group>
                 {endMeterError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{ color: "red",fontSize:"13px" }}/>
                     <span
                       style={{
                         fontSize: "12px",
@@ -2182,7 +2182,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Group>
                 {dateError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{ color: "red",fontSize:"13px" }}/>
                     <span
                       style={{
                         fontSize: "12px",
