@@ -654,7 +654,7 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
             >
               <div>
                 <Modal.Header
-                  style={{ marginBottom: "30px", position: "relative" }}
+                  style={{  position: "relative" }}
                 >
                   <div
                     style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
