@@ -11,6 +11,7 @@ const initialState = {
     nodataGetExpenseStatusCode:0,
     transactionHistory:[],
     StatusCodeForAddExpenseTagSuccess: 0,
+    expenceNetBanking:''
     
 }
 
@@ -42,6 +43,12 @@ case 'NOEXPENSEDATA':
             return { ...state, StatusCodeForAddExpenseTagSuccess: action.payload.statusCode }
         case 'CLEAR_ADD_EXPENSE_TAG_STATUS_CODE':
             return { ...state, StatusCodeForAddExpenseTagSuccess: 0 }
+
+
+            case 'EXPENCE_NETBANKIG':
+                return { ...state, expenceNetBanking: action.payload }
+                case 'CLEAR_EXPENCE_NETBANKIG':
+                    return { ...state, expenceNetBanking: ''}
 
     }
     return state;
