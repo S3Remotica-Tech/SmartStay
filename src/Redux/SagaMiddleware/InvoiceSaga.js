@@ -697,8 +697,18 @@ console.log("API response",response);
          style: toastStyle
        })
    }
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if(response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'MANUAL_INVOICE_ERROR', payload:response.data.message})
+      toast.error(response.data.message, {
+         position: "top-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+               })
    }
    if(response){
       refreshToken(response)
