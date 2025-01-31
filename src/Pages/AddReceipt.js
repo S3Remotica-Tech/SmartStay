@@ -46,6 +46,9 @@ const AddReceiptForm = (props) => {
       const [payment_mode , setPaymentMode] =  useState ('')
       const [bank_id , setBank_Id] =  useState ('')
       const [notes , setNotes] =  useState ('')
+        const [modeOfPayment, setModeOfPayment] = useState("");
+        const [account, setAccount] = useState("")
+
 
       const [formatpaymentdate, setFormatPaymentDate] = useState(null)
       const [customererrmsg , setCustomerErrmsg] = useState('')
@@ -56,6 +59,9 @@ const AddReceiptForm = (props) => {
       const [paymentmode_errmsg , setPaymentmode_Errmsg] = useState('')
       const [notes_errmsg , setNotes_Errmsg] = useState('')
       const [bank_errmsg , setBank_Errmsg] = useState('')
+        const [accountError, setAccountError] = useState("");
+        const [paymentError, setPaymentError] = useState("");
+      
       const [allfielderrmsg , setAllFieldErrmsg] = useState('')
 
 
@@ -89,14 +95,14 @@ const AddReceiptForm = (props) => {
           setReferenceId(props.editvalue.reference_id || '');
           setDueAmount(props.editvalue.BalanceDue || '');
           setReceivedAmount(props.editvalue.amount_received || '')
-          setBank_Id(props.editvalue.bank_id || '') ;
-          setPaymentMode(props.editvalue.payment_mode || '') 
+          setAccount(props.editvalue.bank_id || '') ;
+          setModeOfPayment(props.editvalue.payment_mode || '') 
           setNotes(props.editvalue.notes? props.editvalue.notes : '');
         }
       }, [props.editvalue , props.receiptedit]);
    
     
-    
+     
      
      
     
@@ -168,6 +174,33 @@ const AddReceiptForm = (props) => {
         }
     
       }
+
+      const handleAccount = (e) => {
+        setAccount(e.target.value);
+        setAccountError("");
+        if(!e.target.value){
+          setAccountError("Please Select bank")
+        }
+        else{
+          setAccountError('')
+        }
+        // setIsChangedError("");
+        
+      };
+
+
+      const handleModeOfPaymentChange = (e) => {
+        setModeOfPayment(e.target.value);
+        // setGeneralError("");
+        // setPaymentError("");
+        if(!e.target.value){
+          setPaymentError("Please Select payment method")
+        }
+        else{
+          setPaymentError('')
+        }
+        // setIsChangedError("");
+      };
 
       const handlePaymentMode = (e) => {
         setPaymentMode(e.target.value)
@@ -252,13 +285,7 @@ const AddReceiptForm = (props) => {
 
 
 
-   console.log("editedname",props.editvalue.user_id,customername)
-   console.log("editedreferebc",props.editvalue.reference_id,reference_id)
-   console.log("editedamount_received",props.editvalue.amount_received,received_amount)
-   console.log("editedinvoice_numberc",props.editvalue.invoice_number,invoicenumber)
-   console.log("editedpayment_mode",props.editvalue.payment_mode,payment_mode)
-   console.log("editednotes",props.editvalue.notes,notes)
-   console.log("editedbank_id",props.editvalue.bank_id,bank_id)
+
 
 
      const handleCreateReceipt = () => {
@@ -280,21 +307,24 @@ const AddReceiptForm = (props) => {
             setReceivedAmountErrmsg("Please Enter Amount")
           }
 
-          if(!payment_mode){
-            setPaymentmode_Errmsg("Please Enter Amount")
-          }
-
-          if(!bank_id){
-            setBank_Errmsg("Please Select Bank")
+          if(!modeOfPayment){
+            setPaymentError("Please Select payment method")
           }
 
           
-          if(!customername && !invoicenumber &&  !formatpaymentdate && !reference_id && !payment_mode && !received_amount  && !bank_id){
+
+          if (modeOfPayment == "Net Banking" && !account) {
+            setAccountError("Please Choose Bank Account");
+            return;
+          }
+
+          
+          if(!customername && !invoicenumber &&  !formatpaymentdate && !reference_id && !modeOfPayment && !received_amount  ){
            setAllFieldErrmsg('Please Enter All Field')
            return;
           }
           const formatDateToLocal = (date) => {
-            if (!date) return ""; // Handle null/undefined cases
+            if (!date) return ""; 
             const d = new Date(date);
             return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
           };
@@ -303,17 +333,18 @@ const AddReceiptForm = (props) => {
           (() => {
             return (
               Number(props.editvalue.user_id) !== Number(customername) ||
-              // String(props.editvalue.payment_date) !== String(formatpaymentdate) ||
               formatDateToLocal(props.editvalue.payment_date) !== formatDateToLocal(formatpaymentdate) || 
               String(props.editvalue.reference_id) !== String(reference_id) ||
               Number(props.editvalue.amount_received) !== Number(received_amount) ||
               String(props.editvalue.invoice_number) !== String(invoicenumber) ||
-              String(props.editvalue.payment_mode) !== String(payment_mode) ||
-              String(props.editvalue.bank_id) !== String(bank_id)
+              String(props.editvalue.payment_mode) !== String(modeOfPayment) ||
+              String(props.editvalue.bank_id) !== String(account) ||
+              (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== "")
             );
           })();
         
-        console.log("Final isChanged Value:", isChanged);
+        
+        console.log("FinalValue:", isChanged);
         
           // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
         
@@ -324,11 +355,11 @@ const AddReceiptForm = (props) => {
         
 
          
-          if( !edit && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id){
+          if( !edit && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && modeOfPayment ){
            dispatch({
              type: 'ADD_RECEIPT',
              payload: { user_id: customername, payment_date: formatpaymentdate , reference_id: reference_id ,
- amount : received_amount , invoice_number: invoicenumber, payment_mode: payment_mode ,notes : notes , bank_id: bank_id
+ amount : received_amount , invoice_number: invoicenumber, payment_mode: modeOfPayment ,notes : notes , bank_id: account
            
              }
              });
@@ -344,11 +375,11 @@ const AddReceiptForm = (props) => {
              setNotes('')
           }
 
-          else if(edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && payment_mode && bank_id ){
+          else if(edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && modeOfPayment && account ){
             dispatch({
               type: 'EDIT_RECEIPTS',
               payload: {id:props.editvalue.id, user_id: customername, payment_date: formatpaymentdate ,reference_id: reference_id ,
-  amount : received_amount , invoice_number: invoicenumber, payment_mode: payment_mode ,notes : notes , bank_id: bank_id
+     amount : received_amount , invoice_number: invoicenumber, payment_mode: modeOfPayment ,notes : notes , bank_id: account
             
               }
               });
@@ -716,7 +747,146 @@ const AddReceiptForm = (props) => {
   </div>
 
   {/* Due Date */}
-  <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+  <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group
+                  className="mb-2"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Mode of transaction{" "}
+                    <span
+                      style={{
+                        color: "#FF0000",
+                        display: modeOfPayment ? "none" : "inline-block",
+                      }}
+                    >
+                      *
+                    </span>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={modeOfPayment}
+                    onChange={handleModeOfPaymentChange}
+                    // disabled={currentItem}
+                    className=""
+                    id="vendor-select"
+                    style={{
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight: modeOfPayment ? 600 : 500,
+                    }}
+                  >
+                    <option value="">Select a mode</option>
+                    <option value="UPI/BHIM">UPI/BHIM</option>
+                    <option value="CASH">CASH</option>
+                    <option value="Net Banking">Net Banking</option>
+                  </Form.Select>
+                </Form.Group>
+                {paymentError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {paymentError}
+                    </label>
+                  </div>
+                )}
+              </div>
+
+              {modeOfPayment === "Net Banking" && (
+                <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Account{" "}
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "20px",
+                      }}
+                    >
+                      {" "}
+                      *{" "}
+                    </span>
+                  </Form.Label>
+             
+
+
+
+
+                  <Form.Select
+                    aria-label="Default select example"
+                    placeholder="Select no. of floor"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                    id="form-selects"
+                    className="border"
+                    value={account}
+                    onChange={(e) => handleAccount(e)}
+                  >
+                    <option value="">Select Account</option>
+                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
+                      state.bankingDetails.bankingList.banks.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
+                      </option>
+                    )}
+                  </Form.Select>
+
+                  {accountError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {accountError}
+                      </label>
+                    </div>
+                  )}
+               
+                </div>
+              )}
+
+
+  {/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
   <Form.Label 
     style={{ 
@@ -759,10 +929,10 @@ const AddReceiptForm = (props) => {
 </div>
 )}
 </Form.Group>
-</div>
+</div> */}
 </div>
 
-<div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+{/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
   <Form.Label 
     style={{ 
@@ -806,7 +976,7 @@ const AddReceiptForm = (props) => {
 </div>
 )}
 </Form.Group>
-</div>
+</div> */}
 
 <div className="row mb-1">
 
