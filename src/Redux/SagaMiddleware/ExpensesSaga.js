@@ -35,7 +35,7 @@ function* handleGetExpenses(action) {
  }
 function* handleAddExpense(action) {
     const response = yield call (AddExpense, action.payload);
-
+console.log("handleAddExpense",response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -112,6 +112,9 @@ function* handleAddExpense(action) {
      });
 
 
+   }
+   else  if(response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'EXPENCE_NETBANKIG', payload:response.data.message})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})

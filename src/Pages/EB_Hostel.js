@@ -186,6 +186,9 @@ function EB_Hostel(props) {
     setValue(newValue);
     setaddEbDetail(false);
     setHostelBasedForm(false);
+    setFilterInput("")
+    setSearch(false)
+    setDropdownVisible(false);
   };
 
   const calendarRef = useRef(null);

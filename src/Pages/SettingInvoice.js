@@ -455,7 +455,8 @@ function SettingInvoice({ hostelid }) {
 
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-
+      setCalculatedstartdate("")
+      setCalculatedEnddate("")
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
@@ -614,10 +615,10 @@ setLoading(false)
   }));
 
   const handleStartDateChange = (selectedOption) => {
-    console.log(selectedOption?.value);
+    setCalculatedstartdate(selectedOption?.value);
   };
   const handleEndDateChange = (selectedOption) => {
-    console.log(selectedOption?.value); 
+    setCalculatedEnddate(selectedOption?.value); 
   };
 
 
@@ -1228,7 +1229,12 @@ setLoading(false)
                 <div className="row mt-1">
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                      </label>
                     </div>
                     {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
@@ -1291,10 +1297,10 @@ setLoading(false)
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red",marginBottom:"3px" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1304,7 +1310,12 @@ setLoading(false)
 
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                      </label>
                     </div>
                     {/* <div className="col-lg-4">
                       <select className="form-select border" id="startDayDropdown"
@@ -1366,10 +1377,10 @@ setLoading(false)
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red",marginBottom:"3px" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

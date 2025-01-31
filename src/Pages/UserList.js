@@ -135,8 +135,8 @@ function UserList(props) {
   const [unitAmount, setUnitAmount] = useState("");
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
-
-  const [editId, setEditId] = useState("");
+   const [isreader,setIsReader] = useState("")
+  
   const [hos_Name, setHos_Name] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
@@ -162,15 +162,44 @@ function UserList(props) {
     setDeleteId(detail)
   }
 
-  const handleEditRoomReading = (user) => {
-    setIsRoomReading(user)
+  const handleEditRoomReading = (value) => {
+    console.log("value",value);
+  
+    setIsReader(value)
 
   }
+useEffect(()=> {
+  if(isreader){
+    console.log("isreader data:", isreader);
+    setFloor(isreader.floor_name)
+    
+    console.log(isreader.floor_name,"floor");
+    
+    setRooms(isreader.Room_Id)
+    setReading(isreader.unit)
+    if (isreader.reading_date) {
+      const parsedDate = new Date(isreader.reading_date);
+      if (!isNaN(parsedDate.getTime())) {
+        setSelectedDate(parsedDate);
+      } else {
+        console.error("Invalid reading_date format:", isreader.reading_date);
+      }
+    } else {
+      console.warn("reading_date is missing:", isreader);
+    }
+  }
+     
+    
+  
+},[isreader])
+
+console.log("floor", Floor);
+console.log("floor", Rooms);
+
   const handleEditHostelReading = (users) => {
     console.log(users, "uuu");
 
-    setIsReading(users)
-    setEditId(users.eb_Id);
+    setIsReading(users)  
   }
 
   const handleDeleteHostelItem = (data) => {
@@ -250,6 +279,7 @@ function UserList(props) {
       enddate === currentView.enddate &&
       invoicedate === currentView.date &&
       invoiceduedate === currentView.due_date;
+      
 
     if (isDataUnchanged) {
       setAllFieldErrmsg('No changes detected.');
@@ -527,7 +557,11 @@ function UserList(props) {
       }
 
       setTotalAmount(currentView.Amount)
+      console.log(currentView.Amount,'amount');
+      
       setNewRows(currentView.amenity)
+      console.log(currentView.amenity,"amm");
+      
 
     }
   }, [currentView]);
@@ -617,6 +651,7 @@ function UserList(props) {
         payload: { hostel_id: uniqueostel_Id },
       });
       setLoading(false);
+      setIsEditing(false)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
@@ -691,7 +726,7 @@ function UserList(props) {
     setReadingError("");
     setFormError("");
     setDateError("");
-    setEditId("")
+    // setEditId("")
   };
 
   const handleCloseRoom = () => {
