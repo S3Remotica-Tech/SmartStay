@@ -91,7 +91,7 @@ const InvoicePage = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
-  const [invoiceDetail, setInvoiceDetails] = useState(false);
+  const [invoiceDetail, setInvoiceDetailss] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [file, setFile] = useState(null);
   const [bankking, setBanking] = useState("");
@@ -231,19 +231,21 @@ const InvoicePage = () => {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (hostelId) {
+    if (state.login.selectedHostel_Id) {
       setLoading(true);
       dispatch({
         type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [hostelId]);
+  }, [state.login.selectedHostel_Id]);
 
   const handleManualShow = () => {
     setShowAllBill(false);
     setShowManualInvoice(true);
     setBillMode("New Bill");
+    setIsEditing(false)
+    setInvoiceDetails(null)
   };
 
   const handleRecurrBillShow = () => {
@@ -377,7 +379,7 @@ const InvoicePage = () => {
   };
 
   const handleInvoiceback = (isVisible) => {
-    setInvoiceDetails(isVisible);
+    setInvoiceDetailss(isVisible);
   };
 
   const handleImageChange = (event) => {
@@ -711,6 +713,9 @@ const InvoicePage = () => {
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
+  const [invoiceDetails, setInvoiceDetails] = useState(null)
+  const [originalInvoiceDetails, setOriginalInvoiceDetails] = useState(null);
+
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
@@ -719,71 +724,85 @@ const InvoicePage = () => {
     setReceiptEdit(true);
   };
 
+
+
+
   const handleEdit = (props) => {
     setShowManualInvoice(true);
     setShowAllBill(false);
     setBillMode("Edit Bill");
     setIsEditing(true);
-    console.log("InvoiceValue", props.item);
-    setInvoiceValue(props.item);
+        if(props.item){
+      setInvoiceDetails(props.item);
+      setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props.item))); 
+    }
+   
   };
 
+
+  
+
+
   useEffect(() => {
-    if (invoiceValue) {
+    if (invoiceDetails && isEditing) {
 
 
-      console.log("bill edit", invoiceValue)
+      console.log("bill edit", invoiceDetails)
 
-      setCustomerName(invoiceValue.hos_user_id);
-      console.log("UpdatedCustomerInvoice", invoiceValue.Invoices);
-      console.log("UpdatedCustomerName", invoiceValue.Name);
-      setInvoiceNumber(invoiceValue.Invoices);
-      console.log("number", invoiceValue.Invoices);
-      if (invoiceValue.DueDate) {
-        const parsedDate = new Date(invoiceValue.DueDate); 
+      if (invoiceDetails?.hos_user_id) {
+        setCustomerName(String(invoiceDetails?.hos_user_id));
+      }
+    
+      setInvoiceNumber(invoiceDetails?.Invoices);
+     
+      if (invoiceDetails?.DueDate) {
+        const parsedDate = new Date(invoiceDetails.DueDate); 
         if (!isNaN(parsedDate.getTime())) {
          
           setInvoiceDueDate(parsedDate); 
         } else {
-          console.error("Invalid DueDate:", invoiceValue.DueDate);
+          
         }
       }
 
-      if (invoiceValue.Date) {
-        const parsedDate = new Date(invoiceValue.Date);
+      if (invoiceDetails?.Date) {
+        const parsedDate = new Date(invoiceDetails.Date);
         if (!isNaN(parsedDate.getTime())) {
           setInvoiceDate(parsedDate); 
         } else {
-          console.error("Invalid DueDate:", invoiceValue.Date);
+         
         }
       }
-      if (invoiceValue.start_date) {
-        console.log("StartDate", invoiceValue.start_date);
-        const parsedDate = new Date(invoiceValue.start_date); 
+      if (invoiceDetails?.start_date) {
+       
+        const parsedDate = new Date(invoiceDetails.start_date); 
         if (!isNaN(parsedDate.getTime())) {
           setStartDate(parsedDate); 
         } else {
-          console.error("Invalid startDate:", invoiceValue.start_date);
+          
         }
       }
-      if (invoiceValue.end_date) {
-        console.log("Enddate", invoiceValue.end_date);
-        const parsedDate = new Date(invoiceValue.end_date); 
+      if (invoiceDetails?.end_date) {
+      
+        const parsedDate = new Date(invoiceDetails.end_date); 
         if (!isNaN(parsedDate.getTime())) {
                   setEndDate(parsedDate); 
         } else {
-          console.error("Invalid endDate:", invoiceValue.end_date);
+          
         }
       }
 
-      setTotalAmount(invoiceValue.Amount);
-      setNewRows(invoiceValue.amenity);
+      setTotalAmount(invoiceDetails?.Amount);
+      if (invoiceDetails.amenity && invoiceDetails.amenity.length > 0) {
+        setNewRows(invoiceDetails.amenity);
+      } else {
+        setNewRows([{ "S.NO": 1, am_name: "", amount: "0" }]);
+      }
     }
-  }, [invoiceValue]);
+  }, [invoiceDetails]);
 
-  useEffect(() => {
-    console.log("Customer:", customername);
-  }, [customername]);
+  console.log("totalAmount",totalAmount)
+  
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
@@ -800,9 +819,18 @@ const InvoicePage = () => {
     setShowDeleteform(false);
   };
 
+
+
+  console.log("newRows",newRows)
+
+  console.log("originalInvoiceDetails",originalInvoiceDetails)
+
+  console.log("invoiceDetails",invoiceDetails)
+
   const handleEditBill = () => {
     let isValid = true;
 
+   
     // Reset error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
@@ -858,18 +886,30 @@ const InvoicePage = () => {
       isValid = false;
     }
 
-    const isDataUnchanged =
-      customername === invoiceValue.user_id &&
-      invoicenumber === invoiceValue.invoicenumber &&
-      startdate === invoiceValue.startdate &&
-      enddate === invoiceValue.enddate &&
-      invoicedate === invoiceValue.date &&
-      invoiceduedate === invoiceValue.due_date;
+
+
+
+
+const isDataUnchanged =
+customername === String(originalInvoiceDetails?.hos_user_id) &&
+invoicenumber === originalInvoiceDetails?.Invoices &&
+startdate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.start_date)?.toISOString().split("T")[0] &&
+enddate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.end_date)?.toISOString().split("T")[0] &&
+invoicedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.Date)?.toISOString().split("T")[0] &&
+invoiceduedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.DueDate)?.toISOString().split("T")[0] &&
+newRows.every((row, index) => {
+    const originalRow = originalInvoiceDetails?.amenity?.[index];
+    return row.am_name === originalRow?.am_name && row.amount === originalRow?.amount;
+});
+
 
     if (isDataUnchanged) {
       setAllFieldErrmsg("No changes detected.");
       isValid = false;
     }
+
+console.log("isValid",isValid)
+console.log("isRowValue",newRows)
 
     if (isValid) {
       const dueDateObject = new Date(invoiceduedate);
@@ -897,13 +937,7 @@ const InvoicePage = () => {
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
       ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-      console.log("Customer Name (user_id):", customername);
-      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
-      console.log("Due Date (due_date):", formatduedate);
-      console.log("Invoice ID (id):", invoiceValue.id);
-      console.log("Amenity:", invoiceValue.amenity);
-      console.log("start", formattedStartDate);
-      console.log("end", formattedEndDate);
+    
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -911,14 +945,13 @@ const InvoicePage = () => {
           user_id: customername,
           date: formattedDate,
           due_date: formatduedate,
-          id: invoiceValue.id,
-          amenity: invoiceValue.amenity,
+          id: invoiceDetails.id,
+          amenity: amenityArray.length > 0 ? amenityArray : [],
           start_date: formattedStartDate,
           end_date: formattedEndDate,
         },
       });
 
-      console.log("EditBill");
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
@@ -1190,6 +1223,7 @@ const InvoicePage = () => {
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
+    setTableErrmsg("")
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
@@ -1437,8 +1471,12 @@ const InvoicePage = () => {
   };
 
   const handleNewRowChange = (index, field, value) => {
+    setAllFieldErrmsg("");
     const updatedRows = [...newRows];
     updatedRows[index][field] = value;
+
+    console.log("updatedRows",updatedRows)
+
     setNewRows(updatedRows);
   };
 
@@ -1518,6 +1556,7 @@ const InvoicePage = () => {
 
     // setShowManualInvoice(true)
   };
+
 
   const handleSelectChange = (e) => {
     const selectedDescription = e.target.value;
@@ -2110,7 +2149,7 @@ const InvoicePage = () => {
   }, [startdate, enddate, invoicedate, invoiceduedate]);
 
   useEffect(() => {
-    if (customername) {
+    if (customername && !invoiceDetails) {
       dispatch({
         type: "MANUAL-INVOICE-NUMBER-GET",
         payload: { user_id: customername },
@@ -2220,6 +2259,10 @@ const InvoicePage = () => {
         (sum, item) => sum + parseFloat(item.amount || 0),
         0
       );
+
+     
+
+
       setTotalAmount(Total_amout);
     }
   }, [newRows]);
@@ -5602,7 +5645,7 @@ const InvoicePage = () => {
                 d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
               ></path>
             </svg>
-            <p className="mt-1">{billMode}</p>
+            <p className="mt-1" style={{fontFamily:"Gilroy"}}>{billMode}</p>
           </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
@@ -5621,8 +5664,9 @@ const InvoicePage = () => {
               </Form.Label>
               <Form.Select
                 aria-label="Default select example"
-                value={customername}
+                value={String(customername)}
                 onChange={handleCustomerName}
+                disabled={isEditing}
                 className="border"
                 style={{
                   fontSize: 16,
@@ -5649,8 +5693,9 @@ const InvoicePage = () => {
                       u.Rooms !== "0" &&
                       typeof u.Rooms === "string" &&
                       u.Rooms.trim() !== ""
+
                   ).map((u) => (
-                    <option value={u.ID} key={u.ID}>
+                    <option value={String(u.ID)} key={u.ID}>
                       {u.Name}
                     </option>
                   ))}
@@ -5920,16 +5965,7 @@ const InvoicePage = () => {
                 </div>
               )}
             </div>
-            {allfielderrmsg.trim() !== "" && (
-              <div>
-                <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
-                  {allfielderrmsg !== " " && (
-                    <MdError style={{ fontSize: "15px", color: "red" }} />
-                  )}{" "}
-                  {allfielderrmsg}
-                </p>
-              </div>
-            )}
+           
           </div>
 
           {/* Table */}
@@ -5944,13 +5980,13 @@ const InvoicePage = () => {
                 }}
               >
                 <tr>
-                  <th>S.NO</th>
-                  <th>Description</th>
+                  <th className="ps-3" style={{fontFamily:"Gilroy", fontWeight:500 }}>S.No</th>
+                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Description</th>
                   {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th>Total Amount</th>
-                  <th>Action</th>
+                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Total Amount</th>
+                  <th style={{fontFamily:"Gilroy", fontWeight:500}}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -5992,7 +6028,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                   newRows.length > 0 &&
                   newRows.map((u, index) => (
                     <tr key={`new-${index}`}>
-                      <td>{serialNumber++}</td>
+                      <td className="text-center" style={{fontFamily:"Gilroy" }}>{serialNumber++}</td>
                       <td>
                         <div
                           className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
@@ -6000,6 +6036,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                         >
                           <Form.Control
                             type="text"
+                            style={{fontFamily:"Gilroy" }}
                             placeholder="Enter description"
                             value={u.am_name}
                             onChange={(e) =>
@@ -6019,6 +6056,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                       >
                         <Form.Control
                           type="text"
+                          style={{fontFamily:"Gilroy" }}
                           placeholder="Enter total amount"
                           value={u.amount}
                           onChange={(e) =>
@@ -6056,6 +6094,9 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
+                fontFamily:"Gilroy",
+                               width:"fit-content",
+
               }}
               onClick={handleAddColumn}
             >
@@ -6064,16 +6105,37 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
             </p>
           </div>
 
+<div>
+{allfielderrmsg.trim() !== "" && (
+              <div>
+                <p style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
+                  {allfielderrmsg !== " " && (
+                    <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy"}} />
+                  )}{" "}
+                  {allfielderrmsg}
+                </p>
+              </div>
+            )}
+</div>
+<div>
+{tableErrmsg && (
+
+              <div style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
+                  <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy"}} /> {tableErrmsg}
+              </div>
+            )}
+</div>
+
           <div style={{ float: "right", marginRight: "130px" }}>
-            <h5>Total Amount ₹{totalAmount}</h5>
+            <h5 style={{fontFamily:"Gilroy"}}>Total Amount ₹{totalAmount}</h5>
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
-              className="w-80 mt-3"
+              className="w-100 mt-3 mb-5"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 500,
                 height: 40,
-                borderRadius: 12,
+                borderRadius: 8,
                 fontSize: 16,
                 fontFamily: "Gilroy",
                 fontStyle: "normal",
@@ -6082,11 +6144,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
             >
               {isEditing ? "Save Changes" : "Create Bill"}
             </Button>
-            {tableErrmsg && (
-              <div style={{ color: "red", marginTop: "10px" }}>
-                {tableErrmsg}
-              </div>
-            )}
+           
 
             <div className="mb-3"></div>
           </div>
