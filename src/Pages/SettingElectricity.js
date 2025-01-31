@@ -686,7 +686,7 @@ const SettingElectricity = ({ hostelid }) => {
         backdrop="static"
         centered
       >
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{  position: "relative" }}>
           <div
             style={{
               fontSize: 20,

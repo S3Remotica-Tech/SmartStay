@@ -140,7 +140,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             style={{ maxWidth: 850, width: "100%" }}
             className="m-0 p-0"
           >
-            <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Header style={{ border: "1px solid #E7E7E7", marginBottom: "-15px" }}>
               <Modal.Title
                 style={{
                   fontSize: 18,
