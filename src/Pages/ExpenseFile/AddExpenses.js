@@ -192,6 +192,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setAccountError("");
     setIsChangedError("");
     setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
   const handleModeOfPaymentChange = (e) => {

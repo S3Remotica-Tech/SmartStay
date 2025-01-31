@@ -145,10 +145,10 @@ function Asset() {
     setCurrentItem('')
   }
 
-  const handleClose = () => {
-    setShow(false);
+  // const handleClose = () => {
+  //   setShow(false);
 
-  }
+  // }
 
 
   useEffect(() => {
@@ -958,7 +958,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
           </div>
       }
 
-      {show && <AddAsset show={show} handleClose={handleClose} currentItem={currentItem} />}
+      {show && <AddAsset show={show} currentItem={currentItem} setShow={setShow}/>}
 
 
 

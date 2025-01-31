@@ -26,7 +26,7 @@ import {
   Trash,
 } from "iconsax-react";
 
-function StaticExample({ show, handleClose, currentItem }) {
+function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [assetName, setAssetName] = useState("");
@@ -94,6 +94,12 @@ function StaticExample({ show, handleClose, currentItem }) {
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
+  const handleClose = ()=>{
+    setShow(false)
+    setBankingError('')
+    setPaymentError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
+  }
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -165,6 +171,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     setAccount("");
     setIsChangedError("");
     setPaymentError("");
+    setBankingError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
     // setGeneralError("");
     // setPaymentError("");
     // setIsChangedError("");
@@ -173,6 +181,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     setAccount(e.target.value);
     setAccountError("");
     setIsChangedError("");
+    setBankingError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
   };
 
   const handleAssetNameChange = (e) => {
@@ -260,6 +270,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     setPriceError("");
     setIsChangedError("");
     setGeneralError("");
+    setBankingError("")
   };
 
   const handleProductNameChange = (e) => {
@@ -1027,9 +1038,6 @@ function StaticExample({ show, handleClose, currentItem }) {
                     </label>
                   </div>
                 )}
-
-
-
 
 {bankingError && (
                   <div className="d-flex align-items-center p-1">
