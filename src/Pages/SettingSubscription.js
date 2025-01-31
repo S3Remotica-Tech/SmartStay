@@ -172,7 +172,7 @@ const handleClose = () => {
 
               <th
                 style={{
-                  color: "#939393",
+                  color: "rgb(147, 147, 147)",
                   fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
@@ -187,7 +187,7 @@ const handleClose = () => {
               </th>
               <th
                 style={{
-                  color: "#939393",
+                  color: "rgb(147, 147, 147)",
                   fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
@@ -200,7 +200,7 @@ const handleClose = () => {
               </th>
               <th
                 style={{
-                  color: "#939393",
+                  color: "rgb(147, 147, 147)",
                   fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
@@ -226,7 +226,7 @@ const handleClose = () => {
                 </th> */}
               <th
                 style={{
-                  color: "#939393",
+                  color: "rgb(147, 147, 147)",
                   fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
@@ -239,7 +239,7 @@ const handleClose = () => {
               </th>
               <th
                 style={{
-                  color: "#939393",
+                  color: "rgb(147, 147, 147)",
                   fontWeight: 500,
                   fontSize: "14px",
                   fontFamily: "Gilroy",
@@ -255,9 +255,9 @@ const handleClose = () => {
                 style={{
                   textAlign: "start",
                   fontFamily: "Gilroy",
-                  color: "rgba(34, 34, 34, 1)",
+                  color: "rgb(147, 147, 147)",
                   fontSize: 14,
-                  fontWeight: 600,
+                  fontWeight: 500,
                   borderTopRightRadius: 24,
                 }}
               >

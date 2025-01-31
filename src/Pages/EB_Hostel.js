@@ -1054,7 +1054,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "10px 12px",
+                  padding: "12px 12px",
                   width: "140px",
                   maxWidth: "100%",
                   marginBottom: "10px",
@@ -1226,7 +1226,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                           <tr style={{ height: "30px" }}>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1242,7 +1242,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1258,7 +1258,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                               <>
                                 <th
                                   style={{
-                                    color: "#939393",
+                                    color: "rgb(147, 147, 147)",
                                     fontWeight: 500,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
@@ -1271,7 +1271,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 </th>
                                 <th
                                   style={{
-                                    color: "#939393",
+                                    color: "rgb(147, 147, 147)",
                                     fontWeight: 500,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
@@ -1287,7 +1287,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
 
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1300,7 +1300,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1313,7 +1313,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1326,7 +1326,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
@@ -1341,7 +1341,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontWeight: 500,
                               }}
@@ -1352,7 +1352,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                               style={{
                                 textAlign: "center",
                                 fontFamily: "Gilroy",
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontWeight: 500,
                                 borderTopRightRadius: 24,

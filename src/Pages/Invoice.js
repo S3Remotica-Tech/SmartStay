@@ -2847,8 +2847,8 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
-                        width: "120px",
+                        padding: "12px 32px",
+                        
                         maxWidth: "100%",
                         marginBottom: "15px",
                         maxHeight: 45,
@@ -2882,7 +2882,7 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
+                        padding: "12px 4px",
                         width: "170px",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -2918,7 +2918,7 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
+                        padding: "12px 12px",
                         width: "140px",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -3814,9 +3814,9 @@ useEffect(() => {
                                             textAlign: "start",
                                             paddingLeft: "20px",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopLeftRadius: 24,
                                           }}
                                         >
@@ -3826,10 +3826,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Invoice number
@@ -3838,10 +3838,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Type
@@ -3850,10 +3850,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Created
@@ -3862,10 +3862,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Due Date
@@ -3874,10 +3874,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Amount
@@ -3886,10 +3886,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Due
@@ -3898,10 +3898,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Status
@@ -3910,9 +3910,9 @@ useEffect(() => {
                                           style={{
                                             textAlign: "center",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopRightRadius: 24,
                                           }}
                                         ></th>
@@ -4363,9 +4363,9 @@ useEffect(() => {
                                 // verticalAlign:'middle',
                                 paddingLeft: "20px",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 borderTopLeftRadius: 24,
                               }}
                             >
@@ -4375,10 +4375,10 @@ useEffect(() => {
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Created
@@ -4387,10 +4387,10 @@ useEffect(() => {
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Due Date
@@ -4399,22 +4399,22 @@ useEffect(() => {
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
-                              Next Invoice Date-
+                              Next Invoice Date
                             </th>
                             <th
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
                                 fontStyle: "normal",
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Amount
@@ -4424,9 +4424,9 @@ useEffect(() => {
                               style={{
                                 textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 borderTopRightRadius: 24,
                               }}
                             ></th>
@@ -5224,9 +5224,9 @@ useEffect(() => {
                                             // verticalAlign:'middle',
                                             paddingLeft: "20px",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopLeftRadius: 24,
                                           }}
                                         >
@@ -5237,10 +5237,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Reference_Id
@@ -5250,10 +5250,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Invoice Number
@@ -5263,10 +5263,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Date
@@ -5276,10 +5276,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Amount
@@ -5288,10 +5288,10 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontStyle: "normal",
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                           }}
                                         >
                                           Payment Mode
@@ -5301,9 +5301,9 @@ useEffect(() => {
                                           style={{
                                             textAlign: "start",
                                             fontFamily: "Gilroy",
-                                            color: "rgba(34, 34, 34, 1)",
+                                            color: "rgb(147, 147, 147)",
                                             fontSize: 14,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             borderTopRightRadius: 24,
                                           }}
                                         ></th>
@@ -5947,13 +5947,13 @@ useEffect(() => {
                 }}
               >
                 <tr>
-                  <th>S.NO</th>
-                  <th>Description</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>S.NO</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Description</th>
                   {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th>Total Amount</th>
-                  <th>Action</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Total Amount</th>
+                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Action</th>
                 </tr>
               </thead>
               <tbody>

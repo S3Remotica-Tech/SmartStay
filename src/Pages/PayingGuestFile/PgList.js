@@ -967,7 +967,7 @@ function PgList(props) {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 12px",
+                        padding: "12px 24px",
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",
@@ -1107,7 +1107,7 @@ function PgList(props) {
                         >
                           There are no Paying Guest added.
                         </div>
-                        <div className="d-flex justify-content-center pb-1 mt-3">
+                        {/* <div className="d-flex justify-content-center pb-1 mt-3">
                           {" "}
                           <Button
                             style={{
@@ -1124,7 +1124,7 @@ function PgList(props) {
                             {" "}
                             + Manage PG
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                       <div></div>
                     </div>
@@ -1222,7 +1222,7 @@ function PgList(props) {
                       disabled={addPermissionError}
                       onClick={() => handleAddFloors(showHostelDetails.id)}
                     >
-                      + Add floor
+                      +  Floor
                     </Button>
                   </div>
                 </div>

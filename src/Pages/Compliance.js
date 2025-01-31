@@ -1167,8 +1167,8 @@ const handleFilterd = () => {
                         onClick={handleShow}
                         style={{marginTop:-10,
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
-                           width: 112,
-                          padding: "10px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                           
+                          padding: "14px 30px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
                         }} > + Complaint</Button>
                     </div>
                   </div>

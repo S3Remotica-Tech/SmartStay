@@ -313,7 +313,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -329,7 +329,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -344,7 +344,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -359,7 +359,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -374,7 +374,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -389,7 +389,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",

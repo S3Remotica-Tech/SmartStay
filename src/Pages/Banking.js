@@ -705,8 +705,8 @@ function Banking() {
                        onClick={handleShowForm}
                         style={{marginTop:10,
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
-                           width: 70,
-                          padding: "8px 12px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                           
+                          padding: "10px 48px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
                         }} > + Bank</Button>
                     </div>
                   </div>
@@ -1175,7 +1175,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1188,7 +1188,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1200,7 +1200,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1212,7 +1212,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1225,7 +1225,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1237,7 +1237,7 @@ function Banking() {
                         style={{
                           textAlign: "start",
                           padding: "10px",
-                          color: "#939393",
+                          color: "rgb(147, 147, 147)",
                           fontSize: "14px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -1247,7 +1247,7 @@ function Banking() {
                         style={{
                           textAlign: "center",
                           fontFamily: "Gilroy",
-                          color: "rgba(34, 34, 34, 1)",
+                          color: "rgb(147, 147, 147)",
                           fontSize: 14,
                           fontWeight: 500,
                           borderTopRightRadius: 24,
