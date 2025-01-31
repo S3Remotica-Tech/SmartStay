@@ -53,6 +53,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking,setBanking] = useState("")
+  const [bankingError,setBankingError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -68,6 +69,14 @@ function StaticExample({ show, handleClose, currentItem }) {
       // setLoading(true);
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     }, [state.login.selectedHostel_Id]);
+
+
+    useEffect(()=>{
+      if(state.AssetList?.bankAmountError){
+        setBankingError(state.AssetList?.bankAmountError)
+      }
+
+    },[state.AssetList?.bankAmountError])
 
     useEffect(() => {
         if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -146,6 +155,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       setPrice("");
       setTotalPrice("");
       handleClose();
+      setBankingError("")
     }
   }, [state.AssetList.addAssetStatusCode]);
 
@@ -1014,6 +1024,26 @@ function StaticExample({ show, handleClose, currentItem }) {
                       }}
                     >
                       {paymentError}
+                    </label>
+                  </div>
+                )}
+
+
+
+
+{bankingError && (
+                  <div className="d-flex align-items-center p-1">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {bankingError}
                     </label>
                   </div>
                 )}

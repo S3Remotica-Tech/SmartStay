@@ -60,6 +60,9 @@ function* handleAddAsset(action) {
      
       yield put ({type:'ASSET_NAME_ERROR', payload:response.data.message})
   }
+  else  if(response.status === 203 || response.statusCode === 203) {
+   yield put ({type:'BANK_AMOUNT_ERROR', payload:response.data.message})
+}
    if (response) {
       refreshToken(response)
    }
