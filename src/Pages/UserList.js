@@ -166,17 +166,73 @@ function UserList(props) {
     console.log("value",value);
   
     setIsReader(value)
+    
 
   }
-useEffect(()=> {
-  if(isreader){
+// useEffect(()=> {
+//   if(isreader){
+//     console.log("isreader data:", isreader);
+//     setFloor(isreader.floor_name)
+    
+    
+//     console.log(isreader.floor_name,"floor");
+      
+    
+//     setRooms(isreader.Room_Id)
+    
+//     console.log(isreader.Room_Id,'room');
+    
+    
+//     setReading(isreader.unit)
+//     if (isreader.reading_date) {
+//       const parsedDate = new Date(isreader.reading_date);
+//       if (!isNaN(parsedDate.getTime())) {
+//         setSelectedDate(parsedDate);
+//       } else {
+//         console.error("Invalid reading_date format:", isreader.reading_date);
+//       }
+//     } else {
+//       console.warn("reading_date is missing:", isreader);
+//     }
+//   }
+     
+    
+  
+// },[isreader])
+
+useEffect(() => {
+  if (isreader) {
     console.log("isreader data:", isreader);
-    setFloor(isreader.floor_name)
-    
-    console.log(isreader.floor_name,"floor");
-    
-    setRooms(isreader.Room_Id)
-    setReading(isreader.unit)
+    console.log("Room Details:", state?.UsersList?.roomdetails);
+
+    // Find the correct floor_id based on floor_name
+    const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
+      (item) => item.floor_name === isreader.floor_name
+    );
+
+    if (matchingFloor) {
+      setFloor(matchingFloor.floor_id);
+      console.log("Setting Floor ID:", matchingFloor.floor_id);
+    } else {
+      console.warn("Floor not found for name:", isreader.floor_name);
+    }
+
+    const matchingRoom = state?.UsersList?.roomdetails?.find(
+      (item) => String(item.Room_Id) === String(isreader.Room_Id)
+    );
+
+    if (matchingRoom) {
+      setRooms(matchingRoom.Room_Id);
+      console.log("Setting", matchingRoom.Room_Id);
+    } else {
+      console.warn("Room not found for ID:", isreader.Room_Id);
+    }
+
+// setRooms(isreader.Room_Id)
+// setSelectedHostel(isreader.HostelName)
+
+    setReading(isreader.unit);
+
     if (isreader.reading_date) {
       const parsedDate = new Date(isreader.reading_date);
       if (!isNaN(parsedDate.getTime())) {
@@ -188,13 +244,13 @@ useEffect(()=> {
       console.warn("reading_date is missing:", isreader);
     }
   }
-     
-    
-  
-},[isreader])
+}, [isreader, state?.UsersList?.hosteldetailslist, state?.UsersList?.roomdetails]);
+
+
+
 
 console.log("floor", Floor);
-console.log("floor", Rooms);
+console.log("rooms", Rooms);
 
   const handleEditHostelReading = (users) => {
     console.log(users, "uuu");
@@ -591,6 +647,15 @@ console.log("floor", Rooms);
 
   }, [uniqueostel_Id]);
 
+   useEffect(() => {
+      if (uniqueostel_Id && Floor) {
+        dispatch({
+          type: "ROOMDETAILS",
+          payload: { hostel_Id: uniqueostel_Id, floor_Id: Floor },
+        });
+      }
+    }, [Floor]);
+
   const [userListDetail, setUserListDetail] = useState("")
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -631,6 +696,19 @@ console.log("floor", Rooms);
     }
   }, [state.UsersList.userRoomfor])
 
+  useEffect(() => {
+    if (!isEditing) {
+      // Update UsersList component state to true when isEditing is false
+      dispatch({ type: "UPDATE_USERSLIST_TRUE" }); 
+    }
+  }, [isEditing]);
+  
+  useEffect(() => {
+    console.log("Roomdetails", state.UsersList?.roomdetails);
+  }, [state.UsersList?.roomdetails]);
+  
+
+  
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
 

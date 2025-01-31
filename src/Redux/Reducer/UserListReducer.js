@@ -102,6 +102,7 @@ const initialState = {
    userHostelRead: null,
    userReadingdelete:null,
    userHosteldelete:null,
+   isUsersListTrue: false,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -497,7 +498,16 @@ const UserListReducer = (state = initialState, action) => {
                         case 'USERHOSTEL_READING_DELETETRUE':
                             return {...state,userHosteldelete:true}
                             case 'USERHOSTEL_READING_DELETEFALSE':
-                            return {...state,userHosteldelete:false}    
+                            return {...state,userHosteldelete:false}  
+                            
+                            case 'UPDATE_USERSLIST_TRUE':
+                                return {
+                                  ...state,
+                                  UsersList: {
+                                    ...state.UsersList,
+                                    isUsersListTrue: true,
+                                  }
+                                };        
                         
     }
     return state;
