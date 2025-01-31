@@ -217,6 +217,8 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   
     if (selectedCustomer && !data && !currentItem) {
       const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
+      console.log("state.UsersList.Users",state.UsersList.Users);
+      
       console.log("Filtered User List:", filteruserlist);
   
       if (filteruserlist && filteruserlist.length > 0) {
@@ -230,13 +232,17 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
         if (user.bed_name !== undefined && user.bed_name !== null) {
           setBedname(user.bed_name);
         }
+  console.log("user.Floor",user.Floor);
+  setFloorname(filteruserlist[0].floor_name);
   
-        if (user.Floor !== undefined && user.Floor !== null) {
-          setCurrentFloor(user.Floor);
-          setFloorname(user.Floor)
-        }
-  
+        // if (user.Floor !== undefined && user.Floor !== null) {
+        //   setCurrentFloor(user.Floor);
+        //   setFloorname(user.Floor)
+        // }
+        console.log("Floor Name:", user.floor_name);
         if (user.floor_name !== undefined && user.floor_name !== null) {
+         
+          
           setFloorname(user.floor_name);
         }
       } else {

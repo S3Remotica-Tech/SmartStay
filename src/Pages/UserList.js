@@ -3374,6 +3374,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                                                       fontWeight: 500,
                                                       fontFamily:
                                                         "Gilroy, sans-serif",
+                                                        cursor:"pointer",
                                                       color:
                                                         customerDeletePermission
                                                           ? "#888888"

@@ -100,6 +100,7 @@ const Compliance = () => {
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
   const [hosId, setHosId] = useState("")
+  const [floorname,setFloorname] = useState('')
 
 
   const [filterInput, setFilterInput] = useState("");
@@ -432,6 +433,7 @@ const handleFilterd = () => {
     setHostel_Id('')
     setFloor('')
     setRooms('')
+    setFloorname('')
   }
 
   const handlePhone = (e) => {
@@ -549,6 +551,7 @@ const handleFilterd = () => {
         setRooms(firstFilteredDetail.room_id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
         setRoomName(firstFilteredDetail.Rooms || '')
+        setFloorname(firstFilteredDetail.floor_name || '')
 
       } else {
         setFilteredUserDetails([]);
@@ -558,6 +561,7 @@ const handleFilterd = () => {
         setBeds('')
         setFloor('');
         setRooms('');
+        setFloorname('');
       }
     } else {
       setFilteredUserDetails([]);
@@ -567,6 +571,7 @@ const handleFilterd = () => {
       setBeds('')
       setFloor('');
       setRooms('');
+      setFloorname ('')
     }
   }, [selectedUsername]);
 
@@ -601,7 +606,8 @@ const handleFilterd = () => {
     setFloor('');
     setRooms('');
     setHostelName('');
-    setStatus('')
+    setStatus('');
+    setFloorname('')
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
@@ -1488,7 +1494,7 @@ const handleFilterd = () => {
                               <Form.Control
                                 type="text"
                                 placeholder="Floor"
-                                value={Floor}
+                                value={floorname}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}
