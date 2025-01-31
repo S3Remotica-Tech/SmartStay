@@ -3245,13 +3245,13 @@ console.log("isRowValue",newRows)
                                   fontWeight: 600,
                                 }}
                               >
-                                {`Record payment ${invoiceValue?.Name
-                                    ? `- ${invoiceValue.Name}`
-                                    : ""
-                                  } ${invoiceValue?.Invoices
-                                    ? `-  ${invoiceValue.Invoices}`
-                                    : ""
-                                  }`}
+                               {`Record payment `}
+                                {invoiceValue?.Name && (<span>-
+                                  <span style={{ color: "#1E45E1" }}> {invoiceValue.Name}</span> </span>
+                                )}
+                                {invoiceValue?.Invoices && (<span>-
+                                  <span style={{ color: "#1E45E1" }}> {invoiceValue.Invoices}</span> </span>
+                                )}
                               </Modal.Title>
                             </Modal.Header>
 
