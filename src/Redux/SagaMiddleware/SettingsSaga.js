@@ -32,7 +32,7 @@ function* handleRecurringRole(action) {
        };
  
       
-       toast.success('Recurring Enabled successfully', {
+       toast.success(`${response.data.message}`, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,

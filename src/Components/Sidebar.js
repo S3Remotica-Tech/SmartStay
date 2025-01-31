@@ -654,7 +654,7 @@ function Sidebar() {
                     viewBox="0 0 20 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    stroke={currentPage === 'dashboard' ? 'blue' : '#4B4B4B'}
+                    stroke={currentPage === 'dashboard' ? '#1E45E1' : '#4B4B4B'}
                     style={{ marginRight: 8 }}
                   >
                     <path

@@ -15,6 +15,9 @@ function AssignBooking(props) {
 
   const dispatch = useDispatch();
 
+console.log("props",props)
+
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mobileno, setMobileNo] = useState('');
@@ -55,6 +58,7 @@ function AssignBooking(props) {
 
 
   useEffect(() => {
+    dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostalId } })
   }, [])
 
@@ -550,19 +554,29 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
         <Modal.Header className="d-flex justify-content-between">
           <Modal.Title style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}>Move to Check-In</Modal.Title>
-          <CloseCircle
+       
+          <label style={{color:"#1E45E1", fontSize: 18, fontFamily: "Gilroy", fontWeight: 600, textTransform:"capitalize"}}>{props?.assignBooking.first_name}</label>
+       
+         <CloseCircle
             size="32"
             color="#222222"
             onClick={handleAssignClose}
             style={{ cursor: "pointer" }}
           />
+
+
+
+
+
         </Modal.Header>
 
        
         {state.Booking?.ErrorAssignBooking && (
-                <div style={{ color: "red" }} className='ps-3 pt-3'>
+                <div style={{ color: "#D32F2F" }} className='ps-3 pt-3'>
                   <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Email already exists. Please use a different email address before proceeding with check-in.</span>
+                  <span style={{ color: "#D32F2F", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>
+  This email <span style={{ color: "#1E45E1" }}>{props?.assignBooking.email_id}</span> already exists. Please change email ID and move to check in
+</span>
                 </div>
               )}
 
