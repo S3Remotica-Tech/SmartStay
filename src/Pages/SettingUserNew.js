@@ -272,7 +272,7 @@ useEffect(()=>{
                         className='Table_Design'
                         style={{
                             height: "auto",
-                            // tableLayout: "auto",
+                            tableLayout: "fixed",
                             overflow: "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
@@ -361,6 +361,7 @@ useEffect(()=>{
                                                     padding: "10px",
                                                   textAlign:"center",
                                                     paddingTop:18,
+                                                    whiteSpace: "nowrap",
                                                     overflow:"hidden",
                                                     textOverflow:"ellipsis",
 
@@ -403,7 +404,7 @@ useEffect(()=>{
                                                     textAlign: "center",
                                                     paddingTop: 17,
                                                     overflow:"hidden",
-                                                    textOverflow:"ellipsis",
+                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
 
                                                 }}
                                             >
@@ -421,7 +422,7 @@ useEffect(()=>{
                                                     marginTop: 10,
                                                     whiteSpace: "nowrap",
                                                     overflow:"hidden",
-                                                    textOverflow:"ellipsis",
+                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
                                                 }}
                                             >
                                                 +
@@ -440,7 +441,7 @@ useEffect(()=>{
                                                     textAlign: "center",
                                                     paddingTop: 17,
                                                     overflow:"hidden",
-                                                    textOverflow:"ellipsis",
+                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
                                                 }}
                                             >
                                                 {item.role_name}
