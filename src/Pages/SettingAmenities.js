@@ -145,6 +145,7 @@ function SettingAmenities({ hostelid }) {
 
     const handleCloseRecurringPopUp = () => {
         setIsDisplayRecurring(false)
+        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
     }
 
 
@@ -495,6 +496,7 @@ function SettingAmenities({ hostelid }) {
                                                 <div>
                                                     <Form.Check
                                                         type="switch"
+                                                        style={{boxShadow:"none"}}
                                                         label="Recurring"
                                                         checked={switchStates[amenity.id] || false}
 
