@@ -241,180 +241,123 @@ console.log("Bill Row Data:",rowData);
                                 
                             </div>
 
-{/* EB Unit Details */}
-<div className="d-flex justify-content-between pt-5 ps-4 pe-4">
-                                <div>
 
-                                <div style={{ display: "flex", alignItems: "center" }}>
-  <label
-    style={{
-      fontSize: 15,
-      fontWeight: 600,
-      color: "#000000",
-      fontFamily: "Gilroy",
-      marginRight: "10px", // Adds space between label and value
-    }}
-  >
-    EB Per Unit Price:
-  </label>
-  <label
-    style={{
-      fontSize: 15,
-      fontWeight: 600,
-      color: "#000000",
-      fontFamily: "Gilroy",
-    }}
-  >
-    {rowData?.eb_unit_amount}
-  </label>
-</div>
-
-                                   
-<div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-  <div>
-    <label 
-      style={{ 
-        fontSize: 15, 
-        fontWeight: 600, 
-        color: "#000000", 
-        fontFamily: "Gilroy", 
-        marginRight: 10 
-      }}
-    >
-      EB Start Date :
-    </label>
-  </div>
-  <div>
-    <label 
-      style={{ 
-        fontSize: 15, 
-        fontWeight: 600, 
-        color: "#000000", 
-        fontFamily: "Gilroy" 
-      }}
-    >
-      {rowData?.eb_start_date}
-    </label>
-  </div>
-</div>
-
-                                   
-                                   
-<div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-  <label 
-    style={{ 
-      fontSize: 15, 
-      fontWeight: 600, 
-      color: "#000000", 
-      fontFamily: "Gilroy", 
-      marginRight: 10 
-    }}
-  >
-    EB End Date :
-  </label>
-  <label 
-    style={{ 
-      fontSize: 15, 
-      fontWeight: 600, 
-      color: "#000000", 
-      fontFamily: "Gilroy" 
-    }}
-  >
-    {rowData?.eb_end_date}
-  </label>
-</div>
-
-
-
-
-                                </div>
-
-
-                                <div>
-
-
-<div >
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Rent Start Date:</label>
-</div>
-<div>
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>Rent End Date:</label>
-</div>
-</div>
-                                
-                            </div>
-
-{/* {rowData.action === "recuring" && (
+{/* EB unit details (action:recuring and action:manual) */}
+{rowData.action === "recuring" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-          }}
-        >
-          EB Per Unit Price :
-        </label>
+      {/* EB Per Unit Price */}
+      <div className="d-flex align-items-center mb-2">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>EB Per Unit Price:</label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.eb_unit_amount}</label>
       </div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          EB Start Date :
-        </label>
+
+      {/* EB Start Date */}
+      <div className="d-flex align-items-center mb-2">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",
+      marginRight: "10px", }}>EB Start Date:</label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.eb_start_date}</label>
       </div>
-      <div className="" style={{ width: 100 }}>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          EB End Date :
-        </label>
+
+      {/* EB End Date */}
+      <div className="d-flex align-items-center mb-2">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}
+        >EB End Date:</label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.eb_end_date}</label>
       </div>
     </div>
 
     <div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-          }}
-        >
-          Rent Start Date:
-        </label>
+      {/* Rent Start Date */}
+      <div className="mb-2">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}
+        >Rent Start Date:</label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.rent_start_date}</label>
       </div>
+
+      {/* Rent End Date */}
       <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          Rent End Date:
-        </label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>Rent End Date:</label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.rent_end_date}</label>
       </div>
     </div>
   </div>
-)} */}
+)}
+
+{rowData.action === "manual" && (
+  <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
+    <div>
+      {/* Start Date */}
+      <div className="d-flex align-items-center mb-2">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>Start Date : </label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>{rowData?.start_date}</label>
+      </div>
+
+      {/* End Date */}
+      <div className="d-flex align-items-center">
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>End Date : </label>
+        <label style={{
+      fontSize: 15,
+      fontWeight: 600,
+      color: "#000000",
+      fontFamily: "Gilroy",}}>  {rowData?.end_date}</label>
+      </div>
+    </div>
+  </div>
+)}git 
+
 
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
