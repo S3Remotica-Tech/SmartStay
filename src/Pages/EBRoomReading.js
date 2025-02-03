@@ -22,6 +22,8 @@ import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 
 function EBRoomReading(props) {
+  console.log("prop",props);
+  
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const popupRef = useRef(null);
@@ -202,11 +204,14 @@ function EBRoomReading(props) {
     selectedDate: "",
   });
   const handleEditRoomReading = (item) => {
+    console.log(item,'iteee');
+    
     setUnitAmount('')
     setebEditShow(true);
     setSelectedHostel(item.hostel_Id);
     setFloor(item.floor_id);
     setRooms(item.room_id);
+console.log(item.room_id,'roo');
 
 
     setReading(item.reading);

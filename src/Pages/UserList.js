@@ -212,18 +212,18 @@ useEffect(() => {
 
     if (matchingFloor) {
       setFloor(matchingFloor.floor_id);
-      console.log("Setting Floor ID:", matchingFloor.floor_id);
+      console.log("Setting Floor ID:", matchingFloor.floor_id)
     } else {
       console.warn("Floor not found for name:", isreader.floor_name);
     }
 
     const matchingRoom = state?.UsersList?.roomdetails?.find(
-      (item) => String(item.Room_Id) === String(isreader.Room_Id)
+      (item) => item.Room_Id === isreader.Room_Id
     );
 
     if (matchingRoom) {
       setRooms(matchingRoom.Room_Id);
-      console.log("Setting", matchingRoom.Room_Id);
+      console.log("settingroom", matchingRoom.Room_Id);
     } else {
       console.warn("Room not found for ID:", isreader.Room_Id);
     }
@@ -655,6 +655,14 @@ console.log("rooms", Rooms);
         });
       }
     }, [Floor]);
+    useEffect(() => {
+      if (uniqueostel_Id && Floor) {
+        dispatch({
+          type: "ROOMDETAILS",
+          payload: { hostel_Id: uniqueostel_Id, floor_Id: Floor },
+        });
+      }
+    }, []);
 
   const [userListDetail, setUserListDetail] = useState("")
   useEffect(() => {

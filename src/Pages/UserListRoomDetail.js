@@ -112,7 +112,11 @@ function UserListRoomDetail(props) {
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
-
+  const [ebEditPermission, setEbEditPermission] = useState("");
+   const [ebrolePermission, setEbRolePermission] = useState("");
+     const [ebpermissionError, setEbPermissionError] = useState("");
+ const [roomBasedDetail, setRoomBasedDetail] = useState("");
+ const [originalElecRoom,etOriginalElecRoom] = useState("")
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
   }, [props.id]);
@@ -123,7 +127,24 @@ function UserListRoomDetail(props) {
         dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS" });
       }, 100);
     }
+    
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
+
+  useEffect(() => {
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+        setRoomBasedDetail(state.PgList?.EB_startmeterlist);
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+        }, 1000);
+      }
+    }, [state.PgList.statusCodeForEbRoomList]);
+
+    useEffect(() => {
+         if (roomBasedDetail?.length > 0 && originalElecRoom?.length === 0) {
+           etOriginalElecRoom(roomBasedDetail);
+         }
+       }, [roomBasedDetail]); 
   const handleEditItem = (item) =>{
     props.onEditItem(item)
   }
@@ -131,6 +152,8 @@ function UserListRoomDetail(props) {
     props.onDeleteItem(items)
   }
   const handleEditRoomItem = (item) => {
+    console.log("itt",item);
+    
     props.onEditRoomItem(item)
   }
   const handleEditHostelItem = (item) => {
@@ -1147,6 +1170,31 @@ const [uploadError,setUploadError]= useState("")
           }, 100);
         }
           },[state.UsersList.statusCodeForOtherDocu])
+            useEffect(() => {
+              if (
+                ebrolePermission[0]?.is_owner == 1 ||
+                ebrolePermission[0]?.role_permissions[12]?.per_edit == 1
+              ) {
+                setEbEditPermission("");
+              } else {
+                setEbEditPermission("Permission Denied");
+              }
+            }, [ebrolePermission]);
+
+             useEffect(() => {
+                setEbRolePermission(state.createAccount.accountList);
+              }, [state.createAccount.accountList]);
+            
+              useEffect(() => {
+                if (
+                  ebrolePermission[0]?.is_owner == 1 ||
+                  ebrolePermission[0]?.role_permissions[12]?.per_view == 1
+                ) {
+                  setEbPermissionError("");
+                } else {
+                  setEbPermissionError("Permission Denied");
+                }
+              }, [ebrolePermission]);
   // const handleUploadClick = (ref) => {
   //   ref.current.click(); // Trigger the hidden file input
   // };
@@ -3585,7 +3633,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       </Modal>
                     <TabPanel value="2">
                       {/* <UserEb id={props.id} />{" "} */}
-                      <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}
+                      <UserEb id={props.id}
+                      roomBasedDetail={roomBasedDetail}
+                      values={props.userDetails}
+                      ebEditPermission={ebEditPermission}
+                       handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}
                       handleDeleteHostelItem={handleDeleteHostelItem}
                       handleDeleteRoomItem={handleDeleteRoomItem}
                       />
