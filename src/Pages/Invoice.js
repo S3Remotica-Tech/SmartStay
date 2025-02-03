@@ -2483,7 +2483,7 @@ console.log("isRowValue",newRows)
               alignItems: "center",
               justifyContent: "space-between",
             }}
-            className="container ms-3 me-3 mt-3"
+            className="container   mt-3"
           >
             <p
               style={{
@@ -2492,7 +2492,8 @@ console.log("isRowValue",newRows)
                 fontWeight: 600,
                 color: "#222",
                 marginTop: 5,
-                marginLeft: -5,
+                // marginLeft: -5,
+                paddingLeft:20
               }}
             >
               Bills
@@ -2867,7 +2868,7 @@ console.log("isRowValue",newRows)
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div className="me-5">
+                <div className="me-3">
                   {value == 1 && (
                     <Button
                       disabled={billAddPermission}
