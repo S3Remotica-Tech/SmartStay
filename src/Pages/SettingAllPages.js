@@ -16,17 +16,18 @@ import SettingNewUser from "./SettingUserNew";
 import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import './SettingAll.css';
-import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
+import { Button, Offcanvas, Form, FormControl, FormSelect } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
+import { ArrowSwapHorizontal } from 'iconsax-react'
 
 
-function  SettingAllPages(props ) {
+function SettingAllPages(props) {
 
-  console.log("props",props);
-  
-  
+  console.log("props", props);
+
+
   const dispatch = useDispatch();
   const state = useSelector(state => state);
   const [activeItem, setActiveItem] = useState("General");
@@ -42,21 +43,21 @@ function  SettingAllPages(props ) {
   const [amnitiesPageShow, setAmnitiesPageShow] = useState(false);
   const [userPageShow, setUserPageShow] = useState(false);
   const [rolePageShow, setRolePageShow] = useState(false);
-  const [hostel_Id,setHostel_Id] = useState('')
+  const [hostel_Id, setHostel_Id] = useState('')
   const [displayError, setDisplayError] = useState('')
 
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
+    if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id)
     }
-    
+
   }, [state?.login?.selectedHostel_Id]);
-  
+
 
   const handleHostelId = (e) => {
-    const selectedHostelId = e.target.value; 
-    setHostel_Id(selectedHostelId); 
+    const selectedHostelId = e.target.value;
+    setHostel_Id(selectedHostelId);
     setDisplayError('')
   };
 
@@ -65,18 +66,18 @@ function  SettingAllPages(props ) {
 
 
 
-  useEffect(()=> {
-if(state.PgList.isManageEnable){
-  setActiveItem("Manage PG")
-  handleShowManagePage()
-  
-}
-  },[state.PgList.isManageEnable])
-  
+  useEffect(() => {
+    if (state.PgList.isManageEnable) {
+      setActiveItem("Manage PG")
+      handleShowManagePage()
+
+    }
+  }, [state.PgList.isManageEnable])
+
 
   const handleShowGeneralPage = () => {
     setGeneralPageShow(true);
-    setManagePageShow(false); 
+    setManagePageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -89,12 +90,12 @@ if(state.PgList.isManageEnable){
     setRolePageShow(false)
   };
 
-  
+
 
   const handleShowManagePage = () => {
 
     setManagePageShow(true);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -109,7 +110,7 @@ if(state.PgList.isManageEnable){
   };
   const handleShowSecurityPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(true)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -123,7 +124,7 @@ if(state.PgList.isManageEnable){
   };
   const handleShowSubscriptionPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(true)
     setIntgrationPageShow(false)
@@ -137,7 +138,7 @@ if(state.PgList.isManageEnable){
   };
   const handleShowIntgrationPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(true)
@@ -151,7 +152,7 @@ if(state.PgList.isManageEnable){
   };
   const handleShowElectricityPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -165,7 +166,7 @@ if(state.PgList.isManageEnable){
   };
   const handleShowInvoicePage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -180,7 +181,7 @@ if(state.PgList.isManageEnable){
 
   const handleShowCompliancePage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -194,7 +195,7 @@ if(state.PgList.isManageEnable){
   }
   const handleShowExpensesPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -209,7 +210,7 @@ if(state.PgList.isManageEnable){
 
   const handleShowAmnitiesPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -217,8 +218,8 @@ if(state.PgList.isManageEnable){
     setInvoicePageShow(false)
     setCompliancePageShow(false)
     setExpensesPageShow(false)
-       setAmnitiesPageShow(true)
-      
+    setAmnitiesPageShow(true)
+
     setUserPageShow(false)
     setRolePageShow(false)
   }
@@ -229,7 +230,7 @@ if(state.PgList.isManageEnable){
 
   const handleShowUserPage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -245,7 +246,7 @@ if(state.PgList.isManageEnable){
 
   const handleShowRolePage = () => {
     setManagePageShow(false);
-    setGeneralPageShow(false); 
+    setGeneralPageShow(false);
     setSecurityPageShow(false)
     setSubscriptionPageShow(false)
     setIntgrationPageShow(false)
@@ -264,37 +265,58 @@ if(state.PgList.isManageEnable){
   //   setDisplayError('')
   // }
 
-useEffect(()=>{
-  if(hostel_Id){
-     dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
-  }
+  useEffect(() => {
+    if (hostel_Id) {
+      dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
+    }
 
-},[hostel_Id])
+  }, [hostel_Id])
 
 
 
-  
 
-  useEffect(()=>{
-    dispatch({type:'HOSTELLIST'})
-  },[])
 
+  useEffect(() => {
+    dispatch({ type: 'HOSTELLIST' })
+  }, [])
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  console.log("isSidebarOpen", isSidebarOpen)
+
+
+ 
 
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
-        <div
-  className="col-12 col-md-12 col-lg-3 col-sm-12 col-xs-12"
-  style={{
-    overflow: "hidden", 
-    height: "100vh", 
-    position: "sticky", 
-    top: 0,
-    left: 0,
-    
-  }}
->
+        <div className="row " style={{position:"relative"}}>
+
+          <div
+            className="col-12 d-block d-md-none"
+            style={{
+              height: "auto",
+              padding: "10px",
+              // backgroundColor: "#f8f9fa",
+            }}
+          >
+            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="" style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: 8, color: "white", padding: "10px 20px" }}><ArrowSwapHorizontal
+              size="20"
+              color="#FFF"
+            /></button>
+          </div>
+
+          <div className={`col-lg-3 col-md-4 ${isSidebarOpen ? "d-block col-lg-3" : "d-none d-md-block"}`}
+            style={{
+              overflowY: "auto",
+              height: "100vh",
+              position: "sticky",
+              marginLeft:'auto',
+              top: 0,
+              left: 0, transition: "all 0.3s ease-in-out",
+
+            }}
+          >
             <div
               style={{
                 backgroundColor: "#E7F1FF",
@@ -304,24 +326,24 @@ useEffect(()=>{
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 marginTop: 20,
                 marginLeft: 30,
-                width:201,
-                height:246
+                width: 201,
+                height: 246
               }}
             >
               <p
                 onClick={() => {
-                    setActiveItem("General");
-                    handleShowGeneralPage();
-                  }}
+                  setActiveItem("General");
+                  handleShowGeneralPage();
+                }}
                 style={{
                   fontWeight: 500,
-                  fontFamily:"Gilroy",
-                  fontSize:15,
+                  fontFamily: "Gilroy",
+                  fontSize: 15,
                   marginBottom: "15px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "General" ? "#4a90e2" : "#000000", 
+                  color: activeItem === "General" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
@@ -333,17 +355,17 @@ useEffect(()=>{
                   alt="Arrow Icon"
                 />
               </p>
-              <hr style={{ width: "auto", border: "1px solid white" ,marginTop:"-6px"}} />
+              <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
                 onClick={() => {
-                    setActiveItem("Manage PG");
-                    handleShowManagePage();
-                  }}
+                  setActiveItem("Manage PG");
+                  handleShowManagePage();
+                }}
                 style={{
-                    fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-4px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 15,
+                  marginTop: "-4px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
@@ -359,7 +381,7 @@ useEffect(()=>{
                   alt="Arrow Icon"
                 />
               </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
+              <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
               <p
                 // onClick={() => setActiveItem("Security")}
@@ -368,10 +390,10 @@ useEffect(()=>{
                   handleShowSecurityPage();
                 }}
                 style={{
-                    fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-4px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 15,
+                  marginTop: "-4px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
@@ -387,7 +409,7 @@ useEffect(()=>{
                   alt="Arrow Icon"
                 />
               </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
+              <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
                 // onClick={() => setActiveItem("Subscription")}
                 onClick={() => {
@@ -395,10 +417,10 @@ useEffect(()=>{
                   handleShowSubscriptionPage();
                 }}
                 style={{
-                    fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-4px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 15,
+                  marginTop: "-4px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
@@ -414,7 +436,7 @@ useEffect(()=>{
                   alt="Arrow Icon"
                 />
               </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
+              <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
                 // onClick={() => setActiveItem("Integration")}
                 onClick={() => {
@@ -422,10 +444,10 @@ useEffect(()=>{
                   handleShowIntgrationPage();
                 }}
                 style={{
-                    fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-4px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 15,
+                  marginTop: "-4px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
@@ -440,274 +462,253 @@ useEffect(()=>{
                   height={16}
                   alt="Arrow Icon"
                 />
-               
+
               </p>
             </div>
 
-<div>
+            <div>
 
-<div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
-                    {/* {
-                      state.login.selectedHostel_Id &&  */}
-                   
+              <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textAlign: "start", marginLeft: 30 }}>PG Based Setting</div>
 
-{/* <div 
-className="show-scrolls"
-              style={{
-                // backgroundColor: "#E7F1FF",
-                // borderRadius: "11px",
-                padding: "10px",
-                // marginBottom: "20px",
-                // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                // marginTop: 20,
-                // marginLeft: 30,
-                // maxWidth:'201px',
-                height:'350px',
-                overflowY: "auto",
-               WebkitOverflowScrolling:'touch'
-              }}
-            > */}
-              <div 
-              className="show-scrolls"
-              
-              style={{
-                backgroundColor: "#E7F1FF",
-                borderRadius: "11px",
-                padding: "10px",
-                marginBottom: "20px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                marginTop: 20,
-                marginLeft: 30,
-                maxWidth:'201px',
-                maxHeight:'250px',
-                height:"100%",
-                overflowY: "auto",
-               WebkitOverflowScrolling:'touch'
-              }} >
-              <p
-                onClick={() => {
+
+              <div
+                className="show-scrolls"
+
+                style={{
+                  backgroundColor: "#E7F1FF",
+                  borderRadius: "11px",
+                  padding: "10px",
+                  marginBottom: "20px",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginTop: 20,
+                  marginLeft: 30,
+                  maxWidth: '201px',
+                  maxHeight: '250px',
+                  height: "100%",
+                  overflowY: "auto",
+                  WebkitOverflowScrolling: 'touch'
+                }} >
+                <p
+                  onClick={() => {
                     setActiveItem("Electricity");
                     handleShowElectricityPage();
                   }}
-                style={{
-                  fontWeight: 500,
-                  fontFamily:"Gilroy",
-                  fontSize:15,
-                  marginBottom: "15px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Electricity" ? "#4a90e2" : "#000000", // Highlight active
-                  cursor: "pointer",
-                }}
-              >
-                Electricity
-                <img
-                  src={activeItem === "Electricity" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-              </p>
-              <hr style={{ width: "auto", border: "1px solid white" ,marginTop:"-6px"}} />
-              <p
-                onClick={() => {
+                  style={{
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginBottom: "15px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Electricity" ? "#4a90e2" : "#000000", // Highlight active
+                    cursor: "pointer",
+                  }}
+                >
+                  Electricity
+                  <img
+                    src={activeItem === "Electricity" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  onClick={() => {
                     setActiveItem("Invoice");
                     handleShowInvoicePage();
                   }}
-                style={{
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Invoice" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-               Invoice
-                <img
-                  src={activeItem === "Invoice" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-              </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Invoice" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Invoice
+                  <img
+                    src={activeItem === "Invoice" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
-              <p
-                // onClick={() => setActiveItem("Security")}
-                onClick={() => {
-                  setActiveItem("Expenses");
-                  handleShowExpensesPage();
-                }}
-                style={{
+                <p
+                  // onClick={() => setActiveItem("Security")}
+                  onClick={() => {
+                    setActiveItem("Expenses");
+                    handleShowExpensesPage();
+                  }}
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                    marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Expenses" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                Expenses
-                <img
-                  src={activeItem === "Expenses" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-              </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
-              <p
-                // onClick={() => setActiveItem("Subscription")}
-                onClick={() => {
-                  setActiveItem("Complaints");
-                  handleShowCompliancePage();
-                }}
-                style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Expenses" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Expenses
+                  <img
+                    src={activeItem === "Expenses" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  // onClick={() => setActiveItem("Subscription")}
+                  onClick={() => {
+                    setActiveItem("Complaints");
+                    handleShowCompliancePage();
+                  }}
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                    marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Complaints" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                Complaints
-                <img
-                  src={activeItem === "Complaints" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-              </p>
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
-              <p
-                // onClick={() => setActiveItem("Integration")}
-                onClick={() => {
-                  setActiveItem("Amenities");
-                  handleShowAmnitiesPage();
-                }}
-                style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Complaints" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Complaints
+                  <img
+                    src={activeItem === "Complaints" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  // onClick={() => setActiveItem("Integration")}
+                  onClick={() => {
+                    setActiveItem("Amenities");
+                    handleShowAmnitiesPage();
+                  }}
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                    marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Amenities" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                Amenities
-                <img
-                  src={activeItem === "Amenities" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-               
-              </p>
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Amenities" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Amenities
+                  <img
+                    src={activeItem === "Amenities" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+
+                </p>
 
 
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
-              <p
-                // onClick={() => setActiveItem("Integration")}
-                onClick={() => {
-                  setActiveItem("User");
-                  handleShowUserPage();
-                }}
-                style={{
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  // onClick={() => setActiveItem("Integration")}
+                  onClick={() => {
+                    setActiveItem("User");
+                    handleShowUserPage();
+                  }}
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                    marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "User" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                User
-                <img
-                  src={activeItem === "User" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-               
-              </p>
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "User" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  User
+                  <img
+                    src={activeItem === "User" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
 
-              <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
-              <p
-                // onClick={() => setActiveItem("Integration")}
-                onClick={() => {
-                  setActiveItem("Role");
-                  handleShowRolePage();
-                }}
-                style={{
+                </p>
+
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  // onClick={() => setActiveItem("Integration")}
+                  onClick={() => {
+                    setActiveItem("Role");
+                    handleShowRolePage();
+                  }}
+                  style={{
                     fontWeight: 500,
-                    fontFamily:"Gilroy",
-                    fontSize:15,
-                marginTop:"-8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  color: activeItem === "Role" ? "#4a90e2" : "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                Role
-                <img
-                  src={activeItem === "Role" ? blueArrow : blackArrow}
-                  width={16}
-                  height={16}
-                  alt="Arrow Icon"
-                />
-               
-              </p>
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activeItem === "Role" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Role
+                  <img
+                    src={activeItem === "Role" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+
+                </p>
+              </div>
+              {/* </div> */}
+              {/* } */}
             </div>
-            {/* </div> */}
-{/* } */}
-</div>
-
-
-            
           </div>
-          <div className="col-lg-9  col-12 col-md-12 col-sm-12 col-xs-12 "
-          
-          style={{
-            overflowY: "auto",
-            height: "100vh",
-          }}
-          
-          
-          
-          
+
+
+
+
+          <div className={`col-lg-9 col-md-8 col-12  ${isSidebarOpen ? 'col-md-9' : 'col-12'}   `}
+
+            style={{
+              overflowY: "auto",
+              height: "100vh",
+            }}
           >
             {generalPageShow && <SettingGeneral />}
             {managePageShow && <SettingManage />}
             {securityPageShow && <SettingSecurity />}
             {subscriptionPageShow && <SettingSubscription />}
             {intgrationPageShow && <SettingIntergration />}
-            {electricityPageShow && <SettingElectricity hostelid={hostel_Id}/>}
-            {invoicePageShow && <SettingInvoice hostelid={hostel_Id}/>}
+            {electricityPageShow && <SettingElectricity hostelid={hostel_Id} />}
+            {invoicePageShow && <SettingInvoice hostelid={hostel_Id} />}
             {expensesPageShow && <SettingExpenses hostelid={hostel_Id} />}
-            {compliancePageShow && <SettingCompliance hostelid={hostel_Id}/>}
-            {amnitiesPageShow && <SettingAmenities hostelid={hostel_Id}/>}
-            {userPageShow && <SettingNewUser  hostelid={hostel_Id}/>}
-            {rolePageShow && <SettingNewRole hostelid={hostel_Id}/>}
+            {compliancePageShow && <SettingCompliance hostelid={hostel_Id} />}
+            {amnitiesPageShow && <SettingAmenities hostelid={hostel_Id} />}
+            {userPageShow && <SettingNewUser hostelid={hostel_Id} />}
+            {rolePageShow && <SettingNewRole hostelid={hostel_Id} />}
           </div>
         </div>
       </div>
