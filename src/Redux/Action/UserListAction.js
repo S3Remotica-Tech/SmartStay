@@ -169,8 +169,17 @@ export async function getWalkInCustomer(walk) {
 }
 
 
+export async function CustomerprofileEditReading (datum) {
+  return await AxiosConfig.post('/users/edit_reading',datum,{
+    data:datum
+  })
+}
 
-
+export async function CustomerprofileDeleteReading (datum) {
+  return await AxiosConfig.post('/users/delete_reading',datum,{
+    data:datum
+  })
+}
 
 
 export async function AddWalkInCustomer(walk) {

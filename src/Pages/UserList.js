@@ -145,6 +145,7 @@ function UserList(props) {
 
   const [deleteIdhostel, setdeleteIdhostel] = useState("")
   const [deleteIdroom, setdeleteIdroom] = useState("")
+  const [editId, setEditId] = useState("");
   console.log("deleteDetails", deleteDetails)
 
 
@@ -169,36 +170,7 @@ function UserList(props) {
     
 
   }
-// useEffect(()=> {
-//   if(isreader){
-//     console.log("isreader data:", isreader);
-//     setFloor(isreader.floor_name)
-    
-    
-//     console.log(isreader.floor_name,"floor");
-      
-    
-//     setRooms(isreader.Room_Id)
-    
-//     console.log(isreader.Room_Id,'room');
-    
-    
-//     setReading(isreader.unit)
-//     if (isreader.reading_date) {
-//       const parsedDate = new Date(isreader.reading_date);
-//       if (!isNaN(parsedDate.getTime())) {
-//         setSelectedDate(parsedDate);
-//       } else {
-//         console.error("Invalid reading_date format:", isreader.reading_date);
-//       }
-//     } else {
-//       console.warn("reading_date is missing:", isreader);
-//     }
-//   }
-     
-    
-  
-// },[isreader])
+
 
 useEffect(() => {
   if (isreader) {
@@ -236,6 +208,8 @@ setRooms(isreader.Room_Id)
 // setSelectedHostel(isreader.HostelName)
 
     setReading(isreader.unit);
+    setEditId(isreader.id)
+    setUnitAmount(isreader.amount)
 
     if (isreader.reading_date) {
       const parsedDate = new Date(isreader.reading_date);
@@ -251,8 +225,6 @@ setRooms(isreader.Room_Id)
 }, [isreader, state?.UsersList?.hosteldetailslist, state?.UsersList?.roomdetails]);
 
 
-
-
 console.log("floor", Floor);
 console.log("rooms", Rooms);
 
@@ -261,6 +233,19 @@ console.log("rooms", Rooms);
 
     setIsReading(users)  
   }
+  const handleSaveHostelEb = () => {
+    console.log("Button clicked"); // Check if this logs
+    dispatch({
+      type: 'CUSTOMERPROFILE_EBEDIT',
+      payload: {
+        id: editId,
+        unit: reading,
+        amount: unitAmount,
+      },
+    });
+    setIsEditing(false);
+  };
+  
 
   const handleDeleteHostelItem = (data) => {
     setdeleteIdhostel(data)
@@ -570,9 +555,12 @@ console.log("rooms", Rooms);
     setInvoiceDueDateErrmsg('')
     setAllFieldErrmsg('')
 
-
+    dispatch({ type: 'UPDATE_USERSLIST_TRUE' });
+  
 
   }
+ 
+
 
   useEffect(() => {
     if (currentView) {
@@ -4544,7 +4532,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   fontFamily: "Montserrat, sans-serif",
                   marginTop: 10,
                 }}
-              // onClick={handleSaveEb}
+              onClick={handleSaveHostelEb}
               // disabled={!!formError}
               >
                 Save Changes

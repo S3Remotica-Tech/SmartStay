@@ -102,7 +102,11 @@ const initialState = {
    userHostelRead: null,
    userReadingdelete:null,
    userHosteldelete:null,
-   isUsersListTrue: false,
+   isUsersListTrue: null,
+   CustomerProfileEbedit:[],
+   StatusCodeForEditEb:0,
+   CustomerProfileEbdelete:[],
+   StatusCodeForDeleteEb:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -501,15 +505,18 @@ const UserListReducer = (state = initialState, action) => {
                             return {...state,userHosteldelete:false}  
                             
                             case 'UPDATE_USERSLIST_TRUE':
-                                return {
-                                  ...state,
-                                  UsersList: {
-                                    ...state.UsersList,
-                                    isUsersListTrue: true,
-                                  }
-                                };        
-                        
-    }
+                            return { ...state,isUsersListTrue:3}
+                                 
+                            case 'UPDATE_USERSLIST_FALSE':
+                                return { ...state,isUsersListTrue:0}
+                                        
+                        case 'CUSTOMER_PROFILE_EBEDIT':
+                          return {...state,CustomerProfileEbedit:action.payload.response,
+                            StatusCodeForEditEb:action.payload.statusCode}
+                        case 'CLEAR_CUSTOMER_PROFILE_EBEDIT':
+                           return{...state,StatusCodeForEditEb:0}  
+    }                
+                     
     return state;
 }
 export default UserListReducer;
