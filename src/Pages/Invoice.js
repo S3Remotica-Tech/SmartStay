@@ -3076,7 +3076,7 @@ console.log("isRowValue",newRows)
                     </div>
                   </>
                 ) : (
-                  <div class="" style={{ position: "relative" }}>
+                  <div class="" style={{ position: "relative",marginTop:"-5px" }}>
                     <div className="texxttt">
                       <div style={{ flex: 1 }}>
                         {/* <div className="headerone">
