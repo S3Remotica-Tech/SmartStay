@@ -71,7 +71,7 @@ const popupRef = useRef(null);
        }, []); 
 
        const handleEditRoomReading = (item) => {
-        console.log(item,"items");
+        console.log("items rOOM rEADING", item);
         
       props.handleEditRoomItem(item)
         
@@ -257,6 +257,11 @@ const popupRef = useRef(null);
   useEffect(() => {
     setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
   }, [state?.UsersList?.customerdetails?.eb_data])
+
+
+console.log("eb list",state?.UsersList?.customerdetails?.eb_data)
+
+
   return (
     <>
 

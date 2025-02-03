@@ -202,31 +202,35 @@ function UserList(props) {
 
 useEffect(() => {
   if (isreader) {
-    console.log("isreader data:", isreader);
+    console.log("isreader data:", isreader,Floor, "Rooms",Rooms );
+
     console.log("Room Details:", state?.UsersList?.roomdetails);
 
+
+    setFloor(isreader.floor_id)
+setRooms(isreader.Room_Id)
     // Find the correct floor_id based on floor_name
-    const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
-      (item) => item.floor_name === isreader.floor_name
-    );
+    // const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
+    //   (item) => item.floor_name === isreader.floor_name
+    // );
 
-    if (matchingFloor) {
-      setFloor(matchingFloor.floor_id);
-      console.log("Setting Floor ID:", matchingFloor.floor_id)
-    } else {
-      console.warn("Floor not found for name:", isreader.floor_name);
-    }
+    // if (matchingFloor) {
+    //   setFloor(matchingFloor.floor_id);
+    //   console.log("Setting Floor ID:", matchingFloor.floor_id)
+    // } else {
+    //   console.warn("Floor not found for name:", isreader.floor_name);
+    // }
 
-    const matchingRoom = state?.UsersList?.roomdetails?.find(
-      (item) => item.Room_Id === isreader.Room_Id
-    );
+    // const matchingRoom = state?.UsersList?.roomdetails?.find(
+    //   (item) => item.Room_Id === isreader.Room_Id
+    // );
 
-    if (matchingRoom) {
-      setRooms(matchingRoom.Room_Id);
-      console.log("settingroom", matchingRoom.Room_Id);
-    } else {
-      console.warn("Room not found for ID:", isreader.Room_Id);
-    }
+    // if (matchingRoom) {
+    //   setRooms(matchingRoom.room_Id);
+    //   console.log("settingroom", matchingRoom.Room_Id);
+    // } else {
+    //   console.warn("Room not found for ID:", isreader.Room_Id);
+    // }
 
 // setRooms(isreader.Room_Id)
 // setSelectedHostel(isreader.HostelName)
@@ -774,8 +778,12 @@ console.log("rooms", Rooms);
       console.log("userreading", state.UsersList.userReading);
       setIsRoomReading(true)
       setRoomDetail(true)
-      dispatch({type:'USERREADINGFALSE'})
-    }
+
+setTimeout(()=>{
+  dispatch({type:'USERREADINGFALSE'})
+},500)
+
+         }
   }, [state.UsersList.userReading])
 
 
@@ -4106,11 +4114,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    disabled={
-                      unitAmount &&
-                      unitAmount?.length === 0 &&
-                      selectedHostel != ""
-                    }
+                    disabled
                     value={Floor}
                     onChange={(e) => handleFloor(e)}
                     style={{
@@ -4159,14 +4163,13 @@ console.log("FilterUsertwo",FilterUsertwo)
                     Room{" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
+
+    
+
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    disabled={
-                      unitAmount &&
-                      unitAmount?.length === 0 &&
-                      selectedHostel != ""
-                    }
+                    disabled
                     value={Rooms}
                     onChange={(e) => handleRoom(e)}
                     style={{
