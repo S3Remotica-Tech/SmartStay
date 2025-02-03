@@ -2491,7 +2491,7 @@ console.log("isRowValue",newRows)
                 fontFamily: "Gilroy",
                 fontWeight: 600,
                 color: "#222",
-                marginTop: 5,
+                marginTop: 2,
                 // marginLeft: -5,
                 paddingLeft:20
               }}
@@ -2989,7 +2989,7 @@ console.log("isRowValue",newRows)
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "7px", marginTop: 0 }}
+                  style={{ marginLeft: "7px"}}
                   className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
                   <Tab
