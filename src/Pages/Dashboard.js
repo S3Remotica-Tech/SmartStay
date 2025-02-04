@@ -99,6 +99,14 @@ function Dashboard(props) {
   const handleSelectedRevenue = (e) => {
     setSelectRevenu(e.target.value);
   };
+
+  useEffect(() => {
+    if(hostel_id){
+      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    }
+    
+  }, [hostel_id]);
+
   useEffect(() => {
     if(hostel_id){
       dispatch({
@@ -258,12 +266,7 @@ function Dashboard(props) {
   //   setData(state.PgList?.dashboardFilterRevenu?.response?.cash_back_data);
   // }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
 
-  useEffect(() => {
-    if(hostel_id){
-      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
-    }
-    
-  }, [hostel_id]);
+ 
 
   console.log("loginid",hostel_id);
   

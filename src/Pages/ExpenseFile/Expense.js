@@ -178,11 +178,7 @@ function Expenses({ allPageHostel_Id }) {
 
   }
 
-  const handleClose = () => {
-    setShowModal(false);
-
-  }
-
+ 
 
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
@@ -1432,7 +1428,7 @@ function Expenses({ allPageHostel_Id }) {
         </div>
       }
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} handleClose={handleClose} currentItem={currentItem} />}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal = {setShowModal}/>}
 
 
 

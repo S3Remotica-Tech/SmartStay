@@ -270,7 +270,8 @@ const handleEditForm = (view) =>{
                                                         justifyContent: "center",
                                                         alignItems: "center",
                                                         zIndex: showDots ? 1000 : "auto",
-                                                        position:"relative"
+                                                        position:"relative",
+                                                        cursor:"pointer"
                                                     }}
 
                                                     onClick={()=>handleShowDots(index)}

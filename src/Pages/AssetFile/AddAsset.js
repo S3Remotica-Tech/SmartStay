@@ -271,6 +271,8 @@ function StaticExample({ show, setShow, currentItem }) {
     setIsChangedError("");
     setGeneralError("");
     setBankingError("")
+    
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
   };
 
   const handleProductNameChange = (e) => {

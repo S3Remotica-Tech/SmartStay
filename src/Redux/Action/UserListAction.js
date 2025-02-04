@@ -61,9 +61,9 @@ export async function roomsCount(floorAndHostelID){
   })
 }
 
-export async function hosteliddetail(id) {
-  return await AxiosConfig.post('/floor_list', id,{
-    data:id
+export async function hosteliddetail(datum) {
+  return await AxiosConfig.post('/floor_list', datum,{
+    data:datum
   })
 }
 export async function userBillPaymentHistory() {

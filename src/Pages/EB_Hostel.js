@@ -86,14 +86,14 @@ function EB_Hostel(props) {
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "ALL_HOSTEL_DETAILS",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [selectedHostel]);
+  // useEffect(() => {
+  //   if (selectedHostel) {
+  //     dispatch({
+  //       type: "ALL_HOSTEL_DETAILS",
+  //       payload: { hostel_id: selectedHostel },
+  //     });
+  //   }
+  // }, [selectedHostel]);
 
   const [editeb, setEditEb] = useState(false);
 
