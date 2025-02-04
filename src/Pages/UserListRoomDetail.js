@@ -2112,7 +2112,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                 marginTop: "5px",
                                               }}
                                             >
-                                              Paid
+                                               {state.UsersList?.customerdetails.data &&
+                                            state.UsersList?.customerdetails.data.map((item) => (
+                                              <>
+                                                {item.status}
+                                                  </>
+                                                    ))}
+                                              {/* Paid */}
                                             </p>
                                           </div>
                                         </div>

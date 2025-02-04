@@ -779,10 +779,7 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: uniqueostel_Id },
-      });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
       setTimeout(() => {
