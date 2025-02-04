@@ -146,6 +146,8 @@ function UserListRoomDetail(props) {
 
 
   const handleEditItem = (item) =>{
+    console.log("itemmm",item);
+    
     props.onEditItem(item)
   }
   const handleDeleteItem = (items) =>{
