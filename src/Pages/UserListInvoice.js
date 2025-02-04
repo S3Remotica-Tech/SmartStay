@@ -463,7 +463,7 @@ const handleDeleteBill = (user) => {
                         borderRadius: "10px",
                       }}
                     >
-                      {view.Status === "Success" ? "Paid" : "UnPaid"}
+                      {view.Status === "Success" ? "Paid" : "Unpaid"}
                     </span>
                   </td>
                   {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}

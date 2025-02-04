@@ -406,6 +406,7 @@ console.log("rooms", Rooms);
       setInvoiceDueDateErrmsg('')
       setAllFieldErrmsg('')
     }
+    dispatch({type:'UPDATE_USERSLIST_TRUE'})
   };
 
 
@@ -566,7 +567,8 @@ console.log("rooms", Rooms);
     setInvoiceDueDateErrmsg('')
     setAllFieldErrmsg('')
 
-
+dispatch({type:'UPDATE_USERSLIST_TRUE'})
+console.log("Dispatching UPDATE_USERSLIST_TRUE");
 
   }
 
@@ -1322,6 +1324,8 @@ console.log("FilterUsertwo",FilterUsertwo)
     setRoomDetail(true);
     setUserList(false);
     setClickedUserData(clickedUserDataArray);
+    dispatch({ type: 'UPDATE_USERSLIST_FALSE' });  // Reset to 1st tab
+
   };
   const handleShowAddBed = (u) => {
     setEdit("Edit");
