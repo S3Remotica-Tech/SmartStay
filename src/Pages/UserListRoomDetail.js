@@ -91,7 +91,7 @@ function UserListRoomDetail(props) {
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
   const [customerAsignBed, setcustomerAsignBed] = useState(false);
   const [Editbed, seteditBed] = useState("");
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
   const [countryCode, setCountryCode] = useState("91");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -124,6 +124,27 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
+
+  // useEffect(() => {
+  //   console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
+  //   if (state.UsersList.isUsersListTrue === 3) {
+  //     setValue("3");
+  //   } else {
+  //     setValue("1");
+  //   }
+  // }, [state.UsersList.isUsersListTrue]);
+  useEffect(() => {
+    console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
+    
+    if (state.UsersList.isUsersListTrue === 3 && value !== "3") {
+      setValue("3");
+    } else if (state.UsersList.isUsersListTrue !== 3 && value !== "1") {
+      setValue("1");
+    }
+  }, [state.UsersList.isUsersListTrue]);
+  
+
+
   const handleEditItem = (item) =>{
     props.onEditItem(item)
   }
@@ -168,7 +189,14 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
+  
   };
+  // useEffect(() => {
+  //   if (value === "1") {
+  //     dispatch({ type: 'UPDATE_USERSLIST_FALSE' });
+  //   }
+  // }, [value]);
+  
   const options = {
     dateFormat: "Y/m/d",
     maxDate: null,

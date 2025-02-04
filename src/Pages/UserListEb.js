@@ -314,7 +314,7 @@ const popupRef = useRef(null);
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
+                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
                         }}
                     
                         onClick={(e) => handleShowDots(u.eb_Id,e)}
@@ -356,32 +356,12 @@ const popupRef = useRef(null);
                                               // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
                                               cursor: props.ebEditPermission ? "not-allowed" : "pointer",
                                             }}
+                                          
                                             // onClick={() => {
                                             //   if (!props.ebEditPermission) {
-                                            //     if (hostelBased == 1) {
-                                            //       console.log("Calling read", u);
-                                            //       handleEditRoomReading(u);
-                                            //     } else {
-                                            //       console.log("Calling hostel", u);
-                                            //       handleEditHostelReading(u);
-                                            //     }
+                                            //     handleEditRoomReading(u);
                                             //   }
                                             // }}
-                                            onClick={() => {
-                                              if (!props.ebEditPermission) {
-                                                console.log("Current roomBased value before click:", roomBased, typeof roomBased);
-                                            
-                                                if (Number(roomBased) === 1) {
-                                                  console.log("Executing handleEditRoomReading", u);
-                                                  handleEditRoomReading(u);
-                                                } else if (Number(roomBased) === 0) {
-                                                  console.log("Executing handleEditHostelReading", u);
-                                                  handleEditHostelReading(u);
-                                                } else {
-                                                  console.log("Unexpected roomBased value:", roomBased);
-                                                }
-                                              }
-                                            }}
                                             
                                             
                                           >
@@ -415,21 +395,11 @@ const popupRef = useRef(null);
                                               // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
                                               cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
                                             }}
-                                            onClick={() => {
-                                              if (!props.ebEditPermission) {
-                                                if (Number(roomBased) === 1) {
-                                                  console.log("Executing handledeleteRoomReading", u);
-                                                  handleDeleteRoomReading(u);
-                                                } else if (Number(roomBased) === 0) {
-                                                  console.log("Executing handledeleteHostelReading", u);
-                                                  handleDeleteHostelReading(u);
-                                                } else {
-                                                  console.log("Unexpected roomBased value:", roomBased);
-                                                }
-                                               
-                                                
-                                              }
-                                            }}
+                                              // onClick={() => {
+                                            //   if (!props.ebDeletePermission) {
+                                            //     handleDeleteShow(u);
+                                            //   }
+                                            // }}
                                           >
                                             <img
                                               src={Delete}
@@ -457,8 +427,8 @@ const popupRef = useRef(null);
                                       </div>
                                     </>
                                   )}
-                      </div>
-                      {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                      </div> */}
+                    
                     </td>
 
                   </tr>
