@@ -215,6 +215,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
+    setNetPaymentError("")
     // if (/^\d*$/.test(value)) {
     //   setPrice(value);
     // }
@@ -522,7 +523,10 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
 
   }
-
+  const calculatePurchaseAmount = (count, price) => {
+    return count * price;
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+  };
 
 
   return (
