@@ -40,7 +40,7 @@ const handleClose = () => {
 };
   return (
     <div className="container">
-      <div style={{marginTop:25}}>
+      <div style={{marginTop:26}}>
         <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 
       </div>

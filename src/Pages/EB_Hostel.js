@@ -691,7 +691,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy",
-              marginTop: 7,
+              marginTop: 11,
             }}
           >
             Electricity
@@ -966,7 +966,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   <>
                   {
                     value === "1" &&
-                    <div className="me-4">
+                    <div className="me-4" style={{marginTop:10}}>
                     <Image
                       src={searchteam}
                       roundedCircle
@@ -984,7 +984,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                    
                   </>
                 )}
-          <div className="me-3" style={{ marginTop: -10 }}>
+          <div className="me-3" style={{paddingRight:6,marginTop:5}}>
             
               {value === "1" && (
                 <img
@@ -1009,16 +1009,13 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   height: 52,
                   fontWeight: 600,
                   borderRadius: 8,
-                  width: 162,
-                  // padding: "5px 5px",// Corrected padding
                   border: "none",
                   cursor: "pointer",
                   whiteSpace: "nowrap",
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  marginTop: -3,
+                  padding: "11px 18px",
+                  marginTop:2,
+                  paddingLeft:19
+                 
                 }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
@@ -1054,12 +1051,10 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px 12px",
-                  width: "140px",
-                  maxWidth: "100%",
-                  marginBottom: "10px",
-                  maxHeight: 45,
-                  marginTop: -3,
+                  padding: "11px 18px",
+                 marginTop:2,
+                 paddingLeft:19
+                
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -1071,8 +1066,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
         </div>
       </div>
 
-      <TabContext value={value}>
-        <div>
+      <TabContext value={value} >
+        <div className="mt-2">
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}

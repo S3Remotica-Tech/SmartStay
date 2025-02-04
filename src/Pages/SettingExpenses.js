@@ -673,15 +673,16 @@ console.log("selectedOptions",selectedOptions)
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 40px",
+              padding: "11px 35px",
+              paddingLeft:36,
               width: "auto",
               maxWidth: "100%",
               marginBottom: "10px",
               maxHeight: 50,
-              marginTop: 38
+            marginTop:35 
             }}
             disabled={showPopup}
-          >{" "}+ Category</Button></div>
+          >+ Category</Button></div>
 
       </div>
 

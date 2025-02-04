@@ -2476,24 +2476,23 @@ console.log("isRowValue",newRows)
   return (
     <>
       {showAllBill && (
-        <div>
-          <div
+        <div className="container">
+          <div className="container"
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
-            className="container   mt-3"
+           
           >
             <p
-              style={{
+              style={{marginTop:26,
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
                 color: "#222",
-                marginTop: 2,
-                // marginLeft: -5,
-                paddingLeft:20
+              
+             
               }}
             >
               Bills
@@ -2510,8 +2509,6 @@ console.log("isRowValue",newRows)
                       style={{
                         position: "relative",
                         width: "100%",
-                        marginRight: 20,
-                        marginTop: "-10px",
                       }}
                     >
                       <div
@@ -2779,14 +2776,14 @@ console.log("isRowValue",newRows)
                   </>
                 ) : (
                   <>
-                    <div className="me-3">
+                    <div style={{paddingRight:20,marginTop:20}}>
                       <Image
                         src={searchteam}
                         roundedCircle
                         style={{
                           height: "24px",
                           width: "24px",
-                          marginTop: "-5px",
+                        
                         }}
                         onClick={handleSearch}
                       />
@@ -2795,11 +2792,12 @@ console.log("isRowValue",newRows)
                 )}
 
                 {(value === "1" || value === "3") && (
-                  <div className="me-3">
+                  <div style={{paddingRight:15,}}>
+                   
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px" }}
+                      style={{ height: "50px", width: "50px" ,marginTop:18}}
                       onClick={handleFilterd}
                     />
                   </div>
@@ -2868,7 +2866,7 @@ console.log("isRowValue",newRows)
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div className="me-3">
+                <div>
                   {value == 1 && (
                     <Button
                       disabled={billAddPermission}
@@ -2892,11 +2890,11 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 32px",
-                        
-                        maxWidth: "100%",
-                        marginBottom: "15px",
-                        maxHeight: 45,
+                        padding: "11px 32px",
+                        marginTop:19
+                        ,
+                        paddingLeft:34
+                       
                       }}
                     >
                       {" "}
@@ -2927,15 +2925,15 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 4px",
-                        width: "170px",
-                        maxWidth: "100%",
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        padding: "11px 24px",
+                        paddingLeft:25,
+                        marginTop:19
+                        // width: "170px",
+                      
                       }}
                     >
                       {" "}
-                      + Create Recurring Bill
+                      + Recurring Bill
                     </Button>
                   )}
 
@@ -2963,11 +2961,11 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 12px",
-                        width: "140px",
-                        maxWidth: "100%",
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        padding: "11px 17px",
+                        paddingLeft:18,
+                        
+                        marginTop:19
+                       
                       }}
                     >
                       {" "}

@@ -309,7 +309,7 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                <div>
+                <div style={{marginTop:-4}}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div>
@@ -326,7 +326,8 @@ function SettingAmenities({ hostelid }) {
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "10px 36px",
+                            padding: "11px 35px",
+                            paddingLeft:34,
                             width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,

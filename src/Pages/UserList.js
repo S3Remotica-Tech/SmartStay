@@ -2248,9 +2248,10 @@ console.log("FilterUsertwo",FilterUsertwo)
       />
 
       {userList && (
-        <div style={{ margin: "12px" }}>
+        // <div style={{ margin: "12px" }}>
+        <div className="container" >
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-            <div>
+            <div style={{marginTop:2}}>
               <label
                 style={{
                   fontSize: 18,
@@ -2259,7 +2260,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   fontFamily: "Gilroy",
                   marginLeft: 11,
                   marginRight: 20,
-                  marginTop: -2
+                  marginTop: -8
                 }}
               >
                 Customers
@@ -2423,7 +2424,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                 </>
               ) : (
                 <>
-                  <div className="me-5" style={{ marginTop: "10px" }}>
+                  <div style={{paddingRight:45,marginTop:33}}>
                     <Image
                       src={searchteam}
 
@@ -2442,7 +2443,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   onClick={handleShowSearch}
                 />
               </div> */}
-              <div style={{ paddingRight: "10px" }}>
+              <div style={{ paddingRight: "17px",marginTop:23 }}>
                 {value === "1" && (
                   <img
                     src={excelimg}
@@ -2481,33 +2482,21 @@ console.log("FilterUsertwo",FilterUsertwo)
                 )}
               </div>
 
-              <div className="buttons">
+              <div className="buttons container" style={{marginTop:22}}>
                 {value === "1" && (
                   <Button
                     disabled={customerAddPermission}
                     onClick={handleShow}
-                    // style={{
-                    //   fontSize: 14,
-                    //   backgroundColor: "#1E45E1",
-                    //   color: "white",
-                    //   height: 52,
-                    //   fontWeight: 600,
-                    //   borderRadius: 12,
-                    //   width: 152,
-                    //   padding: "16px, 24px, 16px, 24px",
-                    //   fontFamily: "Gilroy",
-                    // }}
                     style={{
-                      marginTop: 3,
+                    
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      padding: "12px 32px",
-                      // width: "100px",
-                      maxWidth: "100%",
+                      padding: "12px 34px",
+                     paddingRight:36,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2520,17 +2509,6 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <Button
                     disabled={customerBookingAddPermission}
                     onClick={toggleForm}
-                    // style={{
-                    //   fontSize: 14,
-                    //   backgroundColor: "#1E45E1",
-                    //   color: "white",
-                    //   height: 52,
-                    //   fontWeight: 600,
-                    //   borderRadius: 12,
-                    //   width: 152,
-                    //   padding: "16px, 24px, 16px, 24px",
-                    //   fontFamily: "Gilroy",
-                    // }}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -2538,9 +2516,8 @@ console.log("FilterUsertwo",FilterUsertwo)
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      padding: "12px 34px",
-                      // width: "100px",
-                      maxWidth: "100%",
+                      padding: "12px 36px",
+                      paddingLeft:38,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2553,17 +2530,6 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <Button
                     disabled={customerCheckoutPermission}
                     onClick={checkOutForm}
-                    // style={{
-                    //   fontSize: 14,
-                    //   backgroundColor: "#1E45E1",
-                    //   color: "white",
-                    //   height: 52,
-                    //   fontWeight: 600,
-                    //   borderRadius: 12,
-                    //   width: 152,
-                    //   padding: "16px, 24px, 16px, 24px",
-                    //   fontFamily: "Gilroy",
-                    // }}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -2571,9 +2537,8 @@ console.log("FilterUsertwo",FilterUsertwo)
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      padding: "12px 30px",
-                      // width: "110px",
-                      maxWidth: "100%",
+                      padding: "12px 33px",
+                      paddingRight:30,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2586,17 +2551,6 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <Button
                     disabled={customerWalkInAddPermission}
                     onClick={walkinForm}
-                    // style={{
-                    //   fontSize: 14,
-                    //   backgroundColor: "#1E45E1",
-                    //   color: "white",
-                    //   height: 52,
-                    //   fontWeight: 600,
-                    //   borderRadius: 12,
-                    //   width: 152,
-                    //   padding: "12px, 16px, 12px, 16px",
-                    //   fontFamily: "Gilroy",
-                    // }}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -2604,9 +2558,8 @@ console.log("FilterUsertwo",FilterUsertwo)
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      padding: "12px 40px",
-                      // width: "100px",
-                      maxWidth: "100%",
+                      padding: "12px 38px",
+                     paddingLeft:44,
                       marginBottom: "10px",
                       maxHeight: 45,
 

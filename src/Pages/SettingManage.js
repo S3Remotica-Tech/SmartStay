@@ -977,12 +977,12 @@ const [loading, setLoading] = useState(true)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "10px 60px",
+                        padding: "12px 57px",
                         width: "auto",
                         maxWidth: "100%",
                         marginBottom: "10px",
                         maxHeight: 45,
-                        marginTop: "8px",
+                        marginTop: "15px",
             
                       }}
                     >
@@ -1240,7 +1240,7 @@ const [loading, setLoading] = useState(true)
           )}
 
           {selectedHostel && (
-            <div className="container mt-3">
+            <div style={{marginTop:22}}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center">
                   <ArrowLeft
@@ -1277,7 +1277,8 @@ const [loading, setLoading] = useState(true)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: 8,
-                        padding: "10px 54px",
+                        padding: "11px 50px",
+                        paddingLeft:51,
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
