@@ -326,9 +326,9 @@ const [loading, setLoading] = useState(true)
     setAddhostelForm(false);
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: "HOSTELLIST" });
-  // }, []);
+  useEffect(() => {
+    dispatch({ type: "HOSTELLIST" });
+  }, []);
 
   const [emailError, setEmailError] = useState("");
 
