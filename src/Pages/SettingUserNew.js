@@ -337,8 +337,8 @@ useEffect(()=>{
                                 </th>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
