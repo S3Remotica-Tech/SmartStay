@@ -649,14 +649,14 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
 
   }, [uniqueostel_Id]);
 
-   useEffect(() => {
-      if (uniqueostel_Id && Floor) {
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: uniqueostel_Id, floor_Id: Floor },
-        });
-      }
-    }, [Floor]);
+  //  useEffect(() => {
+  //     if (uniqueostel_Id && Floor) {
+  //       dispatch({
+  //         type: "ROOMDETAILS",
+  //         payload: { hostel_Id: uniqueostel_Id, floor_Id: Floor },
+  //       });
+  //     }
+  //   }, [Floor]);
 
   const [userListDetail, setUserListDetail] = useState("")
   useEffect(() => {
