@@ -967,7 +967,7 @@ const handleFilterd = () => {
                     height: 83,
                   }}
                 >
-                  <div style={{marginTop:-8}}>
+                  <div style={{marginTop:-7}}>
                     <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,}}>Complaints</label>
                   </div>
 
@@ -1111,7 +1111,7 @@ const handleFilterd = () => {
                       </>
                     ) : (
                       <>
-                        <div className="me-3">
+                        <div className="me-3" style={{marginTop:10}}>
                           <Image
                             src={searchteam}
                             roundedCircle
@@ -1122,7 +1122,7 @@ const handleFilterd = () => {
                       </>
                     )}
 
-                    <div className="me-3">
+                    <div className="me-3" style={{marginTop:10}}>
                       <Image
                         src={Filters}
                         roundedCircle
@@ -1160,21 +1160,24 @@ const handleFilterd = () => {
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-                    <div style={{ paddingRight: "15px" }}>
+                    <div style={{ paddingRight: "23px" ,marginTop:10}}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
                         
                       />
                     </div>
 
-                    <div >
+                    <div style={{marginTop:7}}>
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
-                        style={{marginTop:-10,
-                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
+                        style={{
+                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8,
                            
-                          padding: "14px 30px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                          padding: "12px 31px",
+                         paddingBottom:12,
+                          paddingLeft:32, color: '#FFF', fontFamily: 'Montserrat', 
+                          
                         }} > + Complaint</Button>
                     </div>
                   </div>

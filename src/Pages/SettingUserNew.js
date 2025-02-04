@@ -214,7 +214,7 @@ useEffect(()=>{
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}  >
-                <div>
+                <div style={{marinTop:-4}}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
                 <div>
@@ -231,12 +231,12 @@ useEffect(()=>{
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "10px 52px",
+                            padding: "11px 52px",
                             // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
+                            marginTop:5
 
-                
                           }}
                         disabled={showPopup}
                     >

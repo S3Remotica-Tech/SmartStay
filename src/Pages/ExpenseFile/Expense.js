@@ -775,25 +775,24 @@ function Expenses({ allPageHostel_Id }) {
           </>
         ) : <div className='container' style={{ width: "100%" }} >
 
-          <div >
+          <div className='container'>
 
 
-            <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
+            <div className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
                 position: 'sticky',
-                // top: 15,
-                marginTop:-2,
+               
                 backgroundColor: 'white',
                 zIndex: 10,
-                padding: '10px',
+                
               }}
             >
-              <div className='d-flex align-items-center flex-wrap'>
-                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" ,marginTop:-25}}>Expenses</label>
+              <div className='d-flex align-items-center flex-wrap' style={{marginTop:-2}}>
+                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative',marginTop:"20px" }}>
+                <div style={{ margin: 20, position: 'relative',}}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -857,7 +856,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
-                      style={{ cursor: 'pointer' ,marginTop:-25}}
+                      style={{ cursor: 'pointer' ,paddingRight:10,marginTop:8}}
                     />
                   </div>
                 }
@@ -941,7 +940,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 }
 
-                <div className='me-3' style={{ position: 'relative',marginTop:-25 }}>
+                <div className='me-3' style={{ position: 'relative',paddingRight:10,marginTop:8 }}>
                   <Sort
                     Size="24"
                     color="#222"
@@ -1102,14 +1101,14 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px", cursor: 'pointer',marginTop:-25 }}>
+                <div style={{ paddingRight: "23px", cursor: 'pointer',marginTop:8}}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
 
-                <div>
+                <div style={{marginTop:9}}>
                   <Button disabled={expenceAddPermission} onClick={handleShow} 
                   // style={{
                   //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
@@ -1122,12 +1121,9 @@ function Expenses({ allPageHostel_Id }) {
                     color: "white",
                     fontWeight: 600,
                     borderRadius: "8px",
-                    padding: "12px 40px",
-                    width: "auto",
-                    maxWidth: "100%",
-                    marginBottom: "10px",
-                    maxHeight: 45,
-        marginTop:-15
+                    padding: "11px 39px",
+                    paddingLeft:40
+                    
                   }}
                   > + Expense</Button>
                 </div>

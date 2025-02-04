@@ -254,11 +254,11 @@ if(state.Settings.errorCompliants){
                                     color: "white",
                                     fontWeight: 600,
                                     borderRadius: "8px",
-                                    padding: "10px 18px",
+                                    padding: "11px 15px",
                                     width: "auto",
                                     maxWidth: "100%",
                                     maxHeight: 50,
-                                    marginTop: "-10px",
+                                    marginTop: "-11px",
 
                                 }}
                                 onClick={handleShowForm} disabled={showPopupvalidation}>

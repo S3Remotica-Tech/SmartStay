@@ -196,7 +196,7 @@ const handleEditForm = (view) =>{
                     backgroundColor: "#FFFFFF",
                     height: 83,
                   }}>
-                <div>
+                <div style={{marinTop:-4}}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 
 
@@ -205,7 +205,7 @@ const handleEditForm = (view) =>{
                     <Button
                         onClick={handleAddRole}
                         style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", 
-                          fontWeight: 600, borderRadius: 8, padding: "10px 56px", }}
+                          fontWeight: 600, borderRadius: 8, padding: "11px 53px",paddingLeft:52,marginTop:5 }}
                         disabled={showPopup}
                   >
 

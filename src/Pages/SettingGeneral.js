@@ -657,7 +657,7 @@ function SettingGeneral() {
               fontSize: 20,
               color: "#000000",
               fontWeight: 600,
-              fontFamily: "Gilroy",
+              fontFamily: "Gilroy",marginTop:-2
             }}
           >
             General

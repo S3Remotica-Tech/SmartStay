@@ -480,7 +480,6 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
  
                   backgroundColor: 'white',
                   zIndex: 10,
-                  // padding: '10px',
                   paddingLeft:25,paddingRight:20,
                   height: 83,
                 }}
@@ -490,12 +489,12 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     Assets</label>
                 </div>
 
-                <div style={{marginTop:-7}} className="d-flex justify-content-between align-items-center flex-wrap ">
+                <div className="d-flex justify-content-between align-items-center flex-wrap ">
 
                   {
                     !showFilterData &&
 
-                    <div className='me-3' style={{marginTop:-5}} onClick={handleShowSearch}>
+                    <div  onClick={handleShowSearch} style={{paddingRight:30,marginTop:12}}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -505,7 +504,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   }
                   {
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',marginTop:-5 }}>
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',}}>
                       <InputGroup
                         style={{
                           display: 'flex',
@@ -592,7 +591,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
-                  <div className='me-3' style={{marginTop:-5}} onClick={handleFilterByPrice}>
+                  <div onClick={handleFilterByPrice} style={{paddingRight:23,marginTop:12}}>
                     <Sort
                       Size="24"
                       color="#222"
@@ -603,7 +602,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   {
                     showFilter &&
 
-                    <div className='me-3'>
+                    <div >
                       <Form.Select aria-label="Select Price Range"
                         value={selectedPriceRange}
                         onChange={handlePriceRangeChange}
@@ -616,16 +615,14 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                       </Form.Select>
                     </div>
                   }
-                  <div style={{ paddingRight: "10px",marginTop:-5 }}>
-                    <img src={excelimg} width={38} height={38} style={{ marginTop: 5 }}
+                  <div style={{ paddingRight: "29px",marginTop:10}}>
+                    <img src={excelimg} width={38} height={38} 
                       onClick={handleAssetsExcel}
                     />
                   </div>
 
-            <div>
+            <div style={{marginTop:15,paddingRight:4}}>
               <Button disabled={assetAddPermission} onClick={handleShow}
-              //  style={{ fontFamily: "Gilroy", fontSize: 14,
-              //    backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "12px 16px" }}
               style={{
                 fontFamily: "Gilroy",
                 fontSize: "14px",
@@ -633,11 +630,11 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                 color: "white",
                 fontWeight: 600,
                 borderRadius: "8px",
-                padding: "12px 44px",
-                width: "auto",
-                maxWidth: "100%",
+                padding: "12px",
+                paddingLeft:50,
+                paddingRight:48,
                 marginBottom: "10px",
-                maxHeight: 45,marginTop:8
+                maxHeight: 45,
     
               }}
                  >

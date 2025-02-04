@@ -472,9 +472,9 @@ function Vendor() {
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
-            <div className='container ' 
+            <div 
 
-              style={{ marginTop:7,
+              style={{
                 height: 83,
                 position: "sticky",
                 top: 0,
@@ -487,28 +487,27 @@ function Vendor() {
 
 
 
-              <div className=" d-flex justify-content-between align-items-center flex-wrap  mb-3"
+              <div className="container d-flex justify-content-between align-items-center flex-wrap"
                 style={{
                   position: 'sticky',
-                  top: 25,
                   backgroundColor: 'white',
                   zIndex: 10,
-                  padding: '10px',
+               
                 }}
               >
 
-                <div style={{marginLeft:-10,marginTop:-7}}>
+                <div style={{marginTop:4}}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center flex-wrap">
+                <div style={{marginTop:22}} className="d-flex justify-content-between align-items-center flex-wrap">
 
 
 
                   {
                     !showFilterData &&
 
-                    <div className='me-3' style={{marginTop:-10}} onClick={handleShowSearch}>
+                    <div onClick={handleShowSearch} style={{paddingRight:30}}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -616,11 +615,8 @@ function Vendor() {
                     />
                   </div> */}
 
-                  <div>
+                  <div >
                     <Button disabled={vendorAddPermission} onClick={handleShow}
-                    //  style={{
-                    //   fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                    //   fontWeight: 600, borderRadius: 12, padding: "12px 16"}}
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -628,11 +624,10 @@ function Vendor() {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 44px",
-                        width: "auto",
-                        maxWidth: "100%",
+                        padding: "11px 42px",
+                       paddingLeft:45,
                         marginBottom: "10px",
-                        maxHeight: 45,
+                       
            
                       }}
                       > + Vendor</Button>

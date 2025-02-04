@@ -161,7 +161,7 @@ import { MdError } from "react-icons/md";
 //   )}
 // </div>
 // ):
-<div className="container mt-4">
+<div className="container " style={{marginTop:26}}>
 <div>
     <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Security</p>
 </div>
@@ -219,7 +219,7 @@ import { MdError } from "react-icons/md";
     color: "white",
     fontWeight: 600,
     borderRadius: "8px",
-    padding: "10px 12px",
+    padding: "12px px",
     width: "auto",
     maxWidth: "100%",
     marginBottom: "10px",

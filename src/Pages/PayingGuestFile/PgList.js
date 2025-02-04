@@ -946,7 +946,7 @@ function PgList(props) {
                     <Sort Size="24" color="#222" variant="Outline" />
                   </div> */}
 
-                  <div>
+                  <div style={{marginTop:5}}>
                     <Button
                       onClick={handleShowsettingsPG}
                       disabled={addPermissionError}
@@ -967,11 +967,9 @@ function PgList(props) {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 24px",
-                        width: "auto",
-                        maxWidth: "100%",
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        padding: "11px",
+                        paddingLeft:30,
+                        paddingRight:26           
 
                       }}
                     >
@@ -1208,15 +1206,16 @@ function PgList(props) {
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   </div>
 
-                  <div>
+                  <div style={{marginTop:5}}>
                     <Button
                       style={{
                         fontSize: 14,
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
-                        borderRadius: 12,
-                        padding: "16px 20px 16px 20px",
+                        borderRadius: 8,
+                        padding: "11px 50px",
+                        paddingLeft:52,
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
