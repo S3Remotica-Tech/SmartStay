@@ -1708,16 +1708,18 @@ function SettingGeneral() {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{marginTop:'0px'}}>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             {/* {!editShow && ( */}
-            <Form.Group className="mb-3">
+            <Form.Group className="">
               <Form.Label
                 style={{
                   fontSize: 14,
                   color: "#222222",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
+                  marginTop: 0,        
+                  paddingTop: 0,
                 }}
               >
                 Current Password{" "}
@@ -1788,7 +1790,7 @@ function SettingGeneral() {
               borderRadius: "12px",
               fontSize: "1rem",
               fontFamily: "Montserrat, sans-serif",
-              marginTop: "20px",
+              marginTop: "5px",
             }}
             onClick={handleCheckPasswordChange}
           >

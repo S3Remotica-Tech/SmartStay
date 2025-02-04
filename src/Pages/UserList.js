@@ -151,10 +151,18 @@ function UserList(props) {
   let serialNumber = 1;
 
 
+  // const handleEditItem = (details) => {
+  //   console.log("details", details)
+  //   setCurrentView(details)
+  // }
   const handleEditItem = (details) => {
-    console.log("details", details)
-    setCurrentView(details)
-  }
+    console.log("details", details);
+    setCurrentView(null);  // Reset first to force React to detect changes
+    setTimeout(() => {
+      setCurrentView(details);  // Set the new data after reset
+    }, 0);
+  };
+  
 
 
   const handleDeleteItem = (detail) => {
@@ -573,6 +581,7 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
   }
 
   useEffect(() => {
+    console.log("currentView in useEffect:", currentView);
     if (currentView) {
       console.log(currentView, "current");
 
@@ -724,26 +733,50 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
 
     }
   }, [state.UsersList.userProfilebill])
+  // useEffect(() => {
+  //   if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+  //     dispatch({
+  //       type: "MANUALINVOICESLIST",
+  //       payload: { hostel_id: uniqueostel_Id },
+  //     });
+  //     setLoading(false);
+  //     setIsEditing(false)
+
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
+  //       setLoading(false);
+
+
+  //     }, 1000);
+  //   }
+  // }, [
+  //   state.InvoiceList.manualInvoiceEditStatusCode,
+  //   state.InvoiceList.ManualInvoices,
+  // ]);
+
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: uniqueostel_Id },
-      });
+      // dispatch({
+      //   type: "MANUALINVOICESLIST",
+      //   payload: { hostel_id: uniqueostel_Id },
+      // });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+  
       setLoading(false);
-      setIsEditing(false)
-
+      setIsEditing(false);
+  
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-        setLoading(false);
-
-
       }, 1000);
     }
-  }, [
-    state.InvoiceList.manualInvoiceEditStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
+  }, [state.InvoiceList.manualInvoiceEditStatusCode]);
+  
+  // Add another useEffect to update UI when ManualInvoices change
+  useEffect(() => {
+    console.log("ManualInvoices Updated:", state.InvoiceList.ManualInvoices);
+    // This will trigger rerender when data updates
+  }, [state.InvoiceList.ManualInvoices]);
+  
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
       dispatch({
@@ -4752,6 +4785,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                 aria-label="Default select example"
                 value={customername}
                 onChange={handleCustomerName}
+                disabled={isEditing}
                 className='border'
                 style={{
                   fontSize: 16,
