@@ -144,6 +144,10 @@ function SettingExpenses({ hostelid }) {
     setSubType('');
     setType('');
     setIsSubCategory(false)
+    setCategoryErrmsg("")
+    setSubCategoryErrmsg("")
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR'})
+
   };
 
   const [editsubcat, setEditsubCat] = useState(false)
@@ -392,14 +396,14 @@ function SettingExpenses({ hostelid }) {
 
     if (subcategory_Id && subType ) {
           dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
-          setShowForm(false);
+        
           setIsSubCategory(false)
           setSubType('')
         }
       
       else {
         dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
-        setShowForm(false);
+       
       }
     }
 
@@ -420,9 +424,25 @@ function SettingExpenses({ hostelid }) {
       },
     });
 
-    setShowForm(false);
+   
     setSelectedOptions([])
   };
+
+
+useEffect(()=>{
+if(state.Settings?.AddCategoryType == 2){
+   setShowForm(false);
+   setTimeout(()=>{
+dispatch({ type: 'CLEAR_TYPE'})
+   },1000)
+}
+},[state.Settings.AddCategoryType])
+
+
+
+
+
+
 
   const handleEditCategory = (item) => {
 
@@ -918,7 +938,7 @@ console.log("selectedOptions",selectedOptions)
                           value={selectedOptions}
                           onChange={handleChange}
                           onCreateOption={handleCreate}
-                          placeholder="Select/Create Category"
+                          placeholder="Select / Create Category"
                           style={{padding:20}}
                           className=""
                         />
@@ -1017,7 +1037,7 @@ console.log("selectedOptions",selectedOptions)
 
                   onClick={edit ? updateType : addType}
                 >
-                  {edit ? "Update Category" : "Add Category"}
+                  {edit ? "Save Changes" : "Save"}
                   {/* Add Category */}
                   {/* {edit ? "Save invoice" : "Add invice"} */}
                 </Button>
