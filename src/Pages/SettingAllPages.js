@@ -20,7 +20,7 @@ import { Button, Offcanvas, Form, FormControl, FormSelect } from "react-bootstra
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
-import { ArrowSwapHorizontal } from 'iconsax-react'
+import { ArrowSwapHorizontal, ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 
 
 function SettingAllPages(props) {
@@ -285,12 +285,12 @@ function SettingAllPages(props) {
   console.log("isSidebarOpen", isSidebarOpen)
 
 
- 
+
 
   return (
     <>
       <div className="container-fluid">
-        <div className="row " style={{position:"relative"}}>
+        <div className="row " style={{ position: "relative" }}>
 
           <div
             className="col-12 d-block d-md-none"
@@ -300,24 +300,36 @@ function SettingAllPages(props) {
               // backgroundColor: "#f8f9fa",
             }}
           >
-            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="" style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: 8, color: "white", padding: "10px 20px" }}><ArrowSwapHorizontal
-              size="20"
-              color="#FFF"
-            /></button>
+            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="" 
+            style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
+            >
+              {isSidebarOpen ? 
+              <ArrowLeft2 
+                size="22"
+                color="#FFF"
+              /> :
+                <ArrowRight2 
+                  size="22"
+                  color="#FFF"
+                />
+              }
+
+
+            </button>
           </div>
 
-          <div className={`col-lg-3 col-md-4 ${isSidebarOpen ? "d-block col-lg-3" : "d-none d-md-block"}`}
+          <div className={`col-3   ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
             style={{
               overflowY: "auto",
               height: "100vh",
               position: "sticky",
-              marginLeft:'auto',
+              marginLeft: 'auto',
               top: 0,
               left: 0, transition: "all 0.3s ease-in-out",
 
             }}
           >
-            <div
+            <div className="show-scrolls"
               style={{
                 backgroundColor: "#E7F1FF",
                 borderRadius: "11px",
@@ -326,7 +338,7 @@ function SettingAllPages(props) {
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 marginTop: 20,
                 marginLeft: 30,
-                width: 201,
+                maxWidth: 201,
                 height: 246
               }}
             >
@@ -690,7 +702,7 @@ function SettingAllPages(props) {
 
 
 
-          <div className={`col-lg-9 col-md-8 col-12  ${isSidebarOpen ? 'col-md-9' : 'col-12'}   `}
+          <div className={`col-9   ${isSidebarOpen ? 'col-9' : ''}   `}
 
             style={{
               overflowY: "auto",
