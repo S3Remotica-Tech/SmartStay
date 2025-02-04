@@ -1932,6 +1932,7 @@ console.log("isRowValue",newRows)
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           console.log("PDF opened successfully.");
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+          // setTimeout(() => dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" }), 100);
         } else {
           console.error(
             "Failed to open the PDF. Popup blocker might be enabled."
