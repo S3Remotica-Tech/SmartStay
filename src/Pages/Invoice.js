@@ -2777,7 +2777,7 @@ console.log("isRowValue",newRows)
                   </>
                 ) : (
                   <>
-                    <div style={{paddingRight:20,marginTop:20}}>
+                    <div style={{paddingRight:15,marginTop:18}}>
                       <Image
                         src={searchteam}
                         roundedCircle
