@@ -4097,7 +4097,7 @@ console.log("isRowValue",newRows)
                                 )
                               )}
 
-                              {bills.length > itemsPerPage && (
+                              {bills.length >= 5 && (
                                 <nav
                                   style={{
                                     display: "flex",

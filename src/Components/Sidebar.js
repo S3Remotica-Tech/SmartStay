@@ -113,6 +113,7 @@ function Sidebar() {
   let LoginId = localStorage.getItem("loginId");
   let checkedValue = localStorage.getItem("checked");
   const [hover, setHover] = useState(false);
+  const [hostelListDetail,setHostelDetail] = useState("")
 
   const loginId = localStorage.getItem("loginId");
 
@@ -120,6 +121,15 @@ function Sidebar() {
     dispatch({ type: "HOSTELLIST" });
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
+
+  useEffect(()=>{
+    if(state.UsersList.hosteListStatusCode === 200){
+      setHostelDetail(state.UsersList.hostelList)
+      setTimeout(()=>{
+        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE"});
+      },500)
+    }
+    },[state.UsersList.hosteListStatusCode])
 
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -256,7 +266,7 @@ function Sidebar() {
         console.log("Error decrypting loginid", error);
       }
     }
-  }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount]);
+  }, [stateData.accountList, state.UsersList.hostelList, stateData.statusCodeForAccount]);
 
   // if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
   //   setProfiles(0)
@@ -418,12 +428,12 @@ function Sidebar() {
 
     if (
       !isInitialized &&
-      state.UsersList.hostelList.length > 0 &&
+      hostelListDetail?.length > 0 &&
       state.UsersList.hosteListStatusCode === 200
     ) {
       const currentHostel =
         savedHostelId &&
-        state.UsersList.hostelList.find(
+        hostelListDetail?.find(
           (item) => item.id === parseInt(savedHostelId, 10)
         );
 
@@ -439,7 +449,7 @@ function Sidebar() {
             : Profile
         );
       } else {
-        const lowestIdItem = state.UsersList.hostelList.reduce(
+        const lowestIdItem = hostelListDetail?.reduce(
           (prev, current) => (prev.id < current.id ? prev : current)
         );
         setPayingGuestName(lowestIdItem.Name);
@@ -457,14 +467,15 @@ function Sidebar() {
     }
   }, [
     state.UsersList.hostelList,
+    hostelListDetail,
     state.UsersList.hosteListStatusCode,
     isInitialized,
   ]);
 
   useEffect(() => {
     // Check if the user is logged in
-    if (state.login?.isLoggedIn && state.UsersList.hostelList?.length > 0) {
-      const firstHostel = state.UsersList.hostelList.reduce((prev, current) =>
+    if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
+      const firstHostel = hostelListDetail.reduce((prev, current) =>
         prev.id < current.id ? prev : current
       );
 
@@ -488,6 +499,7 @@ function Sidebar() {
   }, [
     state.login?.isLoggedIn,
     state.UsersList.hostelList,
+    hostelListDetail,
     state.UsersList.hosteListStatusCode,
   ]);
 
@@ -507,13 +519,7 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-useEffect(()=>{
-if(state.UsersList.hosteListStatusCode){
-  setTimeout(()=>{
-    dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE"});
-  },500)
-}
-},[state.UsersList.hosteListStatusCode])
+
 
 
 
@@ -547,8 +553,8 @@ if(state.UsersList.hosteListStatusCode){
                 />
               </div>
 
-              {state.UsersList?.hostelList &&
-                state.UsersList?.hostelList?.length > 0 && (
+              {hostelListDetail &&
+                hostelListDetail?.length > 0 && (
                   <li
                     className={`align-items-center list-Item ${
                       currentPage === "settingNewDesign" ? "active" : ""
@@ -613,7 +619,7 @@ if(state.UsersList.hosteListStatusCode){
                         }}
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
-                          {state.UsersList?.hostelList.map((item) => (
+                          {hostelListDetail.map((item) => (
                             <li
                               key={item.id}
                               style={{

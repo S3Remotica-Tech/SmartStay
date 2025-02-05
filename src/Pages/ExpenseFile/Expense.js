@@ -68,6 +68,7 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
+  const [checkLength, setCheckLength] = useState(false);
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -178,7 +179,7 @@ function Expenses({ allPageHostel_Id }) {
 
   }
 
- 
+
 
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
@@ -215,7 +216,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
+console.log("loading",loading)
 
 
   useEffect(() => {
@@ -352,32 +353,23 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList)
-
-        setLoading(false)
-
-
-      }, 500)
+      setLoading(false)
+      setGetData(state.ExpenseList.expenseList)
+     
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
     }
-    else {
-      setLoading(false)
-    }
+   
 
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setTimeout(() => {
-        setGetData([])
+             setGetData([])
         setLoading(false)
-      }, 100)
-
-      setTimeout(() => {
+        setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
       }, 200)
     }
@@ -777,18 +769,18 @@ function Expenses({ allPageHostel_Id }) {
             <div className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
                 position: 'sticky',
-               
+
                 backgroundColor: 'white',
                 zIndex: 10,
-                
+
               }}
             >
-              <div className='d-flex align-items-center flex-wrap' style={{marginTop:-2}}>
+              <div className='d-flex align-items-center flex-wrap' style={{ marginTop: -2 }}>
                 <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative',}}>
+                <div style={{ margin: 20, position: 'relative', }}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -1103,23 +1095,23 @@ function Expenses({ allPageHostel_Id }) {
                 </div>
 
 
-                <div style={{marginTop:9}}>
-                  <Button disabled={expenceAddPermission} onClick={handleShow} 
-                  // style={{
-                  //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
-                  //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
-                  // }}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "11px 39px",
-                    paddingLeft:40
-                    
-                  }}
+                <div style={{ marginTop: 9 }}>
+                  <Button disabled={expenceAddPermission} onClick={handleShow}
+                    // style={{
+                    //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                    //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
+                    // }}
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "11px 39px",
+                      paddingLeft: 40
+
+                    }}
                   > + Expense</Button>
                 </div>
               </div>
@@ -1173,7 +1165,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {currentItems && currentItems.length > 0 ? (
+          {currentItems && currentItems.length > 0 && (
             <div className='p-3'>
               <div style={{
                 // height: "400px",
@@ -1280,14 +1272,14 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
             </div>
-          )
+          )}
 
 
-            :
+            
 
 
-            !loading &&
-
+            
+            {!loading && currentItems && currentItems.length === 0 &&
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
               <div>
@@ -1306,9 +1298,9 @@ function Expenses({ allPageHostel_Id }) {
             </div>
 
 
-          }
+          
 
-
+                }
 
 
 
@@ -1319,7 +1311,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
           {/*  Pagination code */}
-          {filteredData.length > itemsPerPage &&
+          {filteredData.length >= 5 &&
             <nav
               style={{
                 display: "flex",
@@ -1427,7 +1419,7 @@ function Expenses({ allPageHostel_Id }) {
         </div>
       }
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal = {setShowModal}/>}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal={setShowModal} />}
 
 
 

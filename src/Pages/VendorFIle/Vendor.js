@@ -22,12 +22,12 @@ function Vendor() {
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
-
+  const [itemsPerPage, setItemsPerPage] = useState(6)
   const [searchQuery, setSearchQuery] = useState('')
   const [loader, setLoader] = useState(true)
 
 
+  console.log("loader",loader)
   const [vendorrolePermission, setVendorRolePermission] = useState("");
 
   const [vendorpermissionError, setVendorPermissionError] = useState("");
@@ -472,6 +472,7 @@ function Vendor() {
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
+
             <div 
 
               style={{
@@ -636,7 +637,7 @@ function Vendor() {
               </div>
 
             </div>
-
+          
             {searchQuery && (
               <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {filteredData.length > 0 ? (
@@ -653,48 +654,16 @@ function Vendor() {
               style={{
                 maxHeight: "470px",
                 overflowY: "auto",
+             position:"relative"
               }}>
-
-              <div className='row row-gap-3'>
-                {currentItems && currentItems.map((vendor) => (
-                  <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                    <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
-                    />
-                  </div>
-                ))
-                }
-
-                {!loader && currentItems.length == 0 &&
-
-                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
-
-
-                    <div>
-                      <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-
-                    </div>
-                    <div>
-
-                    </div>
-                  </div>
-                  // <div style={{ width:"100%", fontWeight:600, fontFamily:"Gilroy" }} className='d-flex justify-content-center align-items-center fade-in'>
-                  //   <Alert variant="warning"  >
-                  //     Currently, no vendors are available.
-                  //   </Alert>
-
-                  // </div>
-                }
-                {loader &&
+   {loader &&
                   <div
                     style={{
                       position: 'absolute',
                       top: 0,
                       right: 0,
                       bottom: 0,
-                      left: '200px',
+                      left: '0px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -715,6 +684,34 @@ function Vendor() {
                     ></div>
                   </div>
                 }
+              <div className='row row-gap-3'>
+                {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
+                  <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                    <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
+                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
+                    />
+                  </div>
+                ))
+                }
+
+
+                {!loader && currentItems.length == 0 &&
+
+                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
+
+
+                    <div>
+                      <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
+                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                  </div>
+                                }
+             
 
 
 
@@ -724,25 +721,10 @@ function Vendor() {
 
             </div>
             {
-              filteredData.length > itemsPerPage &&
+              filteredData.length >= 5 &&
               <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-              // style={{
-              //   marginBottom:20,
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "end", // Align dropdown and pagination
-              //   padding: "10px",
-              //   position:"sticky",
-
-              //   right:0,
-
-
-              
-
-              // }}
-              >
-                {/* Dropdown for Items Per Page */}
-                <div>
+                           >
+                               <div>
                   <select
                     value={itemsPerPage}
                     onChange={handleItemsPerPageChange}

@@ -1665,7 +1665,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   )}
                 </div>
 
-                {electricityFilterddata?.length > electricityrowsPerPage && (
+                {electricityFilterddata?.length >= 5 && (
                   // <nav>
                   //   <ul
                   //     style={{
