@@ -1231,17 +1231,18 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                 >
                   <div
                     className="container justify-content-start  d-flex align-items-start"
-                    style={{
-                      position: "sticky",
-                      top: 0,
-                      right: 0,
-                      left: 0,
-                      zIndex: 1000,
-                      backgroundColor: "#FFFFFF",
-                      height: 60,
-                      marginLeft:'20px'
+                    style={{ 
+                      position: "sticky", 
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: "60px",
+    padding: "10px 20px", 
                     }}
                   >
+                    <div style={{position:"fixed"}}>
                     <img
                       src={leftarrow}
                       width={20}
@@ -1253,14 +1254,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       style={{
                         fontWeight: 600,
                         fontSize: "18px",
-                        marginLeft: 15,
+                        // marginLeft: 15,
                         fontFamily: "Gilroy",
                       }}
                     >
                       Customer Profile
                     </span>{" "}
+                    </div>
                   </div>
-                  <div className="card mt-1" style={{ borderRadius: "24px",marginLeft:'20px' }}>
+                  <div className="card mt-3" style={{ borderRadius: "24px",marginLeft:'20px' }}>
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image

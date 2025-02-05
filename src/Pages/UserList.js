@@ -2738,7 +2738,7 @@ console.log("FilterUsertwo",FilterUsertwo)
 
                       {
                         !loading &&
-                        currentItems && currentItems.length === 0 && (
+                        currentItems && currentItems?.length === 0 && (
                           // {currentItems?.length == 0 && (
                           <div style={{ marginTop: 28, marginLeft: "2px" }}>
                             <div style={{ textAlign: "center" }}>

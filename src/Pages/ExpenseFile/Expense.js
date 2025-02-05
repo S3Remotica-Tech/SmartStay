@@ -179,7 +179,7 @@ function Expenses({ allPageHostel_Id }) {
 
   }
 
- 
+
 
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
@@ -769,18 +769,18 @@ console.log("loading",loading)
             <div className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
                 position: 'sticky',
-               
+
                 backgroundColor: 'white',
                 zIndex: 10,
-                
+
               }}
             >
-              <div className='d-flex align-items-center flex-wrap' style={{marginTop:-2}}>
+              <div className='d-flex align-items-center flex-wrap' style={{ marginTop: -2 }}>
                 <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative',}}>
+                <div style={{ margin: 20, position: 'relative', }}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -844,7 +844,7 @@ console.log("loading",loading)
                     <SearchNormal1
                       size="26"
                       color="#222"
-                      style={{ cursor: 'pointer' ,paddingRight:10,marginTop:8}}
+                      style={{ cursor: 'pointer', paddingRight: 10, marginTop: 8 }}
                     />
                   </div>
                 }
@@ -928,7 +928,7 @@ console.log("loading",loading)
 
                 }
 
-                <div className='me-3' style={{ position: 'relative',paddingRight:10,marginTop:8 }}>
+                <div className='me-3' style={{ position: 'relative', paddingRight: 10, marginTop: 8 }}>
                   <Sort
                     Size="24"
                     color="#222"
@@ -1089,30 +1089,30 @@ console.log("loading",loading)
 
                 </div>
 
-                <div style={{ paddingRight: "23px", cursor: 'pointer',marginTop:8}}>
+                <div style={{ paddingRight: "23px", cursor: 'pointer', marginTop: 8 }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
 
-                <div style={{marginTop:9}}>
-                  <Button disabled={expenceAddPermission} onClick={handleShow} 
-                  // style={{
-                  //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
-                  //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
-                  // }}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "11px 39px",
-                    paddingLeft:40
-                    
-                  }}
+                <div style={{ marginTop: 9 }}>
+                  <Button disabled={expenceAddPermission} onClick={handleShow}
+                    // style={{
+                    //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                    //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
+                    // }}
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "11px 39px",
+                      paddingLeft: 40
+
+                    }}
                   > + Expense</Button>
                 </div>
               </div>
@@ -1273,14 +1273,14 @@ console.log("loading",loading)
 
               </div>
             </div>
-          )
+          )}
 
 
-        }
+            
 
 
-          {  !loading && currentItems.length === 0 && 
-
+            
+            {!loading && currentItems && currentItems.length === 0 &&
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
               <div>
@@ -1420,7 +1420,7 @@ console.log("loading",loading)
         </div>
       }
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal = {setShowModal}/>}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal={setShowModal} />}
 
 
 
