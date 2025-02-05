@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -1125,6 +1125,22 @@ function* handleReference_Id() {
    }
 }
 
+function* handleReceiptPdf(action) {
+   const response = yield call(ReceiptPDf, action.payload)
+   console.log("response",response);
+   
+     if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'RECEIPT_PDF', payload: {response:response.data.pdf_url , statusCode:response.status || response.statusCode
+      }})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
 
 
 function refreshToken(response){
@@ -1174,6 +1190,6 @@ function* InvoiceSaga() {
           yield takeEvery('EDIT_RECEIPTS',handleEditReceipt)
           yield takeEvery('DELETE_RECEIPT',handleDeleteReceipt)
           yield takeEvery('GET_REFERENCE_ID',handleReference_Id)
-
+          yield takeEvery('RECEIPTPDF',handleReceiptPdf)
 }
 export default InvoiceSaga;

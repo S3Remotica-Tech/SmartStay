@@ -52,7 +52,8 @@ const initialState = {
     ReferenceIdgetsuccessStatuscode: 0,
     errorAmenities: 0,
     alreadyAssignAmenitiesStatusCode: 0,
-
+    statusCodeForReceiptPDf: 0,
+    ReceiptPDF: '',
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -225,6 +226,12 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, Reference_Id: action.payload.response, ReferenceIdgetsuccessStatuscode: action.payload.statusCode } //Receipt Add
         case 'REMOVE_STATUS_CODE_REFERENCEID_GET':
             return { ...state, ReferenceIdgetsuccessStatuscode: 0 }
+
+        case 'RECEIPT_PDF':
+                return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
+        case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
+                return { ...state, statusCodeForReceiptPDf: 0 }
+            
     }
 
     return state;

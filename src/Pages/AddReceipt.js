@@ -541,17 +541,8 @@ const AddReceiptForm = (props) => {
       backgroundColor:edit? "#E7F1FF": "white"
     }}>
       <option value=''>Select Customer</option>
-      {state?.UsersList?.Users && state?.UsersList?.Users.length > 0 && state?.UsersList?.Users.filter(u => 
-       u.Bed !== 'undefined' && 
-       u.Bed !== '0' && 
-       typeof u.Bed === 'string' && 
-       u.Bed.trim() !== '' && 
-       u.Rooms !== 'undefined' && 
-       u.Rooms !== '0' && 
-       typeof u.Rooms === 'string' && 
-       u.Rooms.trim() !== '')
-      .map(u => (
-    <option value={u.ID} key={u.ID}>{u.Name}</option>
+      {state.InvoiceList.ManualInvoices && state.InvoiceList.ManualInvoices.length > 0 && state.InvoiceList.ManualInvoices.map(u => (
+    <option value={u.hos_user_id} key={u.hos_user_id}>{u.Name}</option>
   ))
 }
   </Form.Select>
@@ -661,6 +652,8 @@ const AddReceiptForm = (props) => {
         </p>
       </div>
     )}
+
+
   </Form.Group>
 </div>
 

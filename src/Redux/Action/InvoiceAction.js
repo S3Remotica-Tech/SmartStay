@@ -114,6 +114,12 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function ReceiptPDf(datum) {
+    return await AxiosConfig.post('/receipts/pdf_generate',datum, {
+      data:datum
+    })
+  }
+
   export async function InvoicePDf(datum) {
     return await AxiosConfig.post('/invoice/invoice-list-pdf',datum, {
       data:datum
