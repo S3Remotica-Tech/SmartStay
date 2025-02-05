@@ -456,25 +456,17 @@ dispatch({ type: 'CLEAR_TYPE'})
       setCategory_ID(item.category_Id || '')
       setEditsubCat(false)
       setIsSubCategory(false);
-      // setOptions((prevOptions) => 
-      //   prevOptions.map(opt => 
-      //     opt.value === item.category_Id ? { ...opt, label: item.category_Name } : opt
-      //   )
-      // ); 
-    }
+        }
     else if (item.subcategory_Id && item.cat_id) {
       setIsSubCategory(true)
       setSubType(item.subcategory)
+      setType({ value: item.cat_id, label: item.category_Name });
+      setSelectedOptions({value: item.cat_id,  label: item.category_Name })
       setSubCategory_ID(item.subcategory_Id)
       setEditsubCat(true)
     }
 
   }
-
-
-
-
-
 
 
   const handleChange = (selected) => {
@@ -962,16 +954,16 @@ console.log("selectedOptions",selectedOptions)
                         className='mb-3 me-2'
                         checked={isSubCategory}
                         onChange={() => setIsSubCategory(!isSubCategory)}
-                        style={{ width: '20px', height: '20px', border: '4px solid black', borderRadius: '4px' }}
+                        style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
                       />
-                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 15, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
+                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
                     </div>
 
                     {/* {isSubCategory && ( */}
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
 
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : 'black', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
+                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
                         <Form.Control
                           style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                           className={!isSubCategory ? 'custom-disabled' : 'white !important'}

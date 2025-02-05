@@ -68,6 +68,7 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
+  const [checkLength, setCheckLength] = useState(false);
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -215,7 +216,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
+console.log("loading",loading)
 
 
   useEffect(() => {
@@ -354,24 +355,21 @@ function Expenses({ allPageHostel_Id }) {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setLoading(false)
       setGetData(state.ExpenseList.expenseList)
-
+     
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
     }
-    else {
-      setLoading(false)
-    }
+   
 
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setGetData([])
-      setLoading(false)
-
-      setTimeout(() => {
+             setGetData([])
+        setLoading(false)
+        setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
       }, 200)
     }
@@ -1301,9 +1299,9 @@ function Expenses({ allPageHostel_Id }) {
             </div>
 
 
-          }
+          
 
-
+                }
 
 
 
@@ -1314,7 +1312,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
           {/*  Pagination code */}
-          {filteredData.length > itemsPerPage &&
+          {filteredData.length >= 5 &&
             <nav
               style={{
                 display: "flex",

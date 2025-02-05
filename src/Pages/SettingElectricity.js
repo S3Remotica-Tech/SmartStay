@@ -88,6 +88,7 @@ const SettingElectricity = ({ hostelid }) => {
       setShowPopup(true);
       return;
     }
+    setEditHostel({ id: null, name: null, editamount: null })
     setShowFormElectricity(true);
     setEdit(false)
   };
@@ -138,7 +139,7 @@ const SettingElectricity = ({ hostelid }) => {
   };
 
   const handleAddElectricity = () => {
-    if (amount === '') {
+        if (amount === '') {
       setAmountErr('Please Enter Amount');
       return;
     }
@@ -148,12 +149,18 @@ const SettingElectricity = ({ hostelid }) => {
       return;
     }
 
+
+
+
     if (edit && editHostel && amount !== '') {
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
         payload: { hostel_id: editHostel.id, unit: 1, amount: Number(amount) },
       });
-    } else if (!edit && unit !== '' && amount !== '') {
+    } else if (!edit &&  amount !== '') {
+
+console.log("called")
+
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
         payload: { hostel_id: hostelid, unit: 1, amount: Number(amount) },
