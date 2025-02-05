@@ -15,7 +15,7 @@ function AssignBooking(props) {
 
   const dispatch = useDispatch();
 
-console.log("props",props)
+  console.log("props", props)
 
 
   const [firstName, setFirstName] = useState('');
@@ -58,7 +58,7 @@ console.log("props",props)
 
 
   useEffect(() => {
-    dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
+    dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING' })
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostalId } })
   }, [])
 
@@ -71,7 +71,7 @@ console.log("props",props)
 
   const handleAssignClose = () => {
     props.setModalType(false)
-dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
+    dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING' })
     setFloor('')
     setRoom('')
     setBed('')
@@ -428,7 +428,7 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
       payload: { floor_Id: floorId, hostel_Id: hostalId },
     });
   };
-  
+
   const handleRoom = (selectedOption) => {
     // const selectedRoomId = e.target.value;
     const selectedRoomId = selectedOption?.value;
@@ -480,7 +480,7 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
     setBed(selectedOption?.value); // Update the bed state with the selected bed ID
     setBedError(""); // Clear any existing error
   };
-  
+
 
   // const handleBed = (e) => {
   //   setBed(e.target.value);
@@ -554,10 +554,10 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
         <Modal.Header className="d-flex justify-content-between">
           <Modal.Title style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}>Move to Check-In</Modal.Title>
-       
-          <label style={{color:"#1E45E1", fontSize: 18, fontFamily: "Gilroy", fontWeight: 600, textTransform:"capitalize"}}>{props?.assignBooking.first_name}</label>
-       
-         <CloseCircle
+
+          <label style={{ color: "#1E45E1", fontSize: 18, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize" }}>{props?.assignBooking.first_name}</label>
+
+          <CloseCircle
             size="32"
             color="#222222"
             onClick={handleAssignClose}
@@ -570,21 +570,21 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
         </Modal.Header>
 
-       
+
         {state.Booking?.ErrorAssignBooking && (
-                <div style={{ color: "#D32F2F" }} className='ps-3 pt-3'>
-                  <MdError />
-                  <span style={{ color: "#D32F2F", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>
-  This email <span style={{ color: "#1E45E1" }}>{props?.assignBooking.email_id}</span> already exists. Please change email ID and move to check in
-</span>
-                </div>
-              )}
+          <div style={{ color: "#D32F2F" }} className='ps-3 pt-3'>
+            <MdError />
+            <span style={{ color: "#D32F2F", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>
+              This email <span style={{ color: "#1E45E1" }}>{props?.assignBooking.email_id}</span> already exists. Please change email ID and move to check in
+            </span>
+          </div>
+        )}
 
         <Modal.Body>
-          <Row>
+          <Row className='mb-3'>
 
             <Col md={6}>
-              <Form.Group className="mb-2" controlId="formFloor">
+              <Form.Group controlId="formFloor">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -594,94 +594,103 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
                   }}
                 >
                   Floor
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
 
                 <Select
-  options={
-    state?.UsersList?.hosteldetailslist?.map((item) => ({
-      value: item.floor_id,
-      label: item.floor_name,
-    })) || []
-  }
-  onChange={(selectedOption) => handleFloor(selectedOption?.value)}
-  value={
-    state?.UsersList?.hosteldetailslist
-      ?.map((item) => ({
-        value: item.floor_id,
-        label: item.floor_name,
-      }))
-      .find((option) => option.value === floor) || null
-  }
-  placeholder="Select Floor"
-  classNamePrefix="custom-select"
-  menuPlacement="auto"
-  styles={{
-    control: (base) => ({
-      ...base,
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      border: "1px solid #D9D9D9",
-      height: "50px",
-      borderRadius: "8px",
-    }),
-    menu: (base) => ({
-      ...base,
-      maxHeight: "150px", // Limit the height of the dropdown
-      overflowY: "auto", // Enable vertical scrolling
-      border: "1px solid #D9D9D9",
-      zIndex: 1000, // Ensure the dropdown appears above other content
-      scrollbarWidth: "thin",
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "150px", // Max height for the list of options
-      padding: 0,
-      overflowY: "auto", // Allow scrolling within the list
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      height: "auto", // Allow the height to be dynamic based on content
-      padding: "3px 10px", // Padding for better spacing
-      fontSize: "16px",
-      backgroundColor: isSelected
-        ? "#007bff" // Selected background color
-        : isFocused
-        ? "#e9ecef" // Focused background color
-        : "white", // Default background color
-      color: isSelected ? "white" : "#000", // Text color
-      cursor: "pointer", // Pointer cursor for better UX
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                  options={
+                    state?.UsersList?.hosteldetailslist?.map((item) => ({
+                      value: item.floor_id,
+                      label: item.floor_name,
+                    })) || []
+                  }
+                  onChange={(selectedOption) => handleFloor(selectedOption?.value)}
+                  value={
+                    state?.UsersList?.hosteldetailslist
+                      ?.map((item) => ({
+                        value: item.floor_id,
+                        label: item.floor_name,
+                      }))
+                      .find((option) => option.value === floor) || null
+                  }
+                  placeholder="Select Floor"
+                  classNamePrefix="custom-select"
+                  menuPlacement="auto"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      fontSize: "16px",
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: "50px",
+                      borderRadius: "8px",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Limit the height of the dropdown
+                      overflowY: "auto", // Enable vertical scrolling
+                      border: "1px solid #D9D9D9",
+                      zIndex: 1000, // Ensure the dropdown appears above other content
+                      scrollbarWidth: "thin",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Max height for the list of options
+                      padding: 0,
+                      overflowY: "auto", // Allow scrolling within the list
+                    }),
+                    option: (base, { isFocused, isSelected }) => ({
+                      ...base,
+                      height: "auto", // Allow the height to be dynamic based on content
+                      padding: "3px 10px", // Padding for better spacing
+                      fontSize: "16px",
+                      backgroundColor: isSelected
+                        ? "#007bff" // Selected background color
+                        : isFocused
+                          ? "#e9ecef" // Focused background color
+                          : "white", // Default background color
+                      color: isSelected ? "white" : "#000", // Text color
+                      cursor: "pointer", // Pointer cursor for better UX
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      display: "inline-block",
+                      fill: "currentColor",
+                      lineHeight: 1,
+                      stroke: "currentColor",
+                      strokeWidth: 0,
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                  }}
+                />
 
               </Form.Group>
 
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
                 </div>
               )}
             </Col>
 
 
             <Col md={6}>
-              <Form.Group className="mb-2" controlId="formRoom">
+              <Form.Group controlId="formRoom">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -691,93 +700,102 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
                   }}
                 >
                   Room
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
-               
+
 
                 <Select
-  options={
-    state?.PgList?.roomCount?.map((item) => ({
-      value: item.Room_Id,
-      label: item.Room_Name,
-    })) || []
-  }
-  onChange={handleRoom}  // Pass selected option object to handleRoom
-  value={
-    state?.PgList?.roomCount
-      ?.map((item) => ({
-        value: item.Room_Id,
-        label: item.Room_Name,
-      }))
-      .find((option) => option.value === room) || null
-  }
-  placeholder="Select a Room"
-  styles={{
-    control: (base) => ({
-      ...base,
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      border: "1px solid #D9D9D9",
-      height: "50px",
-      borderRadius: "8px",
-    }),
-    menu: (base) => ({
-      ...base,
-      maxHeight: "150px", // Limit dropdown height
-      overflowY: "auto", // Enable vertical scrolling
-      border: "1px solid #D9D9D9",
-      zIndex: 1000, // Ensure the dropdown appears above other content
-      scrollbarWidth: "thin",
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "150px", // Max height for the list of options
-      padding: 0,
-      overflowY: "auto", // Allow scrolling within the list
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      height: "auto", // Allow the height to be dynamic based on content
-      padding: "3px 10px", // Padding for better spacing
-      fontSize: "16px",
-      backgroundColor: isSelected
-        ? "#007bff" // Selected background color
-        : isFocused
-        ? "#e9ecef" // Focused background color
-        : "white", // Default background color
-      color: isSelected ? "white" : "#000", // Text color
-      cursor: "pointer", // Pointer cursor for better UX
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                  options={
+                    state?.PgList?.roomCount?.map((item) => ({
+                      value: item.Room_Id,
+                      label: item.Room_Name,
+                    })) || []
+                  }
+                  onChange={handleRoom}  // Pass selected option object to handleRoom
+                  value={
+                    state?.PgList?.roomCount
+                      ?.map((item) => ({
+                        value: item.Room_Id,
+                        label: item.Room_Name,
+                      }))
+                      .find((option) => option.value === room) || null
+                  }
+                  placeholder="Select a Room"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      fontSize: "16px",
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: "50px",
+                      borderRadius: "8px",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Limit dropdown height
+                      overflowY: "auto", // Enable vertical scrolling
+                      border: "1px solid #D9D9D9",
+                      zIndex: 1000, // Ensure the dropdown appears above other content
+                      scrollbarWidth: "thin",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Max height for the list of options
+                      padding: 0,
+                      overflowY: "auto", // Allow scrolling within the list
+                    }),
+                    option: (base, { isFocused, isSelected }) => ({
+                      ...base,
+                      height: "auto", // Allow the height to be dynamic based on content
+                      padding: "3px 10px", // Padding for better spacing
+                      fontSize: "16px",
+                      backgroundColor: isSelected
+                        ? "#007bff" // Selected background color
+                        : isFocused
+                          ? "#e9ecef" // Focused background color
+                          : "white", // Default background color
+                      color: isSelected ? "white" : "#000", // Text color
+                      cursor: "pointer", // Pointer cursor for better UX
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      display: "inline-block",
+                      fill: "currentColor",
+                      lineHeight: 1,
+                      stroke: "currentColor",
+                      strokeWidth: 0,
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                  }}
+                />
 
-               
+
               </Form.Group>
               {roomError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
+                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
 
             </Col>
           </Row>
 
-          <Row>
+          <Row className='mb-3'>
 
             <Col md={6}>
               <Form.Group className="mb-2" controlId="formBed">
@@ -790,94 +808,103 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
                   }}
                 >
                   Bed
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {" "}
+                    *{" "}
+                  </span>
                 </Form.Label>
 
                 <Select
-  options={
-    state.Booking?.availableBedBooking?.bed_details
-      ?.filter(
-        (item) =>
-          item.bed_no !== "0" &&
-          item.bed_no !== "undefined" &&
-          item.bed_no !== "" &&
-          item.bed_no !== "null"
-      )
-      ?.map((item) => ({
-        value: item.id, // Bed ID as the value
-        label: item.bed_no, // Bed number as the label
-      })) || []
-  }
-  onChange={handleBed} // Pass the selected option object to handleBed
-  value={
-    state.Booking?.availableBedBooking?.bed_details
-      ?.filter(
-        (item) =>
-          item.bed_no !== "0" &&
-          item.bed_no !== "undefined" &&
-          item.bed_no !== "" &&
-          item.bed_no !== "null"
-      )
-      ?.map((item) => ({
-        value: item.id,
-        label: item.bed_no,
-      }))
-      .find((option) => option.value === bed) || null
-  }
-  placeholder="Select a Bed"
-  classNamePrefix="custom-select"
-  styles={{
-    control: (base) => ({
-      ...base,
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      border: "1px solid #D9D9D9",
-      height: "50px",
-      borderRadius: "8px",
-    }),
-    menu: (base) => ({
-      ...base,
-      maxHeight: "150px", // Limit dropdown height
-      overflowY: "auto", // Enable vertical scrolling
-      border: "1px solid #D9D9D9",
-      zIndex: 1000, // Ensure the dropdown appears above other content
-      scrollbarWidth: "thin",
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "150px", // Max height for the list of options
-      padding: 0,
-      overflowY: "auto", // Allow scrolling within the list
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      height: "auto", 
-      padding: "3px 10px",
-      fontSize: "16px",
-      backgroundColor: isSelected
-        ? "#007bff" // Selected background color
-        : isFocused
-        ? "#e9ecef" // Focused background color
-        : "white", // Default background color
-      color: isSelected ? "white" : "#000", // Text color
-      cursor: "pointer",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                  options={
+                    state.Booking?.availableBedBooking?.bed_details
+                      ?.filter(
+                        (item) =>
+                          item.bed_no !== "0" &&
+                          item.bed_no !== "undefined" &&
+                          item.bed_no !== "" &&
+                          item.bed_no !== "null"
+                      )
+                      ?.map((item) => ({
+                        value: item.id, // Bed ID as the value
+                        label: item.bed_no, // Bed number as the label
+                      })) || []
+                  }
+                  onChange={handleBed} // Pass the selected option object to handleBed
+                  value={
+                    state.Booking?.availableBedBooking?.bed_details
+                      ?.filter(
+                        (item) =>
+                          item.bed_no !== "0" &&
+                          item.bed_no !== "undefined" &&
+                          item.bed_no !== "" &&
+                          item.bed_no !== "null"
+                      )
+                      ?.map((item) => ({
+                        value: item.id,
+                        label: item.bed_no,
+                      }))
+                      .find((option) => option.value === bed) || null
+                  }
+                  placeholder="Select a Bed"
+                  classNamePrefix="custom-select"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      fontSize: "16px",
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: "50px",
+                      borderRadius: "8px",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Limit dropdown height
+                      overflowY: "auto", // Enable vertical scrolling
+                      border: "1px solid #D9D9D9",
+                      zIndex: 1000, // Ensure the dropdown appears above other content
+                      scrollbarWidth: "thin",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      maxHeight: "150px", // Max height for the list of options
+                      padding: 0,
+                      overflowY: "auto", // Allow scrolling within the list
+                    }),
+                    option: (base, { isFocused, isSelected }) => ({
+                      ...base,
+                      height: "auto",
+                      padding: "3px 10px",
+                      fontSize: "16px",
+                      backgroundColor: isSelected
+                        ? "#007bff" // Selected background color
+                        : isFocused
+                          ? "#e9ecef" // Focused background color
+                          : "white", // Default background color
+                      color: isSelected ? "white" : "#000", // Text color
+                      cursor: "pointer",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                  }}
+                />
 
                 {bedError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>
+                    <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                    <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>
                   </div>
                 )}
 
@@ -889,11 +916,11 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
             <Col md={6}>
 
-              <Form.Group className="mb-2" controlId="joiningDate">
+              <Form.Group controlId="joiningDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Joining_Date
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                <div style={{ position: 'relative', width: "100%", marginTop: 7 }}>
                   <DatePicker
                     selected={joiningDate}
                     onChange={(date) => {
@@ -911,9 +938,10 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
               </Form.Group>
               {dateError && (
+
                 <div style={{ color: "red" }}>
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}><MdError /></span>
-                  {dateError}
+                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
             </Col>
@@ -989,8 +1017,8 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
               </Form.Group>
               {rentError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{rentError}</span>
+                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{rentError}</span>
                 </div>
               )}
             </Col>
@@ -1003,7 +1031,7 @@ dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING'})
 
           </Row>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ borderTop: "none" }}>
           <Button
             onClick={handleSubmit}
             variant="primary"

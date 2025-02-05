@@ -5837,7 +5837,7 @@ newRows.every((row, index) => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {startdateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px",marginBottom:"3px" }} />
                     )}{" "}
                     {startdateerrmsg}
                   </p>
@@ -5887,7 +5887,7 @@ newRows.every((row, index) => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {enddateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px",marginBottom:"3px" }} />
                     )}{" "}
                     {enddateerrmsg}
                   </p>
@@ -6144,7 +6144,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
               <div>
                 <p style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
                   {allfielderrmsg !== " " && (
-                    <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy"}} />
+                    <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy",marginRight:"5px",marginBottom:"3px"}} />
                   )}{" "}
                   {allfielderrmsg}
                 </p>
@@ -6155,7 +6155,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 {tableErrmsg && (
 
               <div style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
-                  <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy"}} /> {tableErrmsg}
+                  <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy",marginRight:"5px",marginBottom:"3px"}} /> {tableErrmsg}
               </div>
             )}
 </div>

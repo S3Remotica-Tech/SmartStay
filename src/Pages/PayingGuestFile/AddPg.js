@@ -486,22 +486,7 @@ useEffect(() => {
           </div>
         )}
 
-        {isChangedError && (
-          <div className="d-flex align-items-center p-1 mt-2 mb-2">
-            <MdError style={{ color: "red", marginRight: "5px" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {isChangedError}
-            </label>
-          </div>
-        )}
+       
         <Modal.Body>
           <div className="d-flex align-items-center">
             <div
@@ -606,12 +591,12 @@ useEffect(() => {
 
               {pgNameError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -684,12 +669,12 @@ useEffect(() => {
 
               {countryCodeError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "14px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -701,12 +686,12 @@ useEffect(() => {
 
               {mobileError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "15px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -719,7 +704,6 @@ useEffect(() => {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group
-                className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label
@@ -747,19 +731,19 @@ useEffect(() => {
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
-                    marginTop:4
+                    marginTop:6
                   }}
                 />
               </Form.Group>
 
               {emailError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "15px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -804,12 +788,12 @@ useEffect(() => {
 
               {locationError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "14px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1000,7 +984,23 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
-        <Modal.Footer style={{ border: "none" }}>
+        <Modal.Footer className="d-flex align-items-center justify-content-center" style={{ border: "none" }}>
+        {isChangedError && (
+          <div className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
+            <MdError style={{ color: "red", marginRight: "5px" }} />
+            <label
+              className="mb-0"
+              style={{
+                color: "red",
+                fontSize: "12px",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}
+            >
+              {isChangedError}
+            </label>
+          </div>
+        )}
           <Button
             onClick={handleCreatePayingGuest}
             className="w-100"
@@ -1016,7 +1016,7 @@ useEffect(() => {
             {currentItem ? "Save Changes" : "Add Paying Guest"}
           </Button>
         </Modal.Footer>
-        {/* </Modal.Dialog> */}
+      
       </Modal>
     </div>
   );

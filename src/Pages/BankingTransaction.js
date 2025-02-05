@@ -370,8 +370,8 @@ function BankingEditTransaction(props) {
               </Form.Select>
               {accountError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span>
+                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span>
                 </div>
               )}
             </div>
@@ -412,14 +412,14 @@ function BankingEditTransaction(props) {
 
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -451,8 +451,8 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
+                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
                 </div>
               )}
             </div>
@@ -507,13 +507,13 @@ function BankingEditTransaction(props) {
               </Form.Select>
               {transError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span>
+                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
+                  <span style={{fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span>
                 </div>
               )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group>
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -545,19 +545,20 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {describtionError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span>
+                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
+                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
-        {error && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            {error}
-          </div>
-        )}
+        
+         {error && (
+                  <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+                    <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
+                    <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+                  </div>
+                )}
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
