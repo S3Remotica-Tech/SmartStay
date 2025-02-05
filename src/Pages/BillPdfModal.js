@@ -340,6 +340,7 @@ console.log("Bill Row Data:",rowData);
       color: "#000000",
       fontFamily: "Gilroy",}}>
         {/* {rowData?.start_date} */} 
+        
         {moment(rowData?.start_date).format('DD MMM YYYY')}
       </label>
       </div>
