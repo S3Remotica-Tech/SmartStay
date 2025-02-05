@@ -178,7 +178,7 @@ function Expenses({ allPageHostel_Id }) {
 
   }
 
- 
+
 
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
@@ -352,13 +352,9 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList)
+      setLoading(false)
+      setGetData(state.ExpenseList.expenseList)
 
-        setLoading(false)
-
-
-      }, 500)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
@@ -372,10 +368,8 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setTimeout(() => {
-        setGetData([])
-        setLoading(false)
-      }, 100)
+      setGetData([])
+      setLoading(false)
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
@@ -777,18 +771,18 @@ function Expenses({ allPageHostel_Id }) {
             <div className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
                 position: 'sticky',
-               
+
                 backgroundColor: 'white',
                 zIndex: 10,
-                
+
               }}
             >
-              <div className='d-flex align-items-center flex-wrap' style={{marginTop:-2}}>
+              <div className='d-flex align-items-center flex-wrap' style={{ marginTop: -2 }}>
                 <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative',}}>
+                <div style={{ margin: 20, position: 'relative', }}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -852,7 +846,7 @@ function Expenses({ allPageHostel_Id }) {
                     <SearchNormal1
                       size="26"
                       color="#222"
-                      style={{ cursor: 'pointer' ,paddingRight:10,marginTop:8}}
+                      style={{ cursor: 'pointer', paddingRight: 10, marginTop: 8 }}
                     />
                   </div>
                 }
@@ -936,7 +930,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 }
 
-                <div className='me-3' style={{ position: 'relative',paddingRight:10,marginTop:8 }}>
+                <div className='me-3' style={{ position: 'relative', paddingRight: 10, marginTop: 8 }}>
                   <Sort
                     Size="24"
                     color="#222"
@@ -1097,30 +1091,30 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "23px", cursor: 'pointer',marginTop:8}}>
+                <div style={{ paddingRight: "23px", cursor: 'pointer', marginTop: 8 }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
 
-                <div style={{marginTop:9}}>
-                  <Button disabled={expenceAddPermission} onClick={handleShow} 
-                  // style={{
-                  //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
-                  //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
-                  // }}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "11px 39px",
-                    paddingLeft:40
-                    
-                  }}
+                <div style={{ marginTop: 9 }}>
+                  <Button disabled={expenceAddPermission} onClick={handleShow}
+                    // style={{
+                    //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                    //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
+                    // }}
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "11px 39px",
+                      paddingLeft: 40
+
+                    }}
                   > + Expense</Button>
                 </div>
               </div>
@@ -1174,7 +1168,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {currentItems && currentItems.length > 0 ? (
+          {currentItems && currentItems.length > 0 && (
             <div className='p-3'>
               <div style={{
                 // height: "400px",
@@ -1281,14 +1275,14 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
             </div>
-          )
+          )}
 
 
-            :
+            
 
 
-            !loading &&
-
+            
+            {!loading && currentItems && currentItems.length === 0 &&
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
               <div>
@@ -1428,7 +1422,7 @@ function Expenses({ allPageHostel_Id }) {
         </div>
       }
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal = {setShowModal}/>}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal={setShowModal} />}
 
 
 
