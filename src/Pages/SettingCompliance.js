@@ -26,8 +26,7 @@ function SettingCompliance({ hostelid }) {
     const [showEditForm, setShowEditForm] = useState(false);
     const [loading, setLoading] = useState(true)
     const [showDots, setShowDots] = useState(false);
-
-
+    const [menuLoaded, setMenuLoaded] = useState(false);
 
 
     const handleDeleteClick = () => {
@@ -59,6 +58,7 @@ function SettingCompliance({ hostelid }) {
         }, []);
     
     const handleShowDots = (e, row, index) => {
+        e.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
         setRowDetails(row)
             const rect = e.currentTarget.getBoundingClientRect();
@@ -69,6 +69,8 @@ function SettingCompliance({ hostelid }) {
                 top: rect.top + window.scrollY + 10,
                 left: rect.left + window.scrollX - 594,
             });
+           
+                setMenuLoaded(true);
     };
 
     const handleClickOutside = (event) => {
@@ -321,7 +323,7 @@ if(state.Settings.errorCompliants){
                                                             {u.complaint_name}
                                                         </span>
                                                     </div>
-                                                    <button className="btn p-2">
+                                                    <button className="btn p-2 border-0 bg-transparent">
                                                         <img src={round} width={34} height={34} alt="Menu Icon"
                                                             onClick={(e) => handleShowDots(e, u, i)}
                                                         />
@@ -329,7 +331,7 @@ if(state.Settings.errorCompliants){
                                                 </div>
 
                                                 {/* {activeRow && showDots === i && ( */}
-                                                { showDots === i && (
+                                                { showDots === i &&  menuLoaded && (
                                                     <div
                                                         ref={popupRef}
                                                         className="position-absolute"

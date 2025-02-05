@@ -1272,6 +1272,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
+                                    paddingRight: "5px",
                                     textAlign: "start",
                                   }}
                                 >
@@ -1315,6 +1316,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
+                                paddingLeft:"15px",
                               }}
                             >
                               Date
@@ -1328,6 +1330,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
+                                
+                                
                               }}
                             >
                               Units
@@ -1345,7 +1349,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 14,
@@ -1397,6 +1401,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                       fontFamily: "Gilroy",
                                       cursor: "pointer",
                                       paddingTop: 10,
+                                      textAlign: "start",
                                     }}
                                   >
                                     {v.Name}
@@ -1429,8 +1434,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                   <span
                                     style={{
                                       paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
+                                      paddingLeft: "12px",
+                                      paddingRight: "12px",
                                       paddingBottom: "3px",
                                       borderRadius: "60px",
                                       backgroundColor: "#FFEFCF",
@@ -1438,6 +1443,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                       fontSize: "14px",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
+                                      verticalAlign: "middle",
                                     }}
                                   >
                                     {v.HostelName}
@@ -1497,10 +1503,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 </td>
                                 <td
                                   style={{
-                                    // textAlign: "start",
-                                    // verticalAlign: "middle",
-                                    // borderBottom: "none",
-                                    padding: "10px",
+                                    paddingTop: "15px",
                                     border: "none",
                                     textAlign: "start",
                                     fontSize: "16px",
@@ -1513,15 +1516,6 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 >
                                   <span
                                     style={{
-                                      // backgroundColor: "#EBEBEB",
-                                      // paddingTop: "5px",
-                                      // paddingLeft: "16px",
-                                      // paddingRight: "16px",
-                                      // paddingBottom: "5px",
-                                      // borderRadius: "60px",
-                                      // fontSize: "14px",
-                                      // fontWeight: 500,
-                                      // fontFamily: "Gilroy",
                                       paddingTop: "5px",
                                       paddingLeft: "16px",
                                       paddingRight: "16px",

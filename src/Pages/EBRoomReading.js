@@ -685,7 +685,7 @@ function EBRoomReading(props) {
                             textAlign: "start",
                           }}
                         >
-                          Dated
+                          Date
                         </th>
                         <th
                           style={{

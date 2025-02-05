@@ -721,16 +721,21 @@ function Banking() {
                     className="card mx-2"
                     style={{
                       minWidth: "280px",
+                      border: "1px, solid, #ddd",
                       borderRadius: "12px",
-                      overflow: "visible",
+                      overflow: "hidden",
                       height: 187,
-                      position: "relative",
+                      position: "relative", 
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      
                     }}
                   >
                     {/* Card Body */}
                     <div
                       className="card-body"
-                      style={{ overflowY: "auto", scrollBehavior: "smooth" }}
+                      style={{ overflowY: "auto", scrollBehavior: "smooth"}}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
