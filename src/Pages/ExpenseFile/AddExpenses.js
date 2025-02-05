@@ -545,24 +545,9 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
           </Modal.Header>
 
-          {currentItem && isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
-            </div>
-          )}
+          
 
-          {/* {generalError && (
+          {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
@@ -577,7 +562,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 {generalError}
               </label>
             </div>
-          )} */}
+          )}
 
           <Modal.Body style={{ padding: 20 }}>
             <div className="row mt-1">
@@ -1077,6 +1062,22 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
               </div>
             </div>
           </Modal.Body>
+          {currentItem && isChangedError && (
+            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "13px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </label>
+            </div>
+          )}
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
               onClick={handleAddExpenses}

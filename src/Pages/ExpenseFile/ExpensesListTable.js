@@ -478,25 +478,7 @@ function ExpensesListTable(props) {
       </Modal.Header>
 
 
-          {
-            assetnameerror &&
-
-
-            <div className="d-flex align-items-center p-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {assetnameerror}
-              </label>
-            </div>
-          }
+         
           <Modal.Body>
         <div style={{ marginTop: 10, width: "100%" }}>
           <label className='mb-1'
@@ -549,7 +531,25 @@ function ExpensesListTable(props) {
                 adding an expense.
               </label>
             )}
-            
+             {
+            assetnameerror &&
+
+
+            <div className="d-flex align-items-center justify-content-center p-2">
+              <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {assetnameerror}
+              </label>
+            </div>
+          }
           <Button
             style={{
               marginTop: 15,

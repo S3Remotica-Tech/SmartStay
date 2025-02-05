@@ -585,8 +585,8 @@ if(checkOutDate){
               />
 
               {customerWError && (
-                <div className="d-flex align-items-center p-1 mb-2 mt-1">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px',fontSize:"12px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {customerWError}
                   </label>
@@ -599,62 +599,7 @@ if(checkOutDate){
 }
 
 
-          {/* <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
-            <label htmlFor="check-out-date" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Check-out Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
-            <div className='position-relative'>
-              <input
-                type="text"
-                readOnly
-
-                className="form-control mt-2"
-                placeholder="DD-MM-YYYY"
-                value={checkOutDate}
-                onClick={() => calendarRef.current.flatpickr.open()}
-                style={{ fontSize: 16, height: '50px', borderRadius: '8px', width: '220px', color: checkOutDate ? "#222" : "#4B4B4B", fontWeight: checkOutDate ? 600 : 500 }}
-              />
-              <img
-                src={Calender}
-                onClick={() => calendarRef.current.flatpickr.open()}
-                style={{
-                  position: 'absolute',
-                  right: '20px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  cursor: 'pointer'
-                }}
-                alt="Calendar Icon"
-              />
-              <Flatpickr
-                ref={calendarRef}
-                onChange={handleDateChange}
-                options={{
-                  dateFormat: "Y-m-d",
-                  minDate: "today"
-                }}
-                style={{
-                  display: 'none',
-                  padding: 15,
-                  fontSize: 16,
-                  width: "100%",
-                  borderRadius: 8,
-                  border: "1px solid #D9D9D9",
-                  position: 'absolute',
-                  top: 100,
-                  left: 100,
-                  zIndex: 1000,
-                }}
-              />
-            </div>
-            {checkoUtDateError && (
-              <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  {checkoUtDateError}
-                </label>
-              </div>
-            )}
-
-          </div> */}
+        
 
 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
@@ -774,7 +719,7 @@ if(checkOutDate){
             </Form.Group>
             {checkoUtDateError && (
               <div className="d-flex align-items-center p-1"style={{marginTop:"-6px" }}>
-                <MdError style={{ color: "red", marginRight: '5px'}} />
+                <MdError style={{ color: "red", marginRight: '5px',fontSize: "12px"}} />
                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {checkoUtDateError}
                 </label>
@@ -812,7 +757,7 @@ if(checkOutDate){
             </Form.Group>
             {checkoUtrequestDateError && (
               <div className="d-flex align-items-center p-1 mb-2"style={{marginTop:"-6px" }}>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <MdError style={{ color: "red", marginRight: '5px', fontSize: "12px" }} />
                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {checkoUtrequestDateError}
                 </label>
@@ -927,21 +872,6 @@ if(checkOutDate){
 
 
 
-
-         
-
-
-
-
-          {/* <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
-            <label htmlFor="notice-days" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Notice Days</label>
-            <Form.Group controlId="notice-days" style={{ border: "1px solid #D9D9D9", borderRadius: '8px', marginTop: '10px' }}>
-              <Form.Control
-                disabled
-                value={noticeDays}
-                type="text" placeholder="" style={{ fontSize: 16, color: "#222", fontFamily: "Gilroy", fontWeight: 600, boxShadow: "none", border: "1px solid #ced4da", height: 50, borderRadius: 8 }} />
-            </Form.Group>
-          </div> */}
 
 
           <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>

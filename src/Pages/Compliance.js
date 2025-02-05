@@ -1364,7 +1364,7 @@ const handleFilterd = () => {
                               }}>&times;</span>
                             </button>
 
-                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : ""}</Modal.Title> */}
                           </Modal.Header>
                         </div>
 

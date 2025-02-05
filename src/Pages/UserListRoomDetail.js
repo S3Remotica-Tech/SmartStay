@@ -409,7 +409,7 @@ function UserListRoomDetail(props) {
     if (isValidMobileNo && e.target.value.length === 10) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid mobile number");
     }
     setPhoneErrorMessage("");
     setFormError("");
@@ -694,7 +694,7 @@ function UserListRoomDetail(props) {
       setHostelIdError("Please select a valid PG"); // Set the error message if not already set
       return;
     }
-    if (phoneError === "Invalid mobile number *") {
+    if (phoneError === "Invalid mobile number") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
       return;
     } else {
@@ -2388,6 +2388,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       fontSize: 20,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
+                                      marginTop:8
                                     }}
                                   >
                                     Edit Customer
@@ -2500,7 +2501,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 </div>
 
                                 <div className="row mt-4">
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  mb-2">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2540,13 +2541,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {firstnameError && (
-                                      <div style={{ color: "red" }}>
+                                      <div style={{ marginTop:"-15px",color: "red" }}>
                                         {" "}
-                                        <MdError style={{}} />
+                                        <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }} />
                                         <span
                                           style={{
-                                            fontSize: "12px",
-                                            color: "red",
+                                            fontSize: "13px",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                           }}
@@ -2556,7 +2556,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </div>
                                     )}
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2567,15 +2567,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Last Name{" "}
-                                        <span
-                                          style={{
-                                            color: "transparent",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
+                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2592,13 +2584,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
+                                          marginTop:6
                                         }}
                                       />
                                     </Form.Group>
                                   </div>
 
                                   <div
-                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2"
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Group>
@@ -2641,23 +2634,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                             paddingRight: 10,
                                           }}
                                         >
-                                          {/* {state.UsersList?.countrycode?.country_codes?.map(
-                                            (item) => {
-
-                                              return (
-                                               
-                                                (
-                                                  <>
-                                                    <option
-                                                      value={item.country_code}
-                                                    >
-                                                      +{item.country_code}
-                                                    </option>
-                                                  </>
-                                                )
-                                              );
-                                            }
-                                          )} */}
+                                         
 
                                           <option> +{countryCode}</option>
                                         </Form.Select>
@@ -2691,14 +2668,24 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       ></p>
                                       {phoneError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
-                                          {phoneError}
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
+                                          <span
+                                            style={{
+                                              fontSize: "13px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {phoneError}
+                                          </span>
+                                         
                                         </div>
                                       )}
                                       {phonenumError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2712,8 +2699,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         </div>
                                       )}
                                       {phoneErrorMessage && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2728,7 +2715,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                     </Form.Group>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2739,15 +2726,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Email Id{" "}
-                                        <span
-                                          style={{
-                                            color: "transparent",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
+                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2765,6 +2744,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
+                                          marginTop:6
                                         }}
                                       />
 
@@ -2827,7 +2807,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Address{" "}
-                                        <span
+                                        {/* <span
                                           style={{
                                             color: "red",
                                             fontSize: "20px",
@@ -2835,7 +2815,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         >
                                           {" "}
                                           *{" "}
-                                        </span>
+                                        </span> */}
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2919,11 +2899,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   </div> */}
                                 </div>
                                 {formError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
+                                  <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+                                    <MdError style={{marginRight:"5px"}}/>
                                     <span
                                       style={{
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         color: "red",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
@@ -3058,7 +3038,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Select>
                                     {floorError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3127,7 +3107,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Select>
                                     {roomError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3213,7 +3193,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                                     {bedError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3280,8 +3260,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
 
                                     {dateError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
+                                      <div style={{ color: "red",marginTop:"-7px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3337,7 +3317,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
                                     {advanceAmountError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3390,8 +3370,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {roomrentError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
+                                      <div style={{ color: "red",marginTop:"-15px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",

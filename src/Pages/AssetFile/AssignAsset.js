@@ -350,32 +350,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                         )}
 
                         <div className='row mt-1'>
-                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: pglist ? 600 : 500 }}>
-                                        <option value="" disabled>Select a PG</option>
-                                        {
-                                            state.UsersList?.hostelList?.map((item) => {
-                                                return (
-                                                    <>
-                                                        <option key={item.id} value={item.id}>{item.Name}</option>
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                    </Form.Select>
-                                </Form.Group>
-                                {pglistError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {pglistError}
-                                </label>
-                            </div>
-                        )}
-
-                            </div> */}
+                           
 
                             <div className='col-lg-12 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
@@ -413,7 +388,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
 
                                 {floorError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <MdError style={{ color: "red", marginRight: '5px',fontSize:"13px" }} />
                                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                             {floorError}
                                         </label>
@@ -422,7 +397,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                <Form.Group  controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Select
                                         aria-label="Select a room"
@@ -453,93 +428,16 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                                 </Form.Group>
                                 {roomError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <MdError style={{ color: "red", marginRight: '5px',fontSize:"13px" }} />
                                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                             {roomError}
                                         </label>
                                     </div>
                                 )}
                             </div>
-                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
-                                    <div style={{ position: 'relative' }}>
-                                        <label
-                                            htmlFor="date-input"
-                                            style={{
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                                padding: 12,
-                                                fontSize: 14,
-                                                fontFamily: "Gilroy",
-                                                fontWeight: selectedDate ? 600 : 500,
-                                                color: "#222222",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                            onClick={() => {
-                                                if (calendarRef.current) {
-                                                    calendarRef.current.flatpickr.open();
-                                                }
-                                            }}
-                                        >
-                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                                        </label>
-                                        <Flatpickr
-                                            ref={calendarRef}
-                                            options={options}
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            className='d-none d-sm-none d-md-none'
-                                            style={{
-                                                padding: 10,
-                                                fontSize: 16,
-                                                width: "100%",
-                                                borderRadius: 8,
-                                                border: "1px solid #D9D9D9",
-                                                position: 'absolute',
-                                                top: 100,
-                                                left: 100,
-                                                zIndex: 1000,
-                                                display: "none"
-                                            }}
-                                        />
-                                    </div>
-
-
-                                    {dateError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {dateError}
-                                </label>
-                            </div>
-                        )}
-
-
-
-
-
-
-
-
-
-                                </Form.Group>
-
-
-
-
-
-
-
-
-                            </div> */}
-
+                         
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                <Form.Group  controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                     </Form.Label>
@@ -562,7 +460,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                                 </Form.Group>
                                 {dateError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <MdError style={{ color: "red", marginRight: '5px',fontSize:"13px" }} />
                                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                             {dateError}
                                         </label>

@@ -179,19 +179,7 @@ function BankingAddForm(props) {
     });
   };
 
-  // const handleSubmitBank = () => {
-  //   dispatch({
-  //     type: "ADD_BANKING",
-  //     payload: {
-  //       acc_name: accountName,
-  //       acc_no: accountNo,
-  //       bank_name: bankName,
-  //       ifsc_code: ifscCode,
-  //       desc: description,
-  //       id:props.edit?bankId:""
-  //     },
-  //   });
-  // };
+ 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleClose();
@@ -212,11 +200,6 @@ function BankingAddForm(props) {
         className="BankingCustom-modal"
 
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
 
         <Modal.Header style={{ position: "relative" }}>
           <div
@@ -458,8 +441,8 @@ function BankingAddForm(props) {
           </div>
         </Modal.Body>
         {error && (
-          <div style={{ color: "red" }}>
-            <MdError />
+          <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+            <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
             <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
           </div>
         )}

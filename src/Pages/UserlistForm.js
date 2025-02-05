@@ -133,7 +133,7 @@ function UserlistForm(props) {
 
   const options = {
     dateFormat: "Y/m/d",
-    maxDate: null, 
+    maxDate: null,
     minDate: new Date(),
   };
 
@@ -207,7 +207,7 @@ function UserlistForm(props) {
     }
     return true;
   };
-  
+
 
   // const validateField = (value, fieldName) => {
   //   if (!value || value.trim() === "") {
@@ -271,7 +271,7 @@ function UserlistForm(props) {
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
-    
+
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(emailValue);
     if (!emailValue) {
@@ -296,12 +296,12 @@ function UserlistForm(props) {
     setIsActive(e.target.value);
   };
 
-  useEffect(()=>{
-    const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
+  useEffect(() => {
+    const selectedHostel = state.UsersList.hostelList &&
+      state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
-  },[])
+  }, [])
 
   // const handleHostelId = (e) => {
   //   const selectedHostelId = e.target.value;
@@ -399,7 +399,7 @@ function UserlistForm(props) {
     setRoomError("");
   };
 
- 
+
 
   const handleBed = (e) => {
     setBed(e.target.value);
@@ -423,7 +423,7 @@ function UserlistForm(props) {
     setBedError("");
     setRoomRentError("");
   };
-  
+
 
   //  useEffect (()=>{
 
@@ -588,7 +588,7 @@ function UserlistForm(props) {
       PancardNo: PancardNo,
       licence: licence,
       HostelName: HostelName,
-      hostel_Id:hostel_Id,
+      hostel_Id: hostel_Id,
       Floor: Floor,
       Rooms: Rooms,
       Bed: Bed,
@@ -637,7 +637,7 @@ function UserlistForm(props) {
       setBedError("Please select a valid PG");
       return;
 
-     
+
     }
     if (RoomRent <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
@@ -725,34 +725,34 @@ function UserlistForm(props) {
 
   const customDateInput = (props) => {
     return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                    width: "100%",
-                    height: 50,
-                    boxSizing: "border-box",
-                    boxShadow: "none"
-                }}
-            />
-            <img 
-                src={Calendars} 
-                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+        <FormControl
+          type="text"
+          className='date_input'
+          value={props.value || 'DD/MM/YYYY'}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none"
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
     );
-};
+  };
 
   return (
     <div>
@@ -780,11 +780,11 @@ function UserlistForm(props) {
                   >
                     <div
                       style={{
-                        marginTop:-20,
+                        marginTop: -20,
                         fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy",textAlign:"start",
-                        
+                        fontFamily: "Gilroy", textAlign: "start",
+
                       }}
                     >
                       {props.edit === "Edit"
@@ -799,7 +799,7 @@ function UserlistForm(props) {
                       style={{
                         position: "absolute",
                         right: "10px",
-                        marginTop:-15,
+                        marginTop: -15,
                         border: "1px solid black",
                         background: "transparent",
                         cursor: "pointer",
@@ -929,10 +929,10 @@ function UserlistForm(props) {
                         />
                       </Form.Group>
                       {firstnameError && (
-                        <div style={{ color: "red",marginTop:"-15px" }}>
+                        <div style={{ color: "red", marginTop: "-15px" }}>
                           {" "}
-                          <MdError  />
-                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
+                          <MdError />
+                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
                         </div>
                       )}
                     </div>
@@ -940,14 +940,14 @@ function UserlistForm(props) {
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
-                            marginTop:"10px",
+                            marginTop: "10px",
                             fontSize: 14,
                             color: "#222222",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
                         >
-                          Last Name{" "} 
+                          Last Name{" "}
                           {/* <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
@@ -1053,24 +1053,24 @@ function UserlistForm(props) {
                       </InputGroup>
                       <p
                         id="MobileNumberError"
-                        style={{ color: "red", fontSize: 11,marginTop:"-15px"}}
+                        style={{ color: "red", fontSize: 11, marginTop: "-15px" }}
                       ></p>
                       {phoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phoneError}</span>
+                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phoneError}</span>
                         </div>
                       )}
                       {phonenumError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phonenumError}</span>
+                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phonenumError}</span>
                         </div>
                       )}
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {phoneErrorMessage}</span>
+                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {phoneErrorMessage}</span>
                         </div>
                       )}
                     </Form.Group>
@@ -1082,10 +1082,10 @@ function UserlistForm(props) {
                             color: "#222222",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
-                            marginTop:"10px",
+                            marginTop: "10px",
                           }}
                         >
-                          Email Id{" "} 
+                          Email Id{" "}
                           {/* <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
@@ -1113,19 +1113,19 @@ function UserlistForm(props) {
                         {emailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailError}</span>
+                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailError}</span>
                           </div>
                         )}
                         {emailIdError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span> 
+                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span>
                           </div>
                         )}
                         {emailErrorMessage && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span> 
+                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                           </div>
                         )}
                       </Form.Group>
@@ -1167,7 +1167,7 @@ function UserlistForm(props) {
                         {addressError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span> 
+                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                           </div>
                         )}
                       </Form.Group>
@@ -1285,7 +1285,7 @@ function UserlistForm(props) {
                     </button>
                   </Modal.Header>
 
-                  <div className="row mb-3">
+                  <div className="row">
                     <div className="col-12">
                       <Form.Label
                         style={{
@@ -1327,13 +1327,24 @@ function UserlistForm(props) {
                       </Form.Select>
                       {floorError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
-                          {floorError}
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {floorError}
+                          </label>
+
                         </div>
                       )}
                     </div>
 
-                    <div className="col-12 mt-1">
+                    <div className="col-12 mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1376,13 +1387,24 @@ function UserlistForm(props) {
                       </Form.Select>
                       {roomError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
-                          {roomError}
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {roomError}
+                          </label>
+                          
                         </div>
                       )}
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1449,43 +1471,66 @@ function UserlistForm(props) {
 
                       {bedError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
-                          {bedError}
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {bedError}
+                          </label>
+                         
                         </div>
                       )}
                     </div>
-        
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => {
-                            setDateError('');
-                            setSelectedDate(date);
-                        }}
-                        dateFormat="dd/MM/yyyy"
-                        minDate={null}
-                        maxDate={null} 
-                        customInput={customDateInput({
-                            value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
-                                ? selectedDate.toLocaleDateString('en-GB')
-                                : '', 
-                        })}
-                    />
-                </div>
-            </Form.Group>
 
-            {dateError && (
-                <div style={{ color: "red" }}>
-                    <MdError />
-                    {dateError}
-                </div>
-            )}
-        </div>
+                    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
+                      <Form.Group controlId="purchaseDate">
+                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                        </Form.Label>
+                        <div style={{ position: 'relative', width: "100%" }}>
+                          <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => {
+                              setDateError('');
+                              setSelectedDate(date);
+                            }}
+                            dateFormat="dd/MM/yyyy"
+                            minDate={null}
+                            maxDate={null}
+                            customInput={customDateInput({
+                              value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
+                                ? selectedDate.toLocaleDateString('en-GB')
+                                : '',
+                            })}
+                          />
+                        </div>
+                      </Form.Group>
+
+                      {dateError && (
+                        <div style={{ color: "red",marginTop:"-px" }}>
+                          <MdError  style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {dateError}
+                          </label>
+                          
+                          
+                        </div>
+                      )}
+                    </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="">
@@ -1522,14 +1567,25 @@ function UserlistForm(props) {
                       </Form.Group>
                       {advanceAmountError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
-                          {advanceAmountError}
+                          <MdError  style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                        {advanceAmountError}
+                          </label>
+                         
                         </div>
                       )}
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-3">
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      <Form.Group className="mb-1">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -1562,9 +1618,20 @@ function UserlistForm(props) {
                         />
                       </Form.Group>
                       {roomrentError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {roomrentError}
+                        <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+                          <MdError  style={{ fontSize: "13px", marginRight: "5px",marginBottom:"17px" }}/>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                      {roomrentError}
+                          </label>
+                          
                         </div>
                       )}
                     </div>
