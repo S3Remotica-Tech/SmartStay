@@ -1027,15 +1027,16 @@ function AddVendor({ show, handleClose, currentItem }) {
                     </div>
                   )}
                 {isChangedError && (
-            <div style={{color: "red", marginTop: "30px"}}>
+            <div style={{color: "red", marginTop: "15px"}}>
               <MdError  />
               <span
                
                 style={{
-                  marginTop: "10px",
+                  // marginTop: "10px",
                   fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
+                 
                 }}
               >
                 {isChangedError}
@@ -1127,6 +1128,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 fontSize: 16,
                 fontFamily: "Gilroy",
                 padding: 12,
+                marginTop: "-20px"
               }}
               onClick={handleAddVendor}
             >
