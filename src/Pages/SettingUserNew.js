@@ -166,6 +166,28 @@ useEffect(()=>{
 
 },[state.Settings?.errorUser])
     
+const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+ const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = usersFilterddata?.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  const totalPages = usersFilterddata?.length && Math.ceil(usersFilterddata.length / itemsPerPage) ;
+
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+
+
+
+
 
     return (
 
@@ -214,7 +236,7 @@ useEffect(()=>{
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}  >
-                <div>
+                <div style={{marinTop:-4}}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
                 <div>
@@ -231,12 +253,12 @@ useEffect(()=>{
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "10px 52px",
+                            padding: "11px 52px",
                             // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
+                            marginTop:5
 
-                
                           }}
                         disabled={showPopup}
                     >
@@ -264,7 +286,7 @@ useEffect(()=>{
 
 
             <div className="container mt-4">
-                {usersFilterddata?.length > 0 ? (
+                {currentItems?.length > 0 ? (
 
 <div style={{ maxHeight: "400px", overflowY: "auto" }}> 
                     <Table
@@ -337,8 +359,8 @@ useEffect(()=>{
                                 </th>
                                 <th
                                     style={{
-                                        color: "#222",
-                                        fontWeight: 600,
+                                        color: "rgb(147, 147, 147)",
+                                        fontWeight: 500,
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         padding: "10px",
@@ -350,7 +372,7 @@ useEffect(()=>{
                         </thead>
                         <tbody>
                             {
-                                usersFilterddata?.map((item, index) => {
+                                currentItems?.map((item, index) => {
                                     const imageUrl = item.profile || Profile;
                                     return (
                                         <tr style={{ overflowX: 'auto' }}>
@@ -549,7 +571,7 @@ useEffect(()=>{
                         </tbody>
                     </Table></div>
 
-                ) : !loading && (
+                ) : !loading  && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
                         <div style={{ textAlign: "center" }}>
                             <img
@@ -589,6 +611,129 @@ useEffect(()=>{
                 )
                 }
             </div>
+
+
+
+
+    {
+        usersFilterddata?.length >= 5 &&
+        <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+        >
+          <div>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+
+              }}
+            >
+              <option value={1}>1</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          {/* Pagination Controls */}
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+              </button>
+            </li>
+
+            {/* Current Page Indicator */}
+            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+              {currentPage} of {totalPages}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             {

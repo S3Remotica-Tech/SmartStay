@@ -495,26 +495,21 @@ function Banking() {
           </div>
         </>
       ) : (
-        <div style={{ padding: 8, marginLeft: 10 }}>
+        <div className="container" >
           <div
-                 className="d-flex flex-wrap justify-content-between align-items-center mb-3"
+                 className="container d-flex flex-wrap justify-content-between align-items-center"
                  
                 >
-                  <div>
+                  <div style={{marginTop:10}}>
                     <label style={{
                   fontSize: 18,
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  marginLeft: 5,
-                  marginRight: 20,
-               marginTop:10
                 }}>Banking</label>
                   </div>
 
-                  <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
-
-
+                  <div style={{marginTop:19,}} className="d-flex  justify-content-between align-items-center ">
                     {search ? (
                       <>
                         <div
@@ -522,7 +517,7 @@ function Banking() {
                             position: "relative",
                             width: "100%",
                             marginRight: 20,
-                            marginTop: "-8px",
+                          
                           }}
                         >
                           <div
@@ -531,8 +526,8 @@ function Banking() {
                               display: "flex",
                               alignItems: "center",
                               // width: "100%",
-                              marginTop: '10px',
-                              marginBottom: '10px'
+                           
+                            
                             }}
                           >
                             <Image
@@ -540,7 +535,7 @@ function Banking() {
                               alt="Search"
                               style={{
                                 position: "absolute",
-                                left: "10px",
+                               
                                 width: "24px",
                                 height: "24px",
                                 pointerEvents: "none",
@@ -653,7 +648,8 @@ function Banking() {
                       </>
                     ) : (
                       <>
-                        <div className="me-3">
+                      
+                        <div style={{paddingRight:15}}>
                           <Image
                             src={searchteam}
                             roundedCircle
@@ -664,11 +660,12 @@ function Banking() {
                       </>
                     )}
 
-                    <div className="me-3">
+
+                    <div style={{paddingRight:15}}>
                       <Image
                         src={Filters}
                         roundedCircle
-                        style={{ height: "50px", width: "50px" }}
+                        style={{ height: "50px", width: "50px",}}
                         onClick={handleFilterd}
                       />
                     </div>
@@ -696,23 +693,26 @@ function Banking() {
 </div>
 
                   }
+      
 
-                 
-
-                    <div style={{ paddingRight: "15px" }}>
+                    <div >
                       <Button
                        disabled={bankingAddPermission}
                        onClick={handleShowForm}
-                        style={{marginTop:10,
+                        style={{
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
                            
-                          padding: "10px 48px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap",maxWidth: "100%",
+                          padding:"14px 47px",
+                          
+                          paddingBottom:29,
+                          paddingLeft:51,
+                          color: '#FFF', fontFamily: 'Montserrat'
                         }} > + Bank</Button>
                     </div>
                   </div>
                 </div>
      
-          <div className="d-flex overflow-auto" >
+          <div className="d-flex overflow-auto mt-3"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
                 return (
@@ -721,16 +721,21 @@ function Banking() {
                     className="card mx-2"
                     style={{
                       minWidth: "280px",
+                      border: "1px, solid, #ddd",
                       borderRadius: "12px",
-                      overflow: "visible",
+                      overflow: "hidden",
                       height: 187,
-                      position: "relative",
+                      position: "relative", 
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      
                     }}
                   >
                     {/* Card Body */}
                     <div
                       className="card-body"
-                      style={{ overflowY: "auto", scrollBehavior: "smooth" }}
+                      style={{ overflowY: "auto", scrollBehavior: "smooth"}}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
@@ -1600,7 +1605,7 @@ function Banking() {
               </div>
             )}
 
-            {transactionFilterddata?.length > transactionrowsPerPage && (
+            {transactionFilterddata?.length >= 5 && (
               <nav
                 style={{
                   display: "flex",

@@ -338,7 +338,11 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.start_date}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.start_date} */} 
+        
+        {moment(rowData?.start_date).format('DD MMM YYYY')}
+      </label>
       </div>
 
       {/* End Date */}
@@ -352,7 +356,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>  {rowData?.end_date}</label>
+      fontFamily: "Gilroy",}}>  
+      {/* {rowData?.end_date} */} 
+      {moment(rowData?.end_date).format('DD MMM YYYY')}
+      </label>
       </div>
     </div>
   </div>

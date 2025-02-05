@@ -942,7 +942,7 @@ function EBHostelReading(props) {
         ) : null}
       </div>
 
-      {props.value === "3" && electricityFilterddata?.length > electricityrowsPerPage && (
+      {props.value === "3" && electricityFilterddata?.length >= 5 && (
         <nav
           style={{
             display: "flex",

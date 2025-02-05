@@ -40,7 +40,7 @@ const handleClose = () => {
 };
   return (
     <div className="container">
-      <div style={{marginTop:25}}>
+      <div style={{marginTop:26}}>
         <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
 
       </div>
@@ -151,6 +151,7 @@ const handleClose = () => {
           responsive="md"
           className="Table_Design"
           style={{
+            // width:"100%",
             height: "auto",
             overflow: "visible",
             tableLayout: "auto",
@@ -160,6 +161,7 @@ const handleClose = () => {
         >
           <thead
             style={{
+              width:"700",
               color: "gray",
               fontSize: "11px",
               backgroundColor: "#E7F1FF",
@@ -178,7 +180,7 @@ const handleClose = () => {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                   borderTopLeftRadius: 24,
                   paddingLeft:"20px"
                 }}
@@ -193,7 +195,7 @@ const handleClose = () => {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Paying Guest
@@ -206,7 +208,7 @@ const handleClose = () => {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Amount
@@ -232,7 +234,7 @@ const handleClose = () => {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Expiry Date
@@ -245,7 +247,7 @@ const handleClose = () => {
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  textAlign: "start",
+                  textAlign: "center",
                 }}
               >
                 Status
@@ -299,7 +301,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
                   paddingLeft:"20px"
@@ -312,7 +314,7 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
@@ -323,7 +325,7 @@ console.log('Formatted Date:', formattedDate);
 
               <td
                 style={{
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle", // Center vertically
                   borderBottom: "none",
                 }}
@@ -349,8 +351,8 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
-                  verticalAlign: "middle", // Center vertically
+                  textAlign: "center",
+                  verticalAlign: "middle", 
                   borderBottom: "none",
                 }}
               >
@@ -361,368 +363,14 @@ console.log('Formatted Date:', formattedDate);
                   fontSize: "16px",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  textAlign: "start",
+                  textAlign: "center",
                   verticalAlign: "middle",
                   borderBottom: "none",
                 }}
               >
                 {/* {v.total_amount} */}pending
               </td>
-              <td style={{ paddingTop: 12, border: "none" }}>
-                {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
-
-                <div
-                  style={{
-                    cursor: "pointer",
-                    height: 40,
-                    width: 40,
-                    borderRadius: 100,
-                    border: "1px solid #EFEFEF",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: "relative",
-                    zIndex: 1000,
-                  }}
-                  onClick={toggleActiveRow} 
-                // onClick={() => handleShowDots(v.eb_Id)}
-                >
-                  <PiDotsThreeOutlineVerticalFill
-                    style={{ height: 20, width: 20 ,
-                      color: activeRow? "red" : "#000",
-                    }} 
-                    //  onClick={setActiveRow}
-
-                  />
-        
-        {activeRow && (
-                                            <div
-                                                // className="position-absolute"
-                                                style={{
-                                                    cursor: "pointer",
-                                                    backgroundColor: "#fff",
-                                                    width: 163,
-                                                    border: "1px solid #EBEBEB",
-                                                    borderRadius: 10,
-                                                    display: "flex",
-                                                    justifyContent: "start",
-                                                    padding: 10,
-                                                    alignItems: "center",
-                                                    zIndex: 1000,paddingRight:30,
-                                                    marginTop:140
-                                                }}
-                                            >
-                                              {!show && (
-                                                <div>
-                                                  {/* Edit */}
-                                                
-                                                    <div 
-                                                    onClick={handleShow}
-                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                       
-                                                    >
-                                                        <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" ,cursor:"pointer"}}>
-                                                            Edit
-                                                        </label>
-                                                    </div>
-                                                   
-
-
-
-
-                                                    {/* Delete */}
-                                                    <div 
-                                                       onClick={() => setIsConfirmDelete(true)}
-                                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                        style={{ backgroundColor: "#fff" }}
-
-                                                    >
-                                                        <img
-                                                            src={Delete}
-                                                            style={{ height: 16, width: 16 }}
-                                                        />{" "}
-                                                        <label
-                                                            style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy,sans-serif",
-                                                                color: "#FF0000",
-                                                                cursor: "pointer",
-                                                            }}
-                                                        >
-                                                            Delete
-                                                        </label>
-                                                    </div>
-
-                                                </div>)}
-                                            </div> 
-                                        )}
-
-                                        {/* Edit form */}
-                                        <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <Modal.Header >
-          <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Edit Subscription Details</Modal.Title>
-          <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
-  {/* Billing Date and Paying Guest */}
-  <Row>
-    <Col lg={6} md={12} className="mb-3">
-    <Form.Group className="mb-2" controlId="billingDate">
-  <Form.Label
-    style={{
-      fontSize: 14,
-      color: "#222222",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-    }}
-  >
-    Billing Date{" "}
-    <span style={{ color: "red", fontSize: "20px" }}>*</span>
-  </Form.Label>
-  <Form.Control
-    type="date"
-  
-  />
-</Form.Group>
-
-    </Col>
-    <Col lg={6} md={12} className="mb-3">
-      <Form.Group>
-        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                  >Paying Guest<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-        <Form.Control type="text" placeholder="Enter name" />
-      </Form.Group>
-    </Col>
-  </Row>
-
-  {/* Amount and Expiry Date */}
-  <Row>
-    <Col lg={6} md={12} className="mb-3">
-      <Form.Group>
-        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                  >Amount<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-        <Form.Control type="number" placeholder="Enter amount" />
-      </Form.Group>
-    </Col>
-    <Col lg={6} md={12} className="mb-3">
-      <Form.Group>
-        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                  >Expiry Date<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-        <Form.Control type="date" />
-      </Form.Group>
-    </Col>
-  </Row>
-
-  {/* Status */}
-  <Row>
-    <Col lg={6} md={12} className="mb-3">
-      <Form.Group>
-        <Form.Label  style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                  >Status<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-        <Form.Control type="text" placeholder="Enter status" />
-      </Form.Group>
-    </Col>
-  </Row>
-</Form>
-<Button variant="secondary" onClick={handleClose}
- className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1",borderColor:"#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8,
-  fontSize: 16, fontFamily: "Gilroy" }}>
-           Save Changes
-          </Button>
-        </Modal.Body>
-     
-          
-          
-      </Modal>
-
-{/* Delete form */}
-
- {isConfirmDelete && (
-                <Modal show={isConfirmDelete} onHide={handleClose}    centered
-                backdrop="static"
-                style={{
-                    width: 388,
-                    height: 250,
-                    marginLeft: "500px",
-                    marginTop: "200px",
-                }}>
-                    <Modal.Header style={{ borderBottom: "none" }}>
-                        <Modal.Title 
-                          style={{
-                            fontSize: "18px",
-                            fontFamily: "Gilroy",
-                            textAlign: "center",
-                            fontWeight: 600,
-                            color: "#222222",
-                            flex: 1,
-                        }}>
-                            Delete Subscription?
-                        </Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body
-                       style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#646464",
-                        textAlign: "center",
-                        marginTop: "-20px",
-                    }}
-                    >
-                        Are you sure you want to delete the Subscription Details?
-                    </Modal.Body>
-
-                    <Modal.Footer style={{
-                            justifyContent: "center",
-                            borderTop: "none",
-                            marginTop: "-10px",
-                        }}>
-                        <Button
-                            onClick={handleClose}
-                            style={{
-                              width: 160,
-                              height: 52,
-                              borderRadius: 8,
-                              padding: "12px 20px",
-                              background: "#fff",
-                              color: "#1E45E1",
-                              border: "1px solid #1E45E1",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: "14px",
-                              marginRight: 10,
-                          }}
-                        >
-                            Cancel
-                        </Button>
-
-                        <Button
-                           style={{
-                            width: 160,
-                            height: 52,
-                            borderRadius: 8,
-                            padding: "12px 20px",
-                            background: "#1E45E1",
-                            color: "#FFFFFF",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                        }}
-                            onClick={handleDelete}
-                        >
-                            Delete
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
-
-                  {/* {activeRow === v.eb_Id && (
-                            <>
-                              <div
-                                ref={popupRef}
-                                style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#fff",
-                                  position: "absolute",
-                                  right: 50,
-                                  top: 20,
-                                  width: 163,
-                                  height: "auto",
-                                  border: "1px solid #EBEBEB",
-                                  borderRadius: 10,
-                                  display: "flex",
-                                  justifyContent: "start",
-                                  padding: 10,
-                                  alignItems: "center",
-                                  zIndex: showDots ? 1000 : "auto",
-                                }}
-                              >
-                                <div
-                                  style={{ backgroundColor: "#fff" }}
-                                  className=""
-                                >
-                                  <div
-  className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
-  style={{
-  
-    cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-  }}
-  onClick={() => {
-    if (!props.ebEditPermission) {
-      handleEditRoomReading(v);
-    }
-  }}
->
-  <img
-    src={Edit}
-    style={{
-      height: 16,
-      width: 16,
-      filter: props.ebEditPermission ? "grayscale(100%)" : "none", 
-    }}
-    alt="Edit"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: props.ebEditPermission ? "#ccc" : "#222222",
-      cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Edit
-  </label>
-</div>
-
-
-                                 
-
-<div
-  className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
-  style={{
-    cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-  }}
-  onClick={() => {
-    if (!props.ebDeletePermission) {
-      handleDeleteShow(v);
-    }
-  }}
->
-  <img
-    src={Delete}
-    style={{
-      height: 16,
-      width: 16,
-      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-    }}
-    alt="Delete"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
-      cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Delete
-  </label>
-</div>
-
-                                </div>
-                              </div>
-                            </>
-                          )} */}
-                </div>
-
-                {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-              </td>
+            
             </tr>
             {/* );
                 })} */}

@@ -1,6 +1,12 @@
 /* .App {
     display: flex;
   } */
+  .css-13cymwt-control {
+    border-color:#ced4da !important;
+      font-family: "Gilroy";
+      border-radius: .375rem;
+      font-size: 16px;
+  }
   
   .upload-button:hover{
     background-color: white !important;

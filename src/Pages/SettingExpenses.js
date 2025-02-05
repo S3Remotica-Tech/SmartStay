@@ -9,7 +9,8 @@ import { MdError } from "react-icons/md";
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
-
+import { Card } from 'react-bootstrap';
+import CreatableSelect from "react-select/creatable";
 
 
 
@@ -19,7 +20,7 @@ function SettingExpenses({ hostelid }) {
   const dispatch = useDispatch()
 
 
-  const [type, setType] = useState('');
+  const [type, setType] = useState([]);
   const [subType, setSubType] = useState('');
   const [typeerrmsg, setTypeErrmsg] = useState('')
 
@@ -47,7 +48,7 @@ function SettingExpenses({ hostelid }) {
   const [loading, setLoading] = useState(true)
 
 
-  
+
 
 
   useEffect(() => {
@@ -103,19 +104,37 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  const uniqueExpences = expences.filter((expence, index, self) =>
-    index === self.findIndex((e) => e.category_Id === expence.category_Id)
-  );
+  // const uniqueExpences = expences.filter((expence, index, self) =>
+  //   index === self.findIndex((e) => e.category_Id === expence.category_Id)
+  // );
+
+  // useEffect(() => {
+  //   if (isSubCategory) {
+  //     const selectedCategory = expences.find(category => category.category_Id === parseInt(category_Id));
+  //     console.log("selectedCategory", selectedCategory)
+  //     if (selectedCategory) {
+  //       setType(selectedCategory.category_Name)
+  //     }
+  //   }
+
+  // }, [isSubCategory])
+
+
 
   //add electricity
   const [showPopup, setShowPopup] = useState(false);
   const handleShow = () => {
-    if (!hostelid) {
+    setCategoryErrmsg('')
+    setSubCategoryErrmsg('')
+        if (!hostelid) {
       setShowPopup(true);
       return;
     }
     setShowForm(true);
     setEdit(false);
+    setEditsubCat(null)
+    setSelectedOptions([])
+
     console.log("Opening the form...");
   };
 
@@ -125,28 +144,15 @@ function SettingExpenses({ hostelid }) {
     setSubType('');
     setType('');
     setIsSubCategory(false)
+    setCategoryErrmsg("")
+    setSubCategoryErrmsg("")
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR'})
+
   };
 
   const [editsubcat, setEditsubCat] = useState(false)
 
-  const handleEditCategory = (item) => {
 
-    console.log("edititem", item);
-
-    setEdit(true);
-    setShowForm(true);
-    if (item.category_Id && item.category_Name) {
-      setType(item.category_Name)
-      setCategory_ID(item.category_Id || '')
-    }
-    else if (item.subcategory_Id && item.cat_id) {
-      setIsSubCategory(true)
-      setSubType(item.subcategory)
-      setSubCategory_ID(item.subcategory_Id)
-      setEditsubCat(true)
-    }
-
-  }
 
   console.log("edititem", subType);
 
@@ -230,64 +236,51 @@ function SettingExpenses({ hostelid }) {
   };
 
 
-  const updateType = () => {
-
-    if (hostelid && category_Id || subcategory_Id) {
-      if (category_Id && !editsubcat) {
-        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: category_Id, hostel_id: hostelid, name: type, type: 1 } })
-        setShowForm(false);
-        setIsSubCategory(false)
-        setType('')
-      }
-      else if (subcategory_Id && subType && editsubcat) {
-        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
-        setShowForm(false);
-        setIsSubCategory(false)
-        setSubType('')
-      }
-    }
-    else {
-      console.log("doesn't update ");
-    }
-  }
+  
 
 
 
-  const addType = () => {
-    if (!type) {
-      setCategoryErrmsg("Please Enter a Category")
-      return;
-    }
+  // const addType = () => {
+  //   if (!type) {
+  //     setCategoryErrmsg("Please Enter a Category")
+  //     return;
+  //   }
 
-    if (type.trim()) {
-      if (isSubCategory) {
+  //   if (type.trim()) {
+  //     if (isSubCategory) {
 
-        if (!subType) {
-          setSubCategoryErrmsg("Please Enter a Sub-Category")
-        }
+  //       if (!subType) {
+  //         setSubCategoryErrmsg("Please Enter a Sub-Category")
+  //       }
 
-        if (!subType && !namefilter) {
-          setTotalErrmsg('Please enter All Field')
-          return;
-        }
-        else if (subType.trim()) {
-          dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
-          setSubType('');
-          setType('');
-          setShowForm(false);
-          setIsSubCategory(false)
-        }
+  //       if (!subType && !namefilter) {
+  //         setTotalErrmsg('Please enter All Field')
+  //         return;
+  //       }
+  //       else if (subType.trim()) {
+  //         dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
+  //         setSubType('');
+  //         setType('');
+  //         setShowForm(false);
+  //         setIsSubCategory(false)
+  //       }
 
-      }
-      else {
-        dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, category_Name: type, sub_Category: '' } });
-        setType('');
-        setShowForm(false);
-        setIsSubCategory(false)
-      }
-    }
+  //     }
+  //     else {
+  //       dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, category_Name: type, sub_Category: '' } });
+  //       setType('');
+  //       setShowForm(false);
+  //       setIsSubCategory(false)
+  //     }
+  //   }
 
-  };
+  // };
+
+  
+  
+  
+
+
 
 
   useEffect(() => {
@@ -314,23 +307,29 @@ function SettingExpenses({ hostelid }) {
     }
   }, [state.Settings.getExpensesStatuscode])
 
-useEffect(()=>{
-  if(state.Settings.categoryError){
-    setLoading(false)
-    setTimeout(() => {
-      dispatch({ type: 'REMOVE_ERROR_CATEGORY' })
-    }, 100)
-  }
+  useEffect(() => {
+    if (state.Settings.categoryError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_ERROR_CATEGORY' })
+      }, 100)
+    }
 
-},[state.Settings.categoryError])
+  }, [state.Settings.categoryError])
 
-console.log("state.Settings.categoryError",state.Settings.categoryError)
+  console.log("state.Settings.categoryError", state.Settings.categoryError)
 
 
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-      setTimeout(() => {
+     
+    //  setShowForm(false)
+     setCategoryErrmsg('')
+     if(state.Settings.editexpencesStatuscode === 200){
+      setShowForm(false)
+     }
+           setTimeout(() => {
         dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
       }, 100)
       setDeleteSubCatItems('')
@@ -354,6 +353,9 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
 
 
   const handleCategoryid = (e) => {
+
+    console.log("category change", e.target.value)
+
     setType(e.target.value)
     if (state.Settings.Expences.data && e.target.value !== undefined) {
       const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
@@ -380,6 +382,206 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
       setCategoryErrmsg("")
     }
   }
+
+  useEffect(() => {
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
+  }, [])
+
+
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [options, setOptions] = useState([]);
+
+  const updateType = () => {
+
+    if (subcategory_Id && subType ) {
+          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
+        
+          setIsSubCategory(false)
+          setSubType('')
+        }
+      
+      else {
+        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
+       
+      }
+    }
+
+
+  const addType = () => {
+    if (!selectedOptions.value) {
+      setCategoryErrmsg("Please Enter a Category");
+      return;
+    }
+  
+    dispatch({
+      type: "EXPENCES-CATEGORY-ADD",
+      payload: { 
+        hostel_id: hostelid, 
+        id: type.value, 
+        category_Name: type.label, 
+        sub_Category: subType?.trim() || '' 
+      },
+    });
+
+   
+    setSelectedOptions([])
+  };
+
+
+useEffect(()=>{
+if(state.Settings?.AddCategoryType == 2){
+   setShowForm(false);
+   setTimeout(()=>{
+dispatch({ type: 'CLEAR_TYPE'})
+   },1000)
+}
+},[state.Settings.AddCategoryType])
+
+
+
+
+
+
+
+  const handleEditCategory = (item) => {
+
+    console.log("edititem", item);
+
+    setEdit(true);
+    setShowForm(true);
+    if (item.category_Id && item.category_Name) {
+      setType({ value: item.category_Id, label: item.category_Name });
+      setSelectedOptions({value: item.category_Id, label: item.category_Name })
+      setCategory_ID(item.category_Id || '')
+      setEditsubCat(false)
+      setIsSubCategory(false);
+        }
+    else if (item.subcategory_Id && item.cat_id) {
+      setIsSubCategory(true)
+      setSubType(item.subcategory)
+      setType({ value: item.cat_id, label: item.category_Name });
+      setSelectedOptions({value: item.cat_id,  label: item.category_Name })
+      setSubCategory_ID(item.subcategory_Id)
+      setEditsubCat(true)
+    }
+
+  }
+
+
+  const handleChange = (selected) => {
+    setSelectedOptions(selected);
+    console.log("Selected Category:", selected);
+    setType(selected)
+  };
+
+
+  //   const handleCreate = (inputValue) => {
+  //   const newOption = { value: inputValue, label: inputValue };
+  //   console.log("Created Category:", newOption);
+  //   setOptions((prev) => Array.isArray(prev) ? [...prev, newOption] : [newOption]);
+  //   setSelectedOptions(newOption);
+
+  //   dispatch({
+  //     type: 'EXPENCES-CATEGORY-ADD',
+  //     payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
+  //   });
+  // };
+
+
+
+
+
+console.log("editsubcat",editsubcat)
+
+
+
+
+
+  const handleCreate = (inputValue) => {
+ 
+    const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
+    console.log(" existingCategoryIndex", existingCategoryIndex)
+  
+    if (existingCategoryIndex !== -1) {
+      
+      const updatedOptions = [...options];
+      updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
+  
+      setOptions(updatedOptions);
+      setSelectedOptions(updatedOptions[existingCategoryIndex]);
+      setType(updatedOptions[existingCategoryIndex]); 
+  
+      dispatch({
+        type: 'EDIT_EXPENCES_CATEGORY',
+        payload: { id: selectedOptions.value, hostel_id: hostelid, name: inputValue, type: 1 }
+      });
+
+
+  
+    } else {
+    
+      const newOption = { value: inputValue, label: inputValue };
+      setOptions((prev) => [...prev, newOption]);
+      setSelectedOptions(newOption);
+      setType(newOption); 
+  
+      dispatch({
+        type: 'EXPENCES-CATEGORY-ADD',
+        payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
+      });
+    }
+  };
+  
+  
+
+
+
+  useEffect(() => {
+    if (!state.Settings?.Expences?.data || !Array.isArray(state.Settings.Expences.data)) {
+      console.log("Expences data is undefined or not an array");
+      return;
+    }
+  
+    if (selectedOptions) {
+      const TakeCategoryId = state.Settings.Expences.data.filter(
+        (view) => selectedOptions?.label && view.category_Name?.toLowerCase() === selectedOptions.label.toLowerCase()
+      );
+  
+      console.log("TakeCategoryId:", TakeCategoryId);
+  
+      if (TakeCategoryId.length > 0) {
+        setType({ value: TakeCategoryId[0]?.category_Id, label: TakeCategoryId[0]?.category_Name });
+      }
+    }
+  }, [state.Settings.addexpencesStatuscode, selectedOptions]);
+  
+
+
+console.log("selected cate type",type)
+
+console.log("selectedOptions",selectedOptions)
+
+
+
+
+  useEffect(() => {
+       let optionArray = [];
+    state.Settings?.Expences?.data?.map((view) => {
+      
+      let optionObj = {
+        label: view.category_Name,
+        value: view.category_Id
+      }
+      optionArray.push(optionObj)
+    })
+    setOptions(optionArray)
+
+  }, [state.Settings?.Expences?.data])
+
+
+ 
+
 
 
   const handlesubcategoryAdd = (e) => {
@@ -443,17 +645,17 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
       <div style={{
         display: "flex", flexDirection: "row", justifyContent: "space-between",
         position: 'sticky',
-        top:0, 
+        top: 0,
         right: 0,
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
         height: 63,
         alignItems: "center",
-     
+
       }} >
-        <div style={{marginTop:25}}>
-        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}> Expences Category</h3></div>
+        <div style={{ marginTop: 25 }}>
+          <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Expences Category</h3></div>
         <div >
           <Button onClick={handleShow}
             style={{
@@ -463,15 +665,16 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 40px",
+              padding: "11px 35px",
+              paddingLeft:36,
               width: "auto",
               maxWidth: "100%",
               marginBottom: "10px",
               maxHeight: 50,
-            marginTop:38 
+            marginTop:35 
             }}
             disabled={showPopup}
-          >{" "}+ Category</Button></div>
+          >+ Category</Button></div>
 
       </div>
 
@@ -479,7 +682,7 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
       {showPopup && (
         <div className="d-flex flex-wrap mt-3 align-items-center"
           style={{ gap: "10px" }} >
-          <p style={{ color: "red" , fontFamily:"Gilroy",fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
             Please add a hostel before adding Expense information.
           </p>
 
@@ -497,61 +700,64 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
       )}
 
 
-      <div className="mt-4 d-flex row container">
+      <div className="mt-4 d-flex row gap-2">
         {expences.length > 0 ? (
           expences.map((category) => (
-            <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3"
+            <div key={category.category_Id} className="col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded p-2"
               style={{
                 height: expandedCategoryId === category.category_Id ? "auto" : "50px",
-           
+                //  height:"auto"
               }}>
-              <button
-                className="btn btn-white w-100  d-flex justify-content-between align-items-center"
-                type="button"
-                onClick={() => handleToggleDropdown(category.category_Id)}
+              <Card className=" d-flex justify-content-between align-items-center border-0 "
+
+
                 style={{
                   fontFamily: "Gilroy",
                   fontSize: 16,
                   fontWeight: 500,
                 }}
               >
-                <span>{category.category_Name}</span>
-                <span className="d-flex align-items-center">
-                  <img
-                    src={Editbtn}
-                    height={15}
-                    width={15}
-                    alt="edit"
-                    style={{ marginRight: 10, cursor: "pointer" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditCategory(category);
-                    }}
-                  />
-                  <img
-                    src={Closebtn}
-                    height={15}
-                    width={15}
-                    alt="delete"
-                    style={{ marginRight: 10, cursor: "pointer" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteExpensesCategory(category);
-                    }}
-                  />
-                  <i
-                    className={`bi ${expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
-                      }`}
-                    style={{ cursor: "pointer" }}
-                  ></i>
-                </span>
-              </button>
+                <div className=" d-flex justify-content-between align-items-center border-0 gap-4 ">
+                  <div>{category.category_Name}</div>
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={Editbtn}
+                      height={15}
+                      width={15}
+                      alt="edit"
+                      style={{ marginRight: 10, cursor: "pointer" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditCategory(category);
+                      }}
+                    />
+                    <img
+                      src={Closebtn}
+                      height={15}
+                      width={15}
+                      alt="delete"
+                      style={{ marginRight: 10, cursor: "pointer" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteExpensesCategory(category);
+                      }}
+                    />
+                    <i onClick={() => handleToggleDropdown(category.category_Id)}
+                      className={`bi ${expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
+                        }`}
+                      style={{ cursor: "pointer" }}
+                    ></i>
+                  </div>
 
-              {expandedCategoryId === category.category_Id && (
+                </div>
+
+              </Card>
+
+              {expandedCategoryId === category.category_Id ? (
                 < >
                   <hr />
                   <ul
-                    className="list-group mt-2"
+                    className="m-2"
                     style={{
                       padding: "10px",
                       borderRadius: "10px",
@@ -605,7 +811,11 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
                     )}
                   </ul>
                 </>
-              )}
+              )
+
+
+                :
+                null}
             </div>
           ))
 
@@ -654,7 +864,7 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
             >
               <div>
                 <Modal.Header
-                  style={{  position: "relative" }}
+                  style={{ position: "relative" }}
                 >
                   <div
                     style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
@@ -710,37 +920,27 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category
-                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
                         </Form.Label>
-                        {isSubCategory ? (
-                          <Form.Control
-                            as="select"
-                            style={{ padding: '20px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                            value={type}
-                            onChange={(e) => handleCategoryid(e)}
-                          >
-                            <option value="">Select Category</option>
-                            {uniqueExpences.length > 0 && uniqueExpences.map((category, index) => (
-                              <option key={index} value={category.category_Id}>
-                                {category.category_Name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        ) : (
-                          <Form.Control
-                            style={{ padding: '20px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                            type="text"
-                            placeholder="Enter Category"
-                            value={type}
-                            onChange={(e) => handlecategoryAdd(e)}
-                          />
-                        )}
 
+
+                        <CreatableSelect
+
+                        isDisabled={editsubcat} 
+                          options={options}
+                          value={selectedOptions}
+                          onChange={handleChange}
+                          onCreateOption={handleCreate}
+                          placeholder="Select / Create Category"
+                          style={{padding:20}}
+                          className=""
+                        />
+                   
 
                         {cateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px' }}>
-                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:"3px" }} />} {cateogoryerrmsg}
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px', fontFamily:"Gilroy" }}>
+                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
                             </p>
                           </div>
                         )}
@@ -748,35 +948,36 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <input
+                      <input 
                         type='checkbox'
+                        disabled={editsubcat === false} 
                         className='mb-3 me-2'
                         checked={isSubCategory}
                         onChange={() => setIsSubCategory(!isSubCategory)}
-                        style={{ width: '20px', height: '20px', border: '4px solid black', borderRadius: '4px' }}
+                        style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
                       />
-                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 15, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
+                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
                     </div>
 
                     {/* {isSubCategory && ( */}
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
 
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : 'black', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 600 }}>Sub-Category</Form.Label>
+                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
                         <Form.Control
-                          style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                          style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                           className={!isSubCategory ? 'custom-disabled' : 'white !important'}
                           type="text"
                           placeholder="Enter sub-category"
                           value={subType}
                           onChange={(e) => handlesubcategoryAdd(e)}
-                          disabled={!isSubCategory}
+                         disabled={!isSubCategory}
                         />
 
 
                         {subcateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px', fontFamily:"Gilroy" }}>
                               {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
                             </p>
                           </div>
@@ -814,6 +1015,7 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
 
               <Modal.Footer style={{ border: "none" }}>
                 <Button
+                disabled={editsubcat === false} 
                   className="w-100"
                   style={{
                     backgroundColor: "#1E45E1",
@@ -828,7 +1030,7 @@ console.log("state.Settings.categoryError",state.Settings.categoryError)
 
                   onClick={edit ? updateType : addType}
                 >
-                  {edit ? "Update Category" : "Add Category"}
+                  {edit ? "Save Changes" : "Save"}
                   {/* Add Category */}
                   {/* {edit ? "Save invoice" : "Add invice"} */}
                 </Button>

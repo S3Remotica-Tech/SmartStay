@@ -55,7 +55,8 @@ const initialState = {
   errorEbUnitStatusCode:0,
   errorCompliants:0,
   errorUser:0,
-  errorRole:0
+  errorRole:0,
+  AddCategoryType: 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -97,7 +98,12 @@ case 'ASSIGNED_ERROR':
         ...state,
         message: action.payload.message,
         addexpencesStatuscode: action.payload.statusCode,
+        AddCategoryType: action.payload.Type
       };
+
+case 'CLEAR_TYPE':
+ return { ...state, AddCategoryType: 0 };
+
     case "CLEAR_ADD_EXPENCES_STATUS_CODE":
       return { ...state, addexpencesStatuscode: 0 };
 

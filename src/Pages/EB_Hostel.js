@@ -86,14 +86,14 @@ function EB_Hostel(props) {
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "ALL_HOSTEL_DETAILS",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [selectedHostel]);
+  // useEffect(() => {
+  //   if (selectedHostel) {
+  //     dispatch({
+  //       type: "ALL_HOSTEL_DETAILS",
+  //       payload: { hostel_id: selectedHostel },
+  //     });
+  //   }
+  // }, [selectedHostel]);
 
   const [editeb, setEditEb] = useState(false);
 
@@ -691,7 +691,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy",
-              marginTop: 7,
+              marginTop: 11,
             }}
           >
             Electricity
@@ -966,15 +966,16 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   <>
                   {
                     value === "1" &&
-                    <div className="me-4">
+                    <div style={{paddingRight:21}}>
                     <Image
                       src={searchteam}
                       roundedCircle
                       style={{
                         height: "24px",
                         width: "24px",
-                        marginTop: "-8px",
-                        cursor:"pointer"
+                       
+                        cursor:"pointer",
+
                       }}
                       onClick={handleSearch}
                     />
@@ -984,7 +985,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                    
                   </>
                 )}
-          <div className="me-3" style={{ marginTop: -10 }}>
+          <div className="me-3" style={{paddingRight:5,marginTop:5}}>
             
               {value === "1" && (
                 <img
@@ -1009,16 +1010,13 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   height: 52,
                   fontWeight: 600,
                   borderRadius: 8,
-                  width: 162,
-                  // padding: "5px 5px",// Corrected padding
                   border: "none",
                   cursor: "pointer",
                   whiteSpace: "nowrap",
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  marginTop: -3,
+                  padding: "11px 18px",
+                  marginTop:2,
+                  paddingLeft:19
+                 
                 }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
@@ -1054,12 +1052,10 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px 12px",
-                  width: "140px",
-                  maxWidth: "100%",
-                  marginBottom: "10px",
-                  maxHeight: 45,
-                  marginTop: -3,
+                  padding: "11px 18px",
+                 marginTop:2,
+                 paddingLeft:19
+                
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -1071,8 +1067,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
         </div>
       </div>
 
-      <TabContext value={value}>
-        <div>
+      <TabContext value={value} >
+        <div className="mt-2">
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
@@ -1277,6 +1273,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
+                                    paddingRight: "5px",
                                     textAlign: "start",
                                   }}
                                 >
@@ -1320,6 +1317,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
+                                paddingLeft:"15px",
                               }}
                             >
                               Date
@@ -1333,6 +1331,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
+                                
+                                
                               }}
                             >
                               Units
@@ -1350,7 +1350,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 14,
@@ -1402,6 +1402,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                       fontFamily: "Gilroy",
                                       cursor: "pointer",
                                       paddingTop: 10,
+                                      textAlign: "start",
                                     }}
                                   >
                                     {v.Name}
@@ -1434,8 +1435,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                   <span
                                     style={{
                                       paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
+                                      paddingLeft: "12px",
+                                      paddingRight: "12px",
                                       paddingBottom: "3px",
                                       borderRadius: "60px",
                                       backgroundColor: "#FFEFCF",
@@ -1443,6 +1444,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                       fontSize: "14px",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
+                                      verticalAlign: "middle",
                                     }}
                                   >
                                     {v.HostelName}
@@ -1502,10 +1504,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 </td>
                                 <td
                                   style={{
-                                    // textAlign: "start",
-                                    // verticalAlign: "middle",
-                                    // borderBottom: "none",
-                                    padding: "10px",
+                                    paddingTop: "15px",
                                     border: "none",
                                     textAlign: "start",
                                     fontSize: "16px",
@@ -1518,15 +1517,6 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 >
                                   <span
                                     style={{
-                                      // backgroundColor: "#EBEBEB",
-                                      // paddingTop: "5px",
-                                      // paddingLeft: "16px",
-                                      // paddingRight: "16px",
-                                      // paddingBottom: "5px",
-                                      // borderRadius: "60px",
-                                      // fontSize: "14px",
-                                      // fontWeight: 500,
-                                      // fontFamily: "Gilroy",
                                       paddingTop: "5px",
                                       paddingLeft: "16px",
                                       paddingRight: "16px",
@@ -1675,7 +1665,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   )}
                 </div>
 
-                {electricityFilterddata?.length > electricityrowsPerPage && (
+                {electricityFilterddata?.length >= 5 && (
                   // <nav>
                   //   <ul
                   //     style={{

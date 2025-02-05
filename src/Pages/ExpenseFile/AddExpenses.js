@@ -27,7 +27,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 
-function StaticExample({ show, handleClose, currentItem, hostelId }) {
+function StaticExample({ show, currentItem, hostelId,setShowModal }) {
   const state = useSelector((state) => state);
   console.log("StaticExample",state)
   const dispatch = useDispatch();
@@ -215,6 +215,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
+    setNetPaymentError("")
     // if (/^\d*$/.test(value)) {
     //   setPrice(value);
     // }
@@ -515,6 +516,18 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       </div>
     );
   };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+
+  }
+  const calculatePurchaseAmount = (count, price) => {
+    return count * price;
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+  };
+
 
   return (
     <div

@@ -78,8 +78,8 @@ import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
 
 const InvoicePage = () => {
+  
   const state = useSelector((state) => state);
-  console.log("status", state);
 
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
@@ -117,7 +117,6 @@ const InvoicePage = () => {
     transaction: "",
   });
 
-  console.log("loading", loading, "recurLoader", recurLoader);
 
   const [invoicePage, setInvoicePage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
@@ -325,6 +324,30 @@ const InvoicePage = () => {
       setShowLoader(true);
     }
   };
+
+  const handleReceiptDetail = (item) => { 
+
+    
+    if (item.User_Id) {
+      const originalDate = new Date(item.Date);
+      const year = originalDate.getFullYear();
+      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+      const day = originalDate.getDate().toString().padStart(2, "0");
+      const newDate = `${year}-${month}-${day}`;
+
+    
+     
+        dispatch({
+          type: "RECEIPTPDF",
+          payload: {
+            id: item.id,
+          },
+        });
+      
+
+      setShowLoader(true);
+    }
+  }
 
   let newNotificationIDs =
     state.login.Notification &&
@@ -747,7 +770,6 @@ const InvoicePage = () => {
     if (invoiceDetails && isEditing) {
 
 
-      console.log("bill edit", invoiceDetails)
 
       if (invoiceDetails?.hos_user_id) {
         setCustomerName(String(invoiceDetails?.hos_user_id));
@@ -801,7 +823,6 @@ const InvoicePage = () => {
     }
   }, [invoiceDetails]);
 
-  console.log("totalAmount",totalAmount)
   
 
   const handleBillDelete = (props) => {
@@ -821,11 +842,6 @@ const InvoicePage = () => {
 
 
 
-  console.log("newRows",newRows)
-
-  console.log("originalInvoiceDetails",originalInvoiceDetails)
-
-  console.log("invoiceDetails",invoiceDetails)
 
   const handleEditBill = () => {
     let isValid = true;
@@ -908,8 +924,7 @@ newRows.every((row, index) => {
       isValid = false;
     }
 
-console.log("isValid",isValid)
-console.log("isRowValue",newRows)
+
 
     if (isValid) {
       const dueDateObject = new Date(invoiceduedate);
@@ -978,7 +993,6 @@ console.log("isRowValue",newRows)
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
-    console.log(props.item, "invoices");
 
     if (props.item.id !== undefined) {
       setEditOption("Edit");
@@ -1475,7 +1489,6 @@ console.log("isRowValue",newRows)
     const updatedRows = [...newRows];
     updatedRows[index][field] = value;
 
-    console.log("updatedRows",updatedRows)
 
     setNewRows(updatedRows);
   };
@@ -1853,18 +1866,23 @@ console.log("isRowValue",newRows)
   useEffect(() => {
     if (
       state.InvoiceList.InvoiceListStatusCode === 200 ||
-      state.InvoiceList.statusCodeForPDf === 200
+      state.InvoiceList.statusCodeForPDf === 200 ||  state.InvoiceList.statusCodeForReceiptPDf === 200
     ) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
       }, 100);
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+      }, 200);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
       }, 200);
     }
   }, [
     state.InvoiceList?.InvoiceListStatusCode,
-    state.InvoiceList?.statusCodeForPDf,
+    state.InvoiceList?.statusCodeForPDf, state.InvoiceList.statusCodeForReceiptPDf
   ]);
 
   // useEffect(() => {
@@ -1889,11 +1907,9 @@ console.log("isRowValue",newRows)
   //   const pdfUrl = state.InvoiceList.invoicePDF;
 
   //   if (pdfUrl) {
-  //     console.log("PDF URL", pdfUrl);
 
   //     const pdfWindow = window.open(pdfUrl, "_blank");
   //     if (pdfWindow) {
-  //       console.log("PDF opened successfully.");
   //       setShowLoader(false);
   //     } else {
   //       console.error("Failed to open the PDF.");
@@ -1905,33 +1921,31 @@ console.log("isRowValue",newRows)
   //     const pdfUrl = state.InvoiceList.invoicePDF;
 
   //     if (pdfUrl) {
-  //       console.log("PDF URL", pdfUrl);
 
   //       const pdfWindow = window.open(pdfUrl, "_blank");
   //       if (pdfWindow) {
-  //         console.log("PDF opened successfully.");
   //         setShowLoader(false);
   //         dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
   //       } else {
   //         console.error("Failed to open the PDF.");
   //       }
-  //     }
+  //     }    
   //   }
   // }, [state.InvoiceList?.statusCodeForPDf]);
+
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
 
       if (pdfUrl) {
-        console.log("pdfURL", pdfUrl);
         setShowLoader(false);
 
         // Pre-open the tab
         const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
-          console.log("PDF opened successfully.");
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+          // setTimeout(() => dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" }), 100);
         } else {
           console.error(
             "Failed to open the PDF. Popup blocker might be enabled."
@@ -1941,6 +1955,28 @@ console.log("isRowValue",newRows)
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
+
+  useEffect(() => {
+    if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
+      const pdfUrl = state.InvoiceList.ReceiptPDF;
+
+      if (pdfUrl) {
+        setShowLoader(false);
+
+        // Pre-open the tab
+        const pdfWindow = window.open("", "_blank");
+        if (pdfWindow) {
+          pdfWindow.location.href = pdfUrl; // Update URL to the PDF
+          dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+        } else {
+          console.error(
+            "Failed to open the PDF. Popup blocker might be enabled."
+          );
+          // alert("Popup blocked. Please allow popups for this site to view the PDF.");
+        }
+      }
+    }
+  }, [state.InvoiceList?.statusCodeForReceiptPDf]);
 
   // useEffect(() => {
   //   dispatch({
@@ -2403,7 +2439,6 @@ console.log("isRowValue",newRows)
     setDropdownVisible(false);
   };
 
-  console.log("Name", bills);
 
   // useEffect(() => {
   //    if (value === "1") {
@@ -2476,24 +2511,23 @@ console.log("isRowValue",newRows)
   return (
     <>
       {showAllBill && (
-        <div>
-          <div
+        <div className="container">
+          <div className="container"
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
-            className="container   mt-3"
+           
           >
             <p
-              style={{
+              style={{marginTop:26,
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
                 color: "#222",
-                marginTop: 2,
-                // marginLeft: -5,
-                paddingLeft:20
+              
+             
               }}
             >
               Bills
@@ -2510,8 +2544,6 @@ console.log("isRowValue",newRows)
                       style={{
                         position: "relative",
                         width: "100%",
-                        marginRight: 20,
-                        marginTop: "-10px",
                       }}
                     >
                       <div
@@ -2779,14 +2811,14 @@ console.log("isRowValue",newRows)
                   </>
                 ) : (
                   <>
-                    <div className="me-3">
+                    <div style={{paddingRight:15,marginTop:18}}>
                       <Image
                         src={searchteam}
                         roundedCircle
                         style={{
                           height: "24px",
                           width: "24px",
-                          marginTop: "-5px",
+                        
                         }}
                         onClick={handleSearch}
                       />
@@ -2795,11 +2827,12 @@ console.log("isRowValue",newRows)
                 )}
 
                 {(value === "1" || value === "3") && (
-                  <div className="me-3">
+                  <div style={{paddingRight:15,}}>
+                   
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px" }}
+                      style={{ height: "50px", width: "50px" ,marginTop:18}}
                       onClick={handleFilterd}
                     />
                   </div>
@@ -2868,7 +2901,7 @@ console.log("isRowValue",newRows)
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div className="me-3">
+                <div>
                   {value == 1 && (
                     <Button
                       disabled={billAddPermission}
@@ -2892,11 +2925,11 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 32px",
-                        
-                        maxWidth: "100%",
-                        marginBottom: "15px",
-                        maxHeight: 45,
+                        padding: "11px 32px",
+                        marginTop:19
+                        ,
+                        paddingLeft:34
+                       
                       }}
                     >
                       {" "}
@@ -2927,15 +2960,15 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 4px",
-                        width: "170px",
-                        maxWidth: "100%",
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        padding: "11px 24px",
+                        paddingLeft:25,
+                        marginTop:19
+                        // width: "170px",
+                      
                       }}
                     >
                       {" "}
-                      + Create Recurring Bill
+                      + Recurring Bill
                     </Button>
                   )}
 
@@ -2963,11 +2996,11 @@ console.log("isRowValue",newRows)
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 12px",
-                        width: "140px",
-                        maxWidth: "100%",
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        padding: "11px 17px",
+                        paddingLeft:18,
+                        
+                        marginTop:19
+                       
                       }}
                     >
                       {" "}
@@ -4098,7 +4131,7 @@ console.log("isRowValue",newRows)
                                 )
                               )}
 
-                              {bills.length > itemsPerPage && (
+                              {bills.length >= 5 && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -5396,7 +5429,7 @@ console.log("isRowValue",newRows)
                                             }
                                             OnHandleshowform={handleShowForm}
                                             OnHandleshowInvoicePdf={
-                                              handleInvoiceDetail
+                                              handleReceiptDetail
                                             }
                                             onhandleEdit={handleEditReceipt}
                                             DisplayInvoice={
