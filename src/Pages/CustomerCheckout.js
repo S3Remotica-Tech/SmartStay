@@ -46,6 +46,14 @@ function CustomerCheckout(props){
             }, 2000);
           }
         }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
+        useEffect(()=> {
+           if (state.UsersList.addCheckoutCustomerStatusCode === 200){
+            setTimeout(() => {
+              dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID } });
+            }, 200);
+           }
+          },[state.UsersList.addCheckoutCustomerStatusCode])
     
 
     const calculateDateDifference = (checkoutDate, reqDate) => {
