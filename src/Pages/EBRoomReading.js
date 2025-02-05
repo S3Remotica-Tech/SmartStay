@@ -1063,7 +1063,7 @@ function EBRoomReading(props) {
               )}
             </div>
 
-            {props.roomBasedDetail?.length > electricityrowsPerPage && (
+            {props.roomBasedDetail?.length >= 5 && (
               <nav
                 style={{
                   display: "flex",

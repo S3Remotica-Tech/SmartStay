@@ -68,6 +68,7 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
+  const [checkLength, setCheckLength] = useState(false);
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -215,7 +216,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
+console.log("loading",loading)
 
 
   useEffect(() => {
@@ -352,32 +353,23 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList)
-
-        setLoading(false)
-
-
-      }, 500)
+      setLoading(false)
+      setGetData(state.ExpenseList.expenseList)
+     
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
     }
-    else {
-      setLoading(false)
-    }
+   
 
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setTimeout(() => {
-        setGetData([])
+             setGetData([])
         setLoading(false)
-      }, 100)
-
-      setTimeout(() => {
+        setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
       }, 200)
     }
@@ -1174,7 +1166,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {currentItems && currentItems.length > 0 ? (
+          {currentItems && currentItems.length > 0 && (
             <div className='p-3'>
               <div style={{
                 // height: "400px",
@@ -1284,10 +1276,10 @@ function Expenses({ allPageHostel_Id }) {
           )
 
 
-            :
+        }
 
 
-            !loading &&
+          {  !loading && currentItems.length === 0 && 
 
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
@@ -1307,9 +1299,9 @@ function Expenses({ allPageHostel_Id }) {
             </div>
 
 
-          }
+          
 
-
+                }
 
 
 
@@ -1320,7 +1312,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
           {/*  Pagination code */}
-          {filteredData.length > itemsPerPage &&
+          {filteredData.length >= 5 &&
             <nav
               style={{
                 display: "flex",

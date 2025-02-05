@@ -162,10 +162,10 @@ function UserListAmenities(props) {
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(
-    indexOfFirstRowamnities,
-    indexOfLastRowamneties
-  );
+  const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities,indexOfLastRowamneties);
+
+  console.log(" amnitiesFilterddata", amnitiesFilterddata)
+
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
@@ -696,7 +696,7 @@ function UserListAmenities(props) {
                           justifyContent: "center",
                           alignItems: "center",
                           position: "relative",
-                          zIndex: 1000,
+                          // zIndex: 1000,
                         }}
                       >
                         <PiDotsThreeOutlineVerticalFill
@@ -719,18 +719,19 @@ function UserListAmenities(props) {
           </tbody>
         </Table>
       </div>
-      {amnitiesFilterddata.length > amentiesrowsPerPage && (
+       {amnitiesFilterddata?.length >= 1 && (
+<> 
+
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "end", // Align dropdown and pagination
+            justifyContent: "end", 
             padding: "10px",
-            // borderTop: "1px solid #ddd",
+            
           }}
         >
-          {/* Dropdown for Items Per Page */}
-          <div>
+                   <div>
             <select
               value={amentiesrowsPerPage}
               onChange={handleItemsPerPageChange}
@@ -835,6 +836,7 @@ function UserListAmenities(props) {
             </li>
           </ul>
         </nav>
+         </>
       )}
     </div>
   );

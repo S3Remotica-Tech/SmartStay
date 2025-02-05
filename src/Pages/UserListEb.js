@@ -446,7 +446,7 @@ const popupRef = useRef(null);
 
         </div>
 
-        {currentRowsEb?.length > 0 && (
+        {currentRowsEb?.length >= 5 && (
 
            <nav
                                style={{

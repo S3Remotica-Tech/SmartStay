@@ -1432,7 +1432,7 @@ function Booking(props) {
                   </Table>
                 </div>
 
-                {props.filteredUsers?.length > itemsPerPage && (
+                {props.filteredUsers?.length >= 5 && (
                   //  <nav
                   //                       style={{
                   //                         display: "flex",
