@@ -80,7 +80,7 @@ import ReceiptPdfCard from "./ReceiptPdfModal";
 const InvoicePage = () => {
 
   const state = useSelector((state) => state);
-
+console.log("state",state)
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
@@ -576,7 +576,7 @@ const InvoicePage = () => {
       setBills(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter.filter((user) =>
-        user.Status?.toLowerCase().includes(searchTerm.toLowerCase())
+        user.status?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBills(filteredItems);
     }
@@ -2891,8 +2891,8 @@ const InvoicePage = () => {
                       }}
                     >
                       <option value="All">All</option>
-                      <option value="Pending">UnPaid</option>
-                      <option value="Success">Paid</option>
+                      <option value="Unpaid">UnPaid</option>
+                      <option value="Paid">Paid</option>
                     </Form.Select>
                   </div>
                 )}
