@@ -140,7 +140,7 @@ function SettingGeneral() {
   };
   const handleCheckPasswordChange = () => {
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if  (checkPassword)  {
+    if (checkPassword) {
       dispatch({
 
         type: "CHECKPASSWORD",
@@ -241,18 +241,18 @@ function SettingGeneral() {
   const handleEmailId = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
-  
+
     // Regex to validate email
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     // const hasUpperCase = /[A-Z]/.test(emailValue);
     const isValidEmail = emailRegex.test(emailValue);
-  
+
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    // } else if (hasUpperCase) {
-    //   setEmailErrorMessage("Email should be in lowercase *");
-    //   setEmailError("Invalid Email Id *");
+      // } else if (hasUpperCase) {
+      //   setEmailErrorMessage("Email should be in lowercase *");
+      //   setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
@@ -261,11 +261,11 @@ function SettingGeneral() {
       setEmailErrorMessage("");
       setFormError("");
     }
-  
+
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
-  
- 
+
+
 
   const handleAddress = (e) => {
     setAddress(e.target.value);
@@ -280,7 +280,7 @@ function SettingGeneral() {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-    console.log("user",user)
+    console.log("user", user)
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
@@ -372,9 +372,9 @@ function SettingGeneral() {
         address !== initialStateAssign.address ||
         // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
         // (!file && initialStateAssign.file);
-        file !== initialStateAssign.file || 
+        file !== initialStateAssign.file ||
         (!file && initialStateAssign.file);
-    
+
       console.log("Change detection:");
       console.log("First Name:", firstName, initialStateAssign.firstName);
       console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
@@ -383,7 +383,7 @@ function SettingGeneral() {
       console.log("Address:", address, initialStateAssign.address);
       console.log("File comparison:", file, initialStateAssign.file);
       console.log("Is Changed:", isChanged);
-    
+
       if (!isChanged) {
         setFormError("No changes detected.");
         console.log("No changes detected. Form not submitted.");
@@ -391,7 +391,7 @@ function SettingGeneral() {
       } else {
         setFormError("");
       }
-    
+
       console.log("Submitting changes to dispatch...");
       dispatch({
         type: "ADDGENERALSETTING",
@@ -406,7 +406,7 @@ function SettingGeneral() {
         },
       });
     }
-    
+
     else if (firstName && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
@@ -657,7 +657,7 @@ function SettingGeneral() {
               fontSize: 20,
               color: "#000000",
               fontWeight: 600,
-              fontFamily: "Gilroy",marginTop:-2
+              fontFamily: "Gilroy", marginTop: -2
             }}
           >
             General
@@ -666,9 +666,9 @@ function SettingGeneral() {
 
         <div
           className="d-flex justify-content-between align-items-center"
-          
+
         >
-          
+
           <div>
             <Button
               // style={{
@@ -692,10 +692,10 @@ function SettingGeneral() {
                 fontWeight: 600,
                 borderRadius: "8px",
                 padding: "12px 20px",
-                 maxHeight: 45,
-                marginTop:5,
+                maxHeight: 45,
+                marginTop: 5,
 
-    
+
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
@@ -706,7 +706,8 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container " style={{ position: "relative" }}>
+      <div class="container " style={{ position: "relative" ,  maxHeight: "470px",
+                  overflowY: "auto",}}>
 
         {loading &&
           <div
@@ -746,9 +747,14 @@ function SettingGeneral() {
           currentRowGeneral.map((item) => {
             const imageUrl = item.profile || Profile;
             return (
+
+
               <div
                 className="card p-3 settingGreneral mt-2"
-                style={{ borderRadius: 16 }}
+                style={{
+                  borderRadius: 16,
+                
+                }}
                 key={item.id}
               >
                 <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -801,7 +807,7 @@ function SettingGeneral() {
                       height="30"
                       alt="icon"
                       onClick={() => handlegeneralform(item.id)}
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: "pointer" }}
                     />
                     {generalEdit === item.id && (
                       <div
@@ -947,6 +953,7 @@ function SettingGeneral() {
                   </div>
                 </div>
               </div>
+
             );
           })
         ) : !loading && (
@@ -1108,7 +1115,7 @@ function SettingGeneral() {
               fontFamily: "Gilroy",
             }}
           >
-             {edit ? "Edit General" : "Add General"} 
+            {edit ? "Edit General" : "Add General"}
           </div>
           <button
             type="button"
@@ -1245,7 +1252,7 @@ function SettingGeneral() {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '15px',}} />
+                  <MdError style={{ fontSize: '15px', }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
                 </div>
               )}
@@ -1311,7 +1318,7 @@ function SettingGeneral() {
                 </Form.Label>
 
                 {/* <InputGroup> */}
-                  {/* <Form.Select
+                {/* <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
                     // onChange={handleCountryCodeChange}
@@ -1332,51 +1339,51 @@ function SettingGeneral() {
                   >
                     <option>+{countryCode}</option>
                   </Form.Select> */}
-                  <Form.Control
-                    value={Phone}
-                    onChange={handlePhone}
-                    type="text"
-                    placeholder="9876543210"
-                    maxLength={10}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: Phone ? 600 : 500,
-                      boxShadow: "none",
-                      borderLeft: "1px solid #D9D9D9",
-                      borderRight: "1px solid #D9D9D9",
-                      borderTop: "1px solid #D9D9D9",
-                      borderBottom: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: "8px 8px 8px 8px",
-                      paddingLeft: "12px",
-                      width: "100%",
-                    }}
-                  />
+                <Form.Control
+                  value={Phone}
+                  onChange={handlePhone}
+                  type="text"
+                  placeholder="9876543210"
+                  maxLength={10}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: Phone ? 600 : 500,
+                    boxShadow: "none",
+                    borderLeft: "1px solid #D9D9D9",
+                    borderRight: "1px solid #D9D9D9",
+                    borderTop: "1px solid #D9D9D9",
+                    borderBottom: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: "8px 8px 8px 8px",
+                    paddingLeft: "12px",
+                    width: "100%",
+                  }}
+                />
                 {/* </InputGroup> */}
                 <p
                   id="MobileNumberError"
-                  style={{ color: "red"}}
+                  style={{ color: "red" }}
                 ></p>
-              
+
               </Form.Group>
               {phoneError && (
-                <div style={{ color: "red",marginTop:"-12px",fontSize:"13px"}}>
-                  <MdError style={{marginRight:"3px",marginBottom:"1px"}} />
-                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
+                <div style={{ color: "red", marginTop: "-12px", fontSize: "13px" }}>
+                  <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
                 </div>
               )}
               {phoneErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError/>
-                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
+                  <MdError />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                 </div>
               )}
               {phoneAlready && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
             </div>
@@ -1413,21 +1420,21 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {emailError && (
-                <div style={{ color: "red",fontSize:"13px"}}>
-                  <MdError style={{marginRight:"3px",marginBottom:"1px"}}/>
-                 <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
+                <div style={{ color: "red", fontSize: "13px" }}>
+                  <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
               )}
               {emailAlready && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
                 </div>
               )}
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError/>
+                  <MdError />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                 </div>
               )}
@@ -1500,9 +1507,9 @@ function SettingGeneral() {
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <div style={{ color: "red"}}>
-                    <MdError style={{marginRight:"3px",marginBottom:"1px"}}/>
-                    <span style={{ fontSize: '12px',fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
               </div>
@@ -1540,21 +1547,21 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {addressError && (
-                <div style={{ color: "red"}}>
-                  <MdError style={{fontFamily: "Gilroy",fontSize: '15px',marginRight:"3px",marginBottom:"1px"}} />
-                  <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '15px', marginRight: "3px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
-       
-        <Modal.Footer className="d-flex justify-content-center"style={{borderTop:"none"}}>
+
+        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           {formError && (
             <div style={{ color: "red" }}>
               <MdError />
-             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
-            </div> 
+              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+            </div>
           )}
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
@@ -1569,7 +1576,7 @@ function SettingGeneral() {
             }}
             onClick={handleSave}
           >
-            {edit ? "Save changes" : "Add General"} 
+            {edit ? "Save changes" : "Add General"}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1708,7 +1715,7 @@ function SettingGeneral() {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body style={{marginTop:'0px'}}>
+        <Modal.Body style={{ marginTop: '0px' }}>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             {/* {!editShow && ( */}
             <Form.Group className="">
@@ -1718,7 +1725,7 @@ function SettingGeneral() {
                   color: "#222222",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
-                  marginTop: 0,        
+                  marginTop: 0,
                   paddingTop: 0,
                 }}
               >
@@ -1772,7 +1779,7 @@ function SettingGeneral() {
             {passError && (
               <div style={{ color: "red" }}>
                 <MdError />
-               
+
                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
               </div>
             )}

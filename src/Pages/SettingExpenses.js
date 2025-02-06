@@ -11,7 +11,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
 import { Card } from 'react-bootstrap';
 import CreatableSelect from "react-select/creatable";
-
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 
 
 function SettingExpenses({ hostelid }) {
@@ -46,7 +46,9 @@ function SettingExpenses({ hostelid }) {
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
   const [subCategory_Id, setSubCategory_Id] = useState('')
   const [loading, setLoading] = useState(true)
-
+  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(10);
+  const [expensesFilterddata, setExpensesFilterddata] = useState([]);
+  const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
 
 
@@ -126,7 +128,7 @@ function SettingExpenses({ hostelid }) {
   const handleShow = () => {
     setCategoryErrmsg('')
     setSubCategoryErrmsg('')
-        if (!hostelid) {
+    if (!hostelid) {
       setShowPopup(true);
       return;
     }
@@ -146,7 +148,7 @@ function SettingExpenses({ hostelid }) {
     setIsSubCategory(false)
     setCategoryErrmsg("")
     setSubCategoryErrmsg("")
-    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR'})
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
 
   };
 
@@ -236,7 +238,7 @@ function SettingExpenses({ hostelid }) {
   };
 
 
-  
+
 
 
 
@@ -276,9 +278,9 @@ function SettingExpenses({ hostelid }) {
 
   // };
 
-  
-  
-  
+
+
+
 
 
 
@@ -299,8 +301,9 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.getExpensesStatuscode === 200) {
+      setExpensesFilterddata(state.Settings.Expences.data);
       setLoading(false)
-      setExpences(state.Settings.Expences.data)
+      // setExpences(state.Settings.Expences.data)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
       }, 100)
@@ -323,13 +326,13 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-     
-    //  setShowForm(false)
-     setCategoryErrmsg('')
-     if(state.Settings.editexpencesStatuscode === 200){
-      setShowForm(false)
-     }
-           setTimeout(() => {
+
+      //  setShowForm(false)
+      setCategoryErrmsg('')
+      if (state.Settings.editexpencesStatuscode === 200) {
+        setShowForm(false)
+      }
+      setTimeout(() => {
         dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
       }, 100)
       setDeleteSubCatItems('')
@@ -394,18 +397,18 @@ function SettingExpenses({ hostelid }) {
 
   const updateType = () => {
 
-    if (subcategory_Id && subType ) {
-          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
-        
-          setIsSubCategory(false)
-          setSubType('')
-        }
-      
-      else {
-        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
-       
-      }
+    if (subcategory_Id && subType) {
+      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
+
+      setIsSubCategory(false)
+      setSubType('')
     }
+
+    else {
+      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
+
+    }
+  }
 
 
   const addType = () => {
@@ -413,30 +416,30 @@ function SettingExpenses({ hostelid }) {
       setCategoryErrmsg("Please Enter a Category");
       return;
     }
-  
+
     dispatch({
       type: "EXPENCES-CATEGORY-ADD",
-      payload: { 
-        hostel_id: hostelid, 
-        id: type.value, 
-        category_Name: type.label, 
-        sub_Category: subType?.trim() || '' 
+      payload: {
+        hostel_id: hostelid,
+        id: type.value,
+        category_Name: type.label,
+        sub_Category: subType?.trim() || ''
       },
     });
 
-   
+
     setSelectedOptions([])
   };
 
 
-useEffect(()=>{
-if(state.Settings?.AddCategoryType == 2){
-   setShowForm(false);
-   setTimeout(()=>{
-dispatch({ type: 'CLEAR_TYPE'})
-   },1000)
-}
-},[state.Settings.AddCategoryType])
+  useEffect(() => {
+    if (state.Settings?.AddCategoryType == 2) {
+      setShowForm(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_TYPE' })
+      }, 1000)
+    }
+  }, [state.Settings.AddCategoryType])
 
 
 
@@ -452,7 +455,7 @@ dispatch({ type: 'CLEAR_TYPE'})
     setShowForm(true);
     if (item.category_Id && item.category_Name) {
       setType({ value: item.category_Id, label: item.category_Name });
-      setSelectedOptions({value: item.category_Id, label: item.category_Name })
+      setSelectedOptions({ value: item.category_Id, label: item.category_Name })
       setCategory_ID(item.category_Id || '')
       setEditsubCat(false)
       setIsSubCategory(false);
@@ -500,48 +503,48 @@ dispatch({ type: 'CLEAR_TYPE'})
 
 
 
-console.log("editsubcat",editsubcat)
+  console.log("editsubcat", editsubcat)
 
 
 
 
 
   const handleCreate = (inputValue) => {
- 
+
     const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
     console.log(" existingCategoryIndex", existingCategoryIndex)
-  
+
     if (existingCategoryIndex !== -1) {
-      
+
       const updatedOptions = [...options];
       updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
-  
+
       setOptions(updatedOptions);
       setSelectedOptions(updatedOptions[existingCategoryIndex]);
-      setType(updatedOptions[existingCategoryIndex]); 
-  
+      setType(updatedOptions[existingCategoryIndex]);
+
       dispatch({
         type: 'EDIT_EXPENCES_CATEGORY',
         payload: { id: selectedOptions.value, hostel_id: hostelid, name: inputValue, type: 1 }
       });
 
 
-  
+
     } else {
-    
+
       const newOption = { value: inputValue, label: inputValue };
       setOptions((prev) => [...prev, newOption]);
       setSelectedOptions(newOption);
-      setType(newOption); 
-  
+      setType(newOption);
+
       dispatch({
         type: 'EXPENCES-CATEGORY-ADD',
         payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
       });
     }
   };
-  
-  
+
+
 
 
 
@@ -550,33 +553,33 @@ console.log("editsubcat",editsubcat)
       console.log("Expences data is undefined or not an array");
       return;
     }
-  
+
     if (selectedOptions) {
       const TakeCategoryId = state.Settings.Expences.data.filter(
         (view) => selectedOptions?.label && view.category_Name?.toLowerCase() === selectedOptions.label.toLowerCase()
       );
-  
+
       console.log("TakeCategoryId:", TakeCategoryId);
-  
+
       if (TakeCategoryId.length > 0) {
         setType({ value: TakeCategoryId[0]?.category_Id, label: TakeCategoryId[0]?.category_Name });
       }
     }
   }, [state.Settings.addexpencesStatuscode, selectedOptions]);
-  
 
 
-console.log("selected cate type",type)
 
-console.log("selectedOptions",selectedOptions)
+  console.log("selected cate type", type)
+
+  console.log("selectedOptions", selectedOptions)
 
 
 
 
   useEffect(() => {
-       let optionArray = [];
+    let optionArray = [];
     state.Settings?.Expences?.data?.map((view) => {
-      
+
       let optionObj = {
         label: view.category_Name,
         value: view.category_Id
@@ -588,7 +591,7 @@ console.log("selectedOptions",selectedOptions)
   }, [state.Settings?.Expences?.data])
 
 
- 
+
 
 
 
@@ -610,12 +613,33 @@ console.log("selectedOptions",selectedOptions)
     setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
   };
 
+  // pagination
+  const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
+  const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
+  const currentRowExpense = expensesFilterddata?.slice(
+    indexOfFirstRowExpense,
+    indexOfLastRowExpense
+  );
 
+  const handlePageChange = (generalpageNumber) => {
+    setExpensescurrentPage(generalpageNumber);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setExpensesrowsPerPage(Number(event.target.value));
+  };
+
+  const totalPagesGeneral = Math.ceil(
+    expensesFilterddata?.length / expensesrowsPerPage
+  );
 
 
 
   return (
-    <div className="container" style={{ position: "relative" }}>
+    <div className="container" style={{
+      position: "relative"  ,maxHeight: "470px",
+      overflowY: "auto",
+    }}>
 
 
       {loading &&
@@ -674,12 +698,12 @@ console.log("selectedOptions",selectedOptions)
               fontWeight: 600,
               borderRadius: "8px",
               padding: "11px 35px",
-              paddingLeft:36,
+              paddingLeft: 36,
               width: "auto",
               maxWidth: "100%",
               marginBottom: "10px",
               maxHeight: 50,
-            marginTop:35 
+              marginTop: 35
             }}
             disabled={showPopup}
           >+ Category</Button></div>
@@ -709,8 +733,9 @@ console.log("selectedOptions",selectedOptions)
 
 
       <div className="mt-4 d-flex row gap-2">
-        {expences.length > 0 ? (
-          expences.map((category) => (
+        {/* {expences.length > 0 ? ( */}
+        {currentRowExpense && currentRowExpense.length > 0 ? (
+          currentRowExpense.map((category) => (
             <div key={category.category_Id} className="col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded p-2"
               style={{
                 height: expandedCategoryId === category.category_Id ? "auto" : "50px",
@@ -848,6 +873,111 @@ console.log("selectedOptions",selectedOptions)
         )}
       </div>
 
+      {expensesFilterddata?.length > expensesrowsPerPage && (
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+          {/* Dropdown for Items Per Page */}
+          <div>
+            <select
+              value={expensesrowsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+              }}
+            >
+              <option value={2}>2</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          {/* Pagination Controls */}
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: expensescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: expensescurrentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(expensescurrentPage - 1)}
+                disabled={expensescurrentPage === 1}
+              >
+                <ArrowLeft2
+                  size="16"
+                  color={expensescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
+
+            {/* Current Page Indicator */}
+            <li
+              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+            >
+              {expensescurrentPage} of {totalPagesGeneral}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color:
+                    expensescurrentPage === totalPagesGeneral
+                      ? "#ccc"
+                      : "#1E45E1",
+                  cursor:
+                    expensescurrentPage === totalPagesGeneral
+                      ? "not-allowed"
+                      : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(expensescurrentPage + 1)}
+                disabled={expensescurrentPage === totalPagesGeneral}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={
+                    expensescurrentPage === totalPagesGeneral
+                      ? "#ccc"
+                      : "#1E45E1"
+                  }
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
 
 
 
@@ -934,20 +1064,20 @@ console.log("selectedOptions",selectedOptions)
 
                         <CreatableSelect
 
-                        isDisabled={editsubcat} 
+                          isDisabled={editsubcat}
                           options={options}
                           value={selectedOptions}
                           onChange={handleChange}
                           onCreateOption={handleCreate}
                           placeholder="Select / Create Category"
-                          style={{padding:20}}
+                          style={{ padding: 20 }}
                           className=""
                         />
-                   
+
 
                         {cateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px', fontFamily:"Gilroy" }}>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
                               {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
                             </p>
                           </div>
@@ -956,9 +1086,9 @@ console.log("selectedOptions",selectedOptions)
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <input 
+                      <input
                         type='checkbox'
-                        disabled={editsubcat === false} 
+                        disabled={editsubcat === false}
                         className='mb-3 me-2'
                         checked={isSubCategory}
                         onChange={() => setIsSubCategory(!isSubCategory)}
@@ -979,13 +1109,13 @@ console.log("selectedOptions",selectedOptions)
                           placeholder="Enter sub-category"
                           value={subType}
                           onChange={(e) => handlesubcategoryAdd(e)}
-                         disabled={!isSubCategory}
+                          disabled={!isSubCategory}
                         />
 
 
                         {subcateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px', fontFamily:"Gilroy" }}>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
                               {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
                             </p>
                           </div>
@@ -1023,7 +1153,7 @@ console.log("selectedOptions",selectedOptions)
 
               <Modal.Footer style={{ border: "none" }}>
                 <Button
-                disabled={editsubcat === false} 
+                  disabled={editsubcat === false}
                   className="w-100"
                   style={{
                     backgroundColor: "#1E45E1",
