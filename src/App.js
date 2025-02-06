@@ -61,7 +61,7 @@ function App() {
 
 
   useEffect(() => {
-     if (tokenAccessDenied === 206) {
+     if (tokenAccessDenied == 206) {
       setTimeout(() => {
         dispatch({ type: 'LOG_OUT' });
         setData(false);

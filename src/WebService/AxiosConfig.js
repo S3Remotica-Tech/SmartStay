@@ -12,7 +12,7 @@ const AxiosConfig = axios.create({
     baseURL: config.apiBaseUrl,
 headers: {
   'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin' : '*'
+    // 'Access-Control-Allow-Origin' : '*'
 }
 })
 AxiosConfig.interceptors.request.use(
