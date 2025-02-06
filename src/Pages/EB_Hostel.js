@@ -81,9 +81,11 @@ function EB_Hostel(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
+    setLoading(true)
   }, [state.login.selectedHostel_Id]);
 
   // useEffect(() => {
@@ -335,12 +337,24 @@ function EB_Hostel(props) {
   useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
       setelectricityFilterddata(state.PgList?.EB_customerTable);
-
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
+
+
+  useEffect(() => {
+    if (state.PgList.nostatusCodeforEbCustomer === 201) {
+      setelectricityFilterddata([]);
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NOHOSTEL" });
+      }, 200);
+    }
+  }, [state.PgList.nostatusCodeforEbCustomer]);
+
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
       setTimeout(() => {
@@ -625,8 +639,8 @@ function EB_Hostel(props) {
     // setFilterStatus(false);
   };
 
-const [originalElec,setOriginalElec] = useState("")
-const [originalElecRoom,etOriginalElecRoom] = useState("")
+  const [originalElec, setOriginalElec] = useState("")
+  const [originalElecRoom, etOriginalElecRoom] = useState("")
 
   // const handleUserSelect = (user) => {
   //   setFilterInput(user.Name);
@@ -636,16 +650,16 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
     setelectricityFilterddata([user]);
-  
-    setDropdownVisible(false);  
+
+    setDropdownVisible(false);
   };
-  
-  
+
+
   const handlefilterInput = (e) => {
     const inputValue = e.target.value;
     setFilterInput(inputValue);
     setDropdownVisible(inputValue.length > 0);
-  
+
     if (inputValue.length === 0) {
       setelectricityFilterddata(originalElec);
     } else {
@@ -656,33 +670,33 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
     }
   };
   useEffect(() => {
-      if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
-        setOriginalElec(electricityFilterddata);
-      }
-    }, [electricityFilterddata]);
-    useEffect(() => {
-      if (roomBasedDetail?.length > 0 && originalElecRoom?.length === 0) {
-        etOriginalElecRoom(roomBasedDetail);
-      }
-    }, [roomBasedDetail]);
-    const handleCloseSearch = () => {
-      setSearch(false);
-      setFilterInput("");
-      setelectricityFilterddata(originalElec);
-      setRoomBasedDetail(originalElecRoom);
-      // setReceiptData(originalReceipt);
-    };
-    const handleRoomUserSelect = (user) => {
-      setFilterInput(user.floor_name);
-      setRoomBasedDetail([user]);
-      setDropdownVisible(false);
-    };
-  
+    if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
+      setOriginalElec(electricityFilterddata);
+    }
+  }, [electricityFilterddata]);
+  useEffect(() => {
+    if (roomBasedDetail?.length > 0 && originalElecRoom?.length === 0) {
+      etOriginalElecRoom(roomBasedDetail);
+    }
+  }, [roomBasedDetail]);
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("");
+    setelectricityFilterddata(originalElec);
+    setRoomBasedDetail(originalElecRoom);
+    // setReceiptData(originalReceipt);
+  };
+  const handleRoomUserSelect = (user) => {
+    setFilterInput(user.floor_name);
+    setRoomBasedDetail([user]);
+    setDropdownVisible(false);
+  };
+
   return (
     <div style={{ paddingLeft: 15 }}>
       <div
         className="d-flex justify-content-between align-items-center ms-2  mb-2"
-        //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
+      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
       >
         <div>
           <label
@@ -702,139 +716,139 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
           className="d-flex justify-content-between align-items-center"
           style={{ paddingRight: 25, marginTop: 20 }}
         >
-         {search && value === "1" ? (
-                  <>
+          {search && value === "1" ? (
+            <>
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  marginRight: 20,
+                  marginTop: "-10px",
+                }}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <Image
+                    src={searchteam}
+                    alt="Search"
+                    style={{
+                      position: "absolute",
+                      left: "10px",
+                      width: "24px",
+                      height: "24px",
+                      pointerEvents: "none",
+                    }}
+                  />
+                  <div
+                    className="input-group"
+                    style={{ marginRight: 20 }}
+                  >
+                    <span className="input-group-text bg-white border-end-0">
+                      <Image
+                        src={searchteam}
+                        style={{ height: 20, width: 20 }}
+                      />
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control border-start-0"
+                      placeholder="Search"
+                      aria-label="Search"
+                      style={{
+                        boxShadow: "none",
+                        outline: "none",
+                        borderColor: "rgb(207,213,219)",
+                        borderRight: "none",
+                      }}
+                      value={filterInput}
+                      onChange={(e) => handlefilterInput(e)}
+                    />
+                    <span className="input-group-text bg-white border-start-0">
+                      <img
+                        src={closecircle}
+                        onClick={handleCloseSearch}
+                        style={{ height: 20, width: 20 }}
+                      />
+                    </span>
+                  </div>
+                </div>
+
+                {value === "1" &&
+                  isDropdownVisible &&
+                  electricityFilterddata?.length > 0 && (
                     <div
                       style={{
-                        position: "relative",
-                        width: "100%",
-                        marginRight: 20,
-                        marginTop: "-10px",
+                        border: "1px solid #d9d9d9 ",
+                        position: "absolute",
+                        top: 60,
+                        left: 0,
+                        zIndex: 1000,
+                        padding: 10,
+                        borderRadius: 8,
+                        backgroundColor: "#fff",
+                        width: "94%",
                       }}
                     >
-                      <div
+                      <ul
+                        className="show-scroll p-0"
                         style={{
-                          position: "relative",
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
-                          marginTop: "10px",
-                          marginBottom: "10px",
+                          backgroundColor: "#fff",
+                          borderRadius: "4px",
+                          maxHeight: electricityFilterddata?.length > 1 ? "174px" : "auto",
+                          minHeight: 100,
+                          overflowY:
+                            electricityFilterddata?.length > 1 ? "auto" : "hidden",
+                          margin: "0",
+                          listStyleType: "none",
+                          boxSizing: "border-box",
                         }}
                       >
-                        <Image
-                          src={searchteam}
-                          alt="Search"
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            width: "24px",
-                            height: "24px",
-                            pointerEvents: "none",
-                          }}
-                        />
-                        <div
-                          className="input-group"
-                          style={{ marginRight: 20 }}
-                        >
-                          <span className="input-group-text bg-white border-end-0">
-                            <Image
-                              src={searchteam}
-                              style={{ height: 20, width: 20 }}
-                            />
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control border-start-0"
-                            placeholder="Search"
-                            aria-label="Search"
-                            style={{
-                              boxShadow: "none",
-                              outline: "none",
-                              borderColor: "rgb(207,213,219)",
-                              borderRight: "none",
-                            }}
-                            value={filterInput}
-                            onChange={(e) => handlefilterInput(e)}
-                          />
-                          <span className="input-group-text bg-white border-start-0">
-                            <img
-                              src={closecircle}
-                              onClick={handleCloseSearch}
-                              style={{ height: 20, width: 20 }}
-                            />
-                          </span>
-                        </div>
-                      </div>
-
-                      {value === "1" &&
-                        isDropdownVisible &&
-                        electricityFilterddata?.length > 0 && (
-                          <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 60,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              width: "94%",
-                            }}
-                          >
-                            <ul
-                              className="show-scroll p-0"
+                        {electricityFilterddata?.map((user, index) => {
+                          const imagedrop = user.profile || Profile;
+                          return (
+                            <li
+                              key={index}
+                              className="list-group-item d-flex align-items-center"
                               style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                maxHeight: electricityFilterddata?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                electricityFilterddata?.length > 1 ? "auto" : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
+                                cursor: "pointer",
+                                padding: "10px 5px",
+                                borderBottom:
+                                  index !== electricityFilterddata?.length - 1
+                                    ? "1px solid #eee"
+                                    : "none",
                               }}
+                              onClick={() => handleUserSelect(user)}
                             >
-                              {electricityFilterddata?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== electricityFilterddata?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleUserSelect(user)}
-                                  >
-                                    <Image
-                                      src={imagedrop}
-                                      alt={user.Name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )}
-                      {/* {value === "2" &&
+                              <Image
+                                src={imagedrop}
+                                alt={user.Name || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span>{user.Name}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                {/* {value === "2" &&
                         isDropdownVisible &&
                         roomBasedDetail?.length > 0 && (
                           <div
@@ -892,7 +906,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                           </div>
                         )} */}
 
-                      {/* {value === "3" &&
+                {/* {value === "3" &&
                         isDropdownVisible &&
                         receiptdata?.length > 0 && (
                           <div
@@ -960,43 +974,43 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                             </ul>
                           </div>
                         )} */}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                  {
-                    value === "1" &&
-                    <div style={{paddingRight:21}}>
-                    <Image
-                      src={searchteam}
-                      roundedCircle
-                      style={{
-                        height: "24px",
-                        width: "24px",
-                       
-                        cursor:"pointer",
+              </div>
+            </>
+          ) : (
+            <>
+              {
+                value === "1" &&
+                <div style={{ paddingRight: 21 }}>
+                  <Image
+                    src={searchteam}
+                    roundedCircle
+                    style={{
+                      height: "24px",
+                      width: "24px",
 
-                      }}
-                      onClick={handleSearch}
-                    />
-                  </div>
-                    
-                  }
-                   
-                  </>
-                )}
-          <div className="me-3" style={{paddingRight:5,marginTop:5}}>
-            
-              {value === "1" && (
-                <img
-                  src={excelimg}
-                  width={38}
-                  height={38}
-                  onClick={handleEbExcel}
-                  style={{cursor:"pointer"}}
-                />
-              )}
-           
+                      cursor: "pointer",
+
+                    }}
+                    onClick={handleSearch}
+                  />
+                </div>
+
+              }
+
+            </>
+          )}
+          <div className="me-3" style={{ paddingRight: 5, marginTop: 5 }}>
+
+            {value === "1" && (
+              <img
+                src={excelimg}
+                width={38}
+                height={38}
+                onClick={handleEbExcel}
+                style={{ cursor: "pointer" }}
+              />
+            )}
+
           </div>
 
           {hostelBased == 1 ? (
@@ -1014,9 +1028,9 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   cursor: "pointer",
                   whiteSpace: "nowrap",
                   padding: "11px 18px",
-                  marginTop:2,
-                  paddingLeft:19
-                 
+                  marginTop: 2,
+                  paddingLeft: 19
+
                 }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
@@ -1053,9 +1067,9 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   fontWeight: 600,
                   borderRadius: "8px",
                   padding: "11px 18px",
-                 marginTop:2,
-                 paddingLeft:19
-                
+                  marginTop: 2,
+                  paddingLeft: 19
+
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -1134,7 +1148,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               value={value}
               hostelBased={hostelBased}
               editeb={editeb}
-              setEditEb = {setEditEb}
+              setEditEb={setEditEb}
             />
 
             {ebpermissionError ? (
@@ -1183,6 +1197,35 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </>
             ) : (
               <>
+                {loading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
+
                 <div>
                   {currentRoomelectricity?.length > 0 ? (
                     <div
@@ -1317,7 +1360,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
-                                paddingLeft:"15px",
+                                paddingLeft: "15px",
                               }}
                             >
                               Date
@@ -1331,8 +1374,8 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
                                 textAlign: "start",
-                                
-                                
+
+
                               }}
                             >
                               Units
@@ -1567,6 +1610,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                       </Table>
                     </div>
                   ) : (
+                    !loading && currentRoomelectricity && currentRoomelectricity.length === 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1974,7 +2018,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </span>
             </button>
           </Modal.Header>
-          <Modal.Body style={{marginTop:"-10px"}}>
+          <Modal.Body style={{ marginTop: "-10px" }}>
             <div className="row ">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -2022,14 +2066,14 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Select>
                 {floorError && (
                   <div >
-                    <MdError style={{ color: "red",fontSize:"13px" }}/>
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
                     <span
                       style={{
                         fontSize: "12px",
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        marginLeft:5
+                        marginLeft: 5
                       }}
                     >
                       {floorError}
@@ -2077,14 +2121,14 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Select>
                 {roomError && (
                   <div >
-                    <MdError style={{ color: "red",fontSize:"13px" }} />
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
                     <span
                       style={{
                         fontSize: "12px",
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        marginLeft:5
+                        marginLeft: 5
                       }}
                     >
                       {roomError}
@@ -2126,14 +2170,14 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Group>
                 {endMeterError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red",fontSize:"13px" }}/>
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
                     <span
                       style={{
                         fontSize: "12px",
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        marginLeft:5
+                        marginLeft: 5
                       }}
                     >
                       {endMeterError}
@@ -2143,7 +2187,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group  controlId="purchaseDate">
+                <Form.Group controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2172,14 +2216,14 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                 </Form.Group>
                 {dateError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red",fontSize:"13px" }}/>
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
                     <span
                       style={{
                         fontSize: "12px",
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        marginLeft:5
+                        marginLeft: 5
                       }}
                     >
                       {dateError}
@@ -2233,7 +2277,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
             handleHostelForm={handleHostelForm}
             hostelBased={hostelBased}
             editeb={editeb}
-            setEditEb = {setEditEb}
+            setEditEb={setEditEb}
           />
         </TabPanel>
       </TabContext>
