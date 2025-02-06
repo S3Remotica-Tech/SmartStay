@@ -571,16 +571,28 @@ console.log("state",state)
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
-
+  
+    console.log("Selected Filter:", searchTerm);
+    console.log("Original Bills:", originalBillsFilter);
+  
     if (searchTerm === "All") {
       setBills(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter.filter((user) =>
-        user.status?.toLowerCase().includes(searchTerm.toLowerCase())
+        user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
+  
+      console.log("Filtered Bills:", filteredItems);
       setBills(filteredItems);
     }
+  
+    // 🔥 Reset to first page after filtering
+    setCurrentPage(1);
   };
+  
+  
+ 
+  
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
   const handleStatusFilterReceipt = (event) => {
