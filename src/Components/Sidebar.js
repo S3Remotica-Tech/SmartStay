@@ -669,21 +669,21 @@ function Sidebar() {
                   </li>
                 )}
 
-              {state.UsersList.hostelListNewDetails.data &&
-                state.UsersList.hostelListNewDetails.data?.length === 0 && (
-                  <li
-                    className="align-items-center d-flex justify-content-center list-Button mb-2"
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                    onClick={() => handleShowsettingsPG()}
-                  >
-                    + Add PG
-                  </li>
-                )}
+{(state.UsersList?.hostelListNewDetails?.data || []).length === 0 && (
+  <li
+    className="align-items-center d-flex justify-content-center list-Button mb-2"
+    style={{
+      listStyleType: "none",
+      display: "flex",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+    onClick={() => handleShowsettingsPG()}
+  >
+    + Add PG
+  </li>
+)}
+
 
               <ul
                 className="first p-0 show-scrolls"
