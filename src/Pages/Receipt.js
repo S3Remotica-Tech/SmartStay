@@ -179,35 +179,14 @@ const Receipt = (props) => {
   // }, [selectedItem]);
 
    useEffect(() => {
-      if (
-        state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||  state.InvoiceList.ReceiptEditsuccessStatuscode === 200 ||
-        state.InvoiceList.ReceiptDeletesuccessStatuscode === 200
-      ) 
-      setDeleteShow(false)
-
-      {
-        dispatch({
-          type: "RECEIPTSLIST",
-          payload: { hostel_id: hostelId },
-        });
-  
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
-        }, 1000);
-
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
-        }, 1000);
+      if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
+        setDeleteShow(false)
   
         setTimeout(() => {
           dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
         }, 1000);
       }
-    }, [
-      state.InvoiceList.ReceiptAddsuccessStatuscode, state.InvoiceList.ReceiptEditsuccessStatuscode ,
-      state.InvoiceList.ReceiptDeletesuccessStatuscode,
-  
-    ]);
+    }, [ state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
     
 
