@@ -54,7 +54,10 @@ const InvoiceTable = (props) => {
     props.OnHandleshowform(props)
   }
   const handleEdit = (props) => {
-    props.OnHandleshowEditform(props)
+
+console.log("propsEDit",props)
+
+    props.OnHandleshowEditform(props.item)
   }
 
   const handleInvoicepdf = (item) => {
