@@ -54,7 +54,7 @@ function UserList(props) {
   const selectRef = useRef("select");
   const popupRef = useRef(null);
   const rowRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
@@ -647,14 +647,13 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    // if(uniqueostel_Id){
-
+    setLoading(true);
     dispatch({
       type: "USERLIST",
       payload: { hostel_id: uniqueostel_Id },
     });
-    setLoading(true);
-    // }
+   
+
 
   }, [uniqueostel_Id]);
 
@@ -668,11 +667,19 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
   //   }, [Floor]);
 
   const [userListDetail, setUserListDetail] = useState("")
+const [trigger, setTrigger] = useState(true)
+
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
+    if (state.UsersList?.UserListStatusCode == 200) {
+      setLoading(false);
+
+setTimeout(()=>{
+setTrigger(false)
+},1000)
+
       setUserListDetail(state.UsersList.Users);
       setFilteredUsers(state.UsersList.Users)
-      setLoading(false);
+     
       // if (state.UsersList.Users.length > 0) {
 
       // const indexOfLastItem = currentPage * itemsPerPage;
@@ -2736,47 +2743,8 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <div className="">
                     <div>
 
-                      {
-                        !loading &&
-                        currentItems && currentItems?.length === 0 && (
-                          // {currentItems?.length == 0 && (
-                          <div style={{ marginTop: 28, marginLeft: "2px" }}>
-                            <div style={{ textAlign: "center" }}>
-                              <img
-                                src={Emptystate}
-                                alt="Empty State"
-
-                              />
-                            </div>
-                            <div
-                              className="pb-1"
-                              style={{
-                                textAlign: "center",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: 20,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              No Active Customer{" "}
-                            </div>
-                            <div
-                              className="pb-1"
-                              style={{
-                                textAlign: "center",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                fontSize: 16,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              There are no active Customer{" "}
-                            </div>
-
-                          </div>
-                        )}
-
-                      {currentItems && currentItems.length > 0 && (
+                    
+                      {currentItems && currentItems.length > 0 ? (
                         <div
                           // className="z-0"
                           style={{
@@ -3499,207 +3467,58 @@ console.log("FilterUsertwo",FilterUsertwo)
                           </Table>
 
                         </div>
-                      )}
+                      )
+                    
+                    :
+(
+                    
+                      !loading && !trigger &&
+                      currentItems && currentItems?.length == 0 && 
+                        
+                        <div style={{ marginTop: 28, marginLeft: "2px" }}>
+                          <div style={{ textAlign: "center" }}>
+                            <img
+                              src={Emptystate}
+                              alt="Empty State"
+
+                            />
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No Active Customer{" "}
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no active Customer{" "}
+                          </div>
+
+                        </div>
+                )
+                
+                }
+
+                                     
+                    
                     </div>
                     {
                       state.UsersList.Users?.length >= 5 &&
-                      // (
-                      // <nav>
-                      //   <ul
-                      //     style={{
-                      //       display: "flex",
-                      //       alignItems: "center",
-                      //       listStyleType: "none",
-                      //       padding: 0,
-                      //       justifyContent: "end",
-                      //     }}
-                      //   >
-                      //     <li style={{ margin: "0 5px" }}>
-                      //       <button
-                      //         style={{
-                      //           padding: "5px 10px",
-                      //           textDecoration: "none",
-                      //           color: currentPage === 1 ? "#ccc" : "#007bff",
-                      //           cursor:
-                      //             currentPage === 1 ? "not-allowed" : "pointer",
-                      //           borderRadius: "5px",
-                      //           display: "inline-block",
-                      //           minWidth: "30px",
-                      //           textAlign: "center",
-                      //           backgroundColor: "transparent",
-                      //           border: "none",
-                      //         }}
-                      //         onClick={() => handlePageChange(currentPage - 1)}
-                      //         disabled={currentPage === 1}
-                      //       >
-                      //         <ArrowLeft2 size="16" color="#1E45E1" />
-                      //       </button>
-                      //     </li>
-                      //     {currentPage > 3 && (
-                      //       <li style={{ margin: "0 5px" }}>
-                      //         <button
-                      //           style={{
-                      //             padding: "5px 10px",
-                      //             textDecoration: "none",
-                      //             color: "white",
-                      //             cursor: "pointer",
-                      //             borderRadius: "5px",
-                      //             display: "inline-block",
-                      //             minWidth: "30px",
-                      //             textAlign: "center",
-                      //             backgroundColor: "transparent",
-                      //             border: "none",
-                      //           }}
-                      //           onClick={() => handlePageChange(1)}
-                      //         >
-                      //           1
-                      //         </button>
-                      //       </li>
-                      //     )}
-                      //     {currentPage > 3 && <span>...</span>}
-                      //     {renderPageNumbers()}
-                      //     {currentPage < totalPages - 2 && <span>...</span>}
-                      //     {currentPage < totalPages - 2 && (
-                      //       <li style={{ margin: "0 5px" }}>
-                      //         <button
-                      //           style={{
-                      //             padding: "5px 10px",
-                      //             textDecoration: "none",
-                      //             cursor: "pointer",
-                      //             borderRadius: "5px",
-                      //             display: "inline-block",
-                      //             minWidth: "30px",
-                      //             textAlign: "center",
-                      //             backgroundColor: "transparent",
-                      //             border: "none",
-                      //           }}
-                      //           onClick={() => handlePageChange(totalPages)}
-                      //         >
-                      //           {totalPages}
-                      //         </button>
-                      //       </li>
-                      //     )}
-                      //     <li style={{ margin: "0 5px" }}>
-                      //       <button
-                      //         style={{
-                      //           padding: "5px 10px",
-                      //           textDecoration: "none",
-                      //           color:
-                      //             currentPage === totalPages
-                      //               ? "#ccc"
-                      //               : "#007bff",
-                      //           cursor:
-                      //             currentPage === totalPages
-                      //               ? "not-allowed"
-                      //               : "pointer",
-                      //           borderRadius: "5px",
-                      //           display: "inline-block",
-                      //           minWidth: "30px",
-                      //           textAlign: "center",
-                      //           backgroundColor: "transparent",
-                      //           border: "none",
-                      //         }}
-                      //         onClick={() => handlePageChange(currentPage + 1)}
-                      //         disabled={currentPage === totalPages}
-                      //       >
-                      //         <ArrowRight2 size="16" color="#1E45E1" />
-                      //       </button>
-                      //     </li>
-                      //   </ul>
-                      // </nav>
-
-                      //   <nav
-                      //   style={{
-                      //     display: "flex",
-                      //     alignItems: "center",
-                      //     justifyContent: "end", 
-                      //     padding: "10px",
-                      //   }}
-                      // >
-                      //   <div>
-                      //     <select
-                      //       value={itemsPerPage}
-                      //       onChange={handleItemsPerPageChange}
-                      //       style={{
-                      //         padding: "5px",
-                      //         border: "1px solid #1E45E1",
-                      //         borderRadius: "5px",
-                      //         color: "#1E45E1",
-                      //         fontWeight: "bold",
-                      //         cursor: "pointer",
-                      //         outline: "none",
-                      //         boxShadow: "none",
-
-                      //       }}
-                      //     >
-                      //        <option value={5}>5</option>
-                      //       <option value={10}>10</option>
-                      //       <option value={50}>50</option>
-                      //       <option value={100}>100</option>
-                      //     </select>
-                      //   </div>
-                      //   <ul
-                      //     style={{
-                      //       display: "flex",
-                      //       alignItems: "center",
-                      //       listStyleType: "none",
-                      //       margin: 0,
-                      //       padding: 0,
-                      //     }}
-                      //   >
-                      //     {/* Previous Button */}
-                      //     <li style={{ margin: "0 10px" }}>
-                      //       <button
-                      //         style={{
-                      //           padding: "5px",
-                      //           textDecoration: "none",
-                      //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                      //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                      //           borderRadius: "50%",
-                      //           display: "inline-block",
-                      //           minWidth: "30px",
-                      //           textAlign: "center",
-                      //           backgroundColor: "transparent",
-                      //           border: "none",
-                      //         }}
-                      //         onClick={() => handlePageChange(currentPage - 1)}
-                      //         disabled={currentPage === 1}
-                      //       >
-                      //         <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                      //       </button>
-                      //     </li>
-
-                      //     {/* Current Page Indicator */}
-                      //     <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                      //       {currentPage} of {totalPages}
-                      //     </li>
-
-                      //     {/* Next Button */}
-                      //     <li style={{ margin: "0 10px" }}>
-                      //       <button
-                      //         style={{
-                      //           padding: "5px",
-                      //           textDecoration: "none",
-                      //           color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                      //           cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                      //           borderRadius: "50%",
-                      //           display: "inline-block",
-                      //           minWidth: "30px",
-                      //           textAlign: "center",
-                      //           backgroundColor: "transparent",
-                      //           border: "none",
-                      //         }}
-                      //         onClick={() => handlePageChange(currentPage + 1)}
-                      //         disabled={currentPage === totalPages}
-                      //       >
-                      //         <ArrowRight2
-                      //           size="16"
-                      //           color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                      //         />
-                      //       </button>
-                      //     </li>
-                      //   </ul>
-                      // </nav>
+                      
 
 
                       <nav
