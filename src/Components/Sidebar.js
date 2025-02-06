@@ -530,7 +530,10 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-
+  console.log("Hostel List Data:", state.UsersList?.hostelListNewDetails?.data);
+  console.log("Is Array:", Array.isArray(state.UsersList?.hostelListNewDetails?.data));
+  console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
+  
 
 
 
@@ -669,21 +672,22 @@ function Sidebar() {
                   </li>
                 )}
 
-              {state.UsersList.hostelListNewDetails.data &&
-                state.UsersList.hostelListNewDetails.data?.length === 0 && (
-                  <li
-                    className="align-items-center d-flex justify-content-center list-Button mb-2"
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                    onClick={() => handleShowsettingsPG()}
-                  >
-                    + Add PG
-                  </li>
-                )}
+{!state.UsersList?.hostelListNewDetails?.data ||
+(Array.isArray(state.UsersList?.hostelListNewDetails?.data) &&
+  state.UsersList.hostelListNewDetails.data.length === 0) ? (
+  <li
+    className="align-items-center d-flex justify-content-center list-Button mb-2"
+    style={{
+      listStyleType: "none",
+      display: "flex",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+    onClick={() => handleShowsettingsPG()}
+  >
+    + Add PG
+  </li>
+) : null}
 
               <ul
                 className="first p-0 show-scrolls"
