@@ -265,20 +265,20 @@ function SettingAllPages(props) {
   //   setDisplayError('')
   // }
 
-  useEffect(() => {
-    if (hostel_Id) {
-      dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
-    }
+  // useEffect(() => {
+  //   if (hostel_Id) {
+  //     dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
+  //   }
 
-  }, [hostel_Id])
-
-
+  // }, [hostel_Id])
 
 
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+
+
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

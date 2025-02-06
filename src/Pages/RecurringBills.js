@@ -723,7 +723,7 @@ const handleDeleteNewRow = (index) => {
   {customererrmsg.trim() !== "" && (
 <div>
   <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"5px" }} />} {customererrmsg}
+    {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red',marginBottom:"5px" }} />} {customererrmsg}
   </p>
 </div>
 )}
@@ -785,7 +785,7 @@ const handleDeleteNewRow = (index) => {
     </Form.Group>
     {invoicedateerrmsg.trim() !== "" && (
       <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px",marginBottom:"3px" }} />
+        <MdError style={{ color: "red", marginRight: '5px',fontSize: "13px",marginBottom:"3px" }} />
         <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
           {invoicedateerrmsg}
         </label>
@@ -821,7 +821,7 @@ const handleDeleteNewRow = (index) => {
     </Form.Group>
     {invoiceduedateerrmsg.trim() !== "" && (
       <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: "5px",fontSize: "14px",marginBottom:"3px"  }} />
+        <MdError style={{ color: "red", marginRight: "5px",fontSize: "13px",marginBottom:"3px"  }} />
         <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
           {invoiceduedateerrmsg}
         </label>

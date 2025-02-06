@@ -26,7 +26,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [comments, setComments] = useState('');
     const [errors, setErrors] = useState({
         name: '',
-        lastname:'',
+        lastname: '',
         email: '',
         mobile: '',
         walkInDate: '',
@@ -101,7 +101,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
             setComments('');
             setErrors({
                 name: '',
-                lastname:'',
+                lastname: '',
                 email: '',
                 mobile: '',
                 walkInDate: '',
@@ -260,7 +260,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                 type: 'ADDWALKINCUSTOMER',
                 payload: {
                     first_name: name,
-                    last_name:lastname,
+                    last_name: lastname,
                     email_Id: email,
                     hostel_id: state.login.selectedHostel_Id,
                     mobile_Number: Mobile_Number,
@@ -357,23 +357,23 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
     };
 
-  const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true
-      };
-      imageCompression(file, options).then((compressedFile) => {
-        setFile(compressedFile);
-      }).catch((error) => {
-        console.error('Error compressing image:', error);
-      });
-    }
-  };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 1920,
+                useWebWorker: true
+            };
+            imageCompression(file, options).then((compressedFile) => {
+                setFile(compressedFile);
+            }).catch((error) => {
+                console.error('Error compressing image:', error);
+            });
+        }
+    };
 
 
     const customDateInput = (props) => {
@@ -441,63 +441,49 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
 
-                {isChangedError && (
+                {/* {isChangedError && (
                     <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "10px" }} />
                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                             {isChangedError}
                         </label>
                     </div>
-                )}
-
-                {generalError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {generalError}
-                        </label>
-                    </div>
-                )}
-
-
-
-
-
+                )} */}
                 <Modal.Body>
 
-                <div className='d-flex align-items-center'>
+                    <div className='d-flex align-items-center'>
 
 
-<div className="" style={{ height: 100, width: 100, position: "relative" }}>
+                        <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
+                            <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
 
-  <label htmlFor="imageInput" className='' >
-    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
-    <input
-      type="file"
-      accept="image/*"
-      multiple
-      className="sr-only"
-      id="imageInput"
-      onChange={handleImageChange}
-      style={{ display: "none" }} />
-  </label>
+                            <label htmlFor="imageInput" className='' >
+                                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="sr-only"
+                                    id="imageInput"
+                                    onChange={handleImageChange}
+                                    style={{ display: "none" }} />
+                            </label>
 
 
-</div>
-<div className='ps-3'>
-  <div>
-    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
-  </div>
-  <div>
-    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
-  </div>
-</div>
-</div>
+                        </div>
+                        <div className='ps-3'>
+                            <div>
+                                <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+                            </div>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                             <Form.Group controlId="formCustomerName" className="mb-3">
+                            <Form.Group controlId="formCustomerName" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                     First Name
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
@@ -521,8 +507,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                 {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
                             </Form.Group>
                             {nameError && (
-                                <div className="d-flex align-items-center p-1"style={{marginTop:"-13px"}}>
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px",marginBottom:"3px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {nameError}
                                     </label>
@@ -549,7 +535,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                         fontWeight: 500,
                                         boxShadow: 'none',
                                         border: '1px solid #D9D9D9',
-                                        marginTop:6
+                                        marginTop: 6
                                     }}
                                 />
                                 {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
@@ -623,8 +609,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
 
                             {mobileError && (
-                                <div className="d-flex align-items-center p-1"style={{marginTop:"-12px"}}>
-                                    <MdError style={{ color: "red", marginRight: '5px' ,marginTop:"-16px"}} />
+                                <div className="d-flex align-items-center p-1" style={{ marginTop: "-12px" }}>
+                                    <MdError style={{ color: "red", marginRight: '5px', marginTop: "-20px", fontSize: "13px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {mobileError}
                                     </label>
@@ -642,7 +628,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group controlId="formCustomerEmail" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                                    Email ID 
+                                    Email ID
                                 </Form.Label>
                                 <Form.Control
                                     type="email"
@@ -658,7 +644,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                         fontWeight: 500,
                                         boxShadow: 'none',
                                         border: '1px solid #D9D9D9',
-                                        marginTop:6
+                                        marginTop: 6
                                     }}
                                 />
                                 {/* {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>} */}
@@ -675,132 +661,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
                         </div>
-                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group controlId="formWalkInDate" className="mb-3">
-                                    <Form.Label style={{
-                                        fontSize: '14px',
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500
-                                    }}>
-                                        Walk-In Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                                    </Form.Label>
-                                    <InputGroup>
-                                        <div style={{ position: 'relative', width: '100%' }}>
-                                            <label
-                                                htmlFor="walk-in-date-input"
-                                                style={{
-                                                    border: errors.walkInDate ? "1px solid red" : "1px solid #D9D9D9",
-                                                    borderRadius: "8px",
-                                                    padding: "12px",
-                                                    fontSize: "14px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: walkInDate ? 500 : 500,
-                                                    color: "#222222",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "space-between",
-                                                    cursor: "pointer",
-                                                    height: "50px"
-                                                }}
-                                                onClick={() => {
-                                                    if (datePickerRef.current) {
-                                                        datePickerRef.current.flatpickr.open();
-                                                    }
-                                                }}
-                                            >
-                                                {walkInDate instanceof Date && !isNaN(walkInDate)
-                                                    ? walkInDate.toLocaleDateString('en-GB')
-                                                    : 'DD/MM/YYYY'}
-                                                <img src={Calendars} style={{ height: "24px", width: "24px" }} alt="Calendar" />
-                                            </label>
-
-                                            <Flatpickr
-                                                ref={datePickerRef}
-                                                value={walkInDate}
-                                                onChange={(selectedDates) => {
-                                                    if (selectedDates.length > 0) {
-                                                        setWalkInDate(selectedDates[0]);
-                                                        setErrors(prev => ({ ...prev, walkInDate: '' }));
-                                                    }
-                                                }}
-                                                options={{
-                                                    dateFormat: "d/m/Y",
-                                                    maxDate: "today"
-                                                }}
-                                                style={{
-                                                    display: "none",
-                                                }}
-                                            />
-                                        </div>
-                                        {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>}
-                                    </InputGroup>
-                                </Form.Group>
-                            </div> */}
-                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <Form.Group controlId="formWalkInDate" className="mb-3">
-                                <Form.Label style={{
-                                    fontSize: '14px',
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500
-                                }}>
-                                    Walk-In Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                                </Form.Label>
-                                <InputGroup>
-                                    <div style={{ position: 'relative', width: '100%' }}>
-                                        <label
-                                            htmlFor="walk-in-date-input"
-                                            style={{
-                                                border: errors.walkInDate ? "1px solid red" : "1px solid #D9D9D9",
-                                                borderRadius: "8px",
-                                                padding: "12px",
-                                                fontSize: "14px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: walkInDate ? 500 : 500,
-                                                color: "#222222",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                cursor: "pointer",
-                                                height: "50px"
-                                            }}
-                                            onClick={() => {
-                                                if (datePickerRef.current) {
-                                                    datePickerRef.current.flatpickr.open();
-                                                }
-                                            }}
-                                        >
-                                            {walkInDate instanceof Date && !isNaN(walkInDate)
-                                                ? walkInDate.toLocaleDateString('en-GB')
-                                                : 'DD/MM/YYYY'}
-                                            <img src={Calendars} style={{ height: "24px", width: "24px" }} alt="Calendar" />
-                                        </label>
-
-                                        <Flatpickr
-                                            ref={datePickerRef}
-                                            value={walkInDate}
-                                            onChange={handleWalkInDateChange}
-                                            options={{
-                                                dateFormat: "d/m/Y",
-                                                maxDate: "today"
-                                            }}
-                                            style={{ display: "none" }}
-                                        />
-                                    </div>
-                                  
-                                </InputGroup>
-                            </Form.Group>
-                            
-                {walkInDateError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {walkInDateError}
-                        </label>
-                    </div>
-                )}
-                        </div> */}
+                      
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group controlId="formComments" className="mb-3">
@@ -833,9 +694,9 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group  controlId="purchaseDate">
+                            <Form.Group controlId="purchaseDate">
                                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    Walk-In Date 
+                                    Walk-In Date
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
                                 <div style={{ position: 'relative', width: "100%" }}>
@@ -858,7 +719,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
                             {walkInDateError && (
                                 <div className="d-flex align-items-center p-1">
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "12px"  }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {walkInDateError}
                                     </label>
@@ -867,8 +728,26 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
                         </div>
 
-                        <Modal.Footer style={{ border: "none" , paddingBottom: 0,}} className='mt-1 pt-1' >
+                        {isChangedError && (
+                    <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {isChangedError}
+                        </label>
+                    </div>
+                )}
 
+                        <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='mt-1 pt-1' >
+                        {generalError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {generalError}
+                        </label>
+                    </div>
+                )}
+                
+                
                             <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                                 {initialData ? 'Save Changes' : 'Add Walk-in'}
                             </Button>

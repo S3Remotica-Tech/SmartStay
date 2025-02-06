@@ -314,3 +314,7 @@ export async function deleteCustomer(contact){
     data:contact
   })
 }
+export async function hostelDetailsId() {
+  return await AxiosConfig.get('/list/hosteldetails',{
+  })
+}

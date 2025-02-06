@@ -1063,7 +1063,7 @@ function EBRoomReading(props) {
               )}
             </div>
 
-            {props.roomBasedDetail?.length > electricityrowsPerPage && (
+            {props.roomBasedDetail?.length >= 5 && (
               <nav
                 style={{
                   display: "flex",
@@ -1275,8 +1275,8 @@ function EBRoomReading(props) {
               </Form.Select>
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{floorError}</span>
+                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
             </div>
@@ -1325,8 +1325,8 @@ function EBRoomReading(props) {
               </Form.Select>
               {roomError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{roomError}</span>
+                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
             </div>
@@ -1364,8 +1364,8 @@ function EBRoomReading(props) {
               </Form.Group>
               {readingError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{readingError}</span>
+                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
                 </div>
               )}
             </div>
@@ -1398,20 +1398,20 @@ function EBRoomReading(props) {
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{dateError}</span>
+                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
         {formError && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500,marginLeft:5 }}>{formError}</span>
+          <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
           </div>
         )}
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center "style={{borderTop:"none"}}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
@@ -1421,7 +1421,7 @@ function EBRoomReading(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 10,
+              marginTop: 7,
             }}
             onClick={handleSaveChanges}
             disabled={!!formError}

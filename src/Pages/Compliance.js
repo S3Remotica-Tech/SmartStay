@@ -1111,18 +1111,7 @@ const handleFilterd = () => {
                       </>
                     ) : (
                       <>
-                        <div className="me-3" style={{marginTop:10}}>
-                          <Image
-                            src={searchteam}
-                            roundedCircle
-                            style={{ height: "24px", width: "24px" }}
-                            onClick={handleSearch}
-                          />
-                        </div>
-                      </>
-                    )}
-
-                    <div className="me-3" style={{marginTop:10}}>
+                                          <div style={{marginTop:10,paddingRight:7}}>
                       <Image
                         src={Filters}
                         roundedCircle
@@ -1155,12 +1144,24 @@ const handleFilterd = () => {
 
                   }
 
+
+                        <div style={{marginTop:6,paddingRight:21}}>
+                          <Image
+                            src={searchteam}
+                            roundedCircle
+                            style={{ height: "24px", width: "24px" }}
+                            onClick={handleSearch}
+                          />
+                        </div>
+                      </>
+                    )}
+
                     {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
         
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-                    <div style={{ paddingRight: "23px" ,marginTop:10}}>
+                    <div style={{ paddingRight: "21px" ,marginTop:9}}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
                         
@@ -1175,8 +1176,9 @@ const handleFilterd = () => {
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8,
                            
                           padding: "12px 31px",
-                         paddingBottom:12,
-                          paddingLeft:32, color: '#FFF', fontFamily: 'Montserrat', 
+                         paddingBottom:11,
+                          paddingLeft:32,
+                           color: '#FFF', fontFamily: 'Montserrat', 
                           
                         }} > + Complaint</Button>
                     </div>
@@ -1216,7 +1218,7 @@ const handleFilterd = () => {
                   }
 
                 </div>
-                {filteredUsers?.length > itemsPerPage && (
+                {filteredUsers?.length >= 5  && (
                   <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
                   // style={{
                   //   display: "flex",
@@ -1367,7 +1369,7 @@ const handleFilterd = () => {
                               }}>&times;</span>
                             </button>
 
-                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : ""}</Modal.Title> */}
                           </Modal.Header>
                         </div>
 

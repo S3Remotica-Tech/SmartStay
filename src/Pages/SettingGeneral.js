@@ -1220,7 +1220,7 @@ function SettingGeneral() {
         <Modal.Body>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-              <Form.Group className="mb-1">
+              <Form.Group>
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1252,17 +1252,11 @@ function SettingGeneral() {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '15px', }} />
+                  <MdError style={{fontSize: '13px',marginRight:"5px"}} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
                 </div>
               )}
-              {/* {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {accountNameError}
-                  </div>
-                )} */}
-            </div>
+             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-1">
@@ -1274,7 +1268,7 @@ function SettingGeneral() {
                     fontWeight: 500,
                   }}
                 >
-                  Last Name.{" "}
+                  Last Name{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> </span>
                 </Form.Label>
                 <FormControl
@@ -1382,8 +1376,8 @@ function SettingGeneral() {
               )}
               {phoneAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
+                  <MdError style={{marginRight:"5px"}}/>
+                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
             </div>
@@ -1427,14 +1421,14 @@ function SettingGeneral() {
               )}
               {emailAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
+                  <MdError  style={{marginRight:"5px"}}/>
+                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
                 </div>
               )}
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"5px"}}/>
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                 </div>
               )}
@@ -1507,9 +1501,9 @@ function SettingGeneral() {
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
+                  <div style={{ color: "red"}}>
+                    <MdError style={{marginRight:"5px",marginBottom:"1px"}}/>
+                    <span style={{ fontSize: '12px',fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
               </div>
@@ -1547,9 +1541,9 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {addressError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '15px', marginRight: "3px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
+                <div style={{ color: "red"}}>
+                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"3px",marginBottom:"1px"}} />
+                  <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                 </div>
               )}
             </div>

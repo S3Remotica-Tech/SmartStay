@@ -966,15 +966,16 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   <>
                   {
                     value === "1" &&
-                    <div className="me-4" style={{marginTop:10}}>
+                    <div style={{paddingRight:21}}>
                     <Image
                       src={searchteam}
                       roundedCircle
                       style={{
                         height: "24px",
                         width: "24px",
-                        marginTop: "-8px",
-                        cursor:"pointer"
+                       
+                        cursor:"pointer",
+
                       }}
                       onClick={handleSearch}
                     />
@@ -984,7 +985,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                    
                   </>
                 )}
-          <div className="me-3" style={{paddingRight:6,marginTop:5}}>
+          <div className="me-3" style={{paddingRight:5,marginTop:5}}>
             
               {value === "1" && (
                 <img
@@ -1664,7 +1665,7 @@ const [originalElecRoom,etOriginalElecRoom] = useState("")
                   )}
                 </div>
 
-                {electricityFilterddata?.length > electricityrowsPerPage && (
+                {electricityFilterddata?.length >= 5 && (
                   // <nav>
                   //   <ul
                   //     style={{

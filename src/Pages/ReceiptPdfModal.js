@@ -24,6 +24,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed ,selectedItem}) => {
         },
     };
 
+    console.log("receiptdata", rowData);
+    
 
 
     const [isVisible, setIsVisible] = useState(true);
@@ -107,7 +109,7 @@ console.log("Bill Row Data:",rowData);
 
 
                 <div className="d-flex align-items-center justify-content-between gap-3 ">
-                    <div onClick={handleBackInvoice}>
+                    <div onClick={handleBackInvoice} style={{cursor:'pointer'}}>
                         <ArrowLeft
                             size="25"
                             color="#545454"
@@ -177,7 +179,7 @@ console.log("Bill Row Data:",rowData);
                                 </div>
                                 <div>
                                     <div>
-                                    <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>INVOICE</label>
+                                    <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>RECEIPT</label>
                               </div>
                               <div>
                                     <div className="d-flex justify-content-between gap-2">
@@ -358,7 +360,7 @@ console.log("Bill Row Data:",rowData);
 )}
 
 
-                            <Table className="mt-5 mb-1 ps-3 pe-3">
+                            <Table className="table-responsive border mt-5 mb-1 ps-3 pe-3">
   <thead 
   style={{ position:"sticky",
                 top:0,
@@ -383,13 +385,13 @@ console.log("Bill Row Data:",rowData);
       </tr>
     ))}
   
-    <tr>
+    {/* <tr>
       <td colSpan="3">
         <hr />
       </td>
-    </tr>
+    </tr> */}
    
-    <tr>
+    {/* <tr>
       <td style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
         Subtotal:
       </td>
@@ -405,24 +407,33 @@ console.log("Bill Row Data:",rowData);
       <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
         ₹0.00
       </td>
-    </tr>
+    </tr> */}
    
-    <tr>
+    {/* <tr>
       <td colSpan="3">
         <hr />
       </td>
-    </tr>
+    </tr> */}
    
-    <tr>
+    {/* <tr>
       <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
         Total:
       </td>
       <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
         ₹{rowData?.Amount}
       </td>
-    </tr>
+    </tr> */}
   </tbody>
 </Table>
+
+<div style={{display:"flex", flexDirection:'row', justifyContent:'end'}}>
+  <div style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy",textAlign:"right" , marginRight:'20px'}}>
+  <p>Total :</p> 
+  </div>
+  <div style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign:"center" }}>
+  ₹{rowData?.Amount}
+    </div>
+</div>
 
 
                             <div className="mt-4 ps-4 pe-4">

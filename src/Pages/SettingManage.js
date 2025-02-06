@@ -160,7 +160,10 @@ const [loading, setLoading] = useState(true)
 
   const [filteredData, setFilteredData] = useState([]);
 
-  
+  useEffect(() => {
+    dispatch({ type: "HOSTELLIST" });
+  }, []);
+
 
   useEffect(() => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -326,10 +329,7 @@ const [loading, setLoading] = useState(true)
     setAddhostelForm(false);
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: "HOSTELLIST" });
-  // }, []);
-
+ 
   const [emailError, setEmailError] = useState("");
 
   const validateEmail = (email) => {
