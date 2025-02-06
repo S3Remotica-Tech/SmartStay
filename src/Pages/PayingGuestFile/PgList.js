@@ -210,6 +210,7 @@ function PgList(props) {
     ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
 
       setShowFloor(false);
       setTimeout(() => {
@@ -226,6 +227,7 @@ function PgList(props) {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
 
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -243,6 +245,7 @@ function PgList(props) {
     ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -369,6 +372,7 @@ function PgList(props) {
 
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
