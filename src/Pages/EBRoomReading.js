@@ -1187,7 +1187,7 @@ function EBRoomReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Edit Reading
+            Edit Readingss
           </div>
           <button
             type="button"
@@ -1275,7 +1275,7 @@ function EBRoomReading(props) {
               </Form.Select>
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
                   <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
@@ -1325,7 +1325,7 @@ function EBRoomReading(props) {
               </Form.Select>
               {roomError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
                   <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
