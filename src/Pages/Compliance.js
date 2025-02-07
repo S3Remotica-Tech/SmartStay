@@ -1412,8 +1412,8 @@ const handleFilterd = () => {
                               </Form.Select>
                               {usererrmsg.trim() !== "" && (
                                 <div>
-                                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                                    {usererrmsg !== " " && <MdError style={{ color: 'red' }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
+                                  <p style={{ fontSize: '15px', color: 'red' }}>
+                                    {usererrmsg !== " " && <MdError style={{ color: 'red',marginRight:"5px",fontSize:"13px",marginBottom:"2px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
                                   </p>
                                 </div>
                               )}
@@ -1455,7 +1455,7 @@ const handleFilterd = () => {
                               {complaint_typeerrmsg.trim() !== "" && (
                                 <div>
                                   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red',marginRight:"2px",fontSize:"13px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
                                   </p>
                                 </div>
                               )}
@@ -1719,7 +1719,7 @@ const handleFilterd = () => {
 
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-2" controlId="purchaseDate">
+                            <Form.Group className="mb-1" controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
@@ -1744,8 +1744,8 @@ const handleFilterd = () => {
                             </Form.Group>
 
                             {dateerrmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center p-1">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                              <div className="d-flex align-items-center">
+                                <MdError style={{ color: "red",marginRight:"5px",fontSize:"13px",marginBottom:"2px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                   {dateerrmsg}
                                 </label>

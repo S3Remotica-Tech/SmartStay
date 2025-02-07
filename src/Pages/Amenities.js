@@ -28,7 +28,7 @@ function Amenities() {
 
   useEffect(() => {
     dispatch({ type: 'AMENITIESLIST' })
-    dispatch({ type: 'HOSTELLIST' })
+    // dispatch({ type: 'HOSTELLIST' })
   }, [])
 
 

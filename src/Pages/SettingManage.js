@@ -228,6 +228,7 @@ const [loading, setLoading] = useState(true)
       state.PgList.updateFloorSuccessStatusCode == 200
     ) {
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       // setTimeout(()=>{
       //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
       // },3000)
@@ -246,6 +247,7 @@ const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
 
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -263,6 +265,7 @@ const [loading, setLoading] = useState(true)
       state.PgList.dleteHostelImagesStatusCode == 200
     ) {
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -280,6 +283,7 @@ const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -623,6 +627,7 @@ const [loading, setLoading] = useState(true)
       });
 
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });

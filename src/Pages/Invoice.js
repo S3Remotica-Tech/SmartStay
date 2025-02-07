@@ -78,9 +78,9 @@ import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
 
 const InvoicePage = () => {
-  
-  const state = useSelector((state) => state);
 
+  const state = useSelector((state) => state);
+console.log("state",state)
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
@@ -325,9 +325,9 @@ const InvoicePage = () => {
     }
   };
 
-  const handleReceiptDetail = (item) => { 
+  const handleReceiptDetail = (item) => {
 
-    
+
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
       const year = originalDate.getFullYear();
@@ -335,15 +335,15 @@ const InvoicePage = () => {
       const day = originalDate.getDate().toString().padStart(2, "0");
       const newDate = `${year}-${month}-${day}`;
 
-    
-     
-        dispatch({
-          type: "RECEIPTPDF",
-          payload: {
-            id: item.id,
-          },
-        });
-      
+
+
+      dispatch({
+        type: "RECEIPTPDF",
+        payload: {
+          id: item.id,
+        },
+      });
+
 
       setShowLoader(true);
     }
@@ -571,16 +571,28 @@ const InvoicePage = () => {
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
-
+  
+    console.log("Selected Filter:", searchTerm);
+    console.log("Original Bills:", originalBillsFilter);
+  
     if (searchTerm === "All") {
       setBills(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter.filter((user) =>
-        user.Status?.toLowerCase().includes(searchTerm.toLowerCase())
+        user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
+  
+      console.log("Filtered Bills:", filteredItems);
       setBills(filteredItems);
     }
+  
+    // 🔥 Reset to first page after filtering
+    setCurrentPage(1);
   };
+  
+  
+ 
+  
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
   const handleStatusFilterReceipt = (event) => {
@@ -751,79 +763,109 @@ const InvoicePage = () => {
 
 
   const handleEdit = (props) => {
+
+    console.log("propsbill", props)
+
     setShowManualInvoice(true);
     setShowAllBill(false);
     setBillMode("Edit Bill");
     setIsEditing(true);
-        if(props.item){
-      setInvoiceDetails(props.item);
-      setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props.item))); 
+    if (props) {
+      setInvoiceDetails(props);
+      setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props)));
     }
-   
+
   };
 
 
-  
+
 
 
   useEffect(() => {
     if (invoiceDetails && isEditing) {
-
-
-
-      if (invoiceDetails?.hos_user_id) {
-        setCustomerName(String(invoiceDetails?.hos_user_id));
+      if (invoiceDetails?.ID) {
+        setCustomerName(invoiceDetails?.ID);
       }
-    
+
       setInvoiceNumber(invoiceDetails?.Invoices);
-     
+
       if (invoiceDetails?.DueDate) {
-        const parsedDate = new Date(invoiceDetails.DueDate); 
+        const parsedDate = new Date(invoiceDetails.DueDate);
         if (!isNaN(parsedDate.getTime())) {
-         
-          setInvoiceDueDate(parsedDate); 
-        } else {
-          
+          setInvoiceDueDate(parsedDate);
         }
       }
 
       if (invoiceDetails?.Date) {
         const parsedDate = new Date(invoiceDetails.Date);
         if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDate(parsedDate); 
-        } else {
-         
+          setInvoiceDate(parsedDate);
         }
       }
+
       if (invoiceDetails?.start_date) {
-       
-        const parsedDate = new Date(invoiceDetails.start_date); 
+        const parsedDate = new Date(invoiceDetails.start_date);
         if (!isNaN(parsedDate.getTime())) {
-          setStartDate(parsedDate); 
-        } else {
-          
+          setStartDate(parsedDate);
         }
       }
+
       if (invoiceDetails?.end_date) {
-      
-        const parsedDate = new Date(invoiceDetails.end_date); 
+        const parsedDate = new Date(invoiceDetails.end_date);
         if (!isNaN(parsedDate.getTime())) {
-                  setEndDate(parsedDate); 
-        } else {
-          
+          setEndDate(parsedDate);
         }
       }
 
       setTotalAmount(invoiceDetails?.Amount);
-      if (invoiceDetails.amenity && invoiceDetails.amenity.length > 0) {
-        setNewRows(invoiceDetails.amenity);
-      } else {
-        setNewRows([{ "S.NO": 1, am_name: "", amount: "0" }]);
-      }
-    }
-  }, [invoiceDetails]);
 
-  
+
+      let newRows = [];
+
+
+      const existingAmenities = invoiceDetails?.amenity || [];
+
+
+      const doesAmenityExist = (name) => existingAmenities.some(item => item.am_name === name);
+
+      if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
+        newRows.push({ "S.NO": newRows.length + 1, am_name: "Room Rent", amount: invoiceDetails.RoomRent });
+      }
+
+      if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
+        newRows.push({ "S.NO": newRows.length + 1, am_name: "Advance Amount", amount: invoiceDetails.advance_amount });
+      }
+
+      if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
+        newRows.push({ "S.NO": newRows.length + 1, am_name: "EB Amount", amount: invoiceDetails.EbAmount });
+      }
+
+
+
+      if (invoiceDetails?.amenity && invoiceDetails.amenity.length > 0) {
+        newRows = [
+          ...newRows,
+          ...invoiceDetails.amenity.map((item, index) => ({
+            "S.NO": newRows.length + index + 1,
+            am_name: item.am_name,
+            amount: item.amount
+          }))
+        ];
+      }
+
+
+      if (newRows.length === 0) {
+        newRows = [{ "S.NO": 1, am_name: "Room Rent", amount: 0 }];
+      }
+
+      setNewRows(newRows);
+    }
+  }, [invoiceDetails, isEditing]);
+
+
+  console.log("newRows", newRows)
+
+
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
@@ -846,7 +888,7 @@ const InvoicePage = () => {
   const handleEditBill = () => {
     let isValid = true;
 
-   
+
     // Reset error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
@@ -906,17 +948,17 @@ const InvoicePage = () => {
 
 
 
-const isDataUnchanged =
-customername === String(originalInvoiceDetails?.hos_user_id) &&
-invoicenumber === originalInvoiceDetails?.Invoices &&
-startdate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.start_date)?.toISOString().split("T")[0] &&
-enddate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.end_date)?.toISOString().split("T")[0] &&
-invoicedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.Date)?.toISOString().split("T")[0] &&
-invoiceduedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.DueDate)?.toISOString().split("T")[0] &&
-newRows.every((row, index) => {
-    const originalRow = originalInvoiceDetails?.amenity?.[index];
-    return row.am_name === originalRow?.am_name && row.amount === originalRow?.amount;
-});
+    const isDataUnchanged =
+      customername === String(originalInvoiceDetails?.hos_user_id) &&
+      invoicenumber === originalInvoiceDetails?.Invoices &&
+      startdate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.start_date)?.toISOString().split("T")[0] &&
+      enddate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.end_date)?.toISOString().split("T")[0] &&
+      invoicedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.Date)?.toISOString().split("T")[0] &&
+      invoiceduedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.DueDate)?.toISOString().split("T")[0] &&
+      newRows.every((row, index) => {
+        const originalRow = originalInvoiceDetails?.amenity?.[index];
+        return row.am_name === originalRow?.am_name && row.amount === originalRow?.amount;
+      });
 
 
     if (isDataUnchanged) {
@@ -952,7 +994,7 @@ newRows.every((row, index) => {
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
       ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-    
+
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -1866,7 +1908,7 @@ newRows.every((row, index) => {
   useEffect(() => {
     if (
       state.InvoiceList.InvoiceListStatusCode === 200 ||
-      state.InvoiceList.statusCodeForPDf === 200 ||  state.InvoiceList.statusCodeForReceiptPDf === 200
+      state.InvoiceList.statusCodeForPDf === 200 || state.InvoiceList.statusCodeForReceiptPDf === 200
     ) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2296,7 +2338,7 @@ newRows.every((row, index) => {
         0
       );
 
-     
+
 
 
       setTotalAmount(Total_amout);
@@ -2488,7 +2530,7 @@ newRows.every((row, index) => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode
+      state.InvoiceList.ReceiptDeletesuccessStatuscode ||  state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       dispatch({
         type: "RECEIPTSLIST",
@@ -2500,12 +2542,16 @@ newRows.every((row, index) => {
       }, 1000);
 
       setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
+      }, 1000);
+
+      setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
       }, 1000);
     }
   }, [
     state.InvoiceList.ReceiptAddsuccessStatuscode,
-    state.InvoiceList.ReceiptDeletesuccessStatuscode,
+    state.InvoiceList.ReceiptDeletesuccessStatuscode, state.InvoiceList.ReceiptEditsuccessStatuscode
   ]);
 
   return (
@@ -2518,16 +2564,17 @@ newRows.every((row, index) => {
               alignItems: "center",
               justifyContent: "space-between",
             }}
-           
+
           >
             <p
-              style={{marginTop:26,
+              style={{
+                marginTop: 26,
                 fontSize: "18px",
                 fontFamily: "Gilroy",
                 fontWeight: 600,
                 color: "#222",
-              
-             
+
+
               }}
             >
               Bills
@@ -2811,14 +2858,14 @@ newRows.every((row, index) => {
                   </>
                 ) : (
                   <>
-                    <div style={{paddingRight:15,marginTop:18}}>
+                    <div style={{ paddingRight: 15, marginTop: 18 }}>
                       <Image
                         src={searchteam}
                         roundedCircle
                         style={{
                           height: "24px",
                           width: "24px",
-                        
+
                         }}
                         onClick={handleSearch}
                       />
@@ -2827,12 +2874,12 @@ newRows.every((row, index) => {
                 )}
 
                 {(value === "1" || value === "3") && (
-                  <div style={{paddingRight:15,}}>
-                   
+                  <div style={{ paddingRight: 15, }}>
+
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px" ,marginTop:18}}
+                      style={{ height: "50px", width: "50px", marginTop: 18 }}
                       onClick={handleFilterd}
                     />
                   </div>
@@ -2860,8 +2907,8 @@ newRows.every((row, index) => {
                       }}
                     >
                       <option value="All">All</option>
-                      <option value="Pending">UnPaid</option>
-                      <option value="Success">Paid</option>
+                      <option value="Unpaid">UnPaid</option>
+                      <option value="Paid">Paid</option>
                     </Form.Select>
                   </div>
                 )}
@@ -2926,10 +2973,10 @@ newRows.every((row, index) => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 32px",
-                        marginTop:19
+                        marginTop: 19
                         ,
-                        paddingLeft:34
-                       
+                        paddingLeft: 34
+
                       }}
                     >
                       {" "}
@@ -2961,10 +3008,10 @@ newRows.every((row, index) => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 24px",
-                        paddingLeft:25,
-                        marginTop:19
+                        paddingLeft: 25,
+                        marginTop: 19
                         // width: "170px",
-                      
+
                       }}
                     >
                       {" "}
@@ -2997,10 +3044,10 @@ newRows.every((row, index) => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 17px",
-                        paddingLeft:18,
-                        
-                        marginTop:19
-                       
+                        paddingLeft: 18,
+
+                        marginTop: 19
+
                       }}
                     >
                       {" "}
@@ -3022,7 +3069,7 @@ newRows.every((row, index) => {
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "7px"}}
+                  style={{ marginLeft: "7px" }}
                   className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
                   <Tab
@@ -3109,7 +3156,7 @@ newRows.every((row, index) => {
                     </div>
                   </>
                 ) : (
-                  <div class="" style={{ position: "relative",marginTop:"-5px" }}>
+                  <div class="" style={{ position: "relative", marginTop: "-5px" }}>
                     <div className="texxttt">
                       <div style={{ flex: 1 }}>
                         {/* <div className="headerone">
@@ -3279,7 +3326,7 @@ newRows.every((row, index) => {
                                   fontWeight: 600,
                                 }}
                               >
-                               {`Record payment `}
+                                {`Record payment `}
                                 {invoiceValue?.Name && (<span>-
                                   <span style={{ color: "#1E45E1" }}> {invoiceValue.Name}</span> </span>
                                 )}
@@ -3665,8 +3712,8 @@ newRows.every((row, index) => {
                     <Container fluid className="p-0">
                       <Row
                         className={` ${DownloadInvoice
-                            ? "m-0 g-2 d-flex justify-content-between"
-                            : "m-0 g-0"
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
                           }`}
                       >
                         <Col
@@ -5108,8 +5155,8 @@ newRows.every((row, index) => {
                   <Container fluid className="p-0">
                     <Row
                       className={` ${DownloadInvoice
-                          ? "m-0 g-2 d-flex justify-content-between"
-                          : "m-0 g-0"
+                        ? "m-0 g-2 d-flex justify-content-between"
+                        : "m-0 g-0"
                         }`}
                     >
                       <Col
@@ -5679,7 +5726,7 @@ newRows.every((row, index) => {
                 d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
               ></path>
             </svg>
-            <p className="mt-1" style={{fontFamily:"Gilroy"}}>{billMode}</p>
+            <p className="mt-1" style={{ fontFamily: "Gilroy" }}>{billMode}</p>
           </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
@@ -5698,7 +5745,7 @@ newRows.every((row, index) => {
               </Form.Label>
               <Form.Select
                 aria-label="Default select example"
-                value={String(customername)}
+                value={customername}
                 onChange={handleCustomerName}
                 disabled={isEditing}
                 className="border"
@@ -5729,7 +5776,7 @@ newRows.every((row, index) => {
                       u.Rooms.trim() !== ""
 
                   ).map((u) => (
-                    <option value={String(u.ID)} key={u.ID}>
+                    <option value={u.ID} key={u.ID}>
                       {u.Name}
                     </option>
                   ))}
@@ -5837,7 +5884,7 @@ newRows.every((row, index) => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {startdateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px",marginBottom:"3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "3px" }} />
                     )}{" "}
                     {startdateerrmsg}
                   </p>
@@ -5887,7 +5934,7 @@ newRows.every((row, index) => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {enddateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px",marginBottom:"3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "3px" }} />
                     )}{" "}
                     {enddateerrmsg}
                   </p>
@@ -5999,7 +6046,7 @@ newRows.every((row, index) => {
                 </div>
               )}
             </div>
-           
+
           </div>
 
           {/* Table */}
@@ -6014,13 +6061,13 @@ newRows.every((row, index) => {
                 }}
               >
                 <tr>
-                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>S.NO</th>
-                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Description</th>
+                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>S.NO</th>
+                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Description</th>
                   {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Total Amount</th>
-                  <th style={{color:"rgb(147, 147, 147)",fontSize:14,fontweight:500}}>Action</th>
+                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Total Amount</th>
+                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -6062,7 +6109,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                   newRows.length > 0 &&
                   newRows.map((u, index) => (
                     <tr key={`new-${index}`}>
-                      <td className="text-center" style={{fontFamily:"Gilroy" }}>{serialNumber++}</td>
+                      <td className="text-center" style={{ fontFamily: "Gilroy" }}>{serialNumber++}</td>
                       <td>
                         <div
                           className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
@@ -6070,7 +6117,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                         >
                           <Form.Control
                             type="text"
-                            style={{fontFamily:"Gilroy" }}
+                            style={{ fontFamily: "Gilroy" }}
                             placeholder="Enter description"
                             value={u.am_name}
                             onChange={(e) =>
@@ -6090,7 +6137,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                       >
                         <Form.Control
                           type="text"
-                          style={{fontFamily:"Gilroy" }}
+                          style={{ fontFamily: "Gilroy" }}
                           placeholder="Enter total amount"
                           value={u.amount}
                           onChange={(e) =>
@@ -6128,8 +6175,8 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
-                fontFamily:"Gilroy",
-                               width:"fit-content",
+                fontFamily: "Gilroy",
+                width: "fit-content",
 
               }}
               onClick={handleAddColumn}
@@ -6139,29 +6186,29 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
             </p>
           </div>
 
-<div>
-{allfielderrmsg.trim() !== "" && (
+          <div>
+            {allfielderrmsg.trim() !== "" && (
               <div>
-                <p style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
+                <p style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily: "Gilroy" }}>
                   {allfielderrmsg !== " " && (
-                    <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy",marginRight:"5px",marginBottom:"3px"}} />
+                    <MdError style={{ fontSize: "15px", color: "red", fontFamily: "Gilroy", marginRight: "5px", marginBottom: "3px" }} />
                   )}{" "}
                   {allfielderrmsg}
                 </p>
               </div>
             )}
-</div>
-<div>
-{tableErrmsg && (
+          </div>
+          <div>
+            {tableErrmsg && (
 
-              <div style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily:"Gilroy" }}>
-                  <MdError style={{ fontSize: "15px", color: "red" , fontFamily:"Gilroy",marginRight:"5px",marginBottom:"3px"}} /> {tableErrmsg}
+              <div style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily: "Gilroy" }}>
+                <MdError style={{ fontSize: "15px", color: "red", fontFamily: "Gilroy", marginRight: "5px", marginBottom: "3px" }} /> {tableErrmsg}
               </div>
             )}
-</div>
+          </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
-            <h5 style={{fontFamily:"Gilroy"}}>Total Amount ₹{totalAmount}</h5>
+            <h5 style={{ fontFamily: "Gilroy" }}>Total Amount ₹{totalAmount}</h5>
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-5"
@@ -6178,7 +6225,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
             >
               {isEditing ? "Save Changes" : "Create Bill"}
             </Button>
-           
+
 
             <div className="mb-3"></div>
           </div>

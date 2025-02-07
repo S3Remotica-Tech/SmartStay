@@ -13,6 +13,7 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import close from '../Assets/Images/close.svg';
 import { FaBullseye } from 'react-icons/fa';
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 
 
 function SettingAmenities({ hostelid }) {
@@ -36,7 +37,9 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(true)
-
+    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
+    const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
+    const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
 
 
 
@@ -198,7 +201,8 @@ function SettingAmenities({ hostelid }) {
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
             setLoading(false)
-            setAmenitiesList(state.InvoiceList.AmenitiesList)
+            // setAmenitiesList(state.InvoiceList.AmenitiesList)
+            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
             }, 200)
@@ -294,11 +298,34 @@ function SettingAmenities({ hostelid }) {
     }, [state.InvoiceList?.deleteAmenitiesSuccessStatusCode])
 
 
+    // pagination
+    const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
+    const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
+    const currentRowAmenities = amenitiesFilterddata?.slice(
+        indexOfFirstRowAmenities,
+        indexOfLastRowAmenities
 
+    );
+
+    const handlePageChange = (generalpageNumber) => {
+        setAmenitiescurrentPage(generalpageNumber);
+    };
+
+    const handleItemsPerPageChange = (event) => {
+        setAmenitiesrowsPerPage(Number(event.target.value));
+    };
+
+    const totalPagesGeneral = Math.ceil(
+        amenitiesFilterddata?.length / amenitiesrowsPerPage
+    );
 
 
     return (
-        <div className="container">
+        <div className="container"
+            style={{
+                position: "relative", maxHeight: "500px",
+                overflowY: "auto",
+            }}>
             <div className='d-flex justify-content-between align-items-center'
                 style={{
                     display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
@@ -309,7 +336,7 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                <div style={{marginTop:-4}}>
+                <div style={{ marginTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div>
@@ -327,7 +354,7 @@ function SettingAmenities({ hostelid }) {
                             fontWeight: 600,
                             borderRadius: "8px",
                             padding: "11px 35px",
-                            paddingLeft:34,
+                            paddingLeft: 34,
                             width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
@@ -359,9 +386,11 @@ function SettingAmenities({ hostelid }) {
 
 
                 <div className='row row-gap-3'>
-                    {
-                        amenitiesList.length > 0 ? amenitiesList.map((amenity, index) => (
 
+
+                    {/* { amenitiesList.length > 0 ? amenitiesList.map((amenity, index) => ( */}
+                    {currentRowAmenities && currentRowAmenities.length > 0 ? (
+                        currentRowAmenities.map((amenity, index) => (
 
                             <div className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
@@ -497,7 +526,7 @@ function SettingAmenities({ hostelid }) {
                                                 <div>
                                                     <Form.Check
                                                         type="switch"
-                                                        style={{boxShadow:"none"}}
+                                                        style={{ boxShadow: "none" }}
                                                         label="Recurring"
                                                         checked={switchStates[amenity.id] || false}
 
@@ -529,13 +558,13 @@ function SettingAmenities({ hostelid }) {
                             </div>
                         ))
 
-                            : !loading &&
+                    ) : !loading &&
 
-                            <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
-                                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                                <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
+                    <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
+                        <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                        <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
 
-                            </div>
+                    </div>
 
 
 
@@ -589,7 +618,111 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
+            {amenitiesFilterddata.length > amenitiesrowsPerPage && (
+                <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+                    {/* Dropdown for Items Per Page */}
+                    <div>
+                        <select
+                            value={amenitiesrowsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            style={{
+                                padding: "5px",
+                                border: "1px solid #1E45E1",
+                                borderRadius: "5px",
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                outline: "none",
+                                boxShadow: "none",
+                            }}
+                        >
+                            <option value={2}>2</option>
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
 
+                    {/* Pagination Controls */}
+                    <ul
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            listStyleType: "none",
+                            margin: 0,
+                            padding: 0,
+                        }}
+                    >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                    cursor: amenitiescurrentPage === 1 ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(amenitiescurrentPage - 1)}
+                                disabled={amenitiescurrentPage === 1}
+                            >
+                                <ArrowLeft2
+                                    size="16"
+                                    color={amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                                />
+                            </button>
+                        </li>
+
+                        {/* Current Page Indicator */}
+                        <li
+                            style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+                        >
+                            {amenitiescurrentPage} of {totalPagesGeneral}
+                        </li>
+
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color:
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1",
+                                    cursor:
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "not-allowed"
+                                            : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(amenitiescurrentPage + 1)}
+                                disabled={amenitiescurrentPage === totalPagesGeneral}
+                            >
+                                <ArrowRight2
+                                    size="16"
+                                    color={
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1"
+                                    }
+                                />
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            )}
 
 
 

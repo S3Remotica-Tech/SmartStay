@@ -19,8 +19,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { MdError } from "react-icons/md";
-import Spinner from "react-bootstrap/Spinner";
+import { Md10K, MdError } from "react-icons/md";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -396,7 +395,7 @@ const ComplianceList = (props) => {
         }
       });
     },
-    appearOptions);
+      appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -429,18 +428,8 @@ const ComplianceList = (props) => {
     };
   }, []);
 
-  console.log("props",props);
+  console.log("props", props);
 
-  useEffect(() => {
-    
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer); 
-  }, []);
-
-  
 
   return (
     <>
@@ -489,8 +478,8 @@ const ComplianceList = (props) => {
                 /> */}
                 <Image
                   src={
-                    props.complaints.profile === "0" ||  props.complaints.profile === "null" ||   props.complaints.profile === null
-                      ? 
+                    props.complaints.profile === "0" || props.complaints.profile === "null" || props.complaints.profile === null
+                      ?
                       User
                       : props.complaints.profile
                   }
@@ -564,12 +553,12 @@ const ComplianceList = (props) => {
                   justifyContent: "center",
                   alignItems: "center",
                   position: "relative",
-                  cursor:"pointer"
+                  cursor: "pointer"
                 }}
                 onClick={() => handleShowDots(props.complaints.ID)}
               >
                 <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20,cursor:"pointer" }}
+                  style={{ height: 20, width: 20, cursor: "pointer" }}
                 />
 
                 {showDots === props.complaints.ID && (
@@ -706,11 +695,11 @@ const ComplianceList = (props) => {
                               : "pointer",
                           }}
                           onClick={() => handleDeleteFormShow(props.complaints)}
-                          //   onClick={() => {
-                          //     if (!props.complianceDeletePermission) {
-                          //       handleDelete(props.complaints); // Replace with your delete function if necessary
-                          //     }
-                          //   }}
+                        //   onClick={() => {
+                        //     if (!props.complianceDeletePermission) {
+                        //       handleDelete(props.complaints); // Replace with your delete function if necessary
+                        //     }
+                        //   }}
                         >
                           <img
                             src={Delete}
@@ -840,7 +829,7 @@ const ComplianceList = (props) => {
                   }}
                 >
                   {props.complaints.assigner_name === "" ||
-                  props.complaints.assigner_name == null ? (
+                    props.complaints.assigner_name == null ? (
                     <p
                       style={{
                         color: "#1E45E1",
@@ -921,7 +910,7 @@ const ComplianceList = (props) => {
                 <label
                   style={
                     props.complaints &&
-                    props.complaints.Status.toUpperCase() === "COMPLETED"
+                      props.complaints.Status.toUpperCase() === "COMPLETED"
                       ? { color: "#00A32E" }
                       : { color: "#FF9E00" }
                   }
@@ -950,7 +939,7 @@ const ComplianceList = (props) => {
               }}
             >
               {props.complaints.Assign === "" ||
-              props.complaints.Assign == null ? (
+                props.complaints.Assign == null ? (
                 <p
                   style={{
                     fontSize: "14px",
@@ -991,11 +980,11 @@ const ComplianceList = (props) => {
                   padding: "8px 12px",
                   cursor: "pointer",
                 }}
-                // onClick={handleIconClick}
+              // onClick={handleIconClick}
               >
-                <label style={{cursor: "pointer"}}>
+                <label style={{ cursor: "pointer" }}>
                   <img
-                  
+
                     src={CommentIcon}
                     alt="Comments"
                     onClick={() => handleIconClick(props.complaints)}
@@ -1220,105 +1209,105 @@ const ComplianceList = (props) => {
                           }
                         )} */}
 
-{state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
-  state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
-    let Dated = new Date(item.created_at);
+                      {state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
+                        state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
+                          let Dated = new Date(item.created_at);
 
-    let day = Dated.getDate();
-    let month = Dated.getMonth();
-    let year = Dated.getFullYear();
+                          let day = Dated.getDate();
+                          let month = Dated.getMonth();
+                          let year = Dated.getFullYear();
 
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December",
-    ];
+                          const monthNames = [
+                            "January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December",
+                          ];
 
-    let formattedMonth = monthNames[month];
-    let formattedDate = `${day} ${formattedMonth} ${year}`;
+                          let formattedMonth = monthNames[month];
+                          let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-    return (
-      <div
-        key={index}
-        className="row"
-        style={{
-          borderBottom: "1px solid #EDF0F4",
-          paddingBottom: "10px",
-          marginBottom: "10px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <img
-           src={
-            !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim()) 
-              ? User 
-              : item.profile
-          }
-            alt="User"
-            style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              marginRight: "10px",
-            }}
-          />
-          <div>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "16px",
-                fontWeight: "bold",
-                fontFamily: "Gilroy",
-              }}
-            >
-              {item.name}
-            </p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "14px",
-                color: "#666666",
-              }}
-            >
-              {formattedDate}
-            </p>
-          </div>
-        </div>
+                          return (
+                            <div
+                              key={index}
+                              className="row"
+                              style={{
+                                borderBottom: "1px solid #EDF0F4",
+                                paddingBottom: "10px",
+                                marginBottom: "10px",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  src={
+                                    !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim())
+                                      ? User
+                                      : item.profile
+                                  }
+                                  alt="User"
+                                  style={{
+                                    width: "40px",
+                                    height: "40px",
+                                    borderRadius: "50%",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                                <div>
+                                  <p
+                                    style={{
+                                      margin: 0,
+                                      fontSize: "16px",
+                                      fontWeight: "bold",
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    {item.name}
+                                  </p>
+                                  <p
+                                    style={{
+                                      margin: 0,
+                                      fontSize: "14px",
+                                      color: "#666666",
+                                    }}
+                                  >
+                                    {formattedDate}
+                                  </p>
+                                </div>
+                              </div>
 
-        <p
-          style={{
-            wordWrap: "break-word",
-            overflowWrap: "break-word",
-            whiteSpace: "pre-wrap",
-            maxWidth: "100%",
-            marginTop: "8px",
-            fontSize: "16px",
-            fontWeight: "400",
-            color: "#333",
-          }}
-        >
-          {item.comment}
-        </p>
-      </div>
-    );
-  })
-) : (
-  <div
-    style={{
-      textAlign: "center",
-      color: "#666",
-      fontSize: "16px",
-      padding: "20px",
-      fontFamily: "Gilroy",
-    }}
-  >
-    No data available
-  </div>
-)}
+                              <p
+                                style={{
+                                  wordWrap: "break-word",
+                                  overflowWrap: "break-word",
+                                  whiteSpace: "pre-wrap",
+                                  maxWidth: "100%",
+                                  marginTop: "8px",
+                                  fontSize: "16px",
+                                  fontWeight: "400",
+                                  color: "#333",
+                                }}
+                              >
+                                {item.comment}
+                              </p>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div
+                          style={{
+                            textAlign: "center",
+                            color: "#666",
+                            fontSize: "16px",
+                            padding: "20px",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          No data available
+                        </div>
+                      )}
 
                     </div>
                   </Modal.Body>
@@ -1507,7 +1496,7 @@ const ComplianceList = (props) => {
                         </Form.Select>
                       </Form.Group>
                       {statusError && (
-                        <span style={{ color: "red" }}>{statusError}</span>
+                        <span style={{ color: "red", marginRight: "5px", fontSize: "13px" }}>{statusError}</span>
                       )}
                     </div>
                   </div>
@@ -1603,7 +1592,7 @@ const ComplianceList = (props) => {
                     {/* complaint type */}
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group
-                        className="mb-3"
+                        className="mb-1"
                         controlId="exampleForm.ControlInput5"
                       >
                         <Form.Label
@@ -1652,7 +1641,12 @@ const ComplianceList = (props) => {
                         </Form.Select>
                       </Form.Group>
                       {statusError && (
-                        <span style={{ color: "red" }}>{statusError}</span>
+                        <div className="d-flex align-items-center">
+                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "15px", marginBottom: "2px" }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: "15px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {statusError}
+                          </label>
+                        </div>
                       )}
                     </div>
                   </div>

@@ -599,7 +599,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -672,7 +671,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
              
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-1" controlId="purchaseDate">
+                <Form.Group  controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -724,7 +723,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -782,7 +780,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label

@@ -594,7 +594,7 @@ function SettingInvoice({ hostelid }) {
 
 useEffect(()=>{
   if(InvoiceList.length == 0){
-    setLoading(false)
+    setLoading(true)
   }
 else if( InvoiceList && InvoiceList?.every(
   (item) =>
@@ -1236,19 +1236,7 @@ setLoading(false)
                   </span>
                       </label>
                     </div>
-                    {/* <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedstartdate}
-                        onChange={handlestartDateChange}
-                      >
-                        <option value="">Select</option>
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </div> */}
+                   
                     <div className="col-lg-4">
                       <Select
                         options={options}
@@ -1317,18 +1305,7 @@ setLoading(false)
                   </span>
                       </label>
                     </div>
-                    {/* <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedenddate}
-                        onChange={handleEndDateChange}
-                      >
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </div> */}
+                   
                     <div className="col-lg-4">
                       <Select
                         options={options}

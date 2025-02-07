@@ -297,8 +297,8 @@ function UserlistForm(props) {
   };
 
   useEffect(() => {
-    const selectedHostel = state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
+    const selectedHostel = state.UsersList.hostelListNewDetails.data &&
+      state.UsersList.hostelListNewDetails.data?.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   }, [])

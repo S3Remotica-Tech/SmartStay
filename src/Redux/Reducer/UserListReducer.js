@@ -103,6 +103,8 @@ const initialState = {
    userReadingdelete:null,
    userHosteldelete:null,
    isUsersListTrue: 1,
+   hostelListNewDetails:[],
+   statusCodeForhostelListNewDetails:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -195,8 +197,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
-        case 'CLEAR_HOSTEL_LIST':
-            return { ...state, hostelList: [] }
+        
         case 'NO_HOSTEL':
             return { ...state, noHosteListStatusCode: action.payload.statusCode }
 
@@ -504,7 +505,15 @@ const UserListReducer = (state = initialState, action) => {
            case 'UPDATE_USERSLIST_TRUE':
             return {...state,isUsersListTrue:3}  
             case 'UPDATE_USERSLIST_FALSE':
-            return {...state,isUsersListTrue:1}        
+            return {...state,isUsersListTrue:1}    
+            
+            
+            case 'HOSTEL_ID_LIST':
+                return { ...state,hostelListNewDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
+            case 'CLEAR_HOSTEL_ID_LIST':
+                return { ...state, statusCodeForhostelListNewDetails: 0 }
+                case 'CLEAR_HOSTEL_LIST':
+                    return { ...state, hostelList: [],hostelListNewDetails:[] }
                         
     }
     return state;

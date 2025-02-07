@@ -118,18 +118,29 @@ function Sidebar() {
   const loginId = localStorage.getItem("loginId");
 
   useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
+    // dispatch({ type: "HOSTELLIST" });
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
-
   useEffect(()=>{
-    if(state.UsersList.hosteListStatusCode === 200){
-      setHostelDetail(state.UsersList.hostelList)
-      setTimeout(()=>{
-        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE"});
-      },500)
-    }
-    },[state.UsersList.hosteListStatusCode])
+    dispatch({ type: "HOSTELIDDETAILS"});
+  },[])
+
+  // useEffect(()=>{
+  //   if(state.UsersList.hosteListStatusCode === 200){
+  //     setHostelDetail(state.UsersList.hostelList)
+  //     setTimeout(()=>{
+  //       dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE"});
+  //     },500)
+  //   }
+  //   },[state.UsersList.hosteListStatusCode])
+    useEffect(()=>{
+      if(state.UsersList.statusCodeForhostelListNewDetails === 200){
+        setHostelDetail(state.UsersList.hostelListNewDetails.data)
+        setTimeout(()=>{
+          dispatch({ type: "CLEAR_HOSTEL_ID_LIST"});
+        },500)
+      }
+      },[state.UsersList.statusCodeForhostelListNewDetails])
 
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -266,7 +277,7 @@ function Sidebar() {
         console.log("Error decrypting loginid", error);
       }
     }
-  }, [stateData.accountList, state.UsersList.hostelList, stateData.statusCodeForAccount]);
+  }, [stateData.accountList, state.UsersList.hostelListNewDetails.data, stateData.statusCodeForAccount]);
 
   // if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
   //   setProfiles(0)
@@ -418,8 +429,8 @@ function Sidebar() {
   }, [allPageHostel_Id]);
 
   console.log(
-    "state.UsersList.hosteListStatusCode ",
-    state.UsersList.hosteListStatusCode
+    "state.UsersList.statusCodeForhostelListNewDetails ",
+    state.UsersList.statusCodeForhostelListNewDetails
   );
 
   useEffect(() => {
@@ -429,7 +440,7 @@ function Sidebar() {
     if (
       !isInitialized &&
       hostelListDetail?.length > 0 &&
-      state.UsersList.hosteListStatusCode === 200
+      state.UsersList.statusCodeForhostelListNewDetails === 200
     ) {
       const currentHostel =
         savedHostelId &&
@@ -466,9 +477,9 @@ function Sidebar() {
       setIsInitialized(true);
     }
   }, [
-    state.UsersList.hostelList,
+    state.UsersList.hostelListNewDetails.data,
     hostelListDetail,
-    state.UsersList.hosteListStatusCode,
+    state.UsersList.statusCodeForhostelListNewDetails,
     isInitialized,
   ]);
 
@@ -498,9 +509,9 @@ function Sidebar() {
     }
   }, [
     state.login?.isLoggedIn,
-    state.UsersList.hostelList,
+    state.UsersList.hostelListNewDetails.data,
     hostelListDetail,
-    state.UsersList.hosteListStatusCode,
+    state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
   console.log("state.UsersList.hostelList", state.UsersList.hostelList.length);
@@ -519,7 +530,10 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-
+  console.log("Hostel List Data:", state.UsersList?.hostelListNewDetails?.data);
+  console.log("Is Array:", Array.isArray(state.UsersList?.hostelListNewDetails?.data));
+  console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
+  
 
 
 
@@ -658,21 +672,22 @@ function Sidebar() {
                   </li>
                 )}
 
-              {state.UsersList?.hostelList &&
-                state.UsersList?.hostelList.length === 0 && (
-                  <li
-                    className="align-items-center d-flex justify-content-center list-Button mb-2"
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                    onClick={() => handleShowsettingsPG()}
-                  >
-                    + Add PG
-                  </li>
-                )}
+{!state.UsersList?.hostelListNewDetails?.data ||
+(Array.isArray(state.UsersList?.hostelListNewDetails?.data) &&
+  state.UsersList.hostelListNewDetails.data.length === 0) ? (
+  <li
+    className="align-items-center d-flex justify-content-center list-Button mb-2"
+    style={{
+      listStyleType: "none",
+      display: "flex",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+    onClick={() => handleShowsettingsPG()}
+  >
+    + Add PG
+  </li>
+) : null}
 
               <ul
                 className="first p-0 show-scrolls"

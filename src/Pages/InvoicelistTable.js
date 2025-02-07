@@ -54,7 +54,10 @@ const InvoiceTable = (props) => {
     props.OnHandleshowform(props)
   }
   const handleEdit = (props) => {
-    props.OnHandleshowEditform(props)
+
+console.log("propsEDit",props)
+
+    props.OnHandleshowEditform(props.item)
   }
 
   const handleInvoicepdf = (item) => {
@@ -175,9 +178,45 @@ const InvoiceTable = (props) => {
         >
           ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: props.item.BalanceDue === 0 ? "green" : "red", fontFamily: "Gilroy" }}>
-          {props.item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
-            style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}</td>
+        <td
+  style={{
+    border: "none",
+    textAlign: "start",
+    verticalAlign: "middle",
+    fontSize: 16,
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+    color: props.item.status === "Paid" ? "green" : "red", // Text color
+  }}
+>
+  {props.item.status === "Unpaid" ? (
+    <span
+      style={{
+        backgroundColor: "#FFD9D9", // Red background for Unpaid
+        color: "#000",
+        borderRadius: "14px",
+        fontFamily: "Gilroy",
+        padding: "8px 12px",
+      }}
+    >
+      Unpaid
+    </span>
+  ) : (
+    <span
+      style={{
+        cursor: "pointer",
+        backgroundColor: "#D9FFD9", // Green background for Paid
+        fontFamily: "Gilroy",
+        color: "#000",
+        borderRadius: "14px",
+        padding: "8px 12px",
+      }}
+    >
+      Paid
+    </span>
+  )}
+</td>
+
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{
