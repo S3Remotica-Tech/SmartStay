@@ -21,7 +21,7 @@ import {
   Trash,
 } from "iconsax-react";
 
-function AddVendor({ show, handleClose, currentItem }) {
+function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -49,6 +49,7 @@ function AddVendor({ show, handleClose, currentItem }) {
   const [countryError, setCountryError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
+  const [vendorPhoneError,setVendorPhoneError] = useState("")
 
   const handleCountryChange = (e) => {
     setCountry(e.target.value);
@@ -63,6 +64,11 @@ function AddVendor({ show, handleClose, currentItem }) {
     setIsChangedError("");
     setPinCodeError("");
   };
+
+const handleClose =()=>{
+  setShow(false)
+  setVendorPhoneError("")
+}
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -152,6 +158,7 @@ function AddVendor({ show, handleClose, currentItem }) {
       setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
     }
   };
+  
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
@@ -164,6 +171,8 @@ function AddVendor({ show, handleClose, currentItem }) {
       setIsChangedError("");
       setCountryCodeError("");
       setMobileError("");
+      setVendorPhoneError("")
+      dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
 
       if (value.length === 10) {
         setErrors((prevErrors) => ({ ...prevErrors, vendor_Mobile: "" }));
@@ -458,13 +467,20 @@ function AddVendor({ show, handleClose, currentItem }) {
     }
   }, [currentItem]);
 
-  useEffect(() => {
-    if (state.ComplianceList?.alreadyVendorHere) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-      }, 3000);
-    }
-  }, [state.ComplianceList?.alreadyVendorHere]);
+
+ 
+  useEffect(()=>{
+    setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+  },[state.ComplianceList?.alreadyVendorHere])
+
+  // useEffect(() => {
+  //   if (state.ComplianceList?.alreadyVendorHere) {
+  //     setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+  //     }, 3000);
+  //   }
+  // }, [state.ComplianceList?.alreadyVendorHere]);
   const [initialState, setInitialState] = useState({
     first_Name: "",
     last_Name: "",
@@ -540,22 +556,7 @@ function AddVendor({ show, handleClose, currentItem }) {
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
 
-          {state.ComplianceList?.alreadyVendorHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.ComplianceList?.alreadyVendorHere}
-              </label>
-            </div>
-          )}
+         
 
 
           <Modal.Body>
@@ -807,6 +808,23 @@ function AddVendor({ show, handleClose, currentItem }) {
                     </div>
                   )}
                 </Form.Group>
+
+                {vendorPhoneError && (
+            <div className="d-flex align-items-center p-1 mb-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {vendorPhoneError}
+              </label>
+            </div>
+          )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
