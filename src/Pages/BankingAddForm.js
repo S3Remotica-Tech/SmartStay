@@ -35,26 +35,31 @@ function BankingAddForm(props) {
     setAccountName(e.target.value);
     setError("")
     setaccountnameError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleAccountNo = (e) => {
     setAccountNo(e.target.value);
     setError("")
     setaccountNumberError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleBankName = (e) => {
     setBankName(e.target.value);
     setError("")
     setBankNameError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleIfscCode = (e) => {
     setIfscCode(e.target.value);
     setError("")
     setIfcsCodeError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setError("")
     setDescriptionError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ function BankingAddForm(props) {
   }, [])
 
   const handleClose = () => {
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
     props.setShowForm(false);
     props.setEdit(false);
     setAccountName("")
@@ -446,6 +452,17 @@ function BankingAddForm(props) {
             <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
           </div>
         )}
+
+
+{state.bankingDetails?.bankingError && (
+          <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+            <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.bankingDetails.bankingError}</span>
+          </div>
+        )}
+
+
+
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

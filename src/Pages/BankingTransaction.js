@@ -138,65 +138,137 @@ function BankingEditTransaction(props) {
     return true;
   };
 
+  // const handleEditSave = () => {
+  //   if (!validateField(account, "account"));
+  //   if (!validateField(selectedDate, "selectedDate"));
+
+  //   if (!validateField(amount, "amount"));
+  //   if (!validateField(transaction, "transaction"));
+  //   if (!validateField(describtion, "describtion"));
+
+  //   if (transaction === "" || transaction === "Select Transaction" || transaction === 0) {
+  //     setTransError("Please select a valid transaction type");
+  //     return;
+  //   }
+  //   if (account === "Selected Account" || accountError) {
+  //     setAccountError("Please select a valid account");
+  //     return;
+  //   }
+  //   // const isChanged = 
+  //   // account !== initialStateAssign.account ||
+
+  //   //     Number(amount) !== Number(initialStateAssign.amount) ||
+  //   //     selectedDate !== initialStateAssign.selectedDate ||
+  //   //     transaction !== initialStateAssign.transaction ||
+  //   //     describtion !== initialStateAssign.describtion;
+  //   const isValidDate = (date) => {
+  //     return !isNaN(Date.parse(date));
+  //   };
+  //   const isChanged =
+  //     (isNaN(account)
+  //       ? String(account).toLowerCase() !==
+  //       String(initialStateAssign.account).toLowerCase()
+  //       : Number(account) !== Number(initialStateAssign.account)) ||
+  //     (isNaN(transaction)
+  //       ? String(transaction).toLowerCase() !==
+  //       String(initialStateAssign.transaction).toLowerCase()
+  //       : Number(transaction) !== Number(initialStateAssign.transaction)) ||
+
+  //     (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
+  //       ? new Date(selectedDate).toISOString().split("T")[0] !==
+  //       new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
+  //       : selectedDate !== initialStateAssign.selectedDate) ||
+  //     Number(amount) !== Number(initialStateAssign.amount) ||
+  //     String(describtion) !== String(initialStateAssign.describtion)
+
+
+  //   if (!isChanged) {
+  //     setError("No changes detected.");
+  //     return;
+  //   }
+  //   else {
+  //     setError("");
+  //   }
+
+  //   const modifiedDate = new Date(selectedDate);
+  //   modifiedDate.setDate(modifiedDate.getDate() + 1);
+  //   dispatch({
+  //     type: "EDITBANKTRANSACTION",
+  //     payload: { id: id, bank_id: account, date: modifiedDate.toISOString().split("T")[0], amount: amount, type: transaction, desc: describtion },
+  //   });
+  // }
+
+
+
   const handleEditSave = () => {
-    if (!validateField(account, "account"));
-    if (!validateField(selectedDate, "selectedDate"));
+    let isValid = true;
+  
 
-    if (!validateField(amount, "amount"));
-    if (!validateField(transaction, "transaction"));
-    if (!validateField(describtion, "describtion"));
-
+    if (!validateField(account, "account")) isValid = false;
+    if (!validateField(selectedDate, "selectedDate")) isValid = false;
+    if (!validateField(amount, "amount")) isValid = false;
+    if (!validateField(transaction, "transaction")) isValid = false;
+    if (!validateField(describtion, "describtion")) isValid = false;
+  
+    
+    if (!isValid) return;
+  
+  
     if (transaction === "" || transaction === "Select Transaction" || transaction === 0) {
       setTransError("Please select a valid transaction type");
       return;
     }
-    if (account === "Selected Account" || accountError) {
+    if (account === "Selected Account") {
       setAccountError("Please select a valid account");
       return;
     }
-    // const isChanged = 
-    // account !== initialStateAssign.account ||
-
-    //     Number(amount) !== Number(initialStateAssign.amount) ||
-    //     selectedDate !== initialStateAssign.selectedDate ||
-    //     transaction !== initialStateAssign.transaction ||
-    //     describtion !== initialStateAssign.describtion;
-    const isValidDate = (date) => {
-      return !isNaN(Date.parse(date));
-    };
+  
+    const isValidDate = (date) => !isNaN(Date.parse(date));
+  
+ 
     const isChanged =
       (isNaN(account)
-        ? String(account).toLowerCase() !==
-        String(initialStateAssign.account).toLowerCase()
+        ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
         : Number(account) !== Number(initialStateAssign.account)) ||
       (isNaN(transaction)
-        ? String(transaction).toLowerCase() !==
-        String(initialStateAssign.transaction).toLowerCase()
+        ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
         : Number(transaction) !== Number(initialStateAssign.transaction)) ||
-
       (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-        ? new Date(selectedDate).toISOString().split("T")[0] !==
-        new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
+        ? new Date(selectedDate).toISOString().split("T")[0] !== 
+          new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
         : selectedDate !== initialStateAssign.selectedDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
-      String(describtion) !== String(initialStateAssign.describtion)
-
+      String(describtion) !== String(initialStateAssign.describtion);
+  
 
     if (!isChanged) {
       setError("No changes detected.");
       return;
     }
-    else {
-      setError("");
-    }
-
+  
+    
+    setError("");
+  
     const modifiedDate = new Date(selectedDate);
     modifiedDate.setDate(modifiedDate.getDate() + 1);
+  
+   
     dispatch({
       type: "EDITBANKTRANSACTION",
-      payload: { id: id, bank_id: account, date: modifiedDate.toISOString().split("T")[0], amount: amount, type: transaction, desc: describtion },
+      payload: {
+        id: id,
+        bank_id: account,
+        date: modifiedDate.toISOString().split("T")[0],
+        amount: amount,
+        type: transaction,
+        desc: describtion
+      },
     });
-  }
+  };
+  
+
+
+
 
   useEffect(() => {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
