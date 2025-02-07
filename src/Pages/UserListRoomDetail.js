@@ -495,8 +495,8 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter(
+    state.UsersList.hostelListNewDetails.data &&
+    state.UsersList.hostelListNewDetails.data.filter(
         (item) => item.id == state.login.selectedHostel_Id
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
