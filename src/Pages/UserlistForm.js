@@ -264,8 +264,9 @@ function UserlistForm(props) {
     } else {
       setPhoneError("Invalid mobile number *");
     }
-    setPhoneErrorMessage("");
+  
     dispatch({ type: "CLEAR_PHONE_ERROR" });
+    setPhoneErrorMessage("");
   };
 
   const handleEmail = (e) => {
@@ -482,6 +483,9 @@ function UserlistForm(props) {
     setPaidAdvance("");
     setPaidrent("");
     setPayableamount("");
+    // setPhoneErrorMessage("");
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
