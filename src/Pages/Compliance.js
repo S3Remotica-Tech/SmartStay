@@ -3,8 +3,10 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Emptystate from '../Assets/Images/Empty-State.jpg'
+import { FaChevronDown } from "react-icons/fa";
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import {  InputLabel, Select, MenuItem } from "@mui/material";
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -18,9 +20,9 @@ import Filters from "../Assets/Images/Filters.svg";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import '../Pages/Compliance.css'
 import CryptoJS from "crypto-js";
@@ -1423,44 +1425,71 @@ const handleFilterd = () => {
 
                           </div>
 
-                          {/* complaint type */}
-                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                                Complaint Type <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                              </Form.Label>
-                              <Form.Select
-                                className='border'
-                                value={Complainttype}
-                                onChange={(e) => handleComplaintType(e)}
-                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                              >
-                                {edit ? (
-                                  <option value={Complainttype}>{editcomplainttype}</option>
-                                ) : (
-                                  <>
-                                    <option value="">Select a type</option>
-                                    {
-                                      Array.isArray(complainttypelist) && complainttypelist?.length > 0 ? (
-                                        complainttypelist.map((u, index) => (
-                                          <option key={index} value={u.id}>{u.complaint_name}</option>
-                                        ))
-                                      ) : (
-                                        <option value="" disabled>No complaint types available</option>
-                                      )
-                                    }
-                                  </>
-                                )}
-                              </Form.Select>
-                              {complaint_typeerrmsg.trim() !== "" && (
-                                <div>
-                                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red',marginRight:"2px",fontSize:"13px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
-                                  </p>
-                                </div>
-                              )}
-                            </Form.Group>
-                          </div>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                          <label
+        style={{
+          fontSize: 14,
+          color: "#222",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          marginBottom: 5,
+          display: "block",
+        }}
+      >
+        Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
+      </label>
+
+      <Dropdown>
+        <Dropdown.Toggle
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8,
+            backgroundColor: "#fff",
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between", 
+            alignItems: "center",
+            padding: "0 15px",
+          }}
+        >
+          <span>
+            {edit && editcomplainttype
+              ? editcomplainttype
+              : Complainttype
+              ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
+              : "Select a type"}
+          </span>
+          {/* <FaChevronDown style={{ fontSize: "14px", color: "#4B4B4B" }} /> */}
+        </Dropdown.Toggle>
+
+        {!edit && (
+          <Dropdown.Menu
+            style={{
+              maxHeight: "200px",
+              overflowY: "auto",
+              width: "100%",
+            }}
+          >
+            {Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
+              complainttypelist.map((u, index) => (
+                <Dropdown.Item key={index} onClick={() => handleComplaintType({ target: { value: u.id } })}>
+                  {u.complaint_name}
+                </Dropdown.Item>
+              ))
+            ) : (
+              <Dropdown.Item disabled>No complaint types available</Dropdown.Item>
+            )}
+          </Dropdown.Menu>
+        )}
+      </Dropdown>
+    </div>
 
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>

@@ -140,11 +140,6 @@ const ComplianceList = (props) => {
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
       handleCloseDeleteForm();
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_COMPLIANCE" });
-      }, 1000);
     }
   }, [state.ComplianceList.statusCodeForDeleteCompliance]);
   // const handleShowDots = () => {
