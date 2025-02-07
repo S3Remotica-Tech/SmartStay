@@ -220,9 +220,9 @@ function Vendor() {
     setCurrentItem('')
 
   }
-  const handleClose = () => {
-    setShow(false);
-  }
+  // const handleClose = () => {
+  //   setShow(false);
+  // }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -815,7 +815,7 @@ function Vendor() {
             {/* </div> */}
 
             {show &&
-              <AddVendor show={show} handleClose={handleClose} currentItem={currentItem} />
+              <AddVendor show={show}  currentItem={currentItem} setShow={setShow}/>
             }
 
 
