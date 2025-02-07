@@ -2233,7 +2233,7 @@ function EB_Hostel(props) {
               </div>
             </div>
           </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center">
+          <Modal.Footer className="d-flex justify-content-center"style={{ borderTop: "none" }}>
             <Button
               className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
               style={{

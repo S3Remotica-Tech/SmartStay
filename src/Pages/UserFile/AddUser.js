@@ -162,9 +162,19 @@ const handleCloseForm = ()=>{
     setEmailError('')
     setError('')
     setEmail("")
+    setCountryCodeError("");
+    dispatch(clearPhoneError());
+    dispatch(clearEmailError());
 
 }
 
+const clearPhoneError = () => ({
+  type: "CLEAR_PHONE_NUM_ERROR",
+});
+
+const clearEmailError = () => ({
+  type:"CLEAR_EMAIL_ID_ERROR"
+})
 
 
   const handleSubmit = () => {
