@@ -730,10 +730,10 @@ function SettingExpenses({ hostelid }) {
           currentRowExpense.map((category) => (
             <div key={category.category_Id} className="col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded p-2"
               style={{
-                height: expandedCategoryId === category.category_Id ? "auto" : "50px",
+                height: expandedCategoryId === category.category_Id ? "auto" : "45px",
                 //  height:"auto"
               }}>
-              <Card className=" d-flex justify-content-between align-items-center border-0 "
+              <Card className=" d-flex justify-content-between  border-0 "
 
 
                 style={{

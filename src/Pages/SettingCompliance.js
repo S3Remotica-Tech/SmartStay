@@ -745,7 +745,7 @@ function SettingCompliance({ hostelid }) {
                             </Form.Group>
                             <div style={{ marginTop: "-10px" }}>
                                 {comlaintError && (
-                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center" }}>
+                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red" }}>
                                         <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
                                             <MdError />
                                         </span>
