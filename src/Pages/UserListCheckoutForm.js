@@ -58,10 +58,6 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 
 
 
-  console.log("dueamount", dueamount)
-
-
-
 
   const handlecloseform = () => {
     handleClose()
@@ -74,6 +70,10 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     setCheckOutRequestDate('');
     setBedname('');
     setFloorname('')
+    setCheckOutDateError('')
+    setGeneralError('')
+    setCustomerError('');
+    setCheckOutRequestDateError('')
   }
 
   const [isChecked, setIsChecked] = useState(false);
@@ -94,7 +94,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
   };
 
 
-
+ 
 
   const handleNoticeDaysChange = (event) => {
     setNoticeDays(event.target.value);
@@ -261,71 +261,136 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
   const [isChangedError, setIsChangedError] = useState('')
 
+  // const handleCheckOutCustomer = () => {
+
+  //   const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+  //   const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+
+  //   if (!selectedCustomer && !uniqueostel_Id && !checkOutDate && !checkOutrequestDate) {
+  //     setGeneralError('Please select all mandatory fields');
+  //     return;
+  //   }
+  //   if (!selectedCustomer) {
+  //     setCustomerError('Please select a customer.');
+  //     // return;
+  //   }
+
+  //   if (!uniqueostel_Id) {
+  //     setHostelError('Please select a hostel.');
+  //     // return;
+  //   }
+
+  //   if (!checkOutDate) {
+  //     setCheckOutDateError('Please select a checkout date.');
+  //     // return;
+  //   }
+
+  //   if (!checkOutrequestDate) {
+  //     setCheckOutRequestDateError('Please select a request date.');
+  //     // return;
+  //   }
+
+  //   const formattedCheckOutDate = checkOutDate
+  //     ? checkOutDate.toISOString().split('T')[0]
+  //     : '';
+
+  //   const formattedCheckOutRequestDate = checkOutrequestDate
+  //     ? checkOutrequestDate.toISOString().split('T')[0]
+  //     : '';
+
+
+  //   const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
+  //     // selectedHostel !== currentItem?.Hostel_Id ||
+  //     selectedCustomer !== currentItem?.ID ||
+  //     noticeDays !== currentItem?.notice_period ||
+  //     comments !== currentItem?.checkout_comment || formattedCheckOutRequestDate !== currentItem?.checkOutrequestDate
+
+
+  //   if (!hasChanges) {
+  //     setIsChangedError('No Changes detected');
+  //     return;
+  //   }
+  //   if (selectedCustomer || currentItem.ID && uniqueostel_Id || currentItem.Hostel_Id && checkOutDate && checkOutrequestDate) {
+  //     dispatch({
+  //       type: 'ADDCHECKOUTCUSTOMER', payload: {
+  //         checkout_date: formattedDate,
+  //         user_id: selectedCustomer || currentItem.ID,
+  //         hostel_id: uniqueostel_Id || currentItem.Hostel_Id,
+  //         comments: comments,
+  //         action: currentItem ? 2 : 1,
+  //         req_date: formattedrequestDate
+  //       }
+  //     })
+  //   }
+
+  // }
+
   const handleCheckOutCustomer = () => {
 
     const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-
-    if (!selectedCustomer && !uniqueostel_Id && !checkOutDate && !checkOutrequestDate) {
-      setGeneralError('Please select all mandatory fields');
-      return;
-    }
+  
+    let isValid = true;
+  
+    
     if (!selectedCustomer) {
       setCustomerError('Please select a customer.');
-      // return;
+      isValid = false;
     }
-
+  
     if (!uniqueostel_Id) {
       setHostelError('Please select a hostel.');
-      // return;
+      isValid = false;
     }
-
+  
     if (!checkOutDate) {
       setCheckOutDateError('Please select a checkout date.');
-      // return;
+      isValid = false;
     }
-
+  
     if (!checkOutrequestDate) {
       setCheckOutRequestDateError('Please select a request date.');
-      // return;
+      isValid = false;
     }
+  
 
-    const formattedCheckOutDate = checkOutDate
-      ? checkOutDate.toISOString().split('T')[0]
-      : '';
-
-    const formattedCheckOutRequestDate = checkOutrequestDate
-      ? checkOutrequestDate.toISOString().split('T')[0]
-      : '';
-
-
-    const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
-      // selectedHostel !== currentItem?.Hostel_Id ||
-      selectedCustomer !== currentItem?.ID ||
-      noticeDays !== currentItem?.notice_period ||
-      comments !== currentItem?.checkout_comment || formattedCheckOutRequestDate !== currentItem?.checkOutrequestDate
-
-
-    if (!hasChanges) {
-      setIsChangedError('No Changes detected');
+    if (!isValid) {
+      // setGeneralError('Please select all mandatory fields.');
       return;
     }
-    if (selectedCustomer || currentItem.ID && uniqueostel_Id || currentItem.Hostel_Id && checkOutDate && checkOutrequestDate) {
-      dispatch({
-        type: 'ADDCHECKOUTCUSTOMER', payload: {
-          checkout_date: formattedDate,
-          user_id: selectedCustomer || currentItem.ID,
-          hostel_id: uniqueostel_Id || currentItem.Hostel_Id,
-          comments: comments,
-          action: currentItem ? 2 : 1,
-          req_date: formattedrequestDate
-        }
-      })
+  
+    
+    const formattedCheckOutDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const formattedCheckOutRequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+  
+  
+    const hasChanges =
+      formattedCheckOutDate !== moment(currentItem?.CheckoutDate, 'DD-MM-YYYY').format('YYYY-MM-DD') ||
+      selectedCustomer !== currentItem?.ID ||
+      noticeDays !== currentItem?.notice_period ||
+      comments !== currentItem?.checkout_comment ||
+      formattedCheckOutRequestDate !== moment(currentItem?.checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+  
+    if (!hasChanges) {
+      setIsChangedError('No changes detected.');
+      return;
     }
-
+  
+  if(isValid){
+    dispatch({
+      type: 'ADDCHECKOUTCUSTOMER',
+      payload: {
+        checkout_date: formattedDate,
+        user_id: selectedCustomer || currentItem?.ID,
+        hostel_id: uniqueostel_Id || currentItem?.Hostel_Id,
+        comments: comments,
+        action: currentItem ? 2 : 1,
+        req_date: formattedrequestDate
+      }
+    });
   }
-
-
+  };
+  
 
 
 
