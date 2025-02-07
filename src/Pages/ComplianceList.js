@@ -430,6 +430,15 @@ const ComplianceList = (props) => {
 
   console.log("props", props);
 
+  useEffect(() => {
+    
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  
+    return () => clearTimeout(timer); 
+  }, []);
+
 
   return (
     <>
