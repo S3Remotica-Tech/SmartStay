@@ -20,6 +20,7 @@ import Button from "react-bootstrap/Button";
 import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
+import Spinner from "react-bootstrap/Spinner";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -37,6 +38,7 @@ const ComplianceList = (props) => {
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
   const [showAssignee, setShowAssigne] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -428,11 +430,51 @@ const ComplianceList = (props) => {
   }, []);
 
   console.log("props",props);
+
+  useEffect(() => {
+    
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); 
+  }, []);
+
   
 
   return (
     <>
-      <Card
+    
+    {loading ? (
+  <div
+  style={{
+    position: 'fixed',  
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 1050, 
+  }}
+>
+  <div
+    style={{
+      borderTop: '4px solid #1E45E1', 
+      borderRight: '4px solid transparent',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px',
+      animation: 'spin 1s linear infinite',
+    }}
+  ></div>
+</div>
+) : (
+  <div>
+     <Card
         className="h-100 fade-in"
         style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}
       >
@@ -1655,7 +1697,9 @@ const ComplianceList = (props) => {
           </div>
         </Card.Body>
       </Card>
-
+     
+      </div>
+          )}
       <Modal
         show={deleteForm}
         onHide={handleCloseDeleteForm}
