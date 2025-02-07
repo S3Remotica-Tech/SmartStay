@@ -118,7 +118,7 @@ function SettingInvoice({ hostelid }) {
 
   useEffect(() => {
     // if (state.login.selectedHostel_Id) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     // }
   }, [state.login.selectedHostel_Id]);
 
@@ -592,18 +592,18 @@ function SettingInvoice({ hostelid }) {
   console.log("UsersListSTATUSCODE", state?.UsersList?.statuscodeForhotelDetailsinPg);
 
 
-useEffect(()=>{
-  if(InvoiceList.length == 0){
-    setLoading(true)
-  }
-else if( InvoiceList && InvoiceList?.every(
-  (item) =>
-    (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-    (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-)) {
-setLoading(false)
-}
-},[InvoiceList])
+  useEffect(() => {
+    if (InvoiceList.length == 0) {
+      setLoading(true)
+    }
+    else if (InvoiceList && InvoiceList?.every(
+      (item) =>
+        (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+        (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+    )) {
+      setLoading(false)
+    }
+  }, [InvoiceList])
 
 
   console.log("InvoiceList:", InvoiceList);
@@ -618,7 +618,7 @@ setLoading(false)
     setCalculatedstartdate(selectedOption?.value);
   };
   const handleEndDateChange = (selectedOption) => {
-    setCalculatedEnddate(selectedOption?.value); 
+    setCalculatedEnddate(selectedOption?.value);
   };
 
 
@@ -735,8 +735,9 @@ setLoading(false)
                   marginBottom: "10px",
                   maxHeight: 50,
                   marginTop: "-7px",
-                  borderColor:"#1E45E1"
-      
+                  // borderColor: "#1E45E1",
+                  border: "2px solid #1E45E1" 
+                  // border: "none",
                 }}
               >
                 Edit Invoice
@@ -756,7 +757,7 @@ setLoading(false)
 
       {showPopup && (
         <div className="d-flex flex-wrap">
-          <p style={{ color: "red", fontFamily:"Gilroy", fontSize:14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
             Please add a hostel before adding Invoice information.
           </p>
         </div>)}
@@ -1230,13 +1231,13 @@ setLoading(false)
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </label>
                     </div>
-                   
+
                     <div className="col-lg-4">
                       <Select
                         options={options}
@@ -1288,7 +1289,7 @@ setLoading(false)
                         <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red",marginBottom:"3px" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1299,13 +1300,13 @@ setLoading(false)
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
                       <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </label>
                     </div>
-                   
+
                     <div className="col-lg-4">
                       <Select
                         options={options}
@@ -1357,7 +1358,7 @@ setLoading(false)
                         <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red",marginBottom:"3px" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>
