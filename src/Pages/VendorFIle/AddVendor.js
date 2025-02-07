@@ -70,6 +70,8 @@ const handleClose =()=>{
   setShow(false)
   setVendorPhoneError("")
   setVendorEmailError("")
+  dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+  dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
 }
 
   // const handleCountryCodeChange = (e) => {
