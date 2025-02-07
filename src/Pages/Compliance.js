@@ -610,6 +610,7 @@ const handleFilterd = () => {
     setHostelName('');
     setStatus('');
     setFloorname('')
+    setRoomName('')
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
