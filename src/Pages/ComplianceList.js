@@ -287,22 +287,53 @@ const ComplianceList = (props) => {
     setCommentError("");
   };
 
+  // const handleChangeStatusClick = () => {
+  //   if (status === "") {
+  //     setComplianceError("Please Select Compliant");
+  //   } else {
+  //     dispatch({
+  //       type: "COMPLIANCEASSIGN",
+  //       payload: {
+  //         type: "status_change",
+  //         assigner: compliant,
+  //         status: status,
+  //         id: assignId,
+  //         hostel_id: hostel_id,
+  //       },
+  //     });
+  //   }
+  // };
+
+  const [selectedStatus, setSelectedStatus] = useState(""); 
+ 
+
   const handleChangeStatusClick = () => {
-    if (status === "") {
-      setComplianceError("Please Select Compliant");
-    } else {
-      dispatch({
-        type: "COMPLIANCEASSIGN",
-        payload: {
-          type: "status_change",
-          assigner: compliant,
-          status: status,
-          id: assignId,
-          hostel_id: hostel_id,
-        },
-      });
+    if (!status) {
+      setStatusError("Please Select Status");
+      return;
     }
+  
+    if (status === selectedStatus) {
+      setStatusError("Please make a change before submitting");
+      return;
+    }
+  
+    setSelectedStatus(status); 
+    setStatusError(""); 
+  
+    dispatch({
+      type: "COMPLIANCEASSIGN",
+      payload: {
+        type: "status_change",
+        assigner: compliant,
+        status: status,
+        id: assignId,
+        hostel_id: hostel_id,
+      },
+    });
   };
+
+
 
   const handleChangeStatusOpenClose = (item) => {
     setAssignId(item?.ID);
@@ -368,14 +399,20 @@ const ComplianceList = (props) => {
       setComplianceError(" ");
     }
   };
+  // const handleStatus = (e) => {
+  //   setStatus(e.target.value);
+  //   if (e.target.value === "") {
+  //     setStatusError("Please Select Status");
+  //   } else {
+  //     setStatusError("");
+  //   }
+  // };
+
   const handleStatus = (e) => {
     setStatus(e.target.value);
-    if (e.target.value === "") {
-      setStatusError("Please Select Status");
-    } else {
-      setStatusError("");
-    }
+    setStatusError("");
   };
+
 
   useEffect(() => {
     const appearOptions = {

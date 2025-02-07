@@ -275,7 +275,6 @@ function SettingCompliance({ hostelid }) {
                         <Col>
                             <div className="d-flex justify-content-end">
                                 <Button
-
                                     style={{
                                         fontFamily: "Gilroy",
                                         fontSize: "14px",
