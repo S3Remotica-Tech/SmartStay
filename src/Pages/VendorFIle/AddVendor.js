@@ -1026,7 +1026,7 @@ const handleClose =()=>{
                       </label>
                     </div>
                   )}
-                {isChangedError && (
+                {/* {isChangedError && (
             <div style={{color: "red", marginTop: "15px"}}>
               <MdError  />
               <span
@@ -1042,7 +1042,7 @@ const handleClose =()=>{
                 {isChangedError}
               </span>
             </div>
-          )} 
+          )}  */}
 
                 </Form.Group>
               </div>
@@ -1136,8 +1136,8 @@ const handleClose =()=>{
           )} */}
 {isChangedError && (
     <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
-        <MdError style={{fontSize: "13px",marginRight:"7px",marginBottom:"1px"}}/>
-        <span style={{ fontSize: "14px", fontFamily: "Gilroy" }}>
+        <MdError style={{fontSize: "13px",marginRight:"7px",marginBottom:"15px"}}/>
+        <span style={{ fontSize: "14px", fontFamily: "Gilroy",marginBottom:"15px"}}>
             {isChangedError}
         </span>
     </div>
