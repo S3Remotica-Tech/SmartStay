@@ -11,6 +11,7 @@ const initialState = {
     getVendorStatusCode: 0,
     deleteVendorStatusCode: 0,
     alreadyVendorHere: '',
+    alreadyVendorEmailError:'',
     complianceChangeRes: "",
     complianceChangeStatus: 0,
     complianceChangeError: '',
@@ -66,6 +67,12 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, alreadyVendorHere: action.payload }
         case 'CLEAR_ALREADY_VENDOR_ERROR':
             return { ...state, alreadyVendorHere: '' }
+
+
+            case 'ALREADY_VENDOR_EMAIL_ERROR':
+            return { ...state, alreadyVendorEmailError: action.payload }
+        case 'CLEAR_ALREADY_VENDOR_EMAIL_ERROR':
+            return { ...state, alreadyVendorEmailError: '' }
         case 'COMPLIANCE_CHANGE_STATUS':
             return { ...state, complianceChangeRes: action.payload.response, complianceChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ERROR':

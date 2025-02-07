@@ -125,6 +125,11 @@ function* handleAddVendor(action) {
 
 
    }
+   else if(response.statusCode === 203 || response.status === 203) {
+      
+      yield put ({type:'ALREADY_VENDOR_EMAIL_ERROR', payload:response.message})
+
+   }
    if(response){
       refreshToken(response)
    }

@@ -50,6 +50,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
   const [vendorPhoneError,setVendorPhoneError] = useState("")
+  const [vendorEmailError,setVendorEmailError]= useState("")
 
   const handleCountryChange = (e) => {
     setCountry(e.target.value);
@@ -68,6 +69,7 @@ function AddVendor({ show, setShow, currentItem }) {
 const handleClose =()=>{
   setShow(false)
   setVendorPhoneError("")
+  setVendorEmailError("")
 }
 
   // const handleCountryCodeChange = (e) => {
@@ -231,6 +233,8 @@ const handleClose =()=>{
     setGeneralError("");
     setIsChangedError("");
     setEmailError("");
+    setVendorEmailError("")
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
 
     if (email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -472,6 +476,10 @@ const handleClose =()=>{
   useEffect(()=>{
     setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
   },[state.ComplianceList?.alreadyVendorHere])
+
+  useEffect(()=>{
+setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+  },[state.ComplianceList.alreadyVendorEmailError])
 
   // useEffect(() => {
   //   if (state.ComplianceList?.alreadyVendorHere) {
@@ -876,6 +884,23 @@ const handleClose =()=>{
                     </div>
                   )}
                 </Form.Group>
+
+                {vendorEmailError && (
+            <div className="d-flex align-items-center p-1 mb-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {vendorEmailError}
+              </label>
+            </div>
+          )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
