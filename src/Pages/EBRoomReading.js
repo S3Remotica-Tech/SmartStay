@@ -1187,7 +1187,7 @@ function EBRoomReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Edit Readingss
+            Edit Reading
           </div>
           <button
             type="button"

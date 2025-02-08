@@ -1155,7 +1155,7 @@ console.log("state",state)
       !formatpaiddate ||
       !invoiceList.transaction
     ) {
-      setTotalErrmsg("Please enter All field");
+      // setTotalErrmsg("Please enter All field");
       setTimeout(() => {
         setTotalErrmsg("");
       }, 1000);

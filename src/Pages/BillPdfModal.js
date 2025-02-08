@@ -257,7 +257,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.eb_unit_amount}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.rec_ebunit} */}
+          {moment(rowData?.rec_ebunit).format('DD MMM YYYY')}
+      </label>
       </div>
 
       {/* EB Start Date */}
@@ -272,7 +275,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.eb_start_date}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.rec_ebstartdate} */}
+        {moment(rowData?.rec_ebstartdate).format('DD MMM YYYY')}
+      </label>
       </div>
 
       {/* EB End Date */}
@@ -287,7 +293,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.eb_end_date}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.rec_ebenddate} */}
+        {moment(rowData?.rec_ebenddate).format('DD MMM YYYY')}
+      </label>
       </div>
     </div>
 
@@ -304,7 +313,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.rent_start_date}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.rec_invstartdate} */}
+        {moment(rowData?.rec_invstartdate).format('DD MMM YYYY')}
+      </label>
       </div>
 
       {/* Rent End Date */}
@@ -318,7 +330,10 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>{rowData?.rent_end_date}</label>
+      fontFamily: "Gilroy",}}>
+        {/* {rowData?.rec_invenddate} */}
+        {moment(rowData?.rec_invenddate).format('DD MMM YYYY')}
+      </label>
       </div>
     </div>
   </div>

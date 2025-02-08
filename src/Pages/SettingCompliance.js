@@ -283,9 +283,10 @@ function SettingCompliance({ hostelid }) {
                                         fontWeight: 600,
                                         borderRadius: "8px",
                                         padding: "11px 15px",
-                                        width: "auto",
-                                        maxWidth: "100%",
-                                        maxHeight: 50,
+                                        paddingLeft:16,
+                                        // width: "auto",
+                                        // maxWidth: "100%",
+                                        // maxHeight: 50,
                                         marginTop: "-11px",
 
                                     }}
