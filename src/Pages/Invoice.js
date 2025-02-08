@@ -3545,7 +3545,7 @@ const InvoicePage = () => {
                                         fontWeight: 500,
                                         boxShadow: "none",
                                         border: "1px solid #D9D9D9",
-                                        height: 40,
+                                        height: 49,
                                         borderRadius: 8,
                                       }}
                                     >

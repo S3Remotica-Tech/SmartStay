@@ -3,6 +3,12 @@
 }
 
 
+
+.input-field {
+  border-color: #E7E7E7 !important;
+  box-shadow: unset !important;
+ 
+}
 .frame-child1 {
   height: 60px;
   width: 288px;

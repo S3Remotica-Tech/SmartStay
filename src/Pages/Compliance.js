@@ -611,6 +611,9 @@ const Compliance = () => {
     setStatus('');
     setFloorname('')
     setRoomName('')
+    setUserErrmsg('')
+    setDateErrmsg('')
+    setComplaintTypeErrmsg('')
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
