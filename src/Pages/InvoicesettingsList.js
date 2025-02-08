@@ -347,7 +347,7 @@ const InvoiceSettingsList = (props) => {
               <div>
                 <label
                   style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-                  {moment(props.item.inv_date).format('DD-MM-YYYY')}
+                  {props.item.inv_date}
                 </label>
               </div>
             </div>
@@ -361,7 +361,7 @@ const InvoiceSettingsList = (props) => {
               <div>
                 <label
                   style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-                   {moment(props.item.due_date).format('DD-MM-YYYY')} 
+                     {props.item.due_date}
                 </label>
               </div>
             </div>

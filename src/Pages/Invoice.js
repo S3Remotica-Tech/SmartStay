@@ -202,7 +202,9 @@ console.log("state",state)
   const [tableErrmsg, setTableErrmsg] = useState("");
   const [value, setValue] = React.useState("1");
   const [DownloadInvoice, setDownloadInvoice] = useState(false);
+  const [DownloadReceipt, setDownloadReceipt] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showPdfReceiptModal, setShowPdfReceiptModal] = useState(false);
   const [rowData, setRowData] = useState("");
   const [showeditform, setShowEditform] = useState(false);
   const [showdeleteform, setShowDeleteform] = useState(false);
@@ -1771,8 +1773,14 @@ console.log("state",state)
     setRowData(rowData);
   };
 
-  const handleBackClose = () => {
-    setDownloadInvoice(false);
+  const handleDisplayReceiptDownload = (isVisible, rowData) => {
+    setDownloadReceipt(isVisible);
+    setShowPdfReceiptModal(true);
+    setRowData(rowData);
+  };
+
+  const handleClosePdfReceipt = () => {
+    setDownloadReceipt(false);
   };
 
   const handleClosePdfModal = () => {
@@ -5154,18 +5162,18 @@ console.log("state",state)
 
                   <Container fluid className="p-0">
                     <Row
-                      className={` ${DownloadInvoice
+                      className={` ${DownloadReceipt
                         ? "m-0 g-2 d-flex justify-content-between"
                         : "m-0 g-0"
                         }`}
                     >
                       <Col
-                        lg={DownloadInvoice ? 4 : 12}
-                        md={DownloadInvoice ? 4 : 12}
-                        sm={DownloadInvoice ? 4 : 12}
-                        xs={DownloadInvoice ? 4 : 12}
+                        lg={DownloadReceipt ? 4 : 12}
+                        md={DownloadReceipt ? 4 : 12}
+                        sm={DownloadReceipt ? 4 : 12}
+                        xs={DownloadReceipt ? 4 : 12}
                       >
-                        {DownloadInvoice ? (
+                        {DownloadReceipt ? (
                           <div
                             className="show-scroll p-2"
                             style={{ maxHeight: 700, overflowY: "auto" }}
@@ -5480,7 +5488,7 @@ console.log("state",state)
                                             }
                                             onhandleEdit={handleEditReceipt}
                                             DisplayInvoice={
-                                              handleDisplayInvoiceDownload
+                                              handleDisplayReceiptDownload
                                             }
                                           />
                                         ))
@@ -5662,7 +5670,7 @@ console.log("state",state)
                         )}
                       </Col>
 
-                      {DownloadInvoice && (
+                      {DownloadReceipt && (
                         <>
                           {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
                   <div
@@ -5680,14 +5688,14 @@ console.log("state",state)
                             sm={12}
                             xs={12}
                             style={{
-                              borderLeft: DownloadInvoice
+                              borderLeft: DownloadReceipt
                                 ? "1px solid #ccc"
                                 : "none",
                             }}
                           >
                             <ReceiptPdfCard
-                              show={showPdfModal}
-                              handleClosed={handleClosePdfModal}
+                              show={showPdfReceiptModal}
+                              handleClosed={handleClosePdfReceipt}
                               rowData={rowData}
                             />
 
@@ -6234,7 +6242,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 
       {showRecurringBillForm && (
         <>
-          <RecurringBill onhandleback={handleBackBill} />
+          <RecurringBill hostelId={hostelId} onhandleback={handleBackBill} />
         </>
       )}
 
