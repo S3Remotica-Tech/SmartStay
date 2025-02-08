@@ -19,6 +19,7 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
+import moment from "moment";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -109,24 +110,19 @@ function EBHostelReading(props) {
     setReading(user.reading);
     setSelectedHostel(selectedHostel);
     setEditId(user.eb_Id);
-    const formattedJoiningDate = user.date ? new Date(user.date) : null;
-
-    let localDate = null; // Declare localDate here
-
-    if (formattedJoiningDate) {
-      localDate = new Date(
-        formattedJoiningDate.getUTCFullYear(),
-        formattedJoiningDate.getUTCMonth(),
-        formattedJoiningDate.getUTCDate()
-      );
-
-      setSelectedDate(localDate);
-    }
+ setSelectedDate(user.date || "");
+          // const formattedJoiningDate = item.joining_date
+          //   ? new Date(item.joining_date)
+          //   : null;
+          // setJoiningDate(formattedJoiningDate);
+          setSelectedDate(
+            user.date ? moment(user.date).toDate("") : null
+          );
 
     setInitialStateAssign({
       // hos_Name: user.hoatel_Name || "",
       reading: user.reading || "",
-      selectedDate: localDate || "",
+      selectedDate: user.date || "",
     });
   };
 
@@ -235,8 +231,9 @@ function EBHostelReading(props) {
 
     // Helper function to check if a date is valid
     const isValidDate = (date) => !isNaN(Date.parse(date));
-
+    const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
     if (props.editeb && editId) {
+      
       const isChangedBed =
         (isValidDate(selectedDate) &&
           isValidDate(initialStateAssign.selectedDate)
@@ -260,7 +257,7 @@ function EBHostelReading(props) {
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDate, // Use formatted date
+          date: formattedDated, // Use formatted date
           id: editId,
         },
       });
@@ -271,7 +268,7 @@ function EBHostelReading(props) {
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDate, // Use formatted date
+          date: formattedDated, // Use formatted date
         },
       });
     }
@@ -661,17 +658,19 @@ function EBHostelReading(props) {
                   const imageUrl = v.profile || Profile;
                   let formattedDate;
 
-                  if (v.date && v.date !== "0000-00-00") {
-                    // Parse the date correctly even if it includes a timestamp
-                    let dateParts = v.date.split("T")[0]; // Extract only the date part (YYYY-MM-DD)
-                    let [year, month, day] = dateParts.split("-");
+                  // Check if v.date exists and is not "00-00-00"
+                  if (v.date && v.date != '0000-00-00') {
+                    let Dated = new Date(v.date);
+                    let day = Dated.getDate();
+                    let month = Dated.getMonth() + 1;
+                    let year = Dated.getFullYear();
                     formattedDate = `${day}/${month}/${year}`;
                   } else {
-                    // Format the current date
-                    let today = new Date();
-                    let day = String(today.getDate()).padStart(2, "0");
-                    let month = String(today.getMonth() + 1).padStart(2, "0");
-                    let year = today.getFullYear();
+                    // Use a default initial date if v.date is empty or "00-00-00"
+                    let initialDate = new Date(v.initial_date); // Set your default initial date here
+                    let day = initialDate.getDate();
+                    let month = initialDate.getMonth() + 1;
+                    let year = initialDate.getFullYear();
                     formattedDate = `${day}/${month}/${year}`;
                   }
 
