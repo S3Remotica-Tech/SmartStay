@@ -1592,26 +1592,26 @@ console.log("FilterUsertwo",FilterUsertwo)
     }
   }, [id]);
 
-  const handleselect = (e) => {
-    const value = e.target.value;
-    setselectAmneties(value);
-    setamnitytableshow(true);
+  // const handleselect = (e) => {
+  //   const value = e.target.value;
+  //   setselectAmneties(value);
+  //   setamnitytableshow(true);
 
-    const amenitiesHistory = state.UsersList.amnetieshistory?.filter((item) => {
-      return item.amenity_Id == value;
-    });
+  //   const amenitiesHistory = state.UsersList.amnetieshistory?.filter((item) => {
+  //     return item.amenity_Id == value;
+  //   });
 
-    if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
-        setaddamenityShow(true);
-        setstatusShow(false);
-      }
-    } else {
-      setaddamenityShow(true);
-      setstatusShow(false);
-      setSelectedAmenityName([]);
-    }
-  };
+  //   if (amenitiesHistory && amenitiesHistory.length > 0) {
+  //     if (amenitiesHistory && amenitiesHistory[0].status == 0) {
+  //       setaddamenityShow(true);
+  //       setstatusShow(false);
+  //     }
+  //   } else {
+  //     setaddamenityShow(true);
+  //     setstatusShow(false);
+  //     setSelectedAmenityName([]);
+  //   }
+  // };
   const handleCloseDelete = () => {
     setDeleteShow(false);
   };
@@ -1714,39 +1714,7 @@ console.log("FilterUsertwo",FilterUsertwo)
     setaddamenityShow(false);
   };
 
-  const [statusAmni, setStatusAmni] = useState(false);
-  const [statusShow, setstatusShow] = useState(false);
-  const [amnitynotshow, setamnitynotshow] = useState([]);
-  const handleStatusAmnities = (e) => {
-    setStatusAmni(e.target.value);
-  };
-
-  const handleAddUserAmnities = () => {
-    if (statusAmni) {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          userID: customerUser_Id,
-          amenityID: selectAmneties,
-          Status: statusAmni,
-          hostelID: hostelIds,
-        },
-      });
-      setStatusAmni("");
-      setselectAmneties("");
-    } else {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          hostelID: hostelIds,
-          userID: customerUser_Id,
-          amenityID: selectAmneties,
-        },
-      });
-      setStatusAmni("");
-      setselectAmneties("");
-    }
-  };
+  
 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
@@ -1762,12 +1730,7 @@ console.log("FilterUsertwo",FilterUsertwo)
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  const handleEdit = (v) => {
-    setamnityEdit(v);
-    setaddamenityShow(true);
-    setstatusShow(true);
-    setselectAmneties(v.amenity_Id);
-  };
+
   const OnShowTableForCustomer = (isVisible) => {
     setUserList(isVisible);
     setRoomDetail(false);
@@ -3799,7 +3762,7 @@ console.log("FilterUsertwo",FilterUsertwo)
           setShowForm={setShowForm}
           showForm={showForm}
           setUserClicked={setUserClicked}
-          handleEdit={handleEdit}
+          // handleEdit={handleEdit}
           handleShowAddBed={handleShowAddBed}
           roomDetail={roomDetail}
           setRoomDetail={setRoomDetail}
@@ -3817,16 +3780,16 @@ console.log("FilterUsertwo",FilterUsertwo)
           kycOtpValue={kycOtpValue}
           handleKycOtpChange={handleKycOtpChange}
           showValidate={showValidate}
-          selectAmneties={selectAmneties}
-          handleselect={handleselect}
+          // selectAmneties={selectAmneties}
+          // handleselect={handleselect}
           hostelName={hostelName}
           createby={createby}
-          statusShow={statusShow}
+          // statusShow={statusShow}
           customerUser_Id={customerUser_Id}
           hostelIds={hostelIds}
-          statusAmni={statusAmni}
-          handleStatusAmnities={handleStatusAmnities}
-          handleAddUserAmnities={handleAddUserAmnities}
+          // statusAmni={statusAmni}
+          // handleStatusAmnities={handleStatusAmnities}
+          // handleAddUserAmnities={handleAddUserAmnities}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
           uniqueostel_Id={uniqueostel_Id}
@@ -5004,7 +4967,7 @@ console.log("FilterUsertwo",FilterUsertwo)
           setShowForm={setShowForm}
           showForm={showForm}
           setUserClicked={setUserClicked}
-          handleEdit={handleEdit}
+          // handleEdit={handleEdit}
           handleShowAddBed={handleShowAddBed}
           roomDetail={roomDetail}
           setRoomDetail={setRoomDetail}
