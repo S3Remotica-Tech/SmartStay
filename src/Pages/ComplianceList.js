@@ -38,6 +38,7 @@ const ComplianceList = (props) => {
   const [assignId, setAssignId] = useState("");
   const [showAssignee, setShowAssigne] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -246,7 +247,7 @@ const ComplianceList = (props) => {
     if (isValueEmpty) {
       switch (fieldName) {
         case "comments":
-          setCommentError("comments is required");
+          setCommentError("Comments is required");
           break;
 
         default:
@@ -328,7 +329,7 @@ const ComplianceList = (props) => {
     });
   };
 
-
+const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
     setAssignId(item?.ID);
@@ -345,8 +346,16 @@ const ComplianceList = (props) => {
     setStatusError("");
   };
   const handleAssignComplaintClick = () => {
+
+    console.log("alreadyAssigned == compliant", alreadyAssigned, compliant)
+
+    if(alreadyAssigned == compliant && compliant !== ""){
+      setStatusErrorType("No changes detected");
+      return;
+    }
+
     if (compliant === "") {
-      setStatusError("Please Select status");
+      setStatusErrorType("Please Select Compliant Type");
     } else {
       dispatch({
         type: "COMPLIANCEASSIGN",
@@ -359,13 +368,14 @@ const ComplianceList = (props) => {
         },
       });
     }
-    setShowAssignComplaint(false); // Close Assign Complaint modal
-    setShowChangeStatus(false);
+    // setShowAssignComplaint(false); // Close Assign Complaint modal
+    // setShowChangeStatus(false);
   };
 
   useEffect(() => {
     if (state.ComplianceList.complianceAssignChangeStatus === 200) {
       setShowAssignComplaint(false);
+      setStatusErrorType("");
       setShowChangeStatus(false);
       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -374,24 +384,33 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
+const [alreadyAssigned, setAlreadyAssigned] = useState('')
+
   const handleAssignOpenClose = (item) => {
     setAssignId(item?.ID);
     setShowDots(false);
-    setCompliant(item?.Assign);
+    setCompliant(item?.Assign ?? "");
+setAlreadyAssigned(item?.Assign ?? "");
     setShowAssignComplaint(true);
     setShowChangeStatus(false);
   };
+
+  console.log("alreadyAssigned:", alreadyAssigned);
+console.log("compliant:", compliant);
+
   const handleCloseAssign = () => {
     setShowAssignComplaint(false);
     setStatusError("");
+    setStatusErrorType("");
+
   };
 
   const handleCompliant = (e) => {
     setCompliant(e.target.value);
     if (e.target.value === "") {
-      setComplianceError("Please Select Compliant");
+      setStatusErrorType("Please Select Compliant");
     } else {
-      setComplianceError(" ");
+      setStatusErrorType(" ");
     }
   };
   // const handleStatus = (e) => {
@@ -471,6 +490,9 @@ const ComplianceList = (props) => {
     return () => clearTimeout(timer); 
   }, []);
 
+
+
+  console.log("props.complaints",props.complaints)
 
   return (
     <>
@@ -922,10 +944,19 @@ const ComplianceList = (props) => {
                     fontFamily: "Gilroy",
                     fontStyle: "normal",
                     lineHeight: "normal",
+                    display: "block",
                   }}
                 >
                   {props.complaints && props.complaints.complaint_name}-{" "}
-                  {props.complaints && props.complaints.Description}
+                  <span title={props.complaints.Description}  style={{
+        display: "inline-block",
+        maxWidth: "200px",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        verticalAlign: "middle",
+      }}> {props.complaints && props.complaints.Description}</span>
+                 
                 </label>
               </div>
             </div>
@@ -1015,6 +1046,7 @@ const ComplianceList = (props) => {
             {/* CommentIcon  */}
             <div>
               <div
+               onClick={() => handleIconClick(props.complaints)}
                 style={{
                   border: "1px solid #DCDCDC",
                   borderRadius: 60,
@@ -1028,7 +1060,7 @@ const ComplianceList = (props) => {
 
                     src={CommentIcon}
                     alt="Comments"
-                    onClick={() => handleIconClick(props.complaints)}
+                   
                   />{" "}
                   {props.complaints.comment_count}
                 </label>
@@ -1346,13 +1378,27 @@ const ComplianceList = (props) => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          No data available
+                          No Comments available
                         </div>
                       )}
-
+  
                     </div>
                   </Modal.Body>
-
+                  {commentError && (
+                        <div style={{ color: "red", paddingLeft:20 }}>
+                          <MdError />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {commentError}
+                          </span>
+                        </div>
+                      )}
                   <Modal.Footer style={{ border: "none" }}>
                     <div
                       style={{
@@ -1362,10 +1408,11 @@ const ComplianceList = (props) => {
                         width: "100%",
                       }}
                     >
-                      <input
+                      <Form.Control
                         type="text"
                         value={comments}
                         onChange={(e) => handleComments(e)}
+                        className="input-field"
                         style={{
                           border: "1px solid #E7E7E7",
                           paddingTop: 6,
@@ -1373,12 +1420,14 @@ const ComplianceList = (props) => {
                           paddingLeft: 16,
                           width: "100%",
                           height: "52px",
+                          fontFamily:"Gilroy",
                           borderRadius: "12px",
                         }}
                         placeholder="Post your reply here"
                       />
-                      <div
+                      <div  className="input-field"
                         style={{
+                          
                           position: "absolute",
                           right: "10px",
                           top: "50%",
@@ -1403,21 +1452,7 @@ const ComplianceList = (props) => {
                           onClick={handleAddComment}
                         />
                       </div>
-                      {commentError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {commentError}
-                          </span>
-                        </div>
-                      )}
+                   
                     </div>
                   </Modal.Footer>
                 </Modal.Dialog>
@@ -1537,7 +1572,7 @@ const ComplianceList = (props) => {
                         </Form.Select>
                       </Form.Group>
                       {statusError && (
-                        <span style={{ color: "red", marginRight: "5px", fontSize: "13px" }}>{statusError}</span>
+                        <span style={{ color: "red", marginRight: "5px", fontSize: "13px", fontFamily:"Gilroy" }}>{statusError}</span>
                       )}
                     </div>
                   </div>
@@ -1681,11 +1716,11 @@ const ComplianceList = (props) => {
                             })}
                         </Form.Select>
                       </Form.Group>
-                      {statusError && (
+                      {statusErrorType && (
                         <div className="d-flex align-items-center">
-                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "15px", marginBottom: "2px" }} />
+                          {/* <MdError style={{ color: "red", marginRight: "5px", fontSize: "15px", marginBottom: "2px" }} /> */}
                           <label className="mb-0" style={{ color: "red", fontSize: "15px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {statusError}
+                            {statusErrorType}
                           </label>
                         </div>
                       )}
