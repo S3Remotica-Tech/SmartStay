@@ -707,7 +707,8 @@ function Banking() {
                     height: 43,
                     fontWeight: 600,
                     borderRadius: 8,
-                    padding: "14px 47px",
+                    // padding: "14px 47px",
+                    padding: "14px 47px 29px 51px",
                     fontFamily: "Montserrat",
                     whiteSpace: "nowrap" 
                   }}
