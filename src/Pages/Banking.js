@@ -34,7 +34,7 @@ import { MdError } from "react-icons/md";
 
 function Banking() {
   const state = useSelector((state) => state);
-  console.log("Banking",state)
+  console.log("Banking", state)
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const editRef = useRef(null);
@@ -74,7 +74,7 @@ function Banking() {
   const [statusfilter, setStatusfilter] = useState("");
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
-  const [bankking,setBanking] = useState("")
+  const [bankking, setBanking] = useState("")
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -353,9 +353,9 @@ function Banking() {
   //   indexOfLastRowTransaction
   // );
   const currentRowTransaction =
-  filterInput.length > 0
-    ? transactionFilterddata 
-    : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
+    filterInput.length > 0
+      ? transactionFilterddata
+      : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
@@ -376,8 +376,8 @@ function Banking() {
   useEffect(() => {
     const FilterUser = Array.isArray(transactionFilterddata)
       ? transactionFilterddata?.filter((item) =>
-          item.bank_name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+        item.bank_name?.toLowerCase().includes(filterInput.toLowerCase())
+      )
       : [];
 
     settransactionFilterddata(FilterUser);
@@ -411,13 +411,13 @@ function Banking() {
   const handleUserSelect = (user) => {
     setFilterInput(user.bank_name);
 
-    
+
     const selectedUserData = transactionFilterddata?.filter(
       (item) => item.bank_name === user.bank_name
     );
     settransactionFilterddata(selectedUserData);
 
-    setDropdownVisible(false); 
+    setDropdownVisible(false);
   };
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
@@ -425,7 +425,7 @@ function Banking() {
     setStatusfilter(searchTerm);
 
     if (searchTerm === "All") {
-      settransactionFilterddata(originalBillsFilter); 
+      settransactionFilterddata(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter?.filter((user) => {
         return (
@@ -497,132 +497,132 @@ function Banking() {
       ) : (
         <div className="container" >
           <div
-                 className="container d-flex flex-wrap justify-content-between align-items-center"
-                 
-                >
-                  <div style={{marginTop:10}}>
-                    <label style={{
-                  fontSize: 18,
-                  color: "#000000",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}>Banking</label>
-                  </div>
+            className="container d-flex flex-wrap justify-content-between align-items-center"
 
-                  <div style={{marginTop:19,}} className="d-flex  justify-content-between align-items-center ">
-                    {search ? (
-                      <>
-                        <div
+          >
+            <div style={{ marginTop: 10 }}>
+              <label style={{
+                fontSize: 18,
+                color: "#000000",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+              }}>Banking</label>
+            </div>
+
+            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center ">
+              {search ? (
+                <>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      marginRight: 20,
+
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        display: "flex",
+                        alignItems: "center",
+                        // width: "100%",
+
+
+                      }}
+                    >
+                      <Image
+                        src={searchteam}
+                        alt="Search"
+                        style={{
+                          position: "absolute",
+
+                          width: "24px",
+                          height: "24px",
+                          pointerEvents: "none",
+                        }}
+                      />
+                      <div
+                        className="input-group"
+                        style={{ marginRight: 20 }}
+                      >
+                        <span className="input-group-text bg-white border-end-0">
+                          <Image
+                            src={searchteam}
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control border-start-0"
+                          placeholder="Search"
+                          aria-label="Search"
                           style={{
-                            position: "relative",
-                            width: "100%",
-                            marginRight: 20,
-                          
+                            boxShadow: "none",
+                            outline: "none",
+                            borderColor: "rgb(207,213,219)",
+                            borderRight: "none"
+
+                          }}
+                          value={filterInput}
+                          onChange={(e) => handlefilterInput(e)}
+                        />
+                        <span className="input-group-text bg-white border-start-0">
+                          <img src={closecircle} onClick={handleCloseSearch}
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </span>
+                      </div>
+                    </div>
+
+                    {isDropdownVisible && transactionFilterddata?.length > 0 && (
+                      <div
+                        style={{
+                          border: "1px solid #d9d9d9 ",
+                          position: "absolute",
+                          top: 60,
+                          left: 0,
+                          zIndex: 1000,
+                          padding: 10,
+                          borderRadius: 8,
+                          backgroundColor: "#fff",
+                          width: "94%",
+                        }}
+                      >
+                        <ul
+                          className="show-scroll p-0"
+                          style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "4px",
+                            // maxHeight: 174,
+                            maxHeight:
+                              transactionFilterddata?.length > 1 ? "174px" : "auto",
+                            minHeight: 100,
+                            overflowY:
+                              transactionFilterddata?.length > 1 ? "auto" : "hidden",
+
+                            margin: "0",
+                            listStyleType: "none",
+                            borderRadius: 8,
+                            boxSizing: "border-box",
                           }}
                         >
-                          <div
-                            style={{
-                              position: "relative",
-                              display: "flex",
-                              alignItems: "center",
-                              // width: "100%",
-                           
-                            
-                            }}
-                          >
-                            <Image
-                              src={searchteam}
-                              alt="Search"
-                              style={{
-                                position: "absolute",
-                               
-                                width: "24px",
-                                height: "24px",
-                                pointerEvents: "none",
-                              }}
-                            />
-                            <div
-                              className="input-group"
-                              style={{ marginRight: 20 }}
-                            >
-                              <span className="input-group-text bg-white border-end-0">
-                                <Image
-                                  src={searchteam}
-                                  style={{ height: 20, width: 20 }}
-                                />
-                              </span>
-                              <input
-                                type="text"
-                                className="form-control border-start-0"
-                                placeholder="Search"
-                                aria-label="Search"
+                          {transactionFilterddata?.map((user, index) => {
+                            // const imagedrop = user.profile || Profile;
+                            return (
+                              <li
+                                key={index}
+                                className="list-group-item d-flex align-items-center"
                                 style={{
-                                  boxShadow: "none",
-                                  outline: "none",
-                                  borderColor: "rgb(207,213,219)",
-                                  borderRight: "none"
-
+                                  cursor: "pointer",
+                                  padding: "10px 5px",
+                                  borderBottom:
+                                    index !== transactionFilterddata.length - 1
+                                      ? "1px solid #eee"
+                                      : "none",
                                 }}
-                                value={filterInput}
-                                onChange={(e) => handlefilterInput(e)}
-                              />
-                              <span className="input-group-text bg-white border-start-0">
-                                <img src={closecircle} onClick={handleCloseSearch}
-                                  style={{ height: 20, width: 20 }}
-                                />
-                              </span>
-                            </div>
-                          </div>
-
-                          {isDropdownVisible && transactionFilterddata?.length > 0 && (
-                            <div
-                              style={{
-                                border: "1px solid #d9d9d9 ",
-                                position: "absolute",
-                                top: 60,
-                                left: 0,
-                                zIndex: 1000,
-                                padding: 10,
-                                borderRadius: 8,
-                                backgroundColor: "#fff",
-                                width: "94%",
-                              }}
-                            >
-                              <ul
-                                className="show-scroll p-0"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  borderRadius: "4px",
-                                  // maxHeight: 174,
-                                  maxHeight:
-                                  transactionFilterddata?.length > 1 ? "174px" : "auto",
-                                  minHeight: 100,
-                                  overflowY:
-                                  transactionFilterddata?.length > 1 ? "auto" : "hidden",
-
-                                  margin: "0",
-                                  listStyleType: "none",
-                                  borderRadius: 8,
-                                  boxSizing: "border-box",
-                                }}
+                                onClick={() => handleUserSelect(user)}
                               >
-                                {transactionFilterddata?.map((user, index) => {
-                                  // const imagedrop = user.profile || Profile;
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="list-group-item d-flex align-items-center"
-                                      style={{
-                                        cursor: "pointer",
-                                        padding: "10px 5px",
-                                        borderBottom:
-                                          index !== transactionFilterddata.length - 1
-                                            ? "1px solid #eee"
-                                            : "none",
-                                      }}
-                                      onClick={() => handleUserSelect(user)}
-                                    >
-                                      {/* <Image
+                                {/* <Image
                                         src={imagedrop}
                                         alt={user.Name || "Default Profile"}
                                         roundedCircle
@@ -636,46 +636,46 @@ function Banking() {
                                           e.target.src = Profile;
                                         }}
                                       /> */}
-                                      {/* <span>{user.Name}</span> */}
-                                      <span>{user.bank_name}</span>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                      
-                        <div style={{paddingRight:15}}>
-                          <Image
-                            src={searchteam}
-                            roundedCircle
-                            style={{ height: "24px", width: "24px" }}
-                            onClick={handleSearch}
-                          />
-                        </div>
-                      </>
+                                {/* <span>{user.Name}</span> */}
+                                <span>{user.bank_name}</span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     )}
+                  </div>
+                </>
+              ) : (
+                <>
+
+                  <div style={{ paddingRight: 15 }}>
+                    <Image
+                      src={searchteam}
+                      roundedCircle
+                      style={{ height: "24px", width: "24px" }}
+                      onClick={handleSearch}
+                    />
+                  </div>
+                </>
+              )}
 
 
-                    <div style={{paddingRight:15}}>
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px",}}
-                        onClick={handleFilterd}
-                      />
-                    </div>
+              <div style={{ paddingRight: 15 }}>
+                <Image
+                  src={Filters}
+                  roundedCircle
+                  style={{ height: "50px", width: "50px", }}
+                  onClick={handleFilterd}
+                />
+              </div>
 
 
-                    {
-                    filterStatus &&
+              {
+                filterStatus &&
 
-                    <div className='me-3' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "250px" : "140px"}}>
-     <Form.Select
+                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "250px" : "140px" }}>
+                  <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
                     aria-label="Select Price Range"
@@ -690,28 +690,35 @@ function Banking() {
                     <option value="1">Credit</option>
                     <option value="2">Debit</option>
                   </Form.Select>
-</div>
-
-                  }
-      
-
-                    <div >
-                      <Button
-                       disabled={bankingAddPermission}
-                       onClick={handleShowForm}
-                        style={{
-                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", height: 43, fontWeight: 600, borderRadius: 8,
-                           
-                          padding:"14px 47px",
-                          
-                          paddingBottom:29,
-                          paddingLeft:51,
-                          color: '#FFF', fontFamily: 'Montserrat'
-                        }} > + Bank</Button>
-                    </div>
-                  </div>
                 </div>
-     
+
+              }
+
+
+              <div >
+
+                <Button
+                  disabled={bankingAddPermission}
+                  onClick={handleShowForm}
+                  style={{
+                    fontSize: 13,
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    height: 43,
+                    fontWeight: 600,
+                    borderRadius: 8,
+                    padding: "14px 47px",
+                    fontFamily: "Montserrat",
+                    whiteSpace: "nowrap" 
+                  }}
+                >
+                  + Bank
+                </Button>
+
+              </div>
+            </div>
+          </div>
+
           <div className="d-flex overflow-auto mt-3"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
@@ -725,17 +732,17 @@ function Banking() {
                       borderRadius: "12px",
                       overflow: "hidden",
                       height: 187,
-                      position: "relative", 
+                      position: "relative",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
-                      
+
                     }}
                   >
                     {/* Card Body */}
                     <div
                       className="card-body"
-                      style={{ overflowY: "auto", scrollBehavior: "smooth"}}
+                      style={{ overflowY: "auto", scrollBehavior: "smooth" }}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
@@ -891,10 +898,10 @@ function Banking() {
                             {item.setus_default === 1
                               ? "Default:Credit A/C"
                               : item.setus_default === 2
-                              ? "Default:Debit A/C"
-                              : item.setus_default === 3
-                              ? "Default:Both A/C"
-                              : ""}
+                                ? "Default:Debit A/C"
+                                : item.setus_default === 3
+                                  ? "Default:Both A/C"
+                                  : ""}
                           </p>
 
                           {item.setus_default === 0 && (
@@ -1024,8 +1031,8 @@ function Banking() {
                         Balance
                       </span>
                       {item.balance === 0 ||
-                      item.balance === "" ||
-                      item.balance === null ? (
+                        item.balance === "" ||
+                        item.balance === null ? (
                         <a
                           href={bankingAddPermission ? "#" : undefined}
                           className={
@@ -1156,7 +1163,7 @@ function Banking() {
                   // borderBottom:"none"
                 }}
               >
-                
+
                 <Table
                   responsive="md"
                   className="Table_Design"
@@ -1388,8 +1395,8 @@ function Banking() {
                                   user.type === 1
                                     ? "#C8E6C9"
                                     : user.type === 2
-                                    ? "#FFE0B2"
-                                    : "#FFEFCF",
+                                      ? "#FFE0B2"
+                                      : "#FFEFCF",
                                 textAlign: "start",
                                 fontSize: "14px",
                                 fontWeight: 500,
@@ -1399,23 +1406,23 @@ function Banking() {
                               {user.type === 1
                                 ? "Credit"
                                 : user.type === 2
-                                ? "Debit"
-                                : "Account"}
+                                  ? "Debit"
+                                  : "Account"}
                             </span>
                           </td>
 
                           <td
                             style={{
                               cursor: "pointer",
-                                    height: 40,
-                                    width: 40,
-                                    borderRadius: 100,
-                                    border: "1px solid #EFEFEF",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    position: "relative",
-                                    marginTop:10,
+                              height: 40,
+                              width: 40,
+                              borderRadius: 100,
+                              border: "1px solid #EFEFEF",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                              marginTop: 10,
                               backgroundColor:
                                 EditTransaction === user.id
                                   ? "#E7F1FF"
@@ -1534,47 +1541,47 @@ function Banking() {
                 </Table>
               </div>
             ) : (
-              
-              <div>
-                  {!loader && currentRowTransaction.length == 0 &&
 
               <div>
-                
-                 <div style={{ textAlign: "center" }}>
-                  <img
-                    src={emptyimg}
-                    width={240}
-                    height={240}
-                    alt="emptystate"
-                  />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Transaction{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Transaction available.{" "}
-                </div>
-              </div>
-}
-{loader &&
+                {!loader && currentRowTransaction.length == 0 &&
+
+                  <div>
+
+                    <div style={{ textAlign: "center" }}>
+                      <img
+                        src={emptyimg}
+                        width={240}
+                        height={240}
+                        alt="emptystate"
+                      />
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 20,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Transaction{" "}
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        fontSize: 16,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      There are no Transaction available.{" "}
+                    </div>
+                  </div>
+                }
+                {loader &&
                   <div
                     style={{
                       position: 'absolute',
@@ -1619,7 +1626,7 @@ function Banking() {
                   borderRadius: "5px",
                   // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: 1000,
-                  marginTop:10
+                  marginTop: 10
                 }}
               >
                 {/* Dropdown for Items Per Page */}
