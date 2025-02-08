@@ -9,6 +9,7 @@ import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import "./BankingAddForm.css";
+import moment from "moment";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -73,20 +74,28 @@ function BankingEditTransaction(props) {
   });
   useEffect(() => {
     setAccount(props.updateTransaction.bank_id);
-    setSelectedDate(props.updateTransaction.date);
+    // setSelectedDate(props.updateTransaction.date);
+    setSelectedDate(props.updateTransaction.date || "");
+          // const formattedJoiningDate = item.joining_date
+          //   ? new Date(item.joining_date)
+          //   : null;
+          // setJoiningDate(formattedJoiningDate);
+          setSelectedDate(
+            props.updateTransaction.date ? moment(props.updateTransaction.date).toDate("") : null
+          );
     setId(props.updateTransaction.id)
-    const isValidDate =
-      props.updateTransaction.date &&
-      props.updateTransaction.date !== "0000-00-00";
-    const parsedDate = isValidDate
-      ? new Date(props.updateTransaction.date)
-      : null;
+    // const isValidDate =
+    //   props.updateTransaction.date &&
+    //   props.updateTransaction.date !== "0000-00-00";
+    // const parsedDate = isValidDate
+    //   ? new Date(props.updateTransaction.date)
+    //   : null;
 
-    if (parsedDate && !isNaN(parsedDate.getTime())) {
-      setSelectedDate(parsedDate);
-    } else {
-      setSelectedDate("");
-    }
+    // if (parsedDate && !isNaN(parsedDate.getTime())) {
+    //   setSelectedDate(parsedDate);
+    // } else {
+    //   setSelectedDate("");
+    // }
     setAmount(props.updateTransaction.amount);
     setTransaction(props.updateTransaction.type);
     setDescribtion(props.updateTransaction.description);
@@ -249,16 +258,19 @@ function BankingEditTransaction(props) {
     
     setError("");
   
-    const modifiedDate = new Date(selectedDate);
-    modifiedDate.setDate(modifiedDate.getDate() + 1);
+    // const modifiedDate = new Date(selectedDate);
+    // modifiedDate.setDate(modifiedDate.getDate() + 1);
   
+   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
    
+       // Normalize phone number
+      //  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     dispatch({
       type: "EDITBANKTRANSACTION",
       payload: {
         id: id,
         bank_id: account,
-        date: modifiedDate.toISOString().split("T")[0],
+        date: formattedDate,
         amount: amount,
         type: transaction,
         desc: describtion
