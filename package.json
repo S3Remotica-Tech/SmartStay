@@ -125,5 +125,5 @@
       "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     }
   },
-  "proxy": "http://localhost:2001"
+  "proxy": "http://13.126.102.54:2001"
 }
