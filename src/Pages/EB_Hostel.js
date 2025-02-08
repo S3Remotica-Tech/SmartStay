@@ -1016,20 +1016,17 @@ function EB_Hostel(props) {
           {hostelBased == 1 ? (
             <div>
               <Button
-                style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 13,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 52,
-                  fontWeight: 600,
-                  borderRadius: 8,
-                  border: "none",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                  padding: "11px 18px",
-                  marginTop: 2,
-                  paddingLeft: 19
+             
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "11px 17px",
+                    marginTop: 2,
+                    paddingLeft: 17
 
                 }}
                 // disabled={ebAddPermission}
@@ -1069,8 +1066,7 @@ function EB_Hostel(props) {
                   padding: "11px 18px",
                   marginTop: 2,
                   paddingLeft: 19,
-                   whiteSpace: "nowrap"
-
+                  
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
