@@ -20,6 +20,7 @@ import Form from "react-bootstrap/Form";
 import { Room } from "@material-ui/icons";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
+import moment from "moment";
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -210,8 +211,16 @@ function EBRoomReading(props) {
 
 
     setReading(item.reading);
-    const formattedJoiningDate = item.date ? new Date(item.date) : null;
-    setSelectedDate(formattedJoiningDate);
+    // const formattedJoiningDate = item.date ? new Date(item.date) : null;
+    // setSelectedDate(formattedJoiningDate);
+    setSelectedDate(item.date || "");
+          // const formattedJoiningDate = item.joining_date
+          //   ? new Date(item.joining_date)
+          //   : null;
+          // setJoiningDate(formattedJoiningDate);
+          setSelectedDate(
+            item.date ? moment(item.date).toDate("") : null
+          );
     setId(item.eb_Id)
     setRoomId(item.Room_Id)
     setHostelId(item.hostel_Id)
@@ -223,7 +232,7 @@ function EBRoomReading(props) {
       Floor: item.floor_id || "",
       Rooms: item.room_id || "",
       reading: item.reading || "",
-      selectedDate: formattedJoiningDate || "",
+      selectedDate: item.date || "",
     });
   };
 
@@ -333,15 +342,7 @@ function EBRoomReading(props) {
       setFormError("");
     }
 
-    let formattedDate = null;
-    try {
-      let date = new Date(selectedDate);
-      date.setDate(date.getDate() + 1); // Add 1 day
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("Date is required.");
-      return;
-    }
+   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     dispatch({
       type: "EDITELECTRICITY",
       payload: {
