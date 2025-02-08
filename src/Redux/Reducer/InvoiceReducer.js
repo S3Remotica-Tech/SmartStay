@@ -54,6 +54,8 @@ const initialState = {
     alreadyAssignAmenitiesStatusCode: 0,
     statusCodeForReceiptPDf: 0,
     ReceiptPDF: '',
+    getstatusCodeForfilterrecurrcustomers: 0,
+    FilterRecurrCustomers: [],
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -190,6 +192,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':
             return { ...state, RecurringbillsgetStatuscode: 0 }
+
+        case 'FILTER_RECURR_CUSTOMERS':
+                return { ...state, FilterRecurrCustomers: action.payload.response,  getstatusCodeForfilterrecurrcustomers: action.payload.statusCode,  }
+        case 'CLEAR_FILTER_ADD_RECURR_CUSTOMERSF_STATUS_CODE':
+                return { ...state, getstatusCodeForfilterrecurrcustomers: 0 }
 
         case 'DELETE_RECURRING_BILLS':
             return { ...state, deleterecurringbillsStatuscode: action.payload.statusCode }

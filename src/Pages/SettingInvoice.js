@@ -34,7 +34,9 @@ function SettingInvoice({ hostelid }) {
 
   const [invoice, setSetinvoice] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [invoicedueDate, setInvoiceDueDate] = useState(null);
+
+  const [invoiceDate, setInvoiceDate] = useState('');
+  const [invoicedueDate, setInvoiceDueDate] = useState('');
 
   const [selectedHostel, setSelectedHostel] = useState({ id: "", name: "" });
   const [showTable, setShowTable] = useState(false);
@@ -210,17 +212,11 @@ function SettingInvoice({ hostelid }) {
 
   const handleEdit = (item) => {
     console.log("item", item);
-
-    // Parse the `item.inv_date` into a valid Date object
-    const parsedDate = item.inv_date ? new Date(item.inv_date) : null;
-    const parsedDueDate = item.due_date ? new Date(item.due_date) : null;
-
-    // Update local states
+    setTotalErrmsg("");
     setPrefix(item.prefix);
     setStartNumber(item.suffix);
-    // Set the parsed date into `selectedDate`
-    setSelectedDate(parsedDate);
-    setInvoiceDueDate(parsedDueDate);
+    setInvoiceDate(item.inv_date)
+    setInvoiceDueDate(item.due_date)
 
     setEdit(true);
     setShowForm(true);
@@ -233,6 +229,8 @@ function SettingInvoice({ hostelid }) {
     initialValuesRef.current = {
       editprefix: item.prefix,
       editstartnumber: item.suffix,
+      editinvoicedate: item.inv_date,
+      editduedate : item.due_date
     };
   };
 
@@ -258,61 +256,67 @@ function SettingInvoice({ hostelid }) {
 
 
   const handleInvoiceSettings = () => {
-
-    const isPrefixValid =
-      prefix !== undefined && prefix !== null && prefix !== "";
-    const isStartNumberValid =
-      startNumber !== undefined && startNumber !== null && startNumber !== "";
+    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
+    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== "";
     const isSelectedImageValid = selectedImage !== null;
-
-
-
-    if (!isPrefixValid || !isStartNumberValid || !selectedDate || !invoicedueDate) {
-
+  
+    if (!isPrefixValid || !isStartNumberValid || !invoiceDate || !invoicedueDate) {
       if (!isPrefixValid) {
         setPrefixErrmsg("Please enter Prefix");
       }
-
       if (!isStartNumberValid) {
-        setSuffixfixErrmsg("Please Enter Suffix")
+        setSuffixfixErrmsg("Please Enter Suffix");
       }
-      if (!selectedDate) {
-        setInvoiceDateErrmsg("Please Select Invoice Date")
+      if (!invoiceDate) {
+        setInvoiceDateErrmsg("Please Select Date");
       }
       if (!invoicedueDate) {
-        setDueDateErrmsg("Please Select Due Date")
+        setDueDateErrmsg("Please Select Date");
       }
-
       return;
     }
-
-
-
-    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && selectedDate && invoicedueDate) {
+  
+    // Check if any changes were made
+    if (
+      edit && 
+      prefix === initialValuesRef.current.editprefix &&
+      startNumber === initialValuesRef.current.editstartnumber &&
+      invoiceDate === initialValuesRef.current.editinvoicedate &&
+      invoicedueDate === initialValuesRef.current.editduedate 
+    ) {
+      setTotalErrmsg("No changes detected.");
+      return;
+    }
+  
+    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && invoiceDate && invoicedueDate) {
       const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');
       const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');
-
+  
       dispatch({
         type: "INVOICESETTINGS",
-        payload: { hostel_Id: state.login.selectedHostel_Id, prefix: prefix, suffix: startNumber, inv_date: formattedInvoiceDate, due_date: formattedDueDate }
+        payload: {
+          hostel_Id: state.login.selectedHostel_Id,
+          prefix: prefix,
+          suffix: startNumber,
+          inv_date: invoiceDate,
+          due_date: invoicedueDate
+        }
       });
-
+  
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-
+  
       setShowForm(false);
       setPrefix("");
       setStartNumber("");
-      setSelectedDate('')
-      setInvoiceDueDate('')
-
-
-    }
-
-    else {
-      setSelectedDate('')
-      setInvoiceDueDate('')
+      setSelectedDate("");
+      setInvoiceDueDate("");
+      setTotalErrmsg("");
+    } else {
+      setSelectedDate("");
+      setInvoiceDueDate("");
     }
   };
+  
 
 
 
@@ -484,6 +488,7 @@ function SettingInvoice({ hostelid }) {
     setSuffixfixErrmsg('')
     setInvoiceDateErrmsg('')
     setDueDateErrmsg('')
+    setTotalErrmsg("");
     setPrefix('')
     setStartNumber('')
     setSelectedDate('')
@@ -613,6 +618,15 @@ function SettingInvoice({ hostelid }) {
     value: index + 1,
     label: index + 1,
   }));
+
+  const handleInvoiceStartDateChange = (selectedOption) => {
+    setTotalErrmsg("");
+    setInvoiceDate(selectedOption?.value);
+  };
+  const handleInvoiceEndDateChange = (selectedOption) => {
+    setTotalErrmsg("");
+    setInvoiceDueDate(selectedOption?.value);
+  };
 
   const handleStartDateChange = (selectedOption) => {
     setCalculatedstartdate(selectedOption?.value);
@@ -1000,39 +1014,65 @@ function SettingInvoice({ hostelid }) {
                     </Form.Group>
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                    <Form.Group className="" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
+               
+
+
+                  <div class="mb-3 d-flex row">
+                    <div className="col-lg-8">
+                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date 
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceStartDateChange}
+                        value={options.find((option) => option.value === invoiceDate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" 
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                      >
-                        Invoice date
-                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-                        <DatePicker
-                          selected={selectedDate}
-                          onChange={(date) => setSelectedDate(date)}
-                          dateFormat="dd/MM/yyyy"
-                          customInput={
-                            React.createElement(customDateInput, {
-                              value: selectedDate
-                                ? selectedDate.toLocaleDateString("en-GB")
-                                : "",
-                            })
-                          }
-                        />
-
-
-
-
-                      </div>
-                    </Form.Group>
-
+                      />
+                    </div>
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
                         <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
@@ -1051,57 +1091,74 @@ function SettingInvoice({ hostelid }) {
                     )}
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
+                  <div class="mb-3 d-flex row">
+                    <div className="col-lg-8">
+                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date 
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceEndDateChange}
+                        value={options.find((option) => option.value === invoicedueDate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            overflowY: "auto",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                      >
-                        Due date
-                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-
-                        <DatePicker
-                          selected={invoicedueDate}
-                          onChange={(date) => setInvoiceDueDate(date)}
-                          dateFormat="dd/MM/yyyy"
-                          customInput={
-                            React.createElement(customDateInput, {
-                              value: invoicedueDate
-                                ? invoicedueDate.toLocaleDateString("en-GB")
-                                : "",
-                            })
-                          }
-                        />
-
-
-
-
-
-                      </div>
-                    </Form.Group>
-
+                      />
+                    </div>
                     {duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
+                      <div>
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
+                          {duedateerrmsg !== " " && (
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
+                          )}{" "}
                           {duedateerrmsg}
-                        </label>
+                        </p>
                       </div>
                     )}
+
                   </div>
 
 
@@ -1142,7 +1199,7 @@ function SettingInvoice({ hostelid }) {
                   }}
                   onClick={handleInvoiceSettings}
                 >
-                  Add Invoice
+                   {edit ? "Update Invoice" : "Add Invoice "}
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>

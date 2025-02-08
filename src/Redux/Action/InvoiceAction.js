@@ -72,6 +72,12 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function AddRecurrBillsUsers(recurr) {
+    return await AxiosConfig.post('/users/recuring_bill_users',recurr,{  //Recurr add customer filter 
+      data:recurr
+    })
+  }
+
   export async function GetRecurrBills(bills) {
     return await AxiosConfig.post('/all_recuring_bills',bills,{  //Recurr bills data
       data:bills

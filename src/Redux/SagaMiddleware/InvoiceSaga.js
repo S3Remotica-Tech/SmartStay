@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -499,35 +499,7 @@ function* handleManualInvoiceNumber(params) {
    
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_NUMBER_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})      
-      // Define the style
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center", 
-         padding: "10px",
-        
-       };
- 
-       // Use the toast with the defined style
-       toast.success(response.data.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
-       })
+      // Define the style  
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -1141,6 +1113,24 @@ function* handleReceiptPdf(action) {
    }
 }
 
+function* handleFilterRecurrCustomer(action) {
+   const response = yield call(AddRecurrBillsUsers, action.payload)
+  
+   console.log("response", response);
+   
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: {response:response.data.user_data, statusCode:response.status || response.statusCode} }) 
+   
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
 
 
 function refreshToken(response){
@@ -1191,5 +1181,6 @@ function* InvoiceSaga() {
           yield takeEvery('DELETE_RECEIPT',handleDeleteReceipt)
           yield takeEvery('GET_REFERENCE_ID',handleReference_Id)
           yield takeEvery('RECEIPTPDF',handleReceiptPdf)
+          yield takeEvery('FILTERRECURRCUSTOMERS',handleFilterRecurrCustomer)
 }
 export default InvoiceSaga;
