@@ -80,7 +80,7 @@ import ReceiptPdfCard from "./ReceiptPdfModal";
 const InvoicePage = () => {
 
   const state = useSelector((state) => state);
-console.log("state",state)
+  console.log("state", state)
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
@@ -571,28 +571,28 @@ console.log("state",state)
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
-  
+
     console.log("Selected Filter:", searchTerm);
     console.log("Original Bills:", originalBillsFilter);
-  
+
     if (searchTerm === "All") {
       setBills(originalBillsFilter);
     } else {
       const filteredItems = originalBillsFilter.filter((user) =>
         user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
-  
+
       console.log("Filtered Bills:", filteredItems);
       setBills(filteredItems);
     }
-  
+
     // 🔥 Reset to first page after filtering
     setCurrentPage(1);
   };
-  
-  
- 
-  
+
+
+
+
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
   const handleStatusFilterReceipt = (event) => {
@@ -2530,7 +2530,7 @@ console.log("state",state)
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode ||  state.InvoiceList.ReceiptEditsuccessStatuscode === 200
+      state.InvoiceList.ReceiptDeletesuccessStatuscode || state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       dispatch({
         type: "RECEIPTSLIST",
@@ -2973,10 +2973,9 @@ console.log("state",state)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 32px",
-                        marginTop: 19
-                        ,
-                        paddingLeft: 34
-
+                        marginTop: 19,
+                        paddingLeft: 34,
+                        whiteSpace: "nowrap"
                       }}
                     >
                       {" "}
@@ -3009,7 +3008,8 @@ console.log("state",state)
                         borderRadius: "8px",
                         padding: "11px 24px",
                         paddingLeft: 25,
-                        marginTop: 19
+                        marginTop: 19,
+                        whiteSpace: "nowrap"
                         // width: "170px",
 
                       }}
@@ -3045,7 +3045,7 @@ console.log("state",state)
                         borderRadius: "8px",
                         padding: "11px 17px",
                         paddingLeft: 18,
-
+                        whiteSpace: "nowrap",
                         marginTop: 19
 
                       }}

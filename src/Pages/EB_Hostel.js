@@ -1068,7 +1068,8 @@ function EB_Hostel(props) {
                   borderRadius: "8px",
                   padding: "11px 18px",
                   marginTop: 2,
-                  paddingLeft: 19
+                  paddingLeft: 19,
+                   whiteSpace: "nowrap"
 
                 }}
                 disabled={ebAddPermission}

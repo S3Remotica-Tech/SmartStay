@@ -6,7 +6,7 @@ import Emptystate from '../Assets/Images/Empty-State.jpg'
 import { FaChevronDown } from "react-icons/fa";
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
-import {  InputLabel, Select, MenuItem } from "@mui/material";
+import { InputLabel, Select, MenuItem } from "@mui/material";
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -102,7 +102,7 @@ const Compliance = () => {
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
   const [hosId, setHosId] = useState("")
-  const [floorname,setFloorname] = useState('')
+  const [floorname, setFloorname] = useState('')
 
 
   const [filterInput, setFilterInput] = useState("");
@@ -131,14 +131,14 @@ const Compliance = () => {
       setHosId(state.login.selectedHostel_Id)
     }
   }, [state.login.selectedHostel_Id])
-  
 
-  useEffect(()=>{
-    if(hosId){
-      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: {hostel_id: hosId}});
+
+  useEffect(() => {
+    if (hosId) {
+      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
     }
-  
-  },[hosId])
+
+  }, [hosId])
 
   useEffect(() => {
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
@@ -244,14 +244,14 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    if(hosId){
+    if (hosId) {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: hosId },
       });
     }
-  
+
   }, [hosId])
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
@@ -316,9 +316,9 @@ const Compliance = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems =
-  filterInput.length > 0
-    ? filteredUsers 
-    : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+    filterInput.length > 0
+      ? filteredUsers
+      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
@@ -369,10 +369,10 @@ const Compliance = () => {
     setSearch(!search);
     // setFilterStatus(false);
   };
-  
-const handleFilterd = () => {
-  setFilterStatus(!filterStatus);
-}
+
+  const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  }
 
 
 
@@ -401,7 +401,7 @@ const handleFilterd = () => {
 
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
-    console.log("searchTerm",searchTerm)
+    console.log("searchTerm", searchTerm)
     setStatusfilter(searchTerm)
     if (searchTerm == "All") {
       setFilteredUsers(state.ComplianceList.Compliance)
@@ -410,10 +410,10 @@ const handleFilterd = () => {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
       setFilteredUsers(filteredItems);
-      
+
     }
   }
-  console.log("data",data)
+  console.log("data", data)
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -540,8 +540,8 @@ const handleFilterd = () => {
       }
       )
       if (filteredDetails.length > 0) {
-        console.log('filteredDetails',filteredDetails );
-        
+        console.log('filteredDetails', filteredDetails);
+
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         // setName(firstFilteredDetail.Name || '');
@@ -573,7 +573,7 @@ const handleFilterd = () => {
       setBeds('')
       setFloor('');
       setRooms('');
-      setFloorname ('')
+      setFloorname('')
     }
   }, [selectedUsername]);
 
@@ -799,24 +799,24 @@ const handleFilterd = () => {
   const [complainttypelist, setComplainttypelist] = useState([])
 
   // useEffect(() => {
-    
+
   //     dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
-    
+
   // }, [hosId])
   useEffect(() => {
-      if (hosId) {
-        dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
-      }
-    }, [hosId]);
-    useEffect(()=>{
-    if(state.Settings.StatusForaddSettingStaffList === 200){
+    if (hosId) {
+      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
+    }
+  }, [hosId]);
+  useEffect(() => {
+    if (state.Settings.StatusForaddSettingStaffList === 200) {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
       }, 500);
     }
-      },[state.Settings.StatusForaddSettingStaffList])
+  }, [state.Settings.StatusForaddSettingStaffList])
 
-  
+
   useEffect(() => {
     setComplainttypelist(state.Settings.Complainttypelist)
   }, [state.Settings.Complainttypelist])
@@ -970,8 +970,8 @@ const handleFilterd = () => {
                     height: 83,
                   }}
                 >
-                  <div style={{marginTop:-7}}>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,}}>Complaints</label>
+                  <div style={{ marginTop: -7 }}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Complaints</label>
                   </div>
 
                   <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
@@ -1114,41 +1114,41 @@ const handleFilterd = () => {
                       </>
                     ) : (
                       <>
-                                          <div style={{marginTop:10,paddingRight:7}}>
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px" }}
-                        onClick={handleFilterd}
-                      />
-                    </div>
+                        <div style={{ marginTop: 10, paddingRight: 7 }}>
+                          <Image
+                            src={Filters}
+                            roundedCircle
+                            style={{ height: "50px", width: "50px" }}
+                            onClick={handleFilterd}
+                          />
+                        </div>
 
 
-                    {
-                    filterStatus &&
+                        {
+                          filterStatus &&
 
-                    <div className='me-3' style={{border: "1px solid #D4D4D4",borderRadius:8, width: search ? "250px" : "140px"}}>
-  <Form.Select 
-  onChange={(e)=>handleStatusFilter(e)}
-  value={statusfilter}
-    aria-label="Select Price Range"
-    className='' 
-    id="statusselect" 
-    style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
-  >
-    <option value="All">All</option>
-    <option value="open">Open</option>
-    <option value="in-progress">In Progress</option>
-    <option value="resolved">Resolved</option>
-    
-   
-  </Form.Select>
-</div>
-
-                  }
+                          <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width:  "250px"}}>
+                            <Form.Select
+                              onChange={(e) => handleStatusFilter(e)}
+                              value={statusfilter}
+                              aria-label="Select Price Range"
+                              className=''
+                              id="statusselect"
+                              style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+                            >
+                              <option value="All">All</option>
+                              <option value="open">Open</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="resolved">Resolved</option>
 
 
-                        <div style={{marginTop:6,paddingRight:21}}>
+                            </Form.Select>
+                          </div>
+
+                        }
+
+
+                        <div style={{ marginTop: 6, paddingRight: 21 }}>
                           <Image
                             src={searchteam}
                             roundedCircle
@@ -1164,25 +1164,25 @@ const handleFilterd = () => {
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-                    <div style={{ paddingRight: "21px" ,marginTop:9}}>
+                    <div style={{ paddingRight: "21px", marginTop: 9 }}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
-                        
+
                       />
                     </div>
 
-                    <div style={{marginTop:7}}>
+                    <div style={{ marginTop: 7 }}>
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
                         style={{
                           fontSize: 13, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8,
-                           
+
                           padding: "12px 31px",
-                         paddingBottom:11,
-                          paddingLeft:32,
-                           color: '#FFF', fontFamily: 'Montserrat', 
-                          
+                          paddingBottom: 11,
+                          paddingLeft: 32,
+                          color: '#FFF', fontFamily: 'Montserrat',
+                          whiteSpace: "nowrap"
                         }} > + Complaint</Button>
                     </div>
                   </div>
@@ -1221,7 +1221,7 @@ const handleFilterd = () => {
                   }
 
                 </div>
-                {filteredUsers?.length >= 5  && (
+                {filteredUsers?.length >= 5 && (
                   <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
                   // style={{
                   //   display: "flex",
@@ -1416,7 +1416,7 @@ const handleFilterd = () => {
                               {usererrmsg.trim() !== "" && (
                                 <div>
                                   <p style={{ fontSize: '15px', color: 'red' }}>
-                                    {usererrmsg !== " " && <MdError style={{ color: 'red',marginRight:"5px",fontSize:"13px",marginBottom:"2px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
+                                    {usererrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
                                   </p>
                                 </div>
                               )}
@@ -1428,69 +1428,69 @@ const handleFilterd = () => {
 
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                          <label
-        style={{
-          fontSize: 14,
-          color: "#222",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-          marginBottom: 5,
-          display: "block",
-        }}
-      >
-        Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
-      </label>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                color: "#222",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                marginBottom: 5,
+                                display: "block",
+                              }}
+                            >
+                              Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
+                            </label>
 
-      <Dropdown>
-        <Dropdown.Toggle
-          style={{
-            fontSize: 16,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            height: 50,
-            borderRadius: 8,
-            backgroundColor: "#fff",
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between", 
-            alignItems: "center",
-            padding: "0 15px",
-          }}
-        >
-          <span>
-            {edit && editcomplainttype
-              ? editcomplainttype
-              : Complainttype
-              ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
-              : "Select a type"}
-          </span>
-          {/* <FaChevronDown style={{ fontSize: "14px", color: "#4B4B4B" }} /> */}
-        </Dropdown.Toggle>
+                            <Dropdown>
+                              <Dropdown.Toggle
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                  backgroundColor: "#fff",
+                                  width: "100%",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "0 15px",
+                                }}
+                              >
+                                <span>
+                                  {edit && editcomplainttype
+                                    ? editcomplainttype
+                                    : Complainttype
+                                      ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
+                                      : "Select a type"}
+                                </span>
+                                {/* <FaChevronDown style={{ fontSize: "14px", color: "#4B4B4B" }} /> */}
+                              </Dropdown.Toggle>
 
-        {!edit && (
-          <Dropdown.Menu
-            style={{
-              maxHeight: "200px",
-              overflowY: "auto",
-              width: "100%",
-            }}
-          >
-            {Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
-              complainttypelist.map((u, index) => (
-                <Dropdown.Item key={index} onClick={() => handleComplaintType({ target: { value: u.id } })}>
-                  {u.complaint_name}
-                </Dropdown.Item>
-              ))
-            ) : (
-              <Dropdown.Item disabled>No complaint types available</Dropdown.Item>
-            )}
-          </Dropdown.Menu>
-        )}
-      </Dropdown>
-    </div>
+                              {!edit && (
+                                <Dropdown.Menu
+                                  style={{
+                                    maxHeight: "200px",
+                                    overflowY: "auto",
+                                    width: "100%",
+                                  }}
+                                >
+                                  {Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
+                                    complainttypelist.map((u, index) => (
+                                      <Dropdown.Item key={index} onClick={() => handleComplaintType({ target: { value: u.id } })}>
+                                        {u.complaint_name}
+                                      </Dropdown.Item>
+                                    ))
+                                  ) : (
+                                    <Dropdown.Item disabled>No complaint types available</Dropdown.Item>
+                                  )}
+                                </Dropdown.Menu>
+                              )}
+                            </Dropdown>
+                          </div>
 
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
@@ -1665,7 +1665,7 @@ const handleFilterd = () => {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                                // style={labelStyle}
+                              // style={labelStyle}
                               >
                                 Bed<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
@@ -1775,7 +1775,7 @@ const handleFilterd = () => {
 
                             {dateerrmsg.trim() !== "" && (
                               <div className="d-flex align-items-center">
-                                <MdError style={{ color: "red",marginRight:"5px",fontSize:"13px",marginBottom:"2px" }} />
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                   {dateerrmsg}
                                 </label>
