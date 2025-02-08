@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x, 20.x  # Change if needed
+          node-version: [18, 20]  # Change if needed
 
       - name: Install Dependencies & Build
         run: |
