@@ -611,6 +611,9 @@ const handleFilterd = () => {
     setStatus('');
     setFloorname('')
     setRoomName('')
+    setUserErrmsg('')
+    setDateErrmsg('')
+    setComplaintTypeErrmsg('')
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
