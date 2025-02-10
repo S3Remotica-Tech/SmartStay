@@ -170,8 +170,8 @@ function* handleCustomerEblist(action) {
     yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data.eb_details,statusCode:response.status || response.data.statusCode } });
 
   } 
-  else if (response.status === 201){
-    yield put ({type:'NO_HOSTEL', payload: {statusCode:response.status}})
+  else if (response.status === 201 || response.statusCode === 201){
+    yield put ({type:'NO_HOSTEL', payload: {statusCode:response.statusCode}})
  }
   else {
     yield put({ type: "ERROR", payload: response.data.message });
