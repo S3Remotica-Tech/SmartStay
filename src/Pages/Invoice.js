@@ -224,6 +224,7 @@ const InvoicePage = () => {
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
+  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1291,22 +1292,52 @@ const InvoicePage = () => {
     return date.toISOString().split("T")[0];
   };
 
+  // const handlestartDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setStartDate(date);
+
+  //   if (!selectedDates) {
+  //     setStartdateErrmsg("Please Select Date");
+  //   } else {
+  //     setStartdateErrmsg("");
+  //     setEnddateErrmsg("");
+  //   }
+
+  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
+  //   setFormatStartDate(formattedDate);
+  // };
+
+  // const handleEndDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setEndDate(date);
+  //   if (!selectedDates) {
+  //     setEnddateErrmsg("Please Select Date");
+  //   } else {
+  //     setEnddateErrmsg("");
+  //     setStartdateErrmsg("");
+  //   }
+
+  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
+  //   setFormatEndDate(formattedDate);
+  // };
+
   const handlestartDate = (selectedDates) => {
     setAllFieldErrmsg("");
     const date = selectedDates;
     setStartDate(date);
-
+  
     if (!selectedDates) {
       setStartdateErrmsg("Please Select Date");
     } else {
       setStartdateErrmsg("");
-      setEnddateErrmsg("");
     }
-
+  
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatStartDate(formattedDate);
   };
-
+  
   const handleEndDate = (selectedDates) => {
     setAllFieldErrmsg("");
     const date = selectedDates;
@@ -1315,12 +1346,12 @@ const InvoicePage = () => {
       setEnddateErrmsg("Please Select Date");
     } else {
       setEnddateErrmsg("");
-      setStartdateErrmsg("");
     }
-
+  
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatEndDate(formattedDate);
   };
+  
 
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1542,78 +1573,178 @@ const InvoicePage = () => {
     setNewRows(updatedRows);
   };
 
-  const handleCreateBill = () => {
-    const incompleteRows = newRows.some((row) => !row.am_name || !row.amount);
-    if (incompleteRows) {
-      setTableErrmsg(
-        "Please fill all details in the table before generating the bill"
-      );
-      return;
-    }
+  // const handleCreateBill = () => {
+  //   const incompleteRows = newRows.some((row) => !row.am_name || !row.amount);
+  //   if (incompleteRows) {
+  //     setTableErrmsg(
+  //       "Please fill all details in the table before generating the bill"
+  //     );
+  //     return;
+  //   }
 
+  //   if (!customername) {
+  //     setCustomerErrmsg("Please Select Customer");
+  //   }
+
+  //   if (!customername && !invoicenumber) {
+  //     setAllFieldErrmsg("Please Enter All Field");
+  //     return;
+  //   }
+
+  //   // Format start_date
+  //   const startDateObject = new Date(startdate);
+  //   const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+  //     startDateObject.getMonth() + 1
+  //   ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(2, "0")}`;
+
+  //   // Format end_date
+  //   const endDateObject = new Date(enddate);
+  //   const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+  //     endDateObject.getMonth() + 1
+  //   ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
+
+  //   if (customername && invoicenumber) {
+  //     dispatch({
+  //       type: "MANUAL-INVOICE-ADD",
+  //       payload: {
+  //         user_id: customername,
+  //         date: formatinvoicedate,
+  //         due_date: formatduedate,
+  //         start_date: formattedStartDate,
+  //         end_date: formattedEndDate,
+  //         invoice_id: invoicenumber,
+  //         room_rent: rentamount?.amount,
+  //         eb_amount: ebamount?.amount || 0,
+  //         total_amount: totalAmount,
+  //         amenity: amenityArray.length > 0 ? amenityArray : [],
+  //       },
+  //     });
+  //     setShowManualInvoice(false);
+  //     setShowRecurringBillForm(false);
+  //     setReceiptFormShow(false);
+  //     setShowAllBill(true);
+  //     setCustomerName("");
+  //     setInvoiceNumber("");
+  //     setStartDate("");
+  //     setEndDate("");
+  //     setInvoiceDate("");
+  //     setInvoiceDueDate("");
+  //     setSelectedData("");
+  //     setAvailableOptions("");
+  //     setTotalAmount("");
+  //     setBillAmounts([]);
+  //     setNewRows([]);
+
+  //     setCustomerErrmsg("");
+  //     setStartdateErrmsg("");
+  //     setInvoiceDateErrmsg("");
+  //     setInvoiceDueDateErrmsg("");
+  //     setAllFieldErrmsg("");
+  //   }
+
+  //   // setShowManualInvoice(true)
+  // };
+
+  const handleCreateBill = () => {
+    let hasError = false;
+  
+    // Check required fields and set error messages only if empty
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
+      hasError = true;
+    } else {
+      setCustomerErrmsg(""); // Clear error when field is filled
     }
-
-    if (!customername && !invoicenumber) {
-      setAllFieldErrmsg("Please Enter All Field");
+  
+   
+  
+    if (!startdate) {
+      setStartdateErrmsg("Please Select Start Date");
+      hasError = true;
+    } else {
+      setStartdateErrmsg("");
+    }
+  
+    if (!enddate) {
+      setEnddateErrmsg("Please Select End Date");
+      hasError = true;
+    } else {
+      setEnddateErrmsg("");
+    }
+  
+    if (!invoicedate) {
+      setInvoiceDateErrmsg("Please Select Invoice Date");
+      hasError = true;
+    } else {
+      setInvoiceDateErrmsg("");
+    }
+  
+    if (!invoiceduedate) {
+      setInvoiceDueDateErrmsg("Please Select Due Date");
+      hasError = true;
+    } else {
+      setInvoiceDueDateErrmsg("");
+    }
+  
+    // Check if any row in the table is incomplete
+    if (newRows.some((row) => !row.am_name || !row.amount)) {
+      setTableErrmsg("Please fill all details in the table before generating the bill");
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
+  
+    // Stop execution if there are errors
+    if (hasError) {
       return;
     }
-
-    // Format start_date
-    const startDateObject = new Date(startdate);
-    const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-      startDateObject.getMonth() + 1
-    ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(2, "0")}`;
-
-    // Format end_date
-    const endDateObject = new Date(enddate);
-    const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-      endDateObject.getMonth() + 1
-    ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-
-    if (customername && invoicenumber) {
-      dispatch({
-        type: "MANUAL-INVOICE-ADD",
-        payload: {
-          user_id: customername,
-          date: formatinvoicedate,
-          due_date: formatduedate,
-          start_date: formattedStartDate,
-          end_date: formattedEndDate,
-          invoice_id: invoicenumber,
-          room_rent: rentamount?.amount,
-          eb_amount: ebamount?.amount || 0,
-          total_amount: totalAmount,
-          amenity: amenityArray.length > 0 ? amenityArray : [],
-        },
-      });
-      setShowManualInvoice(false);
-      setShowRecurringBillForm(false);
-      setReceiptFormShow(false);
-      setShowAllBill(true);
-      setCustomerName("");
-      setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setSelectedData("");
-      setAvailableOptions("");
-      setTotalAmount("");
-      setBillAmounts([]);
-      setNewRows([]);
-
-      setCustomerErrmsg("");
-      setStartdateErrmsg("");
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-
-    // setShowManualInvoice(true)
+  
+    // Format dates
+    const formattedStartDate = startdate
+      ? `${startdate.getFullYear()}-${String(startdate.getMonth() + 1).padStart(2, "0")}-${String(startdate.getDate()).padStart(2, "0")}`
+      : "";
+  
+    const formattedEndDate = enddate
+      ? `${enddate.getFullYear()}-${String(enddate.getMonth() + 1).padStart(2, "0")}-${String(enddate.getDate()).padStart(2, "0")}`
+      : "";
+  
+    // Dispatch only if all fields are filled
+    dispatch({
+      type: "MANUAL-INVOICE-ADD",
+      payload: {
+        user_id: customername,
+        date: formatinvoicedate,
+        due_date: formatduedate,
+        start_date: formattedStartDate,
+        end_date: formattedEndDate,
+        invoice_id: invoicenumber,
+        room_rent: rentamount?.amount,
+        eb_amount: ebamount?.amount || 0,
+        total_amount: totalAmount,
+        amenity: amenityArray.length > 0 ? amenityArray : [],
+      },
+    });
+  
+    setShowManualInvoice(false);
+    setShowRecurringBillForm(false);
+    setReceiptFormShow(false);
+    setShowAllBill(true);
+  
+    // Reset form fields
+    setCustomerName("");
+    setInvoiceNumber("");
+    setStartDate("");
+    setEndDate("");
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setSelectedData("");
+    setAvailableOptions("");
+    setTotalAmount("");
+    setBillAmounts([]);
+    setNewRows([]);
   };
-
+  
+  
 
   const handleSelectChange = (e) => {
     const selectedDescription = e.target.value;
@@ -5715,8 +5846,7 @@ const InvoicePage = () => {
       {showmanualinvoice && (
         <div className="container ms-5 me-5 mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
-            {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-            <svg
+           <svg
               onClick={handleBackBill}
               style={{ fontSize: "22px", marginRight: "10px" }}
               xmlns="http://www.w3.org/2000/svg"
@@ -5996,7 +6126,7 @@ const InvoicePage = () => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -6047,7 +6177,7 @@ const InvoicePage = () => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>
@@ -6079,40 +6209,7 @@ const InvoicePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
-<tr key={`bill-${index}`}>
-<td>{serialNumber++}</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
-<p>{u.description}</p>
-</div>
-</td>
-
-
-
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`amount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter total amount"
-value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
-onChange={(e) => handleAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
-
-<td style={{ paddingTop: '35px' }}>
-<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
-<img src={Closebtn} height={15} width={15} alt="delete" />
-</span>
-</td>
-</tr>
-))} */}
-
+               
                 {newRows &&
                   newRows.length > 0 &&
                   newRows.map((u, index) => (
@@ -6190,7 +6287,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
               onClick={handleAddColumn}
             >
               {" "}
-              + Add new column
+              + Add new columns
             </p>
           </div>
 
