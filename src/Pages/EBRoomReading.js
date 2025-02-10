@@ -626,8 +626,8 @@ function EBRoomReading(props) {
                             fontFamily: "Gilroy",
                             paddingTop: "10px",
                             paddingBottom: "10px",
-                            textAlign: "start",
-                            paddingLeft: "20px",
+                            textAlign: "center",
+                            // paddingLeft: "20px",
                             borderTopLeftRadius:24
                           }}
                         >
@@ -783,8 +783,8 @@ function EBRoomReading(props) {
                                     // display: "flex",
                                     // alignItems: "center",
                                     // justifyContent: "center",
-                                    textAlign:"start",
-                                    paddingLeft:"20px"
+                                    // textAlign:"start",
+                                    // paddingLeft:"20px"
                                   }}
                                 >
                                   {/* <Image
