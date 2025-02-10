@@ -315,7 +315,9 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                 display: 'block', position: 'initial', fontFamily: "Gilroy",
             }}
         >
-            <Modal show={show} onHide={handleClose} backdrop="static" centered dialogClassName="custom-modal" >
+            <Modal show={show} onHide={handleClose} backdrop="static" centered
+            //  dialogClassName="custom-modal"
+             >
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}</Modal.Title>
@@ -473,13 +475,13 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
 
 
 
-
                         </div>
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
+                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", 
+                            fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                             {currentItem.hostel_id ? 'Save Changes' : 'Assign asset'}
                         </Button>
                     </Modal.Footer>

@@ -224,14 +224,16 @@ function AssetListTable(props) {
         <td title={props.item.brand_name  || "-"} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div
-              style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, width: "120px", padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}
+              style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", 
+                // backgroundColor: "#FFEFCF",
+                 fontWeight: 500, width: "120px", padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}
             >{props.item.brand_name ? props.item.brand_name : "-"}</div>
           </div>
         </td>
 
         <td title={props.item.asset_name} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", backgroundColor: "#FFEFCF", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
+            <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
 
@@ -239,7 +241,9 @@ function AssetListTable(props) {
 
         <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center", }}>
-            <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
+            <div style={{
+              //  backgroundColor: "#EBEBEB", 
+              fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
               {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
             </div >
           </div>
@@ -250,22 +254,27 @@ function AssetListTable(props) {
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
+            <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, 
+              borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+               position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
               <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, }} />
               {showDots && <>
-                <div ref={popupRef}
+                <div
+                 ref={popupRef}
                   style={{
                     cursor: "pointer", backgroundColor: "#F9F9F9",
                     position: "fixed",
                     top: popupPosition.top,
                     left: popupPosition.left,
 
-                    width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
+                    width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", 
+                    justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
                   }}
 
 
                 >
-                  <div style={{ backgroundColor: "#F9F9F9" }} className=''>
+                  <div style={{ backgroundColor: "#F9F9F9" 
+                  }} >
 
                     <div
                       className="mb-2 d-flex justify-content-start align-items-center gap-2"
@@ -371,14 +380,15 @@ function AssetListTable(props) {
       {showAssignAssetModal && <AssignAsset show={showAssignAssetModal} handleClose={handleClose} currentItem={assign} />}
 
 
-      <div>
+      <div >
         <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static"
-          dialogClassName="custom-modal"
+          // dialogClassName="custom-modal"
           style={{
-            width: 388,
+            width: 380,
             height: 250,
             marginLeft: "500px",
             marginTop: "200px",
+            padding: "15px 25px",
           }}
         >
           <Modal.Header style={{ display: "flex", justifyContent: "center", borderBottom: 'none' }}>
@@ -395,11 +405,11 @@ function AssetListTable(props) {
 
 
           <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-            <Button onClick={handleCloseForDeleteAsset} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+            <Button onClick={handleCloseForDeleteAsset} style={{ borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
               Cancel
             </Button>
 
-            <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
+            <Button style={{ borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
               Delete
             </Button>
 
