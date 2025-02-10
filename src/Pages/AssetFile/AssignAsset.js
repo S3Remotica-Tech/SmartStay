@@ -475,7 +475,6 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
 
 
 
-
                         </div>
 
                     </Modal.Body>
