@@ -181,8 +181,13 @@ function PayingHostel(props) {
         {
             props.filteredData[0] && (
                 <Card className="animated-text ms-0 h-100 " style={{
-                    borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C" : "1px solid #E6E6E6", transition: "border 0.3s ease",
+                    borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #e6e6e6" : "1px solid #E6E6E6", transition: "border 0.3s ease, box-shadow 0.3s ease",
                     height: "auto",
+                    boxShadow: selectedHostelHover 
+                    ? "0px 4px 10px rgba(30, 69, 225, 0.4)"  
+                    : hoverPgCard 
+                      ? "0px 4px 10px rgba(156, 156, 156, 0.3)"  
+                      : "0px 2px 5px rgba(0, 0, 0, 0.1)",
                 }}
 
                     onMouseEnter={handleMouseEnter}
@@ -354,7 +359,7 @@ function PayingHostel(props) {
                                     <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                                 </div>
                                 <div >
-                                    <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined" ? props.filteredData[0]?.email_id : "N/A"}
+                                    <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textOverflow:"ellipsis", whiteSpace:"nowrap",  display: "block", overflow: "hidden", width:200}}>{props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined" ? props.filteredData[0]?.email_id : "N/A"}
                                     </label>
                                 </div>
 
@@ -393,8 +398,8 @@ function PayingHostel(props) {
 
                             </div>
 
-                            <div style={{ lineHeight: 1.5 }}>
-                                <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.filteredData[0] && props.filteredData[0].Address}</label>
+                            <div style={{ backgroundColor:"",lineHeight: 1.5 , textOverflow:"ellipsis", whiteSpace:"nowrap", display: "block",}}>
+                                <label title={props.filteredData[0] && props.filteredData[0].Address} style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textOverflow:"ellipsis", whiteSpace:"nowrap",  display: "block",overflow: "hidden"}}>{props.filteredData[0] && props.filteredData[0].Address}</label>
                             </div>
 
                         </div>
@@ -407,47 +412,7 @@ function PayingHostel(props) {
                 </Card>
             )
 
-            // : 
-            //     <>
-            //         <div
-            //             style={{
-            //                 display: "flex",
-            //                 flexDirection: "column",
-            //                 alignItems: "center",
-            //                 justifyContent: "center",
-            //                 //   height: "100vh",
-            //             }}
-            //         >
-            //             {/* Image */}
-            //             <img
-            //                 src={EmptyState}
-            //                 alt="Empty State"
-            //                 style={{ maxWidth: "100%", height: "auto" }}
-            //             />
-
-            //             {/* Permission Error */}
-
-            //             <div>
-            //                 <Button
-            //                     onClick={props.handleShowsettingsPG}
-            //                     //   disabled={addPermissionError}
-            //                     style={{
-            //                         fontFamily: "Gilroy",
-            //                         fontSize: 14,
-            //                         backgroundColor: "#1E45E1",
-            //                         color: "white",
-            //                         fontWeight: 600,
-            //                         borderRadius: 8,
-            //                         padding: "16px 20px 16px 20px",
-            //                     }}
-            //                 >
-            //                     {" "}
-            //                     + Manage PG
-            //                 </Button>
-            //             </div>
-
-            //         </div>
-            //     </>
+     
         }
 
 
@@ -473,8 +438,7 @@ function PayingHostel(props) {
                     }}>Delete paying guest?</Modal.Title>
 
 
-                    {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
-                </Modal.Header>
+                                   </Modal.Header>
 
                 {state.PgList?.deletePgError && (
                     <div className="d-flex align-items-center p-1 mb-2">

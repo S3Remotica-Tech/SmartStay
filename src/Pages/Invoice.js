@@ -5630,7 +5630,7 @@ const InvoicePage = () => {
                                 </div>
                               )}
 
-                            {currentReceiptData.length > 0 && (
+                            {currentReceiptData.length >= 5 && (
                               <nav
                                 style={{
                                   display: "flex",
