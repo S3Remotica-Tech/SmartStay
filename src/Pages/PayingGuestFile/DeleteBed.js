@@ -60,16 +60,14 @@ const handleAddCustomer = () => {
 
 const handleCloseAddCustomer = () =>{
   setShowAddCustomer(false)
+  dispatch({ type: "CLEAR_PHONE_ERROR" });
 }
 
 const handleDeleteBed = () =>{
    
       if(deleteBedDetails.room.Hostel_Id && deleteBedDetails.room.Floor_Id && deleteBedDetails.room.Room_Id && deleteBedDetails.bed.bed_no){
         dispatch({ type: 'DELETEBED', payload:{  hostelId:room.Hostel_Id , floorId : room.Floor_Id, roomNo :room.Room_Id, bed_id :bed.bed_no }})
-     
-    
-    
-    
+         
     }
    
   

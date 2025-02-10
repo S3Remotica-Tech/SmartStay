@@ -602,11 +602,12 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   {
                     showFilter &&
 
-                    <div >
+                    <div style={{paddingRight:30,marginTop:10}}>
                       <Form.Select aria-label="Select Price Range"
                         value={selectedPriceRange}
                         onChange={handlePriceRangeChange}
-                        className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+                        className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600,
+                         fontFamily: "Gilroy" ,height:"40px"}}>
                         <option value="All">All</option>
                         <option value="0-100">0-100</option>
                         <option value="100-500">100-500</option>
@@ -730,7 +731,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     zIndex: 1
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "center",fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ verticalAlign: "middle", textAlign: "start",fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')}  style={{cursor:"pointer"}}/>
                         <ArrowDown2 size="10"   variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{cursor:"pointer"}}/>
                       </div>  Product Name </div>  </th>

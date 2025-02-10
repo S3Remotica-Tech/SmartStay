@@ -81,11 +81,11 @@ function EB_Hostel(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
-    setLoading(true)
+    
   }, [state.login.selectedHostel_Id]);
 
   // useEffect(() => {
@@ -191,6 +191,7 @@ function EB_Hostel(props) {
     setFilterInput("")
     setSearch(false)
     setDropdownVisible(false);
+    setLoading(false)
   };
 
   const calendarRef = useRef(null);
@@ -199,10 +200,13 @@ function EB_Hostel(props) {
   }, []);
   const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
+    setLoading(true)
     dispatch({
+      
       type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+    
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     dispatch({
@@ -335,9 +339,11 @@ function EB_Hostel(props) {
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
+    
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      setelectricityFilterddata(state.PgList?.EB_customerTable);
       setLoading(false)
+      setelectricityFilterddata(state.PgList?.EB_customerTable);
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
@@ -695,47 +701,44 @@ function EB_Hostel(props) {
   return (
     <div style={{ paddingLeft: 15 }}>
       <div
-        className="d-flex justify-content-between align-items-center ms-2  mb-2"
-      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
+       className="container justify-content-between d-flex align-items-center"
+       style={{
+        //  position: "sticky",
+         top: 0,
+         right: 0,
+         left: 0,
+         zIndex: 1000,
+         backgroundColor: "#FFFFFF",
+         height: 83,
+       }}
       >
-        <div>
-          <label
-            style={{
-              fontSize: 18,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              marginTop: 11,
-            }}
-          >
-            Electricity
-          </label>
-        </div>
+        <div style={{ marginTop: -7 }}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Electricity</label>
+                  </div>
 
         <div
-          className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25, marginTop: 20 }}
+          className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap"
+          
         >
           {search && value === "1" ? (
             <>
               <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  marginRight: 20,
-                  marginTop: "-10px",
-                }}
-              >
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            marginRight: 20,
+                          }}
+                        >
                 <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                  }}
-                >
+                            style={{
+                              position: "relative",
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              marginTop: '10px',
+                              marginBottom: '10px'
+                            }}
+                          >
                   <Image
                     src={searchteam}
                     alt="Search"
@@ -1016,19 +1019,22 @@ function EB_Hostel(props) {
           {hostelBased == 1 ? (
             <div>
               <Button
-             
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "11px 17px",
-                    marginTop: 2,
-                    paddingLeft: 17
 
+
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "11px 17px",
+                  marginTop: 2,
+                  paddingLeft: 17,
+                  whiteSpace: "nowrap",
+cursor:"pointer"
                 }}
+
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
@@ -1036,7 +1042,7 @@ function EB_Hostel(props) {
               </Button>
             </div>
           ) : (
-            <div>
+            <div className="me-4">
               <Button
                 // style={{
                 //   fontFamily: "Montserrat",
@@ -1067,6 +1073,7 @@ function EB_Hostel(props) {
                   marginTop: 2,
                   paddingLeft: 19,
                   whiteSpace: "nowrap",
+                  cursor:"pointer"
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -1079,13 +1086,13 @@ function EB_Hostel(props) {
       </div>
 
       <TabContext value={value} >
-        <div className="mt-2">
+        <div >
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "14px", marginTop: "-30px" }}
+              style={{ marginLeft: "14px",marginTop:"-25px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
@@ -1606,8 +1613,9 @@ function EB_Hostel(props) {
                         </tbody>
                       </Table>
                     </div>
-                  ) : (
-                    !loading && currentRoomelectricity && currentRoomelectricity.length === 0 &&
+                  )
+                   : (
+                  value ==="1"&&  !loading && currentRoomelectricity && currentRoomelectricity.length == 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -2230,7 +2238,7 @@ function EB_Hostel(props) {
               </div>
             </div>
           </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center"style={{ borderTop: "none" }}>
+          <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
               className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
               style={{

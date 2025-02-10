@@ -65,12 +65,7 @@ function PgList(props) {
 
   const popupRef = useRef(null);
 
-  // const [pgList, setPgList] = useState({
-  //   Name: "",
-  //   phoneNumber: "",
-  //   email_Id: "",
-  //   location: "",
-  //    });
+  console.log("showHostelDetails",showHostelDetails)
 
   let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
@@ -87,6 +82,7 @@ function PgList(props) {
   const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(null);
+  const [trigger, setTrigger] = useState(true)
   const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
@@ -161,6 +157,11 @@ function PgList(props) {
 
     if (hostel_Id && state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
       setLoader(false);
+
+setTimeout(()=>{
+  setTrigger(false)
+},100)
+
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
@@ -172,6 +173,9 @@ function PgList(props) {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
       setFilteredData([]);
       setLoader(false);
+      setTimeout(()=>{
+        setTrigger(false)
+      },100)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 4000);
@@ -223,20 +227,66 @@ function PgList(props) {
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
+  // useEffect(() => {
+  //   if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
+  //     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+  //     dispatch({ type: "HOSTELLIST" });
+  //     dispatch({ type: "HOSTELIDDETAILS" });
+  //     setShowDelete(false);
+
+  //     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
+
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_DELETE_FLOOR" });
+  //     }, 4000);
+  //   }
+  // }, [state.UsersList.deleteFloorSuccessStatusCode]);
+
+
+
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
-
-      setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-
+  
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
-      }, 4000);
+  
+        const updatedFloors = showHostelDetails?.floorDetails || [];
+  
+        if (updatedFloors.length > 0) {
+          // Find the first floor within the visible range
+          const firstVisibleFloor = updatedFloors.find(
+            (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
+          );
+  
+          if (firstVisibleFloor) {
+            setFloorClick(firstVisibleFloor.floor_id);
+            setKey(firstVisibleFloor.floor_id.toString());
+            setFloorName(firstVisibleFloor.floor_name);
+          } else {
+            // Fallback to the first floor if no floor in visible range
+            setFloorClick(updatedFloors[0]?.floor_id || null);
+            setKey(updatedFloors[0]?.floor_id?.toString() || "");
+            setFloorName(updatedFloors[0]?.floor_name || "");
+          }
+        } else {
+          // No floors left, reset selection
+          setFloorClick(null);
+          setKey("");
+          setFloorName("");
+        }
+      }, 500);
     }
-  }, [state.UsersList.deleteFloorSuccessStatusCode]);
+  }, [state.UsersList.deleteFloorSuccessStatusCode, ]);
+  
+  
+
+
+
+
 
   useEffect(() => {
     if (
@@ -263,7 +313,8 @@ function PgList(props) {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-
+      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
@@ -531,6 +582,7 @@ function PgList(props) {
 
   const handleCloses = () => {
     setShowAddPg(false);
+
   };
 
   const handleShowAddPg = () => {
@@ -574,6 +626,8 @@ function PgList(props) {
 
   const handleCloseFloor = () => {
     setShowFloor(false);
+    dispatch({ type: "CLEAR_ALREADY_FLOOR_ERROR" });
+    dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
   };
 
   const handleShowAddRoom = (room, selectedFloor) => {
@@ -646,11 +700,7 @@ function PgList(props) {
 
   const handleMoreClick = () => setShowMore(!showMore);
 
-  const visibleFloors =
-    showHostelDetails?.number_Of_Floor > 5
-      ? 5
-      : showHostelDetails?.number_Of_Floor;
-  const remainingFloors = showHostelDetails?.number_Of_Floor - visibleFloors;
+  
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -666,11 +716,7 @@ function PgList(props) {
     showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;
 
-  // const handlePrev = () => {
-  //   if (visibleRange[0] > 0) {
-  //     setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
-  //   }
-  // };
+ 
   const handlePrev = () => {
     if (floorClick > 0) {
       // Step 1: Move to the previous floor
@@ -695,33 +741,57 @@ function PgList(props) {
   };
   
 
+ 
   // const handleNext = () => {
-  //   if (visibleRange[1] < numberOfFloors - 1) {
-  //     setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+  //   if (floorClick < numberOfFloors - 1) {
+  //     // Step 1: Move to the next floor
+  //     const nextFloorIndex = showHostelDetails.floorDetails.findIndex(
+  //       (floor) => floor.floor_id === floorClick
+  //     ) + 1;
+  
+  //     if (nextFloorIndex < showHostelDetails.floorDetails.length) {
+  //       const nextFloor = showHostelDetails.floorDetails[nextFloorIndex];
+  
+  //       // Step 2: Update active floor
+  //       setKey(nextFloor.floor_id.toString());
+  //       setFloorClick(nextFloor.floor_id);
+  //       setFloorName(nextFloor.floor_name);
+  
+  //       // Step 3: Update visible range if needed
+  //       if (nextFloorIndex > visibleRange[1]) {
+  //         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+  //       }
+  //     }
   //   }
   // };
+
+
   const handleNext = () => {
-    if (floorClick < numberOfFloors - 1) {
-      // Step 1: Move to the next floor
-      const nextFloorIndex = showHostelDetails.floorDetails.findIndex(
-        (floor) => floor.floor_id === floorClick
-      ) + 1;
+    const floorIndex = showHostelDetails.floorDetails.findIndex(
+      (floor) => floor.floor_id === floorClick
+    );
   
-      if (nextFloorIndex < showHostelDetails.floorDetails.length) {
-        const nextFloor = showHostelDetails.floorDetails[nextFloorIndex];
+    if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
+      const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
   
-        // Step 2: Update active floor
-        setKey(nextFloor.floor_id.toString());
-        setFloorClick(nextFloor.floor_id);
-        setFloorName(nextFloor.floor_name);
+      // Update active floor state
+      setKey(nextFloor.floor_id.toString());
+      setFloorClick(nextFloor.floor_id);
+      setFloorName(nextFloor.floor_name);
   
-        // Step 3: Update visible range if needed
-        if (nextFloorIndex > visibleRange[1]) {
-          setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
-        }
+      // Update visible range if needed
+      if (floorIndex + 1 > visibleRange[1]) {
+        setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
       }
     }
   };
+  
+
+
+
+
+
+
 
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
@@ -1068,7 +1138,7 @@ function PgList(props) {
                       );
                     })} */}
 
-                  {!loader && filteredData?.length === 0 && (
+                  {!loader && !trigger && filteredData?.length === 0 && (
                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
@@ -1168,13 +1238,7 @@ function PgList(props) {
               </div>
 
 
-              {/* <Pagination className="mt-4 d-flex justify-content-end">
-        {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
-          <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-            {number + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination> */}
+              
             </>
           )}
 
@@ -1231,7 +1295,7 @@ function PgList(props) {
                 </div>
               </div>
 
-              <div  style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div className="show-scroll"  style={{ maxHeight: "500px", overflowY: "auto" }}>
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1316,8 +1380,7 @@ function PgList(props) {
                                           height: "fit-content",
                                         }}
                                       >
-                                        {/* {floor.floor_id == 1 ? 'G' : floor.floor_id - 1} */}
-                                        {floor.floor_name
+                                                                                {floor.floor_name
                                           ? isNaN(floor.floor_name)
                                             ? floor.floor_name.charAt(0) 
                                             : floor.floor_name            
@@ -1344,28 +1407,7 @@ function PgList(props) {
                                           padding: "1px 16px ",
                                         }}
                                       >
-                                        {/* {floor.floor_id === 1
-                                  ? "Ground Floor"
-                                  : (!floor.floor_name || floor.floor_name.trim() === "" || floor.floor_name === "null")
-                                    ? getFloorName(floor.floor_id)
-                                    : floor.floor_name} */}
-                                        {/* {
-                                  floor.floor_name && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
-                                    ? floor.floor_name
-                                    : floor.floor_id === 1
-                                      ? "Ground Floor"
-                                      : getFloorName(floor.floor_id)
-                                } */}
-
-                                        {/* {
-                                  typeof floor.floor_name === "string" && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
-                                    ? isNaN(floor.floor_name)
-                                      ? floor.floor_name
-                                      : getFloorName(Number(floor.floor_name))
-                                    : floor.floor_id
-                                } */}
-
-                                        {typeof floor.floor_name === "string" &&
+                                                                               {typeof floor.floor_name === "string" &&
                                           floor.floor_name.trim() !== "" &&
                                           floor.floor_name !== "null"
                                           ? isNaN(floor.floor_name)
@@ -1374,7 +1416,6 @@ function PgList(props) {
                                           : floor.floor_id}
                                       </div>
 
-                                      {/* <div className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform:"capitalize" }}>{floor.floor_id ==  1  ? "Ground Floor" :  floor.floor_name ? floor.floor_name : getFloorName(floor.floor_id)}</div> */}
                                     </Nav.Link>
                                   </Nav.Item>
                                 )
@@ -1385,8 +1426,7 @@ function PgList(props) {
                             <div
                               onClick={handleNext}
                               disabled={
-                                key ===
-                                (showHostelDetails.number_Of_Floor - 1).toString()
+                                key === (showHostelDetails.number_Of_Floor - 1).toString()
                               }
                               style={{
                                 border: "1px solid rgba(239, 239, 239, 1)",
@@ -1490,7 +1530,7 @@ function PgList(props) {
                                             <label
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 500,
+                                                fontWeight: 600,
                                                 fontFamily: "Outfit, sans-serif",
                                                 color: editPermissionError ? "#888888" : "#222222",
                                                 cursor: editPermissionError ? "not-allowed" : "pointer",
@@ -1524,7 +1564,7 @@ function PgList(props) {
                                             <label
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 500,
+                                                fontWeight: 600,
                                                 fontFamily: "Gilroy",
                                                 color: deletePermissionError ? "#888888" : "#FF0000",
                                                 cursor: deletePermissionError ? "not-allowed" : "pointer",

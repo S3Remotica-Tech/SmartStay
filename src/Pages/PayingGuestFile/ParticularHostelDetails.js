@@ -17,7 +17,6 @@ import Delete from '../../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { FormControl, InputGroup, Pagination, Dropdown } from 'react-bootstrap';
-// import Edit from '../Assets/Images/New_images/edit.png';
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
@@ -26,43 +25,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { Edit, Trash } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 
-// function getFormattedRoomId(floor_Id, room_Id) {
-//   const roomIdString = String(room_Id);
-//   switch (floor_Id) {
-//     case 1:
-//       return `G${roomIdString}`;
-//     case 2:
-//       return `F${roomIdString}`;
-//     case 3:
-//       return `S${roomIdString}`;
-//     case 4:
-//       return `T${roomIdString}`;
-//     default:
-//       const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-//       return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
-//   }
-// }
 
-// function getFloorAbbreviation(floor_Id) {
 
-//   switch (floor_Id) {
-//     case 5:
-//       return 'F';
-//     case 6:
-//       return 'S';
-//     case 8:
-//       return 'E';
-//     case 9:
-//       return 'N';
-//     case 10:
-//       return 'T';
-
-//     default:
-//       return `${floor_Id}`;
-//   }
-// }
 
 
 function ParticularHostelDetails(props) {
@@ -89,9 +55,7 @@ function ParticularHostelDetails(props) {
     window.scrollTo(0, 0);
   }, []);
 
-  // const handleShowAddRoom = () => {
-  //   setShowRoom(true)
-  // }
+
 
   const handleClose = () => {
     setShowRoom(false)
@@ -125,7 +89,7 @@ function ParticularHostelDetails(props) {
 
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [loader, setLoader] = useState(false)
-
+  const [loaderTrigger, setLoaderTrigger] = useState(true)
 
   const handleShowDots = (roomId) => {
     setShowDots(!showDots)
@@ -134,14 +98,14 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (props.floorID && props.hostel_Id) {
-             setLoader(true)
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    }else{
+      setLoader(true)
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    } else {
       setLoader(false)
     }
   }, [props.hostel_Id, props.floorID])
 
-console.log("hostel-hostel, floor",props.hostel_Id, props.floorID)
+  console.log("hostel-hostel, floor", props.hostel_Id, props.floorID)
 
   const getRooms = (count) => {
     return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
@@ -156,22 +120,28 @@ console.log("hostel-hostel, floor",props.hostel_Id, props.floorID)
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
       setLoader(false)
-              setRoomCountData(state.PgList?.roomCount);
-              setTimeout(() => {
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
+      setRoomCountData(state.PgList?.roomCount);
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 500);
     }
   }, [state.PgList?.roomCountStatusCode])
 
-console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode,"state.PgList?.noRoomsInFloorStatusCode",state.PgList?.noRoomsInFloorStatusCode )
+  console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode, "state.PgList?.noRoomsInFloorStatusCode", state.PgList?.noRoomsInFloorStatusCode)
   console.log("loader", loader)
 
 
   useEffect(() => {
     if (state.PgList?.noRoomsInFloorStatusCode == 201) {
       setLoader(false)
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
       setRoomCountData([])
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
       }, 100);
     }
@@ -238,7 +208,7 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(6)
 
   // const [currentItems, setCurrentItems] = useState([]); 
 
@@ -255,56 +225,19 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
-
-
-  // const currentItems = Array.isArray(roomCountData) && roomCountData.length > 0
-  //   ? roomCountData.slice(indexOfFirstItem, indexOfLastItem)
-  //   : [];
-
-
-  // const sortedRoomData = Array.isArray(roomCountData) && roomCountData.length > 0
-  //   ? roomCountData.sort((a, b) => a.Room_Name - b.Room_Name)
-  //   : [];
-
-  
-
-
-  // console.log("currentItems", currentItems)
-  // console.log("roomCountData", roomCountData)
-  // console.log("roomCountData Length:", roomCountData.length);
-  // console.log("itemsPerPage:", itemsPerPage);
-  // console.log("indexOfFirstItem:", indexOfFirstItem);
-  // console.log("indexOfLastItem:", indexOfLastItem);
-
-  // const validCurrentPage = Math.max(currentPage, 1); 
-
-
-  // const indexOfLastItem = Math.min(validCurrentPage * itemsPerPage, roomCountData.length); 
-  // const indexOfFirstItem = Math.max(indexOfLastItem - itemsPerPage, 0); 
-
-
-  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
-
-
-  // console.log("roomCountData Length:", roomCountData.length);
-  // console.log("itemsPerPage:", itemsPerPage);
-  // console.log("indexOfFirstItem:", indexOfFirstItem);
-  // console.log("indexOfLastItem:", indexOfLastItem);
-  // console.log("currentItems:", currentItems);
-
-
-  // useEffect(() => {
-  //   if (roomCountData) {
-  //     setLoader(false)
-  //   }
-
-  // }, [roomCountData])
-
-
-
-
-
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
+console.log("itemsPerPage",itemsPerPage)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -365,8 +298,8 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
 
   const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
-        setShowDeleteRoom(true)
-        setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
+    setShowDeleteRoom(true)
+    setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
   }
 
 
@@ -410,6 +343,9 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
 
 
   const handleDeleteBedConfirmation = (bed, room) => {
+
+    console.log("bed",bed)
+
     if (bed.isfilled === 0) {
       setShowDeleteBed(true)
       setDeleteBedDetails({ bed, room })
@@ -520,7 +456,7 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
         </div>
 
         <div className='container'
-          style={{ maxHeight: "400px", overflowY: "auto" }}>
+          style={{ maxHeight: "500px", overflowY: "auto" }}>
           <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
             {currentItems.length > 0 && currentItems.map((room, index) => (
               <>
@@ -570,7 +506,7 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
                                       fontWeight: 500,
                                       fontFamily: "Outfit, sans-serif",
                                       color: props.editPermissionError ? "#888888" : "#222222",
-                                      cursor:"pointer"
+                                      cursor: "pointer"
                                     }}
                                   >
                                     Edit
@@ -627,7 +563,7 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
                           <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                             <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
-                              <OverlayTrigger
+                              <OverlayTrigger variant="secondary"
                                 placement="top"
                                 overlay={
                                   <Tooltip variant="secondary"
@@ -708,7 +644,7 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
             }
             {
 
-              (!loader && currentItems.length === 0) &&
+              !loader && !loaderTrigger && currentItems.length === 0 &&
               <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", margin: "0px auto" }}>
                 {/* <Alert variant="warning" >
           Currently, no rooms are available.
@@ -727,11 +663,6 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
 
                 </div>
               </div>
-
-
-
-
-
             }
 
 
@@ -742,15 +673,14 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
         {currentItems.length > 0 && <>
           <div className='row mt-4 ms-2'>
             <div>
-              {/* <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label> */}
               <label
                 style={{
                   fontSize: 16,
-                  color: props.addPermissionError ? "#A0A0A0" : "#1E45E1", // Gray when disabled
+                  color: props.addPermissionError ? "#A0A0A0" : "#1E45E1",
                   fontWeight: 600,
                   fontFamily: "Montserrat",
-                  cursor: props.addPermissionError ? "not-allowed" : "pointer", // Not-allowed cursor when disabled
-                  opacity: props.addPermissionError ? 0.7 : 1, // Dim when disabled
+                  cursor: props.addPermissionError ? "not-allowed" : "pointer",
+                  opacity: props.addPermissionError ? 0.7 : 1,
                 }}
                 onClick={
                   !props.addPermissionError
@@ -769,20 +699,99 @@ console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode
         }
 
 
-
         {
-          currentItems.length > 0 &&
-          <Pagination className="position-fixed bottom-0 end-0 mb-0 me-3 d-flex justify-content-end align-items-center">
-            <Pagination.Prev style={{ visibility: "visible" }}
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {renderPagination()}
-            <Pagination.Next style={{ visibility: "visible" }}
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
+          roomCountData.length >= 6 &&
+
+
+          <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+          >
+            <div>
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                style={{
+                  padding: "5px",
+                  border: "1px solid #1E45E1",
+                  borderRadius: "5px",
+                  color: "#1E45E1",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  outline: "none",
+                  boxShadow: "none",
+
+                }}
+              >
+                
+                <option value={6}>6</option>
+                <option value={10}>10</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+
+            {/* Pagination Controls */}
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {/* Previous Button */}
+              <li style={{ margin: "0 10px" }}>
+                <button
+                  style={{
+                    padding: "5px",
+                    textDecoration: "none",
+                    color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                </button>
+              </li>
+
+              {/* Current Page Indicator */}
+              <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                {currentPage} of {totalPages}
+              </li>
+
+              {/* Next Button */}
+              <li style={{ margin: "0 10px" }}>
+                <button
+                  style={{
+                    padding: "5px",
+                    textDecoration: "none",
+                    color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                    cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  <ArrowRight2
+                    size="16"
+                    color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                  />
+                </button>
+              </li>
+            </ul>
+          </nav>
         }
 
         {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details} />}
