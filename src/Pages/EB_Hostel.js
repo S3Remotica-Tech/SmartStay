@@ -1019,19 +1019,22 @@ function EB_Hostel(props) {
           {hostelBased == 1 ? (
             <div>
               <Button
-             
-             style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "11px 18px",
-              marginTop: 2,
-              paddingLeft: 19,
-              whiteSpace: "nowrap",
-            }}
+
+
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "11px 17px",
+                  marginTop: 2,
+                  paddingLeft: 17,
+                  whiteSpace: "nowrap",
+cursor:"pointer"
+                }}
+
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
@@ -1070,6 +1073,7 @@ function EB_Hostel(props) {
                   marginTop: 2,
                   paddingLeft: 19,
                   whiteSpace: "nowrap",
+                  cursor:"pointer"
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -2234,7 +2238,7 @@ function EB_Hostel(props) {
               </div>
             </div>
           </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center"style={{ borderTop: "none" }}>
+          <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
               className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
               style={{
