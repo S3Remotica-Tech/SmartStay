@@ -25,6 +25,7 @@ import {
   Edit,
   Trash,
 } from "iconsax-react";
+import "./addAsset.css";
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -485,16 +486,16 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   return (
+    <div>
     <div
       className="modal show"
       style={{
         display: "block",
         position: "initial",
-
       }}
     >
       <Modal show={show} onHide={handleClose} backdrop="static"
-        dialogClassName="custom-modal"
+        // dialogClassName="custom-modal"  id="AddAsset"
       >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
@@ -1093,6 +1094,7 @@ function StaticExample({ show, setShow, currentItem }) {
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
+    </div>
     </div>
   );
 }
