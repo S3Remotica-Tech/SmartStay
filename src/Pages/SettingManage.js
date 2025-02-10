@@ -590,17 +590,70 @@ const [loading, setLoading] = useState(true)
     showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;
 
+
   const handlePrev = () => {
-    if (visibleRange[0] > 0) {
-      setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+    if (floorClick > 0) {
+      // Step 1: Move to the previous floor
+      const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
+        (floor) => floor.floor_id === floorClick
+      ) - 1;
+  
+      if (prevFloorIndex >= 0) {
+        const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
+  
+        // Step 2: Update active floor
+        setKey(prevFloor.floor_id.toString());
+        setFloorClick(prevFloor.floor_id);
+        setFloorName(prevFloor.floor_name);
+  
+        // Step 3: Update visible range if needed
+        if (prevFloorIndex < visibleRange[0]) {
+          setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+        }
+      }
+    }
+  };
+  
+
+  // const handleNext = () => {
+  //   if (visibleRange[1] < numberOfFloors - 1) {
+  //     setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+  //   }
+  // };
+  const handleNext = () => {
+    if (floorClick < numberOfFloors - 1) {
+      // Step 1: Move to the next floor
+      const nextFloorIndex = showHostelDetails.floorDetails.findIndex(
+        (floor) => floor.floor_id === floorClick
+      ) + 1;
+  
+      if (nextFloorIndex < showHostelDetails.floorDetails.length) {
+        const nextFloor = showHostelDetails.floorDetails[nextFloorIndex];
+  
+        // Step 2: Update active floor
+        setKey(nextFloor.floor_id.toString());
+        setFloorClick(nextFloor.floor_id);
+        setFloorName(nextFloor.floor_name);
+  
+        // Step 3: Update visible range if needed
+        if (nextFloorIndex > visibleRange[1]) {
+          setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+        }
+      }
     }
   };
 
-  const handleNext = () => {
-    if (visibleRange[1] < numberOfFloors - 1) {
-      setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
-    }
-  };
+  // const handlePrev = () => {
+  //   if (visibleRange[0] > 0) {
+  //     setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+  //   }
+  // };
+
+  // const handleNext = () => {
+  //   if (visibleRange[1] < numberOfFloors - 1) {
+  //     setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+  //   }
+  // };
 
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
