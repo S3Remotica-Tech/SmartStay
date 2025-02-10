@@ -605,7 +605,7 @@ function EBHostelReading(props) {
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "start",
+                      textAlign: "center",
                     }}
                   >
                     Reading
@@ -618,7 +618,7 @@ function EBHostelReading(props) {
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "start",
+                      textAlign: "center",
                     }}
                   >
                     Date
@@ -631,14 +631,14 @@ function EBHostelReading(props) {
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "start",
+                      textAlign: "center",
                     }}
                   >
                     Units
                   </th>
                   <th
                     style={{
-                      textAlign: "start",
+                      textAlign: "center",
                       fontFamily: "Gilroy",
                       color: "#939393",
                       fontSize: 14,
@@ -726,7 +726,7 @@ function EBHostelReading(props) {
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "start",
+                          textAlign: "center",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
@@ -735,33 +735,25 @@ function EBHostelReading(props) {
                       </td>
                       <td
                         style={{
-                          textAlign: "start",
+                          textAlign: "center",
                           verticalAlign: "middle",
                           borderBottom: "none",
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
                         }}
                       >
-                        <span
-                          style={{
-                            backgroundColor: "#EBEBEB",
-                            paddingTop: "5px",
-                            paddingLeft: "16px",
-                            paddingRight: "16px",
-                            paddingBottom: "5px",
-                            borderRadius: "60px",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                      
+                        
                           {formattedDate}
-                        </span>
+                        {/* </span> */}
                       </td>
                       <td
                         style={{
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "start",
+                          textAlign: "center",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
@@ -773,14 +765,21 @@ function EBHostelReading(props) {
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "start",
+                          textAlign: "center",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
                       >
                         {v.total_amount}
                       </td>
-                      <td style={{ paddingTop: 12, border: "none" }}>
+                      <td  style={{
+                      textAlign: "center",
+                      fontFamily: "Gilroy",
+                      color: "#939393",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      // borderTopRightRadius: 24,
+                    }}>
                         <div
                           style={{
                             cursor: "pointer",
@@ -799,7 +798,7 @@ function EBHostelReading(props) {
                           onClick={(e) => handleShowActive(v.eb_Id, e)}
                         >
                           <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20}}
                           />
                           {activeRow === v.eb_Id && (
                             <div
