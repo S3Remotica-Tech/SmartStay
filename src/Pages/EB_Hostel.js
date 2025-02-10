@@ -198,6 +198,8 @@ function EB_Hostel(props) {
   useEffect(() => {
     dispatch({ type: "EBLIST" });
   }, []);
+  const [electricityFilterd, setelectricityFilterd] = useState([]);
+  const [electricityHostel, setelectricityHostel] = useState([]);
   const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
     setLoading(true)
@@ -208,21 +210,44 @@ function EB_Hostel(props) {
     
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
-    dispatch({
-      type: "EBSTARTMETERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, [state.login.selectedHostel_Id]);
-
-  useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
-      setRoomBasedDetail(state.PgList?.EB_startmeterlist);
+      setLoading(false)
+      setelectricityFilterd(state.PgList?.EB_startmeterlist);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
       }, 1000);
     }
-  }, [state.PgList.statusCodeForEbRoomList]);
+  }, [state.PgList.statusCodeForEbRoomList])
+  useEffect(() => {
+    setLoading(true)
+    dispatch({
+      type: "EBSTARTMETERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    
+  }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    setLoading(true)
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    
+  }, [selectedHostel]);
+
+
+   useEffect(() => {
+      if (state.PgList.getStatusCodeForHostelBased === 200) {
+        setelectricityHostel(
+          state?.PgList?.getHostelBasedRead?.hostel_readings
+        );
+        setLoading(false)
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
+        }, 200);
+      }
+    }, [state.PgList.getStatusCodeForHostelBased]);
   const options = {
     dateFormat: "Y/m/d",
     maxDate: new Date(),
@@ -262,14 +287,8 @@ function EB_Hostel(props) {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "HOSTELBASEDEBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [selectedHostel]);
+  
+  
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -680,21 +699,17 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
       setOriginalElec(electricityFilterddata);
     }
   }, [electricityFilterddata]);
-  useEffect(() => {
-    if (roomBasedDetail?.length > 0 && originalElecRoom?.length === 0) {
-      etOriginalElecRoom(roomBasedDetail);
-    }
-  }, [roomBasedDetail]);
+ 
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
     setelectricityFilterddata(originalElec);
-    setRoomBasedDetail(originalElecRoom);
+    // setRoomBasedDetail(originalElecRoom);
     // setReceiptData(originalReceipt);
   };
   const handleRoomUserSelect = (user) => {
     setFilterInput(user.floor_name);
-    setRoomBasedDetail([user]);
+    // setRoomBasedDetail([user]);
     setDropdownVisible(false);
   };
 
@@ -1153,6 +1168,7 @@ cursor:"pointer"
               hostelBased={hostelBased}
               editeb={editeb}
               setEditEb={setEditEb}
+              electricityHostel = {electricityHostel}
             />
 
             {ebpermissionError ? (
@@ -2146,7 +2162,9 @@ cursor:"pointer"
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
             selectedHostel={selectedHostel}
-            roomBasedDetail={roomBasedDetail}
+            
+            electricityFilterd={electricityFilterd}
+            loading = {loading}
           />
         </TabPanel>
 
@@ -2162,6 +2180,8 @@ cursor:"pointer"
             hostelBased={hostelBased}
             editeb={editeb}
             setEditEb={setEditEb}
+            electricityHostel = {electricityHostel}
+            loading = {loading}
           />
         </TabPanel>
       </TabContext>

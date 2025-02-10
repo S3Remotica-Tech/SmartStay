@@ -177,10 +177,7 @@ function EBRoomReading(props) {
     dispatch({ type: "EBLIST" });
 
   }, []);
-  useEffect(() => {   
-      dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });  
-      setLoading(true)  
-  }, [state.login.selectedHostel_Id])
+  
 
   // useEffect(() => {
   //   if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -365,20 +362,20 @@ function EBRoomReading(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = electricityFilterddata?.slice(
+  const currentRowelectricity = props.electricityFilterd?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
-   useEffect(() => {
-      if (state.PgList?.statusCodeForEbRoomList === 200) {
-        setLoading(false)
-        setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+  //  useEffect(() => {
+  //     if (state.PgList?.statusCodeForEbRoomList === 200) {
+  //       setLoading(false)
+  //       setelectricityFilterddata(state.PgList?.EB_startmeterlist);
   
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-        }, 1000);
-      }
-    }, [state.PgList.statusCodeForEbRoomList])
+  //       setTimeout(() => {
+  //         dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+  //       }, 1000);
+  //     }
+  //   }, [state.PgList.statusCodeForEbRoomList])
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -389,7 +386,7 @@ function EBRoomReading(props) {
   };
 
   const totalPagesinvoice = Math.ceil(
-    electricityFilterddata?.length / electricityrowsPerPage
+    props.electricityFilterd?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -591,11 +588,11 @@ function EBRoomReading(props) {
         ) :
           <>
             <div>
-              {currentRowelectricity.length > 0 && (
+              {currentRowelectricity?.length > 0 && (
                 <div
                   style={{
                     // height: "400px",
-                    height: currentRowelectricity.length >= 6 ? "400px" : "auto",
+                    height: currentRowelectricity?.length >= 6 ? "400px" : "auto",
                     overflowY: "auto",
                     // overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
@@ -1041,7 +1038,7 @@ function EBRoomReading(props) {
               )}
              
 
-              {!loading && currentRowelectricity  && currentRowelectricity?.length === 0 && (
+              {!props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 && (
                 <div style={{ marginTop: 40 }}>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -1075,7 +1072,7 @@ function EBRoomReading(props) {
                 </div>
               )}
             </div>
-            {loading &&
+            {props.loading &&
                   <div
                     style={{
                       position: 'absolute',
@@ -1103,7 +1100,7 @@ function EBRoomReading(props) {
                     ></div>
                   </div>
                 }
-            {props.roomBasedDetail?.length >= 5 && (
+            {props.electricityFilterd?.length >= 5 && (
               <nav
                 style={{
                   display: "flex",
