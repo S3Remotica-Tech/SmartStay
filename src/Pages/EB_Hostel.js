@@ -81,11 +81,11 @@ function EB_Hostel(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
-    setLoading(true)
+    
   }, [state.login.selectedHostel_Id]);
 
   // useEffect(() => {
@@ -191,6 +191,7 @@ function EB_Hostel(props) {
     setFilterInput("")
     setSearch(false)
     setDropdownVisible(false);
+    setLoading(false)
   };
 
   const calendarRef = useRef(null);
@@ -199,10 +200,13 @@ function EB_Hostel(props) {
   }, []);
   const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
+    setLoading(true)
     dispatch({
+      
       type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+    
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     dispatch({
@@ -335,9 +339,11 @@ function EB_Hostel(props) {
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
+    
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      setelectricityFilterddata(state.PgList?.EB_customerTable);
       setLoading(false)
+      setelectricityFilterddata(state.PgList?.EB_customerTable);
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
@@ -1603,8 +1609,9 @@ function EB_Hostel(props) {
                         </tbody>
                       </Table>
                     </div>
-                  ) : (
-                    !loading && currentRoomelectricity && currentRoomelectricity.length === 0 &&
+                  )
+                   : (
+                  value ==="1"&&  !loading && currentRoomelectricity && currentRoomelectricity.length == 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img

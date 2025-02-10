@@ -20,6 +20,7 @@ import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 import moment from "moment";
+import { Loader } from "rsuite";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function EBHostelReading(props) {
   
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
+   const [loading, setLoading] = useState(false)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
@@ -76,6 +78,13 @@ function EBHostelReading(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    dispatch({
+      type: "HOSTELBASEDEBLIST",
+      payload: { hostel_id: selectedHostel },
+    });
+    setLoading(true)
+  }, [selectedHostel]);
 
   const handleDeleteEb = (item) => {
     setDeleteForm(true);
@@ -84,7 +93,13 @@ function EBHostelReading(props) {
   const handleCloseDelete = () => {
     setDeleteForm(false);
   };
-
+ useEffect(() => {
+    dispatch({
+      type: "CUSTOMEREBLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+   
+  }, [state.login.selectedHostel_Id]);
   const handlehosetelDelete = () => {
     dispatch({
       type: "HOSTELBASEDDELETEEB",
@@ -141,12 +156,7 @@ function EBHostelReading(props) {
     setHos_Name(props.hostelName);
   }, [props, state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
-  }, [selectedHostel]);
+
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
@@ -491,10 +501,7 @@ function EBHostelReading(props) {
       setelectricityFilterddata(
         state?.PgList?.getHostelBasedRead?.hostel_readings
       );
-      // dispatch({ type: "EBSTARTMETERLIST" });
-
-      // dispatch({ type: "CUSTOMEREBLIST", payload: { hostel_id: selectedHostel}});
-      // setSelectedHostel("")
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
       }, 200);
@@ -548,7 +555,7 @@ function EBHostelReading(props) {
   return (
     <>
       <div>
-        {props.value === "3" && currentRowelectricity?.length > 0 ? (
+        {props.value === "3" &&   currentRowelectricity?.length > 0 ? (
           <div style={{
             // height: "400px",
             height: currentRowelectricity.length >= 6 ? "400px" : "auto",
@@ -889,7 +896,8 @@ function EBHostelReading(props) {
               </tbody>
             </Table>
           </div>
-        ) : props.value === "3" ? (
+        ) :
+         props.value === "3"  && !loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -919,27 +927,39 @@ function EBHostelReading(props) {
               There are no Hostel readings available.
             </div>
 
-            {/* <div style={{ textAlign: "center" }}>
-              <Button
-                onClick={props.handleHostelForm}
-                style={{
-                  fontSize: 16,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 59,
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  width: 185,
-                  padding: "18px, 20px, 18px, 20px",
-                  fontFamily: "Gilroy",
-                }}
-              >
-                + Add HostelReading
-              </Button>
-            </div> */}
           </div>
         ) : null}
       </div>
+
+      {loading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
+
 
       {props.value === "3" && electricityFilterddata?.length >= 5 && (
         <nav
