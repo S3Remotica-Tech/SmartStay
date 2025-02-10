@@ -208,7 +208,7 @@ function ParticularHostelDetails(props) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [itemsPerPage, setItemsPerPage] = useState(6)
 
   // const [currentItems, setCurrentItems] = useState([]); 
 
@@ -237,7 +237,7 @@ function ParticularHostelDetails(props) {
   };
 
 
-
+console.log("itemsPerPage",itemsPerPage)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -563,7 +563,7 @@ function ParticularHostelDetails(props) {
                           <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                             <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
-                              <OverlayTrigger
+                              <OverlayTrigger variant="secondary"
                                 placement="top"
                                 overlay={
                                   <Tooltip variant="secondary"
@@ -700,7 +700,7 @@ function ParticularHostelDetails(props) {
 
 
         {
-          roomCountData.length >= 5 &&
+          roomCountData.length >= 6 &&
 
 
           <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
@@ -721,7 +721,8 @@ function ParticularHostelDetails(props) {
 
                 }}
               >
-                <option value={5}>5</option>
+                
+                <option value={6}>6</option>
                 <option value={10}>10</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
