@@ -2702,6 +2702,7 @@ const InvoicePage = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+             minHeight: "60px"
             }}
 
           >
@@ -2727,10 +2728,7 @@ const InvoicePage = () => {
                 {search ? (
                   <>
                     <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                      }}
+                     
                     >
                       <div
                         style={{
@@ -2738,11 +2736,11 @@ const InvoicePage = () => {
                           display: "flex",
                           alignItems: "center",
                           width: "100%",
-                          marginTop: "10px",
+                          marginTop: "0px", // இதை குறைக்கவும்
                           marginBottom: "10px",
                         }}
                       >
-                        <Image
+                        {/* <Image
                           src={searchteam}
                           alt="Search"
                           style={{
@@ -2752,10 +2750,10 @@ const InvoicePage = () => {
                             height: "24px",
                             pointerEvents: "none",
                           }}
-                        />
+                        /> */}
                         <div
                           className="input-group"
-                          style={{ marginRight: 20 }}
+                          style={{ marginRight: 20,paddingTop:"20px" }}
                         >
                           <span className="input-group-text bg-white border-end-0">
                             <Image
@@ -2773,6 +2771,7 @@ const InvoicePage = () => {
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
+                           
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -3031,6 +3030,7 @@ const InvoicePage = () => {
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
                       width: search ? "180px" : "120px",
+                      marginTop:"20px"
                     }}
                   >
                     <Form.Select
@@ -3197,7 +3197,7 @@ const InvoicePage = () => {
               </div>
             </div>
           </div>
-
+      
           <TabContext value={value} className="container">
             <div>
               <Box
