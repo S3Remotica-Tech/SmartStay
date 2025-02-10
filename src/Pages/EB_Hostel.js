@@ -695,47 +695,44 @@ function EB_Hostel(props) {
   return (
     <div style={{ paddingLeft: 15 }}>
       <div
-        className="d-flex justify-content-between align-items-center ms-2  mb-2"
-      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
+       className="container justify-content-between d-flex align-items-center"
+       style={{
+        //  position: "sticky",
+         top: 0,
+         right: 0,
+         left: 0,
+         zIndex: 1000,
+         backgroundColor: "#FFFFFF",
+         height: 83,
+       }}
       >
-        <div>
-          <label
-            style={{
-              fontSize: 18,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              marginTop: 11,
-            }}
-          >
-            Electricity
-          </label>
-        </div>
+        <div style={{ marginTop: -7 }}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Electricity</label>
+                  </div>
 
         <div
-          className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25, marginTop: 20 }}
+          className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap"
+          
         >
           {search && value === "1" ? (
             <>
               <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  marginRight: 20,
-                  marginTop: "-10px",
-                }}
-              >
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            marginRight: 20,
+                          }}
+                        >
                 <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                  }}
-                >
+                            style={{
+                              position: "relative",
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              marginTop: '10px',
+                              marginBottom: '10px'
+                            }}
+                          >
                   <Image
                     src={searchteam}
                     alt="Search"
@@ -1036,7 +1033,7 @@ function EB_Hostel(props) {
               </Button>
             </div>
           ) : (
-            <div>
+            <div className="me-4">
               <Button
                 // style={{
                 //   fontFamily: "Montserrat",
@@ -1079,13 +1076,13 @@ function EB_Hostel(props) {
       </div>
 
       <TabContext value={value} >
-        <div className="mt-2">
+        <div >
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "14px", marginTop: "-30px" }}
+              style={{ marginLeft: "14px",marginTop:"-25px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
