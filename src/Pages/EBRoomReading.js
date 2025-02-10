@@ -47,6 +47,7 @@ function EBRoomReading(props) {
   const [hostelIdError, setHostelIdError] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [deleteId, setDeleteId] = useState("");
+  const [loading, setLoading] = useState(false)
 
   // const handleShowDots = (eb_Id) => {
   //   if (activeRow === eb_Id) {
@@ -176,11 +177,10 @@ function EBRoomReading(props) {
     dispatch({ type: "EBLIST" });
 
   }, []);
-  // useEffect(() => {
-  //   if (props.selectedHostel) {
-  //     dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: hostelId } });
-  //   }
-  // }, [hostelId])
+  useEffect(() => {   
+      dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });  
+      setLoading(true)  
+  }, [state.login.selectedHostel_Id])
 
   // useEffect(() => {
   //   if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -365,10 +365,20 @@ function EBRoomReading(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = props.roomBasedDetail?.slice(
+  const currentRowelectricity = electricityFilterddata?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
+   useEffect(() => {
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+        setLoading(false)
+        setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+        }, 1000);
+      }
+    }, [state.PgList.statusCodeForEbRoomList])
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -378,7 +388,7 @@ function EBRoomReading(props) {
   };
 
   const totalPagesinvoice = Math.ceil(
-    props.roomBasedDetail?.length / electricityrowsPerPage
+    electricityFilterddata?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -683,7 +693,7 @@ function EBRoomReading(props) {
                             fontFamily: "Gilroy",
                             paddingTop: "10px",
                             paddingBottom: "10px",
-                            textAlign: "start",
+                            textAlign: "center",
                           }}
                         >
                           Date
@@ -715,7 +725,7 @@ function EBRoomReading(props) {
                         </th>
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             fontFamily: "Gilroy",
                             color: "rgb(147, 147, 147)",
                             fontSize: 14,
@@ -723,7 +733,7 @@ function EBRoomReading(props) {
                             borderTopRightRadius: 24,
                           }}
                         >
-                          {" "}
+                         Action
                         </th>
                       </tr>
                     </thead>
@@ -841,7 +851,7 @@ function EBRoomReading(props) {
                               </td>
                               <td
                                 style={{
-                                  textAlign: "start",
+                                  textAlign: "center",
                                   verticalAlign: "middle", // Center vertically
                                   borderBottom: "none",
                                 }}
@@ -1028,8 +1038,9 @@ function EBRoomReading(props) {
                   </Table>
                 </div>
               )}
+             
 
-              {currentRowelectricity?.length === 0 && (
+              {!loading && currentRowelectricity  && currentRowelectricity?.length === 0 && (
                 <div style={{ marginTop: 40 }}>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -1063,7 +1074,34 @@ function EBRoomReading(props) {
                 </div>
               )}
             </div>
-
+            {loading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
             {props.roomBasedDetail?.length >= 5 && (
               <nav
                 style={{

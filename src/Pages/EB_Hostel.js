@@ -81,7 +81,7 @@ function EB_Hostel(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
@@ -185,13 +185,13 @@ function EB_Hostel(props) {
   }, [ebrolePermission]);
 
   const handleChanges = (event, newValue) => {
+    setLoading(false)
     setValue(newValue);
     setaddEbDetail(false);
     setHostelBasedForm(false);
     setFilterInput("")
     setSearch(false)
     setDropdownVisible(false);
-    setLoading(false)
   };
 
   const calendarRef = useRef(null);
@@ -202,8 +202,7 @@ function EB_Hostel(props) {
   useEffect(() => {
     setLoading(true)
     dispatch({
-      
-      type: "CUSTOMEREBLIST",
+     type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
     
@@ -349,7 +348,7 @@ function EB_Hostel(props) {
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
-
+console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
   useEffect(() => {
     if (state.PgList.nostatusCodeforEbCustomer === 201) {
@@ -1017,7 +1016,7 @@ function EB_Hostel(props) {
           </div>
 
           {hostelBased == 1 ? (
-            <div>
+            <div className="me-4">
               <Button
 
 

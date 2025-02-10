@@ -93,13 +93,13 @@ function EBHostelReading(props) {
   const handleCloseDelete = () => {
     setDeleteForm(false);
   };
- useEffect(() => {
-    dispatch({
-      type: "CUSTOMEREBLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+//  useEffect(() => {
+//     dispatch({
+//       type: "CUSTOMEREBLIST",
+//       payload: { hostel_id: state.login.selectedHostel_Id },
+//     });
    
-  }, [state.login.selectedHostel_Id]);
+//   }, [state.login.selectedHostel_Id]);
   const handlehosetelDelete = () => {
     dispatch({
       type: "HOSTELBASEDDELETEEB",
@@ -359,10 +359,10 @@ function EBHostelReading(props) {
         type: "EBSTARTMETERLIST",
         payload: { hostel_id: selectedHostel },
       });
-      dispatch({
-        type: "CUSTOMEREBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
+      // dispatch({
+      //   type: "CUSTOMEREBLIST",
+      //   payload: { hostel_id: selectedHostel },
+      // });
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -589,9 +589,9 @@ function EBHostelReading(props) {
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "start",
+                      textAlign: "center",
                       borderTopLeftRadius: 24,
-                      paddingLeft: "25px"
+                      // paddingLeft: "25px"
                     }}
                   >
                     Paying Guest
@@ -648,15 +648,15 @@ function EBHostelReading(props) {
                   </th>
                   <th
                     style={{
-                      textAlign: "center",
+                      textAlign: "start",
                       fontFamily: "Gilroy",
-                      color: "rgba(34, 34, 34, 1)",
+                      color: "#939393",
                       fontSize: 14,
                       fontWeight: 600,
                       borderTopRightRadius: 24,
                     }}
                   >
-                    {" "}
+                   Action
                   </th>
                 </tr>
               </thead>
@@ -693,13 +693,7 @@ function EBHostelReading(props) {
                         }}
                       >
                         <div
-                          style={{
-                            // display: "flex",
-                            // alignItems: "center",
-                            // justifyContent: "center",
-                              textAlign:"start",
-                              paddingLeft:"25px"
-                          }}
+                         
                         >
                           {/* <Image
                             src={imageUrl}
