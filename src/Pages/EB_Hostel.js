@@ -1614,7 +1614,7 @@ cursor:"pointer"
                     </div>
                   )
                    : (
-                  value ==="1"&&  !loading && currentRoomelectricity && currentRoomelectricity.length == 0 &&
+                  value ==="1" &&  !loading && currentRoomelectricity && currentRoomelectricity.length === 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
