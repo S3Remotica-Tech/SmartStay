@@ -1795,6 +1795,7 @@ const InvoicePage = () => {
     setItemsPerPage(Number(event.target.value));
   };
 
+ 
   //recurring pagination
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
   const [itemsPage, setItemsPage] = useState(10);
@@ -1824,18 +1825,21 @@ const InvoicePage = () => {
   const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
   const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
 
-  const currentReceiptData = receiptdata?.slice(
+  const currentReceiptData = 
+  filterInput.length > 0
+      ? receiptdata :
+  receiptdata?.slice(
     indexOfFirstItemReceipt,
     indexOfLastItemReceipt
   );
 
   const handlePageChangeReceipt = (pageNumber) => {
-    setCurrentRecurePage(pageNumber);
+    setCurrentReceiptPage(pageNumber);
   };
   const handleItemsPerPageReceipt = (event) => {
-    setItemsPage(Number(event.target.value));
+    setItemsPERPage(Number(event.target.value));
   };
-  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsPage); //Receipt pagination
+  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); //Receipt pagination
 
   //  const renderPageNumbers = () => {
   //    const pageNumbers = [];
@@ -4283,7 +4287,7 @@ const InvoicePage = () => {
                                   </Table>
                                 </div>
                               ) : (
-                                !loading &&
+                                !loading && currentItems &&
                                 currentItems?.length == 0 && (
                                   <div>
                                     <div style={{ textAlign: "center" }}>
@@ -4318,7 +4322,7 @@ const InvoicePage = () => {
                                 )
                               )}
 
-                              {bills.length >= 5 && (
+                              {bills?.length >= 5 && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -4696,64 +4700,7 @@ const InvoicePage = () => {
                         </thead>
                         <tbody style={{ fontSize: "10px" }}>
                           {recurLoader ? (
-                            // Array.from({ length: 5 }).map((_, index) => (
-                            //   <tr key={index}>
-                            //     <td>
-                            //       <div className="d-flex">
-                            //         <span className="i-circle">
-                            //           <Skeleton
-                            //             circle
-                            //             width={24}
-                            //             height={24}
-                            //             style={{
-                            //               padding: "10px",
-                            //               border: "none",
-                            //             }}
-                            //           />
-                            //         </span>
-                            //         <div>
-                            //           <Skeleton
-                            //             width={80}
-                            //             style={{
-                            //               padding: "5px",
-                            //               border: "none",
-                            //             }}
-                            //           />
-                            //         </div>
-                            //       </div>
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={100} />
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={100} />
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={50} />
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={50} />
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={100} />
-                            //     </td>
-                            //     <td
-                            //       style={{ padding: "10px", border: "none" }}
-                            //     >
-                            //       <Skeleton width={100} />
-                            //     </td>
-                            //   </tr>
-                            // ))
+                   
                             <div
                               style={{
                                 position: "absolute",
@@ -4807,7 +4754,7 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                  {recurringbills.length > itemsPage && (
+                  {recurringbills && recurringbills.length >=5 && (
                     <nav
                       style={{
                         display: "flex",
@@ -5630,7 +5577,9 @@ const InvoicePage = () => {
                                 </div>
                               )}
 
-                            {currentReceiptData.length >= 5 && (
+
+                            { currentReceiptData.length >= 5 && (
+
                               <nav
                                 style={{
                                   display: "flex",
@@ -5648,8 +5597,8 @@ const InvoicePage = () => {
                               >
                                 <div>
                                   <select
-                                    value={itemsPage}
-                                    onChange={handleItemsPerPage}
+                                    value={itemsperPage}
+                                    onChange={handleItemsPerPageReceipt}
                                     style={{
                                       padding: "5px",
                                       border: "1px solid #1E45E1",
@@ -5683,11 +5632,11 @@ const InvoicePage = () => {
                                         padding: "5px",
                                         textDecoration: "none",
                                         color:
-                                          currentRecurePage === 1
+                                        currentreceiptPage === 1
                                             ? "#ccc"
                                             : "#1E45E1",
                                         cursor:
-                                          currentRecurePage === 1
+                                        currentreceiptPage === 1
                                             ? "not-allowed"
                                             : "pointer",
                                         borderRadius: "50%",
@@ -5698,16 +5647,16 @@ const InvoicePage = () => {
                                         border: "none",
                                       }}
                                       onClick={() =>
-                                        handlePageChangeRecure(
-                                          currentRecurePage - 1
+                                        handlePageChangeReceipt(
+                                          currentreceiptPage - 1
                                         )
                                       }
-                                      disabled={currentRecurePage === 1}
+                                      disabled={currentreceiptPage === 1}
                                     >
                                       <ArrowLeft2
                                         size="16"
                                         color={
-                                          currentRecurePage === 1
+                                          currentreceiptPage === 1
                                             ? "#ccc"
                                             : "#1E45E1"
                                         }
@@ -5722,7 +5671,7 @@ const InvoicePage = () => {
                                       fontWeight: "bold",
                                     }}
                                   >
-                                    {currentRecurePage} of {totalPage}
+                                    {currentreceiptPage} of {ReceipttotalPages}
                                   </li>
 
                                   <li style={{ margin: "0 10px" }}>
@@ -5731,11 +5680,11 @@ const InvoicePage = () => {
                                         padding: "5px",
                                         textDecoration: "none",
                                         color:
-                                          currentRecurePage === totalPage
+                                        currentreceiptPage === ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1",
                                         cursor:
-                                          currentRecurePage === totalPage
+                                        currentreceiptPage === ReceipttotalPages
                                             ? "not-allowed"
                                             : "pointer",
                                         borderRadius: "50%",
@@ -5746,16 +5695,16 @@ const InvoicePage = () => {
                                         border: "none",
                                       }}
                                       onClick={() =>
-                                        handlePageChangeRecure(
-                                          currentRecurePage + 1
+                                        handlePageChangeReceipt(
+                                          currentreceiptPage + 1
                                         )
                                       }
-                                      disabled={currentRecurePage === totalPage}
+                                      disabled={currentreceiptPage === ReceipttotalPages}
                                     >
                                       <ArrowRight2
                                         size="16"
                                         color={
-                                          currentRecurePage === totalPage
+                                          currentreceiptPage === ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1"
                                         }
@@ -5765,7 +5714,7 @@ const InvoicePage = () => {
                                 </ul>
                               </nav>
                             )}
-                            {currentReceiptData && currentReceiptData.length === 0 && (
+                            {currentReceiptData && currentReceiptData?.length === 0 && (
 
                               <div style={{ marginTop: 20 }}>
                                 <div style={{ textAlign: "center" }}>
@@ -5849,7 +5798,7 @@ const InvoicePage = () => {
           <div style={{ display: "flex", flexDirection: "row" }}>
            <svg
               onClick={handleBackBill}
-              style={{ fontSize: "22px", marginRight: "10px" }}
+              style={{ fontSize: "22px", marginRight: "10px", cursor:'pointer' }}
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
