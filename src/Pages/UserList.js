@@ -135,8 +135,8 @@ function UserList(props) {
   const [unitAmount, setUnitAmount] = useState("");
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
-   const [isreader,setIsReader] = useState("")
-  
+  const [isreader, setIsReader] = useState("")
+
   const [hos_Name, setHos_Name] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
@@ -162,7 +162,7 @@ function UserList(props) {
       setCurrentView(details);  // Set the new data after reset
     }, 0);
   };
-  
+
 
 
   const handleDeleteItem = (detail) => {
@@ -171,99 +171,99 @@ function UserList(props) {
   }
 
   const handleEditRoomReading = (value) => {
-    console.log("value",value);
-  
+    console.log("value", value);
+
     setIsReader(value)
-    
+
 
   }
-// useEffect(()=> {
-//   if(isreader){
-//     console.log("isreader data:", isreader);
-//     setFloor(isreader.floor_name)
-    
-    
-//     console.log(isreader.floor_name,"floor");
-      
-    
-//     setRooms(isreader.Room_Id)
-    
-//     console.log(isreader.Room_Id,'room');
-    
-    
-//     setReading(isreader.unit)
-//     if (isreader.reading_date) {
-//       const parsedDate = new Date(isreader.reading_date);
-//       if (!isNaN(parsedDate.getTime())) {
-//         setSelectedDate(parsedDate);
-//       } else {
-//         console.error("Invalid reading_date format:", isreader.reading_date);
-//       }
-//     } else {
-//       console.warn("reading_date is missing:", isreader);
-//     }
-//   }
-     
-    
-  
-// },[isreader])
+  // useEffect(()=> {
+  //   if(isreader){
+  //     console.log("isreader data:", isreader);
+  //     setFloor(isreader.floor_name)
 
-useEffect(() => {
-  if (isreader) {
-    console.log("isreader data:", isreader);
-    console.log("Room Details:", state?.UsersList?.roomdetails);
 
-    // Find the correct floor_id based on floor_name
-    const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
-      (item) => item.floor_name === isreader.floor_name
-    );
+  //     console.log(isreader.floor_name,"floor");
 
-    if (matchingFloor) {
-      setFloor(matchingFloor.floor_id);
-      console.log("Setting Floor ID:", matchingFloor.floor_id);
-    } else {
-      console.warn("Floor not found for name:", isreader.floor_name);
-    }
 
-    const matchingRoom = state?.UsersList?.roomdetails?.find(
-      (item) => String(item.Room_Id) === String(isreader.Room_Id)
-    );
+  //     setRooms(isreader.Room_Id)
 
-    if (matchingRoom) {
-      setRooms(matchingRoom.Room_Id);
-      console.log("Setting", matchingRoom.Room_Id);
-    } else {
-      console.warn("Room not found for ID:", isreader.Room_Id);
-    }
+  //     console.log(isreader.Room_Id,'room');
 
-// setRooms(isreader.Room_Id)
-// setSelectedHostel(isreader.HostelName)
 
-    setReading(isreader.unit);
+  //     setReading(isreader.unit)
+  //     if (isreader.reading_date) {
+  //       const parsedDate = new Date(isreader.reading_date);
+  //       if (!isNaN(parsedDate.getTime())) {
+  //         setSelectedDate(parsedDate);
+  //       } else {
+  //         console.error("Invalid reading_date format:", isreader.reading_date);
+  //       }
+  //     } else {
+  //       console.warn("reading_date is missing:", isreader);
+  //     }
+  //   }
 
-    if (isreader.reading_date) {
-      const parsedDate = new Date(isreader.reading_date);
-      if (!isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
+
+
+  // },[isreader])
+
+  useEffect(() => {
+    if (isreader) {
+      console.log("isreader data:", isreader);
+      console.log("Room Details:", state?.UsersList?.roomdetails);
+
+      // Find the correct floor_id based on floor_name
+      const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
+        (item) => item.floor_name === isreader.floor_name
+      );
+
+      if (matchingFloor) {
+        setFloor(matchingFloor.floor_id);
+        console.log("Setting Floor ID:", matchingFloor.floor_id);
       } else {
-        console.error("Invalid reading_date format:", isreader.reading_date);
+        console.warn("Floor not found for name:", isreader.floor_name);
       }
-    } else {
-      console.warn("reading_date is missing:", isreader);
+
+      const matchingRoom = state?.UsersList?.roomdetails?.find(
+        (item) => String(item.Room_Id) === String(isreader.Room_Id)
+      );
+
+      if (matchingRoom) {
+        setRooms(matchingRoom.Room_Id);
+        console.log("Setting", matchingRoom.Room_Id);
+      } else {
+        console.warn("Room not found for ID:", isreader.Room_Id);
+      }
+
+      // setRooms(isreader.Room_Id)
+      // setSelectedHostel(isreader.HostelName)
+
+      setReading(isreader.unit);
+
+      if (isreader.reading_date) {
+        const parsedDate = new Date(isreader.reading_date);
+        if (!isNaN(parsedDate.getTime())) {
+          setSelectedDate(parsedDate);
+        } else {
+          console.error("Invalid reading_date format:", isreader.reading_date);
+        }
+      } else {
+        console.warn("reading_date is missing:", isreader);
+      }
     }
-  }
-}, [isreader, state?.UsersList?.hosteldetailslist, state?.UsersList?.roomdetails]);
+  }, [isreader, state?.UsersList?.hosteldetailslist, state?.UsersList?.roomdetails]);
 
 
 
 
-console.log("floor", Floor);
-console.log("rooms", Rooms);
+  console.log("floor", Floor);
+  console.log("rooms", Rooms);
 
   const handleEditHostelReading = (users) => {
     console.log(users, "uuu");
 
-    setIsReading(users)  
+    setIsReading(users)
   }
 
   const handleDeleteHostelItem = (data) => {
@@ -343,7 +343,7 @@ console.log("rooms", Rooms);
       enddate === currentView.enddate &&
       invoicedate === currentView.date &&
       invoiceduedate === currentView.due_date;
-      
+
 
     if (isDataUnchanged) {
       setAllFieldErrmsg('No changes detected.');
@@ -414,7 +414,7 @@ console.log("rooms", Rooms);
       setInvoiceDueDateErrmsg('')
       setAllFieldErrmsg('')
     }
-    dispatch({type:'UPDATE_USERSLIST_TRUE'})
+    dispatch({ type: 'UPDATE_USERSLIST_TRUE' })
   };
 
 
@@ -575,8 +575,8 @@ console.log("rooms", Rooms);
     setInvoiceDueDateErrmsg('')
     setAllFieldErrmsg('')
 
-dispatch({type:'UPDATE_USERSLIST_TRUE'})
-console.log("Dispatching UPDATE_USERSLIST_TRUE");
+    dispatch({ type: 'UPDATE_USERSLIST_TRUE' })
+    console.log("Dispatching UPDATE_USERSLIST_TRUE");
 
   }
 
@@ -624,11 +624,11 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
       }
 
       setTotalAmount(currentView.Amount)
-      console.log(currentView.Amount,'amount');
-      
+      console.log(currentView.Amount, 'amount');
+
       setNewRows(currentView.amenity)
-      console.log(currentView.amenity,"amm");
-      
+      console.log(currentView.amenity, "amm");
+
 
     }
   }, [currentView]);
@@ -652,7 +652,7 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
       type: "USERLIST",
       payload: { hostel_id: uniqueostel_Id },
     });
-   
+
 
 
   }, [uniqueostel_Id]);
@@ -667,19 +667,19 @@ console.log("Dispatching UPDATE_USERSLIST_TRUE");
   //   }, [Floor]);
 
   const [userListDetail, setUserListDetail] = useState("")
-const [trigger, setTrigger] = useState(true)
+  const [trigger, setTrigger] = useState(true)
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       setLoading(false);
 
-setTimeout(()=>{
-setTrigger(false)
-},1000)
+      setTimeout(() => {
+        setTrigger(false)
+      }, 1000)
 
       setUserListDetail(state.UsersList.Users);
       setFilteredUsers(state.UsersList.Users)
-     
+
       // if (state.UsersList.Users.length > 0) {
 
       // const indexOfLastItem = currentPage * itemsPerPage;
@@ -710,23 +710,23 @@ setTrigger(false)
       setRoomDetail(false)
       console.log(roomDetail, "roo");
 
-      dispatch({type:'USERROOMAVAILABLEFALSE'})
+      dispatch({ type: 'USERROOMAVAILABLEFALSE' })
     }
   }, [state.UsersList.userRoomfor])
 
   useEffect(() => {
     if (!isEditing) {
       // Update UsersList component state to true when isEditing is false
-      dispatch({ type: "UPDATE_USERSLIST_TRUE" }); 
+      dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     }
   }, [isEditing]);
-  
+
   useEffect(() => {
     console.log("Roomdetails", state.UsersList?.roomdetails);
   }, [state.UsersList?.roomdetails]);
-  
 
-  
+
+
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
 
@@ -736,7 +736,7 @@ setTrigger(false)
       setIsDeleting(true)
       setRoomDetail(true)
       console.log(roomDetail, "roo");
-      dispatch({type:'USERPROFILEBILLFALSE'})
+      dispatch({ type: 'USERPROFILEBILLFALSE' })
 
     }
   }, [state.UsersList.userProfilebill])
@@ -768,22 +768,22 @@ setTrigger(false)
       //   payload: { hostel_id: uniqueostel_Id },
       // });
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
-  
+
       setLoading(false);
       setIsEditing(false);
-  
+
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
       }, 1000);
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
-  
+
   // Add another useEffect to update UI when ManualInvoices change
   useEffect(() => {
     console.log("ManualInvoices Updated:", state.InvoiceList.ManualInvoices);
     // This will trigger rerender when data updates
   }, [state.InvoiceList.ManualInvoices]);
-  
+
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
@@ -805,7 +805,7 @@ setTrigger(false)
       console.log("userreading", state.UsersList.userReading);
       setIsRoomReading(true)
       setRoomDetail(true)
-      dispatch({type:'USERREADINGFALSE'})
+      dispatch({ type: 'USERREADINGFALSE' })
     }
   }, [state.UsersList.userReading])
 
@@ -815,24 +815,24 @@ setTrigger(false)
       console.log("userhosteleading", state.UsersList.userHostelRead);
       setIsHostelReading(true)
       setRoomDetail(true)
-      dispatch({type:'USERHOSTELREADINGFALSE'})
+      dispatch({ type: 'USERHOSTELREADINGFALSE' })
     }
   }, [state.UsersList.userHostelRead])
 
   useEffect(() => {
     if (state.UsersList.userReadingdelete) {
       setRoomDelete(true)
-      dispatch({type:'USERREADING_DELETEFALSE'})
+      dispatch({ type: 'USERREADING_DELETEFALSE' })
     }
   }, [state.UsersList.userReadingdelete])
 
   useEffect(() => {
     if (state.UsersList.userHosteldelete) {
       setHostelDelete(true)
-      dispatch({type:'USERHOSTEL_READING_DELETEFALSE'})
+      dispatch({ type: 'USERHOSTEL_READING_DELETEFALSE' })
     }
   }, [state.UsersList.userHosteldelete])
-  
+
 
   const handleCloseHostel = () => {
     setIsHostelReading(false);
@@ -978,8 +978,8 @@ setTrigger(false)
 
 
   useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id  } });
-  }, [state.login.selectedHostel_Id ])
+    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  }, [state.login.selectedHostel_Id])
 
 
   console.log("state", state)
@@ -988,21 +988,21 @@ setTrigger(false)
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
       setWalkingCustomer(state.UsersList.WalkInCustomerList)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 200);
     }
   }, [state.UsersList?.getWalkInStatusCode]);
 
-  useEffect(()=>{
-    if(state.UsersList?.NoDataWalkInCustomerStatusCode == 201){
+  useEffect(() => {
+    if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
       setWalkingCustomer([])
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 200);
     }
 
-  },[state.UsersList?.NoDataWalkInCustomerStatusCode])
+  }, [state.UsersList?.NoDataWalkInCustomerStatusCode])
 
 
   useEffect(() => {
@@ -1039,23 +1039,24 @@ setTrigger(false)
     }
   }, [state.Booking.statusCodeGetBooking]);
 
-useEffect(()=>{
-  if (value === "1") {
-    dispatch({type: "USERLIST", payload: { hostel_id:  state.login.selectedHostel_Id},
-    });
-  }else if(value === "2"){
+  useEffect(() => {
+    if (value === "1") {
+      dispatch({
+        type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    } else if (value === "2") {
 
-    dispatch({type: "GET_BOOKING_LIST",payload: { hostel_id: state.login.selectedHostel_Id }});
+      dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 
-  }else if(value === "3"){
-    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    
-  }else if(value === "4"){
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id  } });
-    
-  }
+    } else if (value === "3") {
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 
-},[value])
+    } else if (value === "4") {
+      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+
+    }
+
+  }, [value])
 
   useEffect(() => {
     if (value === "1") {
@@ -1096,7 +1097,7 @@ useEffect(()=>{
         })
         : [];
 
-console.log("FilterUsertwo",FilterUsertwo)
+      console.log("FilterUsertwo", FilterUsertwo)
 
       setFilteredUsers(FilterUsertwo);
     }
@@ -1714,7 +1715,7 @@ console.log("FilterUsertwo",FilterUsertwo)
     setaddamenityShow(false);
   };
 
-  
+
 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
@@ -2218,7 +2219,7 @@ console.log("FilterUsertwo",FilterUsertwo)
         // <div style={{ margin: "12px" }}>
         <div className="container" >
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-            <div style={{marginTop:2}}>
+            <div style={{ marginTop: 2 }}>
               <label
                 style={{
                   fontSize: 18,
@@ -2242,7 +2243,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "-15px",
+                      marginTop: "10px",
                     }}
                   >
                     <div
@@ -2268,7 +2269,16 @@ console.log("FilterUsertwo",FilterUsertwo)
 
                         }}
                       />
-                      <div className="input-group" style={{ marginRight: 20 }}>
+                      
+                      <div
+                        className="input-group"
+                        style={{
+                          display: "flex",
+                          width: "240px", // Fix width
+                          marginRight: 20
+                        }}
+                      >
+
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
@@ -2391,7 +2401,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                 </>
               ) : (
                 <>
-                  <div style={{paddingRight:45,marginTop:33}}>
+                  <div style={{ paddingRight: 45, marginTop: 33 }}>
                     <Image
                       src={searchteam}
 
@@ -2410,7 +2420,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   onClick={handleShowSearch}
                 />
               </div> */}
-              <div style={{ paddingRight: "17px",marginTop:23 }}>
+              <div style={{ paddingRight: "17px", marginTop: 23 }}>
                 {value === "1" && (
                   <img
                     src={excelimg}
@@ -2449,13 +2459,13 @@ console.log("FilterUsertwo",FilterUsertwo)
                 )}
               </div>
 
-              <div className="buttons container" style={{marginTop:22}}>
+              <div className="buttons container" style={{ marginTop: 22 }}>
                 {value === "1" && (
                   <Button
                     disabled={customerAddPermission}
                     onClick={handleShow}
                     style={{
-                    
+
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
@@ -2463,10 +2473,10 @@ console.log("FilterUsertwo",FilterUsertwo)
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "12px 34px",
-                     paddingRight:36,
+                      paddingRight: 36,
                       marginBottom: "10px",
                       maxHeight: 45,
-
+                      marginLeft: search ? "20px !important" : "5px"
                     }}
                   >
                     +  Customer
@@ -2484,7 +2494,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "12px 36px",
-                      paddingLeft:38,
+                      paddingLeft: 38,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2505,7 +2515,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "12px 33px",
-                      paddingRight:30,
+                      paddingRight: 30,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2526,7 +2536,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "12px 38px",
-                     paddingLeft:44,
+                      paddingLeft: 44,
                       marginBottom: "10px",
                       maxHeight: 45,
 
@@ -2706,7 +2716,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                   <div className="">
                     <div>
 
-                    
+
                       {currentItems && currentItems.length > 0 ? (
                         <div
                           // className="z-0"
@@ -3405,7 +3415,7 @@ console.log("FilterUsertwo",FilterUsertwo)
                                                       fontWeight: 500,
                                                       fontFamily:
                                                         "Gilroy, sans-serif",
-                                                        cursor:"pointer",
+                                                      cursor: "pointer",
                                                       color:
                                                         customerDeletePermission
                                                           ? "#888888"
@@ -3431,57 +3441,57 @@ console.log("FilterUsertwo",FilterUsertwo)
 
                         </div>
                       )
-                    
-                    :
-(
-                    
-                      !loading && !trigger &&
-                      currentItems && currentItems?.length == 0 && 
-                        
-                        <div style={{ marginTop: 28, marginLeft: "2px" }}>
-                          <div style={{ textAlign: "center" }}>
-                            <img
-                              src={Emptystate}
-                              alt="Empty State"
 
-                            />
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 20,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No Active Customer{" "}
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 16,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no active Customer{" "}
-                          </div>
+                        :
+                        (
 
-                        </div>
-                )
-                
-                }
+                          !loading && !trigger &&
+                          currentItems && currentItems?.length == 0 &&
 
-                                     
-                    
+                          <div style={{ marginTop: 28, marginLeft: "2px" }}>
+                            <div style={{ textAlign: "center" }}>
+                              <img
+                                src={Emptystate}
+                                alt="Empty State"
+
+                              />
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                textAlign: "center",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 20,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              No Active Customer{" "}
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                textAlign: "center",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              There are no active Customer{" "}
+                            </div>
+
+                          </div>
+                        )
+
+                      }
+
+
+
                     </div>
                     {
                       state.UsersList.Users?.length >= 5 &&
-                      
+
 
 
                       <nav

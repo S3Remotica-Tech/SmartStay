@@ -2736,7 +2736,7 @@ const InvoicePage = () => {
                           display: "flex",
                           alignItems: "center",
                           width: "100%",
-                          marginTop: "0px", // இதை குறைக்கவும்
+                          marginTop: "0px", 
                           marginBottom: "10px",
                         }}
                       >
@@ -3059,6 +3059,7 @@ const InvoicePage = () => {
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
                       width: search ? "180px" : "120px",
+                      marginTop:"20px"
                     }}
                   >
                     <Form.Select
