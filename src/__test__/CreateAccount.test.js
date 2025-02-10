@@ -20,10 +20,11 @@ describe('checking for create account', () => {
     beforeEach(() => {
         jest.mocked(useSelector).mockImplementation(() => ({
             createAccount: {
-                statusCodeCreateAccount: 0
+                statusCodeCreateAccount: 100
             }
         }))
     })
+    
 
     it('it should checks for UI renders and register', async () => {
 
@@ -65,7 +66,7 @@ describe('checking for create account', () => {
 
         await event.click(createAccount)
 
-        jest.mocked(useSelector).mockImplementation(() => ({
+        await jest.mocked(useSelector).mockImplementation(() => ({
             createAccount: {
                 statusCodeCreateAccount: 200
             }
