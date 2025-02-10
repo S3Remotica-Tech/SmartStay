@@ -1066,7 +1066,7 @@ function EB_Hostel(props) {
                   padding: "11px 18px",
                   marginTop: 2,
                   paddingLeft: 19,
-                  
+                  whiteSpace: "nowrap",
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
