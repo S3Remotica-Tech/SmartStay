@@ -78,13 +78,7 @@ function EBHostelReading(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
-    setLoading(true)
-  }, [selectedHostel]);
+ 
 
   const handleDeleteEb = (item) => {
     setDeleteForm(true);
@@ -410,14 +404,14 @@ function EBHostelReading(props) {
   };
 
   //  const electricityrowsPerPage = 5;
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
-  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
+  // const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = electricityFilterddata?.slice(
+  const currentRowelectricity = props.electricityHostel?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -434,7 +428,7 @@ function EBHostelReading(props) {
   };
 
   const totalPagesinvoice = Math.ceil(
-    electricityFilterddata?.length / electricityrowsPerPage
+    props.electricityHostel?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -497,17 +491,7 @@ function EBHostelReading(props) {
   //   setelectricityFilterddata(state?.PgList?.getHostelBasedRead?.hostel_readings);
   // }, [state?.PgList?.getHostelBasedRead?.hostel_readings]);
 
-  useEffect(() => {
-    if (state.PgList.getStatusCodeForHostelBased === 200) {
-      setelectricityFilterddata(
-        state?.PgList?.getHostelBasedRead?.hostel_readings
-      );
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
-      }, 200);
-    }
-  }, [state.PgList.getStatusCodeForHostelBased]);
+ 
 
   const customDateInput = (props) => {
     return (
@@ -891,7 +875,7 @@ function EBHostelReading(props) {
             </Table>
           </div>
         ) :
-         props.value === "3"  && !loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
+         props.value === "3"  && !props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -925,7 +909,7 @@ function EBHostelReading(props) {
         ) : null}
       </div>
 
-      {loading &&
+      {props.loading &&
                   <div
                     style={{
                       position: 'absolute',
@@ -955,7 +939,7 @@ function EBHostelReading(props) {
                 }
 
 
-      {props.value === "3" && electricityFilterddata?.length >= 5 && (
+      {props.value === "3" && props.electricityHostel?.length >= 5 && (
         <nav
           style={{
             display: "flex",
