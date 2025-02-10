@@ -320,7 +320,7 @@ function SettingExpenses({ hostelid }) {
 
   }, [state.Settings.categoryError])
 
-  console.log("state.Settings.categoryError", state.Settings.categoryError)
+  console.log("state.Settings.categoryError", state.Settings.categoryError,isSubCategory)
 
 
 
@@ -411,24 +411,33 @@ function SettingExpenses({ hostelid }) {
   }
 
 
+  console.log("isSubCategory",isSubCategory)
+
   const addType = () => {
+
     if (!selectedOptions.value) {
       setCategoryErrmsg("Please Enter a Category");
       return;
     }
 
-    dispatch({
-      type: "EXPENCES-CATEGORY-ADD",
-      payload: {
-        hostel_id: hostelid,
-        id: type.value,
-        category_Name: type.label,
-        sub_Category: subType?.trim() || ''
-      },
-    });
+    if(!isSubCategory){
+      setShowForm(false);
+    }
+if(isSubCategory){
+  dispatch({
+    type: "EXPENCES-CATEGORY-ADD",
+    payload: {
+      hostel_id: hostelid,
+      id: type.value,
+      category_Name: type.label,
+      sub_Category: subType?.trim() || ''
+    },
+  });
+  setSelectedOptions([])
 
-
-    setSelectedOptions([])
+ 
+}
+   
   };
 
 
@@ -865,7 +874,7 @@ function SettingExpenses({ hostelid }) {
         )}
       </div>
 
-      {expensesFilterddata?.length > expensesrowsPerPage && (
+      {expensesFilterddata?.length >= 2 && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>

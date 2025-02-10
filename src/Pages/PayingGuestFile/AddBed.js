@@ -317,7 +317,7 @@ function AddBed({ show, handleClose, currentItem }) {
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
-                // paddingTop: 5,
+                paddingTop: 12,
                 paddingBottom:12,
                 paddingLeft:12,
                 paddingRight:12

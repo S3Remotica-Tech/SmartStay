@@ -39,6 +39,12 @@ function StaticExample({
     floorNo: "",
   });
 
+
+
+
+
+
+
   useEffect(() => {
     if (editFloor) {
       setFloorNo(editFloor.floorName);
@@ -157,7 +163,7 @@ function StaticExample({
         fontFamily: "Gilroy,sans-serif",
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose}  backdrop="static">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -314,10 +320,10 @@ function StaticExample({
 
           {isChangedError && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" , fontFamily:"Gilroy"}} />
               <label
                 className="mb-0"
-                style={{ color: "red", fontSize: "12px", fontWeight: 500 }}
+                style={{ color: "red", fontSize: "12px", fontWeight: 500,fontFamily:"Gilroy" }}
               >
                 {isChangedError}
               </label>
