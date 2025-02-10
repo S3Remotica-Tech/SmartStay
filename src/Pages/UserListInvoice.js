@@ -533,6 +533,7 @@ const handleDeleteBill = (user) => {
                         height: 16,
                         width: 16,
                         filter: props.billEditPermission ? "grayscale(100%)" : "none",
+                       
                       }}
                       alt="Edit"
                     />
@@ -542,6 +543,7 @@ const handleDeleteBill = (user) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: props.billEditPermission ? "#ccc" : "#222222",
+                         cursor:"pointer"
                       }}
                     >
                       Edit
@@ -575,6 +577,7 @@ const handleDeleteBill = (user) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: props.billDeletePermission ? "#ccc" : "#FF0000",
+                        cursor:"pointer"
                       }}
                     >
                       Delete
