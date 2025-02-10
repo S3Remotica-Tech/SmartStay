@@ -224,17 +224,7 @@ const Receipt = (props) => {
 
 <td className="table-cells" style={{ border: "none", flexWrap: "wrap", }}>
           <div className="d-flex  align-items-center">
-            {/* <div className="d-flex  align-items-center">
-                            <span >
-                              <img
-                                src={
-                                    props.item.user_profile && props.item.user_profile !== "0"
-                                        ? props.item.user_profile
-                                        : User
-                                }
-                                style={{ height: 40, width: 40 }}
-                            />
-                            </span></div> */}
+        
             <div className="Invoice_Name" style={{
               fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"

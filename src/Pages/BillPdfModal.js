@@ -107,7 +107,7 @@ console.log("Bill Row Data:",rowData);
 
 
                 <div className="d-flex align-items-center justify-content-between gap-3 ">
-                    <div onClick={handleBackInvoice}>
+                    <div onClick={handleBackInvoice} style={{cursor:'pointer'}}>
                         <ArrowLeft
                             size="25"
                             color="#545454"
@@ -139,7 +139,7 @@ console.log("Bill Row Data:",rowData);
 /> */}
                         <img src={DownLoad}  alt="Download Invoice" style={{ height: 20, width: 20,cursor:"pointer" }} onClick={handleDownload} />
                         {/* <img src={Share} alt="Share Invoice" style={{ height: 20, width: 20 }} onClick={handleShare} /> */}
-                        <img src={Close}  alt="Close Invoice" style={{ height: 20, width: 20,cursor:"pointer" }} onClick={handleClose} />
+                        <img src={Close}  alt="Close Invoice" style={{ height: 20, width: 20,cursor:"pointer" }} onClick={handleBackInvoice}/>
                     </div>
                 </div>
 
@@ -242,11 +242,9 @@ console.log("Bill Row Data:",rowData);
                             </div>
 
 
-{/* EB unit details (action:recuring and action:manual) */}
-{rowData.action === "recuring" && (
+{rowData.action == "recuring" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
-      {/* EB Per Unit Price */}
       <div className="d-flex align-items-center mb-2">
         <label style={{
       fontSize: 15,
@@ -257,13 +255,11 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
-        {/* {rowData?.rec_ebunit} */}
-          {moment(rowData?.rec_ebunit).format('DD MMM YYYY')}
+      fontFamily: "Gilroy",marginLeft:'10px'}}>
+         ₹ {rowData?.rec_ebunit ? rowData.rec_ebunit :  ''}
       </label>
       </div>
 
-      {/* EB Start Date */}
       <div className="d-flex align-items-center mb-2">
         <label style={{
       fontSize: 15,
@@ -275,13 +271,11 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
-        {/* {rowData?.rec_ebstartdate} */}
-        {moment(rowData?.rec_ebstartdate).format('DD MMM YYYY')}
+      fontFamily: "Gilroy", marginLeft:'10px'}}>
+        {rowData?.rec_ebstartdate ? moment(rowData?.rec_ebstartdate).format('DD MMM YYYY') : ''}
       </label>
       </div>
 
-      {/* EB End Date */}
       <div className="d-flex align-items-center mb-2">
         <label style={{
       fontSize: 15,
@@ -293,15 +287,13 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
-        {/* {rowData?.rec_ebenddate} */}
-        {moment(rowData?.rec_ebenddate).format('DD MMM YYYY')}
+      fontFamily: "Gilroy", marginLeft:'10px'}}>
+        {rowData?.rec_ebenddate? moment(rowData?.rec_ebenddate).format('DD MMM YYYY'): ''}
       </label>
       </div>
     </div>
 
     <div>
-      {/* Rent Start Date */}
       <div className="mb-2">
         <label style={{
       fontSize: 15,
@@ -313,13 +305,11 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
-        {/* {rowData?.rec_invstartdate} */}
-        {moment(rowData?.rec_invstartdate).format('DD MMM YYYY')}
+      fontFamily: "Gilroy",marginLeft:'10px'}}>
+        {rowData?.rec_invstartdate ? moment(rowData?.rec_invstartdate).format('DD MMM YYYY') : ''}
       </label>
       </div>
 
-      {/* Rent End Date */}
       <div>
         <label style={{
       fontSize: 15,
@@ -330,19 +320,17 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
-        {/* {rowData?.rec_invenddate} */}
-        {moment(rowData?.rec_invenddate).format('DD MMM YYYY')}
+      fontFamily: "Gilroy", marginLeft:'10px'}}>
+        {rowData?.rec_invenddate? moment(rowData?.rec_invenddate).format('DD MMM YYYY') : ''}
       </label>
       </div>
     </div>
   </div>
 )}
 
-{rowData.action === "manual" && (
+{rowData.action == "manual" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
-      {/* Start Date */}
       <div className="d-flex align-items-center mb-2">
         <label style={{
       fontSize: 15,
@@ -353,10 +341,11 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>
+      fontFamily: "Gilroy", marginLeft:'10px'}}>
         {/* {rowData?.start_date} */} 
         
-        {moment(rowData?.start_date).format('DD MMM YYYY')}
+        {rowData?.start_date ? moment(rowData.start_date).format('DD MMM YYYY') : ''}
+
       </label>
       </div>
 
@@ -371,9 +360,8 @@ console.log("Bill Row Data:",rowData);
       fontSize: 15,
       fontWeight: 600,
       color: "#000000",
-      fontFamily: "Gilroy",}}>  
-      {/* {rowData?.end_date} */} 
-      {moment(rowData?.end_date).format('DD MMM YYYY')}
+      fontFamily: "Gilroy", marginLeft:'10px'}}>  
+      {rowData?.end_date ? moment(rowData?.end_date).format('DD MMM YYYY') : ''}
       </label>
       </div>
     </div>

@@ -172,36 +172,28 @@ console.log("Bill Row Data:",rowData);
                                     </div> 
   
 
-                                    <div>
+                                    {/* <div>
                                         <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
-                                    </div>
+                                    </div> */}
                                     </div>
                                 </div>
+
                                 <div>
                                     <div>
-                                    <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>RECEIPT</label>
+                                    <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
                               </div>
                               <div>
                                     <div className="d-flex justify-content-between gap-2">
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice #</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Invoices ? rowData?.Invoices : '0.00'}</label>
-                                        </div>
+                                       
+                                    <div className="" style={{ width: 140 }}>
+                                        {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
+                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.admin_address}</label>
+                                    </div>
 
                                     </div>
 
-                                    <div className="d-flex justify-content-between gap-2">
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Reference ID</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id ? rowData?.reference_id : '0.00'}</label>
-                                        </div>
-
-                                    </div>
-                                    <div className="d-flex justify-content-between gap-5">
+                                 
+                                    {/* <div className="d-flex justify-content-between gap-5">
                                         <div>
                                             <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
                                         </div>
@@ -209,82 +201,80 @@ console.log("Bill Row Data:",rowData);
                                             <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD/MM/YYYY')}</label>
                                         </div>
 
-                                    </div>
+                                    </div> */}
 
                                 </div>
                                 </div>
                             </div>
+                  <hr/>
 
+                  <div className="d-flex flex-row justify-content-center">
+                  <div>
+                      <label style={{ fontSize: 19, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Payment Receipt</label>
+                  </div>
 
-                            <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
-                                <div>
+                  </div>
 
-{/* Bill From */}
+                            <div className="d-flex flex-row justify-content-between pt-5 ps-4 pe-4">
+
+                              <div className="d-flex flex-column">
+
+                              
+                                <div className="d-flex flex-row">
                                     <div >
-                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill From:</label>
+                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" , marginRight:'30px'  }}>Payment Date:</label>
                                     </div>
                                     <div>
-                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Name}</label>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.created_at).format('DD/MM/YYYY')}</label>
                                     </div>
-                                    <div className="" style={{ width: 100 }}>
-                                        {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
-                                        <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.admin_address}</label>
-                                    </div>
+                                </div>
 
+                                <div className="d-flex flex-row">
+                                    <div >
+                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight:'10px'  }}>Reference Number:</label>
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id}</label>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex flex-row">
+                                    <div >
+                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight:'30px' }}>Payment Mode:</label>
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.payment_mode}</label>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex flex-row">
+                                    <div >
+                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight:'30px'  }}>Amount Received in Words:</label>
+                                    </div>
+                                    <div>
+                                        {/* <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id}</label> */}
+                                    </div>
+                                </div>
 
                                 </div>
 
-                                {/* Bill To*/}
-                                <div>
+                                <div style={{backgroundColor:'#1E45E1', color:"white", padding:'10px'}}>
 
 
 <div >
-    <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill To:</label>
+    <label style={{ fontSize: 14, fontWeight: 500,  fontFamily: "Gilroy" }}>Amount Received:</label>
 </div>
 <div>
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.user_address}</label>
+    <label style={{ fontSize: 15, fontWeight: 600,  fontFamily: "Gilroy" }}>₹ {rowData?.amount_received}</label>
 </div>
-{/* <div className="" style={{ width: 100 }}>
-    <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
-</div> */}
+
 
 
 </div>
                                 
                             </div>
 
-{/* EB Unit Details */}
-{/* <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
-                                <div>
 
-                         <div >
-                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>EB Per Unit Price :
-
-</label>
-                                    </div>
-                                    <div>
-                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB Start Date :</label>
-                                    </div>
-                                    <div className="" style={{ width: 100 }}>
-                                        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>EB End Date :</label>
-                                    </div>
-
-
-                                </div>
-
-
-                                <div>
-
-
-<div >
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Rent Start Date:</label>
-</div>
-<div>
-    <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" ,marginTop:10}}>Rent End Date:</label>
-</div>
-</div>
-                                
-                            </div> */}
 
 {rowData.action === "recuring" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
@@ -367,8 +357,10 @@ console.log("Bill Row Data:",rowData);
                 zIndex:1,}}>
     <tr>
     <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>S.No</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Description</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Amount</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Number</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Date</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Amount</th>
+      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Payment Amount</th>
     </tr>
   </thead>
   <tbody>
@@ -377,10 +369,16 @@ console.log("Bill Row Data:",rowData);
       <tr key={index}>
         <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>{index+1}</td>
         <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          {item.am_name}
+          {rowData.invoice_number}
         </td>
         <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          ₹{item.amount}
+        {moment(rowData?.Date).format('DD/MM/YYYY')}
+        </td>
+        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
+        ₹ {rowData.Amount}
+        </td>
+        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
+          ₹ {rowData.amount_received}
         </td>
       </tr>
     ))}
@@ -426,17 +424,10 @@ console.log("Bill Row Data:",rowData);
   </tbody>
 </Table>
 
-<div style={{display:"flex", flexDirection:'row', justifyContent:'end'}}>
-  <div style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy",textAlign:"right" , marginRight:'20px'}}>
-  <p>Total :</p> 
-  </div>
-  <div style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign:"center" }}>
-  ₹{rowData?.Amount}
-    </div>
-</div>
 
 
-                            <div className="mt-4 ps-4 pe-4">
+
+                            {/* <div className="mt-4 ps-4 pe-4">
                                 <h6 style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }} >PAYMENT METHOD</h6>
                                 <div>
                                     <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{invoiceData.payment.bank}</label>
@@ -450,16 +441,26 @@ console.log("Bill Row Data:",rowData);
                                 <div>
                                     <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Pay by: {invoiceData.payment.dueDate}</label>
                                 </div>
-                            </div>
+                            </div> */}
+
+
 
 
                             <div className="d-flex justify-content-around mt-5 text-center ps-4 pe-4">
-                                <div>
-                                    <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Thank you for your business!</label>
+                              <div className="d-flex flex-column">
+                              <div>
+                                    <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Received From</label>
                                 </div>
+
+                                <div>
+                                    <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.user_name}</label>
+                                </div>
+                              </div>
+                               
+
                                 <div>
                                     <hr style={{ border: "2px solid #dbaa16", width: 200 }} />
-                                    <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Authorized Signed</label>
+                                    <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Authorized Signature</label>
                                 </div>
 
                             </div>
