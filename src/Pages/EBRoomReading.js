@@ -385,6 +385,7 @@ function EBRoomReading(props) {
   };
   const handleItemsPerPageChange = (event) => {
     setElectricityrowsPerPage(Number(event.target.value));
+    setelectricitycurrentPage(1)
   };
 
   const totalPagesinvoice = Math.ceil(

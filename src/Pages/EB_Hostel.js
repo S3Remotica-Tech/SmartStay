@@ -524,6 +524,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   };
   const handleItemsPerPageChange = (event) => {
     setElectricityrowsPerPage(Number(event.target.value));
+    setelectricitycurrentPage(1) 
   };
   const totalPagesinvoice = Math.ceil(
     electricityFilterddata?.length / electricityrowsPerPage
@@ -1714,128 +1715,7 @@ cursor:"pointer"
                 </div>
 
                 {electricityFilterddata?.length >= 5 && (
-                  // <nav>
-                  //   <ul
-                  //     style={{
-                  //       display: "flex",
-                  //       alignItems: "center",
-                  //       listStyleType: "none",
-                  //       padding: 0,
-                  //       justifyContent: "end",
-                  //     }}
-                  //   >
-                  //     <li style={{ margin: "0 5px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px 10px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                  //           cursor:
-                  //             electricitycurrentPage === 1
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "5px",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() =>
-                  //           handleElectricityPageChange(
-                  //             electricitycurrentPage - 1
-                  //           )
-                  //         }
-                  //         disabled={electricitycurrentPage === 1}
-                  //       >
-                  //         {" "}
-                  //         <ArrowLeft2 size="16" color="#1E45E1" />
-                  //       </button>
-                  //     </li>
-                  //     {electricitycurrentPage > 3 && (
-                  //       <li style={{ margin: "0 5px" }}>
-                  //         <button
-                  //           style={{
-                  //             padding: "5px 10px",
-                  //             textDecoration: "none",
-                  //             color: "white",
-                  //             cursor: "pointer",
-                  //             borderRadius: "5px",
-                  //             display: "inline-block",
-                  //             minWidth: "30px",
-                  //             textAlign: "center",
-                  //             backgroundColor: "transparent",
-                  //             border: "none",
-                  //           }}
-                  //           onClick={() => handleElectricityPageChange(1)}
-                  //         >
-                  //           1
-                  //         </button>
-                  //       </li>
-                  //     )}
-                  //     {electricitycurrentPage > 3 && <span>...</span>}
-                  //     {renderPageNumberselectricity()}
-                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  //       <span>...</span>
-                  //     )}
-                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  //       <li style={{ margin: "0 5px" }}>
-                  //         <button
-                  //           style={{
-                  //             padding: "5px 10px",
-                  //             textDecoration: "none",
-
-                  //             cursor: "pointer",
-                  //             borderRadius: "5px",
-                  //             display: "inline-block",
-                  //             minWidth: "30px",
-                  //             textAlign: "center",
-                  //             backgroundColor: "transparent",
-                  //             border: "none",
-                  //           }}
-                  //           onClick={() =>
-                  //             handleElectricityPageChange(totalPagesinvoice)
-                  //           }
-                  //         >
-                  //           {totalPagesinvoice}
-                  //         </button>
-                  //       </li>
-                  //     )}
-                  //     <li style={{ margin: "0 5px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px 10px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             electricitycurrentPage === electricitycurrentPage
-                  //               ? "#ccc"
-                  //               : "#007bff",
-                  //           cursor:
-                  //             electricitycurrentPage === electricitycurrentPage
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "5px",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() =>
-                  //           handleElectricityPageChange(
-                  //             electricitycurrentPage + 1
-                  //           )
-                  //         }
-                  //         disabled={
-                  //           electricitycurrentPage === totalPagesinvoice
-                  //         }
-                  //       >
-                  //         <ArrowRight2 size="16" color="#1E45E1" />
-                  //       </button>
-                  //     </li>
-                  //   </ul>
-                  // </nav>
+                  
 
                   <nav
                     style={{
