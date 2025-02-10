@@ -1014,18 +1014,18 @@ function EB_Hostel(props) {
             <div>
               <Button
              
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "11px 17px",
-                    marginTop: 2,
-                    paddingLeft: 17
-
-                }}
+             style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "11px 18px",
+              marginTop: 2,
+              paddingLeft: 19,
+              whiteSpace: "nowrap",
+            }}
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
