@@ -239,6 +239,8 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
             setNoChangeError('No changes detected');
             return;
         }
+
+
         if (pglist && room && selectedDate && currentItem.id && Floor) {
             dispatch({
                 type: 'ASSIGNASSET', payload: {
@@ -334,14 +336,14 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
 
 
 
-                        {noChangeError && (
+                        {/* {noChangeError && (
                             <div className="d-flex align-items-center p-1 mb-2">
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {noChangeError}
                                 </label>
                             </div>
-                        )}
+                        )} */}
                         {generalError && (
                             <div className="d-flex align-items-center p-1 mb-2">
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -351,9 +353,8 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                             </div>
                         )}
 
-                        <div className='row mt-1'>
-                           
-
+                        <div className='row '>
+                    
                             <div className='col-lg-12 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                 <Form.Select
@@ -398,7 +399,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                                 )}
                             </div>
 
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2'>
                                 <Form.Group  controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Select
@@ -438,7 +439,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                                 )}
                             </div>
                          
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2'>
                                 <Form.Group  controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
@@ -478,6 +479,26 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
                         </div>
 
                     </Modal.Body>
+
+
+{noChangeError && (
+ 
+                             <div className="d-flex align-items-center p-1 mb-2 mt-2" style={{width:"100%",marginLeft:170,
+                             textAlign:"center"}}>
+                                          <MdError style={{ color: "red", marginRight: "5px" }} />
+                                          <label
+                                            className="mb-0"
+                                            style={{
+                                              color: "red",
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,textAlign:"center"
+                                            }}
+                                          >
+                                            {noChangeError}
+                                          </label>
+                                        </div>
+                        )}
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
                         <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", 
