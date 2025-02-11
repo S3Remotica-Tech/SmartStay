@@ -616,7 +616,9 @@ console.log("compliant:", compliant);
                   justifyContent: "center",
                   alignItems: "center",
                   position: "relative",
-                  cursor: "pointer"
+                  cursor: "pointer",
+                  backgroundColor: showDots === props.complaints.ID ? "#E7F1FF" : "white",
+
                 }}
                 onClick={() => handleShowDots(props.complaints.ID)}
               >
@@ -733,7 +735,7 @@ console.log("compliant:", compliant);
                           <label
                             style={{
                               fontSize: 14,
-                              fontWeight: 500,
+                              fontWeight: 600,
                               fontFamily: "Gilroy, sans-serif",
                               color: props.complianceEditPermission
                                 ? "#ccc"
@@ -778,7 +780,7 @@ console.log("compliant:", compliant);
                           <label
                             style={{
                               fontSize: 14,
-                              fontWeight: 500,
+                              fontWeight: 600,
                               fontFamily: "Gilroy, sans-serif",
                               color: props.complianceDeletePermission
                                 ? "#ccc"
