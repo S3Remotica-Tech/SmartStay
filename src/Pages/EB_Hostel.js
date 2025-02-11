@@ -29,6 +29,7 @@ import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
+import LoaderComponent from "./LoaderComponent";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ function EB_Hostel(props) {
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
@@ -185,7 +187,7 @@ function EB_Hostel(props) {
   }, [ebrolePermission]);
 
   const handleChanges = (event, newValue) => {
-    setLoading(false)
+    setLoader(false)
     setValue(newValue);
     setaddEbDetail(false);
     setHostelBasedForm(false);
@@ -202,11 +204,12 @@ function EB_Hostel(props) {
   const [electricityHostel, setelectricityHostel] = useState([]);
   const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
-    setLoading(true)
+    setLoader(true)
     dispatch({
      type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+
     
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
@@ -239,10 +242,11 @@ function EB_Hostel(props) {
 
    useEffect(() => {
       if (state.PgList.getStatusCodeForHostelBased === 200) {
+        
         setelectricityHostel(
           state?.PgList?.getHostelBasedRead?.hostel_readings
         );
-        setLoading(false)
+        setLoader(false)
         setTimeout(() => {
           dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
         }, 200);
@@ -359,9 +363,9 @@ function EB_Hostel(props) {
   useEffect(() => {
     
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      setLoading(false)
-      setelectricityFilterddata(state.PgList?.EB_customerTable);
       
+      setelectricityFilterddata(state.PgList?.EB_customerTable);
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
@@ -369,15 +373,15 @@ function EB_Hostel(props) {
   }, [state.PgList.statusCodeforEbCustomer]);
 console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
-  useEffect(() => {
-    if (state.PgList.nostatusCodeforEbCustomer === 201) {
-      setelectricityFilterddata([]);
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NOHOSTEL" });
-      }, 200);
-    }
-  }, [state.PgList.nostatusCodeforEbCustomer]);
+  // useEffect(() => {
+  //   if (state.PgList.nostatusCodeforEbCustomer == 201) {
+  //     setelectricityFilterddata([]);
+  //     setLoading(false)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_NOHOSTEL" });
+  //     }, 200);
+  //   }
+  // }, [state.PgList.nostatusCodeforEbCustomer]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -1217,37 +1221,10 @@ cursor:"pointer"
               </>
             ) : (
               <>
-                {loading &&
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: '200px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>
-                }
+               
 
-                <div>
-                  {currentRoomelectricity?.length > 0 ? (
+               
+                  {currentRoomelectricity?.length > 0 && 
                     <div
                       style={{
                         // height: "400px",
@@ -1629,9 +1606,46 @@ cursor:"pointer"
                         </tbody>
                       </Table>
                     </div>
-                  )
-                   : (
-                  value ==="1" &&  !loading && currentRoomelectricity && currentRoomelectricity.length === 0 &&
+                        }
+
+
+
+
+  
+{loader && <LoaderComponent/>
+
+// <div
+              //   style={{
+              //     position: 'absolute',
+              //     top: 0,
+              //     right: 0,
+              //     bottom: 0,
+              //     left: '200px',
+              //     display: 'flex',
+              //     alignItems: 'center',
+              //     justifyContent: 'center',
+              //     backgroundColor: 'transparent',
+              //     opacity: 0.75,
+              //     zIndex: 10,
+              //   }}
+              // >
+              //   <div
+              //     style={{
+              //       borderTop: '4px solid #1E45E1',
+              //       borderRight: '4px solid transparent',
+              //       borderRadius: '50%',
+              //       width: '40px',
+              //       height: '40px',
+              //       animation: 'spin 1s linear infinite',
+              //     }}
+              //   ></div>
+              // </div>
+             
+            }
+
+
+{
+                   !loader && currentRoomelectricity && currentRoomelectricity?.length == 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1727,8 +1741,7 @@ cursor:"pointer"
                         </div>
                       )} */}
                     </div>
-                  )}
-                </div>
+}
 
                 {electricityFilterddata?.length >= 5 && (
                   
@@ -1866,9 +1879,18 @@ cursor:"pointer"
                     </ul>
                   </nav>
                 )}
+
+
+
+
+
+                
               </>
             )}
           </>
+
+
+
         </TabPanel>
         <Modal
           show={addEbDetail}
