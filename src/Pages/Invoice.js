@@ -1900,6 +1900,7 @@ const InvoicePage = () => {
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
+    setSearch(false)
   };
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
