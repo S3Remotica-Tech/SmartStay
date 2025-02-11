@@ -665,41 +665,11 @@ function UserList(props) {
   //       });
   //     }
   //   }, [Floor]);
-
-  const [userListDetail, setUserListDetail] = useState("")
   const [trigger, setTrigger] = useState(true)
+  
+ 
 
-  useEffect(() => {
-    if (state.UsersList?.UserListStatusCode == 200) {
-      setLoading(false);
-
-      setTimeout(() => {
-        setTrigger(false)
-      }, 1000)
-
-      setUserListDetail(state.UsersList.Users);
-      setFilteredUsers(state.UsersList.Users)
-
-      // if (state.UsersList.Users.length > 0) {
-
-      // const indexOfLastItem = currentPage * itemsPerPage;
-      // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
-      // console.log("tempArray123", tempArray);
-
-      // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-      // setCurrentItem(tempArray)
-      // setLoading(false);
-      // }
-      // else {
-      // setCurrentItem([])
-      // setLoading(false);
-      // }
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
-    }
-  }, [state.UsersList?.UserListStatusCode]);
+ 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
 
@@ -1021,8 +991,41 @@ function UserList(props) {
 
 
 
+  const [userListDetail, setUserListDetail] = useState([])
+  const [customerBooking, setCustomerBooking] = useState([])
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode == 200) {
+      setLoading(false);
 
-  const [customerBooking, setCustomerBooking] = useState("")
+      setTimeout(() => {
+        setTrigger(false)
+      }, 1000)
+
+      setUserListDetail(state.UsersList.Users);
+      setFilteredUsers(state.UsersList.Users)
+
+      // if (state.UsersList.Users.length > 0) {
+
+      // const indexOfLastItem = currentPage * itemsPerPage;
+      // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
+      // console.log("tempArray123", tempArray);
+
+      // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
+      // setCurrentItem(tempArray)
+      // setLoading(false);
+      // }
+      // else {
+      // setCurrentItem([])
+      // setLoading(false);
+      // }
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+      }, 1000);
+    }
+  }, [state.UsersList?.UserListStatusCode]);
+  console.log("state.UsersList?.UserListStatusCode",state.UsersList?.UserListStatusCode)
+  console.log("userListDetail",userListDetail)
 
   useEffect(() => {
     dispatch({
@@ -1038,6 +1041,7 @@ function UserList(props) {
       }, 2000);
     }
   }, [state.Booking.statusCodeGetBooking]);
+  console.log("customerBooking",customerBooking)
 
   useEffect(() => {
     if (value === "1") {
@@ -1066,7 +1070,7 @@ function UserList(props) {
         )
         : [];
 
-      setFilteredUsers(FilterUser);
+        setUserListDetail(FilterUser);
 
     }
 
@@ -1078,7 +1082,7 @@ function UserList(props) {
         })
         : [];  // Return empty array if not an array
 
-      setFilteredUsers(FilterUsertwo);
+        setCustomerBooking(FilterUsertwo);
     }
 
     if (value === "3") {
@@ -1088,7 +1092,7 @@ function UserList(props) {
         :
         [];
 
-      setFilteredUsers(FilterUsertwo);
+        setCheckOutCustomer(FilterUsertwo);
     }
     if (value === "4") {
       const FilterUsertwo = Array.isArray(walkingCustomer) ?
@@ -1099,7 +1103,7 @@ function UserList(props) {
 
       console.log("FilterUsertwo", FilterUsertwo)
 
-      setFilteredUsers(FilterUsertwo);
+      setWalkingCustomer(FilterUsertwo);
     }
   }, [
     filterInput,
@@ -1111,31 +1115,68 @@ function UserList(props) {
   ]);
 
   console.log("filteredUsers", filteredUsers);
+  const [originalAllCusromer, setOriginalAllCusromer] = useState([]);
+    const [originalBooking, setOriginalBooking] = useState([]);
+    const [originalCheckout, setOriginalCheckout] = useState([]);
+    const [originalWalkin, setOriginalWalkin] = useState([]);
 
+     useEffect(() => {
+        if (userListDetail?.length > 0 && originalAllCusromer.length === 0) {
+          setOriginalAllCusromer(userListDetail);
+        }
+      }, [userListDetail]);
+      useEffect(() => {
+        if (customerBooking?.length > 0 && originalBooking.length === 0) {
+          setOriginalBooking(customerBooking);
+        }
+      }, [customerBooking]);
+
+
+      useEffect(() => {
+        if (checkOutCustomer?.length > 0 && originalCheckout.length === 0) {
+          setOriginalCheckout(checkOutCustomer);
+        }
+      }, [checkOutCustomer]);
+
+
+      useEffect(() => {
+        if (walkingCustomer?.length > 0 && originalWalkin.length === 0) {
+          setOriginalWalkin(walkingCustomer);
+        }
+      }, [walkingCustomer]);
 
   const handlefilterInput = (e) => {
-    const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
-    setFilterInput(searchValue);
-
-    if (searchValue.length > 0) {
-      const filtered = filteredUsers.filter((user) => {
-        const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
-        const name = user?.Name?.toLowerCase() || "";
-
-        return (
-          name.startsWith(searchValue) ||
-          fullName.startsWith(searchValue)
-        );
-      });
-
-      setFilteredUsers(filtered);
-      setDropdownVisible(true);
-      setCurrentPage(1); // Reset to first page
-    } else {
-      setFilteredUsers(filteredUsers); // Reset when input is cleared
-      setDropdownVisible(false);
-    }
+    setFilterInput(e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+    setUserListDetail(originalAllCusromer);
+    setCustomerBooking(originalBooking);
+    setCheckOutCustomer(originalCheckout);
+    setWalkingCustomer(originalWalkin);
   };
+
+  // const handlefilterInput = (e) => {
+  //   const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
+  //   setFilterInput(searchValue);
+
+  //   if (searchValue.length > 0) {
+  //     const filtered = filteredUsers.filter((user) => {
+  //       const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
+  //       const name = user?.Name?.toLowerCase() || "";
+
+  //       return (
+  //         name.startsWith(searchValue) ||
+  //         fullName.startsWith(searchValue)
+  //       );
+  //     });
+
+  //     setFilteredUsers(filtered);
+  //     setDropdownVisible(true);
+  //     setCurrentPage(1); // Reset to first page
+  //   } else {
+  //     setFilteredUsers(filteredUsers); // Reset when input is cleared
+  //     setDropdownVisible(false);
+  //   }
+  // };
 
   // const handlefilterInput = (e) => {
   //   setFilterInput(e.target.value);
@@ -1155,7 +1196,10 @@ function UserList(props) {
       setFilterInput(user?.first_name || "");
     }
 
-    setFilteredUsers([]);
+    setUserListDetail([]);
+    setWalkingCustomer([])
+    setCheckOutCustomer([])
+    setCustomerBooking([])
     setDropdownVisible(false);
   };
 
@@ -1251,13 +1295,15 @@ function UserList(props) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems =
-    filterInput.length > 0
-      ? filteredUsers
-      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+    
+       userListDetail &&
+       userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
+  const totalPages = Math.ceil(userListDetail?.length / itemsPerPage);
+console.log("userListDetail",userListDetail)
 
+console.log("currentItems",currentItems)
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
   };
@@ -2309,7 +2355,7 @@ function UserList(props) {
                       </div>
                     </div>
 
-                    {isDropdownVisible && filteredUsers?.length > 0 && (
+                    {value === "1" && isDropdownVisible && userListDetail?.length > 0 && (
                       <div
                         style={{
                           border: "1px solid #d9d9d9 ",
@@ -2330,10 +2376,10 @@ function UserList(props) {
                             borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
-                              filteredUsers?.length > 1 ? "174px" : "auto",
+                            userListDetail?.length > 1 ? "174px" : "auto",
                             minHeight: 100,
                             overflowY:
-                              filteredUsers?.length > 1 ? "auto" : "hidden",
+                            userListDetail?.length > 1 ? "auto" : "hidden",
 
                             margin: "0",
                             listStyleType: "none",
@@ -2341,7 +2387,7 @@ function UserList(props) {
                             boxSizing: "border-box",
                           }}
                         >
-                          {filteredUsers?.map((user, index) => {
+                          {userListDetail?.map((user, index) => {
                             const imagedrop = user.profile || Profile;
                             return (
                               <li
@@ -2351,7 +2397,7 @@ function UserList(props) {
                                   cursor: "pointer",
                                   padding: "10px 5px",
                                   borderBottom:
-                                    index !== filteredUsers.length - 1
+                                    index !== userListDetail.length - 1
                                       ? "1px solid #eee"
                                       : "none",
                                 }}
@@ -2380,7 +2426,8 @@ function UserList(props) {
                                     : ""}
                                 </span> */}
                                 <span>
-                                  {value === "1"
+                                {user.Name}
+                                  {/* {value === "1"
                                     ? user.Name
                                     : value === "2"
                                       ? [user?.first_name, user?.last_name].filter(Boolean).join(" ")
@@ -2388,7 +2435,7 @@ function UserList(props) {
                                         ? user.Name
                                         : value === "4"
                                           ? user.first_name
-                                          : ""}
+                                          : ""} */}
                                 </span>
 
                               </li>
@@ -2553,7 +2600,7 @@ function UserList(props) {
               className="container ms-4 mb-4"
               style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
             >
-              {filteredUsers.length > 0 ? (
+              {userListDetail.length > 0 ? (
                 <span
                   style={{
                     textAlign: "center",
@@ -2563,8 +2610,8 @@ function UserList(props) {
                     color: "rgba(100, 100, 100, 1)",
                   }}
                 >
-                  {filteredUsers.length} result
-                  {filteredUsers.length > 1 ? "s" : ""} found for{" "}
+                  {userListDetail.length} result
+                  {userListDetail.length > 1 ? "s" : ""} found for{" "}
                   <span
                     style={{
                       textAlign: "center",
@@ -3490,7 +3537,7 @@ function UserList(props) {
 
                     </div>
                     {
-                      state.UsersList.Users?.length >= 5 &&
+                      userListDetail?.length >= 5 &&
 
 
 
@@ -3632,6 +3679,7 @@ function UserList(props) {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
+                  customerBooking = {customerBooking}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3643,6 +3691,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  checkOutCustomer = {checkOutCustomer}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3654,6 +3703,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  walkingCustomer = {walkingCustomer}
                 />
               </TabPanel>
             </TabContext>
