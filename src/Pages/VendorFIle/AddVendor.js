@@ -598,6 +598,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       top: 90,
                       left: 80,
                       transform: "translate(-50%, -50%)",
+                      cursor:"pointer"
                     }}
                   />
                   <input
