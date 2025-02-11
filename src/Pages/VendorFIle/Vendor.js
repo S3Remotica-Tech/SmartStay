@@ -229,15 +229,15 @@ function Vendor() {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
+
+  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
   // const renderPagination = () => {
   //   const pageNumbers = [];
@@ -758,7 +758,7 @@ function Vendor() {
 
                     }}
                   >
-                    <option value={5}>5</option>
+                    <option value={4}>4</option>
                     <option value={10}>10</option>
                     <option value={50}>50</option>
                     <option value={100}>100</option>
@@ -847,11 +847,12 @@ function Vendor() {
               }}>
 
               <Modal.Header style={{ borderBottom: "none", justifyContent: "center", display: "flex" }}>
-                <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete Vendor?</Modal.Title>
+                <Modal.Title style={{ fontSize: "18px",fontFamily: "Gilroy", textAlign: "center", fontWeight: 600, color: "#222222",
+                }}>Delete Vendor?</Modal.Title>
                 {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
               </Modal.Header>
 
-              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px", }}>
+              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px", color: "#646464", }}>
                 Are you sure you want to delete this vendor?
               </Modal.Body>
 
