@@ -3662,6 +3662,7 @@ const InvoicePage = () => {
                                   )}
                                 </div>
 
+
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
                                     className="mb-3"
@@ -3673,6 +3674,7 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "'Gilroy', sans-serif",
                                         fontWeight: 500,
+                                        marginTop:2
                                       }}
                                     >
                                       Mode of transaction
@@ -3692,6 +3694,7 @@ const InvoicePage = () => {
                                         border: "1px solid #D9D9D9",
                                         height: 49,
                                         borderRadius: 8,
+                                        marginTop:6
                                       }}
                                     >
                                       <option selected>select </option>
