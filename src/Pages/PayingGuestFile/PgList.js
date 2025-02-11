@@ -155,7 +155,7 @@ function PgList(props) {
 
   useEffect(() => {
 
-    if (hostel_Id && state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if ( state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
       setLoader(false);
 
 setTimeout(()=>{
@@ -165,7 +165,7 @@ setTimeout(()=>{
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.statuscodeForhotelDetailsinPg]);
 
@@ -178,7 +178,7 @@ setTimeout(()=>{
       },100)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 4000);
+      }, 1000);
     }
   }, [state.UsersList?.noAllHosteListStatusCode]);
 
@@ -202,7 +202,7 @@ setTimeout(()=>{
       setLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
@@ -220,7 +220,7 @@ setTimeout(()=>{
       setTimeout(() => {
         dispatch({ type: "CLEAR_FLOOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_UPDATE_FLOOR_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
     }
   }, [
     state.UsersList.createFloorSuccessStatusCode,
@@ -299,11 +299,11 @@ setTimeout(()=>{
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
-      }, 4000);
+      }, 1000);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
     }
   }, [
     state.PgList.deletePgSuccessStatusCode,
@@ -318,7 +318,7 @@ setTimeout(()=>{
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
 
       // setPgList({
       //   Name: "",
@@ -372,10 +372,10 @@ setTimeout(()=>{
         return item.floor_id === floorClick;
       }) || [];
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
-      setTimeout(() => {
+      // setTimeout(() => {
 
-        dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      }, 1000);
+      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+      // }, 1000);
     }
   }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
@@ -395,7 +395,7 @@ setTimeout(()=>{
   }, [state.UsersList.hosteListStatusCode])
 
 
-
+console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
 
 
   useEffect(() => {
@@ -406,9 +406,9 @@ setTimeout(()=>{
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      }, 1000);
+      // setTimeout(() => {
+      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+      // }, 100);
     }
 
   }, [state.UsersList?.statuscodeForhotelDetailsinPg])
@@ -427,7 +427,7 @@ setTimeout(()=>{
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
-      }, 4000);
+      }, 100);
     }
   }, [state.PgList.statusCodeForDeleteRoom]);
 
@@ -719,7 +719,7 @@ setTimeout(()=>{
  
   const handlePrev = () => {
     if (floorClick > 0) {
-      // Step 1: Move to the previous floor
+     
       const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
         (floor) => floor.floor_id === floorClick
       ) - 1;
@@ -727,12 +727,12 @@ setTimeout(()=>{
       if (prevFloorIndex >= 0) {
         const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
   
-        // Step 2: Update active floor
+        
         setKey(prevFloor.floor_id.toString());
         setFloorClick(prevFloor.floor_id);
         setFloorName(prevFloor.floor_name);
   
-        // Step 3: Update visible range if needed
+       
         if (prevFloorIndex < visibleRange[0]) {
           setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
         }
@@ -742,30 +742,7 @@ setTimeout(()=>{
   
 
  
-  // const handleNext = () => {
-  //   if (floorClick < numberOfFloors - 1) {
-  //     // Step 1: Move to the next floor
-  //     const nextFloorIndex = showHostelDetails.floorDetails.findIndex(
-  //       (floor) => floor.floor_id === floorClick
-  //     ) + 1;
   
-  //     if (nextFloorIndex < showHostelDetails.floorDetails.length) {
-  //       const nextFloor = showHostelDetails.floorDetails[nextFloorIndex];
-  
-  //       // Step 2: Update active floor
-  //       setKey(nextFloor.floor_id.toString());
-  //       setFloorClick(nextFloor.floor_id);
-  //       setFloorName(nextFloor.floor_name);
-  
-  //       // Step 3: Update visible range if needed
-  //       if (nextFloorIndex > visibleRange[1]) {
-  //         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
-  //       }
-  //     }
-  //   }
-  // };
-
-
   const handleNext = () => {
     const floorIndex = showHostelDetails.floorDetails.findIndex(
       (floor) => floor.floor_id === floorClick
@@ -774,13 +751,12 @@ setTimeout(()=>{
     if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
       const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
   
-      // Update active floor state
+     
       setKey(nextFloor.floor_id.toString());
       setFloorClick(nextFloor.floor_id);
       setFloorName(nextFloor.floor_name);
   
-      // Update visible range if needed
-      if (floorIndex + 1 > visibleRange[1]) {
+            if (floorIndex + 1 > visibleRange[1]) {
         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
       }
     }
