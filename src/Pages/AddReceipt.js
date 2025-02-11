@@ -41,6 +41,7 @@ const AddReceiptForm = (props) => {
       const [reference_id , setReferenceId] =  useState ('')
       const [invoicenumber , setInvoiceNumber] =  useState ('')
       const [due_amount , setDueAmount] =  useState ('')
+      const [initial_due_amount , setInitial_DueAmount] =  useState ('')
       const [received_amount , setReceivedAmount] =  useState ('')
       const [payment_date , setPaymentDate] =  useState (null);
       const [payment_mode , setPaymentMode] =  useState ('')
@@ -93,7 +94,8 @@ const AddReceiptForm = (props) => {
           
     
           setReferenceId(props.editvalue.reference_id || '');
-          setDueAmount(props.editvalue.BalanceDue || '');
+          setDueAmount(props.editvalue.BalanceDue || 0);
+          setInitial_DueAmount(props.editvalue.BalanceDue)
           setReceivedAmount(props.editvalue.amount_received || '')
           setAccount(props.editvalue.bank_id || '') ;
           setModeOfPayment(props.editvalue.payment_mode || '') 
@@ -111,6 +113,7 @@ const AddReceiptForm = (props) => {
         const Value = e.target.value;
         setCustomerName(Value);
         setAllFieldErrmsg("");
+        setDueAmount(0)
       
         // Proper filter logic
         const CustomerinvoicedetailsFilter =
@@ -148,13 +151,12 @@ const AddReceiptForm = (props) => {
         setAllFieldErrmsg("");
       
         const DueAmountFilter =
-          customerinvoicefilter &&
-          !edit &&
+          customerinvoicefilter && !edit &&
           customerinvoicefilter.filter((u) => u.Invoices == selectedValue);
-      
+          setInitial_DueAmount(DueAmountFilter[0]?.BalanceDue)
         setDueAmount(DueAmountFilter[0]?.BalanceDue);
+
       
-        // Handle validation
         if (!selectedValue) {
           setInvoicenumberErrmsg("Please Enter Invoice");
         } else {
@@ -164,16 +166,28 @@ const AddReceiptForm = (props) => {
       
 
       const handleReceivedAmount = (e) => {
-        setReceivedAmount(e.target.value)
-        setAllFieldErrmsg('')
-        if(!e.target.value){
-          setReceivedAmountErrmsg("Please Enter Amount")
-        }
-        else{
-            setReceivedAmountErrmsg('')
-        }
+        const receivedValue = parseFloat(e.target.value) || 0; // Convert to number, handle empty input
+      let updatedDueAmount;
+        if (receivedValue !== '' && initial_due_amount >= receivedValue) {
+        updatedDueAmount = initial_due_amount - receivedValue; 
+        console.log("updatedDueAmount",updatedDueAmount);
+        setDueAmount(updatedDueAmount >= 0 ? updatedDueAmount : 0);
+        setReceivedAmount(receivedValue);
+       }
+        
     
-      }
+        // Prevent negative due amount
+        // setReceivedAmount(receivedValue);
+        setAllFieldErrmsg('');
+    
+        if (!e.target.value) {
+          setDueAmount(initial_due_amount);
+            setReceivedAmountErrmsg("Please Enter Amount");
+        } else {
+            setReceivedAmountErrmsg('');
+        }
+    };
+    
 
       const handleAccount = (e) => {
         setAccount(e.target.value);
@@ -502,7 +516,7 @@ const AddReceiptForm = (props) => {
             <div className='container ms-5 me-5'>
 
             <div style={{display:'flex',flexDirection:'row',marginTop:'20px'}} >
-  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px', cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
   <p className='mt-1'>{edit? "Edit Receipt":"New Receipt"} </p>
   </div>
 
@@ -670,7 +684,7 @@ const AddReceiptForm = (props) => {
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 ,   backgroundColor: "#E7F1FF",}}
           type="text"
           placeholder="Enter Due Amount"
-          value={due_amount || ''} 
+          value={due_amount || 0} 
           readOnly
         />
 
@@ -685,7 +699,7 @@ const AddReceiptForm = (props) => {
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
           type="text"
           placeholder="Enter received amount"
-          value={received_amount || ''} 
+          value={received_amount || 0} 
           onChange={handleReceivedAmount} 
         />
                  {receivedamounterrmsg.trim() !== "" && (
