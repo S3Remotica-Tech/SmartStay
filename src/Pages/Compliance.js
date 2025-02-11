@@ -658,6 +658,15 @@ const Compliance = () => {
 
   const handleAddcomplaint = () => {
 
+    if (edit && !hasChanges) {
+      setTotalErrmsg('Please make some changes before saving');
+      setTimeout(() => {
+        setTotalErrmsg('');
+      }, 10000);
+      return;
+    }
+
+
 
     //   if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
     //     setTotalErrmsg('Please Enter All field')
@@ -732,6 +741,13 @@ const Compliance = () => {
     }
 
   }
+
+  useEffect(() => {
+    if (hasChanges) {
+      setTotalErrmsg('');
+    }
+  }, [selectedUsername, Complainttype, Assign, description, selectedDate, beds, Rooms, hostelname, Floor, Status]);
+
 
 
 
@@ -1338,13 +1354,13 @@ const Compliance = () => {
                     onHide={handleClose}
                     centered
                     backdrop="static">
-                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
 
                       <Modal.Body>
                         <div>
 
-                          <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                          <Modal.Header style={{ marginBottom: "30px", position: "relative",marginTop:"-15px" }}>
                             <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
                             <button
                               type="button"
@@ -1362,8 +1378,8 @@ const Compliance = () => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                width: '32px',
-                                height: '32px',
+                                width: '28px',
+                                height: '28px',
                                 borderRadius: '50%',
 
                               }}
@@ -1835,7 +1851,7 @@ const Compliance = () => {
 
                       {totalErrormsg.trim() !== "" && (
                         <div>
-                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                             {totalErrormsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
                           </p>
                         </div>
