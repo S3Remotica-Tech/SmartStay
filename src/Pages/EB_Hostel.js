@@ -242,11 +242,11 @@ function EB_Hostel(props) {
 
    useEffect(() => {
       if (state.PgList.getStatusCodeForHostelBased === 200) {
-        
+        setLoader(false)
         setelectricityHostel(
           state?.PgList?.getHostelBasedRead?.hostel_readings
         );
-        setLoader(false)
+        
         setTimeout(() => {
           dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
         }, 200);
@@ -485,7 +485,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     }
 
     // Validate Room field
-    if (Rooms === "Select Room" || !isRoomValid) {
+    if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please select a valid Room");
       return;
     } else {
@@ -1021,7 +1021,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
 
             </>
           )}
-          <div className="me-3" style={{ paddingRight: 5, marginTop: 5 }}>
+          <div className="me-4" style={{ paddingRight: 5, marginTop: 5 }}>
 
             {value === "1" && (
               <img
