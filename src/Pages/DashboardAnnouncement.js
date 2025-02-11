@@ -14,7 +14,6 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
 
-
 function DashboardAnnouncement(props) {
   const state = useSelector((state) => state);
 
@@ -49,7 +48,8 @@ function DashboardAnnouncement(props) {
   const [selectTitleCard, setSelectedTitleCard] = useState('')
   const [CommentId, setCommentId] = useState('')
   const [selectedCommentId, setSelectedCommentId] = useState(null);
-
+ const [loading, setLoading] = useState(false)
+ 
   const handleSubCommentsChange = (e) => {
     setSubComment(e.target.value)
     setDisplaySubError('')
@@ -618,7 +618,11 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
 
-                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(data.id)}>
+                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
+                        border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", 
+                        position: "relative", zIndex: showDots ? 1000 : 'auto'
+                        ,  backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
+                        }} onClick={() => handleShowDots(data.id)}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                         {showDots === data.id && (
@@ -748,11 +752,14 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   fontFamily: "Gilroy",
                   fontSize: 20,
                   color: "rgba(75, 75, 75, 1)",
-                  marginBottom: "16px", // Add some spacing between the text and button
+                
                 }}
               >
                 No announcements available.
               </div>
+              <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16,
+                 color: "rgba(75, 75, 75, 1)" }}>There are no Announcement added.</div>
+
 
             </div>
 
@@ -1171,7 +1178,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               Monthly
             </p>
             <CloseCircle
-              size="32"
+              size="24"
               color="#222222"
               onClick={handleCloseComment}
               style={{ cursor: "pointer" }}
@@ -1393,13 +1400,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     );
                   })
                 ) : (
-                  <p style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    color: "red",
-                    paddingRight: "10px",
-                  }}>No comments available</p>
+                   <div className="d-flex align-items-center p-1 mb-2">
+                                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                    No Comments Available
+                                                  </label>
+                                              </div>
                 )
               }
 
@@ -1631,7 +1637,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         show={showAnnouncement}
         onHide={handleCloseAnnouncement}
         centered
-        dialogClassName="custom-modal"
+        // dialogClassName="custom-modal"
         backdrop="static"
       >
 
@@ -1653,8 +1659,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             onClick={handleCloseAnnouncement}
             style={{
               position: "absolute",
-              right: "10px",
-              top: "16px",
+              right: "15px",
+              top: "20px",
               border: "1px solid black",
               background: "transparent",
               cursor: "pointer",
@@ -1662,8 +1668,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "24px",
+              height: "24px",
               borderRadius: "50%",
             }}
           >
@@ -1793,9 +1799,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               )}
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
-          <Button
+            <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -1811,7 +1815,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           >
             {editDetails ? 'Save Changes' : 'Add Announcement'}
           </Button>
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
 
 
