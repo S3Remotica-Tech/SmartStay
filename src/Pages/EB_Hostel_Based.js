@@ -100,7 +100,7 @@ function EBHostelReading(props) {
       payload: { id: hosteldeleteId },
     });
   };
-
+console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCodeForDeleteHostelBased)
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteHostelBased === 200) {
       handleCloseDelete();
@@ -109,6 +109,10 @@ function EBHostelReading(props) {
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
       });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_HOSTEL_BASED" });
+      }, 200);
+
     }
   }, [state.PgList.statusCodeForDeleteHostelBased]);
 
@@ -765,24 +769,24 @@ function EBHostelReading(props) {
                       // borderTopRightRadius: 24,
                     }}>
                         <div
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            // zIndex: 1000,
-                            zIndex:activeRow === v.eb_Id? 1000: "auto",
-                            backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
-                          }}
+                         style={{
+                          cursor: "pointer",
+                          height: 35,
+                          width: 35,
+                          borderRadius: 100,
+                          border: "1px solid #EFEFEF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                          // zIndex: 1000,
+                          zIndex:activeRow === v.eb_Id? 1000: "auto",
+                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
+                        }}
                           onClick={(e) => handleShowActive(v.eb_Id, e)}
                         >
                           <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20}}
+                            style={{ height: 20, width: 20,color:"#000000"}}
                           />
                           {activeRow === v.eb_Id && (
                             <div
@@ -832,6 +836,7 @@ function EBHostelReading(props) {
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
                                       cursor: "pointer",
+                                      color:"#000000"
                                     }}
                                   >
                                     Edit
@@ -858,6 +863,7 @@ function EBHostelReading(props) {
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
                                       cursor: "pointer",
+                                      color:"#000000"
                                     }}
                                   >
                                     Delete
@@ -1516,7 +1522,7 @@ function EBHostelReading(props) {
               flex: 1,
             }}
           >
-            Delete RoomReading?
+            Delete Reading?
           </Modal.Title>
         </Modal.Header>
 
@@ -1530,7 +1536,7 @@ function EBHostelReading(props) {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this RoomReading?
+          Are you sure you want to delete this Reading?
         </Modal.Body>
 
         <Modal.Footer

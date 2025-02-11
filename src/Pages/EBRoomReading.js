@@ -300,7 +300,7 @@ function EBRoomReading(props) {
     }
 
     // Validate Room field
-    if (Rooms === "Select Room" || !isRoomValid) {
+    if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please select a valid Room");
       return;
     } else {
@@ -921,7 +921,7 @@ function EBRoomReading(props) {
                                   onClick={(e) => handleShowDots(v.eb_Id,e)}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
-                                    style={{ height: 20, width: 20 }}
+                                    style={{ height: 20, width: 20,color:"black" }}
                                   />
                                   {activeRow === v.eb_Id && (
                                     <>
@@ -1491,7 +1491,7 @@ function EBRoomReading(props) {
               flex: 1,
             }}
           >
-            Delete RoomReading?
+            Delete Reading?
           </Modal.Title>
         </Modal.Header>
 
@@ -1505,7 +1505,7 @@ function EBRoomReading(props) {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this RoomReading?
+          Are you sure you want to delete this Reading?
         </Modal.Body>
 
         <Modal.Footer
