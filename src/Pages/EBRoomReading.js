@@ -98,6 +98,7 @@ function EBRoomReading(props) {
     setReadingError('')
     setFormError('')
     setEbErrorunit("");
+    setDateError('');
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
   };
   useEffect(() => {
