@@ -109,6 +109,10 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
       });
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_BASED" });
       }, 200);
@@ -353,14 +357,11 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
       handleCloseHostel();
+      
       dispatch({
-        type: "EBSTARTMETERLIST",
+        type: "CUSTOMEREBLIST",
         payload: { hostel_id: selectedHostel },
       });
-      // dispatch({
-      //   type: "CUSTOMEREBLIST",
-      //   payload: { hostel_id: selectedHostel },
-      // });
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -379,6 +380,10 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
       // dispatch({ type: "EBSTARTMETERLIST" });
       dispatch({
         type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+      dispatch({
+        type: "CUSTOMEREBLIST",
         payload: { hostel_id: selectedHostel },
       });
 

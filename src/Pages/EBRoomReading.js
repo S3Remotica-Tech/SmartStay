@@ -469,14 +469,10 @@ function EBRoomReading(props) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
-      }, 200);
-
-
-
-      setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
       }, 200);
 
+    
     }
   }, [state.PgList.statusCodeForEditElectricity, state.PgList.statusCodeForDeleteElectricity])
 

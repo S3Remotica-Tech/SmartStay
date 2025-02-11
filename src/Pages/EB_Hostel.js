@@ -397,6 +397,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
         type: "EBSTARTMETERLIST",
         payload: { hostel_id: selectedHostel },
       });
+      dispatch({ type: "CUSTOMEREBLIST", payload: { hostel_id: selectedHostel } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB" });
