@@ -1491,7 +1491,7 @@ function EBRoomReading(props) {
               flex: 1,
             }}
           >
-            Delete RoomReading?
+            Delete Reading?
           </Modal.Title>
         </Modal.Header>
 
@@ -1505,7 +1505,7 @@ function EBRoomReading(props) {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this RoomReading?
+          Are you sure you want to delete this Reading?
         </Modal.Body>
 
         <Modal.Footer
