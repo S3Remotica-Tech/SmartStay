@@ -153,6 +153,7 @@ function EBRoomReading(props) {
     setebEditShow(false);
     setFormError("");
     setEbErrorunit("");
+    setDateError("")
   };
   const handleDateChange = (date) => {
 
