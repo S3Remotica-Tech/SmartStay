@@ -149,7 +149,7 @@ const RecurringBillList = (props) => {
       <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
-        <td className="table-cells" style={{ border: "none", flexWrap: "wrap", }}>
+        <td className="table-cells" style={{ border: "none", flexWrap: "wrap",paddingTop:'18px' }}>
           <div className="d-flex  align-items-center">
             {/* <div className="d-flex  align-items-center">
               <span >
@@ -198,39 +198,7 @@ const RecurringBillList = (props) => {
                                                 style={{ backgroundColor: "#fff" }}>
                                                 <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
                                             </div> */}
-                    <div
-                      className={"mb-3 d-flex justify-content-start align-items-center gap-2 "}
-                      style={{
-                        // backgroundColor: recurringBillEditPermission ? "#f9f9f9" : "#fff",
-                        cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
-                      }}
-                    //   onClick={() => {
-                    //     if (!recurringBillEditPermission) {
-                    //       handleEdit();
-                    //     }
-                    //   }}
-                    >
-                      <img
-                        src={Edit}
-                        style={{
-                          height: 16,
-                          width: 16,
-                          filter: recurringBillEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-                        }}
-                        alt="Edit"
-                      />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: recurringBillEditPermission ? "#ccc" : "#222222", // Change text color if disabled
-                          cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        Edit
-                      </label>
-                    </div>
+                    
 
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? 'disabled' : ''}`}
@@ -246,6 +214,7 @@ const RecurringBillList = (props) => {
                     >
                       <img
                         src={Delete}
+                        className="mt-1"
                         style={{
                           height: 16,
                           width: 16,
@@ -254,6 +223,7 @@ const RecurringBillList = (props) => {
                         alt="Delete"
                       />
                       <label
+                        className="mt-1"
                         style={{
                           fontSize: 14,
                           fontWeight: 500,

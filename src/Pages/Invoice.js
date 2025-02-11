@@ -1793,6 +1793,7 @@ const InvoicePage = () => {
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
  
@@ -1816,6 +1817,7 @@ const InvoicePage = () => {
   };
   const handleItemsPerPage = (event) => {
     setItemsPage(Number(event.target.value));
+    setCurrentRecurePage(1)
   };
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
 
@@ -1838,6 +1840,7 @@ const InvoicePage = () => {
   };
   const handleItemsPerPageReceipt = (event) => {
     setItemsPERPage(Number(event.target.value));
+    setCurrentReceiptPage(1)
   };
   const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); //Receipt pagination
 
@@ -5582,7 +5585,7 @@ const InvoicePage = () => {
                               )}
 
 
-                            { currentReceiptData.length >= 5 && (
+                            { receiptdata.length >= 5 && (
 
                               <nav
                                 style={{

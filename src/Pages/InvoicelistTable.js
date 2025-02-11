@@ -128,7 +128,7 @@ console.log("propsEDit",props)
               fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"15px"
             }}
-
+            onClick={()=>handleDownload(props.item)}
             >{props.item.Name}</div>
 
           </div>
