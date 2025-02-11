@@ -517,22 +517,6 @@ function StaticExample({ show, setShow, currentItem }) {
           </Modal.Header>
 
          
-          {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
-          )}
 
           {state.AssetList?.alreadyAssetNameHere && (
             <div className="d-flex align-items-center p-1">
@@ -661,6 +645,7 @@ function StaticExample({ show, setShow, currentItem }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginTop:10
                     }}
                   >
                     Vendor Name
@@ -1076,7 +1061,25 @@ function StaticExample({ show, setShow, currentItem }) {
             </div>
           )}
           <Modal.Footer style={{ border: "none" }} className="">
-         
+
+  
+{generalError && (
+            <div className="d-flex align-items-center p-1 mb-2 mt-2" style={{width:"100%",marginLeft:"130px"}}>
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {generalError}
+              </label>
+            </div>
+          )}
+
             <Button
               onClick={handleAddAsset}
               className="w-100"

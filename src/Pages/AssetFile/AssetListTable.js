@@ -384,32 +384,85 @@ function AssetListTable(props) {
         <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static"
           // dialogClassName="custom-modal"
           style={{
-            width: 380,
+            // width: 380,
+            // height: 250,
+            // marginLeft: "500px",
+            // marginTop: "200px",
+            // padding: "15px 25px",
+            width: 388,
             height: 250,
             marginLeft: "500px",
             marginTop: "200px",
-            padding: "15px 25px",
           }}
         >
           <Modal.Header style={{ display: "flex", justifyContent: "center", borderBottom: 'none' }}>
-            <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete asset?</Modal.Title>
+            <Modal.Title style={{
+            
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}>Delete asset?</Modal.Title>
             {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteAsset}/> */}
           </Modal.Header>
 
 
 
 
-          <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", padding: "0px" }}>
+          <Modal.Body style={{
+            //  fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", padding: "0px"
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+              }}>
             Are you sure you want to delete this asset?
           </Modal.Body>
 
 
-          <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-            <Button onClick={handleCloseForDeleteAsset} style={{ borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+          <Modal.Footer className='d-flex justify-content-center' 
+          style={{
+            //  border: "none" 
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}>
+            <Button onClick={handleCloseForDeleteAsset} 
+            style={{ 
+              // borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF",
+              //  color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" 
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+               }}>
               Cancel
             </Button>
 
-            <Button style={{ borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
+            <Button style={{ 
+              // borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: 
+              // "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" 
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              }} onClick={handleDelete}>
               Delete
             </Button>
 
