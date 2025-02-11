@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import More from "../Assets/Images/more.svg";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
@@ -34,6 +35,7 @@ import {
 
 function CheckOut(props) {
 
+console.log("propd",props);
 
 
   const state = useSelector((state) => state);
@@ -55,6 +57,10 @@ function CheckOut(props) {
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
+   const [loading, setLoading] = useState(true);
+   const [trigger, setTrigger] = useState(true)
+
+  
 
   useEffect(() => {
     if (
@@ -99,14 +105,17 @@ function CheckOut(props) {
 
     useEffect(() => {
         if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+          setLoading(false);
+          setTrigger(false)
           // setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
           setTimeout(() => {
             dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
-          }, 2000);
+          }, 1000);
         }
       }, [state.UsersList.GetCheckOutCustomerStatusCode]);
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      setLoading(false);
       checkoutcloseModal()
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
@@ -118,6 +127,7 @@ function CheckOut(props) {
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoading(false);
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -142,6 +152,7 @@ function CheckOut(props) {
       state.UsersList.addCheckoutCustomerStatusCode === 200 ||
       state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
+      setLoading(false);
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       setModalType(null);
@@ -366,7 +377,36 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
 
     <>
-      {checkOutPermissionError ? (
+    <div>
+    {loading &&
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+      {!loading && !trigger && checkOutPermissionError? (
         <>
           <div
             style={{
@@ -405,7 +445,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {currentCustomers?.length > 0 ? (
+            {!loading && currentCustomers?.length > 0 ? (
               <div
                 className="p-10 booking-table-userlist"
                 style={{ paddingBottom: "20px" }}
@@ -1900,6 +1940,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
           </Button>
         </Modal.Footer>
       </Modal>
+    </div>
     </>
   );
 }

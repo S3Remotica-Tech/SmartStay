@@ -13,7 +13,7 @@ import TagAsset from '../../Assets/Images/TagAsset.svg';
 import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button, Form } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-
+import './Expenses.css'
 
 function ExpensesListTable(props) {
 
@@ -77,6 +77,7 @@ function ExpensesListTable(props) {
       setAssetNameError('')
     }
   }
+
 
   const handleTagAsset = () => {
 
@@ -448,6 +449,7 @@ function ExpensesListTable(props) {
       show={showTagAsset}
       onHide={handleHideTagAsset}
       centered
+      dialogClassName="custom-modal"
       backdrop="static"
     >
       <Modal.Header
