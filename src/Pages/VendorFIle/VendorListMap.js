@@ -141,7 +141,7 @@ function VendorListMap(props) {
                     }}
                   >
                     <div
-                      className="mb-2 gap-2"
+                      className="gap-2"
                       style={{
                         display: "flex",
                         alignItems: "center",
@@ -172,7 +172,7 @@ function VendorListMap(props) {
 
 
                     <div
-                      className="mb-2 gap-2"
+                      className="gap-2"
                       style={{
                         display: "flex",
                         alignItems: "center",
