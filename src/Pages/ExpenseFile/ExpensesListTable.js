@@ -466,6 +466,7 @@ function ExpensesListTable(props) {
       centered
       dialogClassName="custom-modal"
       backdrop="static"
+     
     >
       <Modal.Header
         style={{
@@ -545,7 +546,7 @@ function ExpensesListTable(props) {
     MenuProps={{
       PaperProps: {
         sx: {
-          maxHeight: 200,
+          maxHeight: 100,
           zIndex: 1300,
           overflowY: 'auto',
         },
@@ -618,6 +619,7 @@ function ExpensesListTable(props) {
           <Button
             style={{
               marginTop: 25,
+              marginBottom:10,
               width: "100%",
               height: "45px",
               borderRadius: "12px",
