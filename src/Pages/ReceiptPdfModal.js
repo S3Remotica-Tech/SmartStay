@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card, Table, Row, Col, Button } from "react-bootstrap";
+import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
@@ -95,6 +96,11 @@ const ReceiptPdfCard = ({ rowData, handleClosed ,selectedItem}) => {
     const handleBackInvoice = () => {
         handleClosed()
     }
+
+    const amountInWords = rowData?.amount_received 
+    ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
+    : '';
+
 
 console.log("Bill Row Data:",rowData);
 
@@ -248,13 +254,18 @@ console.log("Bill Row Data:",rowData);
                                 </div>
 
                                 <div className="d-flex flex-row">
-                                    <div >
-                                        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight:'30px'  }}>Amount Received in Words:</label>
-                                    </div>
-                                    <div>
-                                        {/* <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id}</label> */}
-                                    </div>
-                                </div>
+    <div>
+        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight: '30px' }}>
+            Amount Received in Words:
+        </label>
+    </div>
+    <div>
+        <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>
+            {amountInWords}
+        </label>
+    </div>
+</div>
+
 
                                 </div>
 
@@ -276,78 +287,7 @@ console.log("Bill Row Data:",rowData);
 
 
 
-{rowData.action === "recuring" && (
-  <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
-    <div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-          }}
-        >
-          EB Per Unit Price :
-        </label>
-      </div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          EB Start Date :
-        </label>
-      </div>
-      <div className="" style={{ width: 100 }}>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          EB End Date :
-        </label>
-      </div>
-    </div>
 
-    <div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-          }}
-        >
-          Rent Start Date:
-        </label>
-      </div>
-      <div>
-        <label
-          style={{
-            fontSize: 15,
-            fontWeight: 600,
-            color: "#000000",
-            fontFamily: "Gilroy",
-            marginTop: 10,
-          }}
-        >
-          Rent End Date:
-        </label>
-      </div>
-    </div>
-  </div>
-)}
 
 
                             <Table className="table-responsive border mt-5 mb-1 ps-3 pe-3">

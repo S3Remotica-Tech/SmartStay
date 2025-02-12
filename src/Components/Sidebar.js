@@ -535,7 +535,7 @@ function Sidebar() {
   console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
   
 
-
+  const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
 
   return (
     <>
@@ -672,9 +672,7 @@ function Sidebar() {
                   </li>
                 )}
 
-{!state.UsersList?.hostelListNewDetails?.data ||
-(Array.isArray(state.UsersList?.hostelListNewDetails?.data) &&
-  state.UsersList.hostelListNewDetails.data.length === 0) ? (
+{!(state.UsersList?.hostelListNewDetails?.data ?? []).length && (
   <li
     className="align-items-center d-flex justify-content-center list-Button mb-2"
     style={{
@@ -687,7 +685,8 @@ function Sidebar() {
   >
     + Add PG
   </li>
-) : null}
+)}
+
 
               <ul
                 className="first p-0 show-scrolls"

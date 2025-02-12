@@ -65,7 +65,7 @@ function PgList(props) {
 
   const popupRef = useRef(null);
 
-  console.log("showHostelDetails",showHostelDetails)
+  console.log("showHostelDetails", showHostelDetails)
 
   let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
@@ -155,12 +155,12 @@ function PgList(props) {
 
   useEffect(() => {
 
-    if ( state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
       setLoader(false);
 
-setTimeout(()=>{
-  setTrigger(false)
-},100)
+      setTimeout(() => {
+        setTrigger(false)
+      }, 100)
 
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
@@ -173,9 +173,9 @@ setTimeout(()=>{
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
       setFilteredData([]);
       setLoader(false);
-      setTimeout(()=>{
+      setTimeout(() => {
         setTrigger(false)
-      },100)
+      }, 100)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 1000);
@@ -250,18 +250,18 @@ setTimeout(()=>{
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
-  
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
-  
+
         const updatedFloors = showHostelDetails?.floorDetails || [];
-  
+
         if (updatedFloors.length > 0) {
           // Find the first floor within the visible range
           const firstVisibleFloor = updatedFloors.find(
             (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
           );
-  
+
           if (firstVisibleFloor) {
             setFloorClick(firstVisibleFloor.floor_id);
             setKey(firstVisibleFloor.floor_id.toString());
@@ -280,9 +280,9 @@ setTimeout(()=>{
         }
       }, 500);
     }
-  }, [state.UsersList.deleteFloorSuccessStatusCode, ]);
-  
-  
+  }, [state.UsersList.deleteFloorSuccessStatusCode,]);
+
+
 
 
 
@@ -395,7 +395,7 @@ setTimeout(()=>{
   }, [state.UsersList.hosteListStatusCode])
 
 
-console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
+  console.log("all hostel", state.UsersList?.statuscodeForhotelDetailsinPg)
 
 
   useEffect(() => {
@@ -700,7 +700,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
 
   const handleMoreClick = () => setShowMore(!showMore);
 
-  
+
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -716,52 +716,52 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
     showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;
 
- 
+
   const handlePrev = () => {
     if (floorClick > 0) {
-     
+
       const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
         (floor) => floor.floor_id === floorClick
       ) - 1;
-  
+
       if (prevFloorIndex >= 0) {
         const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
-  
-        
+
+
         setKey(prevFloor.floor_id.toString());
         setFloorClick(prevFloor.floor_id);
         setFloorName(prevFloor.floor_name);
-  
-       
+
+
         if (prevFloorIndex < visibleRange[0]) {
           setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
         }
       }
     }
   };
-  
 
- 
-  
+
+
+
   const handleNext = () => {
     const floorIndex = showHostelDetails.floorDetails.findIndex(
       (floor) => floor.floor_id === floorClick
     );
-  
+
     if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
       const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
-  
-     
+
+
       setKey(nextFloor.floor_id.toString());
       setFloorClick(nextFloor.floor_id);
       setFloorName(nextFloor.floor_name);
-  
-            if (floorIndex + 1 > visibleRange[1]) {
+
+      if (floorIndex + 1 > visibleRange[1]) {
         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
       }
     }
   };
-  
+
 
 
 
@@ -867,7 +867,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
         <div className="container">
           {hidePgList && (
             <>
-              <div 
+              <div
                 className="container justify-content-between d-flex align-items-center flex-wrap "
                 style={{
                   height: 83,
@@ -881,7 +881,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div style={{marginTop:-5}}>
+                <div style={{ marginTop: -5 }}>
                   <label
                     style={{
                       fontSize: 18,
@@ -996,7 +996,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                     <Sort Size="24" color="#222" variant="Outline" />
                   </div> */}
 
-                  <div style={{marginTop:5}}>
+                  <div style={{ marginTop: 5 }}>
                     <Button
                       onClick={handleShowsettingsPG}
                       disabled={addPermissionError}
@@ -1018,8 +1018,8 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px",
-                        paddingLeft:30,
-                        paddingRight:26           
+                        paddingLeft: 30,
+                        paddingRight: 26
 
                       }}
                     >
@@ -1090,32 +1090,96 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
               )}
               <div className="container mt-2" style={{}}>
                 <div className="row row-gap-3">
-                  {/* {currentItems.length > 0 &&
-                    currentItems.map((hostel) => {
-                      return (
-                        <> */}
-                  <div
-                    // key={hostel.id}
-                    className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
-                  >
-                    <PayingHostel
-                      // hostel={hostel}
-                      // key={hostel.id}
-                      OnSelectHostel={handleSelectedHostel}
-                      onRowVisiblity={handleDisplayPgList}
-                      OnEditHostel={handleEditHostel}
-                      editPermissionError={editPermissionError}
-                      deletePermissionError={deletePermissionError}
-                      filteredData={filteredData}
-                      handleShowsettingsPG={handleShowsettingsPG}
-                    />
-                  </div>
-                  {/* </>
-                      );
-                    })} */}
+                  {filteredData?.length > 0 ?
 
-                  {!loader && !trigger && filteredData?.length === 0 && (
                     <div
+                      // key={hostel.id}
+                      className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
+                    >
+                      <PayingHostel
+                        // hostel={hostel}
+                        // key={hostel.id}
+                        OnSelectHostel={handleSelectedHostel}
+                        onRowVisiblity={handleDisplayPgList}
+                        OnEditHostel={handleEditHostel}
+                        editPermissionError={editPermissionError}
+                        deletePermissionError={deletePermissionError}
+                        filteredData={filteredData}
+                        handleShowsettingsPG={handleShowsettingsPG}
+                      />
+                    </div>
+
+                    :
+                    !loader && !trigger && filteredData?.length === 0 && (
+                      <div
+                        className="d-flex align-items-center justify-content-center fade-in"
+                        style={{
+                          width: "100%",
+                          margin: "0px auto",
+                          backgroundColor: "",
+                        }}
+                      >
+                        <div>
+                          <div className="d-flex  justify-content-center">
+                            <img
+                              src={EmptyState}
+                              style={{ height: 240, width: 240 }}
+                              alt="Empty state"
+                            />
+                          </div>
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No Paying Guest available
+                          </div>
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no Paying Guest added.
+                          </div>
+                          {/* <div className="d-flex justify-content-center pb-1 mt-3">
+                          {" "}
+                          <Button
+                            style={{
+                              fontSize: 16,
+                              backgroundColor: "#1E45E1",
+                              color: "white",
+                              fontWeight: 600,
+                              borderRadius: 12,
+                              padding: "20px 40px",
+                              fontFamily: "Gilroy",
+                            }}
+                            onClick={handleShowsettingsPG}
+                          >
+                            {" "}
+                            + Manage PG
+                          </Button>
+                        </div> */}
+                        </div>
+                        <div></div>
+                      </div>
+                    )
+
+
+                  }
+
+
+                  {
+                    !hostel_Id && <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
                         width: "100%",
@@ -1155,28 +1219,12 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                         >
                           There are no Paying Guest added.
                         </div>
-                        {/* <div className="d-flex justify-content-center pb-1 mt-3">
-                          {" "}
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              padding: "20px 40px",
-                              fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowsettingsPG}
-                          >
-                            {" "}
-                            + Manage PG
-                          </Button>
-                        </div> */}
+
                       </div>
                       <div></div>
                     </div>
-                  )}
+                  }
+
 
                   <div className="mt-2 mb-2 d-flex justify-content-center w-100">
                     {loader && (
@@ -1214,7 +1262,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
               </div>
 
 
-              
+
             </>
           )}
 
@@ -1250,7 +1298,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   </div>
 
-                  <div style={{marginTop:5}}>
+                  <div style={{ marginTop: 5 }}>
                     <Button
                       style={{
                         fontSize: 14,
@@ -1259,7 +1307,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                         fontWeight: 600,
                         borderRadius: 8,
                         padding: "11px 50px",
-                        paddingLeft:52,
+                        paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
@@ -1271,7 +1319,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                 </div>
               </div>
 
-              <div className="show-scroll"  style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto" }}>
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1356,11 +1404,11 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                                           height: "fit-content",
                                         }}
                                       >
-                                                                                {floor.floor_name
+                                        {floor.floor_name
                                           ? isNaN(floor.floor_name)
-                                            ? floor.floor_name.charAt(0) 
-                                            : floor.floor_name            
-                                          : floor.floor.id                
+                                            ? floor.floor_name.charAt(0)
+                                            : floor.floor_name
+                                          : floor.floor.id
                                         }
                                       </div>
                                       <div
@@ -1383,7 +1431,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                                           padding: "1px 16px ",
                                         }}
                                       >
-                                                                               {typeof floor.floor_name === "string" &&
+                                        {typeof floor.floor_name === "string" &&
                                           floor.floor_name.trim() !== "" &&
                                           floor.floor_name !== "null"
                                           ? isNaN(floor.floor_name)
@@ -1419,7 +1467,7 @@ console.log("all hostel",state.UsersList?.statuscodeForhotelDetailsinPg)
                                     : "#000000"
                                 }
                                 variant="Bold"
-                               style={{cursor:"pointer"}}
+                                style={{ cursor: "pointer" }}
                               />
                             </div>
                           </div>

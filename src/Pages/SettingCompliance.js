@@ -19,7 +19,9 @@ function SettingCompliance({ hostelid }) {
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [showForm, setShowForm] = useState(false);
     const [complaintTypeName, setComplaintTypeName] = useState('')
-    const [comlaintError, setComplaintError] = useState('')
+    const [originalComplaintTypeName, setOriginalComplaintTypeName] = useState('');
+    const [complaintError, setComplaintError] = useState('')
+    const [isChangedError, setIsChangedError] = useState("");
     const [edit, setEdit] = useState(false);
     const [id, setId] = useState('');
     const [rowDetails, setRowDetails] = useState('');
@@ -87,12 +89,14 @@ function SettingCompliance({ hostelid }) {
         setEdit(true)
         setId(rowDetails.id)
         setComplaintTypeName(rowDetails.complaint_name)
+        setOriginalComplaintTypeName(rowDetails.complaint_name);
     }
 
     const handleClose = () => {
         setShowForm(false)
         setId('')
         setComplaintTypeName('')
+        setOriginalComplaintTypeName('');
         setShowEditForm(false)
     }
 
@@ -121,16 +125,32 @@ function SettingCompliance({ hostelid }) {
         }
     }
 
-    const handleEditType = () => {
+    //edit complaint type
+    //COMPLAINT-TYPE-LIST 
+    //COMPLAINT-TYPE-EDIT (complaint_name,id,hostel_id)
+    // const handleEditType = () => {
 
-        if (!complaintTypeName) {
-            setComplaintError('Please enter Complaint Type')
+    //     if (!complaintTypeName) {
+    //         setIsChangedError('No changes Detected')
+    //     }
+    //     else {
+    //         dispatch({ type: 'COMPLAINT-TYPE-EDIT', payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id } })
+    //         setIsChangedError('')
+    //     }
+    // }
+
+    const handleEditType = () => {
+        if (complaintTypeName === originalComplaintTypeName) {
+            setIsChangedError('No changes detected');
+        } else {
+            dispatch({ 
+                type: 'COMPLAINT-TYPE-EDIT', 
+                payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id } 
+            });
+            setIsChangedError('');
         }
-        else {
-            dispatch({ type: 'COMPLAINT-TYPE-EDIT', payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id } })
-            setComplaintError('')
-        }
-    }
+    };
+    
 
 
     const handleComplaintType = (e) => {
@@ -635,7 +655,7 @@ function SettingCompliance({ hostelid }) {
 
                             </Form.Group>
                             <div>
-                                {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+                                {isChangedError && <span style={{ color: "red", fontSize: 16 }}> * {isChangedError} </span>}
                             </div>
                         </div>
 
@@ -741,12 +761,12 @@ function SettingCompliance({ hostelid }) {
                                 />
                             </Form.Group>
                             <div style={{ marginTop: "-10px" }}>
-                                {comlaintError && (
+                                {complaintError && (
                                     <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily:"Gilroy" }}>
                                         <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
                                             <MdError />
                                         </span>
-                                        {comlaintError}
+                                        {complaintError}
                                     </p>
                                 )}
                             </div>

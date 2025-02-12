@@ -14,9 +14,11 @@ import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button, Form } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import './Expenses.css'
-
+import { FaChevronDown } from "react-icons/fa";
+import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 function ExpensesListTable(props) {
-
+  
+  const [selectedAsset, setSelectedAsset] = useState(null);
 
   const [showDots, setShowDots] = useState('')
   const popupRef = useRef(null);
@@ -67,24 +69,37 @@ function ExpensesListTable(props) {
   const [assetname, setAssetName] = useState('')
   const [assetnameerror, setAssetNameError] = useState('')
 
-  const handleAssetname = (e) => {
-    setAssetName(e.target.value)
+  // const handleAssetname = (e) => {
+  //   setAssetName(e.target.value)
 
-    if (!e.target.value) {
-      setAssetNameError("Please select a assetname ")
-    }
-    else {
-      setAssetNameError('')
-    }
-  }
+  //   if (!e.target.value) {
+  //     setAssetNameError("Please select a assetname ")
+  //   }
+  //   else {
+  //     setAssetNameError('')
+  //   }
+  // }
+  const handleAssetname = (event) => {
+    const { value } = event.target;
+    console.log("Selected Asset:", value); // This should now show the selected value
+    setAssetName(value);
+    setAssetNameError(value ? '' : 'Please select an asset');
+  };
+  
+  
 
 
-  const handleTagAsset = () => {
+
+
+ 
+  
+ const handleTagAsset = () => {
 
     if (!assetname) {
       setAssetNameError("Please select a assetname ")
       return;
     }
+    setAssetNameError("");
     if (assetname) {
       dispatch({ type: 'ADDEXPENSETAG', payload: { id: props.item.id, asset_id: assetname, hostel_id: props.item.hostel_id } })
     }
@@ -457,7 +472,7 @@ function ExpensesListTable(props) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          borderBottom: "1px solid#E7E7E7",
+          // borderBottom: "1px solid#E7E7E7",
           paddingBottom: "10px",
         }}
       >
@@ -483,42 +498,89 @@ function ExpensesListTable(props) {
          
           <Modal.Body>
         <div style={{ marginTop: 10, width: "100%" }}>
-          <label className='mb-1'
-            style={{
-              fontWeight: 500,
-              fontSize: 14,
-              fontFamily: "Gilroy, sans-serif",
-              display: "block",
-              textAlign: "left",
-            }}
-          >
-            Asset Unique Name
-          </label>
-          <Form.Select
-         id="vendor-select"
-         className='mb-2'
-              value={assetname}
-              onChange={handleAssetname}
-              style={{ fontWeight: 500, fontFamily: 'Gilroy, sans-serif' }}
-            >
-              <option value="" disabled>
-                Select an Asset
-              </option>
-              {state.AssetList.assetList.length > 0 ? (
-                state.AssetList.assetList.map((view) => (
-                  <option key={view.asset_id} value={view.asset_id}>
-                    {view.asset_name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  No assets available
-                </option>
-              )}
-            </Form.Select>
+
+        <FormControl
+  fullWidth
+  variant="outlined"
+  className="mb-2"
+  sx={{
+    '& #vendor-select': {
+    height: 'auto', // Reset height
+  },
+    '& .MuiOutlinedInput-root': {
+      // height: '50px',
+      '& fieldset': {
+        borderColor: '#D9D9D9', // Main border color
+      },
+      '&:hover fieldset': {
+        borderColor: '#40a9ff',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#40a9ff',
+      },
+    },
+    '& .MuiSelect-select': {
+      paddingTop: '10px',
+      paddingBottom: '10px',
+      display: 'flex',
+      alignItems: 'center',
+      color: '#000',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none', // Remove extra inner border
+    },
+   
+   
+  }}
+>
+  {/* <InputLabel id="asset-select-label">Select an Asset</InputLabel> */}
+  <Select
+    labelId="asset-select-label"
+    id="vendor-select"
+    value={assetname}
+    onChange={handleAssetname}
+    label="Select"
+    displayEmpty
+   
+    MenuProps={{
+      PaperProps: {
+        sx: {
+          maxHeight: 200,
+          zIndex: 1300,
+          overflowY: 'auto',
+        },
+      },
+    }}
+    renderValue={(selected) => {
+      if (!selected) {
+        return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
+      }
+      return selected;
+    }}
+  >
+   
+    {state.AssetList.assetList.length > 0 ? (
+      state.AssetList.assetList.map((view) => (
+        <MenuItem key={view.asset_id} value={view.asset_name}>
+          {view.asset_name}
+        </MenuItem>
+      ))
+    ) : (
+      <MenuItem value="" disabled>
+        No assets available
+      </MenuItem>
+    )}
+  </Select>
+ 
+</FormControl>
 
 
-          {state.AssetList.assetList &&
+
+
+
+
+
+  {state.AssetList.assetList &&
             state.AssetList.assetList.length === 0 && (
               <label
                 className="pb-1"
@@ -552,9 +614,10 @@ function ExpensesListTable(props) {
               </label>
             </div>
           }
+          
           <Button
             style={{
-              marginTop: 15,
+              marginTop: 25,
               width: "100%",
               height: "45px",
               borderRadius: "12px",
