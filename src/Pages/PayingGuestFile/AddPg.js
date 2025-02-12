@@ -471,7 +471,7 @@ useEffect(() => {
         </Modal.Header>
         {generalError && (
           <div className="d-flex align-items-center p-1 mt-2 mb-2">
-            <MdError style={{ color: "red", marginRight: "5px" }} />
+            <MdError style={{fontSize:"14px", color: "red", marginRight: "5px" }} />
             <label
               className="mb-0"
               style={{
@@ -591,7 +591,7 @@ useEffect(() => {
 
               {pgNameError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
@@ -686,7 +686,7 @@ useEffect(() => {
 
               {mobileError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{fontSize: "15px", color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "14px", color: "red", marginRight: "5px" ,marginBoTop:"1px"}} />
                   <label
                     className="mb-0"
                     style={{
@@ -738,7 +738,7 @@ useEffect(() => {
 
               {emailError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{fontSize: "15px", color: "red", marginRight: "5px" }} />
+                  <MdError style={{fontSize: "14px", color: "red", marginRight: "5px" }} />
                   <label
                     className="mb-0"
                     style={{
@@ -987,7 +987,7 @@ useEffect(() => {
         <Modal.Footer className="d-flex align-items-center justify-content-center" style={{ border: "none" }}>
         {isChangedError && (
           <div className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
-            <MdError style={{ color: "red", marginRight: "5px" }} />
+            <MdError style={{fontSize:"14px",color: "red", marginRight: "5px" }} />
             <label
               className="mb-0"
               style={{

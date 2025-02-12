@@ -618,7 +618,7 @@ function BookingModal(props) {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",
@@ -747,13 +747,14 @@ function BookingModal(props) {
                 ></p>
                 {phoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
                     <span
                       style={{
                         color: "red",
                         fontSize: 12,
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                       
                       }}
                     >
                       {phoneError}
@@ -763,7 +764,7 @@ function BookingModal(props) {
 
                 {phoneErrorMessage && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{marginRight:"5px",fontSize:"15px",marginTop:"1px"}}/>
                     <span
                       style={{
                         color: "red",
@@ -778,7 +779,7 @@ function BookingModal(props) {
                 )}
                 {state.Booking.bookingPhoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
                     <span
                       style={{
                         color: "red",
@@ -823,7 +824,7 @@ function BookingModal(props) {
               </Form.Group>
               {emailError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",
@@ -838,7 +839,7 @@ function BookingModal(props) {
               )}
               {emailIdError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}} />
                   <span
                     style={{
                       color: "red",
@@ -853,7 +854,7 @@ function BookingModal(props) {
               )}
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",
@@ -868,7 +869,7 @@ function BookingModal(props) {
               )}
               {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",
@@ -915,7 +916,7 @@ function BookingModal(props) {
             </Form.Group>
             {addressError && (
               <div style={{ color: "red" }}>
-                <MdError />
+                <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
                 <span
                   style={{
                     color: "red",
@@ -967,7 +968,7 @@ function BookingModal(props) {
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",
@@ -1017,7 +1018,7 @@ function BookingModal(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
                   <span
                     style={{
                       color: "red",

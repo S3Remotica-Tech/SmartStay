@@ -906,6 +906,7 @@ function SettingInvoice({ hostelid }) {
                             style={{
                               fontSize: "13px",
                               color: "red",
+                              
                             }}
                           >
                             {prefixerrormsg !== " " && (
@@ -1166,16 +1167,16 @@ function SettingInvoice({ hostelid }) {
 
 
                   {totalErrormsg.trim() !== "" && (
-                    <div>
+                    <div className="text-center">
                       <p
                         style={{
                           fontSize: "15px",
                           color: "red",
-                          marginTop: "3px",
+                          marginTop: "13px",
                         }}
                       >
                         {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "13px", color: "red" }} />
+                          <MdError style={{ fontSize: "12px", color: "red",marginBottom:"2px" }} />
                         )}{" "}
                         {totalErrormsg}
                       </p>
@@ -1196,6 +1197,7 @@ function SettingInvoice({ hostelid }) {
                     fontFamily: "Gilroy",
                     fontStyle: "normal",
                     lineHeight: "normal",
+                    marginTop:"-23px"
                   }}
                   onClick={handleInvoiceSettings}
                 >

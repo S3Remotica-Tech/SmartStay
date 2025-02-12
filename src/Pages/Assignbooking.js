@@ -682,7 +682,7 @@ function AssignBooking(props) {
 
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <MdError style={{ marginRight: "5px", fontSize: 13,marginBottom:"2px" }} />
                   <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
                 </div>
               )}
@@ -787,7 +787,7 @@ function AssignBooking(props) {
               </Form.Group>
               {roomError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <MdError style={{ marginRight: "5px", fontSize: 13,marginBottom:"2px" }} />
                   <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
@@ -903,7 +903,7 @@ function AssignBooking(props) {
 
                 {bedError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                    <MdError style={{ marginRight: "5px", fontSize: 13,marginBottom:"1px" }} />
                     <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>
                   </div>
                 )}
@@ -940,7 +940,7 @@ function AssignBooking(props) {
               {dateError && (
 
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <MdError style={{ marginRight: "5px", fontSize: 13,marginBottom:"1px" }} />
                   <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
                 </div>
               )}
@@ -980,7 +980,7 @@ function AssignBooking(props) {
               </Form.Group>
               {advanceError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{marginBottom:"3px"}}/>
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{advanceError}</span>
                 </div>
               )}

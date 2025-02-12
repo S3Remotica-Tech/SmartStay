@@ -593,10 +593,22 @@ console.log("called")
                               <Col>
                                 <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Per unit Amount</Form.Label>
                                 <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹ {v.amount}</h6>
-                                {/* <InputGroup>
-                      <InputGroup.Text>₹</InputGroup.Text>
-                      <Form.Control type="text" value="1,500" disabled />
-                    </InputGroup> */}
+                                {unitErr && (
+                <p 
+                  style={{
+                    color: "red",
+                    fontSize: 14,
+                    display: "flex",
+                    alignItems: "center",
+                    margin: 0,
+                  }}
+                >
+                  <span style={{ fontSize: "20px", marginRight: "5px" }}>
+                    <MdError style={{ fontSize: "15px", marginBottom: "5px" }} />
+                  </span>
+                  {unitErr}
+                </p>
+              )}
                               </Col>
 
                               <Col>
@@ -737,6 +749,7 @@ console.log("called")
               &times;
             </span>
           </button>
+
         </Modal.Header>
         <Modal.Body style={{ marginBottom: "0px" }}>
           <div className="col">
@@ -808,8 +821,9 @@ console.log("called")
                 />
               </Form.Group>
               {/* {amountErr && <span style={{ color: "red", fontSize: 16 }}> {amountErr} </span>} */}
+              <div className='text-center'>
               {amountErr && (
-                <p
+                <p 
                   style={{
                     color: "red",
                     fontSize: 14,
@@ -824,7 +838,7 @@ console.log("called")
                   {amountErr}
                 </p>
               )}
-
+              </div>
             </div>
 
           </div>

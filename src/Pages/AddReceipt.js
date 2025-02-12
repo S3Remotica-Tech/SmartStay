@@ -563,7 +563,7 @@ const AddReceiptForm = (props) => {
   {customererrmsg.trim() !== "" && (
 <div>
   <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"5px" }} />} {customererrmsg}
+    {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"4px" }} />} {customererrmsg}
   </p>
 </div>
 )}
@@ -583,8 +583,8 @@ const AddReceiptForm = (props) => {
         />
                  {referencideerrmsg.trim() !== "" && (
 <div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {referencideerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {referencideerrmsg}
+  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
+    {referencideerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {referencideerrmsg}
   </p>
 </div>
 )}
@@ -658,9 +658,9 @@ const AddReceiptForm = (props) => {
 
     {invoicenumbererrmsg.trim() !== "" && (
       <div>
-        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+        <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
           {invoicenumbererrmsg !== " " && (
-            <MdError style={{ fontSize: "15px", color: "red" }} />
+            <MdError style={{ fontSize: "14px", color: "red" }} />
           )}{" "}
           {invoicenumbererrmsg}
         </p>
@@ -704,8 +704,8 @@ const AddReceiptForm = (props) => {
         />
                  {receivedamounterrmsg.trim() !== "" && (
 <div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {receivedamounterrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {receivedamounterrmsg}
+  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
+    {receivedamounterrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"3px" }} />} {receivedamounterrmsg}
   </p>
 </div>
 )}
@@ -718,7 +718,7 @@ const AddReceiptForm = (props) => {
 
 <div className="row ">
   <div className="col-lg-3 col-md-5 col-sm-12 ">
-    <Form.Group controlId="invoiceDate" className="mb-3">
+    <Form.Group controlId="invoiceDate" className="mb-1">
       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
         Payment Date 
         {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
@@ -744,9 +744,9 @@ const AddReceiptForm = (props) => {
       </div>
     </Form.Group>
     {payment_dateerrmsg.trim() !== "" && (
-      <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px",marginBottom:"3px" }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      <div className="d-flex align-items-center">
+        <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px",marginBottom:"1px" }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
           {payment_dateerrmsg}
         </label>
       </div>
@@ -756,7 +756,7 @@ const AddReceiptForm = (props) => {
   {/* Due Date */}
   <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                  className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -798,8 +798,8 @@ const AddReceiptForm = (props) => {
                   </Form.Select>
                 </Form.Group>
                 {paymentError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
                     <label
                       className="mb-0"
                       style={{

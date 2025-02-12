@@ -143,14 +143,14 @@ function SettingCompliance({ hostelid }) {
         if (complaintTypeName === originalComplaintTypeName) {
             setIsChangedError('No changes detected');
         } else {
-            dispatch({ 
-                type: 'COMPLAINT-TYPE-EDIT', 
-                payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id } 
+            dispatch({
+                type: 'COMPLAINT-TYPE-EDIT',
+                payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id }
             });
             setIsChangedError('');
         }
     };
-    
+
 
 
     const handleComplaintType = (e) => {
@@ -223,7 +223,7 @@ function SettingCompliance({ hostelid }) {
     // pagination
     const indexOfLastRowCompliance = compliancecurrentPage * compliancerowsPerPage;
     const indexOfFirstRowCompliance = indexOfLastRowCompliance - compliancerowsPerPage;
-    const currentRowCompliance  = complianceFilterddata?.slice(
+    const currentRowCompliance = complianceFilterddata?.slice(
         indexOfFirstRowCompliance,
         indexOfLastRowCompliance
 
@@ -300,7 +300,7 @@ function SettingCompliance({ hostelid }) {
                                         fontWeight: 600,
                                         borderRadius: "8px",
                                         padding: "11px 15px",
-                                        paddingLeft:16,
+                                        paddingLeft: 16,
                                         // width: "auto",
                                         // maxWidth: "100%",
                                         // maxHeight: 50,
@@ -340,103 +340,103 @@ function SettingCompliance({ hostelid }) {
 
             <div>
                 {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
-             { currentRowCompliance && currentRowCompliance.length > 0 ? (
-                //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}
-                    
+                {currentRowCompliance && currentRowCompliance.length > 0 ? (
+                    //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}
+
                     <div className="container">
                         <div className="row">
                             {
-                                currentRowCompliance.map((u,i) => {
-                                // state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
+                                currentRowCompliance.map((u, i) => {
+                                    // state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
                                     return (
-                            <>
-                                <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
-                                    <div
-                                        className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
-                                        style={{ height: 64, width: "100%" }}
-                                    >
-                                        <div className="d-flex align-items-center">
-                                            <img src={message} width={24} height={24} alt="Role Icon" />
-                                            <span
-                                                style={{
-                                                    marginLeft: 20,
-                                                    fontSize: 16,
-                                                    fontWeight: 600,
-                                                    fontFamily: "Gilroy",
-                                                    color: "#222222",
-                                                    // whiteSpace:"nowrap"
-                                                }}
-                                            >
-                                                {u.complaint_name}
-                                            </span>
-                                        </div>
-                                        <button className="btn p-2 border-0 bg-transparent">
-                                            <img src={round} width={34} height={34} alt="Menu Icon"
-                                                onClick={(e) => handleShowDots(e, u, i)}
-                                            />
-                                        </button>
-                                    </div>
-
-                                    {/* {activeRow && showDots === i && ( */}
-                                    {showDots === i && menuLoaded && (
-                                        <div
-                                            ref={popupRef}
-                                            className="position-absolute"
-                                            style={{
-                                                cursor: "pointer",
-                                                backgroundColor: "#fff",
-                                                top: popupPosition.top,
-                                                left: popupPosition.left,
-                                                // width: 163,
-                                                width: 140,
-                                                border: "1px solid #EBEBEB",
-                                                borderRadius: 10,
-                                                display: "flex",
-                                                justifyContent: "start",
-                                                padding: 10,
-                                                alignItems: "center",
-                                                zIndex: 1000,
-                                            }}
-                                        >
-                                            <div>
+                                        <>
+                                            <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
                                                 <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    onClick={() => handleEdit(u)}
+                                                    className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
+                                                    style={{ height: 64, width: "100%" }}
                                                 >
-                                                    <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                    <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222", cursor: "pointer" }}>
-                                                        Edit
-                                                    </label>
+                                                    <div className="d-flex align-items-center">
+                                                        <img src={message} width={24} height={24} alt="Role Icon" />
+                                                        <span
+                                                            style={{
+                                                                marginLeft: 20,
+                                                                fontSize: 16,
+                                                                fontWeight: 600,
+                                                                fontFamily: "Gilroy",
+                                                                color: "#222222",
+                                                                // whiteSpace:"nowrap"
+                                                            }}
+                                                        >
+                                                            {u.complaint_name}
+                                                        </span>
+                                                    </div>
+                                                    <button className="btn p-2 border-0 bg-transparent">
+                                                        <img src={round} width={34} height={34} alt="Menu Icon"
+                                                            onClick={(e) => handleShowDots(e, u, i)}
+                                                        />
+                                                    </button>
                                                 </div>
-                                                <div
-                                                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                    style={{ backgroundColor: "#fff" }}
-                                                    onClick={() => handleDeleteClick()}
-                                                >
-                                                    <img
-                                                        src={Delete}
-                                                        style={{ height: 16, width: 16 }}
-                                                    />{" "}
-                                                    <label
+
+                                                {/* {activeRow && showDots === i && ( */}
+                                                {showDots === i && menuLoaded && (
+                                                    <div
+                                                        ref={popupRef}
+                                                        className="position-absolute"
                                                         style={{
-                                                            fontSize: 14,
-                                                            fontWeight: 500,
-                                                            fontFamily: "Gilroy,sans-serif",
-                                                            color: "#FF0000",
                                                             cursor: "pointer",
+                                                            backgroundColor: "#fff",
+                                                            top: popupPosition.top,
+                                                            left: popupPosition.left,
+                                                            // width: 163,
+                                                            width: 140,
+                                                            border: "1px solid #EBEBEB",
+                                                            borderRadius: 10,
+                                                            display: "flex",
+                                                            justifyContent: "start",
+                                                            padding: 10,
+                                                            alignItems: "center",
+                                                            zIndex: 1000,
                                                         }}
                                                     >
-                                                        Delete
-                                                    </label>
-                                                </div>
+                                                        <div>
+                                                            <div
+                                                                className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                                onClick={() => handleEdit(u)}
+                                                            >
+                                                                <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222", cursor: "pointer" }}>
+                                                                    Edit
+                                                                </label>
+                                                            </div>
+                                                            <div
+                                                                className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                                style={{ backgroundColor: "#fff" }}
+                                                                onClick={() => handleDeleteClick()}
+                                                            >
+                                                                <img
+                                                                    src={Delete}
+                                                                    style={{ height: 16, width: 16 }}
+                                                                />{" "}
+                                                                <label
+                                                                    style={{
+                                                                        fontSize: 14,
+                                                                        fontWeight: 500,
+                                                                        fontFamily: "Gilroy,sans-serif",
+                                                                        color: "#FF0000",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                >
+                                                                    Delete
+                                                                </label>
+                                                            </div>
 
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </>
+                                        </>
 
-                            )
+                                    )
                                 })
                             }
                         </div>
@@ -622,7 +622,7 @@ function SettingCompliance({ hostelid }) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col">
-                        <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                        <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12 ">
                             <Form.Group>
                                 <Form.Label
                                     style={{
@@ -654,8 +654,14 @@ function SettingCompliance({ hostelid }) {
                                 />
 
                             </Form.Group>
-                            <div>
-                                {isChangedError && <span style={{ color: "red", fontSize: 16 }}> * {isChangedError} </span>}
+                           
+                            <div className="d-flex align-items-center justify-content-center"style={{marginTop:"10px"}}>
+                                {isChangedError && (
+                                    <>
+                                        <MdError style={{marginRight:"7px",color:"red"}}/>
+                                        <span style={{ color: "red", fontSize: 16 }}> {isChangedError} </span>
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -670,7 +676,7 @@ function SettingCompliance({ hostelid }) {
                             borderRadius: 12,
                             fontSize: 16,
                             fontFamily: "Montserrat, sans-serif",
-                            marginTop: 20,
+                            marginTop: 8,
                         }}
                         onClick={handleEditType}
                     >
@@ -762,7 +768,7 @@ function SettingCompliance({ hostelid }) {
                             </Form.Group>
                             <div style={{ marginTop: "-10px" }}>
                                 {complaintError && (
-                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily:"Gilroy" }}>
+                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily: "Gilroy" }}>
                                         <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
                                             <MdError />
                                         </span>
