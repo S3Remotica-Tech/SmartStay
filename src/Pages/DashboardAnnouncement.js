@@ -453,9 +453,9 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          // position:"fixed",
-          // zIndex:1000
+          justifyContent: "flex-end"
+        
+
         }}
       >
         <Button
