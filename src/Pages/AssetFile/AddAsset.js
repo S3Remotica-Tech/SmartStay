@@ -882,6 +882,7 @@ function StaticExample({ show, setShow, currentItem }) {
                   className=""
                   controlId="exampleForm.ControlInput1"
                 >
+                  
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -893,7 +894,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     Mode of payment{" "}
                     <span
                       style={{
-                        color: "#FF0000",
+                        color: "#FF0000",fontSize:20,
                         display: modeOfPayment ? "none" : "inline-block",
                       }}
                     >
