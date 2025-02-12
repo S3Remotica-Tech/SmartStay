@@ -156,14 +156,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             </Modal.Header>
 
             <Modal.Body>
-              {isChangedError && (
-                <div
-                  style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
-                >
-                  <MdError style={{ marginRight: "4px" }} />
-                  {isChangedError}
-                </div>
-              )}
+             
 
               {hostelError && (
                 <div className="d-flex align-items-center mt-1">
@@ -308,6 +301,14 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 </div> */}
               </div>
             </Modal.Body>
+            {isChangedError && (
+                <div className="d-flex align-items-center justify-content-center"
+                  style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
+                >
+                  <MdError style={{ marginRight: "5px" }} />
+                  {isChangedError}
+                </div>
+              )}
 
             <Modal.Footer style={{ border: "none" }}>
               <Button

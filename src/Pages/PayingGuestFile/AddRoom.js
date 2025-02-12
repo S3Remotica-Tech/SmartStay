@@ -236,13 +236,13 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           </Modal.Body>
 
           {isChangedError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+            <div className="d-flex align-items- justify-content-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px",marginTop:"2px" }} />
               <label
                 className="mb-0"
                 style={{
                   color: "red",
-                  fontSize: "12px",
+                  fontSize: "13px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}

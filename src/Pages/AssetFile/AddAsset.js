@@ -537,7 +537,7 @@ function StaticExample({ show, setShow, currentItem }) {
           <Modal.Body>
             <div className="row mt-1">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group controlId="exampleForm.ControlInput1"
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
                     style={{
@@ -569,7 +569,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
 
                 {assetError && (
-                  <div className="d-flex align-items-center p-1">
+                  <div className="d-flex align-items-center">
                     <MdError style={{ color: "red", marginRight: "5px" ,fontSize:"13px",marginBottom:"2px"}} />
                     <label
                       className="mb-0"
@@ -586,7 +586,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group controlId="exampleForm.ControlInput1"
+                <Form.Group className="mb-1"  controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
                     style={{
@@ -618,8 +618,8 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
 
                 {productNameError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
+                  <div className="d-flex align-items-center">
+                    <MdError style={{ color: "red", marginRight: "6px",fontSize:"13px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -722,7 +722,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     Serial Number{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control className="mb-1" 
                     value={serialNumber}
                     onChange={handleSerialNumberChange}
                     type="text"
@@ -741,7 +741,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
 
                 {serialNumberError && (
-                  <div className="d-flex align-items-center p-1">
+                  <div className="d-flex align-items-center ">
                     <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
@@ -778,7 +778,7 @@ function StaticExample({ show, setShow, currentItem }) {
             
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Group  controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -829,7 +829,7 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
+                <Form.Group className="mb-1" 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -861,7 +861,7 @@ function StaticExample({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {priceError && (
-                  <div className="d-flex align-items-center p-1">
+                  <div className="d-flex align-items-center ">
                     <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
@@ -922,7 +922,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1051,7 +1051,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 className="mb-0"
                 style={{
                   color: "red",
-                  fontSize: "12px",
+                  fontSize: "13px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}

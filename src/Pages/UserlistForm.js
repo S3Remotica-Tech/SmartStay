@@ -935,11 +935,11 @@ function UserlistForm(props) {
                       {firstnameError && (
                         <div style={{ color: "red", marginTop: "-15px" }}>
                           {" "}
-                          <MdError />
-                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
+                          <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                          <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
                         </div>
                       )}
-                    </div>
+                    </div>s
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
@@ -1061,19 +1061,19 @@ function UserlistForm(props) {
                       ></p>
                       {phoneError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
+                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phoneError}</span>
                         </div>
                       )}
                       {phonenumError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
+                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phonenumError}</span>
                         </div>
                       )}
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
-                          <MdError />
+                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
                           <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {phoneErrorMessage}</span>
                         </div>
                       )}
@@ -1170,7 +1170,7 @@ function UserlistForm(props) {
                         />
                         {addressError && (
                           <div style={{ color: "red" }}>
-                            <MdError />
+                            <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                           </div>
                         )}

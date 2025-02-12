@@ -426,7 +426,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
           setDateError("Date is required");
           break;
         case "endmeter":
-          setendMeterError("reading is required");
+          setendMeterError("Reading is required");
           break;
         default:
           break;
@@ -1989,7 +1989,7 @@ cursor:"pointer"
                 </Form.Select>
                 {floorError && (
                   <div >
-                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
                     <span
                       style={{
                         fontSize: "12px",
@@ -2044,7 +2044,7 @@ cursor:"pointer"
                 </Form.Select>
                 {roomError && (
                   <div >
-                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
                     <span
                       style={{
                         fontSize: "12px",

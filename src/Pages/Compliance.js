@@ -1599,7 +1599,7 @@ const Compliance = () => {
                       
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group controlId="purchaseDate">
+                            <Form.Group className='mb-1' controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
@@ -1625,7 +1625,7 @@ const Compliance = () => {
 
                             {dateerrmsg.trim() !== "" && (
                               <div className="d-flex align-items-center">
-                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "0px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                   {dateerrmsg}
                                 </label>

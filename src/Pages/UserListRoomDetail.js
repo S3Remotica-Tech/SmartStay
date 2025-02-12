@@ -2412,7 +2412,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     style={{
                                       position: "absolute",
                                       right: "10px",
-                                      top: "16px",
+                                      top: "28px",
                                       border: "1px solid black",
                                       background: "transparent",
                                       cursor: "pointer",
@@ -2420,8 +2420,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
-                                      width: "32px",
-                                      height: "32px",
+                                      width: "28px",
+                                      height: "28px",
                                       borderRadius: "50%",
                                     }}
                                   >
@@ -2760,7 +2760,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                                       {emailError && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2775,7 +2775,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                       {emailIdError && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2790,7 +2790,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
