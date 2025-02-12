@@ -373,11 +373,36 @@ function SettingCompliance({ hostelid }) {
                                                             {u.complaint_name}
                                                         </span>
                                                     </div>
-                                                    <button className="btn p-2 border-0 bg-transparent">
+                                                    {/* <button className="btn p-2 border-0 bg-transparent">
                                                         <img src={round} width={34} height={34} alt="Menu Icon"
                                                             onClick={(e) => handleShowDots(e, u, i)}
                                                         />
-                                                    </button>
+                                                    </button> */}
+                                                    <button
+                                                     onClick={(e) => handleShowDots(e, u, i)}
+                                                     style={{
+                                                        height: "35px",
+                                                        width: "35px",
+                                                        borderRadius: "50%",
+                                                        border: "1px solid #EFEFEF",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        zIndex: showDots ? 1000 : "auto",
+                                                        position: "relative",
+                                                        cursor: "pointer",
+                                                        backgroundColor: showDots === i ?"#E7F1FF" : "white",
+
+                                                     }}
+                                                     >
+                                                        <PiDotsThreeOutlineVerticalFill
+                                                        style={{ height: "18px", width: "18px",
+                                                            cursor: "pointer",
+                                                         }}
+                                                    />
+
+                                                     </button>
+
                                                 </div>
 
                                                 {/* {activeRow && showDots === i && ( */}
@@ -771,8 +796,8 @@ function SettingCompliance({ hostelid }) {
                             </Form.Group>
                             <div style={{ marginTop: "-10px" }}>
                                 {complaintError && (
-                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily: "Gilroy" }}>
-                                        <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
+                                    <p style={{ display: "flex", fontSize: "13px", alignItems: "center", color: "red", fontFamily: "Gilroy", marginBottom: "-15px" }}>
+                                        <span style={{ fontSize: "13px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
                                             <MdError />
                                         </span>
                                         {complaintError}
