@@ -121,9 +121,6 @@ function SettingCompliance({ hostelid }) {
         }
     }
 
-    //edit complaint type
-    //COMPLAINT-TYPE-LIST 
-    //COMPLAINT-TYPE-EDIT (complaint_name,id,hostel_id)
     const handleEditType = () => {
 
         if (!complaintTypeName) {

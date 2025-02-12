@@ -1407,7 +1407,7 @@ const Compliance = () => {
                                 value={selectedUsername}
                                 onChange={handleCheckoutChange}
                                 disabled={edit}
-                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8,backgroundColor: edit ? "#E7F1FF" : "#fff",}}
                               >
                                 <option value="">Select a customer</option>
 
@@ -1471,12 +1471,12 @@ const Compliance = () => {
                                   border: "1px solid #D9D9D9",
                                   height: 50,
                                   borderRadius: 8,
-                                  backgroundColor: "#fff",
                                   width: "100%",
                                   display: "flex",
                                   justifyContent: "space-between",
                                   alignItems: "center",
                                   padding: "0 15px",
+                                  backgroundColor: edit ? "#E7F1FF" : "#fff",
                                 }}
                               >
                                 <span>
@@ -1537,7 +1537,7 @@ const Compliance = () => {
                   </div> */}
 
                           {/* //floor  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 //  style={labelStyle}
@@ -1555,29 +1555,8 @@ const Compliance = () => {
                               />
                             </Form.Group>
                           </div>
-
-                          {/* bed  */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      // style={labelStyle}
-                      >
-                        Beds<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Beds"
-                        value={beds}
-                        readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      // style={inputStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
-
                           {/* Room  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
@@ -1595,90 +1574,8 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
 
-                          {/* {!edit &&  Assign == !null( */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Assignee<span style={{ color: 'transparent', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        value={Assign}
-                        onChange={(e) =>  handleAssign(e) }
-                      >
-                        {edit ? (
-                          <option selected value={Assign}>{Assign}</option>
-                        ) : (
-                          <>
-                            <option value="">Select assignee</option>
-                            <option value="John">John</option>
-                            <option value="Josh">Josh</option>
-                          </>
-                        )}
-                      </Form.Select>
-                     
-                    </Form.Group>
-                  </div> */}
 
-                          {/* status  */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Status<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        value={Status}
-                        onChange={(e) =>  handleStatus(e)}
-                      > */}
-                          {/* {edit ? (
-          <option selected value={Status}>{Status}</option>
-
-        ) : (
-          <> */}
-                          {/* <option value="">Select a status</option>
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option> */}
-                          {/* </> */}
-                          {/* )} */}
-                          {/* </Form.Select>
-    
-
-{statsuserrormsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {statsuserrormsg !== " " && <MdError style={{ color: 'red' }} />} {statsuserrormsg}
-    </p>
-  </div>
-)}
-                    </Form.Group>
-                  </div> */}
-                          {/* )} */}
-
-
-                          {/* Floor no*/}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Room no<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Rooms"
-                        value={Rooms}
-                        readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      // style={inputStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
-
-                          {/* bet */}
+                          {/* bed */}
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -1699,80 +1596,14 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
 
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
-
-                  
-
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between", 
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (calendarRef.current) {
-                            calendarRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={calendarRef}
-                        options={options}
-                        value={selectedDate}
-                        onChange={(selectedDates) => {
-                          setSelectedDate(selectedDates[0]);
-                        }}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
-
-
-
-
-
-
-
-                    {dateerrmsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                          {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
-                        </p>
-                      </div>
-                    )}
-                  </div> */}
-
+                      
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-1" controlId="purchaseDate">
+                            <Form.Group controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              <div style={{ position: 'relative', width: "100%" }}>
+                              <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
                                 <DatePicker
                                   selected={selectedDate}
                                   onChange={(date) => {
