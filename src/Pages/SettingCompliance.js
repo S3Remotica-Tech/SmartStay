@@ -10,6 +10,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
 import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingCompliance({ hostelid }) {
 
@@ -28,7 +29,7 @@ function SettingCompliance({ hostelid }) {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [loading, setLoading] = useState(true)
-    const [showDots, setShowDots] = useState(false);
+    const [showDots, setShowDots] = useState(null);
     const [menuLoaded, setMenuLoaded] = useState(false);
     const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
     const [complianceFilterddata, setComplianceFilterddata] = useState([]);
@@ -72,8 +73,8 @@ function SettingCompliance({ hostelid }) {
         setPopupPosition({
             // top: rect.top + window.scrollY + 30,
             // left: rect.left + window.scrollX - 120,
-            top: rect.top + window.scrollY + 10,
-            left: rect.left + window.scrollX - 594,
+            top: rect.top + window.scrollY + 30,
+            left: rect.left + window.scrollX - 610,
         });
 
         setMenuLoaded(true);
@@ -97,7 +98,9 @@ function SettingCompliance({ hostelid }) {
         setId('')
         setComplaintTypeName('')
         setOriginalComplaintTypeName('');
-        setShowEditForm(false)
+        setIsChangedError('');
+        setShowEditForm(false);
+        setComplaintError('');
     }
 
     //add compliance 
@@ -370,11 +373,31 @@ function SettingCompliance({ hostelid }) {
                                                 {u.complaint_name}
                                             </span>
                                         </div>
-                                        <button className="btn p-2 border-0 bg-transparent">
-                                            <img src={round} width={34} height={34} alt="Menu Icon"
-                                                onClick={(e) => handleShowDots(e, u, i)}
-                                            />
-                                        </button>
+                                        <button
+    onClick={(e) => handleShowDots(e, u, i)}
+    style={{
+        height: "35px",
+        width: "35px",
+        borderRadius: "50%",
+        border: "1px solid #EFEFEF",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: showDots ? 1000 : "auto",
+        position: "relative",
+        cursor: "pointer",
+        // backgroundColor: showDots  ? "#E7F1FF" : "white",
+        backgroundColor: showDots === i ?"#E7F1FF" : "white",
+    }}
+>
+    <PiDotsThreeOutlineVerticalFill
+                                                            style={{ height: "18px", width: "18px",
+                                                                cursor: "pointer",
+                                                             }}
+                                                        />
+    
+</button>
+
                                     </div>
 
                                     {/* {activeRow && showDots === i && ( */}
@@ -654,9 +677,16 @@ function SettingCompliance({ hostelid }) {
                                 />
 
                             </Form.Group>
-                            <div>
-                                {isChangedError && <span style={{ color: "red", fontSize: 16 }}> * {isChangedError} </span>}
-                            </div>
+                            
+                            {isChangedError && (
+                                <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
+                                    <MdError style={{fontSize: "16px",marginBottom:"-5px", marginTop:"15px"}}/>
+                                    <span style={{ fontSize: "16px", fontFamily: "Gilroy",marginBottom:"-5px", marginTop:"15px"}}>
+                                        {isChangedError}
+                                    </span>
+                                </div>
+                            )}
+                            
                         </div>
 
 
@@ -762,15 +792,14 @@ function SettingCompliance({ hostelid }) {
                             </Form.Group>
                             <div style={{ marginTop: "-10px" }}>
                                 {complaintError && (
-                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily:"Gilroy" }}>
-                                        <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
+                                    <p style={{ display: "flex", fontSize: "14px", alignItems: "center", color: "red", fontFamily:"Gilroy",marginBottom:"-13px" }}>
+                                        <span style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "3px" }}>
                                             <MdError />
                                         </span>
                                         {complaintError}
                                     </p>
                                 )}
                             </div>
-
                         </div>
 
 

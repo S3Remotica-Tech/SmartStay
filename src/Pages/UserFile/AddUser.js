@@ -635,7 +635,15 @@ const clearEmailError = () => ({
 
               </div>
 
-              {error && <p style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>}
+              {/* {error && <p style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>} */}
+              {error && (
+                <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
+                <MdError style={{fontSize: "14px",marginBottom:"-20px", marginTop:"10px"}}/>
+                <span style={{ fontSize: "14px", fontFamily: "Gilroy",marginBottom:"-20px", marginTop:"10px"}}>
+                {error}
+                </span>
+                </div>
+                )}
 
 
 
