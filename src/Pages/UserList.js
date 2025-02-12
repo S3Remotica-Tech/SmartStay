@@ -1277,7 +1277,7 @@ function UserList(props) {
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
+  const totalPages = Math.ceil(userListDetail?.length / itemsPerPage);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -3511,7 +3511,7 @@ function UserList(props) {
 
                     </div>
                     {
-                      state.UsersList.Users?.length >= 5 &&
+                      userListDetail?.length >= 5 &&
 
 
 
