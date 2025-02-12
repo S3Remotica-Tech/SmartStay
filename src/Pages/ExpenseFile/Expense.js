@@ -1423,12 +1423,12 @@ console.log("loading",loading)
 
 
 
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static"
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static" dialogClassName="custom-modal"
         style={{
           width: 388,
           height: 250,
           marginLeft: "500px",
-          marginTop: "200px"
+          marginTop: "200px",
         }}>
         <Modal.Header style={{
           borderBottom: "none", display: "flex", justifyContent: "center",
