@@ -538,7 +538,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static"  dialogClassName="custom-modal">
+      <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -610,7 +610,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     }}
                   >
                     Category{" "}
-                    <span style={{ color: "#FF0000", display: "inline-block" }}>
+                    <span style={{ color: "#FF0000", display: "inline-block",fontSize: "20px" }}>
                       *
                     </span>
                   </Form.Label>
@@ -731,6 +731,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginTop:"5px",
                     }}
                   >
                     Unit count{" "}
@@ -738,6 +739,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       style={{
                         color: "#FF0000",
                         display: count ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
@@ -788,6 +790,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"5px",
                     }}
                   >
                     Per unit amount{" "}
@@ -795,6 +798,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       style={{
                         color: "#FF0000",
                         display: price ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
@@ -846,6 +850,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"15px",
                     }}
                   >
                     Purchase Amount
@@ -880,6 +885,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"5px",
                     }}
                   >
                     Mode of transaction{" "}
@@ -887,6 +893,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       style={{
                         color: "#FF0000",
                         display: modeOfPayment ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
