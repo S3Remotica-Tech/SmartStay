@@ -672,7 +672,7 @@ function Sidebar() {
                   </li>
                 )}
 
-{!(state.UsersList?.hostelListNewDetails?.data ?? []).length && (
+{!(hostelListDetail ?? []).length && (
   <li
     className="align-items-center d-flex justify-content-center list-Button mb-2"
     style={{
