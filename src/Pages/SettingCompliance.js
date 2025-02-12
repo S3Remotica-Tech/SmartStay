@@ -10,6 +10,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
 import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingCompliance({ hostelid }) {
 
@@ -28,7 +29,7 @@ function SettingCompliance({ hostelid }) {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [loading, setLoading] = useState(true)
-    const [showDots, setShowDots] = useState(false);
+    const [showDots, setShowDots] = useState(null);
     const [menuLoaded, setMenuLoaded] = useState(false);
     const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
     const [complianceFilterddata, setComplianceFilterddata] = useState([]);
@@ -72,8 +73,8 @@ function SettingCompliance({ hostelid }) {
         setPopupPosition({
             // top: rect.top + window.scrollY + 30,
             // left: rect.left + window.scrollX - 120,
-            top: rect.top + window.scrollY + 10,
-            left: rect.left + window.scrollX - 594,
+            top: rect.top + window.scrollY + 30,
+            left: rect.left + window.scrollX - 610,
         });
 
         setMenuLoaded(true);
@@ -97,7 +98,9 @@ function SettingCompliance({ hostelid }) {
         setId('')
         setComplaintTypeName('')
         setOriginalComplaintTypeName('');
-        setShowEditForm(false)
+        setIsChangedError('');
+        setShowEditForm(false);
+        setComplaintError('');
     }
 
     //add compliance 
@@ -776,7 +779,6 @@ function SettingCompliance({ hostelid }) {
                                     </p>
                                 )}
                             </div>
-
                         </div>
 
 

@@ -44,8 +44,8 @@ function SettingNewUser({ hostelid }) {
         event.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
         const { top, left, width, height } = event.target.getBoundingClientRect();
-const popupTop = top + height / 2;
-const popupLeft = left - 200;
+const popupTop = top + height / 4;
+const popupLeft = left - 170;
             
 
     setPopupPosition({ top: popupTop, left: popupLeft });
