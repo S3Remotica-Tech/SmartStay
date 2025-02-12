@@ -145,6 +145,7 @@ function UserList(props) {
 
   const [deleteIdhostel, setdeleteIdhostel] = useState("")
   const [deleteIdroom, setdeleteIdroom] = useState("")
+  const [loader,setLoader] = useState(true);
   console.log("deleteDetails", deleteDetails)
 
 
@@ -1027,12 +1028,14 @@ function UserList(props) {
 
 
   useEffect(() => {
+    setLoader(true)
     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id]);
 
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoader(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -3664,6 +3667,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  loader={loader}
                 />
               </TabPanel>
               <TabPanel value="4">
