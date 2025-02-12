@@ -445,7 +445,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {!loading && currentCustomers?.length > 0 ? (
+            {!loading && !trigger && currentCustomers?.length > 0 ? (
               <div
                 className="p-10 booking-table-userlist"
                 style={{ paddingBottom: "20px" }}

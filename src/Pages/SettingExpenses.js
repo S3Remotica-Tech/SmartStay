@@ -12,6 +12,7 @@ import close from '../Assets/Images/close.svg';
 import { Card } from 'react-bootstrap';
 import CreatableSelect from "react-select/creatable";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+import './Settingexpense.css'
 
 
 function SettingExpenses({ hostelid }) {
@@ -996,6 +997,7 @@ if(isSubCategory){
             onHide={handleCloseForm}
             centered
             backdrop="static"
+            dialogClassName="custom-modal"
           >
             <Modal.Dialog
               style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }}
@@ -1064,16 +1066,36 @@ if(isSubCategory){
 
 
                         <CreatableSelect
+  isDisabled={editsubcat}
+  options={options}
+  value={selectedOptions}
+  onChange={handleChange}
+  onCreateOption={handleCreate}
+  placeholder="Select / Create Category"
+  styles={{
+    option: (provided) => ({
+      ...provided,
+      padding: '4px 10px', // Adjust padding for height
+    }),
+    menu: (provided) => ({
+      ...provided,
+      maxHeight: '200px', // Control max height
+      overflowY: 'auto',  // Enable scrolling
+      zIndex: 9999,      // Ensure it's above other elements
+    }),
+    menuPortal: (base) => ({ 
+      ...base, 
+      zIndex: 9999 
+    }),
+    control: (provided) => ({
+      ...provided,
+      minHeight: '35px',
+    }),
+  }}
+  menuPortalTarget={document.body}  // Render dropdown within modal boundaries
+  className=""
+/>
 
-                          isDisabled={editsubcat}
-                          options={options}
-                          value={selectedOptions}
-                          onChange={handleChange}
-                          onCreateOption={handleCreate}
-                          placeholder="Select / Create Category"
-                          style={{ padding: 20 }}
-                          className=""
-                        />
 
 
                         {cateogoryerrmsg.trim() !== "" && (
@@ -1184,6 +1206,7 @@ if(isSubCategory){
         show={showModal} onHide={cancelDelete}
         centered
         backdrop="static"
+         dialogClassName="custom-modal"
         style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
       >
         <Modal.Header style={{ borderBottom: 'none' }}>
