@@ -3527,7 +3527,7 @@ const InvoicePage = () => {
                                       <div>
                                         <p
                                           style={{
-                                            fontSize: "15px",
+                                            fontSize: "13px",
                                             color: "red",
                                             marginTop: "3px",
                                           }}
@@ -3537,6 +3537,7 @@ const InvoicePage = () => {
                                               style={{
                                                 fontSize: "15px",
                                                 color: "red",
+                                                marginBottom:"3px"
                                               }}
                                             />
                                           )}{" "}
@@ -3646,7 +3647,7 @@ const InvoicePage = () => {
                                     <div>
                                       <p
                                         style={{
-                                          fontSize: "15px",
+                                          fontSize: "13px",
                                           color: "red",
                                           marginTop: "3px",
                                         }}
@@ -3656,6 +3657,7 @@ const InvoicePage = () => {
                                             style={{
                                               fontSize: "15px",
                                               color: "red",
+                                              marginBottom:"2px"
                                             }}
                                           />
                                         )}{" "}
@@ -3717,7 +3719,7 @@ const InvoicePage = () => {
                                       <div>
                                         <p
                                           style={{
-                                            fontSize: "15px",
+                                            fontSize: "13px",
                                             color: "red",
                                             marginTop: "3px",
                                           }}
@@ -3727,6 +3729,7 @@ const InvoicePage = () => {
                                               style={{
                                                 fontSize: "15px",
                                                 color: "red",
+                                                marginBottom:"3px"
                                               }}
                                             />
                                           )}{" "}
@@ -5879,10 +5882,10 @@ const InvoicePage = () => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red",marginTop:"5px" }}
                   >
                     {customererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px" ,marginBottom:"3px"}} />
                     )}{" "}
                     {customererrmsg}
                   </p>
@@ -5925,7 +5928,7 @@ const InvoicePage = () => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {invoicenumbererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px",marginBottom:"2px" }} />
                     )}{" "}
                     {invoicenumbererrmsg}
                   </p>
@@ -5976,10 +5979,10 @@ const InvoicePage = () => {
               {startdateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {startdateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "3px", marginBottom: "3px" }} />
                     )}{" "}
                     {startdateerrmsg}
                   </p>
@@ -6026,10 +6029,10 @@ const InvoicePage = () => {
               {enddateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {enddateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "5px", marginBottom: "3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "3px", marginBottom: "3px" }} />
                     )}{" "}
                     {enddateerrmsg}
                   </p>
@@ -6080,10 +6083,10 @@ const InvoicePage = () => {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px", marginBottom: "3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -6131,10 +6134,10 @@ const InvoicePage = () => {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"5px", marginBottom: "3px" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>

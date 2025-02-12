@@ -508,7 +508,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
                             {nameError && (
                                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px",marginBottom:"3px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px",marginBottom:"1px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {nameError}
                                     </label>
@@ -699,7 +699,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                     Walk-In Date
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
-                                <div style={{ position: 'relative', width: "100%" }}>
+                                <div style={{ position: 'relative', width: "100%",marginBottom:"3px" }}>
                                     <DatePicker
                                         selected={walkInDate}
                                         onChange={(date) => {

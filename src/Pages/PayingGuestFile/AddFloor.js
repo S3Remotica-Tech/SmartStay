@@ -128,30 +128,6 @@ function StaticExample({
       }
     }
 
-    // Swal.fire({
-    //   icon: 'warning',
-    //   title: 'Do you want create one floor ?',
-    //   confirmButtonText: 'Yes',
-    //   cancelButtonText: 'No',
-    //   showCancelButton: true,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     const floors = floorDetails.map((floor) => (
-    //       { number_of_floors: 1 }));
-    //     const hostel_ID = hostel_Id.toString()
-    //     dispatch({
-    //       type: 'CREATEFLOOR',
-    //       payload: {
-    //         hostel_Id: hostel_ID,
-    //         hostelDetails: floors,
-    //       },
-    //     });
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Create Floor details saved Successfully',
-    //     })
-    //   }
-    // });
   };
 
   return (
@@ -221,34 +197,8 @@ function StaticExample({
                   />
                 </Form.Group>
               </div>
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Floor name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
-                                    <Form.Control
-                                         value={floorName}
-                                         onChange={handleFloorNameChange}
-                                        type="text" placeholder="Enter floor name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                                </Form.Group>
-                            </div> */}
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Beds</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select">
-                                        <option>Select no. of beds</option>
-                                       
-                                    </Form.Select>
-                                </Form.Group>
-                            </div>
-                           
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Room</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select">
-                                        <option>Select no. of rooms</option>
-                                       
-                                    </Form.Select>
-                                </Form.Group>
-                            </div> */}
+              
+            
             </div>
           </Modal.Body>
 {/*  p-1 mb-2 */}
@@ -319,8 +269,8 @@ function StaticExample({
           )}
 
           {isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" , fontFamily:"Gilroy"}} />
+            <div className="d-flex align-items-center  justify-content-center">
+              <MdError style={{ fontSize: "14px",color: "red", marginRight: "6px", marginLeft: "10px" , fontFamily:"Gilroy"}} />
               <label
                 className="mb-0"
                 style={{ color: "red", fontSize: "12px", fontWeight: 500,fontFamily:"Gilroy" }}
@@ -329,6 +279,8 @@ function StaticExample({
               </label>
             </div>
           )}
+          
+          
 
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button

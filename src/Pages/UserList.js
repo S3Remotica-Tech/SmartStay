@@ -145,6 +145,7 @@ function UserList(props) {
 
   const [deleteIdhostel, setdeleteIdhostel] = useState("")
   const [deleteIdroom, setdeleteIdroom] = useState("")
+  const [loader,setLoader] = useState(true);
   console.log("deleteDetails", deleteDetails)
 
 
@@ -642,8 +643,13 @@ function UserList(props) {
     }
   }, [isReading])
 
+  // useEffect(() => {
+  //   setUniqostel_Id(state.login.selectedHostel_Id);
+  // }, [state?.login?.selectedHostel_Id]);
+
+
   useEffect(() => {
-    setUniqostel_Id(state.login.selectedHostel_Id);
+    setUniqostel_Id(state?.login?.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
@@ -700,6 +706,22 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
+
+  useEffect(()=> {
+    if (state.UsersList?.NoUserListStatusCode == 201) {
+      setLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_USER_LIST" });
+      }, 500);
+    }
+  },[state.UsersList?.NoUserListStatusCode])
+
+  useEffect(() => {
+    if (state.UsersList?.Users && state.UsersList.Users.length > 0) {
+      setLoading(false);
+    }
+  }, [state.UsersList.Users]);
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
 
@@ -1006,12 +1028,14 @@ function UserList(props) {
 
 
   useEffect(() => {
+    setLoader(true)
     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id]);
 
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoader(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1256,7 +1280,7 @@ function UserList(props) {
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
+  const totalPages = Math.ceil(userListDetail?.length / itemsPerPage);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -2243,7 +2267,7 @@ function UserList(props) {
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "10px",
+                      marginTop: "8px",
                     }}
                   >
                     <div
@@ -2459,7 +2483,7 @@ function UserList(props) {
                 )}
               </div>
 
-              <div className="buttons container" style={{ marginTop: 22 }}>
+              <div className="buttons container me-4" style={{ marginTop: 22 }}>
                 {value === "1" && (
                   <Button
                     disabled={customerAddPermission}
@@ -2713,8 +2737,8 @@ function UserList(props) {
                     </div>
                   </>
                 ) : (
-                  <div className="">
-                    <div>
+                  <div>
+                    <div style={{marginLeft:"4px"}}>
 
 
                       {currentItems && currentItems.length > 0 ? (
@@ -3445,7 +3469,7 @@ function UserList(props) {
                         :
                         (
 
-                          !loading && !trigger &&
+                          !loading  && trigger &&
                           currentItems && currentItems?.length == 0 &&
 
                           <div style={{ marginTop: 28, marginLeft: "2px" }}>
@@ -3490,7 +3514,7 @@ function UserList(props) {
 
                     </div>
                     {
-                      state.UsersList.Users?.length >= 5 &&
+                      userListDetail?.length >= 5 &&
 
 
 
@@ -3643,6 +3667,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  loader={loader}
                 />
               </TabPanel>
               <TabPanel value="4">

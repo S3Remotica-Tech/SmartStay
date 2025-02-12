@@ -1573,9 +1573,13 @@ console.log("compliant:", compliant);
                           <option value="resolved">Resolved</option>
                         </Form.Select>
                       </Form.Group>
+                     
                       {statusError && (
-                        <span style={{ color: "red", marginRight: "5px", fontSize: "13px", fontFamily:"Gilroy" }}>{statusError}</span>
-                      )}
+  <div className="d-flex align-items-center justify-content-center"style={{color:"red"}}>
+    <MdError style={{fontSize:"14px",marginRight:"5px"}} />
+    <span style={{ fontSize: "13px", fontFamily: "Gilroy" }}>{statusError}</span>
+  </div>
+)}
                     </div>
                   </div>
                 </Modal.Body>
@@ -1592,6 +1596,7 @@ console.log("compliant:", compliant);
                       fontFamily: "Gilroy",
                       fontStyle: "normal",
                       lineHeight: "normal",
+                      marginTop:"-6px"
                     }}
                     onClick={handleChangeStatusClick}
                   >
@@ -1670,7 +1675,7 @@ console.log("compliant:", compliant);
                     {/* complaint type */}
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group
-                        className="mb-1"
+                        className="mb-3"
                         controlId="exampleForm.ControlInput5"
                       >
                         <Form.Label
@@ -1718,14 +1723,22 @@ console.log("compliant:", compliant);
                             })}
                         </Form.Select>
                       </Form.Group>
-                      {statusErrorType && (
+                      {/* {statusErrorType && (
                         <div className="d-flex align-items-center">
-                          {/* <MdError style={{ color: "red", marginRight: "5px", fontSize: "15px", marginBottom: "2px" }} /> */}
+                         
                           <label className="mb-0" style={{ color: "red", fontSize: "15px", fontFamily: "Gilroy", fontWeight: 500 }}>
                             {statusErrorType}
                           </label>
                         </div>
-                      )}
+                      )} */}
+                      {statusErrorType && (
+  <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
+    <MdError className="me-2"  style={{ fontSize: "15px"}}/>
+    <label className="mb-0" style={{ fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {statusErrorType}
+    </label>
+  </div>
+)}
                     </div>
                   </div>
                 </Modal.Body>
@@ -1742,6 +1755,7 @@ console.log("compliant:", compliant);
                       fontFamily: "Gilroy",
                       fontStyle: "normal",
                       lineHeight: "normal",
+                      marginTop:"-7px"
                     }}
                     onClick={handleAssignComplaintClick}
                   >

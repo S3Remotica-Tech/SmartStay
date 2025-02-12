@@ -9,13 +9,13 @@ import { RepeatOneSharp } from "@mui/icons-material";
 
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
-
+console.log("handleuserlist",response)
    if (response.status === 200 ) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
    }
 
-   else if (response.status === 201 || response.statusCode === 201){
-      yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.statusCode } })
+   else if (response.status === 201 || response.data.statusCode === 201){
+      yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

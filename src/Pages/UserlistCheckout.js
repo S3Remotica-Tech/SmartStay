@@ -57,8 +57,7 @@ console.log("propd",props);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
-   const [loading, setLoading] = useState(true);
-   const [trigger, setTrigger] = useState(true)
+
 
   
 
@@ -102,12 +101,12 @@ console.log("propd",props);
   // }, [state.login.selectedHostel_Id]);
 
 
+ 
 
     useEffect(() => {
         if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-          setLoading(false);
-          setTrigger(false)
-          // setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+    
+         // setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
           setTimeout(() => {
             dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
           }, 1000);
@@ -115,7 +114,7 @@ console.log("propd",props);
       }, [state.UsersList.GetCheckOutCustomerStatusCode]);
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      setLoading(false);
+      
       checkoutcloseModal()
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
@@ -127,7 +126,7 @@ console.log("propd",props);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-      setLoading(false);
+      
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -152,7 +151,7 @@ console.log("propd",props);
       state.UsersList.addCheckoutCustomerStatusCode === 200 ||
       state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
-      setLoading(false);
+      
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       setModalType(null);
@@ -370,7 +369,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
   //   return pageNumbers;
   // };
-
+  console.log('Loader Status:', props.loader);
   return (
 
 
@@ -378,7 +377,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
     <>
     <div>
-    {loading &&
+    {props.loader &&
         <div
           style={{
             position: 'absolute',
@@ -406,7 +405,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
           ></div>
         </div>
       }
-      {!loading && !trigger && checkOutPermissionError? (
+      { checkOutPermissionError? (
         <>
           <div
             style={{
@@ -445,7 +444,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {!loading && currentCustomers?.length > 0 ? (
+            {currentCustomers?.length > 0 ?  (
               <div
                 className="p-10 booking-table-userlist"
                 style={{ paddingBottom: "20px" }}
@@ -1262,7 +1261,8 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                 )}
 
               </div>
-            ) : (
+              
+            ) : ( !props.loader && currentCustomers?.length === 0 && (
               <div style={{ marginTop: 30, height: "60vh" }}>
                 <div style={{ textAlign: "center" }}>
                   {" "}
@@ -1294,7 +1294,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                 </div>
 
               </div>
-            )}
+            ))}
           </div>
         </div>
 

@@ -1311,28 +1311,6 @@ function SettingGeneral() {
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
-                {/* <InputGroup> */}
-                {/* <Form.Select
-                    value={countryCode}
-                    id="vendor-select-pg"
-                    // onChange={handleCountryCodeChange}
-                    style={{
-                      border: "1px solid #D9D9D9",
-
-                      borderRadius: "8px 0 0 8px",
-                      height: 50,
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: countryCode ? 600 : 500,
-                      boxShadow: "none",
-                      backgroundColor: "#fff",
-                      maxWidth: 90,
-                      paddingRight: 10,
-                    }}
-                  >
-                    <option>+{countryCode}</option>
-                  </Form.Select> */}
                 <Form.Control
                   value={Phone}
                   onChange={handlePhone}
@@ -1364,19 +1342,19 @@ function SettingGeneral() {
               </Form.Group>
               {phoneError && (
                 <div style={{ color: "red", marginTop: "-12px", fontSize: "13px" }}>
-                  <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
                 </div>
               )}
               {phoneErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError  style={{ marginRight: "5px", marginBottom: "3px" }}/>
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                 </div>
               )}
               {phoneAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{marginRight:"5px"}}/>
+                  <MdError style={{marginRight:"5px", marginBottom: "3px"}}/>
                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
@@ -1415,20 +1393,20 @@ function SettingGeneral() {
               </Form.Group>
               {emailError && (
                 <div style={{ color: "red", fontSize: "13px" }}>
-                  <MdError style={{ marginRight: "3px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
               )}
               {emailAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError  style={{marginRight:"5px"}}/>
+                  <MdError  style={{marginRight:"5px", marginBottom: "3px"}}/>
                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
                 </div>
               )}
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{marginRight:"5px"}}/>
+                  <MdError style={{marginRight:"5px", marginBottom: "3px"}}/>
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                 </div>
               )}
@@ -1502,7 +1480,7 @@ function SettingGeneral() {
                 </Form.Group>
                 {!edit && passwordError && (
                   <div style={{ color: "red"}}>
-                    <MdError style={{marginRight:"5px",marginBottom:"1px"}}/>
+                    <MdError style={{fontSize: '13px',marginRight:"5px",marginTop:"1px"}}/>
                     <span style={{ fontSize: '12px',fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
@@ -1542,7 +1520,7 @@ function SettingGeneral() {
               </Form.Group>
               {addressError && (
                 <div style={{ color: "red"}}>
-                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"3px",marginBottom:"1px"}} />
+                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
                   <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
                 </div>
               )}
@@ -1553,8 +1531,8 @@ function SettingGeneral() {
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           {formError && (
             <div style={{ color: "red" }}>
-              <MdError />
-              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+              <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+              <span style={{ fontSize: '13px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
             </div>
           )}
           <Button

@@ -13,9 +13,33 @@ import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import {ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
 
 function DashboardAnnouncement(props) {
+
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6); 
+  // const [currentItem, setCurrentItem] = useState("");
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
+
+
+
   const state = useSelector((state) => state);
 
   console.log("state", state)
@@ -49,7 +73,7 @@ function DashboardAnnouncement(props) {
   const [selectTitleCard, setSelectedTitleCard] = useState('')
   const [CommentId, setCommentId] = useState('')
   const [selectedCommentId, setSelectedCommentId] = useState(null);
- const [loading, setLoading] = useState(false)
+ const [loading, setLoading] = useState(true)
  
   const handleSubCommentsChange = (e) => {
     setSubComment(e.target.value)
@@ -171,6 +195,7 @@ function DashboardAnnouncement(props) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
+    setLoading(true)
     dispatch({
       type: "ANNOUNCEMENTLIST",
       payload: { hostel_id: hostel_id },
@@ -181,6 +206,7 @@ function DashboardAnnouncement(props) {
 
   useEffect(() => {
     if (state.PgList.statuscodeForAnnounceMentList === 200) {
+      setFilteredData(state.PgList?.announcementList?.announcements)
       setTimeout(() => {
         dispatch({ type: "CLEAR_ANNOUNCEMENT_LIST" });
       }, 1000);
@@ -227,6 +253,7 @@ function DashboardAnnouncement(props) {
         payload: { hostel_id: hostel_id },
       });
       setComments('')
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_COMMENTS' })
       }, 1000)
@@ -402,6 +429,21 @@ function DashboardAnnouncement(props) {
 
 
 
+useEffect(() => {
+  if (state.PgList?.announcementList !== undefined) {
+    setLoading(false);
+  }
+}, [state.PgList?.announcementList]);
+
+
+useEffect(() => {
+  if (state.PgList?.announcementErrorStatus === 201) {
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ERROR_ANNOUNCEMENT_LIST" });
+    }, 500);
+  }
+}, [state.PgList?.announcementErrorStatus]);
 
 console.log("state.PgList?.announcementList?.announcements",state.PgList?.announcementList?.announcements)
 
@@ -411,7 +453,9 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "flex-end"
+        
+
         }}
       >
         <Button
@@ -436,53 +480,84 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           +  Announcement
         </Button>
       </div>
+      {/* {loading && ( */}
+      {loading ? (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 100,
+                    right: 0,
+                    bottom: 0,
+                    left: "200px",
+                    // width: '100%',
+                    // height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  ></div>
+                </div>
+              // )}
+            ) : currentItems?.length > 0 ? (
 
+      // {props.announcePermissionError ? (
+      //   <div
+      //     style={{
+      //       display: "flex",
+      //       flexDirection: "column",
+      //       alignItems: "center",
+      //       justifyContent: "center",
+      //     }}
+      //   >
+      //     {/* Image */}
+      //     <img
+      //       src={Emptystate}
+      //       alt="Empty State"
+      //       style={{ maxWidth: "100%", height: "auto" }}
+      //     />
 
-      {props.announcePermissionError ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {/* Image */}
-          <img
-            src={Emptystate}
-            alt="Empty State"
-            style={{ maxWidth: "100%", height: "auto" }}
-          />
-
-          {/* Permission Error */}
-          {props.announcePermissionError && (
-            <div
-              style={{
-                color: "red",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                marginTop: "1rem",
-              }}
-            >
-              <MdError />
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {props.announcePermissionError}
-              </span>
-            </div>
-          )}
-        </div>
-      ) : (
+      //     {/* Permission Error */}
+      //     {props.announcePermissionError && (
+      //       <div
+      //         style={{
+      //           color: "red",
+      //           display: "flex",
+      //           alignItems: "center",
+      //           gap: "0.5rem",
+      //           marginTop: "1rem",
+      //         }}
+      //       >
+      //         <MdError />
+      //         <span
+      //           style={{
+      //             fontSize: "12px",
+      //             color: "red",
+      //             fontFamily: "Gilroy",
+      //             fontWeight: 500,
+      //           }}
+      //         >
+      //           {props.announcePermissionError}
+      //         </span>
+      //       </div>
+      //     )}
+      //   </div>
+      // ) : (
         <div className="row">
-          {state.PgList?.announcementList?.announcements?.length > 0 ? (
-            state.PgList?.announcementList?.announcements?.map((data) => (
+          {currentItems?.length > 0 ? (
+            currentItems?.map((data) => (
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
 
                 <Card
@@ -555,6 +630,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                           </span>
                         </p>
                       </div>
+                   
+                   {/* like */}
                       <div
                         className="bd-highlight"
                         style={{
@@ -586,6 +663,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                           </span>
                         </p>
                       </div>
+
+
                       <div
                         className="bd-highlight"
                         style={{
@@ -731,8 +810,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   </Card.Body>
                 </Card>
               </div>
+
+
+
             ))
           ) : (
+            
             <div
               style={{
                 display: "flex",
@@ -770,11 +853,144 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
 
+ 
+
 
         </div>
+      // )}
+
+    ) : (
+  // Show Empty State if no data is available
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "60vh",
+    }}
+  >
+    <div style={{ textAlign: "center" }}>
+      <img src={Emptystate} alt="emptystate" />
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No announcements available.
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 16,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no announcements added.
+    </div>
+  </div>
+)}
+
+
+<div>
+      {filteredData.length >= 5 && (
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+          <div>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+              }}
+            >
+              <option value={6}>6</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          {/* Pagination Controls */}
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+              </button>
+            </li>
+
+            {/* Current Page Indicator */}
+            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+              {currentPage} of {totalPages}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
       )}
-
-
+    </div>
 
 
       <Modal show={showMainModal} onHide={handleCloseMain} centered backdrop="static">
@@ -1189,18 +1405,20 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             <div>
               {
                 commentsList && commentsList.length > 0 ? (
-                  commentsList.map((comments, index) => {
+                  commentsList.map((comments,sub, index) => {
                     return (
                       <div key={index}>
                         {/* Comment header */}
                         <div className="d-flex justify-content-between">
                           <p style={{ marginBottom: "0px" }}>
                             <Image roundedCircle
-                              src={comments.profile && comments.profile !== "0" && comments.profile !== 0 ? comments.profile : Profile}
-                              alt="Profile Image"
+                              // src={comments.profile && comments.profile !== "0" && comments.profile !== 0 ? 
+                              // comments.profile : Profile}
+                              src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
+                              // alt="Profile Image"
                               width={20}
                               height={20}
-                            />
+                            />      
 
                             <span
                               style={{
@@ -1286,12 +1504,16 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               <div
 
                                 style={{ paddingLeft: "30px", }}
-                              > <Image roundedCircle
+                              >
+                                 <Image roundedCircle
                                 src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
                                 alt="Profile Image"
                                 width={20}
                                 height={20}
-                                /></div>
+                                /> 
+                                
+
+                                </div>
                               <div>
 
                                 <div>
@@ -1347,7 +1569,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               style={{
                                 marginTop: "10px",
                                 position: "relative",
-                                paddingLeft: "25px",
+                                // paddingLeft: "25px",
                               }}
                             >
                               <textarea
@@ -1387,12 +1609,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
                           </div>}
 
-                        <div
+                        {/* <div
                           className="d-flex justify-content-start mb-2"
                           style={{
                             borderBottom: "1px solid #DCDCDC",
                           }}
-                        ></div>
+                        ></div> */}
 
 
 
@@ -1401,7 +1623,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     );
                   })
                 ) : (
-                   <div className="d-flex align-items-center p-1 mb-2">
+                   <div className="d-flex align-items-center p-1 mb-2" style={{marginTop:-25}}>
                                                   <MdError style={{ color: "red", marginRight: '5px' }} />
                                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                                     No Comments Available
@@ -1424,7 +1646,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   style={{
                     marginTop: "10px",
                     position: "relative",
-                    paddingLeft: "25px",
+                    // paddingLeft: "25px",
                   }}
                 >
                   <textarea
@@ -1685,12 +1907,6 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </span>
           </button>
         </Modal.Header>
-        {errorMessage && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
-          </div>
-        )}
         <Modal.Body>
 
 
@@ -1699,7 +1915,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
           <div className="row">
             {/* Title Field */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{marginTop:-20}}>
 
               <Form.Label
                 style={{
@@ -1709,7 +1925,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   fontWeight: 500,
                 }}
               >
-                Title
+                Title <span style={{color:"red",fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1763,7 +1979,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </div>
 
             {/* Description Field */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -1772,7 +1988,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   fontWeight: 500,
                 }}
               >
-                Description
+                Description<span style={{color:"red",fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1800,6 +2016,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               )}
             </div>
           </div>
+          {errorMessage && (
+          <div style={{ color: "red" }}>
+            <MdError />
+            <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
+          </div>
+        )}
             <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
@@ -1816,6 +2038,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           >
             {editDetails ? 'Save Changes' : 'Add Announcement'}
           </Button>
+          
         </Modal.Body>
       </Modal>
 
