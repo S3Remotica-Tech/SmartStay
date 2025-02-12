@@ -214,7 +214,7 @@ function EB_Hostel(props) {
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
-      setLoading(false)
+      setLoader(false)
       setelectricityFilterd(state.PgList?.EB_startmeterlist);
 
       setTimeout(() => {
@@ -223,7 +223,7 @@ function EB_Hostel(props) {
     }
   }, [state.PgList.statusCodeForEbRoomList])
   useEffect(() => {
-    setLoading(true)
+    setLoader(true)
     dispatch({
       type: "EBSTARTMETERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -231,7 +231,7 @@ function EB_Hostel(props) {
     
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
-    setLoading(true)
+    setLoader(true)
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -365,7 +365,7 @@ function EB_Hostel(props) {
     if (state.PgList.statusCodeforEbCustomer === 200) {
       
       setelectricityFilterddata(state.PgList?.EB_customerTable);
-      setLoading(false)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
@@ -373,15 +373,15 @@ function EB_Hostel(props) {
   }, [state.PgList.statusCodeforEbCustomer]);
 console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
-  // useEffect(() => {
-  //   if (state.PgList.nostatusCodeforEbCustomer == 201) {
-  //     setelectricityFilterddata([]);
-  //     setLoading(false)
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_NOHOSTEL" });
-  //     }, 200);
-  //   }
-  // }, [state.PgList.nostatusCodeforEbCustomer]);
+  useEffect(() => {
+    if (state.PgList.nostatusCodeforEbCustomer == 201) {
+      setelectricityFilterddata([]);
+      setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NOHOSTEL" });
+      }, 200);
+    }
+  }, [state.PgList.nostatusCodeforEbCustomer]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -2187,7 +2187,7 @@ cursor:"pointer"
             selectedHostel={selectedHostel}
             
             electricityFilterd={electricityFilterd}
-            loading = {loading}
+            loading = {loader}
           />
         </TabPanel>
 
@@ -2204,7 +2204,7 @@ cursor:"pointer"
             editeb={editeb}
             setEditEb={setEditEb}
             electricityHostel = {electricityHostel}
-            loading = {loading}
+            loading = {loader}
           />
         </TabPanel>
       </TabContext>
