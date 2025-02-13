@@ -31,6 +31,7 @@ import {
   ArrowRight2,
 } from "iconsax-react";
 import { MdError } from "react-icons/md";
+import './SettingAll.css'
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -989,7 +990,7 @@ function SettingGeneral() {
         )}
       </div>
 
-      {generalFilterddata?.length > generalrowsPerPage && (
+      {generalFilterddata?.length >=5 && generalrowsPerPage && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>
@@ -1100,6 +1101,7 @@ function SettingGeneral() {
         onHide={() => handleClose()}
         backdrop="static"
         centered
+         dialogClassName="custom-modal"
       >
         {/* <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
@@ -1642,6 +1644,7 @@ function SettingGeneral() {
         onHide={() => handleCloseChangepassword()}
         backdrop="static"
         centered
+            dialogClassName="custom-modal"
         className="modal-dialog-centered"
         style={{
           maxWidth: "353px",
