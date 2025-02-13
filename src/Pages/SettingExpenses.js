@@ -321,7 +321,7 @@ function SettingExpenses({ hostelid }) {
 
   }, [state.Settings.categoryError])
 
-  console.log("state.Settings.categoryError", state.Settings.categoryError,isSubCategory)
+  console.log("state.Settings.categoryError", state.Settings.categoryError, isSubCategory)
 
 
 
@@ -412,7 +412,7 @@ function SettingExpenses({ hostelid }) {
   }
 
 
-  console.log("isSubCategory",isSubCategory)
+  console.log("isSubCategory", isSubCategory)
 
   const addType = () => {
 
@@ -421,26 +421,26 @@ function SettingExpenses({ hostelid }) {
       return;
     }
 
-    if(!isSubCategory){
+    if (!isSubCategory) {
       setShowForm(false);
     }
-if(isSubCategory){
-  dispatch({
-    type: "EXPENCES-CATEGORY-ADD",
-    payload: {
-      hostel_id: hostelid,
-      id: type.value,
-      category_Name: type.label,
-      sub_Category: subType?.trim() || ''
-    },
-  });
-  setSelectedOptions([])
+    if (isSubCategory) {
+      dispatch({
+        type: "EXPENCES-CATEGORY-ADD",
+        payload: {
+          hostel_id: hostelid,
+          id: type.value,
+          category_Name: type.label,
+          sub_Category: subType?.trim() || ''
+        },
+      });
+      setSelectedOptions([])
 
- 
-}
-setSubType("")
-setIsSubCategory(false);
-   
+
+    }
+    setSubType("")
+    setIsSubCategory(false);
+
   };
 
 
@@ -471,12 +471,12 @@ setIsSubCategory(false);
       setCategory_ID(item.category_Id || '')
       setEditsubCat(false)
       setIsSubCategory(false);
-        }
+    }
     else if (item.subcategory_Id && item.cat_id) {
       setIsSubCategory(true)
       setSubType(item.subcategory)
       setType({ value: item.cat_id, label: item.category_Name });
-      setSelectedOptions({value: item.cat_id,  label: item.category_Name })
+      setSelectedOptions({ value: item.cat_id, label: item.category_Name })
       setSubCategory_ID(item.subcategory_Id)
       setEditsubCat(true)
     }
@@ -642,7 +642,7 @@ setIsSubCategory(false);
 
   return (
     <div className="container" style={{
-      position: "relative"  ,maxHeight: "470px",
+      position: "relative", maxHeight: "470px",
       overflowY: "auto",
     }}>
 
@@ -737,14 +737,17 @@ setIsSubCategory(false);
       )}
 
 
-      <div className="mt-4 d-flex row gap-2">
+      <div className="mt-4 d-flex flex-wrap justify-content-between"
+        style={{ gap: "20px", alignItems: "flex-start" }}>
         {/* {expences.length > 0 ? ( */}
         {currentRowExpense && currentRowExpense.length > 0 ? (
           currentRowExpense.map((category) => (
             <div key={category.category_Id} className="col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded p-2"
               style={{
-                height: expandedCategoryId === category.category_Id ? "auto" : "45px",
+                // height: expandedCategoryId === category.category_Id ? "auto" : "45px",
                 //  height:"auto"
+                flex: "0 0 48%",
+                position: "relative",
               }}>
               <Card className=" d-flex justify-content-between  border-0 "
 
@@ -792,16 +795,31 @@ setIsSubCategory(false);
               </Card>
 
               {expandedCategoryId === category.category_Id ? (
-                < >
-                  <hr />
-                  <ul
-                    className="m-2"
-                    style={{
-                      padding: "10px",
-                      borderRadius: "10px",
-                      width: "100%",
-                    }}
-                  >
+                 <div
+                 className="dropdown-content"
+                 style={{
+                   position: "absolute",
+                   top: "80%", // Ensures dropdown opens below the card
+                   left: 0,
+                   right: 0,
+                   zIndex: 1, // Keeps dropdown above other content
+                   backgroundColor: "#fff",
+                   border: "1px solid #ddd",
+                   borderRadius: "0 0 10px 10px",
+                   marginBottom: 0,
+                   overflow: "hidden",
+                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", 
+                   borderTop:"none"
+                 }}
+               >
+                   <hr />
+                   <ul
+                     className="p-2 m-0"
+                     style={{
+                       borderRadius: "10px",
+                       width: "100%",
+                     }}
+                   >
                     {category.subcategory && category.subcategory.length > 0 ? (
                       category.subcategory.map((sub) => (
                         <li
@@ -848,7 +866,7 @@ setIsSubCategory(false);
                       </li>
                     )}
                   </ul>
-                </>
+                </div>
               )
 
 
@@ -1069,35 +1087,35 @@ setIsSubCategory(false);
 
 
                         <CreatableSelect
-  isDisabled={editsubcat}
-  options={options}
-  value={selectedOptions}
-  onChange={handleChange}
-  onCreateOption={handleCreate}
-  placeholder="Select / Create Category"
-  styles={{
-    option: (provided) => ({
-      ...provided,
-      padding: '4px 10px', // Adjust padding for height
-    }),
-    menu: (provided) => ({
-      ...provided,
-      maxHeight: '200px', // Control max height
-      overflowY: 'auto',  // Enable scrolling
-      zIndex: 9999,      // Ensure it's above other elements
-    }),
-    menuPortal: (base) => ({ 
-      ...base, 
-      zIndex: 9999 
-    }),
-    control: (provided) => ({
-      ...provided,
-      minHeight: '35px',
-    }),
-  }}
-  menuPortalTarget={document.body}  // Render dropdown within modal boundaries
-  className=""
-/>
+                          isDisabled={editsubcat}
+                          options={options}
+                          value={selectedOptions}
+                          onChange={handleChange}
+                          onCreateOption={handleCreate}
+                          placeholder="Select / Create Category"
+                          styles={{
+                            option: (provided) => ({
+                              ...provided,
+                              padding: '4px 10px', // Adjust padding for height
+                            }),
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: '200px', // Control max height
+                              overflowY: 'auto',  // Enable scrolling
+                              zIndex: 9999,      // Ensure it's above other elements
+                            }),
+                            menuPortal: (base) => ({
+                              ...base,
+                              zIndex: 9999
+                            }),
+                            control: (provided) => ({
+                              ...provided,
+                              minHeight: '35px',
+                            }),
+                          }}
+                          menuPortalTarget={document.body}  // Render dropdown within modal boundaries
+                          className=""
+                        />
 
 
 
@@ -1209,7 +1227,7 @@ setIsSubCategory(false);
         show={showModal} onHide={cancelDelete}
         centered
         backdrop="static"
-         dialogClassName="custom-modal"
+        dialogClassName="custom-modal"
         style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
       >
         <Modal.Header style={{ borderBottom: 'none' }}>
