@@ -2567,7 +2567,7 @@ function UserList(props) {
                 )}
               </div>
 
-              <div className="buttons container" style={{ marginTop: 22 }}>
+              <div className="buttons container me-3" style={{ marginTop: 22 }}>
                 {value === "1" && (
                   <Button
                     disabled={customerAddPermission}
