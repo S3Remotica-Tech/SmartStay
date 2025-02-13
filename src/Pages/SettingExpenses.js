@@ -387,9 +387,9 @@ function SettingExpenses({ hostelid }) {
     }
   }
 
-  useEffect(() => {
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
+  // }, [])
 
 
 
@@ -438,6 +438,8 @@ if(isSubCategory){
 
  
 }
+setSubType("")
+setIsSubCategory(false);
    
   };
 
@@ -629,6 +631,7 @@ if(isSubCategory){
 
   const handleItemsPerPageChange = (event) => {
     setExpensesrowsPerPage(Number(event.target.value));
+    setExpensescurrentPage(1)
   };
 
   const totalPagesGeneral = Math.ceil(
