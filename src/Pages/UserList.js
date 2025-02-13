@@ -39,6 +39,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
+import leftarrow from "../Assets/Images/arrow-left.png";
 
 
 import DatePicker from 'react-datepicker';
@@ -4600,13 +4601,35 @@ function UserList(props) {
 
       {isEditing &&
 
-        <div className='container ms-5 me-5 mt-4'>
+        <div className='container ms-5  '>
 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-            <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-            <p className="mt-1">Edit Bill</p>
-          </div>
+<div
+                    className="container justify-content-start  d-flex align-items-start"
+                    style={{ 
+                      position: "sticky", 
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: "60px",
+    padding: "10px 20px", 
+                    }}
+                  >
+                    <div style={{position:"fixed",marginLeft:"-20px"}}>
+                    <svg onClick={handleBackBill} style={{ fontSize: '22px', }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "18px",
+                        marginLeft: 5,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Edit Bill
+                    </span>{" "}
+                    </div>
+                  </div>
 
           <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -4837,19 +4860,19 @@ function UserList(props) {
               )}
 
             </div>
-            {allfielderrmsg.trim() !== "" && (
+           
+          </div>
+
+
+
+
+          {allfielderrmsg.trim() !== "" && (
               <div>
                 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                   {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
                 </p>
               </div>
             )}
-          </div>
-
-
-
-
-
 
           {/* Table */}
           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
