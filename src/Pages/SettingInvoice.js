@@ -628,12 +628,32 @@ function SettingInvoice({ hostelid }) {
     setInvoiceDueDate(selectedOption?.value);
   };
 
+  // const handleStartDateChange = (selectedOption) => {
+  //   setCalculatedstartdate(selectedOption?.value);
+  //   setCalculatedstartdate("");
+  // };
+  // const handleEndDateChange = (selectedOption) => {
+  //   setCalculatedEnddate(selectedOption?.value);
+  //   setCalculatedEnddate("");
+  // };
   const handleStartDateChange = (selectedOption) => {
-    setCalculatedstartdate(selectedOption?.value);
+    const value = selectedOption?.value;
+    setCalculatedstartdate(value);
+    
+    if (value) {
+      setCalculatedstartdateErrmsg(""); // Clear error message when input is valid
+    }
   };
+  
   const handleEndDateChange = (selectedOption) => {
-    setCalculatedEnddate(selectedOption?.value);
+    const value = selectedOption?.value;
+    setCalculatedEnddate(value);
+  
+    if (value) {
+      setCalculatedEnddateErrMsg(""); // Clear error message when input is valid
+    }
   };
+  
 
 
   return (
@@ -1170,13 +1190,13 @@ function SettingInvoice({ hostelid }) {
                     <div className="text-center">
                       <p
                         style={{
-                          fontSize: "15px",
+                          fontSize: "13px",
                           color: "red",
                           marginTop: "13px",
                         }}
                       >
                         {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "12px", color: "red",marginBottom:"2px" }} />
+                          <MdError style={{ fontSize: "15px", color: "red",marginBottom:"2px" }} />
                         )}{" "}
                         {totalErrormsg}
                       </p>
@@ -1310,11 +1330,13 @@ function SettingInvoice({ hostelid }) {
                             ...base,
                             height: "40px",
                             border: "1px solid #ced4da",
+                            borderRadius: "6px",
                           }),
                           menu: (base) => ({
                             ...base,
                             backgroundColor: "#f8f9fa",
                             border: "1px solid #ced4da",
+                            borderRadius: "6px",
                           }),
                           menuList: (base) => ({
                             ...base,
@@ -1330,12 +1352,14 @@ function SettingInvoice({ hostelid }) {
                           }),
                           dropdownIndicator: (base) => ({
                             ...base,
-                            color: "#555",
+                           
                             display: "inline-block",
                             fill: "currentColor",
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            color: "#4B4B4B", 
+ 
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -1379,11 +1403,13 @@ function SettingInvoice({ hostelid }) {
                             ...base,
                             height: "40px",
                             border: "1px solid #ced4da",
+                            borderRadius: "6px",
                           }),
                           menu: (base) => ({
                             ...base,
                             backgroundColor: "#f8f9fa",
                             border: "1px solid #ced4da",
+                            borderRadius: "6px", 
                           }),
                           menuList: (base) => ({
                             ...base,
@@ -1442,6 +1468,9 @@ function SettingInvoice({ hostelid }) {
                     </div>
 
                   </div>
+                  
+                 
+                  
 
 
                 </div>
