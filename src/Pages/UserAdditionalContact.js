@@ -21,20 +21,17 @@ function UserAdditionalContact(props) {
   const [contactEditForm, setContactEditForm] = useState(false);
   const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
-  const [addressError,setAddressError] = useState("")
-  const [userNameError,setUserNameError]=useState("")
-  const [guardianError,setGuardianError] = useState("")
+  const [addressError, setAddressError] = useState("");
+  const [userNameError, setUserNameError] = useState("");
+  const [guardianError, setGuardianError] = useState("");
   const MobileNumber = `${countryCode}${Phone}`;
- 
 
- 
   const [initialState, setInitialState] = useState({
     userName: "",
     guardiaz: "",
     Phone: "",
     address: "",
   });
-
 
   useEffect(() => {
     if (props.contactEdit && props.editAdditional) {
@@ -64,23 +61,19 @@ function UserAdditionalContact(props) {
 
   const handleUserName = (e) => {
     setUserName(e.target.value);
-    setFormError("")
-    setUserNameError("")
+    setFormError("");
+    setUserNameError("");
   };
   const handleGuardian = (e) => {
     setGuardian(e.target.value);
-    setFormError("")
-    setGuardianError("")
+    setFormError("");
+    setGuardianError("");
   };
   const handleAddress = (e) => {
     setAddress(e.target.value);
-    setFormError("")
-    setAddressError("")
+    setFormError("");
+    setAddressError("");
   };
-
- 
-
-
 
   const validateAssignField = (value, fieldName) => {
     const isValueEmpty =
@@ -93,16 +86,15 @@ function UserAdditionalContact(props) {
         case "gurardian":
           setGuardianError("gurardian is required");
           break;
-          case "userName":
-            setUserNameError("userName is required");
-            break;
-          case "Phone":
-            setPhoneError("pnon number is required");
-            break;
-            case "address":
-              setAddressError("address is required");
-            break;
-        
+        case "userName":
+          setUserNameError("userName is required");
+          break;
+        case "Phone":
+          setPhoneError("pnon number is required");
+          break;
+        case "address":
+          setAddressError("address is required");
+          break;
 
         default:
           break;
@@ -114,15 +106,15 @@ function UserAdditionalContact(props) {
       case "gurardian":
         setGuardianError("");
         break;
-        case "userName":
-          setUserNameError("");
-          break;
-        case "Phone":
-          setPhoneError("");
-          break;
-          case "address":
-            setAddressError("");
-          break;
+      case "userName":
+        setUserNameError("");
+        break;
+      case "Phone":
+        setPhoneError("");
+        break;
+      case "address":
+        setAddressError("");
+        break;
       default:
         break;
     }
@@ -130,20 +122,15 @@ function UserAdditionalContact(props) {
     return true;
   };
 
-
   const handleSubmitContact = () => {
-   const isUserValid = validateAssignField(userName, "userName");
+    const isUserValid = validateAssignField(userName, "userName");
     const isGuardianValid = validateAssignField(guardian, "gurardian");
     const isPhoneValid = validateAssignField(Phone, "Phone");
     const isAddressValid = validateAssignField(address, "address");
 
-
     if (!isUserValid || !isGuardianValid || !isPhoneValid || !isAddressValid) {
       return;
     }
-    
-
-
 
     if (props.editAdditional && props.contactEdit.id) {
       const isChanged = !(
@@ -209,21 +196,21 @@ function UserAdditionalContact(props) {
       setPhoneError("Invalid mobile number *");
     }
     setPhoneErrorMessage("");
-    setFormError("")
+    setFormError("");
     // dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
   const handleCloseAdditionalForm = () => {
     props.setAdditionalForm(false);
-    setUserName("")
-    setPhone("")
-    setAddress("")
-    setGuardian("")
-    setUserNameError("")
-    setGuardianError("")
-    setPhoneError("")
-    setAddressError("")
-    setFormError("")
+    setUserName("");
+    setPhone("");
+    setAddress("");
+    setGuardian("");
+    setUserNameError("");
+    setGuardianError("");
+    setPhoneError("");
+    setAddressError("");
+    setFormError("");
   };
 
   return (
@@ -306,7 +293,11 @@ function UserAdditionalContact(props) {
                           alignItems: "center",
                         }}
                       >
-                        first Name
+                        first Name{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -327,12 +318,29 @@ function UserAdditionalContact(props) {
                         }}
                       />
                     </Form.Group>
+
                     {userNameError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
+                      <div style={{ marginTop: "-15px", color: "red" }}>
+                        <MdError
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            marginRight: "5px",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
                           {userNameError}
-                        </div>
-                      )}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -346,7 +354,11 @@ function UserAdditionalContact(props) {
                           alignItems: "center",
                         }}
                       >
-                        Guardian
+                        Guardian{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -367,12 +379,29 @@ function UserAdditionalContact(props) {
                         }}
                       />
                     </Form.Group>
+
                     {guardianError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
+                      <div style={{ marginTop: "-15px", color: "red" }}>
+                        <MdError
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            marginRight: "5px",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
                           {guardianError}
-                        </div>
-                      )}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -412,7 +441,7 @@ function UserAdditionalContact(props) {
                             paddingRight: 10,
                           }}
                         >
-                        <option>+{countryCode}</option>
+                          <option>+{countryCode}</option>
                         </Form.Select>
                         <Form.Control
                           value={Phone}
@@ -439,24 +468,29 @@ function UserAdditionalContact(props) {
                         id="MobileNumberError"
                         style={{ color: "red", fontSize: 11, marginTop: 5 }}
                       ></p>
+
                       {phoneError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phoneError}
+                        <div style={{ marginTop: "-15px", color: "red" }}>
+                          <MdError
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              marginRight: "5px",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "13px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {phoneError}
+                          </span>
                         </div>
                       )}
-                      {/* {phonenumError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phonenumError}
-                        </div>
-                      )} */}
-                      {/* {phoneErrorMessage && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {phoneErrorMessage}
-                        </div>
-                      )} */}
                     </Form.Group>
                   </div>
 
@@ -471,7 +505,11 @@ function UserAdditionalContact(props) {
                           alignItems: "center",
                         }}
                       >
-                        Address
+                        Address{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -492,20 +530,43 @@ function UserAdditionalContact(props) {
                         }}
                       />
                     </Form.Group>
-                    {addressError && (
+                    {/* {addressError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
                                         {addressError}
                                       </div>
-                                    )}
+                                    )} */}
+
+                    {addressError && (
+                      <div style={{ marginTop: "-15px", color: "red" }}>
+                        <MdError
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            marginRight: "5px",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {addressError}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
-{formError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        {formError}
-                                      </div>
-                                    )}
+                {formError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {formError}
+                  </div>
+                )}
                 <Button
                   className="w-100"
                   style={{

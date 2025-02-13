@@ -286,6 +286,8 @@ function UserList(props) {
     setIsDeleting(false)
   }
 
+  console.log("josh",currentView);
+
   const handleEditBill = () => {
     let isValid = true;
 
@@ -337,21 +339,96 @@ function UserList(props) {
       isValid = false;
     }
 
-    const isDataUnchanged =
-      customername === currentView.user_id &&
-      invoicenumber === currentView.invoicenumber &&
-      startdate === currentView.startdate &&
-      enddate === currentView.enddate &&
-      invoicedate === currentView.date &&
-      invoiceduedate === currentView.due_date;
+    
+    
+
+    // const isDataUnchanged =
+    //   customername != currentView.user_id ||
+    //   invoicenumber != currentView.invoicenumber ||
+    //   startdate != currentView.startdate ||
+    //   enddate != currentView.enddate ||
+    //   invoicedate != currentView.date ||
+    //   invoiceduedate != currentView.due_date ||
+    //   newRows != currentView.amenity
+ 
+
+    //   console.log("customername check:", customername ,"currentView.user_id :", currentView.user_id);
+    //   console.log("invoicenumber check:", invoicenumber ,"currentView.invoicenumber :", currentView.invoicenumber);
+    //   console.log("startdate check:", startdate ,"currentView.startdate :", currentView.startdate);
+    //   console.log("enddate check:", enddate ,"currentView.enddate :", currentView.enddate);
+    //   console.log("invoicedate check:", invoicedate ,"currentView.date :", currentView.date);
+    //   console.log("invoiceduedate check:", invoiceduedate ,"currentView.due_date :", currentView.due_date);
+    //   console.log("newRows check:",newRows ,"currentView.amenity :", currentView.amenity);
+    //   console.log("isDataUnchanged:",isDataUnchanged);
+      
 
 
-    if (isDataUnchanged) {
+    const formatDateToStartdate = (startdate) => {
+      if (!startdate) return ""; 
+      const d = new Date(startdate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateTowenddate = (enddate) => {
+      if (!enddate) return ""; 
+      const d = new Date(enddate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToInvoicedate = (invoicedate) => {
+      if (!invoicedate) return ""; 
+      const d = new Date(invoicedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
+      if (!invoiceduedate) return ""; 
+      const d = new Date(invoiceduedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+
+    
+    const isChanged =
+    (() => {
+      return (
+        Number(currentView.hos_user_id) !== Number(customername) ||
+        console.log("User ID check:", Number(currentView.hos_user_id), Number(customername)) ||
+      
+        formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate) ||
+        console.log("Start Date check:", formatDateToStartdate(currentView.start_date), formatDateToStartdate(startdate)) ||
+      
+        String(currentView.Invoices) !== String(Invoices) ||
+        console.log("Invoice Number check:", String(currentView.Invoices), String(Invoices)) ||
+      
+        formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate) ||
+        console.log("End Date check:", formatDateTowenddate(currentView.enddate), formatDateTowenddate(enddate)) ||
+      
+        formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate) ||
+        console.log("Invoice Date check:", formatDateToInvoicedate(currentView.date), formatDateToInvoicedate(invoicedate)) ||
+      
+        formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate) ||
+        console.log("Invoice Due Date check:", formatDateToSInvoiceDuedate(currentView.due_date), formatDateToSInvoiceDuedate(invoiceduedate)) ||
+      
+        newRows.some((row, index) => {
+          const originalRow = currentView.amenity?.[index];
+      
+          console.log(`Checking amenity row ${index}:`);
+          console.log("New am_name:", row.am_name, "Original am_name:", originalRow?.am_name);
+          console.log("New amount:", row.amount, "Original amount:", originalRow?.amount);
+      
+          return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
+        })
+      );
+      
+})();
+
+    if (!isChanged) {
       setAllFieldErrmsg('No changes detected.');
       isValid = false;
     }
 
-    if (isValid) {
+    if (isValid && isChanged) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
@@ -372,13 +449,7 @@ function UserList(props) {
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
       ).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
-      console.log("Customer Name (user_id):", customername);
-      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
-      console.log("Due Date (due_date):", formatduedate);
-      console.log("Invoice ID (id):", currentView.id);
-      console.log("Amenity:", currentView.amenity);
-      console.log("start", formattedStartDate);
-      console.log("end", formattedEndDate);
+     
 
       dispatch({
         type: 'MANUAL-INVOICE-EDIT',

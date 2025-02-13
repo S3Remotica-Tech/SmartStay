@@ -534,12 +534,19 @@ setTimeout(() => {
                           </option>
                         ))}
                       </Form.Select>
-                      {floorError && (
+                      {/* {floorError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {floorError}
                         </div>
-                      )}
+                      )} */}
+                       {floorError && (
+                                              <div style={{ color: "red", marginTop: "-5px" }}>
+                                                {" "}
+                                                <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                                                <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {floorError}</span>
+                                              </div>
+                                            )}
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -583,12 +590,20 @@ setTimeout(() => {
                             </option>
                           ))}
                       </Form.Select>
-                      {roomError && (
+                      {/* {roomError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {roomError}
                         </div>
-                      )}
+                      )} */}
+
+{roomError && (
+                                              <div style={{ color: "red", marginTop: "-5px" }}>
+                                                {" "}
+                                                <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                                                <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {roomError}</span>
+                                              </div>
+                                            )}
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -656,12 +671,19 @@ setTimeout(() => {
                             ))}
                       </Form.Select>
 
-                      {bedError && (
+                      {/* {bedError && (
                         <div style={{ color: "red" }}>
                           <MdError />
                           {bedError}
                         </div>
-                      )}
+                      )} */}
+                       {bedError && (
+                                              <div style={{ color: "red", marginTop: "-5px" }}>
+                                                {" "}
+                                                <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                                                <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {bedError}</span>
+                                              </div>
+                                            )}
                     </div>
         
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -688,12 +710,19 @@ setTimeout(() => {
                 </div>
             </Form.Group>
 
-            {dateError && (
+            {/* {dateError && (
                 <div style={{ color: "red" }}>
                     <MdError />
                     {dateError}
                 </div>
-            )}
+            )} */}
+            {dateError && (
+                                              <div style={{ color: "red",marginTop:"-10px"}}>
+                                                {" "}
+                                                <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                                                <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {dateError}</span>
+                                              </div>
+                                            )}
         </div>
 
         {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -811,12 +840,19 @@ setTimeout(() => {
       }}
     />
   </Form.Group>
-  {rentError && (
+  {/* {rentError && (
                 <div style={{ color: "red" }}>
                     <MdError />
                     {rentError}
                 </div>
-            )}
+            )} */}
+                {rentError && (
+                                              <div style={{ color: "red", marginTop: "-20px" }}>
+                                                {" "}
+                                                <MdError style={{fontSize: '13px',marginRight:"4px"}} />
+                                                <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {rentError}</span>
+                                              </div>
+                                            )}
 </div>
 
                   </div>
