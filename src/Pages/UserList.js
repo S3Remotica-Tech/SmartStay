@@ -608,6 +608,7 @@ function UserList(props) {
     const updatedRows = [...newRows];
     updatedRows[index][field] = value;
     setNewRows(updatedRows);
+    setAllFieldErrmsg("")
   };
 
   const handleDeleteNewRow = (index) => {
