@@ -12,7 +12,7 @@ import Delete from "../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from "../Assets/Images/New_images/edit.png";
 import Select from "react-select";
-
+import './SettingAll.css'
 
 
 const SettingElectricity = ({ hostelid }) => {
@@ -43,11 +43,11 @@ const SettingElectricity = ({ hostelid }) => {
   const [loading, setLoading] = useState(true)
 
 
-  useEffect(() => {
-    if (hostelid) {
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
-    }
-  }, [hostelid])
+  // useEffect(() => {
+  //   if (hostelid) {
+  //     dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+  //   }
+  // }, [hostelid])
 
 
   console.log("state.Settings.addEbbillingUnitStatuscode", state.Settings.addEbbillingUnitStatuscode)
@@ -707,6 +707,7 @@ console.log("called")
         onHide={() => handleClose()}
         backdrop="static"
         centered
+         dialogClassName="custom-modal"
       >
         <Modal.Header style={{  position: "relative" }}>
           <div
@@ -753,7 +754,7 @@ console.log("called")
         </Modal.Header>
         <Modal.Body style={{ marginBottom: "0px" }}>
           <div className="col">
-            <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
                 <Form.Label
                   style={{
@@ -782,14 +783,15 @@ console.log("called")
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
-                    backgroundColor: "#E7F1FF"
+                    backgroundColor: "#E7F1FF",
+                    width: "100%" ,
                   }}
                 />
               </Form.Group>
               {unitErr && <span style={{ color: "red", fontSize: 16 }}> {unitErr} </span>}
             </div>
 
-            <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-1">
                 <Form.Label
                   style={{
@@ -970,6 +972,7 @@ console.log("called")
             onHide={handleCloseRecurringForm}
             centered
             backdrop="static"
+            dialogClassName="custom-modal"
           >
             <Modal.Dialog
               style={{
