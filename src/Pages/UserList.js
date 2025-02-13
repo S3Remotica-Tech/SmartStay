@@ -39,6 +39,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
+import leftarrow from "../Assets/Images/arrow-left.png";
 
 
 import DatePicker from 'react-datepicker';
@@ -285,6 +286,8 @@ function UserList(props) {
     setIsDeleting(false)
   }
 
+  console.log("josh",currentView);
+
   const handleEditBill = () => {
     let isValid = true;
 
@@ -336,21 +339,96 @@ function UserList(props) {
       isValid = false;
     }
 
-    const isDataUnchanged =
-      customername === currentView.user_id &&
-      invoicenumber === currentView.invoicenumber &&
-      startdate === currentView.startdate &&
-      enddate === currentView.enddate &&
-      invoicedate === currentView.date &&
-      invoiceduedate === currentView.due_date;
+    
+    
+
+    // const isDataUnchanged =
+    //   customername != currentView.user_id ||
+    //   invoicenumber != currentView.invoicenumber ||
+    //   startdate != currentView.startdate ||
+    //   enddate != currentView.enddate ||
+    //   invoicedate != currentView.date ||
+    //   invoiceduedate != currentView.due_date ||
+    //   newRows != currentView.amenity
+ 
+
+    //   console.log("customername check:", customername ,"currentView.user_id :", currentView.user_id);
+    //   console.log("invoicenumber check:", invoicenumber ,"currentView.invoicenumber :", currentView.invoicenumber);
+    //   console.log("startdate check:", startdate ,"currentView.startdate :", currentView.startdate);
+    //   console.log("enddate check:", enddate ,"currentView.enddate :", currentView.enddate);
+    //   console.log("invoicedate check:", invoicedate ,"currentView.date :", currentView.date);
+    //   console.log("invoiceduedate check:", invoiceduedate ,"currentView.due_date :", currentView.due_date);
+    //   console.log("newRows check:",newRows ,"currentView.amenity :", currentView.amenity);
+    //   console.log("isDataUnchanged:",isDataUnchanged);
+      
 
 
-    if (isDataUnchanged) {
+    const formatDateToStartdate = (startdate) => {
+      if (!startdate) return ""; 
+      const d = new Date(startdate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateTowenddate = (enddate) => {
+      if (!enddate) return ""; 
+      const d = new Date(enddate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToInvoicedate = (invoicedate) => {
+      if (!invoicedate) return ""; 
+      const d = new Date(invoicedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
+      if (!invoiceduedate) return ""; 
+      const d = new Date(invoiceduedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+
+    
+    const isChanged =
+    (() => {
+      return (
+        Number(currentView.hos_user_id) !== Number(customername) ||
+        console.log("User ID check:", Number(currentView.hos_user_id), Number(customername)) ||
+      
+        formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate) ||
+        console.log("Start Date check:", formatDateToStartdate(currentView.start_date), formatDateToStartdate(startdate)) ||
+      
+        String(currentView.Invoices) !== String(invoicenumber) ||
+        console.log("Invoice Number check:", String(currentView.Invoices), String(invoicenumber)) ||
+      
+        formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate) ||
+        console.log("End Date check:", formatDateTowenddate(currentView.enddate), formatDateTowenddate(enddate)) ||
+      
+        formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate) ||
+        console.log("Invoice Date check:", formatDateToInvoicedate(currentView.date), formatDateToInvoicedate(invoicedate)) ||
+      
+        formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate) ||
+        console.log("Invoice Due Date check:", formatDateToSInvoiceDuedate(currentView.due_date), formatDateToSInvoiceDuedate(invoiceduedate)) ||
+      
+        newRows.some((row, index) => {
+          const originalRow = currentView.amenity?.[index];
+      
+          console.log(`Checking amenity row ${index}:`);
+          console.log("New am_name:", row.am_name, "Original am_name:", originalRow?.am_name);
+          console.log("New amount:", row.amount, "Original amount:", originalRow?.amount);
+      
+          return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
+        })
+      );
+      
+})();
+
+    if (!isChanged) {
       setAllFieldErrmsg('No changes detected.');
       isValid = false;
     }
 
-    if (isValid) {
+    if (isValid && isChanged) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
@@ -371,13 +449,7 @@ function UserList(props) {
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
       ).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
-      console.log("Customer Name (user_id):", customername);
-      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
-      console.log("Due Date (due_date):", formatduedate);
-      console.log("Invoice ID (id):", currentView.id);
-      console.log("Amenity:", currentView.amenity);
-      console.log("start", formattedStartDate);
-      console.log("end", formattedEndDate);
+     
 
       dispatch({
         type: 'MANUAL-INVOICE-EDIT',
@@ -386,7 +458,7 @@ function UserList(props) {
           date: formattedDate,
           due_date: formatduedate,
           id: currentView.id,
-          amenity: currentView.amenity,
+          amenity: newRows,
           start_date: formattedStartDate,
           end_date: formattedEndDate,
 
@@ -427,6 +499,7 @@ function UserList(props) {
       amount: ''
     };
     setNewRows([...newRows, newRow]);
+    setAllFieldErrmsg("")
     console.log("Updated Rows:", [...newRows, newRow]);
   };
   console.log("currentView", props.currentView)
@@ -535,6 +608,7 @@ function UserList(props) {
     const updatedRows = [...newRows];
     updatedRows[index][field] = value;
     setNewRows(updatedRows);
+    setAllFieldErrmsg("")
   };
 
   const handleDeleteNewRow = (index) => {
@@ -4502,13 +4576,35 @@ function UserList(props) {
 
       {isEditing &&
 
-        <div className='container ms-5 me-5 mt-4'>
+        <div className='container ms-5  '>
 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-            <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-            <p className="mt-1">Edit Bill</p>
-          </div>
+<div
+                    className="container justify-content-start  d-flex align-items-start"
+                    style={{ 
+                      position: "sticky", 
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: "60px",
+    padding: "10px 20px", 
+                    }}
+                  >
+                    <div style={{position:"fixed",marginLeft:"-20px"}}>
+                    <svg onClick={handleBackBill} style={{ fontSize: '22px', }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "18px",
+                        marginLeft: 5,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Edit Bill
+                    </span>{" "}
+                    </div>
+                  </div>
 
           <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -4739,19 +4835,19 @@ function UserList(props) {
               )}
 
             </div>
-            {allfielderrmsg.trim() !== "" && (
+           
+          </div>
+
+
+
+
+          {allfielderrmsg.trim() !== "" && (
               <div>
                 <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                   {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
                 </p>
               </div>
             )}
-          </div>
-
-
-
-
-
 
           {/* Table */}
           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
