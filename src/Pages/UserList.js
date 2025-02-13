@@ -398,8 +398,8 @@ function UserList(props) {
         formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate) ||
         console.log("Start Date check:", formatDateToStartdate(currentView.start_date), formatDateToStartdate(startdate)) ||
       
-        String(currentView.Invoices) !== String(Invoices) ||
-        console.log("Invoice Number check:", String(currentView.Invoices), String(Invoices)) ||
+        String(currentView.Invoices) !== String(invoicenumber) ||
+        console.log("Invoice Number check:", String(currentView.Invoices), String(invoicenumber)) ||
       
         formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate) ||
         console.log("End Date check:", formatDateTowenddate(currentView.enddate), formatDateTowenddate(enddate)) ||
@@ -458,7 +458,7 @@ function UserList(props) {
           date: formattedDate,
           due_date: formatduedate,
           id: currentView.id,
-          amenity: currentView.amenity,
+          amenity: newRows,
           start_date: formattedStartDate,
           end_date: formattedEndDate,
 
@@ -499,6 +499,7 @@ function UserList(props) {
       amount: ''
     };
     setNewRows([...newRows, newRow]);
+    setAllFieldErrmsg("")
     console.log("Updated Rows:", [...newRows, newRow]);
   };
   console.log("currentView", props.currentView)
