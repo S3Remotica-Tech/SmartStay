@@ -993,7 +993,7 @@ const Compliance = () => {
                     <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Complaints</label>
                   </div>
 
-                  <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
 
 
                     {search ? (
@@ -1012,7 +1012,7 @@ const Compliance = () => {
                               alignItems: "center",
                               width: "100%",
                               marginTop: '10px',
-                              marginBottom: '10px'
+                              marginBottom: '10px',
                             }}
                           >
                             <Image
@@ -1024,11 +1024,12 @@ const Compliance = () => {
                                 width: "24px",
                                 height: "24px",
                                 pointerEvents: "none",
+                               
                               }}
                             />
                             <div
                               className="input-group"
-                              style={{ marginRight: 20 }}
+                              style={{ marginRight: 20,cursor:"pointer" }}
                             >
                               <span className="input-group-text bg-white border-end-0">
                                 <Image
@@ -1045,7 +1046,8 @@ const Compliance = () => {
                                   boxShadow: "none",
                                   outline: "none",
                                   borderColor: "rgb(207,213,219)",
-                                  borderRight: "none"
+                                  borderRight: "none",
+                               
 
                                 }}
                                 value={filterInput}
@@ -1133,7 +1135,7 @@ const Compliance = () => {
                       </>
                     ) : (
                       <>
-                        <div style={{ marginTop: 10, paddingRight: 7 }}>
+                        <div style={{ marginTop: 10, paddingRight: 7,cursor:"pointer"}}>
                           <Image
                             src={Filters}
                             roundedCircle
@@ -1167,7 +1169,7 @@ const Compliance = () => {
                         }
 
 
-                        <div style={{ marginTop: 6, paddingRight: 21 }}>
+                        <div style={{ marginTop: 6, paddingRight: 21,cursor:"pointer" }}>
                           <Image
                             src={searchteam}
                             roundedCircle
@@ -1183,7 +1185,7 @@ const Compliance = () => {
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-                    <div style={{ paddingRight: "21px", marginTop: 9 }}>
+                    <div style={{ paddingRight: "21px", marginTop: 9 ,cursor:"pointer"}}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
 
