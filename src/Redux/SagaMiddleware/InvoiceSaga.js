@@ -259,9 +259,11 @@ function* handleInvoiceList(action) {
 
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
+
+   
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response,statusCode:response.status || response.statusCode })
+      yield put({ type: 'UPDATEINVOICE_DETAILS', payload:{ statusCode: response.data.statusCode || response.statusCode }   })
    
       var toastStyle = {
          backgroundColor: "#E6F6E6",
