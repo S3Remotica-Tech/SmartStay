@@ -401,7 +401,14 @@ function SettingAmenities({ hostelid }) {
                                             </div>
                                             <div>
 
-                                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
+                                                <div style={{ cursor: "pointer", height: 40, 
+                                                width: 40, borderRadius: 100, 
+                                                border: "1px solid #EFEFEF", display: "flex", 
+                                                justifyContent: "center", alignItems: "center", 
+                                                position: "relative", 
+                                                zIndex: showDots ? 1000 : 'auto',
+                                                backgroundColor: showDots === index ?"#E7F1FF" : "white",
+                                             }}
                                                     onClick={() => handleDotsClick(index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />

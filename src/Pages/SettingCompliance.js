@@ -74,7 +74,7 @@ function SettingCompliance({ hostelid }) {
             // top: rect.top + window.scrollY + 30,
             // left: rect.left + window.scrollX - 120,
             top: rect.top + window.scrollY + 30,
-            left: rect.left + window.scrollX - 610,
+            left: rect.left + window.scrollX - 675,
         });
 
         setMenuLoaded(true);
