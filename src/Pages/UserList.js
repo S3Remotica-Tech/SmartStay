@@ -259,6 +259,15 @@ function UserList(props) {
 
     setIsReading(users);
   };
+  const handleNewRowChange = (index, field, value) => {
+    setNewRows((prevRows) =>
+      prevRows.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row
+      )
+    );
+    setAllFieldErrmsg("");
+  };
+  
 
   const handleDeleteHostelItem = (data) => {
     setdeleteIdhostel(data);
@@ -405,71 +414,37 @@ function UserList(props) {
     };
 
     const isChanged = (() => {
+      const userChanged = Number(currentView.hos_user_id) !== Number(customername);
+      const startDateChanged = formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate);
+      const invoiceChanged = String(currentView.Invoices) !== String(invoicenumber);
+      const endDateChanged = formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate);
+      const invoiceDateChanged = formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate);
+      const dueDateChanged = formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
+    
+      const amenitiesChanged = newRows.some((row, index) => {
+        const originalRow = currentView.amenity?.[index] || {};
+        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+      });
+    
+      console.log("User ID changed:", userChanged);
+      console.log("Start Date changed:", startDateChanged);
+      console.log("Invoice Number changed:", invoiceChanged);
+      console.log("End Date changed:", endDateChanged);
+      console.log("Invoice Date changed:", invoiceDateChanged);
+      console.log("Due Date changed:", dueDateChanged);
+      console.log("Amenities changed:", amenitiesChanged);
+    
       return (
-        Number(currentView.hos_user_id) !== Number(customername) ||
-        console.log(
-          "User ID check:",
-          Number(currentView.hos_user_id),
-          Number(customername)
-        ) ||
-        formatDateToStartdate(currentView.start_date) !==
-          formatDateToStartdate(startdate) ||
-        console.log(
-          "Start Date check:",
-          formatDateToStartdate(currentView.start_date),
-          formatDateToStartdate(startdate)
-        ) ||
-        String(currentView.Invoices) !== String(invoicenumber) ||
-        console.log(
-          "Invoice Number check:",
-          String(currentView.Invoices),
-          String(invoicenumber)
-        ) ||
-        formatDateTowenddate(currentView.end_date) !==
-          formatDateTowenddate(enddate) ||
-        console.log(
-          "End Date check:",
-          formatDateTowenddate(currentView.enddate),
-          formatDateTowenddate(enddate)
-        ) ||
-        formatDateToInvoicedate(currentView.Date) !==
-          formatDateToInvoicedate(invoicedate) ||
-        console.log(
-          "Invoice Date check:",
-          formatDateToInvoicedate(currentView.date),
-          formatDateToInvoicedate(invoicedate)
-        ) ||
-        formatDateToSInvoiceDuedate(currentView.DueDate) !==
-          formatDateToSInvoiceDuedate(invoiceduedate) ||
-        console.log(
-          "Invoice Due Date check:",
-          formatDateToSInvoiceDuedate(currentView.due_date),
-          formatDateToSInvoiceDuedate(invoiceduedate)
-        ) ||
-        newRows.some((row, index) => {
-          const originalRow = currentView.amenity?.[index];
-
-          console.log(`Checking amenity row ${index}:`);
-          console.log(
-            "New am_name:",
-            row.am_name,
-            "Original am_name:",
-            originalRow?.am_name
-          );
-          console.log(
-            "New amount:",
-            row.amount,
-            "Original amount:",
-            originalRow?.amount
-          );
-
-          return (
-            row.am_name !== originalRow?.am_name ||
-            row.amount !== originalRow?.amount
-          );
-        })
+        userChanged ||
+        startDateChanged ||
+        invoiceChanged ||
+        endDateChanged ||
+        invoiceDateChanged ||
+        dueDateChanged ||
+        amenitiesChanged
       );
     })();
+    
 
     if (!isChanged) {
       setAllFieldErrmsg("No changes detected.");
@@ -647,12 +622,7 @@ function UserList(props) {
     setFormatDueDate(formattedDate);
   };
 
-  const handleNewRowChange = (index, field, value) => {
-    const updatedRows = [...newRows];
-    updatedRows[index][field] = value;
-    setNewRows(updatedRows);
-    setAllFieldErrmsg("");
-  };
+ 
 
   const handleDeleteNewRow = (index) => {
     const updatedRows = newRows.filter((_, i) => i !== index);
