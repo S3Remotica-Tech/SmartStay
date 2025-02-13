@@ -62,6 +62,9 @@ function PgList(props) {
   const [customerAddPermission, setCustomerAddPermission] = useState("")
   const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
+  const [key, setKey] = useState("1");
+
+  const [visibleRange, setVisibleRange] = useState([0, 2]);
 
   const popupRef = useRef(null);
 
@@ -216,6 +219,7 @@ function PgList(props) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
 
+
       setShowFloor(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_FLOOR_STATUS_CODE" });
@@ -227,22 +231,35 @@ function PgList(props) {
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
-  // useEffect(() => {
-  //   if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-  //     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-  //     dispatch({ type: "HOSTELLIST" });
-  //     dispatch({ type: "HOSTELIDDETAILS" });
-  //     setShowDelete(false);
-
-  //     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_DELETE_FLOOR" });
-  //     }, 4000);
-  //   }
-  // }, [state.UsersList.deleteFloorSuccessStatusCode]);
+console.log("visible range", visibleRange)
 
 
+useEffect(()=>{
+  if(state.UsersList.createFloorSuccessStatusCode == 200 && showHostelDetails?.floorDetails.length > 0){
+  const updatedFloors = showHostelDetails?.floorDetails || [];
+   if (updatedFloors.length > 0) {
+           const lastFloor = updatedFloors[updatedFloors.length - 1];
+  const lastIndex = updatedFloors.length - 1;
+    setFloorClick(lastFloor?.floor_id || null);
+    setKey(lastFloor?.floor_id?.toString() || "");
+    setFloorName(lastFloor?.floor_name || "");
+     
+   
+    const newStart = Math.max(0, lastIndex - 2); 
+    const newEnd = lastIndex; 
+    setVisibleRange([newStart, newEnd]);
+
+
+
+
+  } else {
+    setFloorClick(null);
+    setKey("");
+    setFloorName("");
+  }
+}
+},[state.UsersList.createFloorSuccessStatusCode, showHostelDetails?.floorDetails])
+  
 
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
@@ -257,7 +274,7 @@ function PgList(props) {
         const updatedFloors = showHostelDetails?.floorDetails || [];
 
         if (updatedFloors.length > 0) {
-          // Find the first floor within the visible range
+
           const firstVisibleFloor = updatedFloors.find(
             (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
           );
@@ -267,13 +284,12 @@ function PgList(props) {
             setKey(firstVisibleFloor.floor_id.toString());
             setFloorName(firstVisibleFloor.floor_name);
           } else {
-            // Fallback to the first floor if no floor in visible range
+
             setFloorClick(updatedFloors[0]?.floor_id || null);
             setKey(updatedFloors[0]?.floor_id?.toString() || "");
             setFloorName(updatedFloors[0]?.floor_name || "");
           }
         } else {
-          // No floors left, reset selection
           setFloorClick(null);
           setKey("");
           setFloorName("");
@@ -644,6 +660,7 @@ function PgList(props) {
     setFloorClick("");
     setFloorName("");
     setHidePgList(true);
+    setVisibleRange([0,2])
   };
 
   const handleDIsplayFloorClick = (floorNo) => {
@@ -707,9 +724,6 @@ function PgList(props) {
     setEditHostelDetails(hostelDetails);
   };
 
-  const [key, setKey] = useState("1");
-
-  const [visibleRange, setVisibleRange] = useState([0, 3]);
 
 
   const numberOfFloors =

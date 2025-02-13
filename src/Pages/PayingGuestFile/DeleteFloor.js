@@ -143,7 +143,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
           display: "flex"
         }} >
           <Modal.Title style={{
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 600,
             fontFamily: "Gilroy"
           }}>Delete floor ?</Modal.Title>
@@ -159,15 +159,15 @@ function DeleteFloor({ show, handleClose, currentItem }) {
             </label>
           </div>
         )}
-        <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+        <Modal.Body style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
           {`Are you sure you want to delete the ${currentItem.floor_Name}?`}
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-          <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+          <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
             Cancel
           </Button>
 
-          <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
+          <Button style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
             Delete
           </Button>
 

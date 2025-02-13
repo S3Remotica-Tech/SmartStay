@@ -166,6 +166,56 @@ function SettingManage(props) {
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
+
+
+
+  useEffect(() => {
+    if (state.UsersList.createFloorSuccessStatusCode == 200 && showHostelDetails?.floorDetails.length > 0) {
+      const updatedFloors = showHostelDetails?.floorDetails || [];
+  
+      if (updatedFloors.length > 0) {
+        const lastFloor = updatedFloors[updatedFloors.length - 1]; 
+        const lastIndex = updatedFloors.length - 1;
+  
+        setFloorClick(lastFloor?.floor_id || null);
+        setKey(lastFloor?.floor_id?.toString() || "");
+        setFloorName(lastFloor?.floor_name || "");
+  
+        console.log("updatedFloors", updatedFloors, "lastFloor", lastFloor, "showHostelDetails", showHostelDetails);
+        console.log("floorClick", floorClick, "key", key, "floorName", floorName);
+  
+      
+        const newStartIndex = Math.max(0, lastIndex - 2); 
+        const newEndIndex = lastIndex; 
+  
+        
+        // const newStart = updatedFloors[newStartIndex]?.floor_id || 0;
+        // const newEnd = updatedFloors[newEndIndex]?.floor_id || 0;
+  
+      
+        setVisibleRange([newStartIndex, newEndIndex]);
+      } else {
+        setFloorClick(null);
+        setKey("");
+        setFloorName("");
+      }
+    }
+  }, [state.UsersList.createFloorSuccessStatusCode, showHostelDetails?.floorDetails]);
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
       dispatch({ type: "HOSTELLIST" });
@@ -395,10 +445,9 @@ function SettingManage(props) {
   const handlebackToPG = () => {
     setSelectedHostel(false);
     setFloorClick("");
-
     setFloorName("");
-
     setHidePgList(true);
+    setVisibleRange([0,2])
   };
 
   const handleDIsplayFloorClick = (floorNo) => {
@@ -482,7 +531,7 @@ function SettingManage(props) {
 
   const [key, setKey] = useState("1");
 
-  const [visibleRange, setVisibleRange] = useState([0, 3]);
+  const [visibleRange, setVisibleRange] = useState([0, 2]);
 
 
   const numberOfFloors =
