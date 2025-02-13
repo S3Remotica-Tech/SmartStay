@@ -2137,25 +2137,17 @@ cursor:"pointer"
                     />
                   </div>
                 </Form.Group>
-                {dateError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", fontSize: "13px" }} />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginLeft: 5
-                      }}
-                    >
-                      {dateError}
-                    </span>
-                  </div>
-                )}
+              
               </div>
             </div>
+            
           </Modal.Body>
+          {dateError && (
+                                    <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+                                    <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                    <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+                                  </div>
+                                    )}
           <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
               className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

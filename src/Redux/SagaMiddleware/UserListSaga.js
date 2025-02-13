@@ -1283,6 +1283,7 @@ function* handleReAssignPage(action) {
 
 function* handleCustomerAddContact(action) {
       const response = yield call (customerAddContact, action.payload);
+      console.log("handleCustomerAddContact",response)
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
@@ -1315,7 +1316,7 @@ function* handleCustomerAddContact(action) {
         });
       }
       else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'CONTACT_ERROR', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+         yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
       }
     
       else {

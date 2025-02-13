@@ -449,7 +449,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, statusCodeDeleteContact: 0 };
 
             case 'CONTACT_ERROR':
-                return { ...state, contactError: action.payload }
+                return { ...state, contactError: action.payload.response }
     
             case 'CLEAR_CONTACT_ERROR':
                 return { ...state, contactError: ''}

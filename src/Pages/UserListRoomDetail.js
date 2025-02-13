@@ -3411,21 +3411,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     )}
                                   </div>
                                 </div>
-                                {formError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {formError}
-                                    </span>
-                                  </div>
-                                )}
+                               {formError && (
+                                                        <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+                                                          <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                                          <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                        </div>
+                                                      )}
                                 <Button
                                   className="w-100"
                                   style={{

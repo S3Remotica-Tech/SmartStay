@@ -181,9 +181,7 @@ function UserAdditionalContact(props) {
     }
   }, [state.UsersList.statusCodeForCustomerCoatact]);
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
+  
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -197,8 +195,13 @@ function UserAdditionalContact(props) {
     }
     setPhoneErrorMessage("");
     setFormError("");
-    // dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
+  useEffect(() => {
+    if (state.UsersList.contactError) {
+      setPhoneError(state.UsersList.contactError);
+    }
+  }, [state.UsersList.contactError]);
 
   const handleCloseAdditionalForm = () => {
     props.setAdditionalForm(false);
@@ -211,6 +214,7 @@ function UserAdditionalContact(props) {
     setPhoneError("");
     setAddressError("");
     setFormError("");
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
   return (
@@ -561,12 +565,12 @@ function UserAdditionalContact(props) {
                     )}
                   </div>
                 </div>
-                {formError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {formError}
-                  </div>
-                )}
+                  {formError && (
+                          <div className="d-flex justify-content-center align-items-center" style={{ color: "red",marginTop:"-10px" }}>
+                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                          </div>
+                        )}
                 <Button
                   className="w-100"
                   style={{

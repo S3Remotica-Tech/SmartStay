@@ -1431,14 +1431,15 @@ function EBRoomReading(props) {
                   />
                 </div>
               </Form.Group>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
-                </div>
-              )}
+             
             </div>
           </div>
+           {dateError && (
+                        <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+                        <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                        <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+                      </div>
+                        )}
         </Modal.Body>
         {formError && (
           <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
