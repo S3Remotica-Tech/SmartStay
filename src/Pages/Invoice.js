@@ -78,9 +78,8 @@ import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
 
 const InvoicePage = () => {
-
   const state = useSelector((state) => state);
-  console.log("state", state)
+  console.log("state", state);
   const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
@@ -116,7 +115,6 @@ const InvoicePage = () => {
     invoice_type: "",
     transaction: "",
   });
-
 
   const [invoicePage, setInvoicePage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
@@ -224,7 +222,6 @@ const InvoicePage = () => {
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
-  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -246,8 +243,8 @@ const InvoicePage = () => {
     setShowAllBill(false);
     setShowManualInvoice(true);
     setBillMode("New Bill");
-    setIsEditing(false)
-    setInvoiceDetails(null)
+    setIsEditing(false);
+    setInvoiceDetails(null);
   };
 
   const handleRecurrBillShow = () => {
@@ -329,16 +326,12 @@ const InvoicePage = () => {
   };
 
   const handleReceiptDetail = (item) => {
-
-
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
       const year = originalDate.getFullYear();
       const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
       const day = originalDate.getDate().toString().padStart(2, "0");
       const newDate = `${year}-${month}-${day}`;
-
-
 
       dispatch({
         type: "RECEIPTPDF",
@@ -347,10 +340,9 @@ const InvoicePage = () => {
         },
       });
 
-
       setShowLoader(true);
     }
-  }
+  };
 
   let newNotificationIDs =
     state.login.Notification &&
@@ -563,7 +555,9 @@ const InvoicePage = () => {
   };
 
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
-  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState([]); // Store original data
+  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
+    []
+  ); // Store original data
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
@@ -581,8 +575,9 @@ const InvoicePage = () => {
     if (searchTerm === "All") {
       setBills(originalBillsFilter);
     } else {
-      const filteredItems = originalBillsFilter.filter((user) =>
-        user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
+      const filteredItems = originalBillsFilter.filter(
+        (user) =>
+          user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
 
       console.log("Filtered Bills:", filteredItems);
@@ -592,9 +587,6 @@ const InvoicePage = () => {
     // 🔥 Reset to first page after filtering
     setCurrentPage(1);
   };
-
-
-
 
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
@@ -751,9 +743,8 @@ const InvoicePage = () => {
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
-  const [invoiceDetails, setInvoiceDetails] = useState(false)
+  const [invoiceDetails, setInvoiceDetails] = useState(false);
   const [originalInvoiceDetails, setOriginalInvoiceDetails] = useState(null);
-
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
@@ -762,120 +753,114 @@ const InvoicePage = () => {
     setReceiptEdit(true);
   };
 
-
-
-
   const handleEdit = (props) => {
-
-    console.log("propsbill", props)
+    console.log("propsbill", props);
 
     setShowManualInvoice(true);
     setShowAllBill(false);
     setBillMode("Edit Bill");
     setIsEditing(true);
-    setInvoiceDetails(null)
-     setTimeout(() => {
+    setInvoiceDetails(null);
+    setTimeout(() => {
       setInvoiceDetails(props);
-     }, 0);
+    }, 0);
     if (props) {
-      
       setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props)));
     }
-
   };
 
-
-  
-   
   console.log("editdata", invoiceDetails);
 
   useEffect(() => {
     // if (invoiceDetails ) {
-     
-       
-      if (invoiceDetails?.ID) {
-        setCustomerName(invoiceDetails?.ID);
+
+    if (invoiceDetails?.ID) {
+      setCustomerName(invoiceDetails?.ID);
+    }
+
+    setInvoiceNumber(invoiceDetails?.Invoices);
+
+    if (invoiceDetails?.DueDate) {
+      const parsedDate = new Date(invoiceDetails.DueDate);
+      if (!isNaN(parsedDate.getTime())) {
+        setInvoiceDueDate(parsedDate);
       }
+    }
 
-      setInvoiceNumber(invoiceDetails?.Invoices);
-
-      if (invoiceDetails?.DueDate) {
-        const parsedDate = new Date(invoiceDetails.DueDate);
-        if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDueDate(parsedDate);
-        }
+    if (invoiceDetails?.Date) {
+      const parsedDate = new Date(invoiceDetails.Date);
+      if (!isNaN(parsedDate.getTime())) {
+        setInvoiceDate(parsedDate);
       }
+    }
 
-      if (invoiceDetails?.Date) {
-        const parsedDate = new Date(invoiceDetails.Date);
-        if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDate(parsedDate);
-        }
+    if (invoiceDetails?.start_date) {
+      const parsedDate = new Date(invoiceDetails.start_date);
+      if (!isNaN(parsedDate.getTime())) {
+        setStartDate(parsedDate);
       }
+    }
 
-      if (invoiceDetails?.start_date) {
-        const parsedDate = new Date(invoiceDetails.start_date);
-        if (!isNaN(parsedDate.getTime())) {
-          setStartDate(parsedDate);
-        }
+    if (invoiceDetails?.end_date) {
+      const parsedDate = new Date(invoiceDetails.end_date);
+      if (!isNaN(parsedDate.getTime())) {
+        setEndDate(parsedDate);
       }
+    }
 
-      if (invoiceDetails?.end_date) {
-        const parsedDate = new Date(invoiceDetails.end_date);
-        if (!isNaN(parsedDate.getTime())) {
-          setEndDate(parsedDate);
-        }
-      }
+    setTotalAmount(invoiceDetails?.Amount);
 
-      setTotalAmount(invoiceDetails?.Amount);
+    let newRows = [];
 
+    const existingAmenities = invoiceDetails?.amenity || [];
 
-      let newRows = [];
+    const doesAmenityExist = (name) =>
+      existingAmenities.some((item) => item.am_name === name);
 
+    if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
+      newRows.push({
+        "S.NO": newRows.length + 1,
+        am_name: "Room Rent",
+        amount: invoiceDetails.RoomRent,
+      });
+    }
 
-      const existingAmenities = invoiceDetails?.amenity || [];
+    if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
+      newRows.push({
+        "S.NO": newRows.length + 1,
+        am_name: "Advance Amount",
+        amount: invoiceDetails.advance_amount,
+      });
+    }
 
+    if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
+      newRows.push({
+        "S.NO": newRows.length + 1,
+        am_name: "EB Amount",
+        amount: invoiceDetails.EbAmount,
+      });
+    }
 
-      const doesAmenityExist = (name) => existingAmenities.some(item => item.am_name === name);
+    if (invoiceDetails?.amenity && invoiceDetails.amenity.length > 0) {
+      newRows = [
+        ...newRows,
+        ...invoiceDetails.amenity.map((item, index) => ({
+          "S.NO": newRows.length + index + 1,
+          am_name: item.am_name,
+          amount: item.amount,
+        })),
+      ];
+    }
 
-      if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
-        newRows.push({ "S.NO": newRows.length + 1, am_name: "Room Rent", amount: invoiceDetails.RoomRent });
-      }
+    if (newRows.length === 0) {
+      newRows = [{ "S.NO": 1, am_name: "Room Rent", amount: 0 }];
+    }
 
-      if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
-        newRows.push({ "S.NO": newRows.length + 1, am_name: "Advance Amount", amount: invoiceDetails.advance_amount });
-      }
-
-      if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
-        newRows.push({ "S.NO": newRows.length + 1, am_name: "EB Amount", amount: invoiceDetails.EbAmount });
-      }
-
-
-
-      if (invoiceDetails?.amenity && invoiceDetails.amenity.length > 0) {
-        newRows = [
-          ...newRows,
-          ...invoiceDetails.amenity.map((item, index) => ({
-            "S.NO": newRows.length + index + 1,
-            am_name: item.am_name,
-            amount: item.amount
-          }))
-        ];
-      }
-
-
-      if (newRows.length === 0) {
-        newRows = [{ "S.NO": 1, am_name: "Room Rent", amount: 0 }];
-      }
-
-      setNewRows(newRows);
+    setNewRows(newRows);
     // }
   }, [invoiceDetails]);
 
-
-  console.log("newRows", newRows)
-
-
+  console.log("newRows", newRows);
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
@@ -892,12 +877,8 @@ const InvoicePage = () => {
     setShowDeleteform(false);
   };
 
-
-
-
   const handleEditBill = () => {
     let isValid = true;
-
 
     // Reset error messages
     setCustomerErrmsg("");
@@ -954,50 +935,77 @@ const InvoicePage = () => {
       isValid = false;
     }
 
-
     const formatDateToStartdate = (startdate) => {
-      if (!startdate) return ""; 
+      if (!startdate) return "";
       const d = new Date(startdate);
-      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
     };
 
     const formatDateTowenddate = (enddate) => {
-      if (!enddate) return ""; 
+      if (!enddate) return "";
       const d = new Date(enddate);
-      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
     };
 
     const formatDateToInvoicedate = (invoicedate) => {
-      if (!invoicedate) return ""; 
+      if (!invoicedate) return "";
       const d = new Date(invoicedate);
-      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
     };
 
     const formatDateToSInvoiceDuedate = (invoiceduedate) => {
-      if (!invoiceduedate) return ""; 
+      if (!invoiceduedate) return "";
       const d = new Date(invoiceduedate);
-      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
     };
-    
-    const isChanged =
-    (() => {
+
+    const isChanged = (() => {
       return (
         Number(invoiceDetails?.hos_user_id) !== Number(customername) ||
-        formatDateToStartdate(invoiceDetails?.start_date) !== formatDateToStartdate(startdate) || 
+        formatDateToStartdate(invoiceDetails?.start_date) !==
+          formatDateToStartdate(startdate) ||
         String(invoiceDetails?.Invoices) !== String(invoicenumber) ||
+        formatDateTowenddate(invoiceDetails?.end_date) !==
+          formatDateTowenddate(enddate) ||
+        formatDateToInvoicedate(invoiceDetails?.Date) !==
+          formatDateToInvoicedate(invoicedate) ||
+        formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !==
+          formatDateToSInvoiceDuedate(invoiceduedate) ||
+        newRows.some((row, index) => {
+          const originalRow = invoiceDetails?.amenity?.[index];
+          return (
+            row.am_name !== originalRow?.am_name ||
+            row.amount !== originalRow?.amount
+          );
+        })
+      );
+    })();
 
-        formatDateTowenddate(invoiceDetails?.end_date) !== formatDateTowenddate(enddate) || 
-        formatDateToInvoicedate(invoiceDetails?.Date) !== formatDateToInvoicedate(invoicedate) || 
-        formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate) || 
-         newRows.some((row, index) => {
-      const originalRow = invoiceDetails?.amenity?.[index];
-      return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
-    })
-  )
-})();
-
-
-    // const isDataChanged = 
+    // const isDataChanged =
     // customername !== String(invoiceDetails?.hos_user_id) ||
     // invoicenumber !== invoiceDetails?.Invoices ||
     // startdate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.start_date)?.toISOString().split("T")[0] ||
@@ -1008,15 +1016,12 @@ const InvoicePage = () => {
     //   const originalRow = invoiceDetails?.amenity?.[index];
     //   return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
     // });
-  
-  if (!isChanged) {
-    setAllFieldErrmsg("No changes detected.");
-    isValid = false;
-    return
-  }
-  
 
-
+    if (!isChanged) {
+      setAllFieldErrmsg("No changes detected.");
+      isValid = false;
+      return;
+    }
 
     if (isValid && isChanged) {
       const dueDateObject = new Date(invoiceduedate);
@@ -1044,7 +1049,6 @@ const InvoicePage = () => {
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
       ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -1163,7 +1167,7 @@ const InvoicePage = () => {
       transaction: "",
       paymentType: "",
     });
-    setSelectedDate(null)
+    setSelectedDate(null);
   };
 
   const handleCloseEditForm = () => {
@@ -1243,7 +1247,7 @@ const InvoicePage = () => {
       });
 
       setShowform(false);
-      setSelectedDate(null)
+      setSelectedDate(null);
       setAmountErrmsg("");
       setDateErrmsg("");
       setPaymodeErrmsg("");
@@ -1330,9 +1334,9 @@ const InvoicePage = () => {
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
-    setTableErrmsg("")
-    setEnddateErrmsg('')
-    setamenityArray([])
+    setTableErrmsg("");
+    setEnddateErrmsg("");
+    setamenityArray([]);
     setNewRows([]);
   };
 
@@ -1378,17 +1382,17 @@ const InvoicePage = () => {
     setAllFieldErrmsg("");
     const date = selectedDates;
     setStartDate(date);
-  
+
     if (!selectedDates) {
       setStartdateErrmsg("Please Select Date");
     } else {
       setStartdateErrmsg("");
     }
-  
+
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatStartDate(formattedDate);
   };
-  
+
   const handleEndDate = (selectedDates) => {
     setAllFieldErrmsg("");
     const date = selectedDates;
@@ -1398,11 +1402,10 @@ const InvoicePage = () => {
     } else {
       setEnddateErrmsg("");
     }
-  
+
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatEndDate(formattedDate);
   };
-  
 
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1615,7 +1618,6 @@ const InvoicePage = () => {
     const updatedRows = [...newRows];
     updatedRows[index][field] = value;
 
-
     setNewRows(updatedRows);
   };
 
@@ -1698,7 +1700,7 @@ const InvoicePage = () => {
 
   const handleCreateBill = () => {
     let hasError = false;
-  
+
     // Check required fields and set error messages only if empty
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
@@ -1706,59 +1708,65 @@ const InvoicePage = () => {
     } else {
       setCustomerErrmsg(""); // Clear error when field is filled
     }
-  
-   
-  
+
     if (!startdate) {
       setStartdateErrmsg("Please Select Start Date");
       hasError = true;
     } else {
       setStartdateErrmsg("");
     }
-  
+
     if (!enddate) {
       setEnddateErrmsg("Please Select End Date");
       hasError = true;
     } else {
       setEnddateErrmsg("");
     }
-  
+
     if (!invoicedate) {
       setInvoiceDateErrmsg("Please Select Invoice Date");
       hasError = true;
     } else {
       setInvoiceDateErrmsg("");
     }
-  
+
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Please Select Due Date");
       hasError = true;
     } else {
       setInvoiceDueDateErrmsg("");
     }
-  
+
     // Check if any row in the table is incomplete
     if (newRows.some((row) => !row.am_name || !row.amount)) {
-      setTableErrmsg("Please fill all details in the table before generating the bill");
+      setTableErrmsg(
+        "Please fill all details in the table before generating the bill"
+      );
       hasError = true;
     } else {
       setTableErrmsg("");
     }
-  
+
     // Stop execution if there are errors
     if (hasError) {
       return;
     }
-  
+
     // Format dates
     const formattedStartDate = startdate
-      ? `${startdate.getFullYear()}-${String(startdate.getMonth() + 1).padStart(2, "0")}-${String(startdate.getDate()).padStart(2, "0")}`
+      ? `${startdate.getFullYear()}-${String(startdate.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}-${String(startdate.getDate()).padStart(2, "0")}`
       : "";
-  
+
     const formattedEndDate = enddate
-      ? `${enddate.getFullYear()}-${String(enddate.getMonth() + 1).padStart(2, "0")}-${String(enddate.getDate()).padStart(2, "0")}`
+      ? `${enddate.getFullYear()}-${String(enddate.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}-${String(enddate.getDate()).padStart(2, "0")}`
       : "";
-  
+
     // Dispatch only if all fields are filled
     dispatch({
       type: "MANUAL-INVOICE-ADD",
@@ -1775,12 +1783,12 @@ const InvoicePage = () => {
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
     });
-  
+
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
     setReceiptFormShow(false);
     setShowAllBill(true);
-  
+
     // Reset form fields
     setCustomerName("");
     setInvoiceNumber("");
@@ -1794,8 +1802,6 @@ const InvoicePage = () => {
     setBillAmounts([]);
     setNewRows([]);
   };
-  
-  
 
   const handleSelectChange = (e) => {
     const selectedDescription = e.target.value;
@@ -1844,10 +1850,9 @@ const InvoicePage = () => {
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
- 
   //recurring pagination
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
   const [itemsPage, setItemsPage] = useState(10);
@@ -1868,7 +1873,7 @@ const InvoicePage = () => {
   };
   const handleItemsPerPage = (event) => {
     setItemsPage(Number(event.target.value));
-    setCurrentRecurePage(1)
+    setCurrentRecurePage(1);
   };
   const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
 
@@ -1878,20 +1883,17 @@ const InvoicePage = () => {
   const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
   const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
 
-  const currentReceiptData = 
-  filterInput.length > 0
-      ? receiptdata :
-  receiptdata?.slice(
-    indexOfFirstItemReceipt,
-    indexOfLastItemReceipt
-  );
+  const currentReceiptData =
+    filterInput.length > 0
+      ? receiptdata
+      : receiptdata?.slice(indexOfFirstItemReceipt, indexOfLastItemReceipt);
 
   const handlePageChangeReceipt = (pageNumber) => {
     setCurrentReceiptPage(pageNumber);
   };
   const handleItemsPerPageReceipt = (event) => {
     setItemsPERPage(Number(event.target.value));
-    setCurrentReceiptPage(1)
+    setCurrentReceiptPage(1);
   };
   const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); //Receipt pagination
 
@@ -1954,7 +1956,7 @@ const InvoicePage = () => {
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
-    setSearch(false)
+    setSearch(false);
   };
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
@@ -1979,13 +1981,12 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    if(state.login.selectedHostel_Id ){
+    if (state.login.selectedHostel_Id) {
       dispatch({
         type: "BANKINGLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -1997,23 +1998,23 @@ const InvoicePage = () => {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  console.log("responseinvoiceupdate", state.InvoiceList.UpdateInvoiceStatusCode);
+  console.log(
+    "responseinvoiceupdate",
+    state.InvoiceList.UpdateInvoiceStatusCode
+  );
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
-      
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
       });
-      
+
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
 
-    
-      
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
       }, 2000);
@@ -2132,7 +2133,8 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.InvoiceListStatusCode === 200 ||
-      state.InvoiceList.statusCodeForPDf === 200 || state.InvoiceList.statusCodeForReceiptPDf === 200
+      state.InvoiceList.statusCodeForPDf === 200 ||
+      state.InvoiceList.statusCodeForReceiptPDf === 200
     ) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2148,7 +2150,8 @@ const InvoicePage = () => {
     }
   }, [
     state.InvoiceList?.InvoiceListStatusCode,
-    state.InvoiceList?.statusCodeForPDf, state.InvoiceList.statusCodeForReceiptPDf
+    state.InvoiceList?.statusCodeForPDf,
+    state.InvoiceList.statusCodeForReceiptPDf,
   ]);
 
   // useEffect(() => {
@@ -2195,7 +2198,7 @@ const InvoicePage = () => {
   //       } else {
   //         console.error("Failed to open the PDF.");
   //       }
-  //     }    
+  //     }
   //   }
   // }, [state.InvoiceList?.statusCodeForPDf]);
 
@@ -2330,9 +2333,9 @@ const InvoicePage = () => {
   //   }
 
   useEffect(() => {
-    if(hostelId){
+    if (hostelId) {
       dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-    } 
+    }
   }, [hostelId]);
 
   useEffect(() => {
@@ -2564,9 +2567,6 @@ const InvoicePage = () => {
         0
       );
 
-
-
-
       setTotalAmount(Total_amout);
     }
   }, [newRows]);
@@ -2623,8 +2623,8 @@ const InvoicePage = () => {
     if (value === "1") {
       const FilterUser = Array.isArray(bills)
         ? bills.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setBills(FilterUser);
@@ -2633,8 +2633,8 @@ const InvoicePage = () => {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setRecurringBills(FilterUsertwo);
@@ -2643,8 +2643,8 @@ const InvoicePage = () => {
     if (value == 3) {
       const FilterUserReceipt = Array.isArray(receiptdata)
         ? receiptdata.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setReceiptData(FilterUserReceipt);
@@ -2707,7 +2707,6 @@ const InvoicePage = () => {
     setDropdownVisible(false);
   };
 
-
   // useEffect(() => {
   //    if (value === "1") {
   //      const FilterUser = Array.isArray(bills)
@@ -2760,9 +2759,9 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode || state.InvoiceList.ReceiptEditsuccessStatuscode === 200
+      state.InvoiceList.ReceiptDeletesuccessStatuscode ||
+      state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
-
       // setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
@@ -2783,21 +2782,28 @@ const InvoicePage = () => {
     }
   }, [
     state.InvoiceList.ReceiptAddsuccessStatuscode,
-    state.InvoiceList.ReceiptDeletesuccessStatuscode, state.InvoiceList.ReceiptEditsuccessStatuscode
+    state.InvoiceList.ReceiptDeletesuccessStatuscode,
+    state.InvoiceList.ReceiptEditsuccessStatuscode,
   ]);
 
   return (
-    <>
+    <div>
       {showAllBill && (
         <div className="container">
-          <div className="container"
+          <div
+            className="container"
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-             minHeight: "60px"
+              minHeight: "60px",
+              position: "sticky",
+              top: 0,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
             }}
-
           >
             <p
               style={{
@@ -2806,8 +2812,6 @@ const InvoicePage = () => {
                 fontFamily: "Gilroy",
                 fontWeight: 600,
                 color: "#222",
-
-
               }}
             >
               Bills
@@ -2820,16 +2824,14 @@ const InvoicePage = () => {
               <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
                 {search ? (
                   <>
-                    <div
-                     style={{  position: "relative",width: "100%",}}
-                    >
+                    <div style={{ position: "relative", width: "100%" }}>
                       <div
                         style={{
                           position: "relative",
                           display: "flex",
                           alignItems: "center",
                           width: "100%",
-                          marginTop: "0px", 
+                          marginTop: "0px",
                           marginBottom: "10px",
                         }}
                       >
@@ -2846,7 +2848,7 @@ const InvoicePage = () => {
                         /> */}
                         <div
                           className="input-group"
-                          style={{ marginRight: 20,paddingTop:"20px" }}
+                          style={{ marginRight: 20, paddingTop: "20px" }}
                         >
                           <span className="input-group-text bg-white border-end-0">
                             <Image
@@ -2864,7 +2866,6 @@ const InvoicePage = () => {
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
-                           
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -3096,7 +3097,6 @@ const InvoicePage = () => {
                         style={{
                           height: "24px",
                           width: "24px",
-
                         }}
                         onClick={handleSearch}
                       />
@@ -3105,8 +3105,7 @@ const InvoicePage = () => {
                 )}
 
                 {(value === "1" || value === "3") && (
-                  <div style={{ paddingRight: 15, }}>
-
+                  <div style={{ paddingRight: 15 }}>
                     <Image
                       src={Filters}
                       roundedCircle
@@ -3123,7 +3122,7 @@ const InvoicePage = () => {
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
                       width: search ? "180px" : "120px",
-                      marginTop:"20px"
+                      marginTop: "20px",
                     }}
                   >
                     <Form.Select
@@ -3152,7 +3151,7 @@ const InvoicePage = () => {
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
                       width: search ? "180px" : "120px",
-                      marginTop:"20px"
+                      marginTop: "20px",
                     }}
                   >
                     <Form.Select
@@ -3208,7 +3207,7 @@ const InvoicePage = () => {
                         padding: "11px 32px",
                         marginTop: 19,
                         paddingLeft: 34,
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {" "}
@@ -3242,9 +3241,8 @@ const InvoicePage = () => {
                         padding: "11px 24px",
                         paddingLeft: 25,
                         marginTop: 19,
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
                         // width: "170px",
-
                       }}
                     >
                       {" "}
@@ -3279,8 +3277,7 @@ const InvoicePage = () => {
                         padding: "11px 17px",
                         paddingLeft: 18,
                         whiteSpace: "nowrap",
-                        marginTop: 19
-
+                        marginTop: 19,
                       }}
                     >
                       {" "}
@@ -3291,9 +3288,20 @@ const InvoicePage = () => {
               </div>
             </div>
           </div>
-      
-          <TabContext value={value} className="container">
-            <div>
+
+          <TabContext value={value} className="container ">
+            <div
+              className=""
+              style={{
+                position: "sticky",
+                top: 69,
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                height: 60,
+              }}
+            >
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
                 className="container"
@@ -3389,7 +3397,10 @@ const InvoicePage = () => {
                     </div>
                   </>
                 ) : (
-                  <div class="" style={{ position: "relative", marginTop: "-5px" }}>
+                  <div
+                    class=""
+                    style={{ position: "relative", marginTop: "-5px" }}
+                  >
                     <div className="texxttt">
                       <div style={{ flex: 1 }}>
                         {/* <div className="headerone">
@@ -3560,11 +3571,23 @@ const InvoicePage = () => {
                                 }}
                               >
                                 {`Record payment `}
-                                {invoiceValue?.Name && (<span>-
-                                  <span style={{ color: "#1E45E1" }}> {invoiceValue.Name}</span> </span>
+                                {invoiceValue?.Name && (
+                                  <span>
+                                    -
+                                    <span style={{ color: "#1E45E1" }}>
+                                      {" "}
+                                      {invoiceValue.Name}
+                                    </span>{" "}
+                                  </span>
                                 )}
-                                {invoiceValue?.Invoices && (<span>-
-                                  <span style={{ color: "#1E45E1" }}> {invoiceValue.Invoices}</span> </span>
+                                {invoiceValue?.Invoices && (
+                                  <span>
+                                    -
+                                    <span style={{ color: "#1E45E1" }}>
+                                      {" "}
+                                      {invoiceValue.Invoices}
+                                    </span>{" "}
+                                  </span>
                                 )}
                               </Modal.Title>
                             </Modal.Header>
@@ -3622,7 +3645,7 @@ const InvoicePage = () => {
                                               style={{
                                                 fontSize: "15px",
                                                 color: "red",
-                                                marginBottom:"3px"
+                                                marginBottom: "3px",
                                               }}
                                             />
                                           )}{" "}
@@ -3675,8 +3698,8 @@ const InvoicePage = () => {
                                         customInput={customDateInput({
                                           value: selectedDate
                                             ? selectedDate.toLocaleDateString(
-                                              "en-GB"
-                                            )
+                                                "en-GB"
+                                              )
                                             : "",
                                         })}
                                       />
@@ -3742,7 +3765,7 @@ const InvoicePage = () => {
                                             style={{
                                               fontSize: "15px",
                                               color: "red",
-                                              marginBottom:"2px"
+                                              marginBottom: "2px",
                                             }}
                                           />
                                         )}{" "}
@@ -3751,7 +3774,6 @@ const InvoicePage = () => {
                                     </div>
                                   )}
                                 </div>
-
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
@@ -3764,7 +3786,7 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "'Gilroy', sans-serif",
                                         fontWeight: 500,
-                                        marginTop:2
+                                        marginTop: 2,
                                       }}
                                     >
                                       Mode of transaction
@@ -3784,7 +3806,7 @@ const InvoicePage = () => {
                                         border: "1px solid #D9D9D9",
                                         height: 49,
                                         borderRadius: 8,
-                                        marginTop:6
+                                        marginTop: 6,
                                       }}
                                     >
                                       <option selected>select </option>
@@ -3814,7 +3836,7 @@ const InvoicePage = () => {
                                               style={{
                                                 fontSize: "15px",
                                                 color: "red",
-                                                marginBottom:"3px"
+                                                marginBottom: "3px",
                                               }}
                                             />
                                           )}{" "}
@@ -3950,10 +3972,11 @@ const InvoicePage = () => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${DownloadInvoice
-                          ? "m-0 g-2 d-flex justify-content-between"
-                          : "m-0 g-0"
-                          }`}
+                        className={` ${
+                          DownloadInvoice
+                            ? "m-0 g-2 d-flex justify-content-between"
+                            : "m-0 g-0"
+                        }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -4011,7 +4034,7 @@ const InvoicePage = () => {
                                             <img
                                               src={
                                                 item.user_profile &&
-                                                  item.user_profile !== "0"
+                                                item.user_profile !== "0"
                                                   ? item.user_profile
                                                   : User
                                               }
@@ -4072,7 +4095,7 @@ const InvoicePage = () => {
                                               }}
                                             >
                                               {item.Invoices == null ||
-                                                item.Invoices === ""
+                                              item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
                                             </div>
@@ -4288,101 +4311,102 @@ const InvoicePage = () => {
                                     >
                                       {loading
                                         ? // Display skeleton placeholders when loading is true
-                                        Array.from({ length: 5 }).map(
-                                          (_, index) => (
-                                            <tr key={index}>
-                                              <td>
-                                                <div className="d-flex">
-                                                  <span className="i-circle">
-                                                    <Skeleton
-                                                      circle
-                                                      width={24}
-                                                      height={24}
-                                                    />
-                                                  </span>
-                                                  <div>
-                                                    <Skeleton width={80} />
+                                          Array.from({ length: 5 }).map(
+                                            (_, index) => (
+                                              <tr key={index}>
+                                                <td>
+                                                  <div className="d-flex">
+                                                    <span className="i-circle">
+                                                      <Skeleton
+                                                        circle
+                                                        width={24}
+                                                        height={24}
+                                                      />
+                                                    </span>
+                                                    <div>
+                                                      <Skeleton width={80} />
+                                                    </div>
                                                   </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={50} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={50} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                              <td>
-                                                <Skeleton width={100} />
-                                              </td>
-                                            </tr>
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={50} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                                <td>
+                                                  <Skeleton width={100} />
+                                                </td>
+                                              </tr>
+                                            )
                                           )
-                                        )
                                         : //   <div
-                                        //   style={{
-                                        //     position: 'absolute',
-                                        //     inset: 0,
-                                        //     display: 'flex',
-                                        //     height: "50vh",
-                                        //     alignItems: 'center',
-                                        //     justifyContent: 'center',
-                                        //     backgroundColor: 'transparent',
-                                        //     opacity: 0.75,
-                                        //     zIndex: 10,
-                                        //   }}
-                                        // >
-                                        //   <div
-                                        //     style={{
-                                        //       borderTop: '4px solid #1E45E1',
-                                        //       borderRight: '4px solid transparent',
-                                        //       borderRadius: '50%',
-                                        //       width: '40px',
-                                        //       height: '40px',
-                                        //       animation: 'spin 1s linear infinite',
-                                        //     }}
-                                        //   ></div>
-                                        // </div>
+                                          //   style={{
+                                          //     position: 'absolute',
+                                          //     inset: 0,
+                                          //     display: 'flex',
+                                          //     height: "50vh",
+                                          //     alignItems: 'center',
+                                          //     justifyContent: 'center',
+                                          //     backgroundColor: 'transparent',
+                                          //     opacity: 0.75,
+                                          //     zIndex: 10,
+                                          //   }}
+                                          // >
+                                          //   <div
+                                          //     style={{
+                                          //       borderTop: '4px solid #1E45E1',
+                                          //       borderRight: '4px solid transparent',
+                                          //       borderRadius: '50%',
+                                          //       width: '40px',
+                                          //       height: '40px',
+                                          //       animation: 'spin 1s linear infinite',
+                                          //     }}
+                                          //   ></div>
+                                          // </div>
 
-                                        // Display table rows with actual data when loading is false
-                                        currentItems.map((item) => (
-                                          <InvoiceTable
-                                            key={item.id}
-                                            item={item}
-                                            OnHandleshowform={handleShowForm}
-                                            OnHandleshowEditform={handleEdit}
-                                            OnHandleshowInvoicePdf={
-                                              handleInvoiceDetail
-                                            }
-                                            OnHandleshowDeleteform={
-                                              handleBillDelete
-                                            }
-                                            DisplayInvoice={
-                                              handleDisplayInvoiceDownload
-                                            }
-                                            billAddPermission={
-                                              billAddPermission
-                                            }
-                                            billEditPermission={
-                                              billEditPermission
-                                            }
-                                            billDeletePermission={
-                                              billDeletePermission
-                                            }
-                                          />
-                                        ))}
+                                          // Display table rows with actual data when loading is false
+                                          currentItems.map((item) => (
+                                            <InvoiceTable
+                                              key={item.id}
+                                              item={item}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowEditform={handleEdit}
+                                              OnHandleshowInvoicePdf={
+                                                handleInvoiceDetail
+                                              }
+                                              OnHandleshowDeleteform={
+                                                handleBillDelete
+                                              }
+                                              DisplayInvoice={
+                                                handleDisplayInvoiceDownload
+                                              }
+                                              billAddPermission={
+                                                billAddPermission
+                                              }
+                                              billEditPermission={
+                                                billEditPermission
+                                              }
+                                              billDeletePermission={
+                                                billDeletePermission
+                                              }
+                                            />
+                                          ))}
                                     </tbody>
                                   </Table>
                                 </div>
                               ) : (
-                                !loading && currentItems &&
+                                !loading &&
+                                currentItems &&
                                 currentItems?.length == 0 && (
                                   <div>
                                     <div style={{ textAlign: "center" }}>
@@ -4795,7 +4819,6 @@ const InvoicePage = () => {
                         </thead>
                         <tbody style={{ fontSize: "10px" }}>
                           {recurLoader ? (
-                   
                             <div
                               style={{
                                 position: "absolute",
@@ -4838,9 +4861,9 @@ const InvoicePage = () => {
                                 }
                                 billrolePermission={billrolePermission}
                                 OnHandleshowform={handleShowForm}
-                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                              // DisplayInvoice={handleDisplayInvoiceDownload}
-                              // RecuringInvoice={handleDisplayInvoiceDownload}
+                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                // DisplayInvoice={handleDisplayInvoiceDownload}
+                                // RecuringInvoice={handleDisplayInvoiceDownload}
                               />
                             ))
                           )}
@@ -4849,7 +4872,7 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                  {recurringbills && recurringbills.length >=5 && (
+                  {recurringbills && recurringbills.length >= 5 && (
                     <nav
                       style={{
                         display: "flex",
@@ -5336,10 +5359,11 @@ const InvoicePage = () => {
 
                   <Container fluid className="p-0">
                     <Row
-                      className={` ${DownloadReceipt
-                        ? "m-0 g-2 d-flex justify-content-between"
-                        : "m-0 g-0"
-                        }`}
+                      className={` ${
+                        DownloadReceipt
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
+                      }`}
                     >
                       <Col
                         lg={DownloadReceipt ? 4 : 12}
@@ -5362,7 +5386,7 @@ const InvoicePage = () => {
                                           <img
                                             src={
                                               item.user_profile &&
-                                                item.user_profile !== "0"
+                                              item.user_profile !== "0"
                                                 ? item.user_profile
                                                 : User
                                             }
@@ -5423,7 +5447,7 @@ const InvoicePage = () => {
                                             }}
                                           >
                                             {item.Invoices == null ||
-                                              item.Invoices === ""
+                                            item.Invoices === ""
                                               ? "0.00"
                                               : item.Invoices}
                                           </div>
@@ -5672,9 +5696,7 @@ const InvoicePage = () => {
                                 </div>
                               )}
 
-
-                            { receiptdata.length >= 5 && (
-
+                            {receiptdata.length >= 5 && (
                               <nav
                                 style={{
                                   display: "flex",
@@ -5727,11 +5749,11 @@ const InvoicePage = () => {
                                         padding: "5px",
                                         textDecoration: "none",
                                         color:
-                                        currentreceiptPage === 1
+                                          currentreceiptPage === 1
                                             ? "#ccc"
                                             : "#1E45E1",
                                         cursor:
-                                        currentreceiptPage === 1
+                                          currentreceiptPage === 1
                                             ? "not-allowed"
                                             : "pointer",
                                         borderRadius: "50%",
@@ -5775,11 +5797,13 @@ const InvoicePage = () => {
                                         padding: "5px",
                                         textDecoration: "none",
                                         color:
-                                        currentreceiptPage === ReceipttotalPages
+                                          currentreceiptPage ===
+                                          ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1",
                                         cursor:
-                                        currentreceiptPage === ReceipttotalPages
+                                          currentreceiptPage ===
+                                          ReceipttotalPages
                                             ? "not-allowed"
                                             : "pointer",
                                         borderRadius: "50%",
@@ -5794,12 +5818,15 @@ const InvoicePage = () => {
                                           currentreceiptPage + 1
                                         )
                                       }
-                                      disabled={currentreceiptPage === ReceipttotalPages}
+                                      disabled={
+                                        currentreceiptPage === ReceipttotalPages
+                                      }
                                     >
                                       <ArrowRight2
                                         size="16"
                                         color={
-                                          currentreceiptPage === ReceipttotalPages
+                                          currentreceiptPage ===
+                                          ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1"
                                         }
@@ -5809,39 +5836,39 @@ const InvoicePage = () => {
                                 </ul>
                               </nav>
                             )}
-                            {currentReceiptData && currentReceiptData?.length === 0 && (
-
-                              <div style={{ marginTop: 20 }}>
-                                <div style={{ textAlign: "center" }}>
-                                  {" "}
-                                  <img src={Emptystate} alt="emptystate" />
+                            {currentReceiptData &&
+                              currentReceiptData?.length === 0 && (
+                                <div style={{ marginTop: 20 }}>
+                                  <div style={{ textAlign: "center" }}>
+                                    {" "}
+                                    <img src={Emptystate} alt="emptystate" />
+                                  </div>
+                                  <div
+                                    className="pb-1"
+                                    style={{
+                                      textAlign: "center",
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      fontSize: 24,
+                                      color: "rgba(75, 75, 75, 1)",
+                                    }}
+                                  >
+                                    No Receipt available{" "}
+                                  </div>
+                                  <div
+                                    className="pb-1"
+                                    style={{
+                                      textAlign: "center",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      fontSize: 20,
+                                      color: "rgba(75, 75, 75, 1)",
+                                    }}
+                                  >
+                                    There are no receipt added{" "}
+                                  </div>
                                 </div>
-                                <div
-                                  className="pb-1"
-                                  style={{
-                                    textAlign: "center",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    fontSize: 24,
-                                    color: "rgba(75, 75, 75, 1)",
-                                  }}
-                                >
-                                  No Receipt available{" "}
-                                </div>
-                                <div
-                                  className="pb-1"
-                                  style={{
-                                    textAlign: "center",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    fontSize: 20,
-                                    color: "rgba(75, 75, 75, 1)",
-                                  }}
-                                >
-                                  There are no receipt added{" "}
-                                </div>
-                              </div>
-                            )}
+                              )}
                           </>
                         )}
                       </Col>
@@ -5891,9 +5918,13 @@ const InvoicePage = () => {
       {showmanualinvoice && (
         <div className="container ms-5 me-5 mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
-           <svg
+            <svg
               onClick={handleBackBill}
-              style={{ fontSize: "22px", marginRight: "10px", cursor:'pointer' }}
+              style={{
+                fontSize: "22px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
@@ -5909,7 +5940,9 @@ const InvoicePage = () => {
                 d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
               ></path>
             </svg>
-            <p className="mt-1" style={{ fontFamily: "Gilroy" }}>{billMode}</p>
+            <p className="mt-1" style={{ fontFamily: "Gilroy" }}>
+              {billMode}
+            </p>
           </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
@@ -5957,7 +5990,6 @@ const InvoicePage = () => {
                       u.Rooms !== "0" &&
                       typeof u.Rooms === "string" &&
                       u.Rooms.trim() !== ""
-
                   ).map((u) => (
                     <option value={u.ID} key={u.ID}>
                       {u.Name}
@@ -5967,10 +5999,17 @@ const InvoicePage = () => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red",marginTop:"5px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "5px" }}
                   >
                     {customererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px" ,marginBottom:"3px"}} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {customererrmsg}
                   </p>
@@ -6013,7 +6052,14 @@ const InvoicePage = () => {
                     style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
                   >
                     {invoicenumbererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px",marginBottom:"2px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "2px",
+                        }}
+                      />
                     )}{" "}
                     {invoicenumbererrmsg}
                   </p>
@@ -6067,7 +6113,14 @@ const InvoicePage = () => {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {startdateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {startdateerrmsg}
                   </p>
@@ -6117,7 +6170,14 @@ const InvoicePage = () => {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {enddateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red", marginRight: "3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {enddateerrmsg}
                   </p>
@@ -6171,7 +6231,14 @@ const InvoicePage = () => {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -6222,14 +6289,20 @@ const InvoicePage = () => {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>
                 </div>
               )}
             </div>
-
           </div>
 
           {/* Table */}
@@ -6244,22 +6317,58 @@ const InvoicePage = () => {
                 }}
               >
                 <tr>
-                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>S.NO</th>
-                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Description</th>
+                  <th
+                    style={{
+                      color: "rgb(147, 147, 147)",
+                      fontSize: 14,
+                      fontweight: 500,
+                    }}
+                  >
+                    S.NO
+                  </th>
+                  <th
+                    style={{
+                      color: "rgb(147, 147, 147)",
+                      fontSize: 14,
+                      fontweight: 500,
+                    }}
+                  >
+                    Description
+                  </th>
                   {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Total Amount</th>
-                  <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontweight: 500 }}>Action</th>
+                  <th
+                    style={{
+                      color: "rgb(147, 147, 147)",
+                      fontSize: 14,
+                      fontweight: 500,
+                    }}
+                  >
+                    Total Amount
+                  </th>
+                  <th
+                    style={{
+                      color: "rgb(147, 147, 147)",
+                      fontSize: 14,
+                      fontweight: 500,
+                    }}
+                  >
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
-               
                 {newRows &&
                   newRows.length > 0 &&
                   newRows.map((u, index) => (
                     <tr key={`new-${index}`}>
-                      <td className="text-center" style={{ fontFamily: "Gilroy" }}>{serialNumber++}</td>
+                      <td
+                        className="text-center"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
+                        {serialNumber++}
+                      </td>
                       <td>
                         <div
                           className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
@@ -6327,7 +6436,6 @@ const InvoicePage = () => {
                 cursor: "pointer",
                 fontFamily: "Gilroy",
                 width: "fit-content",
-
               }}
               onClick={handleAddColumn}
             >
@@ -6339,9 +6447,24 @@ const InvoicePage = () => {
           <div>
             {allfielderrmsg.trim() !== "" && (
               <div>
-                <p style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily: "Gilroy" }}>
+                <p
+                  style={{
+                    fontSize: "15px",
+                    color: "red",
+                    marginTop: "3px",
+                    fontFamily: "Gilroy",
+                  }}
+                >
                   {allfielderrmsg !== " " && (
-                    <MdError style={{ fontSize: "15px", color: "red", fontFamily: "Gilroy", marginRight: "5px", marginBottom: "3px" }} />
+                    <MdError
+                      style={{
+                        fontSize: "15px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        marginRight: "5px",
+                        marginBottom: "3px",
+                      }}
+                    />
                   )}{" "}
                   {allfielderrmsg}
                 </p>
@@ -6350,15 +6473,32 @@ const InvoicePage = () => {
           </div>
           <div>
             {tableErrmsg && (
-
-              <div style={{ fontSize: "15px", color: "red", marginTop: "3px", fontFamily: "Gilroy" }}>
-                <MdError style={{ fontSize: "15px", color: "red", fontFamily: "Gilroy", marginRight: "5px", marginBottom: "3px" }} /> {tableErrmsg}
+              <div
+                style={{
+                  fontSize: "15px",
+                  color: "red",
+                  marginTop: "3px",
+                  fontFamily: "Gilroy",
+                }}
+              >
+                <MdError
+                  style={{
+                    fontSize: "15px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    marginRight: "5px",
+                    marginBottom: "3px",
+                  }}
+                />{" "}
+                {tableErrmsg}
               </div>
             )}
           </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
-            <h5 style={{ fontFamily: "Gilroy" }}>Total Amount ₹{totalAmount}</h5>
+            <h5 style={{ fontFamily: "Gilroy" }}>
+              Total Amount ₹{totalAmount}
+            </h5>
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-5"
@@ -6375,7 +6515,6 @@ const InvoicePage = () => {
             >
               {isEditing ? "Save Changes" : "Create Bill"}
             </Button>
-
 
             <div className="mb-3"></div>
           </div>
@@ -6397,7 +6536,7 @@ const InvoicePage = () => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 
