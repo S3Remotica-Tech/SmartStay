@@ -21,14 +21,14 @@ import { InputGroup, FormControl } from 'react-bootstrap';
 
 
 
-const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, checkoutaction, data, checkouteditaction }) => {
+const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, checkoutaction, data, checkouteditaction , checkoutaddform }) => {
 
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
 
-
+      
 
 
 
@@ -50,7 +50,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
   const [comments, setComments] = useState('');
   const [advanceamount, setAdvanceAmount] = useState('')
   const [dueamount, SetDueAmount] = useState('')
-  const [invoicenumber, SetInvoiceNumber] = useState('')
+  const [invoicenumber, SetInvoiceNumber] = useState([])
   const [bedname, setBedname] = useState('')
   const [floorname, setFloorname] = useState('')
 
@@ -74,6 +74,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     setGeneralError('')
     setCustomerError('');
     setCheckOutRequestDateError('')
+    setDateDifference(null)
   }
 
   const [isChecked, setIsChecked] = useState(false);
@@ -129,6 +130,8 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     }
   };
 
+  console.log("currentItem",currentItem );
+  
 
   useEffect(() => {
     if (currentItem) {
@@ -338,10 +341,10 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
       isValid = false;
     }
   
-    if (!uniqueostel_Id) {
-      setHostelError('Please select a hostel.');
-      isValid = false;
-    }
+    // if (!uniqueostel_Id) {
+    //   setHostelError('Please select a hostel.');
+    //   isValid = false;
+    // }
   
     if (!checkOutDate) {
       setCheckOutDateError('Please select a checkout date.');
@@ -354,8 +357,8 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     }
   
 
-    if (!isValid) {
-      // setGeneralError('Please select all mandatory fields.');
+    if (!selectedCustomer || !checkOutDate || !checkOutrequestDate) {
+      setGeneralError('Please select all mandatory fields.');
       return;
     }
   
@@ -363,20 +366,41 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     const formattedCheckOutDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const formattedCheckOutRequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
   
-  
-    const hasChanges =
-      formattedCheckOutDate !== moment(currentItem?.CheckoutDate, 'DD-MM-YYYY').format('YYYY-MM-DD') ||
-      selectedCustomer !== currentItem?.ID ||
-      noticeDays !== currentItem?.notice_period ||
-      comments !== currentItem?.checkout_comment ||
-      formattedCheckOutRequestDate !== moment(currentItem?.checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-  
-    if (!hasChanges) {
-      setIsChangedError('No changes detected.');
+    const formatDateTocheckoutDate = (startdate) => {
+      if (!startdate) return ""; 
+      const d = new Date(startdate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToRequestDate = (enddate) => {
+      if (!enddate) return ""; 
+      const d = new Date(enddate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const isChanged = (() => {
+      const isCheckoutDateChanged =
+        formatDateTocheckoutDate(currentItem?.CheckoutDate) !== formatDateTocheckoutDate(checkOutDate);
+      const isRequestDateChanged =
+        formatDateToRequestDate(currentItem?.req_date) !== formatDateToRequestDate(checkOutrequestDate);
+      const isCommentsChanged =
+        comments && comments !== currentItem?.checkout_comment;
+    
+      return isCheckoutDateChanged || isRequestDateChanged || isCommentsChanged;
+    })();
+    
+    if (!isChanged) {
+      setIsChangedError("No changes detected.");
       return;
     }
+    
   
-  if(isValid){
+   console.log("editdata", comments, currentItem?.checkout_comment);
+   
+
+
+  
+  if(selectedCustomer || currentItem?.ID && formattedDate && formattedrequestDate && uniqueostel_Id || currentItem?.Hostel_Id){
     dispatch({
       type: 'ADDCHECKOUTCUSTOMER',
       payload: {
@@ -389,6 +413,20 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
       }
     });
   }
+  setSelectedCustomer('');
+  setCurrentBed('')
+  setCurrentFloor('')
+  setNoticeDays('');
+  setComments('');
+  setCheckOutDate('');
+  setCheckOutRequestDate('');
+  setBedname('');
+  setFloorname('')
+  setCheckOutDateError('')
+  setGeneralError('')
+  setCustomerError('');
+  setCheckOutRequestDateError('')
+  setDateDifference(null)
   };
   
 
@@ -417,20 +455,24 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 
 
   const formatOptions = () => {
-    return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
-      value: user.ID,
-      label: (
-        <div className="d-flex align-items-center">
-          <Image
-            src={user.profile && user.profile !== "0" && user.profile.trim() !== "" ? user.profile : People}
-            roundedCircle
-            style={{ height: "30px", width: "30px", marginRight: '10px' }}
-          />
-          <span>{user.Name}</span>
-        </div>
-      ),
-    }));
+    return state.UsersList?.availableCheckOutCustomerList
+      .filter((user) => user.CheckoutDate == null) 
+      .map((user) => ({
+        value: user.ID,
+        label: (
+          <div className="d-flex align-items-center">
+            
+            <Image
+              src={user.profile && user.profile !== "0" && user.profile.trim() !== "" ? user.profile : People}
+              roundedCircle
+              style={{ height: "30px", width: "30px", marginRight: '10px' }}
+            />
+            <span>{user.Name}</span>
+          </div>
+        ),
+      }));
   };
+  
 
 
   useEffect(() => {
@@ -455,7 +497,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     if (state.UsersList.statusCodegetConfirmCheckout === 200) {
       setAdvanceAmount(state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount)
       SetDueAmount(state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0)
-      SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.invoiceid || 0)
+      SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails)
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" })
       }, 500)
@@ -463,10 +505,25 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 
 
   }, [state.UsersList.statusCodegetConfirmCheckout])
+  const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
+const invoiceDisplay = validInvoices
+  .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
+  .join(", ");
+  console.log("invoicenumber",invoicenumber)
+ const hasBalance = Array.isArray(validInvoices) && validInvoices.some((invoice) => invoice.balance > 0);
+
+
+
+
+ 
+  console.log("validInvoices:", validInvoices);
+console.log("hasBalance:", hasBalance);
 
   const handleCheckboxChange = (e) => {
     const checked = e.target.checked;
+    console.log("checked",checked);
+    
     setIsChecked(checked);
 
     if (checked && dueamount > 0) {
@@ -486,7 +543,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 
   const handleConfirmCheckout = () => {
 
-    if (!selectedCustomer && !data.Hostel_Id && !checkOutDate) {
+    if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
       setGeneralError('Please select all mandatory fields');
       return;
     }
@@ -609,22 +666,8 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
         />
       </Modal.Header>
      
-      {isChangedError && (
-        <div className="d-flex align-items-center p-1 mb-2 mt-2">
-          <MdError style={{ color: "red", marginRight: '5px' }} />
-          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-            {isChangedError}
-          </label>
-        </div>
-      )}
-      {generalError && (
-        <div className="d-flex align-items-center p-1 mb-2 mt-2">
-          <MdError style={{ color: "red", marginRight: '5px' }} />
-          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-            {generalError}
-          </label>
-        </div>
-      )}
+     
+     
 
       <Modal.Body>
         <div className='row row-gap-2'>
@@ -883,11 +926,12 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
                       *{" "}
                     </span>
                   </Form.Label>
+
                   <FormControl
                     id="form-controls"
                     placeholder="Enter invoice"
                     type="text"
-                    value={`${invoicenumber}- ${dueamount}`}
+                    value={invoiceDisplay || "No valid invoices"}
                     readOnly
                     style={{
                       fontSize: 16,
@@ -958,33 +1002,45 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
         </div>
       )}
 
-        <Button className="mt-4"
-          style={{
-            borderRadius: '8px', fontFamily: "Gilroy", fontWeight: '600', fontSize: '14px', padding: '16px 24px',
-            width: '100%', backgroundColor: "#1E45E1"
-          }}
-          disabled={!checkouteditaction && dueamount > 0}
-          onClick={
-            checkoutaction ? handleConfirmCheckout // Confirm Check-out
-              : checkouteditaction
-                ? handleCheckOutCustomer // Save Changes 
-                : handleCheckOutCustomer // Add Check-out
-          }
-        >
-          {data && checkoutaction
-            ? 'Confirm Check-out'
-            : (currentItem && checkouteditaction
-              ? 'Save Changes'
-              : 'Add Check-out')}
-        </Button>
-        {isChangedError && (
-          <div className="d-flex align-items-center p-1 mb-2 mt-2">
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-              {isChangedError}
-            </label>
-          </div>
-        )}
+{generalError && (
+        <div className="d-flex align-items-center p-1 mb-2 mt-2">
+          <MdError style={{ color: "red", marginRight: '5px' }} />
+          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+            {generalError}
+          </label>
+        </div>
+      )}
+
+{isChangedError && (
+        <div className="d-flex align-items-center p-1 mb-2 mt-2">
+          <MdError style={{ color: "red", marginRight: '5px' }} />
+          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+            {isChangedError}
+          </label>
+        </div>
+      )}
+
+<Button
+  className="mt-4"
+  style={{
+    borderRadius: '8px',
+    fontFamily: "Gilroy",
+    fontWeight: '600',
+    fontSize: '14px',
+    padding: '16px 24px',
+    width: '100%',
+    backgroundColor: "#1E45E1",
+  }}
+  disabled={(!checkouteditaction && checkoutaction && checkoutaddform) && hasBalance}
+  onClick={() => console.log("Button clicked!")}
+>
+  {data && checkoutaction
+    ? 'Confirm Check-out'
+    : (currentItem && checkouteditaction
+      ? 'Save Changes'
+      : 'Add Check-out')}
+</Button>
+      
 
 
       </Modal.Body>
