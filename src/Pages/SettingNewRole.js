@@ -126,7 +126,7 @@ function SettingNewRole({ hostelid }) {
   }, [state.Settings.errorRole])
 
  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(15)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roleList?.slice(indexOfFirstItem, indexOfLastItem);
@@ -384,7 +384,7 @@ function SettingNewRole({ hostelid }) {
 
 
       {
-        roleList.length >= 5 &&
+        roleList.length >= 10 &&
         <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center' style={{backgroundColor:"white"}}
         >
           <div>
@@ -403,7 +403,7 @@ function SettingNewRole({ hostelid }) {
 
               }}
             >
-              <option value={5}>5</option>
+            
               <option value={10}>10</option>
               <option value={50}>50</option>
               <option value={100}>100</option>
