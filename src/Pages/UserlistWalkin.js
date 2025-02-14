@@ -101,12 +101,18 @@ console.log("loader",loader);
  useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
       setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
     }
   }, [state.UsersList?.getWalkInStatusCode]);
 
   useEffect(() => {
     if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
       setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
+      }, 200);
     }
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
