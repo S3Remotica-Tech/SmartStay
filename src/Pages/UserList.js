@@ -55,6 +55,9 @@ function UserList(props) {
   const popupRef = useRef(null);
   const rowRef = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [BookingLoading,setBookingLoading] = useState(true)
+  const [WalkingLoading,setWalkingLoading] = useState(true)
+  const [checkoutLoading,setCheckoutLoading] = useState(true)
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
