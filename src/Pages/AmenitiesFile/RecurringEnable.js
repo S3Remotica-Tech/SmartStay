@@ -168,12 +168,10 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Recurring Enable</Modal.Title>
                         <CloseCircle size="24" color="#000" onClick={handleCloseRecurring} />
                     </Modal.Header>
-                    {errorStartDate && (
+                    {/* {errorStartDate && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
-                    )}
-                    {errorEndDate && (
-                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
-                    )}
+                    )} */}
+                    
                     {errorRecurringDay && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorRecurringDay}</div>
                     )}
@@ -183,7 +181,9 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities calculation Start Date will be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
+                            {errorStartDate && (
+                            <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
+                    )} 
                                 </Form.Group>
 
                             </div>
@@ -218,7 +218,9 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities calculation End Date will be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
+                                        {errorEndDate && (
+                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
+                    )}
                                 </Form.Group>
 
                             </div>

@@ -1085,14 +1085,23 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
+    setLoading(true)
+    console.log("load",loading);
+    
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the duration (1000ms = 1 second) as needed
+  
+    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1133,6 +1142,7 @@ function UserList(props) {
         type: "CHECKOUTCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+      
     } else if (value === "4") {
       dispatch({
         type: "WALKINCUSTOMERLIST",
@@ -1323,7 +1333,7 @@ function UserList(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -1338,6 +1348,7 @@ function UserList(props) {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   // const renderPageNumbers = () => {
@@ -3758,8 +3769,12 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+
                   setAddCheckoutForm = {setAddCheckoutForm}
                   checkoutaddform = {checkoutaddform}
+
+                  loader={loading}
+
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -4927,6 +4942,15 @@ function UserList(props) {
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -4939,10 +4963,10 @@ function UserList(props) {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -4968,6 +4992,15 @@ function UserList(props) {
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate
@@ -4981,16 +5014,17 @@ function UserList(props) {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>
                 </div>
               )}
             </div>
+
           </div>
 
           {allfielderrmsg.trim() !== "" && (

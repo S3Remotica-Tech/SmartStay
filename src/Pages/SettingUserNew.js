@@ -285,20 +285,23 @@ const [currentPage, setCurrentPage] = useState(1);
 
 
 
-            <div className="container mt-4">
+            <div className="mt-4">
                 {currentItems?.length > 0 ? (
 
-<div style={{ maxHeight: "400px", overflowY: "auto" }}> 
+<div style={{ 
+   height: currentItems.length >= 6 ? "400px" : "auto",
+   overflowY:
+     currentItems.length >= 6 ? "auto" : "visible",
+   borderRadius: "24px",
+   border: "1px solid #DCDCDC", }}> 
                     <Table
                         responsive="md"
                         className='Table_Design'
                         style={{
-                            height: "auto",
-                            tableLayout: "fixed",
-                            overflow: "visible",
-                            borderRadius: "24px",
                             border: "1px solid #DCDCDC",
-                            tableLayout: "fixed",
+                              borderBottom: "1px solid transparent",
+                              borderEndStartRadius: 0,
+                              borderEndEndRadius: 0,
                         }}
                     >
                         <thead style={{
@@ -316,6 +319,7 @@ const [currentPage, setCurrentPage] = useState(1);
                                         fontFamily: "Gilroy",
                                         borderTopLeftRadius: "24px",
                                         textAlign: "center",
+                                        padding: "10px"
                                        
                                     }}
                                 >
@@ -635,7 +639,7 @@ const [currentPage, setCurrentPage] = useState(1);
 
               }}
             >
-              <option value={1}>1</option>
+              <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={50}>50</option>
               <option value={100}>100</option>

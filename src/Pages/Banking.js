@@ -331,10 +331,18 @@ function Banking() {
     setAddBankAmount("");
   };
 
+
+  const [amountError, setAmountError] = useState("");
+
   const handleAddBankAmount = (e) => {
     setAddBankAmount(e.target.value);
+    setAmountError("");
   };
   const handleAddAmountSubmit = () => {
+    if (!AddBankAmount.trim()) {
+      setAmountError("!Please enter an amount.");
+      return;
+    }
     dispatch({
       type: "ADDBANKAMOUNT",
       payload: { id: typeId, amount: AddBankAmount, hostel_id: hostel_id },
@@ -526,7 +534,7 @@ function Banking() {
                         display: "flex",
                         alignItems: "center",
                         // width: "100%",
-
+                         cursor:"pointer"
 
                       }}
                     >
@@ -649,7 +657,7 @@ function Banking() {
               ) : (
                 <>
 
-                  <div style={{ paddingRight: 15 }}>
+                  <div style={{ paddingRight: 15 ,cursor:"pointer"}}>
                     <Image
                       src={searchteam}
                       roundedCircle
@@ -661,7 +669,7 @@ function Banking() {
               )}
 
 
-              <div style={{ paddingRight: 15 }}>
+              <div style={{ paddingRight: 15,cursor:"pointer" }}>
                 <Image
                   src={Filters}
                   roundedCircle
@@ -769,14 +777,37 @@ function Banking() {
                             {item.acc_name}-Savings A/C
                           </p>
                         </div>
-                        <img
+                        {/* <img
                           src={more}
                           width={20}
                           height={20}
                           onClick={() => handleShowDots(item.id)}
                           alt="More options"
                           style={{ cursor: "pointer" }}
-                        />
+                        /> */}
+                        <div style={{ cursor: "pointer",
+                              height: 40,
+                              width: 40,
+                              borderRadius: 100,
+                              border: "1px solid #EFEFEF",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                              backgroundColor: openMenuId === item.id   ? "#E7F1FF": "white"
+                              // backgroundColor:
+                              //   EditTransaction === user.id
+                              //     ? "#E7F1FF"
+                              //     : "white",
+                              // zIndex:
+                              //   EditTransaction === user.id ? 1000 : "auto",
+                                }}>
+                        <PiDotsThreeOutlineVerticalFill
+                         onClick={() => handleShowDots(item.id)}
+                          alt="More options"
+                              style={{ height: 20, width: 20,cursor:"pointer" }}
+                            />
+                            </div>
                         {openMenuId === item.id && (
                           <div
                             ref={popupRef}
@@ -1150,7 +1181,7 @@ function Banking() {
             )}
           </div>
 
-          <div style={{ marginTop: 30 }}>
+          <div style={{ marginTop: 30 }} className="container">
             {currentRowTransaction?.length > 0 ? (
               <div
                 style={{
@@ -1339,7 +1370,7 @@ function Banking() {
                                 paddingRight: "10px",
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
-                                backgroundColor: "#FFEFCF",
+                                // backgroundColor: "#FFEFCF",
                                 textAlign: "start",
                                 fontSize: "14px",
                                 fontWeight: 500,
@@ -1392,12 +1423,12 @@ function Banking() {
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
                                 // backgroundColor: "#FFEFCF",
-                                backgroundColor:
-                                  user.type === 1
-                                    ? "#C8E6C9"
-                                    : user.type === 2
-                                      ? "#FFE0B2"
-                                      : "#FFEFCF",
+                                // backgroundColor:
+                                //   user.type === 1
+                                //     ? "#C8E6C9"
+                                //     : user.type === 2
+                                //       ? "#FFE0B2"
+                                //       : "#FFEFCF",
                                 textAlign: "start",
                                 fontSize: "14px",
                                 fontWeight: 500,
@@ -1445,6 +1476,7 @@ function Banking() {
                                   // position: "absolute",
                                   // right: 80,
                                   // top: 8,
+                                  marginLeft:10,
                                   position: "fixed",
                                   top: popupPosition.top,
                                   left: popupPosition.left,
@@ -1863,7 +1895,7 @@ function Banking() {
                 onClick={handleCloseAddBalance}
                 style={{
                   position: "absolute",
-                  right: "10px",
+                  right: "15px",
                   top: "16px",
                   border: "1px solid black",
                   background: "transparent",
@@ -1872,8 +1904,8 @@ function Banking() {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  width: "32px",
-                  height: "32px",
+                  width: "24px",
+                  height: "24px",
                   borderRadius: "50%",
                 }}
               >
@@ -1886,7 +1918,7 @@ function Banking() {
               </button>
             </Modal.Header>
             <Modal.Body>
-              <div className="col-12" style={{ marginTop: "-30px" }}>
+              <div className="col-12" style={{ marginTop: "-35px" }}>
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{
@@ -1919,7 +1951,7 @@ function Banking() {
                 </Form.Group>
               </div>
 
-              <div className="col-12">
+              <div className="col-12" style={{marginTop:-10}}>
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{
@@ -1949,25 +1981,28 @@ function Banking() {
                     }}
                   />
                 </Form.Group>
-              </div>
-            </Modal.Body>
-            <Modal.Footer className="d-flex justify-content-center">
-              <Button
+                {amountError && <div style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>{amountError}</div>}
+                <Button
                 className="col-12"
                 style={{
                   backgroundColor: "#1E45E1",
                   fontWeight: 600,
                   height: "50px",
                   borderRadius: "12px",
-                  fontSize: "1rem",
-                  fontFamily: "Montserrat, sans-serif",
-                  marginTop: "20px",
+                  fontSize: "16px",
+                  fontFamily: "Gilroy",
+                  marginTop: "10px",
                 }}
                 onClick={handleAddAmountSubmit}
               >
                 Add balance
               </Button>
-            </Modal.Footer>
+              </div>
+              
+            </Modal.Body>
+            {/* <Modal.Footer className="d-flex justify-content-center"> */}
+             
+            {/* </Modal.Footer> */}
           </Modal>
 
           <Modal

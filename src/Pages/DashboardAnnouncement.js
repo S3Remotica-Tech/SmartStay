@@ -119,6 +119,11 @@ function DashboardAnnouncement(props) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
     }
 
+
+    
+    setComments(""); 
+  setShowCommentModal(false);
+
   }
 
 
@@ -137,7 +142,8 @@ function DashboardAnnouncement(props) {
         }
       })
     }
-
+    setSubComment("");
+    setShowCommentModal(false); 
   }
 
   const handleShowAnnouncement = () => {
@@ -223,7 +229,8 @@ function DashboardAnnouncement(props) {
     setShowCommentModal(false)
     setSubCommentModal(true)
     setSelectedCommentId(null);
-
+    // setCommentsList(false);
+    // setSubCommentModal(false);
   }
 
   const handleCloseTittle = () => setshowTittleModal(false);
@@ -459,6 +466,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         }}
       >
         <Button
+        
           style={{
             fontFamily: "Gilroy",
             fontSize: "14px",
@@ -1713,7 +1721,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             {selectTitleCard?.title}
           </p>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleCloseTittle}
             style={{ cursor: "pointer" }}
@@ -1721,8 +1729,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between">
-            <p style={{ marginBottom: "0px" }}>
-              <Image roundedCircle src={createprofile?.profile || Profile} alt="Ellipse5" width={20} height={20} />
+            <p style={{ marginTop:-20}}>
+              <Image roundedCircle src={createprofile?.profile || Profile}  width={20} height={20} />
               <span
                 style={{
                   fontFamily: "Gilroy",
@@ -1732,6 +1740,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   paddingLeft: "6px",
                 }}
               >
+
+                
                 {createprofile?.first_name} {createprofile?.last_name}
               </span>
             </p>
@@ -2029,7 +2039,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat",
+              fontFamily: "Gilroy",
               marginTop: 20,
               width: "100%",
             }}
