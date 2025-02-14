@@ -232,6 +232,15 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
+
+console.log("get",state.ComplianceList.statusCodeForDeleteCompliance,
+  "comment",state.ComplianceList.statusCodeForAddComplianceComment,
+  "change", state.ComplianceList.complianceAssignChangeStatus,
+"complianceChangeStatus" ,state.ComplianceList.complianceChangeStatus )
+
+
+
+
   const [comments, setComments] = useState("");
   const handleComments = (e) => {
     setComments(e.target.value);
@@ -300,8 +309,28 @@ const ComplianceList = (props) => {
   //   }
   // };
 
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState(""); 
+ 
 
+  
+
+const [statusErrorType, setStatusErrorType] = useState('')
+
+  const handleChangeStatusOpenClose = (item) => {
+    console.log("item", item)
+    setAssignId(item?.ID);
+    setShowDots(false);
+    // setStatus("");
+    setShowChangeStatus(true);
+    setShowAssignComplaint(false);
+    setStatus(item?.Status);
+  };
+
+  //assign complaint
+  const ChangeStatusClose = () => {
+    setShowChangeStatus(false);
+    setStatusError("");
+  };
 
   const handleChangeStatusClick = () => {
     if (!status) {
@@ -318,7 +347,7 @@ const ComplianceList = (props) => {
     setStatusError("");
 
     dispatch({
-      type: "COMPLIANCEASSIGN",
+      type: "COMPLIANCECHANGESTATUS",
       payload: {
         type: "status_change",
         assigner: compliant,
@@ -329,22 +358,8 @@ const ComplianceList = (props) => {
     });
   };
 
-  const [statusErrorType, setStatusErrorType] = useState('')
 
-  const handleChangeStatusOpenClose = (item) => {
-    setAssignId(item?.ID);
-    setShowDots(false);
-    // setStatus("");
-    setShowChangeStatus(true);
-    setShowAssignComplaint(false);
-    setStatus(item.Status);
-  };
 
-  //assign complaint
-  const ChangeStatusClose = () => {
-    setShowChangeStatus(false);
-    setStatusError("");
-  };
   const handleAssignComplaintClick = () => {
 
     console.log("alreadyAssigned == compliant", alreadyAssigned, compliant)
@@ -372,19 +387,61 @@ const ComplianceList = (props) => {
     // setShowChangeStatus(false);
   };
 
+
+  const [apiCalledAssign, setApiCalledAssign] = useState(false);
+
+
   useEffect(() => {
-    if (state.ComplianceList.complianceAssignChangeStatus === 200) {
+    if (state.ComplianceList.complianceAssignChangeStatus === 200 && !apiCalledAssign) {
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      setApiCalledAssign(true)
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
+        setApiCalledAssign(false)
       }, 500);
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
-  const [alreadyAssigned, setAlreadyAssigned] = useState('')
+
+
+
+
+
+  const apiCalledRef = useRef(false);
+
+  useEffect(() => {
+        if (state.ComplianceList.complianceChangeStatus === 200 && !apiCalledRef.current) {
+      if (state.ComplianceList.complianceChangeStatus !== 0) { 
+      // handleAssignOpenClose();
+      // handleChangeStatusOpenClose();
+      
+      setShowChangeStatus(false);
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      apiCalledRef.current = true;
+
+      setTimeout(() => {
+      
+        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
+        apiCalledRef.current = false;
+      }, 100);
+      }}
+  }, [state.ComplianceList.complianceChangeStatus]);
+
+
+
+
+
+
+
+
+
+
+
+
+const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
     setAssignId(item?.ID);
@@ -452,19 +509,11 @@ const ComplianceList = (props) => {
     });
   });
 
-  useEffect(() => {
-    if (state.ComplianceList.complianceChangeStatus === 200) {
-      handleAssignOpenClose();
-      handleChangeStatusOpenClose();
 
-      // dispatch({ type: 'COMPLIANCE-LIST' })
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+console.log("state for compliance",state)
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
-      }, 500);
-    }
-  }, [state.ComplianceList.complianceChangeStatus]);
+
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
