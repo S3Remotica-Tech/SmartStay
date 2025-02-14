@@ -59,8 +59,11 @@ function AssignBooking(props) {
 
   useEffect(() => {
     dispatch({ type: 'REMOVE_ERROR_ASSIGN_BOOKING' })
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostalId } })
+    // dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostalId } })
   }, [])
+    useEffect(() => {
+      dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
+    }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
 
@@ -438,27 +441,19 @@ function AssignBooking(props) {
     setRoom(selectedRoomId); // Update the room state
     setBed(""); // Reset the selected bed when a new room is chosen
 
-    let formattedDate = null;
-    try {
-      let date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1);
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("Date is required.");
-      return;
-    }
+   
 
     if (selectedRoomId) {
       const payload = {
         hostel_id: hostalId,
         floor_id: floor,
         room_id: selectedRoomId,
-        joining_date: formattedDate,
+        // joining_date: joiningDate,
       };
 
 
       dispatch({
-        type: "BOOKINGBEDDETAILS",
+        type: "BEDNUMBERDETAILS",
         payload: payload,
       });
 
@@ -469,36 +464,36 @@ function AssignBooking(props) {
     }
   };
 
-  //  useEffect(() => {
-  //     dispatch({
-  //       type: "BOOKINGBEDDETAILS",
-  //       payload: { hostel_id: hostalId, floor_id: selectedFloor, room_id: room ,joining_date:joiningDate},
-  //     });
-  //   }, [room]);
-  // const handleBed = (e) => {
-  //   setBed(e.target.value);
-  //   setBedError("")
+  
+  // const handleBed = (selectedOption) => {
+  //   setBed(selectedOption?.value); 
+  //   setBedError(""); 
   // };
-  const handleBed = (selectedOption) => {
-    setBed(selectedOption?.value); // Update the bed state with the selected bed ID
-    setBedError(""); // Clear any existing error
+
+
+  const handleBed = (e) => {
+    setBed(e.target.value);
+
+    const Bedfilter =
+      state?.UsersList?.roomdetails &&
+      state.UsersList.roomdetails.filter(
+        (u) =>
+          u.Hostel_Id == hostalId  && u.Floor_Id == floor && u.Room_Id == room
+      );
+
+    const Roomamountfilter =
+      Bedfilter &&
+      Bedfilter.length > 0 &&
+      Bedfilter[0]?.bed_details.filter((amount) => amount.id == e.target.value);
+
+    if (Roomamountfilter.length != 0) {
+      setRentAmount(Roomamountfilter[0]?.bed_amount);
+    }
+
+    setBedError("");
+    setRentError("");
   };
-
-
-  // const handleBed = (e) => {
-  //   setBed(e.target.value);
-  //   const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == paying && u.Floor_Id == floor  && u.Room_Id == room  )
-
-  //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
-
-  //   if (Roomamountfilter.length !=0) {
-  //     setAdvanceamount(Roomamountfilter[0].bed_amount)
-  //   }
-  //   setBedError("");
-  //   setamountError('')
-
-
-  // };
+  console.log("state?.UsersList?.roomdetails",state?.UsersList?.roomdetails)
 
   const handleRentAmount = (e) => {
     setRentAmount(e.target.value);
@@ -800,121 +795,79 @@ function AssignBooking(props) {
 
           <Row className='mb-3'>
 
-            <Col md={6}>
-              <Form.Group className="mb-2" controlId="formBed">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Bed
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "20px",
-                    }}
-                  >
-                    {" "}
-                    *{" "}
-                  </span>
-                </Form.Label>
-
-                <Select
-                  options={
-                    state.Booking?.availableBedBooking?.bed_details
-                      ?.filter(
-                        (item) =>
-                          item.bed_no !== "0" &&
-                          item.bed_no !== "undefined" &&
-                          item.bed_no !== "" &&
-                          item.bed_no !== "null"
-                      )
-                      ?.map((item) => ({
-                        value: item.id, // Bed ID as the value
-                        label: item.bed_no, // Bed number as the label
-                      })) || []
-                  }
-                  onChange={handleBed} // Pass the selected option object to handleBed
-                  value={
-                    state.Booking?.availableBedBooking?.bed_details
-                      ?.filter(
-                        (item) =>
-                          item.bed_no !== "0" &&
-                          item.bed_no !== "undefined" &&
-                          item.bed_no !== "" &&
-                          item.bed_no !== "null"
-                      )
-                      ?.map((item) => ({
-                        value: item.id,
-                        label: item.bed_no,
-                      }))
-                      .find((option) => option.value === bed) || null
-                  }
-                  placeholder="Select a Bed"
-                  classNamePrefix="custom-select"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: "50px",
-                      borderRadius: "8px",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      maxHeight: "150px", // Limit dropdown height
-                      overflowY: "auto", // Enable vertical scrolling
-                      border: "1px solid #D9D9D9",
-                      zIndex: 1000, // Ensure the dropdown appears above other content
-                      scrollbarWidth: "thin",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      maxHeight: "150px", // Max height for the list of options
-                      padding: 0,
-                      overflowY: "auto", // Allow scrolling within the list
-                    }),
-                    option: (base, { isFocused, isSelected }) => ({
-                      ...base,
-                      height: "auto",
-                      padding: "3px 10px",
-                      fontSize: "16px",
-                      backgroundColor: isSelected
-                        ? "#007bff" // Selected background color
-                        : isFocused
-                          ? "#e9ecef" // Focused background color
-                          : "white", // Default background color
-                      color: isSelected ? "white" : "#000", // Text color
-                      cursor: "pointer",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                  }}
-                />
-
-                {bedError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 13,marginBottom:"1px" }} />
-                    <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{bedError}</span>
-                  </div>
-                )}
-
-              </Form.Group>
-
-
-            </Col>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                 <Form.Label
+                                   style={{
+                                     fontSize: 14,
+                                     fontWeight: 500,
+                                     fontFamily: "Gilroy",
+                                   }}
+                                 >
+                                   Bed{" "}
+                                   <span style={{ color: "red", fontSize: "20px" }}>
+                                     {" "}
+                                     *{" "}
+                                   </span>
+                                 </Form.Label>
+           
+                                 <Form.Select
+                                   aria-label="Default select example"
+                                   style={{
+                                     fontSize: 16,
+                                     color: "#4B4B4B",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: 500,
+                                     boxShadow: "none",
+                                     border: "1px solid #D9D9D9",
+                                     height: 50,
+                                     borderRadius: 8,
+                                   }}
+                                   value={bed}
+                                   className="border"
+                                   placeholder="Select a bed"
+                                   id="form-selects"
+                                   onChange={(e) => handleBed(e)}
+                                 >
+                                   <option value="" selected>
+                                     Selected Bed
+                                   </option>
+           
+                                 
+           
+                                   {state.UsersList?.bednumberdetails?.bed_details &&
+                                     state.UsersList?.bednumberdetails?.bed_details
+                                       .filter(
+                                         (item) =>
+                                           item.bed_no !== "0" &&
+                                           item.bed_no !== "undefined" &&
+                                           item.bed_no !== "" &&
+                                           item.bed_no !== "null"
+                                       )
+                                       .map((item) => (
+                                         <option key={item.id} value={item.id}>
+                                           {item.bed_no}
+                                         </option>
+                                       ))}
+                                 </Form.Select>
+           
+                                 {bedError && (
+                                   <div style={{ color: "red" }}>
+                                     <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                                     <label
+                                       className="mb-0"
+                                       style={{
+                                         color: "red",
+                                         fontSize: "12px",
+                                         fontFamily: "Gilroy",
+                                         fontWeight: 500,
+                                       }}
+                                     >
+                                       {bedError}
+                                     </label>
+                                    
+                                   </div>
+                                 )}
+                               </div>
 
 
             <Col md={6}>
