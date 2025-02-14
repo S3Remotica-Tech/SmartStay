@@ -713,7 +713,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
                               right: 0,
-                              top: 50,
+                              top: 30,marginRight:30,
                               width: 163,
                               height: 92,
                               border: "1px solid #EBEBEB",
