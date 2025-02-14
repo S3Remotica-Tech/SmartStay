@@ -2031,7 +2031,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat",
+              fontFamily: "Gilroy",
               marginTop: 20,
               width: "100%",
             }}

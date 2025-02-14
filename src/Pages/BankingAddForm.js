@@ -468,16 +468,16 @@ function BankingAddForm(props) {
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
-              fontWeight: 600,
               height: 50,
+              fontWeight: 600,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: -10
+              fontFamily: "Gilroy",
+              marginTop: -10,width:"100%"
             }}
             onClick={handleSubmitBank}
           >
-            {props.edit ? "save changes" : "Add Bank"}
+            {props.edit ? "Save Changes" : "Add Bank"}
           </Button>
         </Modal.Footer>
       </Modal>
