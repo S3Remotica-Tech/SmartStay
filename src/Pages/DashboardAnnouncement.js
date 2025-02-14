@@ -472,7 +472,6 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             marginBottom: "10px",
             maxHeight: 50,
             marginTop: "-20px",
-
           }}
           onClick={handleShowAnnouncement}
           className="responsive-button"
