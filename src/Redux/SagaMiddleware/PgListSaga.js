@@ -318,8 +318,13 @@ function* handleCreatePGDashboard(action) {
   const response = yield call(createAllPGDetails, action.payload);
   console.log("handleCreatePGDashboard",response)
 
-  if (response.status === 200) {
-    yield put({ type: "CREATE_PG_DASHBOARD", payload: {response:response.data,statusCode:response.status} });
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({ type: "CREATE_PG_DASHBOARD", 
+      payload: {
+        response: response.data,
+        statusCode: response.status || response.statusCode,
+      },
+    });
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
