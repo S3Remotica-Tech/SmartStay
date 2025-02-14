@@ -44,6 +44,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from "react-bootstrap/Image";
+import LoaderComponent from "./LoaderComponent";
 
 function Dashboard(props) {
   
@@ -83,6 +84,7 @@ function Dashboard(props) {
   const [reveneReceived, setRevenueReceived] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
+   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if(state.login.selectedHostel_Id){
@@ -101,6 +103,7 @@ function Dashboard(props) {
   };
 
   useEffect(() => {
+    setLoading(true);
     if(hostel_id){
       dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
     }
@@ -150,6 +153,7 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilterCashBack === 200) {
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
       }, 1000);
@@ -268,12 +272,15 @@ function Dashboard(props) {
 
  
 
-  console.log("loginid",hostel_id);
+  console.log("loading",state.PgList.statuscodeForDashboard);
   
 
   useState(()=>{
-if(state.PgList.statuscodeForDashboard === 200){
-  setTimeout(() => {
+    
+  if(state.PgList.statuscodeForDashboard === 200){
+
+    
+  setTimeout(() => {   
     dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
   }, 200);
 }
@@ -554,6 +561,8 @@ if(state.PgList.statuscodeForDashboard === 200){
               </TabList>
             </Box>
           </div>
+
+          {loading && <LoaderComponent />}
           
           <div style={{maxHeight: "calc(100vh - 83px)", 
       overflowY: "auto",}}>
@@ -806,6 +815,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                   appearance: "none",
                                   background: `url(${drop}) no-repeat right 10px center`,
                                   backgroundSize: "16px 16px",
+                                  cursor:'pointer'
                                 }}
                               >
                                 <option value="six_month">
@@ -1047,6 +1057,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                   backgroundRepeat: "no-repeat",
                                   backgroundPosition: "right 10px center",
                                   backgroundSize: "16px 16px",
+                                    cursor:'pointer'
                                 }}
                               >
                                 <option value="this_month">This month</option>
@@ -1192,6 +1203,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 appearance: "none",
                                 background: `url(${drop}) no-repeat right 10px center`,
                                 backgroundSize: "16px 16px",
+                                  cursor:'pointer'
                               }}
                             >
                               <option value="this_month">This month</option>

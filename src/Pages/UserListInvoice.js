@@ -43,7 +43,7 @@ function UserListInvoice(props) {
 console.log("propss",props);
 
   const popupRef = useRef(null);
-  const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(10);
+  const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -64,6 +64,7 @@ console.log("propss",props);
   };
   const handleItemsPerPageChange = (event) => {
     setInvoicerowsPerPage(Number(event.target.value));
+    setinvoicecurrentPage(1)
   };
 
   const totalPagesinvoice = Math.ceil(
@@ -246,7 +247,7 @@ const handleDeleteBill = (user) => {
 
       <div style={{
                             // height: "400px",
-                            height: currentRowinvoice?.length >= 3 ? "250px" : "auto",
+                            height: currentRowinvoice?.length >= 3 ? "270px" : "auto",
                             overflowY: "auto",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
@@ -293,7 +294,7 @@ const handleDeleteBill = (user) => {
                   textAlign: "start",
                 }}
               >
-                Dated
+                Date
               </th>
               <th
                 style={{
@@ -609,16 +610,21 @@ const handleDeleteBill = (user) => {
       </div>
     
 
-      {invoiceFilterddata?.length >= 5 && (
+      {invoiceFilterddata?.length >= 4 && (
       
                  <nav
-                                     style={{
-                                       display: "flex",
-                                       alignItems: "center",
-                                       justifyContent: "end", // Align dropdown and pagination
-                                       padding: "10px",
-                                       // borderTop: "1px solid #ddd",
-                                     }}
+                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "10px",
+                  right: "10px",
+                  backgroundColor: "#fff", // Optional: to give a background for better visibility
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+                  borderRadius: "5px", // Optional: to make edges rounded
+                }}
                                    >
                                      {/* Dropdown for Items Per Page */}
                                      <div>
@@ -626,18 +632,17 @@ const handleDeleteBill = (user) => {
                                          value={invoicerowsPerPage}
                                          onChange={handleItemsPerPageChange}
                                          style={{
-                                           padding: "5px",
-                                           border: "1px solid #1E45E1",
-                                           borderRadius: "5px",
-                                           color: "#1E45E1",
-                                           fontWeight: "bold",
-                                           cursor: "pointer",
-                                           outline: "none",
-                                           boxShadow: "none",
-                                           
-                                         }}
+                                          padding: "5px",
+                                          border: "1px solid #1E45E1",
+                                          borderRadius: "5px",
+                                          color: "#1E45E1",
+                                          fontWeight: "bold",
+                                          cursor: "pointer",
+                                          outline: "none",
+                                          boxShadow: "none",
+                                        }}
                                        >
-                                          <option value={5}>5</option>
+                                          <option value={4}>4</option>
                                          <option value={10}>10</option>
                                          <option value={50}>50</option>
                                          <option value={100}>100</option>

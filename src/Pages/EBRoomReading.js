@@ -48,6 +48,7 @@ function EBRoomReading(props) {
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [loading, setLoading] = useState(false)
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   // const handleShowDots = (eb_Id) => {
   //   if (activeRow === eb_Id) {
@@ -99,6 +100,7 @@ function EBRoomReading(props) {
     setFormError('')
     setEbErrorunit("");
     setDateError('');
+    setDateErrorMesg("")
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
   };
   useEffect(() => {
@@ -155,6 +157,8 @@ function EBRoomReading(props) {
     setFormError("");
     setEbErrorunit("");
     setDateError("")
+    setDateErrorMesg("")
+    setReadingError('')
   };
   const handleDateChange = (date) => {
 
@@ -163,6 +167,7 @@ function EBRoomReading(props) {
     setDateError('');
     setEbErrorunit('');
     setFormError("")
+    setDateErrorMesg("")
   };
 
   const handleCloseDelete = () => {
@@ -256,7 +261,7 @@ function EBRoomReading(props) {
           setRoomError("Rooms is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
 
         default:
@@ -278,7 +283,7 @@ function EBRoomReading(props) {
         setRoomError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       default:
         break;
@@ -1431,14 +1436,20 @@ function EBRoomReading(props) {
                   />
                 </div>
               </Form.Group>
-              {dateError && (
+              {dateErrorMesg && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
+                  <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
                 </div>
               )}
             </div>
           </div>
+           {dateError && (
+                        <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+                        <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                        <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+                      </div>
+                        )}
         </Modal.Body>
         {formError && (
           <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>

@@ -19,7 +19,7 @@ function UserEb(props) {
  const dispatch = useDispatch();
 
   // const EbrowsPerPage = 10;
-  const [EbrowsPerPage, setEbrowsPerPage] = useState(10);
+  const [EbrowsPerPage, setEbrowsPerPage] = useState(6);
   const [EbcurrentPage, setEbCurrentPage] = useState(1);
   const [EbFilterddata, setEbFilterddata] = useState([]);
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
@@ -40,6 +40,7 @@ const popupRef = useRef(null);
   }
     const handleItemsPerPageChange = (event) => {
       setEbrowsPerPage(Number(event.target.value));
+      setEbCurrentPage(1)
     };
 
     // const handleShowDots = (item) => {
@@ -264,7 +265,7 @@ const popupRef = useRef(null);
 
         <div   style={{
                             // height: "400px",
-                            height: currentRowsEb?.length >= 3 ? "250px" : "auto",
+                            height: currentRowsEb?.length >= 6? "290px" : "auto",
                             overflowY: "auto",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
@@ -282,14 +283,14 @@ const popupRef = useRef(null);
               <tr >
 
                 <th style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Room</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",paddingLeft:5 }}>Room</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start meter</th>
 
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>End meter</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Date</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"start" }}>Date</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>unit</th>
                 {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Units used</th> */}
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"center" }}>Amount</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
               </tr>
             </thead>
@@ -312,7 +313,7 @@ const popupRef = useRef(null);
                     <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",textAlign:"center" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
                       {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
                         }}
@@ -446,16 +447,21 @@ const popupRef = useRef(null);
 
         </div>
 
-        {currentRowsEb?.length >= 5 && (
+        {EbFilterddata?.length >= 6 && (
 
            <nav
-                               style={{
-                                 display: "flex",
-                                 alignItems: "center",
-                                 justifyContent: "end", // Align dropdown and pagination
-                                 padding: "10px",
-                                 // borderTop: "1px solid #ddd",
-                               }}
+           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "10px",
+            position: "fixed",
+            bottom: "10px",
+            right: "10px",
+            backgroundColor: "#fff", // Optional: to give a background for better visibility
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+            borderRadius: "5px", // Optional: to make edges rounded
+          }}
                              >
                                {/* Dropdown for Items Per Page */}
                                <div>
@@ -463,18 +469,17 @@ const popupRef = useRef(null);
                                    value={EbrowsPerPage}
                                    onChange={handleItemsPerPageChange}
                                    style={{
-                                     padding: "5px",
-                                     border: "1px solid #1E45E1",
-                                     borderRadius: "5px",
-                                     color: "#1E45E1",
-                                     fontWeight: "bold",
-                                     cursor: "pointer",
-                                     outline: "none",
-                                     boxShadow: "none",
-                                     
-                                   }}
+                                    padding: "5px",
+                                    border: "1px solid #1E45E1",
+                                    borderRadius: "5px",
+                                    color: "#1E45E1",
+                                    fontWeight: "bold",
+                                    cursor: "pointer",
+                                    outline: "none",
+                                    boxShadow: "none",
+                                  }}
                                  >
-                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
                                    <option value={10}>10</option>
                                    <option value={50}>50</option>
                                    <option value={100}>100</option>

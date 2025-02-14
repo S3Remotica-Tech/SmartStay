@@ -459,6 +459,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         }}
       >
         <Button
+        
           style={{
             fontFamily: "Gilroy",
             fontSize: "14px",
@@ -472,7 +473,6 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             marginBottom: "10px",
             maxHeight: 50,
             marginTop: "-20px",
-
           }}
           onClick={handleShowAnnouncement}
           className="responsive-button"
@@ -713,7 +713,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
                               right: 0,
-                              top: 50,
+                              top: 30,marginRight:30,
                               width: 163,
                               height: 92,
                               border: "1px solid #EBEBEB",
@@ -1714,7 +1714,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             {selectTitleCard?.title}
           </p>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleCloseTittle}
             style={{ cursor: "pointer" }}
@@ -1722,8 +1722,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between">
-            <p style={{ marginBottom: "0px" }}>
-              <Image roundedCircle src={createprofile?.profile || Profile} alt="Ellipse5" width={20} height={20} />
+            <p style={{ marginTop:-20}}>
+              <Image roundedCircle src={createprofile?.profile || Profile}  width={20} height={20} />
               <span
                 style={{
                   fontFamily: "Gilroy",
@@ -1733,6 +1733,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   paddingLeft: "6px",
                 }}
               >
+
+                
                 {createprofile?.first_name} {createprofile?.last_name}
               </span>
             </p>
@@ -2030,7 +2032,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat",
+              fontFamily: "Gilroy",
               marginTop: 20,
               width: "100%",
             }}

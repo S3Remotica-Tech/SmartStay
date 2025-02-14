@@ -791,10 +791,12 @@ const AddReceiptForm = (props) => {
                       fontWeight: modeOfPayment ? 600 : 500,
                     }}
                   >
-                    <option value="">Select a mode</option>
-                    <option value="UPI/BHIM">UPI/BHIM</option>
-                    <option value="CASH">CASH</option>
-                    <option value="Net Banking">Net Banking</option>
+                 <option selected>select </option>
+                 <option value="Cash">Cash </option>
+                 <option value="Debit Card">Debit Card</option> 
+                  <option value="Credit Card">Credit Card </option>
+                  <option value="UPI">UPI</option>
+                  <option value="Net Banking"> Banking</option>
                   </Form.Select>
                 </Form.Group>
                 {paymentError && (

@@ -45,6 +45,7 @@ function EBHostelReading(props) {
   const [deleteForm, setDeleteForm] = useState(false);
    const [loading, setLoading] = useState(false)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
 
 
@@ -143,6 +144,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     });
   };
 
+ 
   useEffect(() => {
     setDateError(state.PgList.dateAlready);
   }, [state.PgList.dateAlready]);
@@ -164,6 +166,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setReading(e.target.value);
     setReadingError("");
     setFormError("");
+    setDateError("")
   };
 
   const validateAssignField = (value, fieldName) => {
@@ -181,7 +184,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
           setHostelIdError("Hostel is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
 
         default:
@@ -199,7 +202,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
         setHostelIdError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       default:
         break;
@@ -402,6 +405,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setFormError("");
     setDateError("");
     setEditId("")
+    setDateErrorMesg("")
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -410,6 +414,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setDateError("");
     setEbErrorunit("");
     setFormError("");
+    setDateErrorMesg("")
   };
 
   //  const electricityrowsPerPage = 5;
@@ -1447,7 +1452,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                   />
                 </div>
               </Form.Group>
-              {dateError && (
+              {dateErrorMesg && (
                 <div style={{ color: "red" }}>
                   <MdError />
                   <span
@@ -1459,29 +1464,27 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       marginLeft:5
                     }}
                   >
-                    {dateError}
+                    {" "}
+                    {dateErrorMesg}
                   </span>
                 </div>
               )}
             </div>
           </div>
+
+          {dateError && (
+              <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+              <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+              <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+            </div>
+              )}
         </Modal.Body>
-        {formError && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span
-              style={{
-                fontSize: "12px",
-                color: "red",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                marginLeft:5
-              }}
-            >
-              {formError}
-            </span>
-          </div>
-        )}
+         {formError && (
+                                                                <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+                                                                  <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                                                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                                </div>
+                                                              )}
         <Modal.Footer className="d-flex justify-content-center">
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

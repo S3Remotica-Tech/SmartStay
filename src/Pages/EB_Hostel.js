@@ -84,6 +84,7 @@ function EB_Hostel(props) {
   const [filterStatus, setFilterStatus] = useState(false);
   const [loading, setLoading] = useState(false)
   const [loader, setLoader] = useState(true);
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
@@ -332,6 +333,7 @@ function EB_Hostel(props) {
     setEndmeter(e.target.value);
     setendMeterError("");
     setEbErrorunit("");
+    setDateErrorMesg("")
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
@@ -423,7 +425,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
           setBedError("Bed is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
         case "endmeter":
           setendMeterError("Reading is required");
@@ -445,7 +447,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
         setBedError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       case "endmeter":
         setendMeterError("");
@@ -469,6 +471,8 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     setFloor("");
     setSelectedDate("");
     setDateError("");
+    setDateErrorMesg("")
+    
   };
 
   const handleSaveEbBill = () => {
@@ -661,6 +665,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   const handleDateChange = (date) => {
     setDateError("");
     setEbErrorunit("");
+    setDateErrorMesg("")
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
@@ -2137,7 +2142,7 @@ cursor:"pointer"
                     />
                   </div>
                 </Form.Group>
-                {dateError && (
+                {dateErrorMesg && (
                   <div style={{ color: "red" }}>
                     <MdError style={{ color: "red", fontSize: "13px" }} />
                     <span
@@ -2149,13 +2154,20 @@ cursor:"pointer"
                         marginLeft: 5
                       }}
                     >
-                      {dateError}
+                      {dateErrorMesg}
                     </span>
                   </div>
                 )}
               </div>
             </div>
+            
           </Modal.Body>
+          {dateError && (
+                                    <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+                                    <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                    <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+                                  </div>
+                                    )}
           <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
               className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

@@ -31,6 +31,7 @@ import {
   ArrowRight2,
 } from "iconsax-react";
 import { MdError } from "react-icons/md";
+import './SettingAll.css'
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -432,7 +433,15 @@ function SettingGeneral() {
 
 
   useEffect(() => {
-    dispatch({ type: "GETALLGENERAL" });
+    setLoading(true)
+    console.log("load",loading);
+   
+     dispatch({ type: "GETALLGENERAL" });
+     const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+  
+    return () => clearTimeout(timeout);
   }, []);
 
 
@@ -570,7 +579,7 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral == 200) {
+    if (state.Settings?.StatusCodeforGetGeneral == 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData);
       setLoading(false)
 
@@ -628,6 +637,9 @@ function SettingGeneral() {
       }, 200);
     }
   }, [state.Settings.StatusCodeforGeneralPassword]);
+
+ 
+ 
   return (
     <>
       <div
@@ -712,7 +724,7 @@ function SettingGeneral() {
         {loading &&
           <div
             style={{
-              position: 'absolute',
+              position: 'fixed',
               top: 0,
               right: 0,
               bottom: 0,
@@ -989,7 +1001,7 @@ function SettingGeneral() {
         )}
       </div>
 
-      {generalFilterddata?.length > generalrowsPerPage && (
+      {generalFilterddata?.length >=5 && generalrowsPerPage && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           {/* Dropdown for Items Per Page */}
           <div>
@@ -1100,6 +1112,7 @@ function SettingGeneral() {
         onHide={() => handleClose()}
         backdrop="static"
         centered
+         dialogClassName="custom-modal"
       >
         {/* <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
@@ -1642,6 +1655,7 @@ function SettingGeneral() {
         onHide={() => handleCloseChangepassword()}
         backdrop="static"
         centered
+            dialogClassName="custom-modal"
         className="modal-dialog-centered"
         style={{
           maxWidth: "353px",

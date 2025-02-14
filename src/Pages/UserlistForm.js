@@ -939,7 +939,7 @@ function UserlistForm(props) {
                           <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
                         </div>
                       )}
-                    </div>s
+                    </div>
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label

@@ -356,7 +356,7 @@ function BankingEditTransaction(props) {
         onHide={() => handleCloseTransactionEdit()}
         backdrop="static"
         centered
-        className="BankingCustom-modal"
+        // className="BankingCustom-modal"
       >
         {/* <Modal.Header closeButton className="text-center">
           <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
@@ -381,7 +381,7 @@ function BankingEditTransaction(props) {
             onClick={handleCloseTransactionEdit}
             style={{
               position: "absolute",
-              right: "10px",
+              right: "15px",
               top: "16px",
               border: "1px solid black",
               background: "transparent",
@@ -390,8 +390,8 @@ function BankingEditTransaction(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "24px",
+              height: "24px",
               borderRadius: "50%",
             }}
           >
@@ -512,7 +512,7 @@ function BankingEditTransaction(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Amount.{" "}
+                  Amount{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -603,7 +603,7 @@ function BankingEditTransaction(props) {
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontWeight: 500,marginTop:5
                   }}
                 >
                   Description{" "}
@@ -648,12 +648,14 @@ function BankingEditTransaction(props) {
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
-              fontWeight: 600,
+              width:"100%",
               height: 50,
+              fontWeight: 600,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginBottom: 15
+              fontFamily: "Gilroy",
+              // marginBottom: 15
+              marginTop:-10
             }}
             onClick={handleEditSave}
           >

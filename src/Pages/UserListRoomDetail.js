@@ -112,6 +112,7 @@ function UserListRoomDetail(props) {
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
+  const [generateError,setGenerateError] = useState("")
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
@@ -773,6 +774,12 @@ const handleCloseGenerateFormShow =()=>{
 const handleGenerateAdvance=()=>{
   dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id } });
 }
+
+useEffect(()=>{
+if(state.UsersList.generateError){
+setGenerateError(state.UsersList.generateError)
+}
+},[state.UsersList.generateError])
 
 
   const [initialState, setInitialState] = useState({
@@ -2024,107 +2031,115 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </div>
 
                                       <div className="card-body">
-                                        <div className="row mb-3">
-                                          {/* Advance Amount */}
-                                          <div className="col-sm-4 d-flex flex-column align-items-start">
-                                            <div
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Advance Amount
-                                            </div>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              <img
-                                                src={Money}
-                                                alt="Money Icon"
-                                              />{" "}
-                                              ₹
-                                              {
-                                                props.userDetails[0]
-                                                  ?.AdvanceAmount
-                                              }
-                                            </p>
-                                          </div>
 
-                                          {/* Bill Status - Generate */}
-                                          {!advanceDetail[0]?.inv_id &&
-                                          <div className="col-sm-4 d-flex flex-column align-items-center">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Bill Status
-                                            </strong>
-                                           
-                                            <Button
-                                            style={{
-                                              width: 102,
-                                              height: 31,
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              fontFamily: "Gilroy",
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              backgroundColor: "#1E45E1",
-                                              color: "#fff",
-                                              borderRadius: "5px",
-                                              marginTop: "5px",
-                                            }}
-                                            onClick={handlegenerateForm}
-                                          >
-                                            Generate
-                                          </Button>
-                                         
-                                           
-                                          </div>
+                                      {
+  props.userDetails[0]?.AdvanceAmount > 0 
+    ? <div className="row mb-3">
+    {/* Advance Amount */}
+    <div className="col-sm-4 d-flex flex-column align-items-start">
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Advance Amount
+      </div>
+      <p
+        style={{
+          fontSize: 14,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+        }}
+      >
+        <img
+          src={Money}
+          alt="Money Icon"
+        />{" "}
+        ₹
+        {
+          props.userDetails[0]
+            ?.AdvanceAmount
+        }
+      </p>
+    </div>
+
+    {/* Bill Status - Generate */}
+    {!advanceDetail[0]?.inv_id &&
+    <div className="col-sm-4 d-flex flex-column align-items-center">
+      {/* <strong
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Bill Status
+      </strong> */}
+     
+      <Button
+      style={{
+        width: 102,
+        height: 31,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 500,
+        backgroundColor: "#1E45E1",
+        color: "#fff",
+        borderRadius: "5px",
+        marginTop: "10px",
+      }}
+      onClick={handlegenerateForm}
+    >
+      Generate
+    </Button>
+   
+     
+    </div>
 }
-                                          {/* Bill Status - Paid */}
-                                          <div className="col-sm-4 d-flex flex-column align-items-end">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Bill Status
-                                            </strong>
-                                            <p
-                                              style={{
-                                                backgroundColor: "#D9FFD9",
-                                                padding: "2px 12px",
-                                                borderRadius: "10px",
-                                                display: "inline-block",
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                fontWeight: "500",
-                                                marginTop: "5px",
-                                              }}
-                                            >
-                                               {state.UsersList?.customerdetails.data &&
-                                            state.UsersList?.customerdetails.data.map((item) => (
-                                              <>
-                                                {item.status}
-                                                  </>
-                                                    ))}
-                                              {/* Paid */}
-                                            </p>
-                                          </div>
-                                        </div>
+    {/* Bill Status - Paid */}
+    <div className="col-sm-4 d-flex flex-column align-items-end">
+      <strong
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          textAlign:"start",paddingRight:15
+        }}
+      >
+        Bill Status
+      </strong>
+      <p
+        style={{
+          backgroundColor: "#D9FFD9",
+          padding: "2px 12px",
+          borderRadius: "10px",
+          display: "inline-block",
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+          fontWeight: "500",
+          marginTop: "5px",
+        }}
+      >
+         {state.UsersList?.customerdetails.data &&
+      state.UsersList?.customerdetails.data.map((item) => (
+        <>
+          {item.status}
+            </>
+              ))}
+        {/* Paid */}
+      </p>
+    </div>
+  </div> 
+    : <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>In this User Not Assigned</div>
+}
+                                        
                                       </div>
+
                                     </div>
                                 
                               </div>
@@ -2338,7 +2353,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         </div>
                                       )
                                     ) : (
-                                      <p>No data available</p>
+                                      <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>No data Found</div>
                                     )}
                                   </div>
                                 </div>
@@ -3396,21 +3411,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     )}
                                   </div>
                                 </div>
-                                {formError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {formError}
-                                    </span>
-                                  </div>
-                                )}
+                               {formError && (
+                                                        <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+                                                          <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                                          <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                        </div>
+                                                      )}
                                 <Button
                                   className="w-100"
                                   style={{

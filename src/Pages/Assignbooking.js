@@ -77,7 +77,7 @@ function AssignBooking(props) {
     setBed('')
     setJoiningDate('')
     setDateError('')
-    setAdvanceamount('')
+    // setAdvanceamount('')
     setRentAmount('')
     setfloorError('')
     setRoomError('')
@@ -214,6 +214,7 @@ function AssignBooking(props) {
       // }
     }
   }, [props.assignBooking]);
+  console.log("props.assignBooking.room_rent",props.assignBooking)
 
 
 
@@ -247,62 +248,62 @@ function AssignBooking(props) {
   // };
 
   const validateAssignField = (value, fieldName) => {
-    const stringValue = String(value).trim();
-    if (!stringValue) {
-      switch (fieldName) {
-        case "floor":
-          setfloorError("Floor is required");
-          break;
-        case "room":
-          setRoomError("Room is required");
-          break;
-        case "bed":
-          setBedError("Bed is required");
-          break;
-        case "joiningDate":
-          setDateError("Joining Date  is required");
-          break;
-        case "advanceAmount":
-          setAdvanceamount("AdvanceAmount is required");
-          break;
-        case "rentAmount":
-          setRentError("RentAmount is required");
-          break;
-        case "hostalId":
-          setHostelIdError("Hostel ID is required");
-          break;
-        default:
-          break;
-      }
-      return false;
+    if (value === 0 || value === null || value === undefined || String(value).trim() === "") {
+        switch (fieldName) {
+            case "floor":
+                setfloorError("Floor is required");
+                break;
+            case "room":
+                setRoomError("Room is required");
+                break;
+            case "bed":
+                setBedError("Bed is required");
+                break;
+            case "joiningDate":
+                setDateError("Joining Date is required");
+                break;
+            case "advanceAmount":
+                setAdavanceError("Advance Amount is required");
+                break;
+            case "rentAmount":
+                setRentError("Rent Amount is required");
+                break;
+            case "hostalId":
+                setHostelIdError("Hostel ID is required");
+                break;
+            default:
+                break;
+        }
+        return false;
     } else {
-      switch (fieldName) {
-        case "floor":
-          setfloorError("");
-        case "room":
-          setRoomError("");
-          break;
-        case "bed":
-          setBedError("");
-          break;
-        case "joiningDate":
-          setDateError("");
-          break;
-        case "advanceAmount":
-          setAdvanceamount("");
-          break;
-        case "rentAmount":
-          setRentError("");
-          break;
-        case "hostalId":
-          setHostelIdError("");
-          break;
-        default:
-          break;
-      }
-      return true;
+        switch (fieldName) {
+            case "floor":
+                setfloorError("");
+                break;
+            case "room":
+                setRoomError("");
+                break;
+            case "bed":
+                setBedError("");
+                break;
+            case "joiningDate":
+                setDateError("");
+                break;
+            case "advanceAmount":
+                setAdavanceError("");
+                break;
+            case "rentAmount":
+                setRentError("");
+                break;
+            case "hostalId":
+                setHostelIdError("");
+                break;
+            default:
+                break;
+        }
+        return true;
     }
-  };
+};
 
 
 
@@ -314,6 +315,7 @@ function AssignBooking(props) {
     const isRoomValid = validateAssignField(room, "room");
     const isbedvalid = validateAssignField(bed, "bed");
     const isjoiningDatevalid = validateAssignField(joiningDate, "joiningDate");
+    const isrentAdvanceAmountvalid = validateAssignField(Advanceamount, "advanceAmount");
     const isrentAmountvalid = validateAssignField(rentamount, "rentAmount");
 
 
@@ -322,6 +324,7 @@ function AssignBooking(props) {
       !isRoomValid ||
       !isbedvalid ||
       !isjoiningDatevalid ||
+      !isrentAdvanceAmountvalid||
       !isrentAmountvalid
 
 

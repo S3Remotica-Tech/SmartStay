@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, MoreCircle } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -34,16 +34,16 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
-import { SearchNormal1 } from 'iconsax-react';
+import { SearchNormal1 } from "iconsax-react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
+import leftarrow from "../Assets/Images/arrow-left.png";
 
-
-import DatePicker from 'react-datepicker';
-import Closebtn from '../Assets/Images/CloseCircle.png';
-import Calendars from '../Assets/Images/New_images/calendar.png'
+import DatePicker from "react-datepicker";
+import Closebtn from "../Assets/Images/CloseCircle.png";
+import Calendars from "../Assets/Images/New_images/calendar.png";
 import { setDate } from "date-fns";
 
 function UserList(props) {
@@ -55,6 +55,9 @@ function UserList(props) {
   const popupRef = useRef(null);
   const rowRef = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [BookingLoading,setBookingLoading] = useState(true)
+  const [WalkingLoading,setWalkingLoading] = useState(true)
+  const [checkoutLoading,setCheckoutLoading] = useState(true)
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
@@ -65,11 +68,15 @@ function UserList(props) {
   const [customerrolePermission, setCustomerRolePermission] = useState("");
   const [customerpermissionError, setCustomerPermissionError] = useState("");
   const [customerAddPermission, setCustomerAddPermission] = useState("");
-  const [customerDeletePermission, setCustomerDeletePermission] = useState(false);
+  const [customerDeletePermission, setCustomerDeletePermission] =
+    useState(false);
   const [customerEditPermission, setCustomerEditPermission] = useState("");
-  const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState("");
-  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
-  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] = useState("");
+  const [customerBookingAddPermission, setCustomerBookingAddPermission] =
+    useState("");
+  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
+    useState("");
+  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
+    useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -118,10 +125,10 @@ function UserList(props) {
   const [currentView, setCurrentView] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null })
+  const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
   const [isroomReading, setIsRoomReading] = useState(false);
-  const [ishostelReading, setIsHostelReading] = useState(false)
-  const [isReading, setIsReading] = useState("")
+  const [ishostelReading, setIsHostelReading] = useState(false);
+  const [isReading, setIsReading] = useState("");
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [reading, setReading] = useState("");
@@ -131,25 +138,23 @@ function UserList(props) {
   const [roomError, setRoomError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
-  const [roomId, setRoomId] = useState("")
+  const [roomId, setRoomId] = useState("");
   const [unitAmount, setUnitAmount] = useState("");
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
-  const [isreader, setIsReader] = useState("")
+  const [isreader, setIsReader] = useState("");
 
   const [hos_Name, setHos_Name] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
-  const [hostelDelete, setHostelDelete] = useState(false)
-  const [roomDelete, setRoomDelete] = useState(false)
+  const [hostelDelete, setHostelDelete] = useState(false);
+  const [roomDelete, setRoomDelete] = useState(false);
 
-  const [deleteIdhostel, setdeleteIdhostel] = useState("")
-  const [deleteIdroom, setdeleteIdroom] = useState("")
-  console.log("deleteDetails", deleteDetails)
-
+  const [deleteIdhostel, setdeleteIdhostel] = useState("");
+  const [deleteIdroom, setdeleteIdroom] = useState("");
+  console.log("deleteDetails", deleteDetails);
 
   let serialNumber = 1;
-
 
   // const handleEditItem = (details) => {
   //   console.log("details", details)
@@ -157,39 +162,32 @@ function UserList(props) {
   // }
   const handleEditItem = (details) => {
     console.log("details", details);
-    setCurrentView(null);  // Reset first to force React to detect changes
+    setCurrentView(null); // Reset first to force React to detect changes
     setTimeout(() => {
-      setCurrentView(details);  // Set the new data after reset
+      setCurrentView(details); // Set the new data after reset
     }, 0);
   };
 
-
-
   const handleDeleteItem = (detail) => {
-    console.log("details", detail)
-    setDeleteId(detail)
-  }
+    console.log("details", detail);
+    setDeleteId(detail);
+  };
 
   const handleEditRoomReading = (value) => {
     console.log("value", value);
 
-    setIsReader(value)
-
-
-  }
+    setIsReader(value);
+  };
   // useEffect(()=> {
   //   if(isreader){
   //     console.log("isreader data:", isreader);
   //     setFloor(isreader.floor_name)
 
-
   //     console.log(isreader.floor_name,"floor");
-
 
   //     setRooms(isreader.Room_Id)
 
   //     console.log(isreader.Room_Id,'room');
-
 
   //     setReading(isreader.unit)
   //     if (isreader.reading_date) {
@@ -203,8 +201,6 @@ function UserList(props) {
   //       console.warn("reading_date is missing:", isreader);
   //     }
   //   }
-
-
 
   // },[isreader])
 
@@ -252,10 +248,11 @@ function UserList(props) {
         console.warn("reading_date is missing:", isreader);
       }
     }
-  }, [isreader, state?.UsersList?.hosteldetailslist, state?.UsersList?.roomdetails]);
-
-
-
+  }, [
+    isreader,
+    state?.UsersList?.hosteldetailslist,
+    state?.UsersList?.roomdetails,
+  ]);
 
   console.log("floor", Floor);
   console.log("rooms", Rooms);
@@ -263,279 +260,372 @@ function UserList(props) {
   const handleEditHostelReading = (users) => {
     console.log(users, "uuu");
 
-    setIsReading(users)
-  }
+    setIsReading(users);
+  };
+  const handleNewRowChange = (index, field, value) => {
+    setNewRows((prevRows) =>
+      prevRows.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row
+      )
+    );
+    setAllFieldErrmsg("");
+  };
+  
 
   const handleDeleteHostelItem = (data) => {
-    setdeleteIdhostel(data)
-  }
+    setdeleteIdhostel(data);
+  };
 
   const handleDeleteRoomItem = (data) => {
-    setdeleteIdroom(data)
-  }
-
+    setdeleteIdroom(data);
+  };
 
   const handleDeleteBilling = () => {
     dispatch({
-      type: 'MANUAL-INVOICE-DELETE',
+      type: "MANUAL-INVOICE-DELETE",
       payload: {
         id: deleteId,
       },
-    })
-    setIsDeleting(false)
-  }
+    });
+    setIsDeleting(false);
+  };
+
+  console.log("josh", currentView);
 
   const handleEditBill = () => {
     let isValid = true;
 
     // Reset error messages
-    setCustomerErrmsg('');
-    setInvoicenumberErrmsg('');
-    setStartdateErrmsg('');
-    setInvoiceDateErrmsg('');
-    setInvoiceDueDateErrmsg('');
-    setAllFieldErrmsg('');
+    setCustomerErrmsg("");
+    setInvoicenumberErrmsg("");
+    setStartdateErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
 
     // Validate Customer
     if (!customername) {
-      setCustomerErrmsg('Customer is required.');
+      setCustomerErrmsg("Customer is required.");
       isValid = false;
     }
 
     // Validate Invoice Number
     if (!invoicenumber) {
-      setInvoicenumberErrmsg('Invoice number is required.');
+      setInvoicenumberErrmsg("Invoice number is required.");
       isValid = false;
     }
 
     // Validate Start Date
     if (!startdate) {
-      setStartdateErrmsg('Start date is required.');
+      setStartdateErrmsg("Start date is required.");
       isValid = false;
     }
     if (!enddate) {
-      setEnddateErrmsg('End date is required.');
+      setEnddateErrmsg("End date is required.");
       isValid = false;
     }
 
     // Validate Invoice Date
     if (!invoicedate) {
-      setInvoiceDateErrmsg('Invoice date is required.');
+      setInvoiceDateErrmsg("Invoice date is required.");
       isValid = false;
     }
 
     // Validate Due Date
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg('Due date is required.');
+      setInvoiceDueDateErrmsg("Due date is required.");
       isValid = false;
     }
 
     // Check All Required Fields
-    if (!customername || !invoicenumber || !startdate || !invoicedate || !invoiceduedate || !enddate) {
-      setAllFieldErrmsg('Please fill out all required fields.');
+    if (
+      !customername ||
+      !invoicenumber ||
+      !startdate ||
+      !invoicedate ||
+      !invoiceduedate ||
+      !enddate
+    ) {
+      setAllFieldErrmsg("Please fill out all required fields.");
       isValid = false;
     }
 
-    const isDataUnchanged =
-      customername === currentView.user_id &&
-      invoicenumber === currentView.invoicenumber &&
-      startdate === currentView.startdate &&
-      enddate === currentView.enddate &&
-      invoicedate === currentView.date &&
-      invoiceduedate === currentView.due_date;
+    // const isDataUnchanged =
+    //   customername != currentView.user_id ||
+    //   invoicenumber != currentView.invoicenumber ||
+    //   startdate != currentView.startdate ||
+    //   enddate != currentView.enddate ||
+    //   invoicedate != currentView.date ||
+    //   invoiceduedate != currentView.due_date ||
+    //   newRows != currentView.amenity
 
+    //   console.log("customername check:", customername ,"currentView.user_id :", currentView.user_id);
+    //   console.log("invoicenumber check:", invoicenumber ,"currentView.invoicenumber :", currentView.invoicenumber);
+    //   console.log("startdate check:", startdate ,"currentView.startdate :", currentView.startdate);
+    //   console.log("enddate check:", enddate ,"currentView.enddate :", currentView.enddate);
+    //   console.log("invoicedate check:", invoicedate ,"currentView.date :", currentView.date);
+    //   console.log("invoiceduedate check:", invoiceduedate ,"currentView.due_date :", currentView.due_date);
+    //   console.log("newRows check:",newRows ,"currentView.amenity :", currentView.amenity);
+    //   console.log("isDataUnchanged:",isDataUnchanged);
 
-    if (isDataUnchanged) {
-      setAllFieldErrmsg('No changes detected.');
+    const formatDateToStartdate = (startdate) => {
+      if (!startdate) return "";
+      const d = new Date(startdate);
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
+    };
+
+    const formatDateTowenddate = (enddate) => {
+      if (!enddate) return "";
+      const d = new Date(enddate);
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
+    };
+
+    const formatDateToInvoicedate = (invoicedate) => {
+      if (!invoicedate) return "";
+      const d = new Date(invoicedate);
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
+    };
+
+    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
+      if (!invoiceduedate) return "";
+      const d = new Date(invoiceduedate);
+      return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+      );
+    };
+
+    const isChanged = (() => {
+      const userChanged = Number(currentView.hos_user_id) !== Number(customername);
+      const startDateChanged = formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate);
+      const invoiceChanged = String(currentView.Invoices) !== String(invoicenumber);
+      const endDateChanged = formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate);
+      const invoiceDateChanged = formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate);
+      const dueDateChanged = formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
+    
+      const amenitiesChanged = newRows.some((row, index) => {
+        const originalRow = currentView.amenity?.[index] || {};
+        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+      });
+    
+      console.log("User ID changed:", userChanged);
+      console.log("Start Date changed:", startDateChanged);
+      console.log("Invoice Number changed:", invoiceChanged);
+      console.log("End Date changed:", endDateChanged);
+      console.log("Invoice Date changed:", invoiceDateChanged);
+      console.log("Due Date changed:", dueDateChanged);
+      console.log("Amenities changed:", amenitiesChanged);
+    
+      return (
+        userChanged ||
+        startDateChanged ||
+        invoiceChanged ||
+        endDateChanged ||
+        invoiceDateChanged ||
+        dueDateChanged ||
+        amenitiesChanged
+      );
+    })();
+    
+
+    if (!isChanged) {
+      setAllFieldErrmsg("No changes detected.");
       isValid = false;
     }
 
-    if (isValid) {
+    if (isValid && isChanged) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
-      ).padStart(2, '0')}-${String(dueDateObject.getDate()).padStart(2, '0')}`;
+      ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
 
       const dateObject = new Date(invoicedate);
       const year = dateObject.getFullYear();
       const month = dateObject.getMonth() + 1;
       const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+        day
+      ).padStart(2, "0")}`;
 
       const startDateObject = new Date(startdate);
       const formattedStartDate = `${startDateObject.getFullYear()}-${String(
         startDateObject.getMonth() + 1
-      ).padStart(2, '0')}-${String(startDateObject.getDate()).padStart(2, '0')}`;
+      ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
+        2,
+        "0"
+      )}`;
 
       const endDateObject = new Date(enddate);
       const formattedEndDate = `${endDateObject.getFullYear()}-${String(
         endDateObject.getMonth() + 1
-      ).padStart(2, '0')}-${String(endDateObject.getDate()).padStart(2, '0')}`;
-      console.log("Customer Name (user_id):", customername);
-      console.log("Invoice Date (date):", formattedDate); // Fixed to use formattedDate
-      console.log("Due Date (due_date):", formatduedate);
-      console.log("Invoice ID (id):", currentView.id);
-      console.log("Amenity:", currentView.amenity);
-      console.log("start", formattedStartDate);
-      console.log("end", formattedEndDate);
+      ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
 
       dispatch({
-        type: 'MANUAL-INVOICE-EDIT',
+        type: "MANUAL-INVOICE-EDIT",
         payload: {
           user_id: customername,
           date: formattedDate,
           due_date: formatduedate,
           id: currentView.id,
-          amenity: currentView.amenity,
+          amenity: newRows,
           start_date: formattedStartDate,
           end_date: formattedEndDate,
-
-
         },
       });
 
       console.log("EditBill");
-      setIsEditing(false)
-      setRoomDetail(true)
-      setCustomerName('');
-      setInvoiceNumber('');
-      setStartDate('');
-      setEndDate('');
-      setInvoiceDate('')
-      setInvoiceDueDate('')
+      setIsEditing(false);
+      setRoomDetail(true);
+      setCustomerName("");
+      setInvoiceNumber("");
+      setStartDate("");
+      setEndDate("");
+      setInvoiceDate("");
+      setInvoiceDueDate("");
 
-      setTotalAmount('')
+      setTotalAmount("");
       setBillAmounts([]);
       setNewRows([]);
 
-      setCustomerErrmsg('')
-      setStartdateErrmsg('')
-      setInvoiceDateErrmsg('')
-      setInvoiceDueDateErrmsg('')
-      setAllFieldErrmsg('')
+      setCustomerErrmsg("");
+      setStartdateErrmsg("");
+      setInvoiceDateErrmsg("");
+      setInvoiceDueDateErrmsg("");
+      setAllFieldErrmsg("");
     }
-    dispatch({ type: 'UPDATE_USERSLIST_TRUE' })
+    dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
-
 
   const handleAddColumn = () => {
     const newRow = {
-      am_name: '',
-      used_unit: '',
-      per_unit_amount: '',
-      total_amount: '',
-      amount: ''
+      am_name: "",
+      used_unit: "",
+      per_unit_amount: "",
+      total_amount: "",
+      amount: "",
     };
     setNewRows([...newRows, newRow]);
+    setAllFieldErrmsg("");
     console.log("Updated Rows:", [...newRows, newRow]);
   };
-  console.log("currentView", props.currentView)
+  console.log("currentView", props.currentView);
   useEffect(() => {
-
     if (newRows) {
+      const allRows = newRows
+        .map((detail) => ({
+          am_name: detail.am_name,
+          amount: Number(detail.amount),
+        }))
+        .filter((detail) => detail.am_name && detail.amount);
 
-      const allRows = newRows.map(detail => ({
-        am_name: detail.am_name,
-        amount: Number(detail.amount)
-      })).filter(detail => detail.am_name && detail.amount);
+      setamenityArray(allRows);
 
-      setamenityArray(allRows)
-
-      const Total_amout = allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0)
+      const Total_amout = allRows.reduce(
+        (sum, item) => sum + parseFloat(item.amount || 0),
+        0
+      );
       setTotalAmount(Total_amout);
     }
-
-
-  }, [newRows])
+  }, [newRows]);
 
   const handleCustomerName = (e) => {
-    setCustomerName(e.target.value)
-    setAllFieldErrmsg('')
+    setCustomerName(e.target.value);
+    setAllFieldErrmsg("");
     if (!e.target.value) {
-      setCustomerErrmsg("Please Select Name")
+      setCustomerErrmsg("Please Select Name");
+    } else {
+      setCustomerErrmsg("");
     }
-    else {
-      setCustomerErrmsg('')
-    }
-    setStartDate('');
-    setEndDate('');
-    setSelectedData('');
-    setBillAmounts('')
-    setTotalAmount('')
-  }
+    setStartDate("");
+    setEndDate("");
+    setSelectedData("");
+    setBillAmounts("");
+    setTotalAmount("");
+  };
 
   const handlestartDate = (selectedDates) => {
-    setAllFieldErrmsg('')
-    const date = selectedDates
+    setAllFieldErrmsg("");
+    const date = selectedDates;
     setStartDate(date);
 
     if (!selectedDates) {
-      setStartdateErrmsg("Please Select Date")
-    }
-    else {
-      setStartdateErrmsg('')
-      setEnddateErrmsg('')
+      setStartdateErrmsg("Please Select Date");
+    } else {
+      setStartdateErrmsg("");
+      setEnddateErrmsg("");
     }
 
     const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatStartDate(formattedDate)
-
-  }
+    setFormatStartDate(formattedDate);
+  };
 
   const handleEndDate = (selectedDates) => {
-    setAllFieldErrmsg('')
-    const date = selectedDates
+    setAllFieldErrmsg("");
+    const date = selectedDates;
     setEndDate(date);
     if (!selectedDates) {
-      setEnddateErrmsg("Please Select Date")
-    }
-    else {
-      setEnddateErrmsg('')
-      setStartdateErrmsg('')
+      setEnddateErrmsg("Please Select Date");
+    } else {
+      setEnddateErrmsg("");
+      setStartdateErrmsg("");
     }
 
     const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatEndDate(formattedDate)
-  }
+    setFormatEndDate(formattedDate);
+  };
 
   const handleInvoiceDate = (selectedDates) => {
-    setAllFieldErrmsg('')
-    const date = selectedDates
+    setAllFieldErrmsg("");
+    const date = selectedDates;
     setInvoiceDate(date);
     if (!selectedDates) {
-      setInvoiceDateErrmsg("Please Select Date")
-    }
-    else {
-      setInvoiceDateErrmsg('')
-      setEnddateErrmsg('')
-      setStartdateErrmsg('')
+      setInvoiceDateErrmsg("Please Select Date");
+    } else {
+      setInvoiceDateErrmsg("");
+      setEnddateErrmsg("");
+      setStartdateErrmsg("");
     }
 
     const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatInvoiceDate(formattedDate)
-  }
-
+    setFormatInvoiceDate(formattedDate);
+  };
 
   const handleDueDate = (selectedDates) => {
-    setAllFieldErrmsg('')
-    const date = selectedDates
+    setAllFieldErrmsg("");
+    const date = selectedDates;
     setInvoiceDueDate(date);
     if (!selectedDates) {
-      setInvoiceDueDateErrmsg("Please Select Date")
-    }
-    else {
-      setInvoiceDueDateErrmsg('')
+      setInvoiceDueDateErrmsg("Please Select Date");
+    } else {
+      setInvoiceDueDateErrmsg("");
     }
 
     const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatDueDate(formattedDate)
-  }
-
-  const handleNewRowChange = (index, field, value) => {
-    const updatedRows = [...newRows];
-    updatedRows[index][field] = value;
-    setNewRows(updatedRows);
+    setFormatDueDate(formattedDate);
   };
+
+ 
 
   const handleDeleteNewRow = (index) => {
     const updatedRows = newRows.filter((_, i) => i !== index);
@@ -546,39 +636,38 @@ function UserList(props) {
     if (!date) return null;
     const offset = date.getTimezoneOffset();
     date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
   const handleCloseDeleteroom = () => {
-    setRoomDelete(false)
-  }
+    setRoomDelete(false);
+  };
   const handleCloseDeleteHostel = () => {
-    setHostelDelete(false)
-  }
+    setHostelDelete(false);
+  };
 
   const handleBackBill = () => {
-    setIsEditing(false)
+    setIsEditing(false);
 
-    setRoomDetail(true)
-    setCustomerName('');
-    setInvoiceNumber('');
-    setStartDate('');
-    setEndDate('');
-    setInvoiceDate('');
-    setInvoiceDueDate('');
-    setSelectedData('');
+    setRoomDetail(true);
+    setCustomerName("");
+    setInvoiceNumber("");
+    setStartDate("");
+    setEndDate("");
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setSelectedData("");
 
-    setBillAmounts('')
-    setTotalAmount('')
-    setCustomerErrmsg('')
-    setStartdateErrmsg('')
-    setInvoiceDateErrmsg('')
-    setInvoiceDueDateErrmsg('')
-    setAllFieldErrmsg('')
+    setBillAmounts("");
+    setTotalAmount("");
+    setCustomerErrmsg("");
+    setStartdateErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
 
-    dispatch({ type: 'UPDATE_USERSLIST_TRUE' })
+    dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     console.log("Dispatching UPDATE_USERSLIST_TRUE");
-
-  }
+  };
 
   useEffect(() => {
     console.log("currentView in useEffect:", currentView);
@@ -586,61 +675,62 @@ function UserList(props) {
       console.log(currentView, "current");
 
       setCustomerName(currentView.hos_user_id);
-      setInvoiceNumber(currentView.Invoices)
+      setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
         const parsedDate = new Date(currentView.DueDate); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
           setInvoiceDueDate(parsedDate); // Set the date object in state
         } else {
-          console.error('Invalid DueDate:', currentView.DueDate);
+          console.error("Invalid DueDate:", currentView.DueDate);
         }
       }
 
       if (currentView.Date) {
         const parsedDate = new Date(currentView.Date); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
           setInvoiceDate(parsedDate); // Set the date object in state
         } else {
-          console.error('Invalid DueDate:', currentView.Date);
+          console.error("Invalid DueDate:", currentView.Date);
         }
       }
       if (currentView.start_date) {
         console.log("StartDate", currentView.start_date);
         const parsedDate = new Date(currentView.start_date); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
           setStartDate(parsedDate); // Set the date object in state
         } else {
-          console.error('Invalid startDate:', currentView.start_date);
+          console.error("Invalid startDate:", currentView.start_date);
         }
       }
       if (currentView.end_date) {
         console.log("Enddate", currentView.end_date);
         const parsedDate = new Date(currentView.end_date); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
+        if (!isNaN(parsedDate.getTime())) {
+          // Check if it's a valid date
           setEndDate(parsedDate); // Set the date object in state
         } else {
-          console.error('Invalid endDate:', currentView.end_date);
+          console.error("Invalid endDate:", currentView.end_date);
         }
       }
 
-      setTotalAmount(currentView.Amount)
-      console.log(currentView.Amount, 'amount');
+      setTotalAmount(currentView.Amount);
+      console.log(currentView.Amount, "amount");
 
-      setNewRows(currentView.amenity)
+      setNewRows(currentView.amenity);
       console.log(currentView.amenity, "amm");
-
-
     }
   }, [currentView]);
 
   useEffect(() => {
     if (isReading) {
-      setHos_Name(isReading.HostelName)
+      setHos_Name(isReading.HostelName);
       setReading(isReading.unit);
       setSelectedDate(new Date(isReading.reading_date));
-
     }
-  }, [isReading])
+  }, [isReading]);
 
   useEffect(() => {
     setUniqostel_Id(state.login.selectedHostel_Id);
@@ -652,9 +742,6 @@ function UserList(props) {
       type: "USERLIST",
       payload: { hostel_id: uniqueostel_Id },
     });
-
-
-
   }, [uniqueostel_Id]);
 
   //  useEffect(() => {
@@ -666,19 +753,19 @@ function UserList(props) {
   //     }
   //   }, [Floor]);
 
-  const [userListDetail, setUserListDetail] = useState("")
-  const [trigger, setTrigger] = useState(true)
+  const [userListDetail, setUserListDetail] = useState("");
+  const [trigger, setTrigger] = useState(true);
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       setLoading(false);
 
       setTimeout(() => {
-        setTrigger(false)
-      }, 1000)
+        setTrigger(false);
+      }, 1000);
 
       setUserListDetail(state.UsersList.Users);
-      setFilteredUsers(state.UsersList.Users)
+      setFilteredUsers(state.UsersList.Users);
 
       // if (state.UsersList.Users.length > 0) {
 
@@ -702,17 +789,16 @@ function UserList(props) {
   }, [state.UsersList?.UserListStatusCode]);
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-
       console.log("state.UsersList.userRoomfor", state.UsersList.userRoomfor);
       // setIsEditing(true);
       // props.setRoomDetail(false)
-      setIsEditing(true)
-      setRoomDetail(false)
+      setIsEditing(true);
+      setRoomDetail(false);
       console.log(roomDetail, "roo");
 
-      dispatch({ type: 'USERROOMAVAILABLEFALSE' })
+      dispatch({ type: "USERROOMAVAILABLEFALSE" });
     }
-  }, [state.UsersList.userRoomfor])
+  }, [state.UsersList.userRoomfor]);
 
   useEffect(() => {
     if (!isEditing) {
@@ -725,21 +811,20 @@ function UserList(props) {
     console.log("Roomdetails", state.UsersList?.roomdetails);
   }, [state.UsersList?.roomdetails]);
 
-
-
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
-
-      console.log("state.UsersList.userProfilebill", state.UsersList.userProfilebill);
+      console.log(
+        "state.UsersList.userProfilebill",
+        state.UsersList.userProfilebill
+      );
       // setIsEditing(true);
       // props.setRoomDetail(false)
-      setIsDeleting(true)
-      setRoomDetail(true)
+      setIsDeleting(true);
+      setRoomDetail(true);
       console.log(roomDetail, "roo");
-      dispatch({ type: 'USERPROFILEBILLFALSE' })
-
+      dispatch({ type: "USERPROFILEBILLFALSE" });
     }
-  }, [state.UsersList.userProfilebill])
+  }, [state.UsersList.userProfilebill]);
   // useEffect(() => {
   //   if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
   //     dispatch({
@@ -752,7 +837,6 @@ function UserList(props) {
   //     setTimeout(() => {
   //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
   //       setLoading(false);
-
 
   //     }, 1000);
   //   }
@@ -792,7 +876,6 @@ function UserList(props) {
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
         // setLoading(false);
-
       }, 1000);
     }
   }, [
@@ -803,40 +886,38 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList.userReading) {
       console.log("userreading", state.UsersList.userReading);
-      setIsRoomReading(true)
-      setRoomDetail(true)
-      dispatch({ type: 'USERREADINGFALSE' })
+      setIsRoomReading(true);
+      setRoomDetail(true);
+      dispatch({ type: "USERREADINGFALSE" });
     }
-  }, [state.UsersList.userReading])
-
+  }, [state.UsersList.userReading]);
 
   useEffect(() => {
     if (state.UsersList.userHostelRead) {
       console.log("userhosteleading", state.UsersList.userHostelRead);
-      setIsHostelReading(true)
-      setRoomDetail(true)
-      dispatch({ type: 'USERHOSTELREADINGFALSE' })
+      setIsHostelReading(true);
+      setRoomDetail(true);
+      dispatch({ type: "USERHOSTELREADINGFALSE" });
     }
-  }, [state.UsersList.userHostelRead])
+  }, [state.UsersList.userHostelRead]);
 
   useEffect(() => {
     if (state.UsersList.userReadingdelete) {
-      setRoomDelete(true)
-      dispatch({ type: 'USERREADING_DELETEFALSE' })
+      setRoomDelete(true);
+      dispatch({ type: "USERREADING_DELETEFALSE" });
     }
-  }, [state.UsersList.userReadingdelete])
+  }, [state.UsersList.userReadingdelete]);
 
   useEffect(() => {
     if (state.UsersList.userHosteldelete) {
-      setHostelDelete(true)
-      dispatch({ type: 'USERHOSTEL_READING_DELETEFALSE' })
+      setHostelDelete(true);
+      dispatch({ type: "USERHOSTEL_READING_DELETEFALSE" });
     }
-  }, [state.UsersList.userHosteldelete])
-
+  }, [state.UsersList.userHosteldelete]);
 
   const handleCloseHostel = () => {
     setIsHostelReading(false);
-    setRoomDetail(true)
+    setRoomDetail(true);
     setReading("");
     setSelectedDate("");
     setDateError("");
@@ -848,7 +929,7 @@ function UserList(props) {
 
   const handleCloseRoom = () => {
     setIsRoomReading(false);
-    setRoomDetail(true)
+    setRoomDetail(true);
     setFormError("");
     setEbErrorunit("");
   };
@@ -864,24 +945,23 @@ function UserList(props) {
     setRooms("");
     setfloorError("");
     setFormError("");
-    setRoomId("")
+    setRoomId("");
     setEbErrorunit("");
   };
   const handleReadingChange = (e) => {
     setReading(e.target.value);
-    setReadingError('')
-    setFormError('')
+    setReadingError("");
+    setFormError("");
     setEbErrorunit("");
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
   };
 
   const handleDateChange = (date) => {
-
     setSelectedDate(date);
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-    setDateError('');
-    setEbErrorunit('');
-    setFormError("")
+    setDateError("");
+    setEbErrorunit("");
+    setFormError("");
   };
 
   const handleCustomerReAssign = (reuser) => {
@@ -973,21 +1053,21 @@ function UserList(props) {
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
-
-  const [walkingCustomer, setWalkingCustomer] = useState([])
-
+  const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
-    dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, [state.login.selectedHostel_Id])
+    dispatch({
+      type: "WALKINCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
 
-
-  console.log("state", state)
-  console.log("walkingCustomer", walkingCustomer)
+  console.log("state", state);
+  console.log("walkingCustomer", walkingCustomer);
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
-      setWalkingCustomer(state.UsersList.WalkInCustomerList)
+      setWalkingCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 200);
@@ -996,22 +1076,31 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
-      setWalkingCustomer([])
+      setWalkingCustomer([]);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 200);
     }
-
-  }, [state.UsersList?.NoDataWalkInCustomerStatusCode])
-
+  }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    setLoading(true)
+    console.log("load",loading);
+    
+    dispatch({
+      type: "CHECKOUTCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the duration (1000ms = 1 second) as needed
+  
+    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
   }, [state.login.selectedHostel_Id]);
-
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1019,10 +1108,7 @@ function UserList(props) {
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
-
-
-
-  const [customerBooking, setCustomerBooking] = useState("")
+  const [customerBooking, setCustomerBooking] = useState("");
 
   useEffect(() => {
     dispatch({
@@ -1042,76 +1128,88 @@ function UserList(props) {
   useEffect(() => {
     if (value === "1") {
       dispatch({
-        type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id },
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
     } else if (value === "2") {
-
-      dispatch({ type: "GET_BOOKING_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
     } else if (value === "3") {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      
     } else if (value === "4") {
-      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
     }
-
-  }, [value])
+  }, [value]);
 
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
         ? userListDetail.filter((item) =>
-          item.Name.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.Name.toLowerCase().includes(filterInput.toLowerCase())
+          )
         : [];
 
       setFilteredUsers(FilterUser);
-
     }
 
     if (value === "2") {
       const FilterUsertwo = Array.isArray(customerBooking)
         ? customerBooking.filter((item) => {
-          const fullName = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
-          return fullName.includes(filterInput.toLowerCase());
-        })
-        : [];  // Return empty array if not an array
+            const fullName = `${item.first_name || ""} ${
+              item.last_name || ""
+            }`.toLowerCase();
+            return fullName.includes(filterInput.toLowerCase());
+          })
+        : []; // Return empty array if not an array
 
       setFilteredUsers(FilterUsertwo);
     }
 
     if (value === "3") {
-      const FilterUsertwo = Array.isArray(checkOutCustomer) ? checkOutCustomer?.filter((item) => {
-        return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
-      })
-        :
-        [];
+      const FilterUsertwo = Array.isArray(checkOutCustomer)
+        ? checkOutCustomer?.filter((item) => {
+            return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
+          })
+        : [];
 
       setFilteredUsers(FilterUsertwo);
     }
     if (value === "4") {
-      const FilterUsertwo = Array.isArray(walkingCustomer) ?
-        walkingCustomer?.filter((item) => {
-          return item.first_name?.toLowerCase().includes(filterInput?.toLowerCase() || "");
-        })
+      const FilterUsertwo = Array.isArray(walkingCustomer)
+        ? walkingCustomer?.filter((item) => {
+            return item.first_name
+              ?.toLowerCase()
+              .includes(filterInput?.toLowerCase() || "");
+          })
         : [];
 
-      console.log("FilterUsertwo", FilterUsertwo)
+      console.log("FilterUsertwo", FilterUsertwo);
 
       setFilteredUsers(FilterUsertwo);
     }
   }, [
     filterInput,
-    state.UsersList?.Users, state.UsersList?.UserListStatusCode,
+    state.UsersList?.Users,
+    state.UsersList?.UserListStatusCode,
     value,
-    state?.Booking?.CustomerBookingList?.bookings, state.Booking.statusCodeGetBooking,
-    state.UsersList?.WalkInCustomerList, state.UsersList?.getWalkInStatusCode,
-    state.UsersList.GetCheckOutCustomerStatusCode, state.UsersList.CheckOutCustomerList
+    state?.Booking?.CustomerBookingList?.bookings,
+    state.Booking.statusCodeGetBooking,
+    state.UsersList?.WalkInCustomerList,
+    state.UsersList?.getWalkInStatusCode,
+    state.UsersList.GetCheckOutCustomerStatusCode,
+    state.UsersList.CheckOutCustomerList,
   ]);
 
   console.log("filteredUsers", filteredUsers);
-
 
   const handlefilterInput = (e) => {
     const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
@@ -1119,13 +1217,13 @@ function UserList(props) {
 
     if (searchValue.length > 0) {
       const filtered = filteredUsers.filter((user) => {
-        const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(" ").toLowerCase();
+        const fullName = [user?.first_name, user?.last_name]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
         const name = user?.Name?.toLowerCase() || "";
 
-        return (
-          name.startsWith(searchValue) ||
-          fullName.startsWith(searchValue)
-        );
+        return name.startsWith(searchValue) || fullName.startsWith(searchValue);
       });
 
       setFilteredUsers(filtered);
@@ -1144,22 +1242,19 @@ function UserList(props) {
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user?.Name || "");
-    }
-    else if (value === "2") {
-      setFilterInput([user?.first_name, user?.last_name].filter(Boolean).join(" ")); // Ensures last name is optional
-    }
-    else if (value === "3") {
+    } else if (value === "2") {
+      setFilterInput(
+        [user?.first_name, user?.last_name].filter(Boolean).join(" ")
+      ); // Ensures last name is optional
+    } else if (value === "3") {
       setFilterInput(user?.Name || "");
-    }
-    else if (value === "4") {
+    } else if (value === "4") {
       setFilterInput(user?.first_name || "");
     }
 
     setFilteredUsers([]);
     setDropdownVisible(false);
   };
-
-
 
   // const handleUserSelect = (user) => {
   //   if (value === "1") {
@@ -1205,7 +1300,6 @@ function UserList(props) {
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-
   const handleShowDots = (id, event) => {
     if (activeRow == id) {
       setActiveRow(null);
@@ -1215,18 +1309,11 @@ function UserList(props) {
     setSearch(false);
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
+    const popupTop = top + height / 2;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-
   };
-
-
-
-
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -1310,11 +1397,8 @@ function UserList(props) {
     setExcelDownloadChecIn("");
     setExcelDownloadCheckout("");
     setIsDownloadTriggered(false);
-    setFilterInput("")
+    setFilterInput("");
   };
-
-
-
 
   // useEffect(() => {
   //   if (state.UsersList?.NoUserListStatusCode === 201) {
@@ -1362,8 +1446,7 @@ function UserList(props) {
     setRoomDetail(true);
     setUserList(false);
     setClickedUserData(clickedUserDataArray);
-    dispatch({ type: 'UPDATE_USERSLIST_FALSE' });  // Reset to 1st tab
-
+    dispatch({ type: "UPDATE_USERSLIST_FALSE" }); // Reset to 1st tab
   };
   const handleShowAddBed = (u) => {
     setEdit("Edit");
@@ -1408,9 +1491,7 @@ function UserList(props) {
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   useEffect(() => {
-    const users = Array.isArray(userListDetail)
-      ? userListDetail
-      : [];
+    const users = Array.isArray(userListDetail) ? userListDetail : [];
 
     // Filter Particular User Details
     const ParticularUserDetails = users.filter((item) => {
@@ -1618,51 +1699,38 @@ function UserList(props) {
   };
 
   const handleDeleteShow = (user) => {
-    console.log("user details", user)
+    console.log("user details", user);
     setDeleteShow(true);
-    setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user })
+    setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
 
-  console.log("state", state)
+  console.log("state", state);
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode == 200) {
-
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
-      setDeleteDetails({ room: null, bed: null, user: null })
+      setDeleteDetails({ room: null, bed: null, user: null });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_DELETE_CUSTOMER' })
-      }, 100)
+        dispatch({ type: "REMOVE_DELETE_CUSTOMER" });
+      }, 100);
     }
-
-  }, [state.UsersList?.deleteCustomerSuccessStatusCode])
-
-
-
-
-
+  }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user.ID) {
       dispatch({
-        type: 'DELETECUSTOMER',
-        payload: { id: deleteDetails?.user.ID }
-      })
+        type: "DELETECUSTOMER",
+        payload: { id: deleteDetails?.user.ID },
+      });
     }
-  }
-
-
-
-
+  };
 
   const handleDeleteBill = () => {
-    setIsDeleting(false)
-  }
-
-
+    setIsDeleting(false);
+  };
 
   useEffect(() => {
     if (
@@ -1715,8 +1783,6 @@ function UserList(props) {
     setaddamenityShow(false);
   };
 
-
-
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false);
@@ -1730,7 +1796,6 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.UsersList.statusCustomerAddUser]);
-
 
   const OnShowTableForCustomer = (isVisible) => {
     setUserList(isVisible);
@@ -1762,8 +1827,6 @@ function UserList(props) {
   };
 
   const [ref_id, setRef_Id] = useState("");
-
-
 
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
@@ -1950,9 +2013,6 @@ function UserList(props) {
     }
   }, [excelDownloadCheckIn, isDownloadTriggered]);
 
-
-
-
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportDetails === 200) {
       setTimeout(() => {
@@ -1985,18 +2045,18 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-
-
-
   const customStartDateInput = (props) => {
     return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
         <FormControl
           type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
           readOnly
-
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -2007,12 +2067,21 @@ function UserList(props) {
             width: "100%",
             height: 50,
             boxSizing: "border-box",
-            boxShadow: "none"
+            boxShadow: "none",
           }}
         />
         <img
           src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -2022,13 +2091,16 @@ function UserList(props) {
 
   const customEndDateInput = (props) => {
     return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
         <FormControl
           type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
           readOnly
-
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -2039,12 +2111,21 @@ function UserList(props) {
             width: "100%",
             height: 50,
             boxSizing: "border-box",
-            boxShadow: "none"
+            boxShadow: "none",
           }}
         />
         <img
           src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -2054,13 +2135,16 @@ function UserList(props) {
 
   const customInvoiceDateInput = (props) => {
     return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
         <FormControl
           type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
           readOnly
-
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -2071,12 +2155,21 @@ function UserList(props) {
             width: "100%",
             height: 50,
             boxSizing: "border-box",
-            boxShadow: "none"
+            boxShadow: "none",
           }}
         />
         <img
           src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -2084,16 +2177,18 @@ function UserList(props) {
     );
   };
 
-
   const customInvoiceDueDateInput = (props) => {
     return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+      <div
+        className="date-input-container w-100"
+        onClick={props.onClick}
+        style={{ position: "relative" }}
+      >
         <FormControl
           type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
+          className="date_input"
+          value={props.value || "DD/MM/YYYY"}
           readOnly
-
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -2104,12 +2199,21 @@ function UserList(props) {
             width: "100%",
             height: 50,
             boxSizing: "border-box",
-            boxShadow: "none"
+            boxShadow: "none",
           }}
         />
         <img
           src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -2164,34 +2268,34 @@ function UserList(props) {
   return (
     // <div style={{ padding: 10, marginLeft: 20 }}>
     <div>
-      {loading &&
+      {loading && (
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             right: 0,
             bottom: 0,
-            left: '200px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
+            left: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
             opacity: 0.75,
             zIndex: 10,
           }}
         >
           <div
             style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
+              borderTop: "4px solid #1E45E1",
+              borderRight: "4px solid transparent",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              animation: "spin 1s linear infinite",
             }}
           ></div>
         </div>
-      }
+      )}
       <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2217,7 +2321,7 @@ function UserList(props) {
 
       {userList && (
         // <div style={{ margin: "12px" }}>
-        <div className="container" >
+        <div className="container">
           <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
             <div style={{ marginTop: 2 }}>
               <label
@@ -2228,7 +2332,7 @@ function UserList(props) {
                   fontFamily: "Gilroy",
                   marginLeft: 11,
                   marginRight: 20,
-                  marginTop: -8
+                  marginTop: -8,
                 }}
               >
                 Customers
@@ -2243,7 +2347,7 @@ function UserList(props) {
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
-                      marginTop: "10px",
+                      marginTop: "8px",
                     }}
                   >
                     <div
@@ -2265,20 +2369,17 @@ function UserList(props) {
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
-
-
                         }}
                       />
-                      
+
                       <div
                         className="input-group"
                         style={{
                           display: "flex",
                           width: "240px", // Fix width
-                          marginRight: 20
+                          marginRight: 20,
                         }}
                       >
-
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
@@ -2383,14 +2484,15 @@ function UserList(props) {
                                   {value === "1"
                                     ? user.Name
                                     : value === "2"
-                                      ? [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-                                      : value === "3"
-                                        ? user.Name
-                                        : value === "4"
-                                          ? user.first_name
-                                          : ""}
+                                    ? [user?.first_name, user?.last_name]
+                                        .filter(Boolean)
+                                        .join(" ")
+                                    : value === "3"
+                                    ? user.Name
+                                    : value === "4"
+                                    ? user.first_name
+                                    : ""}
                                 </span>
-
                               </li>
                             );
                           })}
@@ -2404,8 +2506,11 @@ function UserList(props) {
                   <div style={{ paddingRight: 45, marginTop: 33 }}>
                     <Image
                       src={searchteam}
-
-                      style={{ height: "24px", width: "24px", cursor: "pointer" }}
+                      style={{
+                        height: "24px",
+                        width: "24px",
+                        cursor: "pointer",
+                      }}
                       onClick={handleShowSearch}
                     />
                   </div>
@@ -2426,7 +2531,11 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handleCustomerExcel}
                   />
                 )}
@@ -2435,7 +2544,11 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handleBookingExcel}
                   />
                 )}
@@ -2444,7 +2557,11 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handlecheckoutExcel}
                   />
                 )}
@@ -2453,19 +2570,22 @@ function UserList(props) {
                     src={excelimg}
                     width={38}
                     height={38}
-                    style={{ marginLeft: "-20px", marginTop: 5, cursor: "pointer" }}
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: 5,
+                      cursor: "pointer",
+                    }}
                     onClick={handlewalkinExcel}
                   />
                 )}
               </div>
 
-              <div className="buttons container" style={{ marginTop: 22 }}>
+              <div className="buttons container me-3" style={{ marginTop: 22 }}>
                 {value === "1" && (
                   <Button
                     disabled={customerAddPermission}
                     onClick={handleShow}
                     style={{
-
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       backgroundColor: "#1E45E1",
@@ -2476,10 +2596,10 @@ function UserList(props) {
                       paddingRight: 36,
                       marginBottom: "10px",
                       maxHeight: 45,
-                      marginLeft: search ? "20px !important" : "5px"
+                      marginLeft: search ? "20px !important" : "5px",
                     }}
                   >
-                    +  Customer
+                    + Customer
                   </Button>
                 )}
                 {value === "2" && (
@@ -2497,7 +2617,6 @@ function UserList(props) {
                       paddingLeft: 38,
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
                     + Bookings
@@ -2518,7 +2637,6 @@ function UserList(props) {
                       paddingRight: 30,
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
                     + Check-out
@@ -2539,10 +2657,9 @@ function UserList(props) {
                       paddingLeft: 44,
                       marginBottom: "10px",
                       maxHeight: 45,
-
                     }}
                   >
-                    +  Walk-in
+                    + Walk-in
                   </Button>
                 )}
               </div>
@@ -2715,8 +2832,6 @@ function UserList(props) {
                 ) : (
                   <div className="">
                     <div>
-
-
                       {currentItems && currentItems.length > 0 ? (
                         <div
                           // className="z-0"
@@ -2724,18 +2839,22 @@ function UserList(props) {
                             // height: "400px",
                             // position: "relative",
                             height: currentItems.length >= 6 ? "400px" : "auto",
-                            overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            overflowY:
+                              currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             // borderBottom:"none"
                           }}
                         >
-
                           <Table
-
                             responsive="md"
                             className="Table_Design"
-                            style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                            style={{
+                              border: "1px solid #DCDCDC",
+                              borderBottom: "1px solid transparent",
+                              borderEndStartRadius: 0,
+                              borderEndEndRadius: 0,
+                            }}
                           >
                             <thead
                               style={{
@@ -2743,7 +2862,6 @@ function UserList(props) {
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
-
                               }}
                             >
                               <tr>
@@ -2768,7 +2886,7 @@ function UserList(props) {
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     borderTopLeftRadius: 24,
-                                    paddingLeft: "20px"
+                                    paddingLeft: "20px",
                                   }}
                                 >
                                   Name
@@ -2921,8 +3039,7 @@ function UserList(props) {
                                 //   </tr>
                                 // ))
 
-
-                                // : 
+                                // :
 
                                 currentItems.map((user) => {
                                   const imageUrl = user.profile || Profile;
@@ -2934,7 +3051,6 @@ function UserList(props) {
                                         fontWeight: 600,
                                         textAlign: "center",
                                         // marginTop: 10,
-
                                       }}
                                     >
                                       {/* <td
@@ -2982,7 +3098,6 @@ function UserList(props) {
                                             color: "#1E45E1",
                                             cursor: "pointer",
                                             marginTop: 10,
-
                                           }}
                                           onClick={() =>
                                             handleRoomDetailsPage(user)
@@ -3053,8 +3168,7 @@ function UserList(props) {
                                             0,
                                             String(user.Phone).length - 10
                                           )}{" "}
-                                        {user &&
-                                          String(user.Phone)?.slice(-10)}
+                                        {user && String(user.Phone)?.slice(-10)}
                                       </td>
 
                                       <td
@@ -3108,9 +3222,14 @@ function UserList(props) {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
-                                            zIndex: activeRow === user.ID ? 1000 : "auto",
-                                            backgroundColor: activeRow === user.ID ? "#E7F1FF" : "white"
-
+                                            zIndex:
+                                              activeRow === user.ID
+                                                ? 1000
+                                                : "auto",
+                                            backgroundColor:
+                                              activeRow === user.ID
+                                                ? "#E7F1FF"
+                                                : "white",
                                           }}
                                           onClick={(e) =>
                                             handleShowDots(user.ID, e)
@@ -3120,7 +3239,6 @@ function UserList(props) {
                                             style={{ height: 20, width: 20 }}
                                           />
                                           {activeRow === user.ID && (
-
                                             <div
                                               ref={popupRef}
                                               style={{
@@ -3153,14 +3271,11 @@ function UserList(props) {
                                                       if (
                                                         !customerAddPermission
                                                       ) {
-                                                        handleShowAddBed(
-                                                          user
-                                                        );
+                                                        handleShowAddBed(user);
                                                       }
                                                     }}
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -3217,8 +3332,7 @@ function UserList(props) {
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -3274,8 +3388,7 @@ function UserList(props) {
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor:
-                                                        "#fff",
+                                                      backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -3427,7 +3540,6 @@ function UserList(props) {
                                                 </div>
                                               </div>
                                             </div>
-
                                           )}
                                         </div>
 
@@ -3435,26 +3547,19 @@ function UserList(props) {
                                       </td>
                                     </tr>
                                   );
-                                })}
+                                })
+                              }
                             </tbody>
                           </Table>
-
                         </div>
-                      )
-
-                        :
-                        (
-
-                          !loading && !trigger &&
-                          currentItems && currentItems?.length == 0 &&
-
+                      ) : (
+                        !loading &&
+                        !trigger &&
+                        currentItems &&
+                        currentItems?.length == 0 && (
                           <div style={{ marginTop: 28, marginLeft: "2px" }}>
                             <div style={{ textAlign: "center" }}>
-                              <img
-                                src={Emptystate}
-                                alt="Empty State"
-
-                              />
+                              <img src={Emptystate} alt="Empty State" />
                             </div>
                             <div
                               className="pb-1"
@@ -3480,122 +3585,139 @@ function UserList(props) {
                             >
                               There are no active Customer{" "}
                             </div>
-
                           </div>
                         )
-
-                      }
-
-
-
+                      )}
                     </div>
                     {
-                      state.UsersList.Users?.length >= 5 &&
-
-
-
-                      <nav
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "end",
-                          padding: "10px",
-                          position: "fixed",
-                          bottom: "10px",
-                          right: "10px",
-                          backgroundColor: "#fff", // Optional: to give a background for better visibility
-                          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-                          borderRadius: "5px", // Optional: to make edges rounded
-                        }}
-                      >
-                        {/* Dropdown for Items Per Page */}
-                        <div>
-                          <select
-                            value={itemsPerPage}
-                            onChange={handleItemsPerPageChange}
-                            style={{
-                              padding: "5px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              color: "#1E45E1",
-                              fontWeight: "bold",
-                              cursor: "pointer",
-                              outline: "none",
-                              boxShadow: "none",
-                            }}
-                          >
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                          </select>
-                        </div>
-
-                        {/* Pagination Controls */}
-                        <ul
+                      state.UsersList.Users?.length >= 5 && (
+                        <nav
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            listStyleType: "none",
-                            margin: 0,
-                            padding: 0,
+                            justifyContent: "end",
+                            padding: "10px",
+                            position: "fixed",
+                            bottom: "10px",
+                            right: "10px",
+                            backgroundColor: "#fff", // Optional: to give a background for better visibility
+                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+                            borderRadius: "5px", // Optional: to make edges rounded
                           }}
                         >
-                          {/* Previous Button */}
-                          <li style={{ margin: "0 10px" }}>
-                            <button
+                          {/* Dropdown for Items Per Page */}
+                          <div>
+                            <select
+                              value={itemsPerPage}
+                              onChange={handleItemsPerPageChange}
                               style={{
                                 padding: "5px",
-                                textDecoration: "none",
-                                color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                                borderRadius: "50%",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
+                                border: "1px solid #1E45E1",
+                                borderRadius: "5px",
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                outline: "none",
+                                boxShadow: "none",
                               }}
-                              onClick={() => handlePageChange(currentPage - 1)}
-                              disabled={currentPage === 1}
                             >
-                              <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                            </button>
-                          </li>
+                              <option value={5}>5</option>
+                              <option value={10}>10</option>
+                              <option value={50}>50</option>
+                              <option value={100}>100</option>
+                            </select>
+                          </div>
 
-                          {/* Current Page Indicator */}
-                          <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                            {currentPage} of {totalPages}
-                          </li>
+                          {/* Pagination Controls */}
+                          <ul
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              listStyleType: "none",
+                              margin: 0,
+                              padding: 0,
+                            }}
+                          >
+                            {/* Previous Button */}
+                            <li style={{ margin: "0 10px" }}>
+                              <button
+                                style={{
+                                  padding: "5px",
+                                  textDecoration: "none",
+                                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                  cursor:
+                                    currentPage === 1
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  borderRadius: "50%",
+                                  display: "inline-block",
+                                  minWidth: "30px",
+                                  textAlign: "center",
+                                  backgroundColor: "transparent",
+                                  border: "none",
+                                }}
+                                onClick={() =>
+                                  handlePageChange(currentPage - 1)
+                                }
+                                disabled={currentPage === 1}
+                              >
+                                <ArrowLeft2
+                                  size="16"
+                                  color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                                />
+                              </button>
+                            </li>
 
-                          {/* Next Button */}
-                          <li style={{ margin: "0 10px" }}>
-                            <button
+                            {/* Current Page Indicator */}
+                            <li
                               style={{
-                                padding: "5px",
-                                textDecoration: "none",
-                                color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                                borderRadius: "50%",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
+                                margin: "0 10px",
+                                fontSize: "14px",
+                                fontWeight: "bold",
                               }}
-                              onClick={() => handlePageChange(currentPage + 1)}
-                              disabled={currentPage === totalPages}
                             >
-                              <ArrowRight2
-                                size="16"
-                                color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                              />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
+                              {currentPage} of {totalPages}
+                            </li>
 
-
+                            {/* Next Button */}
+                            <li style={{ margin: "0 10px" }}>
+                              <button
+                                style={{
+                                  padding: "5px",
+                                  textDecoration: "none",
+                                  color:
+                                    currentPage === totalPages
+                                      ? "#ccc"
+                                      : "#1E45E1",
+                                  cursor:
+                                    currentPage === totalPages
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  borderRadius: "50%",
+                                  display: "inline-block",
+                                  minWidth: "30px",
+                                  textAlign: "center",
+                                  backgroundColor: "transparent",
+                                  border: "none",
+                                }}
+                                onClick={() =>
+                                  handlePageChange(currentPage + 1)
+                                }
+                                disabled={currentPage === totalPages}
+                              >
+                                <ArrowRight2
+                                  size="16"
+                                  color={
+                                    currentPage === totalPages
+                                      ? "#ccc"
+                                      : "#1E45E1"
+                                  }
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      )
 
                       // )
                     }
@@ -3643,6 +3765,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  loader={loading}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3660,8 +3783,6 @@ function UserList(props) {
           </div>
         </div>
       )}
-
-
 
       <Modal
         show={deleteShow}
@@ -3744,8 +3865,6 @@ function UserList(props) {
             Delete
           </Button>
         </Modal.Footer>
-
-
       </Modal>
 
       {roomDetail == true ? (
@@ -3807,7 +3926,7 @@ function UserList(props) {
         />
       ) : null}
 
-      {isroomReading &&
+      {isroomReading && (
         <>
           <Modal
             show={isroomReading}
@@ -3815,9 +3934,9 @@ function UserList(props) {
             backdrop="static"
             centered
           >
-
-
-            <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+            <Modal.Header
+              style={{ marginBottom: "10px", position: "relative" }}
+            >
               <div
                 style={{
                   fontSize: 20,
@@ -3861,7 +3980,6 @@ function UserList(props) {
             </Modal.Header>
             <Modal.Body>
               <div className="row ">
-
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Label
                     style={{
@@ -3914,7 +4032,16 @@ function UserList(props) {
                   {floorError && (
                     <div style={{ color: "red" }}>
                       <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {floorError}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -3980,7 +4107,10 @@ function UserList(props) {
                       }}
                     >
                       Reading{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                        {" "}
+                        *{" "}
+                      </span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -4003,7 +4133,16 @@ function UserList(props) {
                   {readingError && (
                     <div style={{ color: "red" }}>
                       <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {readingError}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -4017,7 +4156,8 @@ function UserList(props) {
                         fontWeight: 500,
                       }}
                     >
-                      Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      Date{" "}
+                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
@@ -4046,7 +4186,16 @@ function UserList(props) {
             {formError && (
               <div style={{ color: "red" }}>
                 <MdError />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {formError}
+                </span>
               </div>
             )}
             <Modal.Footer className="d-flex justify-content-center">
@@ -4069,9 +4218,9 @@ function UserList(props) {
             </Modal.Footer>
           </Modal>
         </>
-      }
+      )}
 
-      {ishostelReading &&
+      {ishostelReading && (
         <>
           <Modal
             show={ishostelReading}
@@ -4085,7 +4234,9 @@ function UserList(props) {
             </Modal.Title>
           </Modal.Header> */}
 
-            <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+            <Modal.Header
+              style={{ marginBottom: "10px", position: "relative" }}
+            >
               <div
                 style={{
                   fontSize: 20,
@@ -4129,8 +4280,6 @@ function UserList(props) {
             </Modal.Header>
             <Modal.Body>
               <div className="row ">
-
-
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group className="mb-3">
                     <Form.Label
@@ -4142,7 +4291,10 @@ function UserList(props) {
                       }}
                     >
                       HostelName{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                        {" "}
+                        *{" "}
+                      </span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -4197,7 +4349,10 @@ function UserList(props) {
                       }}
                     >
                       Reading{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                      <span style={{ color: "red", fontSize: "20px" }}>
+                        {" "}
+                        *{" "}
+                      </span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -4250,7 +4405,8 @@ function UserList(props) {
                         fontWeight: 500,
                       }}
                     >
-                      Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      Date{" "}
+                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
@@ -4312,17 +4468,17 @@ function UserList(props) {
                   fontFamily: "Montserrat, sans-serif",
                   marginTop: 10,
                 }}
-              // onClick={handleSaveEb}
-              // disabled={!!formError}
+                // onClick={handleSaveEb}
+                // disabled={!!formError}
               >
                 Save Changes
               </Button>
             </Modal.Footer>
           </Modal>
         </>
-      }
+      )}
 
-      {roomDelete &&
+      {roomDelete && (
         <>
           <Modal
             show={roomDelete}
@@ -4360,7 +4516,7 @@ function UserList(props) {
                 marginTop: "-20px",
               }}
             >
-              Are you sure you want to delete this  RoomReading?
+              Are you sure you want to delete this RoomReading?
             </Modal.Body>
 
             <Modal.Footer
@@ -4400,18 +4556,16 @@ function UserList(props) {
                   fontFamily: "Gilroy",
                   fontSize: "14px",
                 }}
-              // onClick={handleDeleteRoom}
+                // onClick={handleDeleteRoom}
               >
                 Delete
               </Button>
             </Modal.Footer>
-
-
           </Modal>
         </>
-      }
+      )}
 
-      {hostelDelete &&
+      {hostelDelete && (
         <>
           <Modal
             show={hostelDelete}
@@ -4449,7 +4603,7 @@ function UserList(props) {
                 marginTop: "-20px",
               }}
             >
-              Are you sure you want to delete this  HostelReading?
+              Are you sure you want to delete this HostelReading?
             </Modal.Body>
 
             <Modal.Footer
@@ -4489,38 +4643,74 @@ function UserList(props) {
                   fontFamily: "Gilroy",
                   fontSize: "14px",
                 }}
-              // onClick={handleDeletehostel}
+                // onClick={handleDeletehostel}
               >
                 Delete
               </Button>
             </Modal.Footer>
-
-
           </Modal>
         </>
-      }
+      )}
 
-      {isEditing &&
-
-        <div className='container ms-5 me-5 mt-4'>
-
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-            <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-            <p className="mt-1">Edit Bill</p>
+      {isEditing && (
+        <div className="container ms-5  ">
+          <div
+            className="container justify-content-start  d-flex align-items-start"
+            style={{
+              position: "sticky",
+              top: 0,
+              left: 0,
+              width: "100%",
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: "60px",
+              padding: "10px 20px",
+            }}
+          >
+            <div style={{ position: "fixed", marginLeft: "-20px" }}>
+              <svg
+                onClick={handleBackBill}
+                style={{ fontSize: "22px" }}
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  fill="#000000"
+                  d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"
+                ></path>
+                <path
+                  fill="#000000"
+                  d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
+                ></path>
+              </svg>
+              <span
+                style={{
+                  fontWeight: 600,
+                  fontSize: "18px",
+                  marginLeft: 5,
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Edit Bill
+              </span>{" "}
+            </div>
           </div>
 
-          <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
-                  fontFamily: 'Gilroy',
+                  fontFamily: "Gilroy",
                   fontSize: 14,
                   fontWeight: 500,
                   color: "#222",
-                  fontStyle: 'normal',
-                  lineHeight: 'normal'
-                }}>
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+              >
                 Customer
               </Form.Label>
               <Form.Select
@@ -4528,82 +4718,118 @@ function UserList(props) {
                 value={customername}
                 onChange={handleCustomerName}
                 disabled={isEditing}
-                className='border'
+                className="border"
                 style={{
                   fontSize: 16,
                   color: "#4B4B4B",
                   fontFamily: "Gilroy",
-                  lineHeight: '18.83px',
+                  lineHeight: "18.83px",
                   fontWeight: 500,
                   boxShadow: "none",
                   border: "1px solid #D9D9D9",
                   height: 38,
-                  borderRadius: 8
-                }}>
-                <option value=''>Select Customer</option>
-                {state.UsersList?.Users && state.UsersList?.Users?.length > 0 && state?.UsersList?.Users?.filter(u =>
-                  u.Bed !== 'undefined' &&
-                  u.Bed !== '0' &&
-                  typeof u.Bed === 'string' &&
-                  u.Bed.trim() !== '' &&
-                  u.Rooms !== 'undefined' &&
-                  u.Rooms !== '0' &&
-                  typeof u.Rooms === 'string' &&
-                  u.Rooms.trim() !== '')
-                  .map(u => (
-                    <option value={u.ID} key={u.ID}>{u.Name}</option>
-                  ))
-                }
-
+                  borderRadius: 8,
+                }}
+              >
+                <option value="">Select Customer</option>
+                {state.UsersList?.Users &&
+                  state.UsersList?.Users?.length > 0 &&
+                  state?.UsersList?.Users?.filter(
+                    (u) =>
+                      u.Bed !== "undefined" &&
+                      u.Bed !== "0" &&
+                      typeof u.Bed === "string" &&
+                      u.Bed.trim() !== "" &&
+                      u.Rooms !== "undefined" &&
+                      u.Rooms !== "0" &&
+                      typeof u.Rooms === "string" &&
+                      u.Rooms.trim() !== ""
+                  ).map((u) => (
+                    <option value={u.ID} key={u.ID}>
+                      {u.Name}
+                    </option>
+                  ))}
               </Form.Select>
               {customererrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {customererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {customererrmsg}
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {customererrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {customererrmsg}
                   </p>
                 </div>
               )}
             </Form.Group>
           </div>
 
-
-
-          <div className='col-lg-3 col-md-4 col-sm-12 col-xs-12'>
+          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
+              <Form.Label
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#222",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+              >
+                Invoice Number
+              </Form.Label>
               <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                style={{
+                  padding: "10px",
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  lineHeight: "18.83px",
+                  fontWeight: 500,
+                }}
                 type="text"
                 placeholder="Enter invoice number"
-                value={invoicenumber || ''}
+                value={invoicenumber || ""}
                 readOnly
               />
               {invoicenumbererrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoicenumbererrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {invoicenumbererrmsg}
                   </p>
                 </div>
               )}
-
             </Form.Group>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
-
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Start Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Start Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={startdate}
                     onChange={(date) => handlestartDate(date)}
                     popperPlacement="bottom-start"
                     popperModifiers={[
                       {
-                        name: 'offset',
+                        name: "offset",
                         options: {
                           offset: [0, -200],
                         },
@@ -4613,39 +4839,49 @@ function UserList(props) {
                     // minDate={new Date()}
 
                     customInput={customStartDateInput({
-                      value: startdate ? startdate.toLocaleDateString('en-GB') : '',
+                      value: startdate
+                        ? startdate.toLocaleDateString("en-GB")
+                        : "",
                     })}
                   />
                 </div>
               </Form.Group>
 
-
-
-
-
               {startdateerrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {startdateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {startdateerrmsg}
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {startdateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {startdateerrmsg}
                   </p>
                 </div>
               )}
-
             </div>
 
-            <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  End Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  End Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={enddate}
                     onChange={(date) => handleEndDate(date)}
                     popperPlacement="bottom-start"
                     popperModifiers={[
                       {
-                        name: 'offset',
+                        name: "offset",
                         options: {
                           offset: [0, -200],
                         },
@@ -4655,114 +4891,155 @@ function UserList(props) {
                     // minDate={new Date()}
 
                     customInput={customEndDateInput({
-                      value: enddate ? enddate.toLocaleDateString('en-GB') : '',
+                      value: enddate ? enddate.toLocaleDateString("en-GB") : "",
                     })}
                   />
                 </div>
               </Form.Group>
-
 
               {enddateerrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {enddateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {enddateerrmsg}
+                  <p
+                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                  >
+                    {enddateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                    )}{" "}
+                    {enddateerrmsg}
                   </p>
                 </div>
               )}
             </div>
           </div>
 
-
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
-
-
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Invoice Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Invoice Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={invoicedate}
                     onChange={(date) => handleInvoiceDate(date)}
-
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     customInput={customInvoiceDateInput({
-                      value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
+                      value: invoicedate
+                        ? invoicedate.toLocaleDateString("en-GB")
+                        : "",
                     })}
                   />
                 </div>
               </Form.Group>
-
 
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {invoicedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicedateerrmsg}
+                  <p
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoicedateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                    )}{" "}
+                    {invoicedateerrmsg}
                   </p>
                 </div>
               )}
-
             </div>
 
-            <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Due Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Due Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
-
                     dateFormat="dd/MM/yyyy"
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     minDate={null}
-
                     customInput={customInvoiceDueDateInput({
-                      value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
+                      value: invoiceduedate
+                        ? invoiceduedate.toLocaleDateString("en-GB")
+                        : "",
                     })}
                   />
                 </div>
               </Form.Group>
 
-
-
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                    {invoiceduedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoiceduedateerrmsg}
+                  <p
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                  >
+                    {invoiceduedateerrmsg !== " " && (
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                    )}{" "}
+                    {invoiceduedateerrmsg}
                   </p>
                 </div>
               )}
-
             </div>
-            {allfielderrmsg.trim() !== "" && (
-              <div>
-                <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                  {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
-                </p>
-              </div>
-            )}
+
           </div>
 
-
-
-
-
+          {allfielderrmsg.trim() !== "" && (
+            <div>
+              <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+                {allfielderrmsg !== " " && (
+                  <MdError style={{ fontSize: "15px", color: "red" }} />
+                )}{" "}
+                {allfielderrmsg}
+              </p>
+            </div>
+          )}
 
           {/* Table */}
           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
             <Table className="ebtable mt-2" responsive>
-
-              <thead style={{
-                backgroundColor: "#E7F1FF",
-                position: "sticky",
-                top: 0,
-                zIndex: 1,
-              }}>
+              <thead
+                style={{
+                  backgroundColor: "#E7F1FF",
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
                 <tr>
                   <th>S.NO</th>
                   <th>Description</th>
@@ -4774,8 +5051,6 @@ function UserList(props) {
                 </tr>
               </thead>
               <tbody>
-
-
                 {/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
      <tr key={`bill-${index}`}>
      <td>{serialNumber++}</td>
@@ -4810,68 +5085,112 @@ function UserList(props) {
      </tr>
      ))} */}
 
+                {newRows &&
+                  newRows.length > 0 &&
+                  newRows.map((u, index) => (
+                    <tr key={`new-${index}`}>
+                      <td>{serialNumber++}</td>
+                      <td>
+                        <div
+                          className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                          style={{ alignItems: "center" }}
+                        >
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter description"
+                            value={u.am_name}
+                            onChange={(e) =>
+                              handleNewRowChange(
+                                index,
+                                "am_name",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                      </td>
 
-                {newRows && newRows.length > 0 && newRows.map((u, index) => (
-                  <tr key={`new-${index}`}>
-
-                    <td>{serialNumber++}</td>
-                    <td>
-                      <div className='col-lg-8 col-md-8 col-sm-4 col-xs-4' style={{ alignItems: 'center' }}>
+                      <td
+                        className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
+                        style={{ alignItems: "center" }}
+                      >
                         <Form.Control
                           type="text"
-                          placeholder="Enter description"
-                          value={u.am_name}
-                          onChange={(e) => handleNewRowChange(index, 'am_name', e.target.value)}
+                          placeholder="Enter total amount"
+                          value={u.amount}
+                          onChange={(e) =>
+                            handleNewRowChange(index, "amount", e.target.value)
+                          }
                         />
-                      </div>
-                    </td>
-
-
-                    <td className='col-lg-3 col-md-3 col-sm-4 col-xs-4' style={{ alignItems: 'center' }}>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter total amount"
-                        value={u.amount}
-                        onChange={(e) => handleNewRowChange(index, 'amount', e.target.value)}
-                      />
-                    </td>
-                    <td style={{ alignItems: 'center' }}>
-                      <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteNewRow(index)}>
-                        <img src={Closebtn} height={15} width={15} alt="delete" />
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-
+                      </td>
+                      <td style={{ alignItems: "center" }}>
+                        <span
+                          style={{
+                            cursor: "pointer",
+                            color: "red",
+                            marginLeft: "10px",
+                          }}
+                          onClick={() => handleDeleteNewRow(index)}
+                        >
+                          <img
+                            src={Closebtn}
+                            height={15}
+                            width={15}
+                            alt="delete"
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
-
             </Table>
           </div>
 
-          <div><p style={{ color: '#1E45E1', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }} onClick={handleAddColumn}> + Add new column</p></div>
+          <div>
+            <p
+              style={{
+                color: "#1E45E1",
+                fontSize: "14px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+              onClick={handleAddColumn}
+            >
+              {" "}
+              + Add new column
+            </p>
+          </div>
 
-          <div style={{ float: 'right', marginRight: '130px' }}>
+          <div style={{ float: "right", marginRight: "130px" }}>
             <h5>Total Amount ₹{totalAmount}</h5>
             <Button
               onClick={handleEditBill}
-              className='w-80 mt-3' style={{
+              className="w-80 mt-3"
+              style={{
                 backgroundColor: "#1E45E1",
-                fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",
-                fontStyle: 'normal', lineHeight: 'normal'
-              }} >
+                fontWeight: 500,
+                height: 40,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                fontStyle: "normal",
+                lineHeight: "normal",
+              }}
+            >
               Save Changes
             </Button>
-            {tableErrmsg && <div style={{ color: 'red', marginTop: '10px' }}>{tableErrmsg}</div>}
+            {tableErrmsg && (
+              <div style={{ color: "red", marginTop: "10px" }}>
+                {tableErrmsg}
+              </div>
+            )}
 
-
-            <div className='mb-3'></div>
-
+            <div className="mb-3"></div>
           </div>
         </div>
+      )}
 
-      }
-
-      {isDeleting &&
+      {isDeleting && (
         <>
           <Modal
             show={isDeleting}
@@ -4957,7 +5276,7 @@ function UserList(props) {
             </Modal.Footer>
           </Modal>
         </>
-      }
+      )}
 
       {showMenu == true ? (
         <UserlistForm

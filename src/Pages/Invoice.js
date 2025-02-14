@@ -751,7 +751,7 @@ const InvoicePage = () => {
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
-  const [invoiceDetails, setInvoiceDetails] = useState(null)
+  const [invoiceDetails, setInvoiceDetails] = useState(false)
   const [originalInvoiceDetails, setOriginalInvoiceDetails] = useState(null);
 
 
@@ -773,19 +773,26 @@ const InvoicePage = () => {
     setShowAllBill(false);
     setBillMode("Edit Bill");
     setIsEditing(true);
-    if (props) {
+    setInvoiceDetails(null)
+     setTimeout(() => {
       setInvoiceDetails(props);
+     }, 0);
+    if (props) {
+      
       setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props)));
     }
 
   };
 
 
-
-
+  
+   
+  console.log("editdata", invoiceDetails);
 
   useEffect(() => {
-    if (invoiceDetails && isEditing) {
+    // if (invoiceDetails ) {
+     
+       
       if (invoiceDetails?.ID) {
         setCustomerName(invoiceDetails?.ID);
       }
@@ -862,8 +869,8 @@ const InvoicePage = () => {
       }
 
       setNewRows(newRows);
-    }
-  }, [invoiceDetails, isEditing]);
+    // }
+  }, [invoiceDetails]);
 
 
   console.log("newRows", newRows)
@@ -948,30 +955,70 @@ const InvoicePage = () => {
     }
 
 
+    const formatDateToStartdate = (startdate) => {
+      if (!startdate) return ""; 
+      const d = new Date(startdate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateTowenddate = (enddate) => {
+      if (!enddate) return ""; 
+      const d = new Date(enddate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToInvoicedate = (invoicedate) => {
+      if (!invoicedate) return ""; 
+      const d = new Date(invoicedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+
+    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
+      if (!invoiceduedate) return ""; 
+      const d = new Date(invoiceduedate);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+    
+    const isChanged =
+    (() => {
+      return (
+        Number(invoiceDetails?.hos_user_id) !== Number(customername) ||
+        formatDateToStartdate(invoiceDetails?.start_date) !== formatDateToStartdate(startdate) || 
+        String(invoiceDetails?.Invoices) !== String(invoicenumber) ||
+
+        formatDateTowenddate(invoiceDetails?.end_date) !== formatDateTowenddate(enddate) || 
+        formatDateToInvoicedate(invoiceDetails?.Date) !== formatDateToInvoicedate(invoicedate) || 
+        formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate) || 
+         newRows.some((row, index) => {
+      const originalRow = invoiceDetails?.amenity?.[index];
+      return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
+    })
+  )
+})();
+
+
+    // const isDataChanged = 
+    // customername !== String(invoiceDetails?.hos_user_id) ||
+    // invoicenumber !== invoiceDetails?.Invoices ||
+    // startdate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.start_date)?.toISOString().split("T")[0] ||
+    // enddate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.end_date)?.toISOString().split("T")[0] ||
+    // invoicedate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.Date)?.toISOString().split("T")[0] ||
+    // invoiceduedate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.DueDate)?.toISOString().split("T")[0] ||
+    // newRows.some((row, index) => {
+    //   const originalRow = invoiceDetails?.amenity?.[index];
+    //   return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
+    // });
+  
+  if (!isChanged) {
+    setAllFieldErrmsg("No changes detected.");
+    isValid = false;
+    return
+  }
+  
 
 
 
-    const isDataUnchanged =
-      customername === String(originalInvoiceDetails?.hos_user_id) &&
-      invoicenumber === originalInvoiceDetails?.Invoices &&
-      startdate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.start_date)?.toISOString().split("T")[0] &&
-      enddate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.end_date)?.toISOString().split("T")[0] &&
-      invoicedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.Date)?.toISOString().split("T")[0] &&
-      invoiceduedate?.toISOString().split("T")[0] === new Date(originalInvoiceDetails?.DueDate)?.toISOString().split("T")[0] &&
-      newRows.every((row, index) => {
-        const originalRow = originalInvoiceDetails?.amenity?.[index];
-        return row.am_name === originalRow?.am_name && row.amount === originalRow?.amount;
-      });
-
-
-    if (isDataUnchanged) {
-      setAllFieldErrmsg("No changes detected.");
-      isValid = false;
-    }
-
-
-
-    if (isValid) {
+    if (isValid && isChanged) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
@@ -1116,6 +1163,7 @@ const InvoicePage = () => {
       transaction: "",
       paymentType: "",
     });
+    setSelectedDate(null)
   };
 
   const handleCloseEditForm = () => {
@@ -1195,7 +1243,7 @@ const InvoicePage = () => {
       });
 
       setShowform(false);
-
+      setSelectedDate(null)
       setAmountErrmsg("");
       setDateErrmsg("");
       setPaymodeErrmsg("");
@@ -1283,6 +1331,9 @@ const InvoicePage = () => {
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("")
+    setEnddateErrmsg('')
+    setamenityArray([])
+    setNewRows([]);
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
@@ -1928,10 +1979,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({
-      type: "BANKINGLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+    if(state.login.selectedHostel_Id ){
+      dispatch({
+        type: "BANKINGLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -1942,6 +1996,29 @@ const InvoicePage = () => {
       }, 200);
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
+
+  console.log("responseinvoiceupdate", state.InvoiceList.UpdateInvoiceStatusCode);
+
+  useEffect(() => {
+    if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
+      
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
+      
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+
+    
+      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
+      }, 2000);
+    }
+  }, [state.InvoiceList.UpdateInvoiceStatusCode]);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
@@ -2253,7 +2330,9 @@ const InvoicePage = () => {
   //   }
 
   useEffect(() => {
-    dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+    if(hostelId){
+      dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+    } 
   }, [hostelId]);
 
   useEffect(() => {
@@ -2328,10 +2407,10 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       setLoading(false);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+      // dispatch({
+      //   type: "MANUALINVOICESLIST",
+      //   payload: { hostel_id: hostelId },
+      // });
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2668,6 +2747,10 @@ const InvoicePage = () => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
       setReceiptData(state.InvoiceList.ReceiptList);
       setReceiptLoader(false);
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
@@ -2679,6 +2762,8 @@ const InvoicePage = () => {
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptDeletesuccessStatuscode || state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
+
+      // setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2736,7 +2821,7 @@ const InvoicePage = () => {
                 {search ? (
                   <>
                     <div
-                     
+                     style={{  position: "relative",width: "100%",}}
                     >
                       <div
                         style={{

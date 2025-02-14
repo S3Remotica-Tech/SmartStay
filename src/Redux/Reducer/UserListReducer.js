@@ -104,7 +104,9 @@ const initialState = {
    userHosteldelete:null,
    isUsersListTrue: 1,
    hostelListNewDetails:[],
-   statusCodeForhostelListNewDetails:0
+   statusCodeForhostelListNewDetails:0,
+   generateError:'',
+   contactError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -446,14 +448,22 @@ const UserListReducer = (state = initialState, action) => {
         case "CLEAR_DELETE_CONTACT":
             return { ...state, statusCodeDeleteContact: 0 };
 
-
+            case 'CONTACT_ERROR':
+                return { ...state, contactError: action.payload.response }
+    
+            case 'CLEAR_CONTACT_ERROR':
+                return { ...state, contactError: ''}
 
         case 'GENERATE_ADVANCE':
             return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
         case 'REMOVE_GENERATE_ADVANCE':
             return { ...state, statusCodeForGenerateAdvance: 0 }
 
-
+            case 'GENERATE_ERROR':
+                return { ...state, generateError: action.payload }
+    
+            case 'CLEAR_GENERATE_ERROR':
+                return { ...state, generateError: '' }
 
         case 'UPLOAD_DOCUMENT':
             return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
