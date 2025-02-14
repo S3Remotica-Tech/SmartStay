@@ -648,11 +648,12 @@ function BankingEditTransaction(props) {
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
-              fontWeight: 600,
+              width:"100%",
               height: 50,
+              fontWeight: 600,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: "Gilroy",
               // marginBottom: 15
               marginTop:-10
             }}

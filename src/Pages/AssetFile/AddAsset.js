@@ -1086,7 +1086,7 @@ function StaticExample({ show, setShow, currentItem }) {
               className="w-100"
               style={{
                 backgroundColor: "#1E45E1",
-                fontWeight: 500,
+                fontWeight: 600,
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
