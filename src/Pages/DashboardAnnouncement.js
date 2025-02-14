@@ -1713,7 +1713,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             {selectTitleCard?.title}
           </p>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleCloseTittle}
             style={{ cursor: "pointer" }}
@@ -1721,8 +1721,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between">
-            <p style={{ marginBottom: "0px" }}>
-              <Image roundedCircle src={createprofile?.profile || Profile} alt="Ellipse5" width={20} height={20} />
+            <p style={{ marginTop:-20}}>
+              <Image roundedCircle src={createprofile?.profile || Profile}  width={20} height={20} />
               <span
                 style={{
                   fontFamily: "Gilroy",
@@ -1732,6 +1732,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   paddingLeft: "6px",
                 }}
               >
+
+                
                 {createprofile?.first_name} {createprofile?.last_name}
               </span>
             </p>
