@@ -59,7 +59,7 @@ const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
-    console.log("action", action);
+    console.log("responseinvoiceupdate", action);
 
     switch (action.type) {
 
@@ -117,7 +117,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
         case 'UPDATEINVOICE_DETAILS':
-            return { ...state, message: action.payload.data.message, UpdateInvoiceStatusCode: action.payload.statusCode }
+            return { ...state,  UpdateInvoiceStatusCode: action.payload.response.statusCode || action.payload.statusCode }
         case 'CLEAR_INVOICE_UPDATE_LIST':
             return { ...state, UpdateInvoiceStatusCode: 0, message: null }
         case 'INVOICE_SETTINGS':

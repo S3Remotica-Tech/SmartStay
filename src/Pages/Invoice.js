@@ -1994,21 +1994,22 @@ const InvoicePage = () => {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  console.log("codework", state.InvoiceList.UpdateInvoiceStatusCode);
+  console.log("responseinvoiceupdate", state.InvoiceList.UpdateInvoiceStatusCode);
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
       
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
       
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
 
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+    
       
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
@@ -2809,7 +2810,7 @@ const InvoicePage = () => {
                 {search ? (
                   <>
                     <div
-                     
+                     style={{  position: "relative",width: "100%",}}
                     >
                       <div
                         style={{
