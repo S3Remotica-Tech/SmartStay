@@ -1026,8 +1026,8 @@ console.log("loading",loading)
                         }}
                         placeholder="Search..."
                       />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff",cursor:'pointer' }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                      <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
+                        <CloseCircle size="24" color="#222" style={{cursor:'pointer'}} onClick={handleCloseSearch} />
                       </InputGroup.Text>
                     </InputGroup>
 
