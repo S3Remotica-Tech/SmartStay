@@ -21,8 +21,6 @@ import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 function Asset() {
 
 
-
-
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
@@ -504,7 +502,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   }
                   {
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',}}>
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',cursor:"pointer"}}>
                       <InputGroup
                         style={{
                           display: 'flex',
@@ -526,7 +524,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                           }}
                           placeholder="Search..."
                         />
-                        <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                        <InputGroup.Text style={{ backgroundColor: "#ffffff",cursor:"pointer" }}>
                           <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                         </InputGroup.Text>
                       </InputGroup>
