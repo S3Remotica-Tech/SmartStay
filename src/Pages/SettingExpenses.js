@@ -890,7 +890,7 @@ function SettingExpenses({ hostelid }) {
           ))
 
         ) : !loading && (
-          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center" }}>
+          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center", }}>
             <div className="d-flex justify-content-center">
               <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
             </div>
