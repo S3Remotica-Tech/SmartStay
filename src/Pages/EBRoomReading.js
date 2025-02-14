@@ -48,6 +48,7 @@ function EBRoomReading(props) {
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [loading, setLoading] = useState(false)
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   // const handleShowDots = (eb_Id) => {
   //   if (activeRow === eb_Id) {
@@ -99,6 +100,7 @@ function EBRoomReading(props) {
     setFormError('')
     setEbErrorunit("");
     setDateError('');
+    setDateErrorMesg("")
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
   };
   useEffect(() => {
@@ -155,6 +157,8 @@ function EBRoomReading(props) {
     setFormError("");
     setEbErrorunit("");
     setDateError("")
+    setDateErrorMesg("")
+    setReadingError('')
   };
   const handleDateChange = (date) => {
 
@@ -163,6 +167,7 @@ function EBRoomReading(props) {
     setDateError('');
     setEbErrorunit('');
     setFormError("")
+    setDateErrorMesg("")
   };
 
   const handleCloseDelete = () => {
@@ -256,7 +261,7 @@ function EBRoomReading(props) {
           setRoomError("Rooms is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
 
         default:
@@ -278,7 +283,7 @@ function EBRoomReading(props) {
         setRoomError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       default:
         break;
@@ -1431,7 +1436,12 @@ function EBRoomReading(props) {
                   />
                 </div>
               </Form.Group>
-             
+              {dateErrorMesg && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
+                  <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
+                </div>
+              )}
             </div>
           </div>
            {dateError && (
