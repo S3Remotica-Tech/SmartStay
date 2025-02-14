@@ -1424,7 +1424,7 @@ console.log("state for compliance",state)
                             <div
                               style={{
                                 textAlign: "center",
-                                color: "#666",
+                                color: "red",
                                 fontSize: "16px",
                                 padding: "20px",
                                 fontFamily: "Gilroy",
