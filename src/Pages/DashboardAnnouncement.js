@@ -118,6 +118,7 @@ function DashboardAnnouncement(props) {
     if (Comments) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
     }
+    
 
     setComments(""); 
   setShowCommentModal(false);
