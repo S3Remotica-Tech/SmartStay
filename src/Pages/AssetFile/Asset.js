@@ -501,6 +501,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     </div>
                   }
                   {
+                    
                     showFilterData &&
                     <div className='me-3 flex flex-wrap ' style={{ position: 'relative',cursor:"pointer"}}>
                       <InputGroup
