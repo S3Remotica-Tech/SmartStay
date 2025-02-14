@@ -242,6 +242,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
             // setWalkInDateError('Please select Walk-In Date');
             return;
         }
+        
         if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
             setMobileError('Mobile Number must be exactly 10 digits');
             return;
@@ -430,25 +431,15 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
 
-                {state.UsersList.alreadyHere && (
+                {/* {state.UsersList.alreadyHere && (
                     <div className="d-flex align-items-center p-1 mb-2 mt-2">
                         <MdError style={{ color: "red", marginRight: '5px' }} />
                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                             {state.UsersList.alreadyHere}
                         </label>
                     </div>
-                )}
-
-
-
-                {/* {isChangedError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "10px" }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {isChangedError}
-                        </label>
-                    </div>
                 )} */}
+
                 <Modal.Body>
 
                     <div className='d-flex align-items-center'>
@@ -508,7 +499,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
                             {nameError && (
                                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px",marginBottom:"1px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "1px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {nameError}
                                     </label>
@@ -617,10 +608,18 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                 </div>
                             )}
                             {countryCodeError && (
-                                <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                                <div className="d-flex align-items-center mb-2">
                                     <MdError style={{ color: "red", marginRight: '5px' }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {countryCodeError}
+                                    </label>
+                                </div>
+                            )}
+                            {state.UsersList.alreadyHere && (
+                                <div className="d-flex align-items-center" style={{ marginTop: "-12px" }}>
+                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
+                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        {state.UsersList.alreadyHere}
                                     </label>
                                 </div>
                             )}
@@ -661,7 +660,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
                         </div>
-                      
+
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group controlId="formComments" className="mb-3">
@@ -699,7 +698,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                                     Walk-In Date
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
-                                <div style={{ position: 'relative', width: "100%",marginBottom:"3px" }}>
+                                <div style={{ position: 'relative', width: "100%", marginBottom: "3px" }}>
                                     <DatePicker
                                         selected={walkInDate}
                                         onChange={(date) => {
@@ -719,7 +718,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                             </Form.Group>
                             {walkInDateError && (
                                 <div className="d-flex align-items-center p-1">
-                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "12px"  }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "12px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {walkInDateError}
                                     </label>
@@ -729,25 +728,25 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                         </div>
 
                         {isChangedError && (
-                    <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {isChangedError}
-                        </label>
-                    </div>
-                )}
+                            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+                                <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {isChangedError}
+                                </label>
+                            </div>
+                        )}
 
                         <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='mt-1 pt-1' >
-                        {generalError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {generalError}
-                        </label>
-                    </div>
-                )}
-                
-                
+                            {generalError && (
+                                <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        {generalError}
+                                    </label>
+                                </div>
+                            )}
+
+
                             <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                                 {initialData ? 'Save Changes' : 'Add Walk-in'}
                             </Button>

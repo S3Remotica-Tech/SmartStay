@@ -1512,6 +1512,13 @@ const Compliance = () => {
                               )}
                             </Dropdown>
                           </div>
+                          {complaint_typeerrmsg.trim() !== "" && (
+                                <div>
+                                  <p style={{ fontSize: '15px', color: 'red' }}>
+                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px"}} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                  </p>
+                                </div>
+                              )}
 
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
@@ -1627,7 +1634,7 @@ const Compliance = () => {
 
                             {dateerrmsg.trim() !== "" && (
                               <div className="d-flex align-items-center">
-                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "0px" }} />
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                   {dateerrmsg}
                                 </label>

@@ -331,10 +331,18 @@ function Banking() {
     setAddBankAmount("");
   };
 
+
+  const [amountError, setAmountError] = useState("");
+
   const handleAddBankAmount = (e) => {
     setAddBankAmount(e.target.value);
+    setAmountError("");
   };
   const handleAddAmountSubmit = () => {
+    if (!AddBankAmount.trim()) {
+      setAmountError("!Please enter an amount.");
+      return;
+    }
     dispatch({
       type: "ADDBANKAMOUNT",
       payload: { id: typeId, amount: AddBankAmount, hostel_id: hostel_id },
@@ -1973,6 +1981,7 @@ function Banking() {
                     }}
                   />
                 </Form.Group>
+                {amountError && <div style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>{amountError}</div>}
                 <Button
                 className="col-12"
                 style={{
@@ -1980,8 +1989,8 @@ function Banking() {
                   fontWeight: 600,
                   height: "50px",
                   borderRadius: "12px",
-                  fontSize: "1rem",
-                  fontFamily: "Montserrat, sans-serif",
+                  fontSize: "16px",
+                  fontFamily: "Gilroy",
                   marginTop: "10px",
                 }}
                 onClick={handleAddAmountSubmit}
