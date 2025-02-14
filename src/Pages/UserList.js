@@ -143,6 +143,7 @@ function UserList(props) {
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
   const [isreader, setIsReader] = useState("");
+  const [checkoutaddform , setAddCheckoutForm]= useState(true)
 
   const [hos_Name, setHos_Name] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
@@ -2299,6 +2300,8 @@ function UserList(props) {
         handleClose={checkoutcloseModal}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
+        setAddCheckoutForm = {setAddCheckoutForm}
+        checkoutaddform = {checkoutaddform}
       />
 
       <UserlistWalkinForm
@@ -3755,6 +3758,8 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  setAddCheckoutForm = {setAddCheckoutForm}
+                  checkoutaddform = {checkoutaddform}
                 />
               </TabPanel>
               <TabPanel value="4">
