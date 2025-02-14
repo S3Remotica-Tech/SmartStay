@@ -4922,6 +4922,15 @@ function UserList(props) {
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     customInput={customInvoiceDateInput({
                       value: invoicedate
                         ? invoicedate.toLocaleDateString("en-GB")
@@ -4934,10 +4943,10 @@ function UserList(props) {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -4963,6 +4972,15 @@ function UserList(props) {
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
+                    popperPlacement="bottom-start"
+                    popperModifiers={[
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -300],
+                        },
+                      },
+                    ]}
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate
@@ -4976,16 +4994,17 @@ function UserList(props) {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>
                 </div>
               )}
             </div>
+
           </div>
 
           {allfielderrmsg.trim() !== "" && (
