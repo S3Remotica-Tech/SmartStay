@@ -1084,14 +1084,23 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
+    setLoading(true)
+    console.log("load",loading);
+    
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the duration (1000ms = 1 second) as needed
+  
+    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+      setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1132,6 +1141,7 @@ function UserList(props) {
         type: "CHECKOUTCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+      
     } else if (value === "4") {
       dispatch({
         type: "WALKINCUSTOMERLIST",
@@ -3755,6 +3765,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  loader={loading}
                 />
               </TabPanel>
               <TabPanel value="4">

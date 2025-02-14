@@ -433,7 +433,15 @@ function SettingGeneral() {
 
 
   useEffect(() => {
-    dispatch({ type: "GETALLGENERAL" });
+    setLoading(true)
+    console.log("load",loading);
+   
+     dispatch({ type: "GETALLGENERAL" });
+     const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+  
+    return () => clearTimeout(timeout);
   }, []);
 
 
@@ -571,7 +579,7 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral == 200) {
+    if (state.Settings?.StatusCodeforGetGeneral == 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData);
       setLoading(false)
 
@@ -629,6 +637,9 @@ function SettingGeneral() {
       }, 200);
     }
   }, [state.Settings.StatusCodeforGeneralPassword]);
+
+ 
+ 
   return (
     <>
       <div
@@ -713,7 +724,7 @@ function SettingGeneral() {
         {loading &&
           <div
             style={{
-              position: 'absolute',
+              position: 'fixed',
               top: 0,
               right: 0,
               bottom: 0,
