@@ -494,7 +494,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   {
                     !showFilterData &&
 
-                    <div  onClick={handleShowSearch} style={{paddingRight:30,marginTop:12}}>
+                    <div  onClick={handleShowSearch} style={{paddingRight:30,marginTop:12,cursor:"pointer"}}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -591,7 +591,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
-                  <div onClick={handleFilterByPrice} style={{paddingRight:23,marginTop:12}}>
+                  <div onClick={handleFilterByPrice} style={{paddingRight:23,marginTop:12,cursor:"pointer"}}>
                     <Sort
                       Size="24"
                       color="#222"
@@ -616,7 +616,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                       </Form.Select>
                     </div>
                   }
-                  <div style={{ paddingRight: "29px",marginTop:10}}>
+                  <div style={{ paddingRight: "29px",marginTop:10,cursor:"pointer"}}>
                     <img src={excelimg} width={38} height={38} 
                       onClick={handleAssetsExcel}
                     />
