@@ -191,6 +191,7 @@ console.log("called")
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
+    setIsRecurring(false)
   };
 
   const handleRecurringFormShow = (item) => {

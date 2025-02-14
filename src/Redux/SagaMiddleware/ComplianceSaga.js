@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete,getComplianceComment,addComplianceComment} from "../Action/ComplianceAction"
+import {ComplianceChangeStatus,compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete,getComplianceComment,addComplianceComment} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
  function* handlecompliancelist (action){
-    const response = yield call (compliance, action.payload);
+       const response = yield call (compliance, action.payload);
     console.log("handlecompliancelist",response)
     if (response.status === 200  || response.data.statusCode === 200){
        yield put ({type : 'COMPLIANCE_LIST' , payload:{response:response.data.hostelData, statusCode:response.status || response.data.statusCode}})
@@ -139,7 +139,7 @@ function* handleAddVendor(action) {
 // ComplianceChange
 
 function* handleComplianceChange(action) {
-   const response = yield call (ComplianceChange,action.payload);
+   const response = yield call (ComplianceChangeStatus,action.payload);
 console.log("handleComplianceChange",response)
  var toastStyle = {
    backgroundColor: "#E6F6E6",
@@ -159,6 +159,9 @@ console.log("handleComplianceChange",response)
 
    if (response.statusCode === 200 || response.status === 200){
       yield put ({type : 'COMPLIANCE_CHANGE_STATUS' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
+    
+    
+    
       toast.success(`${response.data.message}`, {
          position: "bottom-center",
       autoClose: 2000,
@@ -228,6 +231,10 @@ console.log("handleComplianceChange",response)
    }
   
 }
+
+
+
+
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
 
@@ -404,7 +411,7 @@ function* ComplianceSaga() {
     yield takeEvery('VENDORLIST',handleVendorGet)
     yield takeEvery('ADDVENDOR',handleAddVendor)
     yield takeEvery('DELETEVENDOR',handleDeleteVendor)
-    yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)
+    yield takeEvery('COMPLIANCECHANGESTATUS',handleComplianceChange)
     yield takeEvery('DELETECOMPLIANCE',handleDeleteCompliance)
     yield takeEvery('COMPLIANCEASSIGN',handleComplianceChangeAssign)
     yield takeEvery('GET_COMPLIANCE_COMMENT',handleGetComplianceComment) 

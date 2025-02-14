@@ -90,7 +90,7 @@ function UserAdditionalContact(props) {
           setUserNameError("userName is required");
           break;
         case "Phone":
-          setPhoneError("pnon number is required");
+          setPhoneError("phone number is required");
           break;
         case "address":
           setAddressError("address is required");
