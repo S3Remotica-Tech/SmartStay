@@ -1979,10 +1979,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({
-      type: "BANKINGLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+    if(state.login.selectedHostel_Id ){
+      dispatch({
+        type: "BANKINGLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -2327,7 +2330,9 @@ const InvoicePage = () => {
   //   }
 
   useEffect(() => {
-    dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+    if(hostelId){
+      dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+    } 
   }, [hostelId]);
 
   useEffect(() => {
@@ -2402,10 +2407,10 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       setLoading(false);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+      // dispatch({
+      //   type: "MANUALINVOICESLIST",
+      //   payload: { hostel_id: hostelId },
+      // });
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2742,6 +2747,10 @@ const InvoicePage = () => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
       setReceiptData(state.InvoiceList.ReceiptList);
       setReceiptLoader(false);
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
@@ -2753,6 +2762,8 @@ const InvoicePage = () => {
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptDeletesuccessStatuscode || state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
+
+      // setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
