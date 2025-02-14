@@ -1732,6 +1732,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   paddingLeft: "6px",
                 }}
               >
+
+                
                 {createprofile?.first_name} {createprofile?.last_name}
               </span>
             </p>
