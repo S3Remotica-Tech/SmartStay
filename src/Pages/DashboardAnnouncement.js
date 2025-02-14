@@ -119,6 +119,9 @@ function DashboardAnnouncement(props) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
     }
 
+    setComments(""); 
+  setShowCommentModal(false);
+
   }
 
 
@@ -137,7 +140,8 @@ function DashboardAnnouncement(props) {
         }
       })
     }
-
+    setSubComment("");
+    setShowCommentModal(false); 
   }
 
   const handleShowAnnouncement = () => {
@@ -223,7 +227,8 @@ function DashboardAnnouncement(props) {
     setShowCommentModal(false)
     setSubCommentModal(true)
     setSelectedCommentId(null);
-
+    // setCommentsList(false);
+    // setSubCommentModal(false);
   }
 
   const handleCloseTittle = () => setshowTittleModal(false);
