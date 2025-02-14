@@ -20,7 +20,8 @@ const InvoiceSettingsList = (props) => {
    const state = useSelector((state) => state);
 
    
-   const [isChecked, setIsChecked] = useState(null);
+  //  const [isChecked, setIsChecked] = useState(null);
+  // const [isChecked, setIsChecked] = useState(props.item.recure === 1);
    const [invoiceDetails, setInvoiceDetails] = useState('')
    const [switchStates, setSwitchStates] = useState({});
    const [showDots, setShowDots] = useState(false);
@@ -36,47 +37,32 @@ const InvoiceSettingsList = (props) => {
 
  
 
-  const handleToggle = (item) => {
-    setSwitchStates((prevSwitchStates) => {
-        const newChecked = !prevSwitchStates[item.id];
+  const handleToggle = () => {
+    const newChecked = !props.isChecked;
+    props.setIsChecked(newChecked);
 
-        setIsChecked(newChecked);
-
-
-        return {
-            ...prevSwitchStates,
-            [item.id]: newChecked,
-        };
-    });
-
-
-    setInvoiceDetails(item);
+    if (newChecked) {
+        props.handleRecurringFormShow();
+    } else {
+        // Directly update state to reset API call
+        dispatch({
+            type: 'SETTINGSADDRECURRING',
+            payload: {
+                type: "invoice",
+                recure: 0,
+                hostel_id: Number(props.item.id),
+                start_date: '0',
+                end_date: '0',
+            },
+        });
+    }
 };
 
-    useEffect(() => {
-      if (isChecked === null) {
-        return; 
+useEffect(() => {
+    if (!props.recurringform && !props.formFilled) {
+        props.setIsChecked(false); // Reset toggle only if no data was entered
     }
-        if (!isChecked ) {
-       
-            dispatch({
-              type: 'SETTINGSADDRECURRING',
-              payload: {
-                  type: "invoice",
-                  recure: 0,
-                  hostel_id: Number(props.item.id),
-                  start_date: '0',
-                  end_date: '0',
-                  // am_id: amenityDetails.id,
-              },
-          });
-                
-        }else{
-          props.handleRecurringFormShow();
-        }
-    }, [isChecked]);
-
-    
+}, [props.recurringform]);
     
 
 
@@ -368,17 +354,16 @@ const InvoiceSettingsList = (props) => {
           </div>
 
           <div>
-            <label
-              style={{ color: "#939393", fontSize: 14,fontWeight: 500, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-              Recurring
-            </label>
-            <Form.Check
-              type="switch"
-              label="Recurring"
-              checked={props.item.recure || false }
-             onChange={() => handleToggle(props.item)} />
-          </div>
-
+        <label style={{ color: "#939393", fontSize: 14, fontWeight: 500 }}>
+            Recurring
+        </label>
+        <Form.Check
+            type="switch"
+            label="Recurring"
+            checked={props.isChecked}
+            onChange={handleToggle}
+        />
+    </div>
           <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap mt-3">
             <div className="mb-2">
               <div className="mb-1">
