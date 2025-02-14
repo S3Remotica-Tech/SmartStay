@@ -35,6 +35,10 @@ const InvoiceSettingsList = (props) => {
   //   props.OnEditInvoice(item);
   // };
 
+  useEffect(()=>{
+
+  },[])
+
  
 
   const handleToggle = () => {

@@ -339,18 +339,46 @@ function SettingInvoice({ hostelid }) {
 
 
   useEffect(() => {
-    const filteredHostels = state.UsersList?.hotelDetailsinPg?.filter(
-      (item) => item.id === Number(selectedHostel.id)
+    if (!state.UsersList?.hotelDetailsinPg) return; 
+  
+    const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+      (item) => item.id === Number(hostelid)
     );
-
-
+  
     if (filteredHostels.length > 0) {
+      const recureEnable = filteredHostels[0]?.recure === 1;
+      setIsChecked(recureEnable);
+      console.log("recure", filteredHostels[0]?.recure);
+  
       const profileURL = filteredHostels[0]?.profile;
       setLogo(profileURL);
     } else {
       setLogo(Logo);
     }
-  }, [selectedHostel]);
+  }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
+
+  
+  
+
+
+  useEffect(() => {
+  if (state.UsersList?.hotelDetailsinPg) {
+    setTimeout(() => {
+      const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+        (item) => item.id === Number(hostelid)
+      );
+
+      if (filteredHostels.length > 0) {
+        setIsChecked(filteredHostels[0]?.recure === 1);
+        setLogo(filteredHostels[0]?.profile);
+      } else {
+        setLogo(Logo);
+      }
+    }, 500); 
+  }
+}, [state.UsersList?.hotelDetailsinPg, hostelid]);
+
+  console.log("recure",isChecked);
 
   const rowsPerPage = 10;
 
@@ -509,6 +537,9 @@ function SettingInvoice({ hostelid }) {
   //   setCalculatedstartdate('')
   //   setCalculatedEnddate('')
   // };
+
+  
+
   const handleCloseRecurringForm = () => {
     // Close form WITHOUT calling API
     setRecurringForm(false);
