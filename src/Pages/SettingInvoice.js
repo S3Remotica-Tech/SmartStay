@@ -78,6 +78,8 @@ function SettingInvoice({ hostelid }) {
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
   const [InvoiceList, setInvoiceList] = useState([]);
+  const [formFilled, setFormFilled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); 
 
 
 
@@ -500,13 +502,27 @@ function SettingInvoice({ hostelid }) {
 
   };
 
+  // const handleCloseRecurringForm = () => {
+  //   setRecurringForm(false);
+  //   setCalculatedstartdateErrmsg('')
+  //   setCalculatedEnddateErrMsg('')
+  //   setCalculatedstartdate('')
+  //   setCalculatedEnddate('')
+  // };
   const handleCloseRecurringForm = () => {
+    // Close form WITHOUT calling API
     setRecurringForm(false);
     setCalculatedstartdateErrmsg('')
     setCalculatedEnddateErrMsg('')
     setCalculatedstartdate('')
     setCalculatedEnddate('')
-  };
+
+    if (!formFilled) {
+        setIsChecked(false); // Reset switch only if no data entered
+    }
+
+    setFormFilled(false);
+};
 
 
   const handleEditInvoice = (editData) => {
@@ -813,7 +829,12 @@ function SettingInvoice({ hostelid }) {
                 <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
                   <InvoiceSettingsList
                     item={item}
-                    handleRecurringFormShow={handleRecurringFormShow}
+                    isChecked={isChecked} // Pass controlled state
+            setIsChecked={setIsChecked} // Allow child to update toggle
+            handleRecurringFormShow={handleRecurringFormShow}
+            handleCloseRecurringForm={handleCloseRecurringForm}
+            setFormFilled={setFormFilled}
+                    setRecurringForm={setRecurringForm}
                   // OnEditInvoice={handleEditInvoice}
                   />
                 </div>
