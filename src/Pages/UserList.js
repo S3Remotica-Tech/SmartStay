@@ -1332,7 +1332,7 @@ function UserList(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -1347,6 +1347,7 @@ function UserList(props) {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   // const renderPageNumbers = () => {
