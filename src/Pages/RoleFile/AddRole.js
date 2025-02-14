@@ -264,11 +264,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
             } else{
                 dispatch({ type: "SETTING_ADD_ROLE_LIST", payload });
             }
-            
-        }
-
-
-
+                    }
     };
 
 
@@ -344,6 +340,14 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                                     }}
                                 />
                             </Form.Group>
+                            {errorForm && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {errorForm}
+                                </label>
+                            </div>
+                        )}
                         </div>
 
 
@@ -406,14 +410,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                             </div>
                         )}
 
-                        {errorForm && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {errorForm}
-                                </label>
-                            </div>
-                        )}
+                       
 
                         {errorPermission && (
                             <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
