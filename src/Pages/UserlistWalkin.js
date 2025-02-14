@@ -31,6 +31,8 @@ function UserlistWalkin(props) {
   const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
   const [hostel_Id, setHostelId] = useState("")
+  const [loader, setLoader] = useState(true);
+  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id)
@@ -90,6 +92,25 @@ function UserlistWalkin(props) {
   // }, [hostel_Id]);
 
   console.log("state.UsersList.getWalkInStatusCode", state.UsersList.getWalkInStatusCode)
+
+console.log("loader",loader);
+
+ useEffect(() => {
+  setLoader(true)
+  }, [state.login.selectedHostel_Id]);
+ useEffect(() => {
+    if (state.UsersList?.getWalkInStatusCode == 200) {
+      setLoader(false)
+    }
+  }, [state.UsersList?.getWalkInStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
+      setLoader(false)
+    }
+  }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
+
+
 
   useEffect(() => {
     if (state.UsersList.getWalkInStatusCode === 200) {
@@ -244,6 +265,34 @@ function UserlistWalkin(props) {
 
   return (
     <>
+     {loader &&
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
       {walkInPermissionError ? (
         <>
           <div
@@ -854,7 +903,7 @@ function UserlistWalkin(props) {
 
                 )}
               </div>
-            ) : (
+            ) : loader && (
               <div
                 className=" "
                 style={{ width: "100%", height: "60vh" }}
