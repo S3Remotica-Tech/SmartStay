@@ -191,7 +191,7 @@ console.log("called")
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    setIsRecurring(false);
+    setIsRecurring(false)
   };
 
   const handleRecurringFormShow = (item) => {
@@ -245,7 +245,9 @@ console.log("called")
         type: "SETTINGSADDRECURRING",
         payload: { hostel_id: Number(hostelid), type: 'electricity', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
       });
+      setIsRecurring(false)
     }
+    
   }
 
   useEffect(() => {

@@ -54,9 +54,9 @@ function SettingNewRole({ hostelid }) {
     }
     setShowRole(true);
     setAddRole(true);
+    
     setEditRoleDetails('');
-    console.log("Adding Role...");
-  };
+      };
 
 
 
@@ -126,13 +126,13 @@ function SettingNewRole({ hostelid }) {
   }, [state.Settings.errorRole])
 
  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(15)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roleList?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const totalPages = roleList?.length ? Math.ceil(roleList.length / itemsPerPage) : 1;
+  const totalPages = roleList?.length > 0 ? Math.ceil(roleList.length / itemsPerPage) : 1;
 
 
   const handlePageChange = (pageNumber) => {
@@ -140,6 +140,7 @@ function SettingNewRole({ hostelid }) {
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
 
@@ -240,15 +241,7 @@ function SettingNewRole({ hostelid }) {
             Please add a hostel before adding Role information.
           </p>
 
-          {/* <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/> */}
-
-        </div>
+               </div>
 
 
       )}
@@ -266,13 +259,15 @@ function SettingNewRole({ hostelid }) {
                 >
                   <div className="d-flex align-items-center">
                     <img src={role} width={24} height={24} alt="Role Icon" />
-                    <span
+                    <span title={view.role_name}
                       style={{
                         marginLeft: 20,
                         fontSize: 16,
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                         color: "#222222",
+                        width:50,
+                        textOverflow:"ellipsis", overflow:"hidden", whiteSpace:"nowrap"
                       }}
                     >
                       {view.role_name}
@@ -372,7 +367,7 @@ function SettingNewRole({ hostelid }) {
           })
 
 
-            : !loading &&
+            : !loading  && currentItems.length === 0 &&
 
             <div style={{ justifyContent: "center", alignItems: "center", marginTop: 80 }}>
               <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
@@ -389,8 +384,8 @@ function SettingNewRole({ hostelid }) {
 
 
       {
-        roleList.length >= 5 &&
-        <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+        roleList.length >= 10 &&
+        <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center' style={{backgroundColor:"white"}}
         >
           <div>
             <select
@@ -408,7 +403,7 @@ function SettingNewRole({ hostelid }) {
 
               }}
             >
-              <option value={5}>5</option>
+            
               <option value={10}>10</option>
               <option value={50}>50</option>
               <option value={100}>100</option>

@@ -744,7 +744,7 @@ function Booking(props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   // const itemsPerPage = 7;
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = props.filteredUsers?.slice(
@@ -762,6 +762,7 @@ function Booking(props) {
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
@@ -1528,13 +1529,17 @@ function Booking(props) {
                   //                     </nav>
 
                   <nav
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end", // Align dropdown and pagination
-                      padding: "10px",
-                      // borderTop: "1px solid #ddd",
-                    }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                    padding: "10px",
+                    position: "fixed",
+                    bottom: "0",
+                    right: "0",
+                    backgroundColor: "white",
+                    zIndex: "1000",
+                  }}
                   >
                     {/* Dropdown for Items Per Page */}
                     <div>
@@ -1550,6 +1555,7 @@ function Booking(props) {
                           cursor: "pointer",
                           outline: "none",
                           boxShadow: "none",
+    
                         }}
                       >
                         <option value={5}>5</option>
@@ -2057,7 +2063,8 @@ function Booking(props) {
                   fontWeight: 500,
                 }}
               >
-                Address
+                Address{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -2092,7 +2099,8 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Joining_Date
+                  Joining_Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
                 </Form.Label>
                 <div style={{ position: "relative", width: "100%" }}>
@@ -2140,6 +2148,7 @@ function Booking(props) {
                   }}
                 >
                   Booking Amount{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   
                 </Form.Label>
                 <FormControl

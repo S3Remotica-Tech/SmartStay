@@ -32,6 +32,7 @@ import {
 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -349,42 +350,118 @@ function SettingGeneral() {
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     return emailRegex.test(email);
   }
+  // const handleSave = () => {
+  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+  //   if (!validateField(firstName, "firstName"));
+  //   if (!validateField(emilId, "emilId"));
+  //   if (!validateField(Phone, "Phone"));
+  //   if (!validateField(password, "password"));
+  //   if (!validateField(address, "address"));
+
+  //   if (!isValidEmail(emilId)) {
+  //     setEmailError("Please enter a valid Email ID.");
+  //     return;
+  //   }
+
+  //   if (edit && editId) {
+  //     const normalize = (value) => (value === null ? "" : value);
+  //     const isChanged =
+  //       firstName !== initialStateAssign.firstName ||
+  //       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+  //       // lastName !== initialStateAssign.lastName ||
+  //       normalize(lastName) !== normalize(initialStateAssign.lastName) ||
+  //       emilId !== initialStateAssign.emilId ||
+  //       address !== initialStateAssign.address ||
+  //       // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
+  //       // (!file && initialStateAssign.file);
+  //       file !== initialStateAssign.file ||
+  //       (!file && initialStateAssign.file);
+
+  //     console.log("Change detection:");
+  //     console.log("First Name:", firstName, initialStateAssign.firstName);
+  //     console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
+  //     console.log("Last Name:", lastName, initialStateAssign);
+  //     console.log("Email ID:", emilId, initialStateAssign.emilId);
+  //     console.log("Address:", address, initialStateAssign.address);
+  //     console.log("File comparison:", file, initialStateAssign.file);
+  //     console.log("Is Changed:", isChanged);
+
+  //     if (!isChanged) {
+  //       setFormError("No changes detected.");
+  //       console.log("No changes detected. Form not submitted.");
+  //       return;
+  //     } else {
+  //       setFormError("");
+  //     }
+
+  //     console.log("Submitting changes to dispatch...");
+  //     dispatch({
+  //       type: "ADDGENERALSETTING",
+  //       payload: {
+  //         f_name: firstName,
+  //         l_name: lastName,
+  //         mob_no: normalizedPhoneNumber,
+  //         email_id: emilId,
+  //         address: address,
+  //         profile: file,
+  //         id: editId,
+  //       },
+  //     });
+  //   }
+
+  //   else if (firstName && emilId && Phone && address && password) {
+  //     dispatch({
+  //       type: "ADDGENERALSETTING",
+  //       payload: {
+  //         f_name: firstName,
+  //         l_name: lastName,
+  //         mob_no: normalizedPhoneNumber,
+  //         email_id: emilId,
+  //         address: address,
+  //         password: password,
+  //         profile: file,
+  //       },
+  //     });
+  //   }
+  // };
   const handleSave = () => {
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-    if (!validateField(firstName, "firstName"));
-    if (!validateField(emilId, "emilId"));
-    if (!validateField(Phone, "Phone"));
-    if (!validateField(password, "password"));
-    if (!validateField(address, "address"));
+  
+    // Validate all fields
+    const isFirstNameValid = validateField(firstName, "firstName");
+    const isEmailValid = validateField(emilId, "emilId");
+    const isPhoneValid = validateField(Phone, "Phone");
+    const isAddressValid = validateField(address, "address");
 
+  
+    // Check if all fields are valid
+    if (
+      !isFirstNameValid ||
+      !isEmailValid ||
+      !isPhoneValid ||
+      !isAddressValid 
+     
+    ) {
+      console.log("Form validation failed.");
+      return;
+    }
+  
     if (!isValidEmail(emilId)) {
       setEmailError("Please enter a valid Email ID.");
       return;
     }
-
+  
     if (edit && editId) {
       const normalize = (value) => (value === null ? "" : value);
       const isChanged =
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-        // lastName !== initialStateAssign.lastName ||
         normalize(lastName) !== normalize(initialStateAssign.lastName) ||
         emilId !== initialStateAssign.emilId ||
         address !== initialStateAssign.address ||
-        // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
-        // (!file && initialStateAssign.file);
         file !== initialStateAssign.file ||
         (!file && initialStateAssign.file);
-
-      console.log("Change detection:");
-      console.log("First Name:", firstName, initialStateAssign.firstName);
-      console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
-      console.log("Last Name:", lastName, initialStateAssign);
-      console.log("Email ID:", emilId, initialStateAssign.emilId);
-      console.log("Address:", address, initialStateAssign.address);
-      console.log("File comparison:", file, initialStateAssign.file);
-      console.log("Is Changed:", isChanged);
-
+  
       if (!isChanged) {
         setFormError("No changes detected.");
         console.log("No changes detected. Form not submitted.");
@@ -392,8 +469,8 @@ function SettingGeneral() {
       } else {
         setFormError("");
       }
-
-      console.log("Submitting changes to dispatch...");
+  
+           console.log("Submitting changes to dispatch...");
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -407,8 +484,7 @@ function SettingGeneral() {
         },
       });
     }
-
-    else if (firstName && emilId && Phone && address && password) {
+     else if (firstName && emilId && Phone && address && password) {
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -423,7 +499,7 @@ function SettingGeneral() {
       });
     }
   };
-
+  
   useEffect(() => {
     if (state.Settings.notmatchpass) {
       setPassError(state.Settings.notmatchpass);
@@ -813,14 +889,27 @@ function SettingGeneral() {
                     >
                       Change Password
                     </p>
-                    <img
+                    {/* <img
                       src={round}
                       width="30"
                       height="30"
                       alt="icon"
                       onClick={() => handlegeneralform(item.id)}
-                      style={{ cursor: "pointer" }}
-                    />
+                      style={{
+                        cursor: "pointer",
+                        borderRadius: "50%",
+                     
+                      }}
+                    /> */}
+                    <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                            border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+                                            position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                                            ,      backgroundColor: generalEdit === item.id ? "#E7F1FF" : "transparent",
+
+
+                                            }} onClick={() => handlegeneralform(item.id)}>
+                                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
                     {generalEdit === item.id && (
                       <div
                         ref={popupRef}
@@ -887,6 +976,7 @@ function SettingGeneral() {
                         </div>
                       </div>
                     )}
+                    </div>
                   </div>
                 </div>
                 <hr />

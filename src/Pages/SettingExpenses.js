@@ -621,12 +621,33 @@ function SettingExpenses({ hostelid }) {
     }
   }
 
+  // const [expandedCategoryId, setExpandedCategoryId] = useState(null);
+
+
+  // const handleToggleDropdown = (categoryId) => {
+  //   setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
+  // };
+
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
-
-
-  const handleToggleDropdown = (categoryId) => {
-    setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
+  
+  const handleToggleDropdown = (categoryId, event) => {
+    if (expandedCategoryId === categoryId) {
+      setExpandedCategoryId(null);
+    } else {
+      const rect = event.target.getBoundingClientRect();
+      console.log("rect.width",rect.width, rect.bottom, rect.left );
+      
+      setDropdownPosition({
+        top: rect.bottom + 6, 
+        // left: rect.left + window.scrollX,  
+        left: rect.left - 361,
+        width: rect.width + 370,
+      });
+      setExpandedCategoryId(categoryId);
+    }
   };
+  
 
   // pagination
   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
@@ -797,7 +818,7 @@ function SettingExpenses({ hostelid }) {
                         handleDeleteExpensesCategory(category);
                       }}
                     />
-                    <i onClick={() => handleToggleDropdown(category.category_Id)}
+                    <i onClick={(event) => handleToggleDropdown(category.category_Id,event)}
                       className={`bi ${expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
                         }`}
                       style={{ cursor: "pointer" }}
@@ -808,7 +829,7 @@ function SettingExpenses({ hostelid }) {
 
               </Card>
 
-              {expandedCategoryId === category.category_Id ? (
+              {/* {expandedCategoryId === category.category_Id ? (
                  <div
                  className="dropdown-content"
                  style={{
@@ -881,21 +902,58 @@ function SettingExpenses({ hostelid }) {
                     )}
                   </ul>
                 </div>
-              )
+              ) */}
+
+{expandedCategoryId === category.category_Id && (
+  <div
+    className="dropdown-content"
+    style={{
+      position: "fixed",
+      top: dropdownPosition.top,
+      left: dropdownPosition.left,
+      width: dropdownPosition.width,
+      zIndex: 999,
+      backgroundColor: "#fff",
+      border: "1px solid #ddd",
+      borderRadius: "0 0 10px 10px",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      padding: "10px",
+      overflowY: "auto",
+      maxHeight: "200px", // Adjust height for scrolling
+    }}
+  >
+    <ul className="p-2 m-0">
+      {category.subcategory?.length > 0 ? (
+        category.subcategory.map((sub) => (
+          <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center">
+            {sub.subcategory}
+            <span>
+              <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
+              <img src={Closebtn} height={15} width={15} alt="delete" style={{ cursor: "pointer", marginLeft: 10 }} onClick={() => handleDeleteSubCategory(sub)} />
+            </span>
+          </li>
+        ))
+      ) : (
+        <span className="text-muted">No Subcategories Available</span>
+      )}
+    </ul>
+  </div>
+)}
 
 
-                :
-                null}
+
+                {/* :
+                null} */}
             </div>
           ))
 
         ) : !loading && (
-          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center" }}>
+          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center",marginLeft:'270px' }}>
             <div className="d-flex justify-content-center">
               <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
             </div>
             <div
-              className="pb-1 mt-3"
+              className="pb-1 mt-2"
               style={{
                 textAlign: "center",
                 fontWeight: 600,

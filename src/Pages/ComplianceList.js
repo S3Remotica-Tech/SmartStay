@@ -232,6 +232,15 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
+
+  console.log("get", state.ComplianceList.statusCodeForDeleteCompliance,
+    "comment", state.ComplianceList.statusCodeForAddComplianceComment,
+    "change", state.ComplianceList.complianceAssignChangeStatus,
+    "complianceChangeStatus", state.ComplianceList.complianceChangeStatus)
+
+
+
+
   const [comments, setComments] = useState("");
   const handleComments = (e) => {
     setComments(e.target.value);
@@ -303,6 +312,26 @@ const ComplianceList = (props) => {
   const [selectedStatus, setSelectedStatus] = useState("");
 
 
+
+
+  const [statusErrorType, setStatusErrorType] = useState('')
+
+  const handleChangeStatusOpenClose = (item) => {
+    console.log("item", item)
+    setAssignId(item?.ID);
+    setShowDots(false);
+    // setStatus("");
+    setShowChangeStatus(true);
+    setShowAssignComplaint(false);
+    setStatus(item?.Status);
+  };
+
+  //assign complaint
+  const ChangeStatusClose = () => {
+    setShowChangeStatus(false);
+    setStatusError("");
+  };
+
   const handleChangeStatusClick = () => {
     if (!status) {
       setStatusError("Please Select Status");
@@ -318,7 +347,7 @@ const ComplianceList = (props) => {
     setStatusError("");
 
     dispatch({
-      type: "COMPLIANCEASSIGN",
+      type: "COMPLIANCECHANGESTATUS",
       payload: {
         type: "status_change",
         assigner: compliant,
@@ -329,22 +358,8 @@ const ComplianceList = (props) => {
     });
   };
 
-  const [statusErrorType, setStatusErrorType] = useState('')
 
-  const handleChangeStatusOpenClose = (item) => {
-    setAssignId(item?.ID);
-    setShowDots(false);
-    // setStatus("");
-    setShowChangeStatus(true);
-    setShowAssignComplaint(false);
-    setStatus(item.Status);
-  };
 
-  //assign complaint
-  const ChangeStatusClose = () => {
-    setShowChangeStatus(false);
-    setStatusError("");
-  };
   const handleAssignComplaintClick = () => {
 
     console.log("alreadyAssigned == compliant", alreadyAssigned, compliant)
@@ -368,21 +383,66 @@ const ComplianceList = (props) => {
         },
       });
     }
-    // setShowAssignComplaint(false); // Close Assign Complaint modal
-    // setShowChangeStatus(false);
   };
 
+
+  const [apiCalledAssign, setApiCalledAssign] = useState(false);
+
+
   useEffect(() => {
-    if (state.ComplianceList.complianceAssignChangeStatus === 200) {
+    if (state.ComplianceList.complianceAssignChangeStatus === 200 && !apiCalledAssign) {
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
+      setApiCalledAssign(true)
+    }
+  }, [state.ComplianceList.complianceAssignChangeStatus]);
+
+
+  useEffect(() => {
+    if (apiCalledAssign) {
       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
+        setApiCalledAssign(false)
       }, 500);
     }
-  }, [state.ComplianceList.complianceAssignChangeStatus]);
+  }, [apiCalledAssign])
+
+
+
+  const [apiCalled, setApiCalled] = useState(false);
+
+  useEffect(() => {
+    if (state.ComplianceList.complianceChangeStatus === 200 && !apiCalled) {
+      if (state.ComplianceList.complianceChangeStatus !== 0) {
+              setShowChangeStatus(false);
+              setApiCalled(true)
+      }
+    }
+  }, [state.ComplianceList.complianceChangeStatus]);
+
+
+  useEffect(() => {
+    if (apiCalled) {
+       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+       const timer = setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
+        setApiCalled(false);  
+      }, 100); 
+      
+          return () => clearTimeout(timer);
+    }
+
+  }, [apiCalled])
+
+
+
+
+
+
+
+
 
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
@@ -452,19 +512,11 @@ const ComplianceList = (props) => {
     });
   });
 
-  useEffect(() => {
-    if (state.ComplianceList.complianceChangeStatus === 200) {
-      handleAssignOpenClose();
-      handleChangeStatusOpenClose();
 
-      // dispatch({ type: 'COMPLIANCE-LIST' })
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+  console.log("state for compliance", state)
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
-      }, 500);
-    }
-  }, [state.ComplianceList.complianceChangeStatus]);
+
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -957,7 +1009,7 @@ const ComplianceList = (props) => {
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         verticalAlign: "middle",
-                        marginTop:"-6px"
+                        marginTop: "-6px"
                       }}> {props.complaints && props.complaints.Description}</span>
 
                     </label>
@@ -1375,7 +1427,7 @@ const ComplianceList = (props) => {
                             <div
                               style={{
                                 textAlign: "center",
-                                color: "#666",
+                                color: "red",
                                 fontSize: "16px",
                                 padding: "20px",
                                 fontFamily: "Gilroy",
@@ -1534,7 +1586,7 @@ const ComplianceList = (props) => {
                             className="mb-4"
                             controlId="exampleForm.ControlInput5"
                           >
-                            <Form.Label  className="mb-2"
+                            <Form.Label className="mb-2"
                               style={{
                                 fontSize: 14,
                                 color: "#222",
@@ -1574,11 +1626,11 @@ const ComplianceList = (props) => {
                               <option value="resolved">Resolved</option>
                             </Form.Select>
                           </Form.Group>
-                          
-                           {statusError.trim() !== "" && (
-                            <div style={{marginTop:"20px"}}>
+
+                          {statusError.trim() !== "" && (
+                            <div style={{ marginTop: "20px" }}>
                               <p className='text-center' style={{ fontSize: '15px', color: 'red' }}>
-                                {statusError !== " " && <MdError style={{ color: 'red',marginBottom:"2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
+                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
                               </p>
                             </div>
                           )}
@@ -1598,7 +1650,7 @@ const ComplianceList = (props) => {
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          marginTop:"-25px"
+                          marginTop: "-25px"
                         }}
                         onClick={handleChangeStatusClick}
                       >
@@ -1677,7 +1729,7 @@ const ComplianceList = (props) => {
                         {/* complaint type */}
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group className="mb-3"
-                           
+
                             controlId="exampleForm.ControlInput5"
                           >
                             <Form.Label className="mb-2"
@@ -1696,7 +1748,7 @@ const ComplianceList = (props) => {
                               </span>
                             </Form.Label>
                             <Form.Select className="mb-2 border"
-                          
+
                               value={compliant}
                               onChange={(e) => {
                                 handleCompliant(e);
@@ -1725,9 +1777,9 @@ const ComplianceList = (props) => {
                                 })}
                             </Form.Select>
                           </Form.Group>
-                          
+
                           {statusErrorType.trim() !== "" && (
-                            <div style={{marginTop:"20px"}}>
+                            <div style={{ marginTop: "20px" }}>
                               <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
@@ -1749,7 +1801,7 @@ const ComplianceList = (props) => {
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          marginTop:"-20px"
+                          marginTop: "-20px"
                         }}
                         onClick={handleAssignComplaintClick}
                       >
