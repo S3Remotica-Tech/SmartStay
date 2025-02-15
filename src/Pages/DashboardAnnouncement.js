@@ -1414,6 +1414,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               Monthly
             </p>
             <CloseCircle
+            
               size="24"
               color="#222222"
               onClick={handleCloseComment}
