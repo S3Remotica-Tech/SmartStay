@@ -123,6 +123,7 @@ function DashboardAnnouncement(props) {
     
     setComments(""); 
   setShowCommentModal(false);
+   setCommentsList([]); // Clear previous comments after sending
 
   }
 
@@ -144,7 +145,16 @@ function DashboardAnnouncement(props) {
     }
     setSubComment("");
     setShowCommentModal(false); 
+    setCommentsList([]); // Ensure previous sub-comments don't persist
   }
+
+//   const handleOpenCommentModal = (cardId) => {
+//   setSelectedCard(cardId); // Set the current card ID
+//   setShowCommentModal(true);
+//   setCommentsList([]); // Reset comments before fetching new ones
+//   dispatch({ type: 'FETCH_COMMENTS', payload: { an_id: cardId } }); // Fetch new comments for the selected card
+// };
+
 
   const handleShowAnnouncement = () => {
     setShowAnnouncement(true);
@@ -231,6 +241,7 @@ function DashboardAnnouncement(props) {
     setSelectedCommentId(null);
     // setCommentsList(false);
     // setSubCommentModal(false);
+     setCommentsList([]); // Reset comments when closing the modal
   }
 
   const handleCloseTittle = () => setshowTittleModal(false);
@@ -1257,6 +1268,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                       color: "#222222",
                       paddingLeft: "4px",
                     }}
+
                   >
                     Comment
                   </span>
@@ -1402,6 +1414,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               Monthly
             </p>
             <CloseCircle
+            
               size="24"
               color="#222222"
               onClick={handleCloseComment}
@@ -1630,6 +1643,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     );
                   })
                 ) : (
+                
                    <div className="d-flex align-items-center p-1 mb-2" style={{marginTop:-25}}>
                                                   <MdError style={{ color: "red", marginRight: '5px' }} />
                                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
