@@ -32,6 +32,7 @@ import {
 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -888,7 +889,7 @@ function SettingGeneral() {
                     >
                       Change Password
                     </p>
-                    <img
+                    {/* <img
                       src={round}
                       width="30"
                       height="30"
@@ -899,7 +900,16 @@ function SettingGeneral() {
                         borderRadius: "50%",
                      
                       }}
-                    />
+                    /> */}
+                    <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                            border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+                                            position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                                            ,      backgroundColor: generalEdit === item.id ? "#E7F1FF" : "transparent",
+
+
+                                            }} onClick={() => handlegeneralform(item.id)}>
+                                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
                     {generalEdit === item.id && (
                       <div
                         ref={popupRef}
@@ -966,6 +976,7 @@ function SettingGeneral() {
                         </div>
                       </div>
                     )}
+                    </div>
                   </div>
                 </div>
                 <hr />
