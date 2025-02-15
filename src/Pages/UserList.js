@@ -143,6 +143,7 @@ function UserList(props) {
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
   const [isreader, setIsReader] = useState("");
+  const [checkoutaddform , setAddCheckoutForm]= useState(true)
 
   const [hos_Name, setHos_Name] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
@@ -1332,7 +1333,7 @@ function UserList(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -1347,6 +1348,7 @@ function UserList(props) {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   // const renderPageNumbers = () => {
@@ -2309,6 +2311,8 @@ function UserList(props) {
         handleClose={checkoutcloseModal}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
+        setAddCheckoutForm = {setAddCheckoutForm}
+        checkoutaddform = {checkoutaddform}
       />
 
       <UserlistWalkinForm
@@ -3765,7 +3769,12 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+
+                  setAddCheckoutForm = {setAddCheckoutForm}
+                  checkoutaddform = {checkoutaddform}
+
                   loader={loading}
+
                 />
               </TabPanel>
               <TabPanel value="4">

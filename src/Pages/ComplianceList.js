@@ -233,10 +233,10 @@ const ComplianceList = (props) => {
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
-console.log("get",state.ComplianceList.statusCodeForDeleteCompliance,
-  "comment",state.ComplianceList.statusCodeForAddComplianceComment,
-  "change", state.ComplianceList.complianceAssignChangeStatus,
-"complianceChangeStatus" ,state.ComplianceList.complianceChangeStatus )
+  console.log("get", state.ComplianceList.statusCodeForDeleteCompliance,
+    "comment", state.ComplianceList.statusCodeForAddComplianceComment,
+    "change", state.ComplianceList.complianceAssignChangeStatus,
+    "complianceChangeStatus", state.ComplianceList.complianceChangeStatus)
 
 
 
@@ -309,12 +309,12 @@ console.log("get",state.ComplianceList.statusCodeForDeleteCompliance,
   //   }
   // };
 
-  const [selectedStatus, setSelectedStatus] = useState(""); 
- 
+  const [selectedStatus, setSelectedStatus] = useState("");
 
-  
 
-const [statusErrorType, setStatusErrorType] = useState('')
+
+
+  const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
     console.log("item", item)
@@ -383,8 +383,6 @@ const [statusErrorType, setStatusErrorType] = useState('')
         },
       });
     }
-    // setShowAssignComplaint(false); // Close Assign Complaint modal
-    // setShowChangeStatus(false);
   };
 
 
@@ -396,41 +394,47 @@ const [statusErrorType, setStatusErrorType] = useState('')
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
       setApiCalledAssign(true)
+    }
+  }, [state.ComplianceList.complianceAssignChangeStatus]);
+
+
+  useEffect(() => {
+    if (apiCalledAssign) {
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
         setApiCalledAssign(false)
       }, 500);
     }
-  }, [state.ComplianceList.complianceAssignChangeStatus]);
+  }, [apiCalledAssign])
 
 
 
-
-
-
-  const apiCalledRef = useRef(false);
+  const [apiCalled, setApiCalled] = useState(false);
 
   useEffect(() => {
-        if (state.ComplianceList.complianceChangeStatus === 200 && !apiCalledRef.current) {
-      if (state.ComplianceList.complianceChangeStatus !== 0) { 
-      // handleAssignOpenClose();
-      // handleChangeStatusOpenClose();
-      
-      setShowChangeStatus(false);
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-      apiCalledRef.current = true;
-
-      setTimeout(() => {
-      
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
-        apiCalledRef.current = false;
-      }, 100);
-      }}
+    if (state.ComplianceList.complianceChangeStatus === 200 && !apiCalled) {
+      if (state.ComplianceList.complianceChangeStatus !== 0) {
+              setShowChangeStatus(false);
+              setApiCalled(true)
+      }
+    }
   }, [state.ComplianceList.complianceChangeStatus]);
 
 
+  useEffect(() => {
+    if (apiCalled) {
+       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+       const timer = setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
+        setApiCalled(false);  
+      }, 100); 
+      
+          return () => clearTimeout(timer);
+    }
+
+  }, [apiCalled])
 
 
 
@@ -440,8 +444,7 @@ const [statusErrorType, setStatusErrorType] = useState('')
 
 
 
-
-const [alreadyAssigned, setAlreadyAssigned] = useState('')
+  const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
     setAssignId(item?.ID);
@@ -510,10 +513,10 @@ const [alreadyAssigned, setAlreadyAssigned] = useState('')
   });
 
 
-console.log("state for compliance",state)
+  console.log("state for compliance", state)
 
 
-  
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1006,7 +1009,7 @@ console.log("state for compliance",state)
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         verticalAlign: "middle",
-                        marginTop:"-6px"
+                        marginTop: "-6px"
                       }}> {props.complaints && props.complaints.Description}</span>
 
                     </label>
@@ -1583,7 +1586,7 @@ console.log("state for compliance",state)
                             className="mb-4"
                             controlId="exampleForm.ControlInput5"
                           >
-                            <Form.Label  className="mb-2"
+                            <Form.Label className="mb-2"
                               style={{
                                 fontSize: 14,
                                 color: "#222",
@@ -1623,11 +1626,11 @@ console.log("state for compliance",state)
                               <option value="resolved">Resolved</option>
                             </Form.Select>
                           </Form.Group>
-                          
-                           {statusError.trim() !== "" && (
-                            <div style={{marginTop:"20px"}}>
+
+                          {statusError.trim() !== "" && (
+                            <div style={{ marginTop: "20px" }}>
                               <p className='text-center' style={{ fontSize: '15px', color: 'red' }}>
-                                {statusError !== " " && <MdError style={{ color: 'red',marginBottom:"2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
+                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
                               </p>
                             </div>
                           )}
@@ -1647,7 +1650,7 @@ console.log("state for compliance",state)
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          marginTop:"-25px"
+                          marginTop: "-25px"
                         }}
                         onClick={handleChangeStatusClick}
                       >
@@ -1726,7 +1729,7 @@ console.log("state for compliance",state)
                         {/* complaint type */}
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group className="mb-3"
-                           
+
                             controlId="exampleForm.ControlInput5"
                           >
                             <Form.Label className="mb-2"
@@ -1745,7 +1748,7 @@ console.log("state for compliance",state)
                               </span>
                             </Form.Label>
                             <Form.Select className="mb-2 border"
-                          
+
                               value={compliant}
                               onChange={(e) => {
                                 handleCompliant(e);
@@ -1774,9 +1777,9 @@ console.log("state for compliance",state)
                                 })}
                             </Form.Select>
                           </Form.Group>
-                          
+
                           {statusErrorType.trim() !== "" && (
-                            <div style={{marginTop:"20px"}}>
+                            <div style={{ marginTop: "20px" }}>
                               <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
@@ -1798,7 +1801,7 @@ console.log("state for compliance",state)
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          marginTop:"-20px"
+                          marginTop: "-20px"
                         }}
                         onClick={handleAssignComplaintClick}
                       >

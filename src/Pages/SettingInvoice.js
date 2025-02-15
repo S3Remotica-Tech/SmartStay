@@ -78,6 +78,8 @@ function SettingInvoice({ hostelid }) {
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
   const [InvoiceList, setInvoiceList] = useState([]);
+  const [formFilled, setFormFilled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); 
 
 
 
@@ -337,18 +339,46 @@ function SettingInvoice({ hostelid }) {
 
 
   useEffect(() => {
-    const filteredHostels = state.UsersList?.hotelDetailsinPg?.filter(
-      (item) => item.id === Number(selectedHostel.id)
+    if (!state.UsersList?.hotelDetailsinPg) return; 
+  
+    const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+      (item) => item.id === Number(hostelid)
     );
-
-
+  
     if (filteredHostels.length > 0) {
+      const recureEnable = filteredHostels[0]?.recure === 1;
+      setIsChecked(recureEnable);
+      console.log("recure", filteredHostels[0]?.recure);
+  
       const profileURL = filteredHostels[0]?.profile;
       setLogo(profileURL);
     } else {
       setLogo(Logo);
     }
-  }, [selectedHostel]);
+  }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
+
+  
+  
+
+
+  useEffect(() => {
+  if (state.UsersList?.hotelDetailsinPg) {
+    setTimeout(() => {
+      const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+        (item) => item.id === Number(hostelid)
+      );
+
+      if (filteredHostels.length > 0) {
+        setIsChecked(filteredHostels[0]?.recure === 1);
+        setLogo(filteredHostels[0]?.profile);
+      } else {
+        setLogo(Logo);
+      }
+    }, 500); 
+  }
+}, [state.UsersList?.hotelDetailsinPg, hostelid]);
+
+  console.log("recure",isChecked);
 
   const rowsPerPage = 10;
 
@@ -500,13 +530,30 @@ function SettingInvoice({ hostelid }) {
 
   };
 
+  // const handleCloseRecurringForm = () => {
+  //   setRecurringForm(false);
+  //   setCalculatedstartdateErrmsg('')
+  //   setCalculatedEnddateErrMsg('')
+  //   setCalculatedstartdate('')
+  //   setCalculatedEnddate('')
+  // };
+
+  
+
   const handleCloseRecurringForm = () => {
+    // Close form WITHOUT calling API
     setRecurringForm(false);
     setCalculatedstartdateErrmsg('')
     setCalculatedEnddateErrMsg('')
     setCalculatedstartdate('')
     setCalculatedEnddate('')
-  };
+
+    if (!formFilled) {
+        setIsChecked(false); // Reset switch only if no data entered
+    }
+
+    setFormFilled(false);
+};
 
 
   const handleEditInvoice = (editData) => {
@@ -813,7 +860,12 @@ function SettingInvoice({ hostelid }) {
                 <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
                   <InvoiceSettingsList
                     item={item}
-                    handleRecurringFormShow={handleRecurringFormShow}
+                    isChecked={isChecked} // Pass controlled state
+            setIsChecked={setIsChecked} // Allow child to update toggle
+            handleRecurringFormShow={handleRecurringFormShow}
+            handleCloseRecurringForm={handleCloseRecurringForm}
+            setFormFilled={setFormFilled}
+                    setRecurringForm={setRecurringForm}
                   // OnEditInvoice={handleEditInvoice}
                   />
                 </div>
