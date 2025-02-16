@@ -453,6 +453,8 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
     }),
   };
 
+  console.log("filtercus", state.UsersList?.availableCheckOutCustomerList);
+  
 
   const formatOptions = () => {
     return state.UsersList?.availableCheckOutCustomerList
@@ -510,7 +512,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 const invoiceDisplay = validInvoices
   .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
   .join(", ");
-  console.log("invoicenumber",invoicenumber)
+  console.log("invoicenumber",validInvoices)
  const hasBalance = Array.isArray(validInvoices) && validInvoices.some((invoice) => invoice.balance > 0);
 
 
@@ -1031,8 +1033,13 @@ console.log("hasBalance:", hasBalance);
     width: '100%',
     backgroundColor: "#1E45E1",
   }}
-  disabled={(!checkouteditaction && checkoutaction && checkoutaddform) && hasBalance}
-  onClick={() => console.log("Button clicked!")}
+  disabled={(!checkouteditaction && checkoutaction && !checkoutaddform) && hasBalance}
+  onClick={
+    checkoutaction ? handleConfirmCheckout // Confirm Check-out
+      : checkouteditaction
+        ? handleCheckOutCustomer // Save Changes 
+        : handleCheckOutCustomer // Add Check-out
+  }
 >
   {data && checkoutaction
     ? 'Confirm Check-out'

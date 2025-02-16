@@ -16,6 +16,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndCondition from "./LandingPage/TermsCondition"
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
+import LoaderComponent from './Pages/LoaderComponent';
 
 function App() {
   const cookies = new Cookies();
@@ -89,21 +90,23 @@ function App() {
     }
   }, [state.login?.isLoggedIn]);
 
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Circles
-          height="80"
-          width="80"
-          color="#1E45E1"
-          ariaLabel="circles-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+  //       <Circles
+  //         height="80"
+  //         width="80"
+  //         color="#1E45E1"
+  //         ariaLabel="circles-loading"
+  //         wrapperStyle={{}}
+  //         wrapperClass=""
+  //         visible={true}
+  //       />
+  //     </div>
+  //   );
+  // }
+
+  {loading && <LoaderComponent/>}
 
 
 

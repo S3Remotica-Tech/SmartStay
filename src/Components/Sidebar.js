@@ -726,7 +726,7 @@ function Sidebar() {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     stroke={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
-                    style={{ marginRight: 8 }}
+                    // style={{ marginRight: 8 }}
                   >
                     <path
                       d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
@@ -979,7 +979,7 @@ function Sidebar() {
                     style={{ height: 20, width: 20 }}
                   />
                   <span
-                    className="ms-1 Title"
+                    className=" Title"
                     style={{
                       fontSize: 14,
                       fontWeight: 600,

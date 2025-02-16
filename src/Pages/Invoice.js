@@ -2032,6 +2032,7 @@ const InvoicePage = () => {
     ) {
       setBillPermissionError("");
     } else {
+      setLoading(false)
       setBillPermissionError("Permission Denied");
     }
   }, [billrolePermission]);
@@ -2044,6 +2045,7 @@ const InvoicePage = () => {
       setRecuringBillAddPermission("");
     } else {
       setRecuringBillAddPermission("Permission Denied");
+      setLoading(false)
     }
   }, [billrolePermission]);
 
@@ -2055,6 +2057,7 @@ const InvoicePage = () => {
       setRecurringPermission("");
     } else {
       setRecurringPermission("Permission Denied");
+      setLoading(false)
     }
   }, [billrolePermission]);
 
@@ -2066,6 +2069,7 @@ const InvoicePage = () => {
       setReceiptPermission("");
     } else {
       setReceiptPermission("Permission Denied");
+      setLoading(false)
     }
   }, [billrolePermission]);
 
@@ -2820,7 +2824,6 @@ const InvoicePage = () => {
             <div>
               {showLoader && <LoaderComponent />}
               {loading && <LoaderComponent />}
-              {/* {recurLoader && <LoaderComponent />} */}
               <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
                 {search ? (
                   <>
@@ -4679,7 +4682,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  {currentItem && currentItem.length === 0 && (
+                  { !recurLoader && currentItem && currentItem.length === 0 && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4712,165 +4715,152 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                  {currentItem && currentItem.length > 0 && (
-                    <div
-                      style={{
-                        // height: "400px",
-                        height: currentItem.length >= 6 ? "380px" : "auto",
-                        overflowY: currentItem.length >= 6 ? "auto" : "visible",
-                        borderRadius: "24px",
-                        border: "1px solid #DCDCDC",
-                        // borderBottom:"none"
-                      }}
-                    >
-                      <Table
-                        responsive="md"
-                        className="Table_Design"
+                
+
+
+                    
+
+
+                    {currentItem && currentItem.length > 0 && (
+                      <div
                         style={{
+                          // height: "400px",
+                          height: currentItem.length >= 6 ? "380px" : "auto",
+                          overflowY: currentItem.length >= 6 ? "auto" : "visible",
+                          borderRadius: "24px",
                           border: "1px solid #DCDCDC",
-                          borderBottom: "1px solid transparent",
-                          borderEndStartRadius: 0,
-                          borderEndEndRadius: 0,
+                          // borderBottom:"none"
                         }}
                       >
-                        <thead
+                        <Table
+                          responsive="md"
+                          className="Table_Design"
                           style={{
-                            backgroundColor: "#E7F1FF",
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
+                            border: "1px solid #DCDCDC",
+                            borderBottom: "1px solid transparent",
+                            borderEndStartRadius: 0,
+                            borderEndEndRadius: 0,
                           }}
                         >
-                          <tr>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                // verticalAlign:'middle',
-                                paddingLeft: "20px",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontWeight: 500,
-                                borderTopLeftRadius: 24,
-                              }}
-                            >
-                              Name
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Created
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Due Date
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Next Invoice Date
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Amount
-                            </th>
-
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 14,
-                                fontWeight: 500,
-                                borderTopRightRadius: 24,
-                              }}
-                            ></th>
-                          </tr>
-                        </thead>
-                        <tbody style={{ fontSize: "10px" }}>
-                          {recurLoader ? (
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: "50%",
-                                display: "flex",
-                                height: "50vh",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                backgroundColor: "transparent",
-                                opacity: 0.75,
-                                zIndex: 10,
-                              }}
-                            >
-                              <div
+                          <thead
+                            style={{
+                              backgroundColor: "#E7F1FF",
+                              position: "sticky",
+                              top: 0,
+                              zIndex: 1,
+                            }}
+                          >
+                            <tr>
+                              <th
                                 style={{
-                                  borderTop: "4px solid #1E45E1",
-                                  borderRight: "4px solid transparent",
-                                  borderRadius: "50%",
-                                  width: "40px",
-                                  height: "40px",
-                                  animation: "spin 1s linear infinite",
+                                  textAlign: "start",
+                                  // verticalAlign:'middle',
+                                  paddingLeft: "20px",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  borderTopLeftRadius: 24,
                                 }}
-                              ></div>
-                            </div>
-                          ) : (
-                            currentItem &&
-                            currentItem.length > 0 &&
-                            currentItem.map((item) => (
-                              <RecurringBillList
-                                key={item.id}
-                                item={item}
-                                handleDeleteRecurringbills={
-                                  handleDeleteRecurringbills
-                                }
-                                recuringbillAddPermission={
-                                  recuringbillAddPermission
-                                }
-                                billrolePermission={billrolePermission}
-                                OnHandleshowform={handleShowForm}
-                                // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                // DisplayInvoice={handleDisplayInvoiceDownload}
-                                // RecuringInvoice={handleDisplayInvoiceDownload}
-                              />
-                            ))
-                          )}
-                        </tbody>
-                      </Table>
-                    </div>
-                  )}
+                              >
+                                Name
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Created
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Due Date
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Next Invoice Date
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Amount
+                              </th>
+  
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  borderTopRightRadius: 24,
+                                }}
+                              ></th>
+                            </tr>
+                          </thead>
+                          <tbody style={{ fontSize: "10px" }}>
+
+                          {!loading && receiptLoader ? (
+                                        <LoaderComponent />
+                                
+                                      ) : (
+                              currentItem &&
+                              currentItem.length > 0 &&
+                              currentItem.map((item) => (
+                                <RecurringBillList
+                                  key={item.id}
+                                  item={item}
+                                  handleDeleteRecurringbills={
+                                    handleDeleteRecurringbills
+                                  }
+                                  recuringbillAddPermission={
+                                    recuringbillAddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+                                  // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                  // DisplayInvoice={handleDisplayInvoiceDownload}
+                                  // RecuringInvoice={handleDisplayInvoiceDownload}
+                                />
+                              ))
+                            )
+  }
+                          </tbody>
+                        </Table>
+                      </div>
+                    )}
+
+                  
+
+                 
 
                   {recurringbills && recurringbills.length >= 5 && (
                     <nav
@@ -5637,36 +5627,9 @@ const InvoicePage = () => {
                                       </tr>
                                     </thead>
                                     <tbody style={{ fontSize: "10px" }}>
-                                      {receiptLoader ? (
-                                        <div
-                                          style={{
-                                            position: "absolute",
-                                            top: 0,
-                                            right: 0,
-                                            bottom: 0,
-                                            left: "50%",
-                                            display: "flex",
-                                            height: "50vh",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            backgroundColor: "transparent",
-                                            opacity: 0.75,
-                                            zIndex: 10,
-                                          }}
-                                        >
-                                          <div
-                                            style={{
-                                              borderTop: "4px solid #1E45E1",
-                                              borderRight:
-                                                "4px solid transparent",
-                                              borderRadius: "50%",
-                                              width: "40px",
-                                              height: "40px",
-                                              animation:
-                                                "spin 1s linear infinite",
-                                            }}
-                                          ></div>
-                                        </div>
+                                      {!loading && receiptLoader ? (
+                                        <LoaderComponent />
+                                
                                       ) : (
                                         currentReceiptData &&
                                         currentReceiptData.length > 0 &&
@@ -5836,7 +5799,7 @@ const InvoicePage = () => {
                                 </ul>
                               </nav>
                             )}
-                            {currentReceiptData &&
+                            {!receiptLoader && currentReceiptData &&
                               currentReceiptData?.length === 0 && (
                                 <div style={{ marginTop: 20 }}>
                                   <div style={{ textAlign: "center" }}>
