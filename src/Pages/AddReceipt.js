@@ -563,13 +563,22 @@ const AddReceiptForm = (props) => {
   ))
 }
   </Form.Select>
-  {customererrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"4px" }} />} {customererrmsg}
-  </p>
-</div>
-)}
+  {customererrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {customererrmsg}
+                    </label>
+                  </div>
+                )}
 </Form.Group>
 </div>
 
@@ -584,13 +593,22 @@ const AddReceiptForm = (props) => {
           value={reference_id || ''} 
           readOnly
         />
-                 {referencideerrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {referencideerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {referencideerrmsg}
-  </p>
-</div>
-)}
+ {referencideerrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {referencideerrmsg}
+                    </label>
+                  </div>
+                )}
   
       </Form.Group>
     </div>
@@ -659,16 +677,22 @@ const AddReceiptForm = (props) => {
       </Form.Select>
     )}
 
-    {invoicenumbererrmsg.trim() !== "" && (
-      <div>
-        <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
-          {invoicenumbererrmsg !== " " && (
-            <MdError style={{ fontSize: "14px", color: "red" }} />
-          )}{" "}
-          {invoicenumbererrmsg}
-        </p>
-      </div>
-    )}
+{invoicenumbererrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {invoicenumbererrmsg}
+                    </label>
+                  </div>
+                )}
 
 
   </Form.Group>
@@ -705,13 +729,22 @@ const AddReceiptForm = (props) => {
           value={received_amount || 0} 
           onChange={handleReceivedAmount} 
         />
-                 {receivedamounterrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {receivedamounterrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"3px" }} />} {receivedamounterrmsg}
-  </p>
-</div>
-)}
+ {receivedamounterrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {receivedamounterrmsg}
+                    </label>
+                  </div>
+                )}
   
       </Form.Group>
     </div>
@@ -746,14 +779,22 @@ const AddReceiptForm = (props) => {
         />
       </div>
     </Form.Group>
-    {payment_dateerrmsg.trim() !== "" && (
-      <div className="d-flex align-items-center">
-        <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px",marginBottom:"1px" }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
-          {payment_dateerrmsg}
-        </label>
-      </div>
-    )}
+    {payment_dateerrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {payment_dateerrmsg}
+                    </label>
+                  </div>
+                )}
   </div>
 
   {/* Due Date */}
