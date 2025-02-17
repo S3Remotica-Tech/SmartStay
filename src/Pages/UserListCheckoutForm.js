@@ -507,13 +507,24 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
 
 
   }, [state.UsersList.statusCodegetConfirmCheckout])
+
   const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
-const invoiceDisplay = validInvoices
-  .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
-  .join(", ");
+  const invoiceDisplay = validInvoices.map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`).join(", ");
   console.log("invoicenumber",validInvoices)
  const hasBalance = Array.isArray(validInvoices) && validInvoices.some((invoice) => invoice.balance > 0);
+
+  useEffect(()=> {
+    if(validInvoices && hasBalance){
+      const totaldueamount = validInvoices.reduce((total, invoice) => total + invoice.balance, 0);
+      SetDueAmount(totaldueamount)
+    }
+  
+  },[validInvoices])
+ 
+
+
+
 
 
 
@@ -1018,6 +1029,15 @@ console.log("hasBalance:", hasBalance);
           <MdError style={{ color: "red", marginRight: '5px' }} />
           <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
             {isChangedError}
+          </label>
+        </div>
+      )}
+
+{dueamount > 0 && (
+        <div className="d-flex align-items-center p-1 mb-2 mt-2">
+          <MdError style={{ color: "red", marginRight: '5px' }} />
+          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+           This customer has  Due Amounts .Total Due Amount is RS. {dueamount}
           </label>
         </div>
       )}
