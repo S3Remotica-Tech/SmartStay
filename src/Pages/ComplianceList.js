@@ -1532,13 +1532,14 @@ const ComplianceList = (props) => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ marginBottom: "30px", position: "relative" }}
+                          style={{ position: "relative" }}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              marginTop:"-14px"
                             }}
                           >
                             Change Status
@@ -1551,7 +1552,7 @@ const ComplianceList = (props) => {
                             style={{
                               position: "absolute",
                               right: "10px",
-                              top: "16px",
+                              top: "3px",
                               border: "1px solid black",
                               background: "transparent",
                               cursor: "pointer",
