@@ -35,7 +35,7 @@ import {
 
 function CheckOut(props) {
 
-console.log("propd",props);
+
 
 
   const state = useSelector((state) => state);
@@ -187,6 +187,7 @@ console.log("propd",props);
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
 
@@ -325,60 +326,8 @@ setPopupPosition({ top: popupTop, left: popupLeft });
     setCurrentPage(pageNumber);
   };
 
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={1}
-  //         active={1 === currentPage}
-  //         onClick={() => paginate(1)}
-  //       >
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={i}
-  //         active={i === currentPage}
-  //         onClick={() => paginate(i)}
-  //       >
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={totalPages}
-  //         active={totalPages === currentPage}
-  //         onClick={() => paginate(totalPages)}
-  //       >
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
-  console.log('Loader Status:', props.loader);
+  
   return (
-
-
-
 
     <>
     <div>
@@ -1061,104 +1010,9 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                     </tbody>
                   </Table>
                 </div>
-                {props.filteredUsers.length >= 5 && (
+                {(props.search ? props.filteredUsers?.length : checkOutCustomer?.length) >= 5 && (
 
-                  //  <nav
-                  //                 style={{
-                  //                   display: "flex",
-                  //                   alignItems: "center",
-                  //                   justifyContent: "end", 
-                  //                   padding: "10px",
-
-                  //                 }}
-                  //               >
-
-                  //                 <div>
-                  //                   <select
-                  //                     value={itemsPerPage}
-                  //                     onChange={handleItemsPerPageChange}
-                  //                     style={{
-                  //                       padding: "5px",
-                  //                       border: "1px solid #1E45E1",
-                  //                       borderRadius: "5px",
-                  //                       color: "#1E45E1",
-                  //                       fontWeight: "bold",
-                  //                       cursor: "pointer",
-                  //                       outline: "none",
-                  //                       boxShadow: "none",
-
-                  //                     }}
-                  //                   >
-                  //                      <option value={5}>5</option>
-                  //                     <option value={10}>10</option>
-                  //                     <option value={50}>50</option>
-                  //                     <option value={100}>100</option>
-                  //                   </select>
-                  //                 </div>
-
-
-                  //                 <ul
-                  //                   style={{
-                  //                     display: "flex",
-                  //                     alignItems: "center",
-                  //                     listStyleType: "none",
-                  //                     margin: 0,
-                  //                     padding: 0,
-                  //                   }}
-                  //                 >
-
-                  //                   <li style={{ margin: "0 10px" }}>
-                  //                     <button
-                  //                       style={{
-                  //                         padding: "5px",
-                  //                         textDecoration: "none",
-                  //                         color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  //                         cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  //                         borderRadius: "50%",
-                  //                         display: "inline-block",
-                  //                         minWidth: "30px",
-                  //                         textAlign: "center",
-                  //                         backgroundColor: "transparent",
-                  //                         border: "none",
-                  //                       }}
-                  //                       onClick={() => handlePageChange(currentPage - 1)}
-                  //                       disabled={currentPage === 1}
-                  //                     >
-                  //                       <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                  //                     </button>
-                  //                   </li>
-
-
-                  //                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                  //                     {currentPage} of {totalPages}
-                  //                   </li>
-
-
-                  //                   <li style={{ margin: "0 10px" }}>
-                  //                     <button
-                  //                       style={{
-                  //                         padding: "5px",
-                  //                         textDecoration: "none",
-                  //                         color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  //                         cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                  //                         borderRadius: "50%",
-                  //                         display: "inline-block",
-                  //                         minWidth: "30px",
-                  //                         textAlign: "center",
-                  //                         backgroundColor: "transparent",
-                  //                         border: "none",
-                  //                       }}
-                  //                       onClick={() => handlePageChange(currentPage + 1)}
-                  //                       disabled={currentPage === totalPages}
-                  //                     >
-                  //                       <ArrowRight2
-                  //                         size="16"
-                  //                         color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                  //                       />
-                  //                     </button>
-                  //                   </li>
-                  //                 </ul>
-                  //               </nav>
+                
 
                   <nav
                     style={{

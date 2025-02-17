@@ -48,13 +48,12 @@ import { setDate } from "date-fns";
 
 function UserList(props) {
   const state = useSelector((state) => state);
-  console.log(state, "users");
 
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const popupRef = useRef(null);
   const rowRef = useRef(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [BookingLoading,setBookingLoading] = useState(true)
   const [WalkingLoading,setWalkingLoading] = useState(true)
   const [checkoutLoading,setCheckoutLoading] = useState(true)
@@ -153,71 +152,40 @@ function UserList(props) {
 
   const [deleteIdhostel, setdeleteIdhostel] = useState("");
   const [deleteIdroom, setdeleteIdroom] = useState("");
-  console.log("deleteDetails", deleteDetails);
 
   let serialNumber = 1;
 
-  // const handleEditItem = (details) => {
-  //   console.log("details", details)
-  //   setCurrentView(details)
-  // }
+ 
   const handleEditItem = (details) => {
-    console.log("details", details);
-    setCurrentView(null); // Reset first to force React to detect changes
+    setCurrentView(null); 
     setTimeout(() => {
-      setCurrentView(details); // Set the new data after reset
+      setCurrentView(details); 
     }, 0);
   };
 
   const handleDeleteItem = (detail) => {
-    console.log("details", detail);
+   
     setDeleteId(detail);
   };
 
   const handleEditRoomReading = (value) => {
-    console.log("value", value);
+   
 
     setIsReader(value);
   };
-  // useEffect(()=> {
-  //   if(isreader){
-  //     console.log("isreader data:", isreader);
-  //     setFloor(isreader.floor_name)
-
-  //     console.log(isreader.floor_name,"floor");
-
-  //     setRooms(isreader.Room_Id)
-
-  //     console.log(isreader.Room_Id,'room');
-
-  //     setReading(isreader.unit)
-  //     if (isreader.reading_date) {
-  //       const parsedDate = new Date(isreader.reading_date);
-  //       if (!isNaN(parsedDate.getTime())) {
-  //         setSelectedDate(parsedDate);
-  //       } else {
-  //         console.error("Invalid reading_date format:", isreader.reading_date);
-  //       }
-  //     } else {
-  //       console.warn("reading_date is missing:", isreader);
-  //     }
-  //   }
-
-  // },[isreader])
+ 
 
   useEffect(() => {
     if (isreader) {
-      console.log("isreader data:", isreader);
-      console.log("Room Details:", state?.UsersList?.roomdetails);
+   
 
-      // Find the correct floor_id based on floor_name
       const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
         (item) => item.floor_name === isreader.floor_name
       );
 
       if (matchingFloor) {
         setFloor(matchingFloor.floor_id);
-        console.log("Setting Floor ID:", matchingFloor.floor_id);
+       
       } else {
         console.warn("Floor not found for name:", isreader.floor_name);
       }
@@ -228,7 +196,7 @@ function UserList(props) {
 
       if (matchingRoom) {
         setRooms(matchingRoom.Room_Id);
-        console.log("Setting", matchingRoom.Room_Id);
+       
       } else {
         console.warn("Room not found for ID:", isreader.Room_Id);
       }
@@ -255,11 +223,10 @@ function UserList(props) {
     state?.UsersList?.roomdetails,
   ]);
 
-  console.log("floor", Floor);
-  console.log("rooms", Rooms);
+  
 
   const handleEditHostelReading = (users) => {
-    console.log(users, "uuu");
+   
 
     setIsReading(users);
   };
@@ -291,7 +258,7 @@ function UserList(props) {
     setIsDeleting(false);
   };
 
-  console.log("josh", currentView);
+
 
   const handleEditBill = () => {
     let isValid = true;
@@ -351,24 +318,7 @@ function UserList(props) {
       isValid = false;
     }
 
-    // const isDataUnchanged =
-    //   customername != currentView.user_id ||
-    //   invoicenumber != currentView.invoicenumber ||
-    //   startdate != currentView.startdate ||
-    //   enddate != currentView.enddate ||
-    //   invoicedate != currentView.date ||
-    //   invoiceduedate != currentView.due_date ||
-    //   newRows != currentView.amenity
-
-    //   console.log("customername check:", customername ,"currentView.user_id :", currentView.user_id);
-    //   console.log("invoicenumber check:", invoicenumber ,"currentView.invoicenumber :", currentView.invoicenumber);
-    //   console.log("startdate check:", startdate ,"currentView.startdate :", currentView.startdate);
-    //   console.log("enddate check:", enddate ,"currentView.enddate :", currentView.enddate);
-    //   console.log("invoicedate check:", invoicedate ,"currentView.date :", currentView.date);
-    //   console.log("invoiceduedate check:", invoiceduedate ,"currentView.due_date :", currentView.due_date);
-    //   console.log("newRows check:",newRows ,"currentView.amenity :", currentView.amenity);
-    //   console.log("isDataUnchanged:",isDataUnchanged);
-
+  
     const formatDateToStartdate = (startdate) => {
       if (!startdate) return "";
       const d = new Date(startdate);
@@ -430,13 +380,7 @@ function UserList(props) {
         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
       });
     
-      console.log("User ID changed:", userChanged);
-      console.log("Start Date changed:", startDateChanged);
-      console.log("Invoice Number changed:", invoiceChanged);
-      console.log("End Date changed:", endDateChanged);
-      console.log("Invoice Date changed:", invoiceDateChanged);
-      console.log("Due Date changed:", dueDateChanged);
-      console.log("Amenities changed:", amenitiesChanged);
+    
     
       return (
         userChanged ||
@@ -495,7 +439,7 @@ function UserList(props) {
         },
       });
 
-      console.log("EditBill");
+     
       setIsEditing(false);
       setRoomDetail(true);
       setCustomerName("");
@@ -530,7 +474,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
     console.log("Updated Rows:", [...newRows, newRow]);
   };
-  console.log("currentView", props.currentView);
+
   useEffect(() => {
     if (newRows) {
       const allRows = newRows
@@ -667,13 +611,11 @@ function UserList(props) {
     setAllFieldErrmsg("");
 
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
-    console.log("Dispatching UPDATE_USERSLIST_TRUE");
   };
 
   useEffect(() => {
-    console.log("currentView in useEffect:", currentView);
+   
     if (currentView) {
-      console.log(currentView, "current");
 
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
@@ -697,7 +639,6 @@ function UserList(props) {
         }
       }
       if (currentView.start_date) {
-        console.log("StartDate", currentView.start_date);
         const parsedDate = new Date(currentView.start_date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
@@ -707,7 +648,6 @@ function UserList(props) {
         }
       }
       if (currentView.end_date) {
-        console.log("Enddate", currentView.end_date);
         const parsedDate = new Date(currentView.end_date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
@@ -718,10 +658,8 @@ function UserList(props) {
       }
 
       setTotalAmount(currentView.Amount);
-      console.log(currentView.Amount, "amount");
 
-      setNewRows(currentView.amenity);
-      console.log(currentView.amenity, "amm");
+      setNewRows(currentView.amenity);;
     }
   }, [currentView]);
 
@@ -760,29 +698,8 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       setLoading(false);
-
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-
       setUserListDetail(state.UsersList.Users);
-      setFilteredUsers(state.UsersList.Users);
-
-      // if (state.UsersList.Users.length > 0) {
-
-      // const indexOfLastItem = currentPage * itemsPerPage;
-      // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      // const tempArray = state.UsersList.Users?.slice(indexOfFirstItem, indexOfLastItem);
-      // console.log("tempArray123", tempArray);
-
-      // const uniqueUsersList = Array.isArray(state.UsersList?.Users);
-      // setCurrentItem(tempArray)
-      // setLoading(false);
-      // }
-      // else {
-      // setCurrentItem([])
-      // setLoading(false);
-      // }
+      // setFilteredUsers(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
@@ -790,12 +707,10 @@ function UserList(props) {
   }, [state.UsersList?.UserListStatusCode]);
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-      console.log("state.UsersList.userRoomfor", state.UsersList.userRoomfor);
       // setIsEditing(true);
       // props.setRoomDetail(false)
       setIsEditing(true);
       setRoomDetail(false);
-      console.log(roomDetail, "roo");
 
       dispatch({ type: "USERROOMAVAILABLEFALSE" });
     }
@@ -808,21 +723,15 @@ function UserList(props) {
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    console.log("Roomdetails", state.UsersList?.roomdetails);
-  }, [state.UsersList?.roomdetails]);
+  
 
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
-      console.log(
-        "state.UsersList.userProfilebill",
-        state.UsersList.userProfilebill
-      );
+     
       // setIsEditing(true);
       // props.setRoomDetail(false)
       setIsDeleting(true);
       setRoomDetail(true);
-      console.log(roomDetail, "roo");
       dispatch({ type: "USERPROFILEBILLFALSE" });
     }
   }, [state.UsersList.userProfilebill]);
@@ -863,11 +772,7 @@ function UserList(props) {
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
 
-  // Add another useEffect to update UI when ManualInvoices change
-  useEffect(() => {
-    console.log("ManualInvoices Updated:", state.InvoiceList.ManualInvoices);
-    // This will trigger rerender when data updates
-  }, [state.InvoiceList.ManualInvoices]);
+ 
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -886,7 +791,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.userReading) {
-      console.log("userreading", state.UsersList.userReading);
       setIsRoomReading(true);
       setRoomDetail(true);
       dispatch({ type: "USERREADINGFALSE" });
@@ -895,7 +799,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.userHostelRead) {
-      console.log("userhosteleading", state.UsersList.userHostelRead);
       setIsHostelReading(true);
       setRoomDetail(true);
       dispatch({ type: "USERHOSTELREADINGFALSE" });
@@ -1057,7 +960,7 @@ function UserList(props) {
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
     dispatch({
       
       type: "WALKINCUSTOMERLIST",
@@ -1065,12 +968,11 @@ function UserList(props) {
     });
   }, [state.login.selectedHostel_Id]);
 
-  console.log("state", state);
-  console.log("walkingCustomer", walkingCustomer);
+  
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
-      setLoading(false)
+      // setLoading(false)
       setWalkingCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
@@ -1081,7 +983,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
       setWalkingCustomer([]);
-      setLoading(false)
+      // setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 200);
@@ -1089,13 +991,13 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
     const timeout = setTimeout(() => {
-      setLoading(false);
+      // setLoading(false);
     }, 2000); // Adjust the duration (1000ms = 1 second) as needed
   
     return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
@@ -1103,7 +1005,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-      setLoading(false)
+      // setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1195,7 +1097,7 @@ function UserList(props) {
           })
         : [];
 
-      console.log("FilterUsertwo", FilterUsertwo);
+     
 
       setFilteredUsers(FilterUsertwo);
     }
@@ -1212,7 +1114,6 @@ function UserList(props) {
     state.UsersList.CheckOutCustomerList,
   ]);
 
-  console.log("filteredUsers", filteredUsers);
 
   const handlefilterInput = (e) => {
     const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
@@ -1332,6 +1233,7 @@ function UserList(props) {
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState(false);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -1343,10 +1245,14 @@ function UserList(props) {
   const currentItems =
     filterInput.length > 0
       ? filteredUsers
-      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+      : userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
 
   // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
+  // const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
+
+  const totalPages = Math.ceil(
+    (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
+  );
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -1404,17 +1310,16 @@ function UserList(props) {
     setFilterInput("");
   };
 
-  // useEffect(() => {
-  //   if (state.UsersList?.NoUserListStatusCode === 201) {
-  //     setFilteredUsers([])
-  //     setCurrentItem([])
-  //     setLoading(false)
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_NO_USER_LIST' })
-  //     }, 2000)
-  //   }
+  useEffect(() => {
+    if (state.UsersList?.NoUserListStatusCode === 201) {
+      setUserDetails([])
+      // setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_USER_LIST' })
+      }, 2000)
+    }
 
-  // }, [state.UsersList?.NoUserListStatusCode])
+  }, [state.UsersList?.NoUserListStatusCode])
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
@@ -1547,7 +1452,7 @@ function UserList(props) {
   //   dispatch({ type: "COUNTRYLIST" });
   // }, []);
 
-  const [search, setSearch] = useState(false);
+  
   const [isOpenTab, setIsOpenTab] = useState(true);
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites;
@@ -1703,12 +1608,9 @@ function UserList(props) {
   };
 
   const handleDeleteShow = (user) => {
-    console.log("user details", user);
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
-
-  console.log("state", state);
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode == 200) {
@@ -2838,7 +2740,7 @@ function UserList(props) {
                 ) : (
                   <div className="">
                     <div>
-                      {currentItems && currentItems.length > 0 ? (
+                      {currentItems && currentItems.length > 0 && (
                         <div
                           // className="z-0"
                           style={{
@@ -3558,45 +3460,48 @@ function UserList(props) {
                             </tbody>
                           </Table>
                         </div>
-                      ) : (
-                        !loading &&
-                        !trigger &&
-                        currentItems &&
-                        currentItems?.length == 0 && (
-                          <div style={{ marginTop: 28, marginLeft: "2px" }}>
-                            <div style={{ textAlign: "center" }}>
-                              <img src={Emptystate} alt="Empty State" />
-                            </div>
-                            <div
-                              className="pb-1"
-                              style={{
-                                textAlign: "center",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: 20,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              No Active Customer{" "}
-                            </div>
-                            <div
-                              className="pb-1"
-                              style={{
-                                textAlign: "center",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                fontSize: 16,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              There are no active Customer{" "}
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
+                      ) }
+                    </div>        
+                  </div>
+                )}
+
+
+{
+   !loading && userListDetail?.length == 0 && 
+
+   <div style={{ marginTop: 30 }}>
+   <div style={{ textAlign: "center" }}>
+     <img src={Emptystate} alt="emptystate" />
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 600,
+       fontFamily: "Gilroy",
+       fontSize: 20,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     No Customers available
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 500,
+       fontFamily: "Gilroy",
+       fontSize: 16,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     There are no Customer added.
+   </div>
+ </div>
+}
+
                     {
-                      state.UsersList.Users?.length >= 5 && (
+                     (search ? filteredUsers?.length : userListDetail?.length) >= 5 && (
                         <nav
                           style={{
                             display: "flex",
@@ -3727,8 +3632,6 @@ function UserList(props) {
 
                       // )
                     }
-                  </div>
-                )}
 
                 {customerReassign == true ? (
                   <CustomerReAssign
@@ -3776,7 +3679,7 @@ function UserList(props) {
                   setAddCheckoutForm = {setAddCheckoutForm}
                   checkoutaddform = {checkoutaddform}
 
-                  loader={loading}
+                  // loader={loading}
                   search = {search}
 
                 />
