@@ -103,7 +103,10 @@ function CheckOut(props) {
   }, [state.login.selectedHostel_Id]);
 
 
- 
+ useEffect(() => {
+       dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id } })
+     
+   }, [state.login.selectedHostel_Id])
 
     useEffect(() => {
         if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
