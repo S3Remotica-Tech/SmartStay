@@ -2877,7 +2877,7 @@ const InvoicePage = () => {
                             <img
                               src={closecircle}
                               onClick={handleCloseSearch}
-                              style={{ height: 20, width: 20 }}
+                              style={{ height: 20, width: 20,cursor:"pointer" }}
                             />
                           </span>
                         </div>
@@ -3100,6 +3100,7 @@ const InvoicePage = () => {
                         style={{
                           height: "24px",
                           width: "24px",
+                          cursor:"pointer"
                         }}
                         onClick={handleSearch}
                       />
@@ -3112,7 +3113,7 @@ const InvoicePage = () => {
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px", marginTop: 18 }}
+                      style={{ height: "50px", width: "50px", marginTop: 18,cursor:"pointer" }}
                       onClick={handleFilterd}
                     />
                   </div>
