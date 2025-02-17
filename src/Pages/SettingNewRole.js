@@ -284,7 +284,12 @@ function SettingNewRole({ hostelid }) {
                       alignItems: "center",
                       zIndex: showDots ? 1000 : "auto",
                       position: "relative",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      backgroundColor:
+                      showDots === index
+                        ? "#E7F1FF"
+                        : "white",
+                
                     }}
 
                     onClick={() => handleShowDots(index)}
@@ -301,7 +306,7 @@ function SettingNewRole({ hostelid }) {
                           backgroundColor: "#F9F9F9",
                           position: "absolute",
                           top: 30,
-                          right: 30,
+                          right: 40,
                           width: 160,
                           height: 70,
                           border: "1px solid #EBEBEB",
