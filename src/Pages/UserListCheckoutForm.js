@@ -190,6 +190,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
       setComments('');
       setBedname('');
       setFloorname('');
+      SetDueAmount(0)
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
     }
   }, [data, show])
@@ -876,38 +877,43 @@ console.log("hasBalance:", hasBalance);
                   <label htmlFor="Advance" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                     Advance Return
                   </label>
-                  <div
-                    className="d-flex align-items-center ms-1"
-                    style={{ gap: 5 }}
-                  >
-                    <input
-                      type="checkbox"
-                      style={{
-                        width: "16px",
-                        height: "16px",
-                        border: "2px solid #1E45E1",
-                        borderRadius: "3px",
-                        appearance: "auto",
-                        cursor: "pointer",
-                      }}
-                      onChange={handleCheckboxChange}
-                    />
+
+                  {  advanceamount > dueamount && 
+ <div
+ className="d-flex align-items-center ms-1"
+ style={{ gap: 5 }}
+>
+ <input
+   type="checkbox"
+   style={{
+     width: "16px",
+     height: "16px",
+     border: "2px solid #1E45E1",
+     borderRadius: "3px",
+     appearance: "auto",
+     cursor: "pointer",
+   }}
+   onChange={handleCheckboxChange}
+ />
 
 
 
 
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: 10,
-                        color: "#1E45E1",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Reimburse with Rent
-                    </p>
-                  </div></div>
+ <p
+   style={{
+     margin: 0,
+     fontSize: 10,
+     color: "#1E45E1",
+     fontFamily: "Gilroy",
+     fontWeight: 500,
+   }}
+ >
+   Reimburse with Rent
+ </p>
+</div>
+                  }
+                 
+                  </div>
 
 
                 <input
@@ -1033,7 +1039,7 @@ console.log("hasBalance:", hasBalance);
         </div>
       )}
 
-{dueamount > 0 && (
+{ data && checkoutaction && !checkoutaddform && dueamount > 0 && (
         <div className="d-flex align-items-center p-1 mb-2 mt-2">
           <MdError style={{ color: "red", marginRight: '5px' }} />
           <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
