@@ -192,6 +192,10 @@ console.log("called")
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
     setIsRecurring(false)
+    setCalculatedstartdateErrmsg("")
+    setCalculatedEnddateErrMsg("")
+    setCalculatedEnddate("")
+    setCalculatedstartdate("")
   };
 
   const handleRecurringFormShow = (item) => {
@@ -228,6 +232,7 @@ console.log("called")
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value)
   }
+
 
   const handleSaveRecurring = () => {
     if (!calculatedstartdate || !calculatedenddate) {
@@ -324,9 +329,12 @@ console.log("called")
   const handleStartDateChange = (selectedOption) => {
     console.log("Selected Start Date:", selectedOption?.value);
     setCalculatedstartdate(selectedOption?.value);
+    setCalculatedstartdateErrmsg("")
+      
   };
   const handleEndDateChange = (selectedOption) => {
     setCalculatedEnddate(selectedOption?.value); 
+   setCalculatedEnddateErrMsg("")
   };
 
 
@@ -362,7 +370,7 @@ console.log("called")
           <div
             style={{
               borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
+              bordsetCalculatedstartdateerRight: '4px solid transparent',
               borderRadius: '50%',
               width: '40px',
               height: '40px',
@@ -1115,17 +1123,22 @@ console.log("called")
 
 
 
-                    {calculatedstartdateerrmsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "-8px" }}
-                        >
-                          {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red",marginBottom:"4px"  }} />
-                          )}{" "}
-                          {calculatedstartdateerrmsg}
-                        </p>
-                      </div>
-                    )}
+                   {calculatedstartdateerrmsg && (
+                                     <div className="d-flex align-items-center  mb-2">
+                                       <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                                       <label
+                                         className="mb-0"
+                                         style={{
+                                           color: "red",
+                                           fontSize: "14px",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                         }}
+                                       >
+                                         {calculatedstartdateerrmsg}
+                                       </label>
+                                     </div>
+                                   )}
                   </div>
 
                   <div class="mb-3 d-flex row">
@@ -1200,17 +1213,22 @@ console.log("called")
                         }}
                       />
                     </div>
-                    {calculatedenddateerrmsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "-8px" }}
-                        >
-                          {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red",marginBottom:"4px" }} />
-                          )}{" "}
-                          {calculatedenddateerrmsg}
-                        </p>
-                      </div>
-                    )}
+                    {calculatedenddateerrmsg && (
+                                     <div className="d-flex align-items-center  mb-2">
+                                       <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                                       <label
+                                         className="mb-0"
+                                         style={{
+                                           color: "red",
+                                           fontSize: "14px",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                         }}
+                                       >
+                                         {calculatedenddateerrmsg}
+                                       </label>
+                                     </div>
+                                   )}
 
                   </div>
 

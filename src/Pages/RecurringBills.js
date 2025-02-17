@@ -67,6 +67,8 @@ const RecurringBills = (props) => {
       const [dataFetched, setDataFetched] = useState(false);
       const [amenityArray,setamenityArray] = useState([])
       const [allFieldErrmsg] = useState('');
+      const [recurdisable, setRecurDisable] = useState('')
+
       let serialNumber = 1;
     
     
@@ -124,6 +126,7 @@ const RecurringBills = (props) => {
 
       const handleBackBill = () => {
         props.onhandleback()
+        setAllFieldErrmsg('')
    }
  
    const formatDateForPayloadmanualinvoice = (date) => {
@@ -437,6 +440,17 @@ const handleDeleteNewRow = (index) => {
               }, 100);
             }
           }, [ state.InvoiceList.getstatusCodeForfilterrecurrcustomers]); 
+
+          useEffect(() => {
+            if (state.InvoiceList.RecurenotenableStatusCode === 202) {
+              setRecurDisable(state.InvoiceList.RecurenotEnable)
+              setAllFieldErrmsg(state.InvoiceList.Errmessage)
+    
+              setTimeout(() => {
+                dispatch({ type: 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL' });
+              }, 100);
+            }
+          }, [ state.InvoiceList.RecurenotenableStatusCode]);
         
          
 
@@ -769,6 +783,7 @@ const handleDeleteNewRow = (index) => {
       <h5> As on Date ₹ {totalAmount} </h5>
       <Button 
       onClick={handleCreateBill}
+      disabled={recurdisable === 0}
        className='w-80 mt-3 ' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
        borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
         Set As Recure

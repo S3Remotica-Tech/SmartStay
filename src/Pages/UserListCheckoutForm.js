@@ -458,9 +458,7 @@ const CheckOutForm = ({ item, uniqueostel_Id, show, handleClose, currentItem, ch
   
 
   const formatOptions = () => {
-    return state.UsersList?.availableCheckOutCustomerList
-      .filter((user) => user.CheckoutDate == null) 
-      .map((user) => ({
+    return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
         value: user.ID,
         label: (
           <div className="d-flex align-items-center">

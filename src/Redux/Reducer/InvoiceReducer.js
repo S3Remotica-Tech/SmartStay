@@ -56,6 +56,10 @@ const initialState = {
     ReceiptPDF: '',
     getstatusCodeForfilterrecurrcustomers: 0,
     FilterRecurrCustomers: [],
+    errorRecuireFile:'',
+    RecurenotEnable: '',
+    RecurenotenableStatusCode : 0,
+    Errmessage: '',
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -74,6 +78,11 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: 0 }
+            case 'ERROR_RECURE':
+                return { ...state, errorRecuireFile: action.payload.response }
+    
+            case 'REMOVE_ERROR_RECURE':
+                return { ...state, errorRecuireFile: ''}
 
         case 'DELETE_USER':
             return { ...state, deleteUserSuccessStatusCode: action.payload.statusCode }
@@ -158,6 +167,12 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, Recurringbillamounts: action.payload.response, recurrbillamountgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT':
             return { ...state, recurrbillamountgetStatuscode: 0 }
+
+        case 'FAIL_ADD_RECURRING_BILL': 
+            return { ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode , Errmessage : action.payload.message }
+        case 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL':
+            return { ...state, RecurenotenableStatusCode: 0 }
+            
 
         case 'MANUAL_INVOICE_ADD':
             return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode } //bills Add 

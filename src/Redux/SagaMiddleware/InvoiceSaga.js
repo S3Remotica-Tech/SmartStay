@@ -590,6 +590,10 @@ function* handleRecurrbillamountData(params) {
          style: toastStyle
        })
    }
+
+   else if (response.status === 202 || response.statusCode === 202){
+      yield put ({type : 'FAIL_ADD_RECURRING_BILL' , payload:{response:response.data.recure, statusCode:response.status || response.statusCode  , message: response.data.message}})
+   }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
@@ -756,7 +760,7 @@ function* handleManualInvoiceDelete (params) {
 
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
- 
+ console.log("handleRecurrBillsAdd",response)
 
 
    if (response.status === 200 || response.statusCode === 200){
@@ -785,6 +789,11 @@ function* handleRecurrBillsAdd (params) {
          style: toastStyle
        })
    }
+
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ERROR_RECURE', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   }
+
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
