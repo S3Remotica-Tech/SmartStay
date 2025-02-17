@@ -769,7 +769,10 @@ function Booking(props) {
     setCurrentPage(1)
   };
 
-  const totalPages = Math.ceil(customerBooking?.length / itemsPerPage);
+  // const totalPages = Math.ceil(customerBooking?.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (props.search ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
+  );
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -1468,7 +1471,7 @@ function Booking(props) {
                
               </div>
 ) : (
-  // Show empty state when there are no bookings
+  
   <div style={{ marginTop: 30 }}>
     <div style={{ textAlign: "center" }}>
       <img src={Emptystate} alt="emptystate" />

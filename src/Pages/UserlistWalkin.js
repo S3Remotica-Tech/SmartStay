@@ -127,7 +127,9 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
+      setWalkingLoader(false)
       setWalkInCustomer([]);
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 2000);
@@ -246,7 +248,10 @@ function UserlistWalkin(props) {
   // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
   const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
-  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (props.search ? props.filteredUsers?.length : walkInCustomer?.length) / itemsPerPage
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -320,7 +325,7 @@ function UserlistWalkin(props) {
           <div style={{ marginLeft: "-20px" }}>
            
           {walkinLoader ? (
- <div
+            <div
  style={{
    position: "absolute",
    top: 0,
@@ -346,7 +351,7 @@ function UserlistWalkin(props) {
    }}
  ></div>
 </div>
-) : currentCustomers?.length > 0 ? (
+) : currentCustomers?.length > 0 && (
   <div className=" walkin_table_custom">
                 <div style={{
                   // height: "400px",
@@ -694,12 +699,41 @@ function UserlistWalkin(props) {
                 </div>
                 
               </div>
-) :!walkinLoader && safeWalkInCustomer.length === 0 && (
-  <div>HI</div>
 )}
 
+{
+   !walkinLoader && currentCustomers?.length == 0 && 
 
-
+   <div style={{ marginTop: 30 }}>
+   <div style={{ textAlign: "center" }}>
+     <img src={Emptystate} alt="emptystate" />
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 600,
+       fontFamily: "Gilroy",
+       fontSize: 20,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     No Walking available
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 500,
+       fontFamily: "Gilroy",
+       fontSize: 16,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     There are no Walking added.
+   </div>
+ </div>
+}
                  
           </div>
           {(props.search ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && (
