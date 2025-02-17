@@ -125,8 +125,10 @@ const AddReceiptForm = (props) => {
       
         setCustomerInvoiceFilter(CustomerinvoicedetailsFilter);
 
-
-      
+          if(CustomerinvoicedetailsFilter[0].BalanceDue === 0){
+            setInvoicenumberErrmsg("This customer has no due amounts")
+          }
+        
         console.log("customerfilter", state?.InvoiceList?.ManualInvoices);
         console.log("customerfilter", CustomerinvoicedetailsFilter);
       
@@ -134,6 +136,7 @@ const AddReceiptForm = (props) => {
           setCustomerErrmsg("Please Select Name");
         } else {
           setCustomerErrmsg("");
+          setInvoicenumberErrmsg('')
         }
       };
 
