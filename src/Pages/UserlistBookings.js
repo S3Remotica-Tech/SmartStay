@@ -97,6 +97,7 @@ function Booking(props) {
     useState("");
   const [bookingDeletePermissionError, setBookingDeletePermissionError] =
     useState("");
+    const [loader,setLoader] = useState(false)
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
     lastName: "",
@@ -116,16 +117,19 @@ function Booking(props) {
   useEffect(() => {
     setHostelIds(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
+  const [customerBooking,setCustomerBooking] = useState([])
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "GET_BOOKING_LIST",
-  //     payload: { hostel_id: state.login.selectedHostel_Id },
-  //   });
-  // }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    setLoader(true)
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
-      // setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+      setLoader(false)
+      setCustomerBooking(state.Booking.CustomerBookingList.bookings);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BOOKING_LIST" });
       }, 2000);
@@ -752,9 +756,9 @@ function Booking(props) {
   //   indexOfLastItem
   // );
   const currentItems =
-    props.filterInput.length > 0
-      ? props.filteredUsers
-      : props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
+  props.filterInput.length > 0
+    ? props.filteredUsers
+    : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const handlePageChange = (pageNumber) => {
@@ -765,7 +769,7 @@ function Booking(props) {
     setCurrentPage(1)
   };
 
-  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const totalPages = Math.ceil(customerBooking?.length / itemsPerPage);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -885,8 +889,36 @@ function Booking(props) {
       ) : (
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {currentItems?.length > 0 ? (
-              <div
+          {loader ? (
+ <div
+ style={{
+   position: "absolute",
+   top: 0,
+   right: 0,
+   bottom: 0,
+   left: "200px",
+   display: "flex",
+   alignItems: "center",
+   justifyContent: "center",
+   backgroundColor: "transparent",
+   opacity: 0.75,
+   zIndex: 10,
+ }}
+>
+ <div
+   style={{
+     borderTop: "4px solid #1E45E1",
+     borderRight: "4px solid transparent",
+     borderRadius: "50%",
+     width: "40px",
+     height: "40px",
+     animation: "spin 1s linear infinite",
+   }}
+ ></div>
+</div>
+) : currentItems?.length > 0 ? (
+ 
+  <div
                 className="p-10 booking-table-userlist"
                 style={{ paddingBottom: "20px" }}
               >
@@ -1433,100 +1465,44 @@ function Booking(props) {
                   </Table>
                 </div>
 
-                {props.filteredUsers?.length >= 5 && (
-                  //  <nav
-                  //                       style={{
-                  //                         display: "flex",
-                  //                         alignItems: "center",
-                  //                         justifyContent: "end",
-                  //                         padding: "10px",
+               
+              </div>
+) : (
+  // Show empty state when there are no bookings
+  <div style={{ marginTop: 30 }}>
+    <div style={{ textAlign: "center" }}>
+      <img src={Emptystate} alt="emptystate" />
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No Bookings available
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 16,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no Bookings added.
+    </div>
+  </div>
+)}
 
-                  //                       }}
-                  //                     >
 
-                  //                       <div>
-                  //                         <select
-                  //                           value={itemsPerPage}
-                  //                           onChange={handleItemsPerPageChange}
-                  //                           style={{
-                  //                             padding: "5px",
-                  //                             border: "1px solid #1E45E1",
-                  //                             borderRadius: "5px",
-                  //                             color: "#1E45E1",
-                  //                             fontWeight: "bold",
-                  //                             cursor: "pointer",
-                  //                             outline: "none",
-                  //                             boxShadow: "none",
-
-                  //                           }}
-                  //                         >
-                  //                            <option value={5}>5</option>
-                  //                           <option value={10}>10</option>
-                  //                           <option value={50}>50</option>
-                  //                           <option value={100}>100</option>
-                  //                         </select>
-                  //                       </div>
-
-                  //                       <ul
-                  //                         style={{
-                  //                           display: "flex",
-                  //                           alignItems: "center",
-                  //                           listStyleType: "none",
-                  //                           margin: 0,
-                  //                           padding: 0,
-                  //                         }}
-                  //                       >
-
-                  //                         <li style={{ margin: "0 10px" }}>
-                  //                           <button
-                  //                             style={{
-                  //                               padding: "5px",
-                  //                               textDecoration: "none",
-                  //                               color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  //                               cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  //                               borderRadius: "50%",
-                  //                               display: "inline-block",
-                  //                               minWidth: "30px",
-                  //                               textAlign: "center",
-                  //                               backgroundColor: "transparent",
-                  //                               border: "none",
-                  //                             }}
-                  //                             onClick={() => handlePageChange(currentPage - 1)}
-                  //                             disabled={currentPage === 1}
-                  //                           >
-                  //                             <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                  //                           </button>
-                  //                         </li>
-
-                  //                         <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                  //                           {currentPage} of {totalPages}
-                  //                         </li>
-
-                  //                         <li style={{ margin: "0 10px" }}>
-                  //                           <button
-                  //                             style={{
-                  //                               padding: "5px",
-                  //                               textDecoration: "none",
-                  //                               color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  //                               cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                  //                               borderRadius: "50%",
-                  //                               display: "inline-block",
-                  //                               minWidth: "30px",
-                  //                               textAlign: "center",
-                  //                               backgroundColor: "transparent",
-                  //                               border: "none",
-                  //                             }}
-                  //                             onClick={() => handlePageChange(currentPage + 1)}
-                  //                             disabled={currentPage === totalPages}
-                  //                           >
-                  //                             <ArrowRight2
-                  //                               size="16"
-                  //                               color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                  //                             />
-                  //                           </button>
-                  //                         </li>
-                  //                       </ul>
-                  //                     </nav>
+{(props.search ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
+                
 
                   <nav
                   style={{
@@ -1645,39 +1621,6 @@ function Booking(props) {
                     </ul>
                   </nav>
                 )}
-              </div>
-            ) : (
-              <div style={{ marginTop: 30 }}>
-                <div style={{ textAlign: "center" }}>
-                  {" "}
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Bookings available{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Bookings added.{" "}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}

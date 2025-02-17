@@ -15,6 +15,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
+import LoaderComponent from "./LoaderComponent";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
@@ -31,7 +32,7 @@ function UserlistWalkin(props) {
   const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
   const [hostel_Id, setHostelId] = useState("")
-  const [loader, setLoader] = useState(true);
+  // const [loader, setLoader] = useState(true);
   
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -80,41 +81,44 @@ function UserlistWalkin(props) {
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
+  const [walkinLoader,setWalkingLoader] = useState(true)
 
-  // useEffect(() => {
-  //   if(hostel_Id){
-  //     dispatch({
-  //       type: "WALKINCUSTOMERLIST",
-  //       payload: { hostel_id:hostel_Id},
-  //     });
-  //   }
+  useEffect(() => {
+    // if(hostel_Id){
+      setWalkingLoader(true)
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id:state.login.selectedHostel_Id},
+      });
+    // }
 
-  // }, [hostel_Id]);
+  }, [state.login.selectedHostel_Id]);
 
   console.log("state.UsersList.getWalkInStatusCode", state.UsersList.getWalkInStatusCode)
 
-console.log("loader",loader);
 
- useEffect(() => {
-  setLoader(true)
-  }, [state.login.selectedHostel_Id]);
- useEffect(() => {
-    if (state.UsersList?.getWalkInStatusCode == 200) {
-      setLoader(false)
-    }
-  }, [state.UsersList?.getWalkInStatusCode]);
+
+//  useEffect(() => {
+//   setLoader(true)
+//   }, [state.login.selectedHostel_Id]);
+// //  useEffect(() => {
+//     if (state.UsersList?.getWalkInStatusCode == 200) {
+//       setLoader(false)
+//     }
+//   }, [state.UsersList?.getWalkInStatusCode]);
+
+  // useEffect(() => {
+  //   if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
+  //     setLoader(false)
+  //   }
+  // }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
+
+
 
   useEffect(() => {
-    if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
-      setLoader(false)
-    }
-  }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
-
-
-
-  useEffect(() => {
-    if (state.UsersList.getWalkInStatusCode === 200) {
-      // setWalkInCustomer(state.UsersList.WalkInCustomerList);
+    if (state.UsersList.getWalkInStatusCode == 200) {
+      setWalkingLoader(false)
+      setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 1000);
@@ -137,7 +141,7 @@ console.log("loader",loader);
     ) {
       dispatch({
         type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: hostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
       setShowForm(false);
@@ -240,7 +244,7 @@ console.log("loader",loader);
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
   // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
   const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
 
@@ -262,37 +266,11 @@ console.log("loader",loader);
     setShowForm(true);
     setSelectedCustomer(null);
   };
+  const safeWalkInCustomer = Array.isArray(walkInCustomer) ? walkInCustomer : [];
 
   return (
     <>
-     {loader &&
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: '200px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>
-      }
+    
       {walkInPermissionError ? (
         <>
           <div
@@ -340,8 +318,36 @@ console.log("loader",loader);
       ) : (
         <>
           <div style={{ marginLeft: "-20px" }}>
-            {currentCustomers?.length > 0 ? (
-              <div className=" walkin_table_custom">
+           
+          {walkinLoader ? (
+ <div
+ style={{
+   position: "absolute",
+   top: 0,
+   right: 0,
+   bottom: 0,
+   left: "200px",
+   display: "flex",
+   alignItems: "center",
+   justifyContent: "center",
+   backgroundColor: "transparent",
+   opacity: 0.75,
+   zIndex: 10,
+ }}
+>
+ <div
+   style={{
+     borderTop: "4px solid #1E45E1",
+     borderRight: "4px solid transparent",
+     borderRadius: "50%",
+     width: "40px",
+     height: "40px",
+     animation: "spin 1s linear infinite",
+   }}
+ ></div>
+</div>
+) : currentCustomers?.length > 0 ? (
+  <div className=" walkin_table_custom">
                 <div style={{
                   // height: "400px",
                   height: currentCustomers.length >= 6 ? "380px" : "auto",
@@ -686,118 +692,18 @@ console.log("loader",loader);
                     </tbody>
                   </Table>
                 </div>
-                {props.filteredUsers?.length >= 5 && (
-                  // <nav
-                  //   style={{
-                  //     display: "flex",
-                  //     alignItems: "center",
-                  //     justifyContent: "end", 
-                  //     padding: "10px",
-
-                  //   }}
-                  // >
-
-                  //   <div>
-                  //     <select
-                  //       value={itemsPerPage}
-                  //       onChange={handleItemsPerPageChange}
-                  //       style={{
-                  //         padding: "5px",
-                  //         border: "1px solid #1E45E1",
-                  //         borderRadius: "5px",
-                  //         color: "#1E45E1",
-                  //         fontWeight: "bold",
-                  //         cursor: "pointer",
-                  //         outline: "none",
-                  //         boxShadow: "none",
-                  //       }}
-                  //     >
-                  //       <option value={5}>5</option>
-                  //       <option value={10}>10</option>
-                  //       <option value={50}>50</option>
-                  //       <option value={100}>100</option>
-                  //     </select>
-                  //   </div>
+                
+              </div>
+) :!walkinLoader && safeWalkInCustomer.length === 0 && (
+  <div>HI</div>
+)}
 
 
-                  //   <ul
-                  //     style={{
-                  //       display: "flex",
-                  //       alignItems: "center",
-                  //       listStyleType: "none",
-                  //       margin: 0,
-                  //       padding: 0,
-                  //     }}
-                  //   >
 
-                  //     <li style={{ margin: "0 10px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px",
-                  //           textDecoration: "none",
-                  //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  //           borderRadius: "50%",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() => handlePageChange(currentPage - 1)}
-                  //         disabled={currentPage === 1}
-                  //       >
-                  //         <ArrowLeft2
-                  //           size="16"
-                  //           color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                  //         />
-                  //       </button>
-                  //     </li>
-
-
-                  //     <li
-                  //       style={{
-                  //         margin: "0 10px",
-                  //         fontSize: "14px",
-                  //         fontWeight: "bold",
-                  //       }}
-                  //     >
-                  //       {currentPage} of {totalPages}
-                  //     </li>
-
-
-                  //     <li style={{ margin: "0 10px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  //           cursor:
-                  //             currentPage === totalPages
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "50%",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() => handlePageChange(currentPage + 1)}
-                  //         disabled={currentPage === totalPages}
-                  //       >
-                  //         <ArrowRight2
-                  //           size="16"
-                  //           color={
-                  //             currentPage === totalPages ? "#ccc" : "#1E45E1"
-                  //           }
-                  //         />
-                  //       </button>
-                  //     </li>
-                  //   </ul>
-                  // </nav>
-
+                 
+          </div>
+          {(props.search ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && (
+                  
                   <nav
                     style={{
                       display: "flex",
@@ -902,53 +808,7 @@ console.log("loader",loader);
                   </nav>
 
                 )}
-              </div>
-            ) : loader && (
-              <div
-                className=" "
-                style={{ width: "100%", height: "60vh" }}
-              >
-                <div>
-                  <div className="no-data-container">
-                    <div style={{ marginTop: 30, textAlign: "center" }}>
-                      <img
-                        src={Emptystate}
-                        alt="Empty State"
-                        style={{ maxWidth: "100%", height: "auto" }}
-                      />
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                        paddingTop: "10px",
-                      }}
-                    >
-                      No Walk-in available
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Walk-in added.{" "}
-                    </div>
-                  </div>
 
-                </div>
-                <div></div>
-              </div>
-            )}
-          </div>
         </>
       )}
 

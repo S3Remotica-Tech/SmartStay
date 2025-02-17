@@ -1057,7 +1057,9 @@ function UserList(props) {
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
+    setLoading(true)
     dispatch({
+      
       type: "WALKINCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
@@ -1068,6 +1070,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
+      setLoading(false)
       setWalkingCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
@@ -1078,6 +1081,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
       setWalkingCustomer([]);
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 200);
@@ -1086,8 +1090,6 @@ function UserList(props) {
 
   useEffect(() => {
     setLoading(true)
-    console.log("load",loading);
-    
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -3758,6 +3760,7 @@ function UserList(props) {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
+                  search = {search}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3774,6 +3777,7 @@ function UserList(props) {
                   checkoutaddform = {checkoutaddform}
 
                   loader={loading}
+                  search = {search}
 
                 />
               </TabPanel>
@@ -3786,6 +3790,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
+                  search = {search}
                 />
               </TabPanel>
             </TabContext>

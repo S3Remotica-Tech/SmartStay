@@ -57,6 +57,7 @@ console.log("propd",props);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
+  const [checkoutLoader,setCheckOutLoader] = useState(true)
 
 
   
@@ -96,17 +97,18 @@ console.log("propd",props);
     }
   }, [props.customerrolePermission]);
 
-  // useEffect(() => {
-  //   dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  // }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    setCheckOutLoader(true)
+    dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  }, [state.login.selectedHostel_Id]);
 
 
  
 
     useEffect(() => {
         if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-    
-         // setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+          setCheckOutLoader(false)
+         setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
           setTimeout(() => {
             dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
           }, 1000);
@@ -173,9 +175,12 @@ console.log("propd",props);
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
   // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers :checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
-  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (props.search ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -377,7 +382,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
     <>
     <div>
-    {props.loader &&
+    {checkoutLoader &&
         <div
           style={{
             position: 'fixed',
@@ -1262,7 +1267,7 @@ setPopupPosition({ top: popupTop, left: popupLeft });
 
               </div>
               
-            ) : ( !props.loader && currentCustomers?.length === 0 && (
+            ) : ( !checkoutLoader && currentCustomers?.length === 0 && (
               <div style={{ marginTop: 30, height: "60vh" }}>
                 <div style={{ textAlign: "center" }}>
                   {" "}
