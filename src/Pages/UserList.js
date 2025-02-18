@@ -374,13 +374,11 @@ function UserList(props) {
       const endDateChanged = formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate);
       const invoiceDateChanged = formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate);
       const dueDateChanged = formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
-    
-      const amenitiesChanged = newRows.some((row, index) => {
+      
+      const amenitiesChanged = newRows.length !== currentView.amenity.length || newRows.some((row, index) => {
         const originalRow = currentView.amenity?.[index] || {};
         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
       });
-    
-    
     
       return (
         userChanged ||
@@ -392,6 +390,7 @@ function UserList(props) {
         amenitiesChanged
       );
     })();
+    
     
 
     if (!isChanged) {
@@ -573,8 +572,12 @@ function UserList(props) {
  
 
   const handleDeleteNewRow = (index) => {
-    const updatedRows = newRows.filter((_, i) => i !== index);
-    setNewRows(updatedRows);
+    setNewRows((prevRows) => {
+      const updatedRows = prevRows.filter((_, i) => i !== index);
+      return updatedRows;
+    });
+  
+    setAllFieldErrmsg("");
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
