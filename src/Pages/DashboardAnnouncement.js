@@ -573,10 +573,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //     )}
       //   </div>
       // ) : (
-      <div  style={{
-        maxHeight: "400px",
-        overflowY: "auto",
-      }}>
+      <div  style={{ maxHeight: "400px", overflowY: "auto", }}>
         <div className="row">
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
