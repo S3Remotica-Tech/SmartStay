@@ -46,7 +46,7 @@ const CheckOutForm = ({
   const [noticeDays, setNoticeDays] = useState("");
   const [comments, setComments] = useState("");
   const [advanceamount, setAdvanceAmount] = useState("");
-  const [dueamount, SetDueAmount] = useState("");
+  const [dueamount, SetDueAmount] = useState('');
   const [invoicenumber, SetInvoiceNumber] = useState([]);
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
@@ -69,6 +69,8 @@ const CheckOutForm = ({
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
+    setReinburse(0)
+    SetDueAmount('')
   };
 
   const [isChecked, setIsChecked] = useState(false);
@@ -178,7 +180,7 @@ const CheckOutForm = ({
       setComments("");
       setBedname("");
       setFloorname("");
-      SetDueAmount(0);
+      // SetDueAmount(0);
       dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     }
   }, [data, show]);
@@ -500,15 +502,28 @@ const CheckOutForm = ({
       setAdvanceAmount(
         state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
       );
-      SetDueAmount(
-        state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
-      );
+      // SetDueAmount(
+      //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
+      // );
       SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails);
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
       }, 500);
     }
   }, [state.UsersList.statusCodegetConfirmCheckout]);
+
+
+  
+  useEffect(() => {
+    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      handlecloseform()
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 500);
+    }
+  }, [state.UsersList.statusCodeAddConfirmCheckout]);
+
+
 
   const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
@@ -521,12 +536,14 @@ const CheckOutForm = ({
     validInvoices.some((invoice) => invoice.balance > 0);
 
   useEffect(() => {
-    if (validInvoices && hasBalance) {
+    if (validInvoices && hasBalance && !isChecked) {
       const totaldueamount = validInvoices.reduce(
         (total, invoice) => total + invoice.balance,
         0
       );
       SetDueAmount(totaldueamount);
+      console.log("===--------------------=====",dueamount);
+      
     }
   }, [validInvoices]);
 
@@ -536,24 +553,38 @@ const CheckOutForm = ({
   const handleCheckboxChange = (e) => {
     const checked = e.target.checked;
     console.log("checked", checked);
+    
 
     setIsChecked(checked);
 
     if (checked && dueamount > 0) {
       const updatedAdvanceAmount = advanceamount - dueamount;
       setAdvanceAmount(updatedAdvanceAmount);
-      SetDueAmount(0);
+      
+      
+    SetDueAmount(0);
+            
     }
   };
+ const [reinburse, setReinburse] = useState(0)
+  useEffect(()=> {
+    if(isChecked){
+      SetDueAmount(0);
+      // const Reinburse = isChecked ? 1 : 0;
+      setReinburse(1)
+    }
+  },[isChecked])
+  console.log("========================",dueamount);
 
   useEffect(() => {
     if (!isChecked) {
       setAdvanceAmount(
         state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
       );
-      SetDueAmount(
-        state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
-      );
+      
+      // SetDueAmount(
+      //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
+      // );
     }
   }, [isChecked]);
 
@@ -584,7 +615,6 @@ const CheckOutForm = ({
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
       "YYYY-MM-DD"
     );
-    const Reinburse = isChecked == "true" ? 1 : 0;
 
     const hasChanges =
       formattedDate !== data?.CheckoutDate ||
@@ -606,20 +636,12 @@ const CheckOutForm = ({
           hostel_id: data.Hostel_Id,
           comments: comments,
           advance_return: advanceamount,
-          reinburse: Reinburse, // click ==> 1 or 0
+          reinburse: reinburse, // click ==> 1 or 0
         },
       });
     }
 
-    setSelectedCustomer("");
-    setCurrentBed("");
-    setCurrentFloor("");
-    setNoticeDays("");
-    setComments("");
-    setCheckOutDate("");
-    setCheckOutRequestDate("");
-    setBedname("");
-    setFloorname("");
+  
   };
 
   const customDateInput = (props) => {
@@ -974,7 +996,7 @@ const CheckOutForm = ({
                       Advance Return
                     </label>
 
-                    {advanceamount > dueamount && (
+                    {advanceamount >= dueamount && (
                       <div
                         className="d-flex align-items-center ms-1"
                         style={{ gap: 5 }}
@@ -1211,8 +1233,7 @@ const CheckOutForm = ({
               !checkouteditaction &&
               checkoutaction &&
               !checkoutaddform &&
-              hasBalance
-            }
+              dueamount > 0 }
             onClick={
               checkoutaction
                 ? handleConfirmCheckout // Confirm Check-out

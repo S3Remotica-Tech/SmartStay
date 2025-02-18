@@ -249,11 +249,12 @@ function CheckOut(props) {
     }
 
 
-const { top, left, width, height } = event.target.getBoundingClientRect();
-const popupTop = top + (height / 2);
-const popupLeft = left - 200;
 
-setPopupPosition({ top: popupTop, left: popupLeft });
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
 
 
 
@@ -850,8 +851,8 @@ setPopupPosition({ top: popupTop, left: popupLeft });
                                       cursor: "pointer",
                                       backgroundColor: "#EBEBEB",
                                       position: "fixed",
-                                      top: currentCustomers.length >= 6 ?  popupPosition.top  : 150,
-                                      left: currentCustomers.length >= 6 ? popupPosition.left :  popupPosition.left - 20,
+                                      top:   popupPosition.top,
+                                      left:  popupPosition.left,
                                       
                                       width: 200,
                                       border: "1px solid #EBEBEB",
