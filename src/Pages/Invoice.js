@@ -984,27 +984,34 @@ const InvoicePage = () => {
     };
 
     const isChanged = (() => {
+      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
+      const startDateChanged = formatDateToStartdate(invoiceDetails?.start_date) !== formatDateToStartdate(startdate);
+      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+      const endDateChanged = formatDateTowenddate(invoiceDetails?.end_date) !== formatDateTowenddate(enddate);
+      const invoiceDateChanged = formatDateToInvoicedate(invoiceDetails?.Date) !== formatDateToInvoicedate(invoicedate);
+      const dueDateChanged = formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
+    
+      // **New Condition: Check if rows are added or removed**
+      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
+    
+      // Check if any row content is changed
+      const amenitiesChanged = newRows.some((row, index) => {
+        const originalRow = invoiceDetails?.amenity?.[index] || {};
+        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+      });
+    
       return (
-        Number(invoiceDetails?.hos_user_id) !== Number(customername) ||
-        formatDateToStartdate(invoiceDetails?.start_date) !==
-          formatDateToStartdate(startdate) ||
-        String(invoiceDetails?.Invoices) !== String(invoicenumber) ||
-        formatDateTowenddate(invoiceDetails?.end_date) !==
-          formatDateTowenddate(enddate) ||
-        formatDateToInvoicedate(invoiceDetails?.Date) !==
-          formatDateToInvoicedate(invoicedate) ||
-        formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !==
-          formatDateToSInvoiceDuedate(invoiceduedate) ||
-        newRows.some((row, index) => {
-          const originalRow = invoiceDetails?.amenity?.[index];
-          return (
-            row.am_name !== originalRow?.am_name ||
-            row.amount !== originalRow?.amount
-          );
-        })
+        userChanged ||
+        startDateChanged ||
+        invoiceChanged ||
+        endDateChanged ||
+        invoiceDateChanged ||
+        dueDateChanged ||
+        rowsCountChanged ||  // **Now detects added/deleted rows**
+        amenitiesChanged
       );
     })();
-
+    
     // const isDataChanged =
     // customername !== String(invoiceDetails?.hos_user_id) ||
     // invoicenumber !== invoiceDetails?.Invoices ||
@@ -1622,9 +1629,13 @@ const InvoicePage = () => {
   };
 
   const handleDeleteNewRow = (index) => {
-    const updatedRows = newRows.filter((_, i) => i !== index);
-    setNewRows(updatedRows);
-  };
+    setNewRows((prevRows) => {
+      const updatedRows = prevRows.filter((_, i) => i !== index);
+      return updatedRows;
+    });
+  
+    setAllFieldErrmsg("");
+  }
 
   // const handleCreateBill = () => {
   //   const incompleteRows = newRows.some((row) => !row.am_name || !row.amount);
