@@ -627,8 +627,8 @@ function EBRoomReading(props) {
                             fontFamily: "Gilroy",
                             paddingTop: "10px",
                             paddingBottom: "10px",
-                            textAlign: "center",
-                            // paddingLeft: "20px",
+                            textAlign: "start",
+                            paddingLeft: "20px",
                             borderTopLeftRadius:24
                           }}
                         >
@@ -694,7 +694,7 @@ function EBRoomReading(props) {
                             fontFamily: "Gilroy",
                             paddingTop: "10px",
                             paddingBottom: "10px",
-                            textAlign: "center",
+                            textAlign: "start",
                           }}
                         >
                           Date
@@ -775,8 +775,9 @@ function EBRoomReading(props) {
                                 style={{
                                   border: "none",
                                   padding: "10px",
-                                  textAlign: "center",
+                                  textAlign: "start",
                                   verticalAlign: "middle", // Center vertically
+                                  paddingLeft:"20px"
                                 }}
                               >
                                 <div
@@ -852,7 +853,7 @@ function EBRoomReading(props) {
                               </td>
                               <td
                                 style={{
-                                  textAlign: "center",
+                                  textAlign: "start",
                                   verticalAlign: "middle", // Center vertically
                                   borderBottom: "none",
                                 }}

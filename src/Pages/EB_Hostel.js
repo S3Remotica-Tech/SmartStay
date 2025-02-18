@@ -1067,7 +1067,7 @@ cursor:"pointer"
               </Button>
             </div>
           ) : (
-            <div className="me-4">
+            <div className="">
               <Button
                 // style={{
                 //   fontFamily: "Montserrat",
@@ -1088,17 +1088,29 @@ cursor:"pointer"
                 //   paddingRight: 5,
                 // }}
                 style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: "8px",
-                  padding: "11px 18px",
-                  marginTop: 2,
-                  paddingLeft: 19,
-                  whiteSpace: "nowrap",
-                  cursor:"pointer"
+                  // fontFamily: "Gilroy",
+                  // fontSize: "14px",
+                  // backgroundColor: "#1E45E1",
+                  // color: "white",
+                  // fontWeight: 600,
+                  // borderRadius: "8px",
+                  // padding: "11px 18px",
+                  // marginTop: 2,
+                  // paddingLeft: 19,
+                  // whiteSpace: "nowrap",
+                  // cursor:"pointer"
+                    fontFamily: "Gilroy",
+                                          fontSize: "14px",
+                                          backgroundColor: "#1E45E1",
+                                          color: "white",
+                                          fontWeight: 600,
+                                          borderRadius: "8px",
+                                          padding: "11px 18px",
+                                          marginTop: 4,
+                                          // paddingLeft: 34,
+                                          whiteSpace: "nowrap",
+                                          cursor:"pointer",
+                                          marginRight:"8px"
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
