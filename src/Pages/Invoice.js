@@ -2846,7 +2846,7 @@ const InvoicePage = () => {
                           alignItems: "center",
                           width: "100%",
                           marginTop: "0px",
-                          marginBottom: "10px",
+                          marginBottom: "5px",
                         }}
                       >
                         {/* <Image
@@ -2862,7 +2862,7 @@ const InvoicePage = () => {
                         /> */}
                         <div
                           className="input-group"
-                          style={{ marginRight: 20, paddingTop: "20px" }}
+                          style={{ marginRight: 20, paddingTop: "25px" }}
                         >
                           <span className="input-group-text bg-white border-end-0">
                             <Image
@@ -3150,6 +3150,7 @@ const InvoicePage = () => {
                         color: "rgba(34, 34, 34, 1)",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
+                        cursor:"pointer"
                       }}
                     >
                       <option value="All">All</option>
@@ -6292,7 +6293,7 @@ const InvoicePage = () => {
                 }}
               >
                 <tr>
-                  <th
+                  <th className="text-center"
                     style={{
                       color: "rgb(147, 147, 147)",
                       fontSize: 14,

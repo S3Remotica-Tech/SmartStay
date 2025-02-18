@@ -341,7 +341,7 @@ function UserlistForm(props) {
           setBedError("Bed is required");
           break;
         case "selectedDate":
-          setDateError("selectedDate is required");
+          setDateError("SelectedDate is required");
           break;
         case "AdvanceAmount":
           setAdvanceAmountError("Reading is required");
@@ -1241,11 +1241,11 @@ function UserlistForm(props) {
                   </Button>
                 </div>
               ) : (
-                <div className="container">
-                  <div className="row mb-3"></div>
+                <div className="">
+                 
 
                   <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
+                    style={{ position: "relative",marginTop:"-20px" }}
                   >
                     <div
                       style={{
@@ -1264,7 +1264,7 @@ function UserlistForm(props) {
                       style={{
                         position: "absolute",
                         right: "10px",
-                        top: "16px",
+                        // top: "16px",
                         border: "1px solid black",
                         background: "transparent",
                         cursor: "pointer",
@@ -1272,8 +1272,8 @@ function UserlistForm(props) {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: "32px",
-                        height: "32px",
+                        width: "28px",
+                        height: "28px",
                         borderRadius: "50%",
                       }}
                     >
@@ -1296,6 +1296,7 @@ function UserlistForm(props) {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy",
+                          paddingTop:"6px"
                         }}
                       >
                         Floor
@@ -1650,6 +1651,7 @@ function UserlistForm(props) {
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
+                      marginBottom:"4px"
                     }}
                     onClick={handleSaveUserlistAddUser}
                   >
