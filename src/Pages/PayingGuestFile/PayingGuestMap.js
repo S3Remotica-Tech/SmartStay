@@ -214,7 +214,7 @@ function PayingGuestMap(props) {
                     <div
 
                     >
-                        <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
+                        <div style={{backgroundColor: showDots ? "#E7F1FF" : '#fff', cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
                             onClick={handleDotsClick}
                         // onClick={() => handleDotsClick(props.hostel.id)}
                         >

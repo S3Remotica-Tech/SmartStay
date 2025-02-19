@@ -1361,6 +1361,7 @@ function SettingManage(props) {
                                   alignItems: "center",
                                   position: "relative",
                                   zIndex: showDots ? 1000 : "auto",
+                                   backgroundColor: showDots ? "#E7F1FF" : '#fff'
                                 }}
                                 onClick={() => handleShowDots()}
                               >

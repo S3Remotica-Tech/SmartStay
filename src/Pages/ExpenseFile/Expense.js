@@ -43,7 +43,7 @@ function Expenses({ allPageHostel_Id }) {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const filterRef = useRef(null); 
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
@@ -69,6 +69,33 @@ function Expenses({ allPageHostel_Id }) {
 
   const [loading, setLoading] = useState(true)
   const [checkLength, setCheckLength] = useState(false);
+
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilter(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showFilter]);
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -216,7 +243,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-console.log("loading",loading)
+  console.log("loading", loading)
 
 
   useEffect(() => {
@@ -262,7 +289,7 @@ console.log("loading",loading)
     // }
 
 
-
+    console.log("assetValue", assetValue, "vendorValue", vendorValue, "modeValue", modeValue)
 
 
     if (selectedValue === 'All') {
@@ -355,21 +382,21 @@ console.log("loading",loading)
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setLoading(false)
       setGetData(state.ExpenseList.expenseList)
-     
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
     }
-   
+
 
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-             setGetData([])
-        setLoading(false)
-        setTimeout(() => {
+      setGetData([])
+      setLoading(false)
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
       }, 200)
     }
@@ -621,6 +648,7 @@ console.log("loading",loading)
   const handleAssetChange = (e) => {
     setSelectedValue(null)
     setAssetValue(e.target.getAttribute('value'));
+    console.log("asset value", e.target.value)
     setShowFilter(false)
   }
 
@@ -718,7 +746,7 @@ console.log("loading",loading)
 
   // ////////////////////////////////////////////////
 
-
+  console.log("state.ExpenseList.categoryList", state)
 
 
   return (
@@ -836,7 +864,7 @@ console.log("loading",loading)
               </div>
               <div className="d-flex  flex-wrap justify-content-between align-items-center">
 
-              <div  style={{ position: 'relative',paddingRight:20,marginTop:11}}>
+                <div style={{ position: 'relative', paddingRight: 20, marginTop: 11 }}>
                   <Sort
                     Size="22"
                     color="#222"
@@ -846,7 +874,7 @@ console.log("loading",loading)
                   />
 
                   {showFilter &&
-                    <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                    <ListGroup  ref={filterRef} style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
                       <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
 
 
@@ -858,12 +886,16 @@ console.log("loading",loading)
 
                         {showCategory && (<>
 
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                          <ListGroup className='show-scroll-category' style={{
+                            position: 'absolute', right: 250, top: 0, borderRadius: 2,
+                            maxHeight: '200px',
+                            overflowY: 'auto'
+                          }}
                             value={categoryValue} onClick={handleCatogoryChange}
                           >
-                            {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
-                              <ListGroup.Item
-                                className='sub_item' key={view.category_Id} value={view.category_Id}>
+                            {state.Settings.Expences.data && state.Settings.Expences.data.map((view) => (
+                              <ListGroup.Item 
+                                className='sub_item ' key={view.category_Id} value={view.category_Id}>
                                 {view.category_Name}
                               </ListGroup.Item >
                             ))}
@@ -876,7 +908,7 @@ console.log("loading",loading)
 
 
 
-                      <ListGroup.Item
+                      {/* <ListGroup.Item
                         active={showAsset}
                         onMouseEnter={() => setShowAsset(true)}
                         onMouseLeave={() => setShowAsset(false)}
@@ -889,27 +921,23 @@ console.log("loading",loading)
                           >
                             {state.AssetList.assetList &&
                               [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
+                                <ListGroup.Item title={view.asset_name} className='sub_item' key={view.id} value={view.id} style={{textOverflow:"ellipsis",overflow:"hidden", whiteSpace:"nowrap", width :50}}>
                                   {view.asset_name}
                                 </ListGroup.Item >
 
                               ))
                             }
-                            {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
-                          <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
-                            {view.asset_name}
-                          </ListGroup.Item >
-                        ))} */}
+                           
 
                           </ListGroup>
                         )}
 
 
 
-                      </ListGroup.Item>
+                      </ListGroup.Item> */}
 
 
-                      <ListGroup.Item
+                      {/* <ListGroup.Item
                         active={showVendor}
                         onMouseEnter={() => setShowVendor(true)}
                         onMouseLeave={() => setShowVendor(false)}
@@ -930,7 +958,7 @@ console.log("loading",loading)
                           </ListGroup>
                         )}
 
-                      </ListGroup.Item>
+                      </ListGroup.Item> */}
 
 
                       <ListGroup.Item
@@ -1000,10 +1028,10 @@ console.log("loading",loading)
                 {
                   !showFilterExpense &&
 
-                  <div onClick={handleShowSearch} style={{paddingRight:11}}>
+                  <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
                     <SearchNormal1
                       color="#222"
-                      style={{height: "34px", width: "34px", cursor: 'pointer' ,paddingRight:10,marginTop:9}}
+                      style={{ height: "34px", width: "34px", cursor: 'pointer', paddingRight: 10, marginTop: 9 }}
                     />
                   </div>
                 }
@@ -1027,14 +1055,14 @@ console.log("loading",loading)
                         placeholder="Search..."
                       />
                       <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
-                        <CloseCircle size="24" color="#222" style={{cursor:'pointer'}} onClick={handleCloseSearch} />
+                        <CloseCircle size="24" color="#222" style={{ cursor: 'pointer' }} onClick={handleCloseSearch} />
                       </InputGroup.Text>
                     </InputGroup>
 
 
 
                     {
-                      getData.length > 0 && searchQuery !== '' && showDropDown && (
+                      getData?.length > 0 && searchQuery !== '' && showDropDown && (
 
                         <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
                           <ul className='show-scroll' style={{
@@ -1088,7 +1116,7 @@ console.log("loading",loading)
                 }
 
 
-                <div style={{ paddingRight: "21px", cursor: 'pointer',marginTop:11}}>
+                <div style={{ paddingRight: "21px", cursor: 'pointer', marginTop: 11 }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
@@ -1275,11 +1303,11 @@ console.log("loading",loading)
           )}
 
 
-            
 
 
-            
-            {!loading && currentItems && currentItems.length === 0 &&
+
+
+          {!loading && currentItems && currentItems.length === 0 &&
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
               <div>
@@ -1298,9 +1326,9 @@ console.log("loading",loading)
             </div>
 
 
-          
 
-                }
+
+          }
 
 
 

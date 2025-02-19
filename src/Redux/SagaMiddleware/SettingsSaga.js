@@ -145,8 +145,10 @@ function* handleEditCategory(params) {
        })
    }
  
-   else {
+   else if(response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ERROR', payload: response.data.message })
+      toast.error(response.data.message, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true,   pauseOnHover: true, draggable: true,  progress: undefined,
+      })
    }
    if (response) {
       refreshToken(response)
@@ -562,8 +564,18 @@ function* handleAddSettingRole(action) {
      });
    }
 
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if (response.data.status === 201 || response.data.statusCode === 201) {
+      toast.error(`${response.data.message}`, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+        
+      });
    }
    if(response){
       refreshToken(response)
