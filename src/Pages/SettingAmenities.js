@@ -605,11 +605,8 @@ function SettingAmenities({ hostelid }) {
                 {loading &&
                     <div
                         style={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                            bottom: 0,
-                            left: '0px',
+                            position: 'fixed',
+                   right: "30%",
                             display: 'flex',
                             height: "50vh",
                             alignItems: 'center',
