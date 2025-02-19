@@ -271,6 +271,7 @@ function SettingInvoice({ hostelid }) {
       }
       if (!invoiceDate) {
         setInvoiceDateErrmsg("Please Select Date");
+        
       }
       if (!invoicedueDate) {
         setDueDateErrmsg("Please Select Date");
@@ -763,7 +764,8 @@ function SettingInvoice({ hostelid }) {
                   marginBottom: "10px",
                   maxHeight: 50,
                   marginTop: "-7px",
-                  borderColor: "#1E45E1"
+               boxShadow:"none",
+                  border: "2px solid #1E45E1" 
                 }}
                 disabled={showPopup}
               >
@@ -1278,6 +1280,7 @@ function SettingInvoice({ hostelid }) {
             show={recurringform}
             onHide={handleCloseRecurringForm}
             centered
+            className="custom-modal"
             backdrop="static"
           >
             <Modal.Dialog
@@ -1397,10 +1400,10 @@ function SettingInvoice({ hostelid }) {
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
+                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px", fontFamily:"Gilroy" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1466,10 +1469,10 @@ function SettingInvoice({ hostelid }) {
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
+                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy"}}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

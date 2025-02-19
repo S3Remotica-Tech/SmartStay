@@ -600,7 +600,7 @@ function SettingCompliance({ hostelid }) {
                 </nav>
             )}
 
-            <Modal className="editform"
+            <Modal className="editform custom-modal"
                 show={showEditForm}
                 onHide={() => handleClose()}
                 backdrop="static"
@@ -632,8 +632,8 @@ function SettingCompliance({ hostelid }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "20px",
-                            height: "20px",
+                            width: "32px",
+                            height: "32px",
                             borderRadius: "50%",
                         }}
                     >
@@ -641,7 +641,7 @@ function SettingCompliance({ hostelid }) {
                             aria-hidden="true"
                             style={{
                                 fontSize: "30px",
-                                paddingBottom: "6px",
+                                paddingBottom:6,
                             }}
                         >
                             &times;
@@ -687,7 +687,7 @@ function SettingCompliance({ hostelid }) {
                                 {isChangedError && (
                                     <>
                                         <MdError style={{marginRight:"7px",color:"red"}}/>
-                                        <span style={{ color: "red", fontSize: 16 }}> {isChangedError} </span>
+                                        <span style={{ color: "red", fontSize: 16, fontFamily:"Gilroy"}}> {isChangedError} </span>
                                     </>
                                 )}
                             </div>

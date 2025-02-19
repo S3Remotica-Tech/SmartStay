@@ -192,6 +192,8 @@ function SettingGeneral() {
     setFormError("");
     setEmailError("")
     setEmailErrorMessage("")
+    setEmailAlready('');
+    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR'})
   };
 
   const handleImageChange = async (event) => {
@@ -243,7 +245,7 @@ function SettingGeneral() {
   const handleEmailId = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
-
+    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR'})
     // Regex to validate email
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     // const hasUpperCase = /[A-Z]/.test(emailValue);
@@ -427,19 +429,20 @@ function SettingGeneral() {
   const handleSave = () => {
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
   
-    // Validate all fields
+
     const isFirstNameValid = validateField(firstName, "firstName");
     const isEmailValid = validateField(emilId, "emilId");
     const isPhoneValid = validateField(Phone, "Phone");
     const isAddressValid = validateField(address, "address");
-
+    const isPasswordValid = !edit ? validateField(password, "password") : true;
   
-    // Check if all fields are valid
-    if (
+
+    if ( 
       !isFirstNameValid ||
       !isEmailValid ||
       !isPhoneValid ||
-      !isAddressValid 
+      !isAddressValid || 
+      !isPasswordValid
      
     ) {
       console.log("Form validation failed.");
@@ -1418,6 +1421,8 @@ function SettingGeneral() {
                   value={Phone}
                   onChange={handlePhone}
                   type="text"
+                   autoComplete="off"
+                    autoCorrect="off"
                   placeholder="9876543210"
                   maxLength={10}
                   style={{
@@ -1479,6 +1484,8 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
+                   autoComplete="off"
+                    autoCorrect="off"
                   placeholder="Enter Email address"
                   value={emilId}
                   onChange={(e) => handleEmailId(e)}
@@ -1532,6 +1539,8 @@ function SettingGeneral() {
                   </Form.Label>
                   <InputGroup>
                     <FormControl
+                     autoComplete="new-password"
+                    autoCorrect="off"
                       id="form-controls"
                       placeholder="Enter password"
                       type={showPassword ? "text" : "password"}
@@ -1888,13 +1897,13 @@ function SettingGeneral() {
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
         centered
-        className="modal-dialog-centered"
+        className="custom-modal modal-dialog-centered"
         style={{
           maxWidth: "353px",
           width: "80vw",
         }}
       >
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "", position: "relative" }}>
           <div
             style={{
               fontSize: "1.25rem",
@@ -1902,7 +1911,7 @@ function SettingGeneral() {
               fontFamily: "Gilroy",
             }}
           >
-            Conform Password
+            Confirm Password
           </div>
           <button
             type="button"
@@ -1993,8 +2002,8 @@ function SettingGeneral() {
               </InputGroup>
             </Form.Group>
             {newPassError && (
-              <div style={{ color: "red" }}>
-                <MdError />
+              <div style={{ color: "red" , fontSize:13, fontFamily:"Gilroy"}}>
+                <MdError /> {''}
                 {newPassError}
               </div>
             )}
@@ -2010,7 +2019,7 @@ function SettingGeneral() {
                   fontWeight: 500,
                 }}
               >
-                Conform Password{" "}
+                Confirm Password{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <InputGroup>
@@ -2060,8 +2069,8 @@ function SettingGeneral() {
               </InputGroup>
             </Form.Group>
             {conformPasswordError && (
-              <div style={{ color: "red" }}>
-                <MdError />
+              <div style={{ color: "red" , fontSize:13, fontFamily:"Gilroy" }}>
+                <MdError /> {' '}
                 {conformPasswordError}
               </div>
             )}
@@ -2078,7 +2087,7 @@ function SettingGeneral() {
               borderRadius: "12px",
               fontSize: "1rem",
               fontFamily: "Montserrat, sans-serif",
-              marginTop: "20px",
+              // marginTop: "10px",
             }}
             onClick={handleSavePassword}
           >

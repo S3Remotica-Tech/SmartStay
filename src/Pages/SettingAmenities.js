@@ -44,7 +44,7 @@ function SettingAmenities({ hostelid }) {
 
 
 
-
+    console.log("loadingAme", loading)
 
 
 
@@ -83,10 +83,16 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        if (isChecked === null) {
-            return;
+
+        if (isChecked === null) return;
+
+        console.log("isChecked value:", isChecked);
+        if (isChecked) {
+            setTimeout(() => {
+                setIsDisplayRecurring(true);
+                           }, 0);
         }
-        if (!isChecked) {
+        else {
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
@@ -98,13 +104,13 @@ function SettingAmenities({ hostelid }) {
                     am_id: amenityDetails.id,
                 },
             });
-        } else {
-            setIsDisplayRecurring(true)
         }
     }, [isChecked]);
 
 
-
+    useEffect(() => {
+        console.log("isDisplayRecurring updated:", isDisplayRecurring);
+    }, [isDisplayRecurring]);
 
 
 
@@ -122,13 +128,6 @@ function SettingAmenities({ hostelid }) {
     };
 
 
-    //add amentities
-
-    // const handleOpenAmenities = () => {
-    //     setOpenAmenitiesForm(true)
-    //     setEditDetails('')
-    // }
-    //add amentities
     const [showPopup, setShowPopup] = useState(false);
 
     const handleOpenAmenities = () => {
@@ -146,9 +145,29 @@ function SettingAmenities({ hostelid }) {
         setOpenAmenitiesForm(false)
     }
 
+
+
+    const resetSwitchStates = () => {
+        setSwitchStates((prevSwitchStates) => {
+            const resetStates = {};
+            Object.keys(prevSwitchStates).forEach((key) => {
+                resetStates[key] = false;
+            });
+            return resetStates;
+        });
+    };
+
+
+
+
+
+
     const handleCloseRecurringPopUp = () => {
+        resetSwitchStates();
         setIsDisplayRecurring(false)
-        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+
+
     }
 
 
@@ -190,22 +209,21 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        // if (state.login.selectedHostel_Id) {
-
         dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-        // }
+
     }, [state.login.selectedHostel_Id])
 
 
 
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
-            setLoading(false)
-            // setAmenitiesList(state.InvoiceList.AmenitiesList)
+
             setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
+            setLoading(false)
+
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
-            }, 200)
+            }, 2000)
         }
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
@@ -301,11 +319,7 @@ function SettingAmenities({ hostelid }) {
     // pagination
     const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
     const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
-    const currentRowAmenities = amenitiesFilterddata?.slice(
-        indexOfFirstRowAmenities,
-        indexOfLastRowAmenities
-
-    );
+    const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
 
     const handlePageChange = (generalpageNumber) => {
         setAmenitiescurrentPage(generalpageNumber);
@@ -401,14 +415,15 @@ function SettingAmenities({ hostelid }) {
                                             </div>
                                             <div>
 
-                                                <div style={{ cursor: "pointer", height: 40, 
-                                                width: 40, borderRadius: 100, 
-                                                border: "1px solid #EFEFEF", display: "flex", 
-                                                justifyContent: "center", alignItems: "center", 
-                                                position: "relative", 
-                                                zIndex: showDots ? 1000 : 'auto',
-                                                backgroundColor: showDots === index ?"#E7F1FF" : "white",
-                                             }}
+                                                <div style={{
+                                                    cursor: "pointer", height: 40,
+                                                    width: 40, borderRadius: 100,
+                                                    border: "1px solid #EFEFEF", display: "flex",
+                                                    justifyContent: "center", alignItems: "center",
+                                                    position: "relative",
+                                                    zIndex: showDots ? 1000 : 'auto',
+                                                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                                                }}
                                                     onClick={() => handleDotsClick(index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
@@ -594,7 +609,7 @@ function SettingAmenities({ hostelid }) {
                             top: 0,
                             right: 0,
                             bottom: 0,
-                            left: '200px',
+                            left: '0px',
                             display: 'flex',
                             height: "50vh",
                             alignItems: 'center',
@@ -625,7 +640,7 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-            {amenitiesFilterddata.length > amenitiesrowsPerPage && (
+            {amenitiesFilterddata.length >= 2 && (
                 <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
                     {/* Dropdown for Items Per Page */}
                     <div>

@@ -150,6 +150,7 @@ function SettingExpenses({ hostelid }) {
     setCategoryErrmsg("")
     setSubCategoryErrmsg("")
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
+    setFormError('')
 
   };
 
@@ -406,10 +407,30 @@ function SettingExpenses({ hostelid }) {
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [options, setOptions] = useState([]);
+  const [formError,  setFormError] = useState('')
+  const [formCategoryError,  setFormCategoryError] = useState('')
+
+  const [initialSubCategory, setInitialSubCategory] = useState({});
+  const [initialCategory, setInitialCategory] = useState({});
 
   const updateType = () => {
 
+
+    console.log("subType === initialSubCategory.subcategory",subType , initialSubCategory.name)
+
+
+   
+
     if (subcategory_Id && subType) {
+      if (subType == initialSubCategory.name) {
+        setFormError("No changes detected.");
+        return;
+      } else {
+        setFormError(""); 
+      }
+  
+
+
       dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
 
       setIsSubCategory(false)
@@ -417,6 +438,14 @@ function SettingExpenses({ hostelid }) {
     }
 
     else {
+
+      if (type.label == initialCategory.name) {
+        setFormCategoryError("No changes detected.");
+        return;
+      } else {
+        setFormCategoryError(""); 
+      }
+
       dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
 
     }
@@ -426,6 +455,12 @@ function SettingExpenses({ hostelid }) {
   console.log("isSubCategory", isSubCategory)
 
   const addType = () => {
+
+
+
+
+
+
 
     if (!selectedOptions.value) {
       setCategoryErrmsg("Please Enter a Category");
@@ -482,6 +517,8 @@ function SettingExpenses({ hostelid }) {
       setCategory_ID(item.category_Id || '')
       setEditsubCat(false)
       setIsSubCategory(false);
+      setInitialCategory({ id: item.category_Id, name: item.category_Name });
+
     }
     else if (item.subcategory_Id && item.cat_id) {
       setIsSubCategory(true)
@@ -490,6 +527,8 @@ function SettingExpenses({ hostelid }) {
       setSelectedOptions({ value: item.cat_id, label: item.category_Name })
       setSubCategory_ID(item.subcategory_Id)
       setEditsubCat(true)
+
+      setInitialSubCategory({ id: item.subcategory_Id, name: item.subcategory });
     }
 
   }
@@ -612,6 +651,7 @@ function SettingExpenses({ hostelid }) {
 
   const handlesubcategoryAdd = (e) => {
     setSubType(e.target.value)
+    setFormError('')
     setTotalErrmsg('')
     if (!e.target.value) {
       setSubCategoryErrmsg("Please Enter a Sub-Category")
@@ -1261,11 +1301,30 @@ function SettingExpenses({ hostelid }) {
                     </div>
                   )}
 
+{formError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {formError}
+                      </label>
+                    </div>
+                  )}
 
 
 
+{formCategoryError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {formCategoryError}
+                      </label>
+                    </div>
+                  )}
                 </div>
               </Modal.Body>
+
+
+
 
               <Modal.Footer style={{ border: "none" }}>
                 <Button
