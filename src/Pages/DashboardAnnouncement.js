@@ -573,7 +573,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //     )}
       //   </div>
       // ) : (
-      <div  style={{ maxHeight: "400px", overflowY: "auto", }}>
+      <div  style={{ maxHeight: "370px", overflowY: "auto", }}>
         <div className="row">
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
@@ -1423,7 +1423,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               style={{ cursor: "pointer" }}
             />
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{maxHeight: "300px",
+                  overflowY: "auto"}} >
             <div>
               {
                 commentsList && commentsList.length > 0 ? (
@@ -1646,7 +1647,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   })
                 ) : (
                 
-                   <div className="d-flex align-items-center p-1 mb-2" style={{marginTop:-25}}>
+                   <div className="d-flex align-items-center p-1 mb-2" style={{marginTop:-20}}>
                                                   <MdError style={{ color: "red", marginRight: '5px' }} />
                                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                                     No Comments Available

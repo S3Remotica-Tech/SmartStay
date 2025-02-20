@@ -533,7 +533,7 @@ const handleAmnitiesSelect = ()=>{
               }
             }}
           >
-            Add Amnities
+            Add Amenities
           </Button>
         </Modal.Footer>
       </Modal>
@@ -576,7 +576,7 @@ const handleAmnitiesSelect = ()=>{
       <div 
         style={{
           // height: "400px",
-          height: currentRowAmnities.length >= 1 ? "100px" : "auto",
+          height: currentRowAmnities.length >= 1 ? "150px" : "auto",
           overflowY: "auto",
           borderRadius: "24px",
           border: "1px solid #DCDCDC",
@@ -802,7 +802,7 @@ const handleAmnitiesSelect = ()=>{
             alignItems: "center",
             justifyContent: "end", 
             padding: "10px",
-            
+         
           }}
         >
                    <div>

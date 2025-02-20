@@ -621,7 +621,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   const customDateInput = (props) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container "
         onClick={props.onClick}
         style={{ position: "relative" }}
       >
@@ -724,7 +724,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   };
 
   return (
-    <div style={{ paddingLeft: 15 }}>
+    <div style={{ paddingLeft: 15,paddingRight:15 }}>
       <div
        className="container justify-content-between d-flex align-items-center"
        style={{
@@ -2182,7 +2182,7 @@ cursor:"pointer"
                                     )}
           <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
-              className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+              className="w-100"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,
