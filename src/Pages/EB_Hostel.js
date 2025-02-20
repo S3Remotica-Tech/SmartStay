@@ -690,20 +690,38 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   };
 
 
-  const handlefilterInput = (e) => {
-    const inputValue = e.target.value;
-    setFilterInput(inputValue);
-    setDropdownVisible(inputValue.length > 0);
+  // const handlefilterInput = (e) => {
+  //   const inputValue = e.target.value;
+  //   setFilterInput(inputValue);
+  //   setDropdownVisible(inputValue.length > 0);
 
-    if (inputValue.length === 0) {
-      setelectricityFilterddata(originalElec);
+  //   if (inputValue.length === 0) {
+  //     setelectricityFilterddata(originalElec);
+  //   } else {
+  //     const filteredData = originalElec?.filter((item) =>
+  //       item.Name.toLowerCase().includes(inputValue.toLowerCase())
+  //     );
+  //     setelectricityFilterddata(filteredData);
+  //   }
+  // };
+  const handlefilterInput = (e) => {
+    const searchText = e.target.value;
+    setFilterInput(searchText);
+    setDropdownVisible(searchText.length > 0);
+
+    if (searchText.length > 0) {
+        // Filter the latest list
+        setelectricityFilterddata(
+            originalElec.filter((item) => 
+                item.Name.toLowerCase().includes(searchText.toLowerCase())
+            )
+        );
     } else {
-      const filteredData = originalElec?.filter((item) =>
-        item.Name.toLowerCase().includes(inputValue.toLowerCase())
-      );
-      setelectricityFilterddata(filteredData);
+        // Reset to the full list when input is cleared
+        setelectricityFilterddata(originalElec);
     }
-  };
+};
+
   useEffect(() => {
     if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
       setOriginalElec(electricityFilterddata);

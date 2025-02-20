@@ -3313,16 +3313,7 @@ const InvoicePage = () => {
 
           <TabContext value={value} className="container ">
             <div
-              className=""
-              style={{
-                position: "sticky",
-                top: 69,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 60,
-              }}
+            
             >
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
@@ -4276,7 +4267,7 @@ const InvoicePage = () => {
                                     // height: "400px",
                                     height:
                                       currentItems.length >= 5
-                                        ? "380px"
+                                        ? "370px"
                                         : "auto",
                                     overflowY:
                                       currentItems.length >= 5
@@ -4285,7 +4276,7 @@ const InvoicePage = () => {
 
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
-                                    marginTop:"-10px"
+                                    marginTop:"5px"
                                     // borderBottom:"none"
                                   }}
                                 >
@@ -4806,11 +4797,11 @@ const InvoicePage = () => {
                           textAlign: "center",
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          fontSize: 24,
+                          fontSize: 20,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No bills available{" "}
+                        No Recuring bills available{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -4818,7 +4809,7 @@ const InvoicePage = () => {
                           textAlign: "center",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          fontSize: 20,
+                          fontSize: 16,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
@@ -4842,7 +4833,7 @@ const InvoicePage = () => {
                           borderRadius: "24px",
                           border: "1px solid #DCDCDC",
                           // borderBottom:"none"
-                          marginTop:"-15px"
+                          // marginTop:"-15px"
                         }}
                       >
                         <Table
@@ -5627,7 +5618,7 @@ const InvoicePage = () => {
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
                                     // borderBottom:"none"
-                                    marginTop:"-15px"
+                                    // marginTop:"-15px"
                                   }}
                                 >
                                   <Table
@@ -5926,7 +5917,7 @@ const InvoicePage = () => {
                                       textAlign: "center",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      fontSize: 24,
+                                      fontSize: 20,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
@@ -5938,7 +5929,7 @@ const InvoicePage = () => {
                                       textAlign: "center",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
