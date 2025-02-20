@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm install --force
     - run: npm test -- --coverage
-    - run: npm build
+    - run: npm run build
