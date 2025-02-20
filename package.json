@@ -29,6 +29,7 @@
     "browser-image-compression": "^2.0.2",
     "canvasjs-react-charts": "^1.0.5",
     "chart.js": "^4.4.3",
+    "crypto-browserify": "^3.12.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
