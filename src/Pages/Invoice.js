@@ -2678,6 +2678,7 @@ const InvoicePage = () => {
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
+   
   };
 
   const handleUserSelect = (user) => {
@@ -2692,6 +2693,10 @@ const InvoicePage = () => {
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
+    dispatch({
+      type: "MANUALINVOICESLIST",
+      payload: { hostel_id: hostelId },
+    });
   };
 
   // Set initial data when component mounts
@@ -4266,11 +4271,11 @@ const InvoicePage = () => {
                                   style={{
                                     // height: "400px",
                                     height:
-                                      currentItems.length >= 5
+                                      currentItems.length >= 6
                                         ? "370px"
                                         : "auto",
                                     overflowY:
-                                      currentItems.length >= 5
+                                      currentItems.length >= 6
                                         ? "auto"
                                         : "visible",
 
@@ -5984,13 +5989,13 @@ const InvoicePage = () => {
       )}
 
       {showmanualinvoice && (
-        <div className="container ms-5 me-5 mt-4">
+        <div className="mt-4" style={{paddingLeft:25}}>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <svg
               onClick={handleBackBill}
               style={{
                 fontSize: "22px",
-                marginRight: "10px",
+                // marginRight: "10px",
                 cursor: "pointer",
               }}
               xmlns="http://www.w3.org/2000/svg"
@@ -6540,27 +6545,25 @@ const InvoicePage = () => {
             )}
           </div>
           <div>
-            {tableErrmsg && (
-              <div
-                style={{
-                  fontSize: "15px",
-                  color: "red",
-                  marginTop: "3px",
-                  fontFamily: "Gilroy",
-                }}
-              >
-                <MdError
-                  style={{
-                    fontSize: "15px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    marginRight: "5px",
-                    marginBottom: "3px",
-                  }}
-                />{" "}
-                {tableErrmsg}
-              </div>
-            )}
+          {tableErrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                  >
+                    {tableErrmsg !== " " && (
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
+                    )}{" "}
+                    {tableErrmsg}
+                  </p>
+                </div>
+              )}
           </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>

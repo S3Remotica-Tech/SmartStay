@@ -4574,7 +4574,7 @@ function UserList(props) {
       )}
 
       {isEditing && (
-        <div className="container ms-5  ">
+        <div className="mt-4" style={{paddingLeft:25}} >
           <div
             className="container justify-content-start  d-flex align-items-start"
             style={{
