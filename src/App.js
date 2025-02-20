@@ -61,14 +61,14 @@ function App() {
 
 
   useEffect(() => {
-    if (tokenAccessDenied === 206) {
+    if (tokenAccessDenied == 206) {
       dispatch({ type: 'LOG_OUT' });
       setData(false);
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
       localStorage.clear();
 
     }
-  }, [tokenAccessDenied, dispatch, cookies]);
+  }, [tokenAccessDenied]);
 
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [cookies]);
+  }, []);
 
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function App() {
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
     }
-  }, [state.login?.isLoggedIn, data, dispatch, cookies]);
+  }, [state.login?.isLoggedIn]);
 
  
 
