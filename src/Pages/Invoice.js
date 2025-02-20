@@ -85,7 +85,7 @@ const InvoicePage = () => {
 
   const [recurLoader, setRecurLoader] = useState(false);
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
