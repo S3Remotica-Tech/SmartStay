@@ -4564,7 +4564,7 @@ const InvoicePage = () => {
                                     justifyContent: "end",
                                     padding: "10px",
                                     position: "fixed",
-                                    bottom: "10px",
+                                    bottom: "1px",
                                     right: "10px",
                                     backgroundColor: "#fff",
                                     borderRadius: "5px",
@@ -4842,6 +4842,7 @@ const InvoicePage = () => {
                           borderRadius: "24px",
                           border: "1px solid #DCDCDC",
                           // borderBottom:"none"
+                          marginTop:"-15px"
                         }}
                       >
                         <Table
@@ -5626,6 +5627,7 @@ const InvoicePage = () => {
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
                                     // borderBottom:"none"
+                                    marginTop:"-15px"
                                   }}
                                 >
                                   <Table
