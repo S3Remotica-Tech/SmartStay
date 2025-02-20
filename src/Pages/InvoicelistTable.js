@@ -44,7 +44,7 @@ const InvoiceTable = (props) => {
     setShowDots(!showDots)
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
+    const popupTop = top + (height / 1);
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });

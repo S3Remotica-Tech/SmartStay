@@ -3688,7 +3688,12 @@ const InvoicePage = () => {
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
-                                      style={{ fontFamily: "Gilroy" }}
+                                       style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
                                     >
                                       Due Amount
                                     </Form.Label>
@@ -3707,9 +3712,22 @@ const InvoicePage = () => {
                                     controlId="exampleForm.ControlInput3"
                                   >
                                     <Form.Label
-                                      style={{ fontFamily: "Gilroy" }}
+                                       style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
                                     >
                                       Paid Amount
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
@@ -3878,6 +3896,14 @@ const InvoicePage = () => {
                                       }}
                                     >
                                       Mode of transaction
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
                                     </Form.Label>
                                     <Form.Select
                                       className="border"
@@ -4259,6 +4285,7 @@ const InvoicePage = () => {
 
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
+                                    marginTop:"-10px"
                                     // borderBottom:"none"
                                   }}
                                 >
