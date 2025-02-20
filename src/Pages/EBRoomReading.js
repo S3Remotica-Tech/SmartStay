@@ -1246,8 +1246,8 @@ function EBRoomReading(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "28px",
+              height: "28px",
               borderRadius: "50%",
             }}
           >
