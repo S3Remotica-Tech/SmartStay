@@ -1157,6 +1157,10 @@ const InvoicePage = () => {
   };
   const handleCloseForm = () => {
     // setEdit(!edit)
+    setPaymodeErrmsg("")
+    setAccountError("")
+    setDateErrmsg("")
+    setAmountErrmsg("")
     setShowform(false);
     setInvoiceList({
       firstName: "",
@@ -1204,9 +1208,11 @@ const InvoicePage = () => {
       setDateErrmsg("");
     }
 
-    if (!invoiceList.transaction) {
-      setPaymodeErrmsg("Please select Paymode Type");
+    if (!invoiceList.transaction || invoiceList.transaction === "select") {
+      setPaymodeErrmsg("Please select a valid Paymode Type");
+      return;
     }
+    
     if (invoiceList.transaction == "Net Banking" && !account) {
       setAccountError("Please Choose Bank Account");
       return;
@@ -3573,7 +3579,7 @@ const InvoicePage = () => {
                             style={{ maxWidth: 850, width: "600px" }}
                             className="m-0 p-0"
                           >
-                            <Modal.Header
+                            {/* <Modal.Header
                               closeButton
                               closeLabel="close-button"
                               style={{ border: "1px solid #E7E7E7" }}
@@ -3606,7 +3612,73 @@ const InvoicePage = () => {
                                   </span>
                                 )}
                               </Modal.Title>
-                            </Modal.Header>
+                            </Modal.Header> */}
+
+
+                             <Modal.Header
+                                                style={{ paddingTop:40, position: "relative" }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    marginTop: -20,
+                                                    fontSize: 18,
+                                                    fontWeight: 600,
+                                                    fontFamily: "Gilroy", textAlign: "start",
+                            
+                                                  }}
+                                                >
+                                                   {`Record payment `}
+                                {invoiceValue?.Name && (
+                                  <span>
+                                    -
+                                    <span style={{ color: "#1E45E1" }}>
+                                      {" "}
+                                      {invoiceValue.Name}
+                                    </span>{" "}
+                                  </span>
+                                )}
+                                {invoiceValue?.Invoices && (
+                                  <span>
+                                    -
+                                    <span style={{ color: "#1E45E1" }}>
+                                      {" "}
+                                      {invoiceValue.Invoices}
+                                    </span>{" "}
+                                  </span>
+                                )}
+                                                </div>
+                                                <button
+                                                  type="button"
+                                                  className="close"
+                                                  aria-label="Close"
+                                                  onClick={handleCloseForm}
+                                                  style={{
+                                                    position: "absolute",
+                                                    right: "10px",
+                                                    marginTop: -15,
+                                                    border: "1px solid black",
+                                                    background: "transparent",
+                                                    cursor: "pointer",
+                                                    padding: "0",
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    width: "24px",
+                                                    height: "24px",
+                                                    borderRadius: "50%",
+                                                  }}
+                                                >
+                                                  <span
+                                                    aria-hidden="true"
+                                                    style={{
+                                                      fontSize: "30px",
+                                                      paddingBottom: "6px",
+                                                    }}
+                                                  >
+                                                    &times;
+                                                  </span>
+                                                </button>
+                                              </Modal.Header>
 
                             <Modal.Body>
                               <div className="row mt-2">
