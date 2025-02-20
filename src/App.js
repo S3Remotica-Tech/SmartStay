@@ -11,7 +11,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
-import { Circles } from 'react-loader-spinner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TermsAndCondition from "./LandingPage/TermsCondition"
@@ -62,14 +61,14 @@ function App() {
 
 
   useEffect(() => {
-    if (tokenAccessDenied == 206) {
+    if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOG_OUT' });
       setData(false);
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
       localStorage.clear();
 
     }
-  }, [tokenAccessDenied]);
+  }, [tokenAccessDenied, dispatch, cookies]);
 
 
   useEffect(() => {
@@ -78,7 +77,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [cookies]);
 
 
   useEffect(() => {
@@ -88,25 +87,13 @@ function App() {
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
     }
-  }, [state.login?.isLoggedIn]);
+  }, [state.login?.isLoggedIn, data, dispatch, cookies]);
 
-  // if (loading) {
-  //   return (
-  //     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-  //       <Circles
-  //         height="80"
-  //         width="80"
-  //         color="#1E45E1"
-  //         ariaLabel="circles-loading"
-  //         wrapperStyle={{}}
-  //         wrapperClass=""
-  //         visible={true}
-  //       />
-  //     </div>
-  //   );
-  // }
+ 
 
-  {loading && <LoaderComponent/>}
+  if (loading) {
+    return <LoaderComponent />;
+  }
 
 
 
