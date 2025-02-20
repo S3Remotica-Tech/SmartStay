@@ -589,6 +589,7 @@ const CheckOutForm = ({
   }, [isChecked]);
 
   const handleConfirmCheckout = () => {
+    console.log("handleConfirmCheckout",handleConfirmCheckout)
     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
       setGeneralError("Please select all mandatory fields");
       return;
@@ -636,7 +637,7 @@ const CheckOutForm = ({
           hostel_id: data.Hostel_Id,
           comments: comments,
           advance_return: advanceamount,
-          reinburse: reinburse, // click ==> 1 or 0
+          reinburse: reinburse, 
         },
       });
     }
@@ -1234,13 +1235,18 @@ const CheckOutForm = ({
               checkoutaction &&
               !checkoutaddform &&
               dueamount > 0 }
-            onClick={
-              checkoutaction
-                ? handleConfirmCheckout // Confirm Check-out
-                : checkouteditaction
-                ? handleCheckOutCustomer // Save Changes
-                : handleCheckOutCustomer // Add Check-out
-            }
+              onClick={() => {
+                if (checkoutaction) {
+                  handleConfirmCheckout();
+                } else if (checkouteditaction) {
+                  handleCheckOutCustomer();
+                } else {
+                  handleCheckOutCustomer();
+                }
+              }}
+              
+              
+               
           >
             {data && checkoutaction
               ? "Confirm Check-out"
