@@ -18,7 +18,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { Eye, EyeSlash } from "iconsax-react";
 import Logout from "../Assets/Images/LogoutCurve-Linear.png";
 import VISA from "../Assets/Images/visa.png";
-import bcrypt from "bcryptjs";
 import { style } from "@mui/system";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -396,8 +395,9 @@ const Accountsettings = () => {
     }
 
     try {
-      // Compare the plain password with the stored hashed password
-      const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
+          const hashedInputPassword = CryptoJS.SHA256(plainPassword).toString();
+
+      const isMatch = hashedInputPassword === storedHashPassword;
       setInputDisable(isMatch);
 
       var toastStyle = {
