@@ -3412,8 +3412,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   </div>
                                 </div>
                                {formError && (
-                                                        <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
-                                                          <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                                        <div className="" style={{ color: "red",paddingBottom:"8px",textAlign:"center"}}>
+                                                          <MdError style={{fontSize: '14px',marginRight:"6px" }}/>
                                                           <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                                                         </div>
                                                       )}
@@ -3426,6 +3426,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Montserrat",
+                                    marginTop:"10px !importent"
                                   }}
                                   onClick={handleSaveUserlistAddUser}
                                 >

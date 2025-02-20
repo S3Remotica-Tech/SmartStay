@@ -1130,9 +1130,11 @@ const ComplianceList = (props) => {
                     <Modal.Dialog
                       style={{
                         maxWidth: 950,
-                        paddingRight: "5px",
+                        paddingTop:"-10px",
+                        // paddingRight: "5px",
                         // paddingRight: "10px",
                         borderRadius: "30px",
+                       
                       }}
                       className="m-0 p-0"
                     >
@@ -1143,7 +1145,8 @@ const ComplianceList = (props) => {
                               marginBottom: "30px",
                               position: "relative",
                               display: "flex",
-                              alignItems: "center",
+                              // alignItems: "center",
+                              marginleft:"-15px"
                             }}
                           >
                             <div
@@ -1151,6 +1154,8 @@ const ComplianceList = (props) => {
                                 display: "flex",
                                 alignItems: "center",
                                 width: "100%",
+                                 marginleft:"-15px",
+                                 paddingTop:"-8px"
                               }}
                             >
                               <img
@@ -1203,8 +1208,8 @@ const ComplianceList = (props) => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                width: "32px",
-                                height: "32px",
+                                width: "24px",
+                                height: "24px",
                                 borderRadius: "50%",
                               }}
                             >
@@ -1501,8 +1506,8 @@ const ComplianceList = (props) => {
                               src={send}
                               alt="Send"
                               style={{
-                                width: "20px",
-                                height: "20px",
+                                width: "16px",
+                                height: "16px",
                               }}
                               onClick={handleAddComment}
                             />
@@ -1679,7 +1684,7 @@ const ComplianceList = (props) => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ marginBottom: "30px", position: "relative" }}
+                          style={{ marginBottom: "30px", position: "relative",marginTop:"-8px" }}
                         >
                           <div
                             style={{

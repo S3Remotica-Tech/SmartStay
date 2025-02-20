@@ -718,7 +718,7 @@ function UserlistWalkin(props) {
        color: "rgba(75, 75, 75, 1)",
      }}
    >
-     No Walking available
+     No Walk-in available
    </div>
    <div
      className="pb-1"
@@ -730,7 +730,7 @@ function UserlistWalkin(props) {
        color: "rgba(75, 75, 75, 1)",
      }}
    >
-     There are no Walking added.
+     There are no Walk-in added.
    </div>
  </div>
 }
