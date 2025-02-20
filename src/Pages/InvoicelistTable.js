@@ -266,7 +266,7 @@ console.log("propsEDit",props)
                     <div className='mb-3 d-flex justify-content-start align-items-center gap-1'
                       onClick={() => handleInvoicepdf(props.item)}
 
-                      style={{ backgroundColor: "#fff" }}
+                      style={{ backgroundColor: "#fff",marginTop:"-5px" }}
                     >
                       <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                     </div>
@@ -284,7 +284,7 @@ console.log("propsEDit",props)
                         }}
                         style={{
                           // backgroundColor: props.billAddPermission ? "#f9f9f9" : "#fff",
-                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          cursor: props.billAddPermission ? "not-allowed" : "pointer",marginTop:"-5px"
                         }}
                       >
                         <img
@@ -315,7 +315,7 @@ console.log("propsEDit",props)
                       className={`mb-2 d-flex justify-content-start align-items-center gap-1 ${props.billDeletePermission ? 'disabled' : ''}`}
                       style={{
                         // backgroundColor: props.billDeletePermission ? "#f9f9f9" : "#fff",
-                        cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                        cursor: props.billDeletePermission ? "not-allowed" : "pointer",marginTop:"-5px"
                       }}
                       onClick={() => {
                         if (!props.billDeletePermission) {
