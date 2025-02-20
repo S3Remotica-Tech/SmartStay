@@ -466,6 +466,8 @@ function ExpensesListTable(props) {
       centered
       dialogClassName="custom-modal"
       backdrop="static"
+
+      
      
     >
       <Modal.Header
@@ -490,7 +492,7 @@ function ExpensesListTable(props) {
         <img
           src={closeicon}
           alt="Close"
-          style={{ cursor: "pointer", width: 20, height: 20 }}
+          style={{ cursor: "pointer", width: 26, height: 26}}
           onClick={handleHideTagAsset}
         />
       </Modal.Header>

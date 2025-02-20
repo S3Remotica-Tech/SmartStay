@@ -541,7 +541,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
-          className="m-0 p-0"
+          className="m-0 p-0 custom-modal"
         >
           <Modal.Header>
             <Modal.Title
