@@ -44,7 +44,7 @@ const InvoiceTable = (props) => {
     setShowDots(!showDots)
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 1);
+    const popupTop = top -10;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
@@ -225,12 +225,12 @@ console.log("propsEDit",props)
                   left: popupPosition.left,
 
 
-                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
+                  width: 143, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 5, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
                 }}>
                   <div style={{ backgroundColor: "#fff" }} className=''>
 
                     <div
-                      className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billEditPermission ? 'disabled' : ''}`}
+                      className={`mb-3 d-flex justify-content-start align-items-center gap-1 ${props.billEditPermission ? 'disabled' : ''}`}
                       style={{
                         // backgroundColor: props.billEditPermission ? "#f9f9f9" : "#fff",
                         cursor: props.billEditPermission ? "not-allowed" : "pointer",
@@ -263,7 +263,7 @@ console.log("propsEDit",props)
                       </label>
                     </div>
 
-                    <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                    <div className='mb-3 d-flex justify-content-start align-items-center gap-1'
                       onClick={() => handleInvoicepdf(props.item)}
 
                       style={{ backgroundColor: "#fff" }}
@@ -276,7 +276,7 @@ console.log("propsEDit",props)
 
 
                       <div
-                        className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+                        className={`mb-3 d-flex justify-content-start align-items-center gap-1 ${props.billAddPermission ? 'disabled' : ''}`}
                         onClick={() => {
                           if (!props.billAddPermission) {
                             handleShowform(props);
@@ -312,7 +312,7 @@ console.log("propsEDit",props)
                     }
 
                     <div
-                      className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${props.billDeletePermission ? 'disabled' : ''}`}
+                      className={`mb-2 d-flex justify-content-start align-items-center gap-1 ${props.billDeletePermission ? 'disabled' : ''}`}
                       style={{
                         // backgroundColor: props.billDeletePermission ? "#f9f9f9" : "#fff",
                         cursor: props.billDeletePermission ? "not-allowed" : "pointer",

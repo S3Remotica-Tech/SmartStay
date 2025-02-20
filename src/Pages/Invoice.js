@@ -4275,11 +4275,11 @@ const InvoicePage = () => {
                                   style={{
                                     // height: "400px",
                                     height:
-                                      currentItems.length >= 6
+                                      currentItems.length >= 5
                                         ? "380px"
                                         : "auto",
                                     overflowY:
-                                      currentItems.length >= 6
+                                      currentItems.length >= 5
                                         ? "auto"
                                         : "visible",
 
