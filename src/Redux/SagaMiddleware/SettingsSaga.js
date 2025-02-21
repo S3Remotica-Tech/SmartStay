@@ -565,17 +565,18 @@ function* handleAddSettingRole(action) {
    }
 
    else if (response.data.status === 201 || response.data.statusCode === 201) {
-      toast.error(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
+      // toast.error(`${response.data.message}`, {
+      //    position: "bottom-center",
+      //    autoClose: 2000,
+      //    hideProgressBar: true,
+      //    closeButton: false,
+      //    closeOnClick: true,
+      //    pauseOnHover: true,
+      //    draggable: true,
+      //    progress: undefined,
         
-      });
+      // });
+      yield put({ type: 'ROLE_ERROR', payload: response.data.message });
    }
    if(response){
       refreshToken(response)

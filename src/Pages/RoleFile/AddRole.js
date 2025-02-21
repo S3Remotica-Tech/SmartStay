@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form';
 
 
 
-function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
+function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
 
 
     const state = useSelector(state => state)
@@ -24,6 +24,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     const [errorPermission, setErrorPermission] = useState("")
     const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
+    const [roleError,setRoleError] = useState("")
     const initialFormState = useRef(null);
 
      const [checkboxValues, setCheckboxValues] = useState({
@@ -165,13 +166,30 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     }, [editPermissionDetails]);
 
 
+    const handleClose = ()=>{
+        setShowRole(false)
+        setRoleError("")
+        setErrorForm('')
+        setErrorPermission('')
+        setErrorIsChanged("")
+        dispatch({type: "CLEAR_ROLE_ERROR"})
+    }
 
     const handleRoleName = (e) => {
         setErrorForm('')
         setRoleName(e.target.value.trim());
         setErrorIsChanged("")
+        setRoleError("")
+        dispatch({type: "CLEAR_ROLE_ERROR"})
 
     }
+
+    useEffect(()=>{
+        if(state.Settings.roleError){
+            setRoleError(state.Settings.roleError)
+        }
+
+    },[state.Settings.roleError])
 
 
     const renderRow = (rowName, label) => (
@@ -340,6 +358,18 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                                     }}
                                 />
                             </Form.Group>
+
+                            {roleError && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {roleError}
+                                </label>
+                            </div>
+                        )}
+
+
+
                             {errorForm && (
                             <div className="d-flex align-items-center p-1 mt-2 mb-2">
                                 <MdError style={{ color: "red", marginRight: '5px' }} />

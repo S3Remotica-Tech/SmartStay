@@ -34,11 +34,11 @@ function SettingNewRole({ hostelid }) {
 
 
 
-  const handleClose = () => {
-    setShowRole(false)
+  // const handleClose = () => {
+  //   setShowRole(false)
 
 
-  };
+  // };
   //add role
 
   // const handleAddRole = () => {
@@ -526,7 +526,7 @@ function SettingNewRole({ hostelid }) {
 
 
       {
-        showRole && <AddRole showRole={showRole} addRole={addRole} handleClose={handleClose} hostelid={hostelid} editRoleDetails={editRoleDetails} />
+        showRole && <AddRole showRole={showRole} addRole={addRole}  hostelid={hostelid} editRoleDetails={editRoleDetails} setShowRole = {setShowRole}/>
       }
 
 

@@ -57,6 +57,7 @@ const initialState = {
   errorUser:0,
   errorRole:0,
   AddCategoryType: 0,
+  roleError:''
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -382,7 +383,20 @@ case 'ERROR_COMPLIANTS':
 
     case "REMOVE_RECURRING_ROLE":
       return { ...state, addRecurringRole: 0 };
+
+
+
+
+      case "ROLE_ERROR":
+        return { ...state, roleError: action.payload };
+  
+      case "CLEAR_ROLE_ERROR":
+        return { ...state, roleError: "" };
   }
+
+
+
+  
   return state;
 };
 export default SettingsReducer;
