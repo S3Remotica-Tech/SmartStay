@@ -1164,8 +1164,8 @@ function SettingExpenses({ hostelid }) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "32px",
-                      height: "32px",
+                      width: "26px",
+                      height: "26px",
                       borderRadius: "50%",
                     }}
                   >
@@ -1339,6 +1339,7 @@ function SettingExpenses({ hostelid }) {
                     fontFamily: "Gilroy",
                     fontStyle: "normal",
                     lineHeight: "normal",
+                    marginTop:"-15px"
                   }}
 
                   onClick={edit ? updateType : addType}

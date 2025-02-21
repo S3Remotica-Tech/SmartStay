@@ -71,6 +71,7 @@ const SettingElectricity = ({ hostelid }) => {
     setShowFormElectricity(false)
     setUnit('')
     setAmount('')
+    setAmountErr('');
   }
 
   //add electricity button
@@ -153,9 +154,11 @@ const SettingElectricity = ({ hostelid }) => {
 
 
     if (edit && editHostel && amount !== '') {
+    
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
-        payload: { hostel_id: editHostel.id, unit: 1, amount: Number(amount) },
+        // payload: { hostel_id: editHostel.id, unit: 1, amount: Number(amount) },
+        payload: { hostel_id: editHostel.id, unit:1, amount: Number(amount), room_based: roomBasedCalculation ? 1 :0, hostel_based: hostelBasedCalculation ? 1 :0 }
       });
     } else if (!edit &&  amount !== '') {
 
@@ -163,7 +166,8 @@ console.log("called")
 
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
-        payload: { hostel_id: hostelid, unit: 1, amount: Number(amount) },
+        // payload: { hostel_id: hostelid, unit: 1, amount: Number(amount) },
+        payload: {  hostel_id: hostelid, unit: 1, amount: Number(amount), room_based: roomBasedCalculation ? 1 :0, hostel_based: hostelBasedCalculation ? 1 :0 }
       });
     }
   };
@@ -840,13 +844,12 @@ console.log("called")
                   style={{
                     color: "red",
                     fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
+                  textAlign:"center",
                     margin: 0,
                   }}
                 >
-                  <span style={{ fontSize: "20px", marginRight: "5px" }}>
-                    <MdError style={{ fontSize: "15px", marginBottom: "5px" }} />
+                  <span style={{ fontSize: "20px" }}>
+                    <MdError style={{ fontSize: "15px" }} />
                   </span>
                   {amountErr}
                 </p>
