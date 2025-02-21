@@ -307,7 +307,7 @@ function SettingNewRole({ hostelid }) {
                           position: "absolute",
                           top: 30,
                           right: 40,
-                          width: 160,
+                          width: 120,
                           height: 70,
                           border: "1px solid #EBEBEB",
                           borderRadius: 10,
