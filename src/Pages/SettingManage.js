@@ -842,8 +842,7 @@ function SettingManage(props) {
                   height: 83,
                 }}
               >
-                {/* <div className="d-flex justify-content-between align-items-center"> */}
-
+              
                 <div >
                   <label
                     style={{
@@ -886,7 +885,7 @@ function SettingManage(props) {
                     </Button>
                   </div>
                 </div>
-                {/* </div> */}
+                
               </div>
 
               {/* {searchQuery && (
