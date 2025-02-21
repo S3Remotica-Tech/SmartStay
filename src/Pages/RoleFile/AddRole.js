@@ -25,6 +25,7 @@ function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
     const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
     const [roleError,setRoleError] = useState("")
+    const [editRoleError,setEditRoleError] = useState("")
     const initialFormState = useRef(null);
 
      const [checkboxValues, setCheckboxValues] = useState({
@@ -172,7 +173,9 @@ function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
         setErrorForm('')
         setErrorPermission('')
         setErrorIsChanged("")
+        setEditRoleError("")
         dispatch({type: "CLEAR_ROLE_ERROR"})
+        dispatch({type: "CLEAR_ROLE_EDIT_ERROR"})
     }
 
     const handleRoleName = (e) => {
@@ -180,7 +183,9 @@ function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
         setRoleName(e.target.value.trim());
         setErrorIsChanged("")
         setRoleError("")
+        setEditRoleError("")
         dispatch({type: "CLEAR_ROLE_ERROR"})
+        dispatch({type: "CLEAR_ROLE_EDIT_ERROR"})
 
     }
 
@@ -190,6 +195,13 @@ function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
         }
 
     },[state.Settings.roleError])
+
+    useEffect(()=>{
+        if(state.Settings.roleEditError){
+            setEditRoleError(state.Settings.roleEditError)
+        }
+
+    },[state.Settings.roleEditError])
 
 
     const renderRow = (rowName, label) => (
@@ -314,7 +326,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
             <Modal show={showRole} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities" >
                 <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role ' : 'Create Role' }</Modal.Title>
+                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role' : 'Create Role' }</Modal.Title>
 
                         <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
 
@@ -364,6 +376,14 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {roleError}
+                                </label>
+                            </div>
+                        )}
+                           {editRoleError && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {editRoleError}
                                 </label>
                             </div>
                         )}
