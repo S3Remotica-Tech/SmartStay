@@ -57,7 +57,8 @@ const initialState = {
   errorUser:0,
   errorRole:0,
   AddCategoryType: 0,
-  roleError:''
+  roleError:'',
+  roleEditError:''
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -392,6 +393,13 @@ case 'ERROR_COMPLIANTS':
   
       case "CLEAR_ROLE_ERROR":
         return { ...state, roleError: "" };
+
+
+        case "ROLE_EDIT_ERROR":
+          return { ...state, roleEditError: action.payload };
+    
+        case "CLEAR_ROLE_EDIT_ERROR":
+          return { ...state, roleEditError: "" };
   }
 
 
