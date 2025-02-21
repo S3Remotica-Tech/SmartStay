@@ -15,6 +15,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import {ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
 import LoaderComponent from "./LoaderComponent";
+import send from "../Assets/Images/send.svg";
 function DashboardAnnouncement(props) {
 
 
@@ -1402,317 +1403,138 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         showCommentModal &&
 
         <Modal show={showCommentModal} onHide={handleCloseComment} centered backdrop="static">
-          <Modal.Header
-            className="d-flex justify-content-between align-items-center"
-            style={{ border: "none" }}
-          >
-            <p
-              style={{
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                fontSize: "18px",
-                marginBottom: "0px",
-              }}
-            >
-              Monthly
-            </p>
-            <CloseCircle
-            
-              size="24"
-              color="#222222"
-              onClick={handleCloseComment}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
-          <Modal.Body style={{maxHeight: "300px",
-                  overflowY: "auto"}} >
-            <div>
-              {
-                commentsList && commentsList.length > 0 ? (
-                  commentsList.map((comments,sub, index) => {
-                    return (
-                      <div key={index}>
-                        {/* Comment header */}
-                        <div className="d-flex justify-content-between">
-                          <p style={{ marginBottom: "0px" }}>
-                            <Image roundedCircle
-                              // src={comments.profile && comments.profile !== "0" && comments.profile !== 0 ? 
-                              // comments.profile : Profile}
-                              src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
-                              // alt="Profile Image"
-                              width={20}
-                              height={20}
-                            />      
-
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                fontSize: "12px",
-                                color: "#222222",
-                                paddingLeft: "6px",
-                              }}
-                            >
-                              {comments.name}
-                            </span>
-                          </p>
-                          <p
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              color: "#4B4B4B",
-                              paddingLeft: "6px",
-                            }}
-                          >
-                            {new Date(comments.created_at).toLocaleString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              // hour: "2-digit",
-                              // minute: "2-digit",
-                              // timeZone: "UTC",
-                            })}
-                          </p>
-                        </div>
-
-                        {/* Comment text */}
-                        <p
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            color: "#222222",
-                            paddingRight: "10px",
-                          }}
-                        >
-                          {comments.comment || "Lorem ipsum dolor sit amet consectetur..."}
-                        </p>
-
-
-                        <div
-                          className="d-flex justify-content-start p-2 gap-2 "
-                          style={{ paddingLeft: "35px", lineHeight: 1 }}
-                        >
-                          <div>
-                            {/* <p style={{ padding: "0px 5px" }}> */}
-                            <img src={like} alt="like" width={20} height={20} />
-                            {/* </p> */}
-                          </div>
-                          <div>
-                            {/* <p style={{ padding: "0px 5px" }}> */}
-                            <img
-                              onClick={() => handleCreateSubComments(comments.comment_id, index)}
-                              src={message}
-                              alt="message"
-                              width={20}
-                              height={20}
-                              style={{ cursor: "pointer" }}
-                            />
-                            {/* </p> */}
-                          </div>
-                        </div>
-
-                        {/* <div
-                          className="d-flex justify-content-start mb-2"
-                          style={{
-                            borderBottom: "1px solid #DCDCDC",
-                          }}
-                        ></div> */}
-
-
-                        {
-                          comments?.replies?.length > 0 && comments?.replies.map((sub) => {
-                            return <div className="d-flex gap-2 align-items-center">
-
-                              <div
-
-                                style={{ paddingLeft: "30px", }}
-                              >
-                                 <Image roundedCircle
-                                src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
-                                alt="Profile Image"
-                                width={20}
-                                height={20}
-                                /> 
-                                
-
-                                </div>
-                              <div>
-
-                                <div>
-                                  <span
-                                    style={{
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      fontSize: "12px",
-                                      color: "#222222",
-                                      paddingLeft: "6px",
-                                    }}
-                                  >
-                                    {sub.name}
-                                  </span>
-                                </div>
-
-                                <div style={{
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  fontSize: "12px",
-                                  color: "#222222",
-                                  paddingLeft: "6px",
-                                }}>
-
-                                  {sub?.comment}
-
-                                </div>
-
-                              </div>
-
-
-
-
-
-                            </div>
-                          })
-                        }
-
-
-
-                        {selectedCommentId === comments.comment_id &&
-                          <div>
-
-
-                            {displaySubError && (
-                              <div style={{ color: "red" }}>
-                                <MdError />
-                                <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
-                              </div>
-                            )}
-
-                            <div
-                              style={{
-                                marginTop: "10px",
-                                position: "relative",
-                                // paddingLeft: "25px",
-                              }}
-                            >
-                              <textarea
-                                type="text"
-                                placeholder="Post your reply here..."
-                                value={subComment}
-                                onChange={(e) => handleSubCommentsChange(e)}
-
-                                style={{
-                                  width: "100%",
-                                  padding: "8px 40px 8px 8px",
-                                  borderRadius: "8px",
-                                  border: "1px solid #DCDCDC",
-                                  fontFamily: "Gilroy",
-                                  fontSize: "14px",
-                                  outline: "none",
-                                }}
-                                row={0}
-                              />
-                              <img
-                                onClick={handleSendSubComments}
-                                src={Search_Team}
-                                alt="Search_Team"
-                                style={{
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  right: "10px",
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
-                                  width: "30px",
-                                  height: "30px",
-                                }}
-                              />
-                            </div>
-
-
-
-                          </div>}
-
-                        {/* <div
-                          className="d-flex justify-content-start mb-2"
-                          style={{
-                            borderBottom: "1px solid #DCDCDC",
-                          }}
-                        ></div> */}
-
-
-
-
-                      </div>
-                    );
-                  })
-                ) : (
-                
-                   <div className="d-flex align-items-center p-1 mb-2" style={{marginTop:-20}}>
-                                                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                    No Comments Available
-                                                  </label>
-                                              </div>
-                )
-              }
-
-              {displayError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
+            <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
+                <div className="d-flex align-items-center">
+                    {/* <img src={Profile} alt="User Profile" width={40} height={40} className="rounded-circle" /> */}
+                    <div className="ms-2">
+                        <p className="mb-0 fw-bold">Monthly</p>
+                        
+                    </div>
                 </div>
-              )}
-              {/* main comments */}
-              {
-                subCommentModal &&
+                <CloseCircle size="24" color="#222" onClick={handleCloseComment} style={{ cursor: "pointer" }} />
+            </Modal.Header>
 
-                <div
+            <Modal.Body style={{ maxHeight: "290px", overflowY: "auto" }}>
+                {commentsList && commentsList.length > 0 ? (
+                    commentsList.map((comment, index) => (
+                        <div key={index} className="p-2 rounded mb-2" style={{ background: "#F8F9FA" }}>
+                            <div className="d-flex align-items-center">
+                                <img src={comment.profile || Profile} alt="Profile" width={30} height={30} className="rounded-circle" />
+                                <div className="ms-2">
+                                    <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
+                                    <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
+                                </div>
+                            </div>
+                            <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222" }}>{comment.comment}</p>
+                        </div>
+                    ))
+                ) : (
+                  <div
                   style={{
-                    marginTop: "10px",
-                    position: "relative",
-                    // paddingLeft: "25px",
+                    textAlign: "center",
+                    color: "red",
+                    fontSize: "16px",
+                    padding: "20px",
+                    fontFamily: "Gilroy",
+                    background: "#F8F9FA"
                   }}
                 >
-                  <textarea
-                    type="text"
-                    placeholder="Post your reply here..."
-                    value={Comments}
-                    onChange={(e) => handleCommentsChange(e)}
-
-                    style={{
-                      width: "100%",
-                      padding: "8px 40px 8px 8px",
-                      borderRadius: "8px",
-                      border: "1px solid #DCDCDC",
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      outline: "none",
-                    }}
-                    row={0}
-                  />
-                  <img
-                    onClick={handleSendComments}
-
-                    src={Search_Team}
-                    alt="Search_Team"
-                    style={{
-                      cursor: "pointer",
-                      position: "absolute",
-                      right: "10px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      width: "30px",
-                      height: "30px",
-                    }}
-                  />
+                  No Comments available
                 </div>
-              }
+                )}
+            </Modal.Body>
+
+            {/* <Modal.Footer className="border-top-0">
+                <div className="w-100 position-relative">
+                    <textarea
+                        placeholder="Post your reply here..."
+                        value={Comments}
+                        onChange={handleCommentsChange}
+                        style={{ width: "100%", padding: "10px 40px 10px 10px", borderRadius: "8px", border: "1px solid #DCDCDC", outline: "none", resize: "none" }}
+                    />
+                   
+                   <img
+    src={send}
+    alt="Send"
+    style={{
+        width: "24px",
+        height: "24px",
+        position: "absolute",
+        right: "15px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        cursor: "pointer",
+    }}
+    onClick={handleSendComments}
+/>
+
+                </div>
+            </Modal.Footer> */}
 
 
+<Modal.Footer style={{ border: "none" }}>
+                        <div
+                          style={{
+                            marginTop: 15,
+                            position: "relative",
+                            display: "inline-block",
+                            width: "100%",
+                          }}
+                        >
+                          <Form.Control
+                            type="text"
+                            value={Comments}
+                            onChange={(e) => handleCommentsChange(e)}
+                            className="input-field"
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                              paddingLeft: 16,
+                              width: "100%",
+                              height: "52px",
+                              fontFamily: "Gilroy",
+                              borderRadius: "12px",
+                            }}
+                            placeholder="Post your reply here"
+                          />
+                          <div className="input-field"
+                            style={{
 
-            </div>
-          </Modal.Body>
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              backgroundColor: "#1E45E1",
+                              border: "1px solid #E7E7E7",
+                              borderRadius: "60px",
+                              padding: "12px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <img
+                              src={send}
+                              alt="Send"
+                              style={{
+                                width: "16px",
+                                height: "16px",
+                              }}
+                              onClick={handleSendComments}
+                            />
+                          </div>
+                       </div>
+                      </Modal.Footer>
+
+                      {displayError && (
+                <div className="ms-3" style={{ color: "red",marginBottom:20 }}>
+                  <MdError />
+                  <span  style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
+                </div>
+              )}
+                     
         </Modal>
       }
 
