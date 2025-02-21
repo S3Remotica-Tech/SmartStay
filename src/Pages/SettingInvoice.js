@@ -1144,6 +1144,7 @@ function SettingInvoice({ hostelid }) {
                         </label>
                       </div>
                     )}
+                     
                   </div>
 
                   <div class="mb-3 d-flex row">
@@ -1202,7 +1203,7 @@ function SettingInvoice({ hostelid }) {
                         }}
                       />
                     </div>
-                    {duedateerrmsg.trim() !== "" && (
+                    {/* {duedateerrmsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
                         >
@@ -1211,6 +1212,23 @@ function SettingInvoice({ hostelid }) {
                           )}{" "}
                           {duedateerrmsg}
                         </p>
+                      </div>
+                    )} */}
+
+{duedateerrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center p-1">
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "13px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {duedateerrmsg}
+                        </label>
                       </div>
                     )}
 
