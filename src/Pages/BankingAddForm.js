@@ -447,7 +447,7 @@ function BankingAddForm(props) {
           </div>
         </Modal.Body>
         {error && (
-          <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
             <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
             <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
           </div>
