@@ -2507,7 +2507,7 @@ function UserList(props) {
                       paddingRight: 36,
                       marginBottom: "10px",
                       maxHeight: 45,
-                      
+                      whiteSpace: "nowrap",
                       // marginLeft: search ? "20px !important" : "5px",
                     }}
                   >
@@ -2529,6 +2529,7 @@ function UserList(props) {
                       paddingLeft: 38,
                       marginBottom: "10px",
                       maxHeight: 45,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     + Bookings
@@ -2549,6 +2550,7 @@ function UserList(props) {
                       paddingRight: 30,
                       marginBottom: "10px",
                       maxHeight: 45,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     + Check-out
@@ -2569,6 +2571,7 @@ function UserList(props) {
                       paddingLeft: 44,
                       marginBottom: "10px",
                       maxHeight: 45,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     + Walk-in
