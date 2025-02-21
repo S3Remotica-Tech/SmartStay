@@ -638,7 +638,7 @@ function BankingEditTransaction(props) {
         </Modal.Body>
         
          {error && (
-                  <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+                  <div className="" style={{ color: "red" ,textAlign:"center",paddingBottom:"8px"}}>
                     <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
                     <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                   </div>
