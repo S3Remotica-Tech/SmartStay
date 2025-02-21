@@ -1981,7 +1981,7 @@ function Banking() {
                     }}
                   />
                 </Form.Group>
-                {amountError && <div style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>{amountError}</div>}
+                {amountError && <div style={{ color: "red", fontSize: "14px", marginTop: "5px",textAlign:"center" }}>{amountError}</div>}
                 <Button
                 className="col-12"
                 style={{

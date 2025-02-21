@@ -14,7 +14,7 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import {ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
-
+import LoaderComponent from "./LoaderComponent";
 function DashboardAnnouncement(props) {
 
 
@@ -325,7 +325,7 @@ function DashboardAnnouncement(props) {
       switch (fieldName) {
 
         case "title":
-          setTitleError("title is required");
+          setTitleError("Title is required");
           break;
         case "description":
           setDescriptionError("Description is required");
@@ -500,34 +500,35 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       </div>
       {/* {loading && ( */}
       {loading ? (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 100,
-                    right: 0,
-                    bottom: 0,
-                    left: "200px",
-                    // width: '100%',
-                    // height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>
+        <LoaderComponent />
+                // <div
+                //   style={{
+                //     position: 'absolute',
+                //     top: 100,
+                //     right: 0,
+                //     bottom: 0,
+                //     left: "200px",
+                //     // width: '100%',
+                //     // height: '100%',
+                //     display: 'flex',
+                //     alignItems: 'center',
+                //     justifyContent: 'center',
+                //     backgroundColor: 'transparent',
+                //     opacity: 0.75,
+                //     zIndex: 10,
+                //   }}
+                // >
+                //   {/* <div
+                //     style={{
+                //       borderTop: '4px solid #1E45E1',
+                //       borderRight: '4px solid transparent',
+                //       borderRadius: '50%',
+                //       width: '40px',
+                //       height: '40px',
+                //       animation: 'spin 1s linear infinite',
+                //     }}
+                //   ></div> */}
+                // </div>
               // )}
             ) : currentItems?.length > 0 ? (
 
@@ -573,7 +574,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //     )}
       //   </div>
       // ) : (
-      <div  style={{ maxHeight: "370px", overflowY: "auto", }}>
+      <div  style={{ maxHeight: "420px", overflowY: "auto", }}>
         <div className="row">
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
@@ -732,7 +733,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
                               right: 0,
-                              top: 30,marginRight:30,
+                              top: 10,marginRight:30,
                               width: 163,
                               height: 92,
                               border: "1px solid #EBEBEB",

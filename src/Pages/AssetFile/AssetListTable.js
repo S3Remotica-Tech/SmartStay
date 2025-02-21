@@ -324,7 +324,7 @@ function AssetListTable(props) {
                         style={{
                           fontSize: 14,
                           fontWeight: 600,
-                          fontFamily: "Gilroy",
+                          fontFamily: "Gilroy, sans-serif",
                           color: "#222222",
                           cursor: "pointer"
                         }}
@@ -355,7 +355,7 @@ function AssetListTable(props) {
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
-                            fontFamily: "Gilroy",
+                            fontFamily: "Gilroy, sans-serif",
                             color: "#FF0000",
                             cursor: props.assetDeletePermission || props.item.hostel_id ? "not-allowed" : "pointer",
                           }}

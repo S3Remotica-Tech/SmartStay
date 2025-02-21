@@ -716,6 +716,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   overflowY: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom:20,
+                  marginTop:"20px"
                   //  borderBottom:"1px solid #DCDCDC"
                 }}>
 
@@ -822,7 +823,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
                 </div>
               </div>
-
+ 
 
             }
 
