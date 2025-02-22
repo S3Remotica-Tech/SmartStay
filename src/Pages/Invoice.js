@@ -2849,13 +2849,13 @@ const InvoicePage = () => {
               <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
                 {search ? (
                   <>
-                    <div style={{ position: "relative", width: "100%" }}>
+                    <div style={{ position: "relative",  }}>
                       <div
                         style={{
                           position: "relative",
                           display: "flex",
                           alignItems: "center",
-                          width: "100%",
+                          // width: "100%",
                           marginTop: "0px",
                           marginBottom: "5px",
                         }}
@@ -2891,6 +2891,7 @@ const InvoicePage = () => {
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
+                              width: "250px" 
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
