@@ -1,58 +1,99 @@
 import React, { useEffect, useState } from 'react';
 // import './ContactUs.css';
+import { Offcanvas, Form, Dropdown } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { send } from 'emailjs-com';
+import { MdError } from "react-icons/md";
 // import Footer from './Footer';
 // import NeedFooter from './Need_Footer';
 import { Styles } from '../Styles/ContactUsStyles';
 
 function ContactUs() {
-    const [formData, setFormData] = useState({
-        name: '',
-        city: '',
-        email: '',
-        phone: '',
-        message: ''
-    });
-
-    const [status, setStatus] = useState('');
+ 
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
+    const [formData, setFormData] = useState({
+        user_name: '',
+        user_city: '',
+        user_phone: '',
+        message: '' , 
+        site_name:'smartstay',
+    });
+
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState('');
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+    
+        if (name === 'user_phone') {
+            if (!/^\d*$/.test(value)) return; 
+            if (value.length > 10) return;    
+        }
+    
         setFormData((prev) => ({
             ...prev,
             [name]: value
         }));
+    
+        setErrors((prev) => ({ ...prev, [name]: '' }));
     };
 
-    const handleSubmit = (e) => {
+
+    const validateForm = () => {
+        let newErrors = {};
+        if (!formData.user_name.trim()) newErrors.user_name = 'Name is required';
+        if (!formData.user_city.trim()) newErrors.user_city = 'City is required';
+        if (!formData.user_phone.trim()) newErrors.user_phone = 'Phone number is required';
+        if (!formData.message.trim()) newErrors.message = 'Course Select required';
+
+       
+
+        if (formData.user_phone.length !== 10) {
+            newErrors.user_phone = 'Phone number must be exactly 10 digits';
+        }
+
+        return newErrors;
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        send('service_12mjzrm', 'template_5i9w5vw', formData, 'k5FjQQAsBMk4I-pzB')
-            .then((response) => {
-                console.log('Email successfully sent:', response);
+
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
+
+        if (formData.user_name  && formData.user_phone && formData.user_city && formData.message) {
+            try {
+                const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
+                console.log('API response:', response.data);
+
+                await send('service_ael05nx', 'template_3dnr1i6', formData, 'xM8OCsWJd_Fz844uW');
+                console.log('Email successfully sent');
+
                 setStatus('Message sent successfully!');
                 setFormData({
-                    name: '',
-                    city: '',
-                    email: '',
-                    phone: '',
-                    message: ''
+                    user_name: '',
+                    user_city: '',
+                    user_phone: '',
+                    message: '' , 
+                    // site_name:'',
                 });
-    
-                
+
                 setTimeout(() => {
                     setStatus('');
                 }, 1000);
-            })
-            .catch((error) => {
-                console.error('Failed to send email:', error);
+            } catch (error) {
+                console.error('Error:', error);
                 setStatus('Failed to send message. Please try again later.');
-            });
+            }
+        }
     };
     
     return (
@@ -142,62 +183,140 @@ function ContactUs() {
                          style={{ paddingTop: "10px" }}>
                             <div className="row mb-3">
                                  <div className="col-md-12 col-lg-6 col-sm-12   mb-3">
-                                    <input
+                                 <input
                                         type="text"
                                         className="form-control custom-input-height"
-                                        name="name"
-                                        value={formData.name}
+                                        name="user_name"
+                                        value={formData.user_name}
                                         onChange={handleChange}
                                         placeholder="Your name"
                                     />
+                                       {errors.user_name && (
+                    <div className="d-flex align-items-center  mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {errors.user_name}
+                      </label>
+                    </div>
+                  )}
+                                  
                                 </div>
                                 <div className="col-md-12 col-lg-6 col-sm-12  mb-3">
-                                    <input
-                                        type="email"
-                                        className="form-control custom-input-height"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        placeholder="Your email"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="row mb-3">
-                               
-                                <div className="col-md-12 col-lg-6 col-sm-12 mb-3">
-                                    <input
+                                <input
                                         type="text"
                                         className="form-control custom-input-height"
-                                        name="phone"
-                                        value={formData.phone}
+                                        name="user_phone"
+                                        value={formData.user_phone}
                                         onChange={handleChange}
                                         placeholder="Your phone"
                                     />
-                                </div>
-                                <div className="col-md-12 col-lg-6 col-sm-12  mb-3">
-                                    <input
-                                        type="text"
-                                        className="form-control custom-input-height"
-                                        name="city"
-                                        value={formData.city}
-                                        onChange={handleChange}
-                                        placeholder="Your city"
-                                    />
+                                       {errors.user_phone && (
+                    <div className="d-flex align-items-center  mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {errors.user_phone}
+                      </label>
+                    </div>
+                  )}
+                                   
                                 </div>
                             </div>
 
+                         
+
                             <div className="row mb-3">
-                                <div className="col-12">
-                                    <textarea
-                                        className="form-control"
-                                        name="message"
-                                        value={formData.message}
+                            <div className="col-md-12 col-lg-6 col-sm-12  mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control custom-input-height"
+                                        name="user_city"
+                                        value={formData.user_city}
                                         onChange={handleChange}
-                                        rows="4"
-                                        placeholder="Your message"
-                                    ></textarea>
+                                        placeholder="Your city"
+                                    />
+                                       {errors.user_city && (
+                    <div className="d-flex align-items-center  mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {errors.user_city}
+                      </label>
+                    </div>
+                  )}
                                 </div>
+
+                            <div className="col-md-12 col-lg-6 col-sm-12">
+                                  
+
+                                  <Form.Group className="" controlId="exampleForm.ControlInput5">
+  
+  <Form.Select 
+    aria-label="Default select example" 
+    name="message"
+    value={formData.message}
+    onChange={handleChange} 
+     className="w-full p-2 border rounded"
+    style={{ 
+      fontSize: 16, 
+      color: "#4B4B4B", 
+    //   fontFamily: "Gilroy", 
+      lineHeight: '18.83px', 
+      fontWeight: 500, 
+      boxShadow: "none", 
+      border: "1px solid #D9D9D9", 
+      height: 39, 
+      borderRadius: 8 ,
+      backgroundColor: "white"
+    }}>
+      <option value=''>Select Course</option>
+      <option value='Frontend'>Frontend</option>
+      <option value='Backend'>Backend</option>
+      <option value='Full stack Development'>Full stack Development</option>
+     
+     
+  </Form.Select>
+   {errors.message && (
+                    <div className="d-flex align-items-center  mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {errors.message}
+                      </label>
+                    </div>
+                  )}
+  
+  </Form.Group>
+                                  </div>
                             </div>
 
                             <div className="row">
