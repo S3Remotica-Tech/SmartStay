@@ -225,7 +225,7 @@ function PayingHostel(props) {
                             >
                                 <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
                                 display: "flex", justifyContent: "center", alignItems: "center", position: "relative", 
-                                zIndex: showDots ? 1000 : 'auto' }}
+                                zIndex: showDots ? 1000 : 'auto',backgroundColor: showDots ? "#E7F1FF" : '#fff' }}
                                     // onClick={handleDotsClick}
                                     onClick={() => handleDotsClick()}
                                 // onClick={() => handleDotsClick(props.hostel.id)}
@@ -264,7 +264,7 @@ function PayingHostel(props) {
                                                         <label
                                                             style={{
                                                                 fontSize: 14,
-                                                                fontWeight: 600,
+                                                                fontWeight: 500,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#222222",
                                                                 cursor: "pointer"
@@ -310,7 +310,7 @@ function PayingHostel(props) {
                                                         <label
                                                             style={{
                                                                 fontSize: 14,
-                                                                fontWeight: 600,
+                                                                fontWeight: 500,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
                                                                 cursor: "pointer"

@@ -1569,7 +1569,7 @@ useEffect(()=>{
                                             <label
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 600,
+                                                fontWeight: 500,
                                                 fontFamily: "Outfit, sans-serif",
                                                 color: editPermissionError ? "#888888" : "#222222",
                                                 cursor: editPermissionError ? "not-allowed" : "pointer",
@@ -1603,7 +1603,7 @@ useEffect(()=>{
                                             <label
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 600,
+                                                fontWeight: 500,
                                                 fontFamily: "Gilroy",
                                                 color: deletePermissionError ? "#888888" : "#FF0000",
                                                 cursor: deletePermissionError ? "not-allowed" : "pointer",
