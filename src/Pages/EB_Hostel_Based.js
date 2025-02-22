@@ -178,7 +178,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("reading is required");
+          setReadingError("Reading is required");
           break;
         case "Hostel ID":
           setHostelIdError("Hostel is required");
