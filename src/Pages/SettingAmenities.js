@@ -40,11 +40,13 @@ function SettingAmenities({ hostelid }) {
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
+     const [formFilled, setFormFilled] = useState(false);
+     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 
 
 
-    console.log("loadingAme", loading)
+  
 
 
 
@@ -68,31 +70,36 @@ function SettingAmenities({ hostelid }) {
     const handleToggle = (amenity) => {
         setSwitchStates((prevSwitchStates) => {
             const newChecked = !prevSwitchStates[amenity.id];
-
+    
             setIsChecked(newChecked);
+            setAmenityDetails(amenity);
+    
             return {
                 ...prevSwitchStates,
                 [amenity.id]: newChecked,
             };
         });
-
-        setAmenityDetails(amenity);
+    
+        // Open modal only when enabling the switch
+        if (!switchStates[amenity.id]) {
+            setIsDisplayRecurring(true);
+        }
     };
+    
 
 
 
 
     useEffect(() => {
-
         if (isChecked === null) return;
-
+    
         console.log("isChecked value:", isChecked);
+        
         if (isChecked) {
-            setTimeout(() => {
-                setIsDisplayRecurring(true);
-                           }, 0);
-        }
-        else {
+            setIsDisplayRecurring(true); 
+            setIsFormSubmitted(false);  
+        } else {
+           
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
@@ -101,7 +108,7 @@ function SettingAmenities({ hostelid }) {
                     hostel_id: state.login.selectedHostel_Id,
                     start_date: '0',
                     end_date: '0',
-                    am_id: amenityDetails.id,
+                    am_id: amenityDetails?.id, // Ensure amenityDetails is available
                 },
             });
         }
@@ -163,8 +170,13 @@ function SettingAmenities({ hostelid }) {
 
 
     const handleCloseRecurringPopUp = () => {
-        resetSwitchStates();
-        setIsDisplayRecurring(false)
+        setIsDisplayRecurring(false);
+
+        // Reset switch back to false if no form submission
+        setSwitchStates((prev) => ({
+            ...prev,
+            [amenityDetails?.id]: false,
+        }));
 
 
 
@@ -198,12 +210,12 @@ function SettingAmenities({ hostelid }) {
     }
 
     useEffect(() => {
-        const initialSwitchStates = amenitiesList.reduce((acc, amenity) => {
+        const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
             acc[amenity.id] = amenity.recuring === 1;
             return acc;
         }, {})
         setSwitchStates(initialSwitchStates);
-    }, [amenitiesList])
+    }, [amenitiesFilterddata])
 
 
 
@@ -333,6 +345,9 @@ function SettingAmenities({ hostelid }) {
         amenitiesFilterddata?.length / amenitiesrowsPerPage
     );
 
+    console.log("data", amenitiesFilterddata);
+    
+    console.log("switchStates", switchStates)
 
     return (
         <div className="container"
@@ -550,7 +565,7 @@ function SettingAmenities({ hostelid }) {
                                                         type="switch"
                                                         style={{ boxShadow: "none" }}
                                                         label="Recurring"
-                                                        checked={switchStates[amenity.id] || false}
+                                                        checked={switchStates[amenity.id] }
 
                                                         onChange={() => handleToggle(amenity)}
                                                     />
@@ -751,7 +766,7 @@ function SettingAmenities({ hostelid }) {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={hostelid} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} />
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted = {setIsFormSubmitted} isFormSubmitted = {isFormSubmitted}/>
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />
