@@ -139,7 +139,7 @@ function StaticExample({
         fontFamily: "Gilroy,sans-serif",
       }}
     >
-      <Modal show={show} onHide={handleClose}  backdrop="static">
+      <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -161,7 +161,7 @@ function StaticExample({
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
-          <Modal.Body style={{ paddingTop: 20, paddingLeft:20, paddingRight:20, paddingBottom:15 }}>
+          <Modal.Body style={{ paddingTop: 10, paddingLeft:10, paddingRight:10, paddingBottom:10 }}>
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group

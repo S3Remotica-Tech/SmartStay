@@ -158,7 +158,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
+          <div style={{  fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
@@ -169,7 +169,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{  fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.purchase_amount}
           </div >
         </div>
@@ -178,7 +178,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ backgroundColor: "#D9E9FF", fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{  fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.payment_mode}
           </div >
         </div>
@@ -203,7 +203,7 @@ function ExpensesListTable(props) {
 
                   {/* Tag Asset  */}
                   <div
-                    className="mb-1 d-flex justify-content-start align-items-center gap-2"
+                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
                     style={{
                       cursor: "pointer",
                     }}
@@ -490,7 +490,7 @@ function ExpensesListTable(props) {
         <img
           src={closeicon}
           alt="Close"
-          style={{ cursor: "pointer", width: 20, height: 20 }}
+          style={{ cursor: "pointer", width: 24, height: 24 }}
           onClick={handleHideTagAsset}
         />
       </Modal.Header>

@@ -515,6 +515,7 @@ useEffect(() => {
                     top: 90,
                     left: 80,
                     transform: "translate(-50%, -50%)",
+                    cursor: "pointer"
                   }}
                 />
                 <input
@@ -548,6 +549,7 @@ useEffect(() => {
                     fontWeight: 500,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
+                    
                   }}
                 >
                   Max size of image 10MB
@@ -715,8 +717,7 @@ useEffect(() => {
                   }}
                 >
                   Email ID{" "}
-                  
-                </Form.Label>
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span> </Form.Label>
                 <Form.Control
                   value={email}
                   onChange={handleEmailChange}
