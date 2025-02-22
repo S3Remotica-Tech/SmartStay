@@ -132,7 +132,7 @@ function VendorListMap(props) {
                       position: "absolute",
                       right: 0,
                       top: 50,
-                      width: 163,
+                      width: 143,
                       height: 92,
                       border: "1px solid #EBEBEB",
                       borderRadius: 10,
@@ -144,11 +144,11 @@ function VendorListMap(props) {
                     }}
                   >
                     <div
-                      className="gap-2"
+                      className="gap-1"
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "20px",
+                        gap: "10px",
                         cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
                         pointerEvents: props.vendorEditPermission ? "none" : "auto",
                         opacity: props.vendorEditPermission ? 0.5 : 1,
@@ -175,7 +175,7 @@ function VendorListMap(props) {
 
 
                     <div
-                      className="gap-2"
+                      className="gap-1"
                       style={{
                         display: "flex",
                         alignItems: "center",
