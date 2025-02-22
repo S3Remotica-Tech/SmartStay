@@ -192,7 +192,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body style={{ paddingTop: 5,}}>
             <div className="row mt-2">
               {/* {alreadyRoom && 
             <div>
@@ -313,10 +313,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
-                paddingTop: 10,
-                paddingBottom:12,
-                paddingLeft:12,
-                paddingRight:12
+                paddingTop: 5,
+                paddingBottom:5,
+                paddingLeft:5,
+                paddingRight:5
               }}
             >
               {modalTitle}

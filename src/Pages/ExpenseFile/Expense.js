@@ -1451,7 +1451,8 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static" dialogClassName="custom-modal"
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} 
+      centered backdrop="static" dialogClassName="custom-modal"
         style={{
           width: 388,
           height: 250,
@@ -1459,10 +1460,9 @@ function Expenses({ allPageHostel_Id }) {
           marginTop: "200px",
         }}>
         <Modal.Header style={{
-          borderBottom: "none", display: "flex", justifyContent: "center",
-
+          borderBottom: "none"
         }} >
-          <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete expense?</Modal.Title>
+          <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", flex: 1, }}>Delete expense?</Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
 
@@ -1474,12 +1474,27 @@ function Expenses({ allPageHostel_Id }) {
         </Modal.Body>
 
 
-        <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-          <Button onClick={handleCloseForDeleteExpense} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+        <Modal.Footer  style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px",
+         }}>
+          <Button onClick={handleCloseForDeleteExpense} style={{ borderRadius: 8, padding: "12px 20px", 
+            border: "1px solid rgba(36, 0, 255, 1)", 
+            backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+            fontSize: 14, fontWeight: 600, 
+            fontFamily: "Gilroy",
+            width: 160,
+              height: 52,
+              marginRight: 10,
+             }}>
             Cancel
           </Button>
 
-          <Button style={{ borderRadius: 8, padding: "16px 45px ", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={ConfirmDeleteExpense}>
+          <Button style={{ borderRadius: 8, 
+            padding: "12px 20px ", border: "1px solid rgba(36, 0, 255, 1)", 
+            backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", 
+            fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",
+            width: 160,
+            height: 52,
+            }} onClick={ConfirmDeleteExpense}>
             Delete
           </Button>
 

@@ -22,7 +22,7 @@ function PayingHostel(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [showDots, setShowDots] = useState(false);
+    const [showDots, setShowDots] = useState(null);
 
     const [activeHostel, setActiveHostel] = useState(null);
     const [hoverPgCard, setHoverPgCard] = useState(false)
@@ -57,6 +57,10 @@ function PayingHostel(props) {
     const handleDotsClick = () => {
         setShowDots(!showDots);
     };
+
+    // const handleDotsClick = (index) => {
+    //     setShowDots(showDots === index ? null : index); 
+    // };
 
 
 
@@ -219,13 +223,16 @@ function PayingHostel(props) {
                             <div
 
                             >
-                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                                    onClick={handleDotsClick}
+                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
+                                display: "flex", justifyContent: "center", alignItems: "center", position: "relative", 
+                                zIndex: showDots ? 1000 : 'auto' }}
+                                    // onClick={handleDotsClick}
+                                    onClick={() => handleDotsClick()}
                                 // onClick={() => handleDotsClick(props.hostel.id)}
                                 >
                                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                                    {showDots && <>
+                                    {showDots  && <>
 
                                         <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                             <div >
@@ -241,7 +248,7 @@ function PayingHostel(props) {
                                             </div>
                                         </div> */}
                                                 <div
-                                                    className="d-flex gap-2 mb-2 align-items-center"
+                                                    className="d-flex gap-2  align-items-center"
                                                     onClick={!props.editPermissionError ? () => handleEdit(props.filteredData[0]) : undefined}
                                                     style={{
                                                         pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
@@ -419,7 +426,7 @@ function PayingHostel(props) {
 
 
         {show &&
-            <Modal show={show} onHide={handleClose} centered backdrop="static"
+            <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modal"
                 style={{
                     width: 388,
                     height: 250,
@@ -428,37 +435,46 @@ function PayingHostel(props) {
                 }}>
                 <Modal.Header style={{
                     borderBottom: "none",
-                    justifyContent: "center",
-                    display: "flex"
+                    // justifyContent: "center",
+                    // display: "flex"
                 }}>
                     <Modal.Title style={{
                         fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy"
+                        fontFamily: "Gilroy",  textAlign: "center", flex: 1,
                     }}>Delete paying guest?</Modal.Title>
 
 
                                    </Modal.Header>
 
+
+                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+                    Are you sure you want to delete this paying guest?
+                </Modal.Body>
                 {state.PgList?.deletePgError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    <div className="d-flex align-items-center">
+                        <MdError style={{ color: "red", marginLeft: "40px" }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", 
+                            fontWeight: 500 }}>
                             {state.PgList?.deletePgError}
                         </label>
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
-                    Are you sure you want to delete this paying guest?
-                </Modal.Body>
 
-
-                <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <Modal.Footer  style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px", }}>
+                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "12px 20px", border: "1px solid rgba(36, 0, 255, 1)", 
+                        backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+                        fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", width: 160,
+                        height: 52,
+                        marginRight: 10, }}>
                         Cancel
                     </Button>
-                    <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                    <Button style={{ borderRadius: 8, padding: "12px 20px", border: "1px solid rgba(36, 0, 255, 1)", 
+                    backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", 
+                    fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",
+                    width: 160,
+                    height: 52, }}
                         onClick={() => handleDeletePG(props.filteredData[0])}
                     >
                         Delete

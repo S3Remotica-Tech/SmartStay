@@ -442,7 +442,6 @@ function PayingGuestMap(props) {
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
 
-
                 <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
                     <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
                         Cancel
