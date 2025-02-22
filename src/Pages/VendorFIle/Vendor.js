@@ -509,7 +509,7 @@ function Vendor() {
                   {
                     !showFilterData &&
 
-                    <div onClick={handleShowSearch} style={{ paddingRight: 30 }}>
+                    <div onClick={handleShowSearch} style={{ paddingRight: 30,cursor:"pointer" }}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -654,34 +654,30 @@ function Vendor() {
             <div className='container'
             >
               {loading && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 200,
-                    right: 0,
-                    bottom: 0,
-                    left: "200px",
-                    // width: '100%',
-                    // height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
                   <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
+                  style={{
+                      position: 'fixed',
+             right: "40%",
+                      display: 'flex',
+                      height: "50vh",
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                  }}
+              >
+                  <div
+                      style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                      }}
                   ></div>
-                </div>
+              </div>
               )}
               <div style={{
                 maxHeight: "450px",
