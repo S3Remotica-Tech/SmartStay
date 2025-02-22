@@ -117,7 +117,10 @@ function VendorListMap(props) {
             </div>
 
             <div>
-              <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(props.vendor.id)}>
+              <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto',  backgroundColor:
+                                              showDots
+                                                ? "#E7F1FF"
+                                                : "white", }} onClick={() => handleShowDots(props.vendor.id)}>
                 <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                 {showDots && (
