@@ -147,13 +147,15 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     <div
       className="modal show"
       style={{
-        display: 'block', position: 'initial'
+        display: 'block',
       }}
     >
       <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities">
         <Modal.Dialog style={{
           maxWidth: 1000,
           width: '100%',
+          position:"fixed",
+          top:80
 
         }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
