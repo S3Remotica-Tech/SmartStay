@@ -563,7 +563,7 @@ function SettingAmenities({ hostelid }) {
                                                 <div>
                                                     <Form.Check
                                                         type="switch"
-                                                        style={{ boxShadow: "none" }}
+                                                        style={{ boxShadow: "none" ,cursor:"pointer"}}
                                                         label="Recurring"
                                                         checked={switchStates[amenity.id] }
 
