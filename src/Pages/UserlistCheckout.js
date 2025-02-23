@@ -117,6 +117,11 @@ function CheckOut(props) {
           }, 1000);
         }
       }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+
+
+
+
+      
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       
@@ -129,15 +134,22 @@ function CheckOut(props) {
 
   }, [state.UsersList.statusCodeAddConfirmCheckout])
 
-  useEffect(() => {
-    if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-      
-      setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
-      }, 2000);
-    }
-  }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+ 
+
+
+   useEffect(() => {
+      if (state.UsersList?.checkoutcustomeEmpty == 201) {
+        setCheckOutLoader(false)
+        setCheckOutCustomer([])
+       
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR' })
+        }, 2000)
+      }
+  
+    }, [state.UsersList?.checkoutcustomeEmpty])
+
+    console.log("state.UsersList?.checkoutcustomeEmpty",state.UsersList?.checkoutcustomeEmpty)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {

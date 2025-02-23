@@ -106,7 +106,8 @@ const initialState = {
    hostelListNewDetails:[],
    statusCodeForhostelListNewDetails:0,
    generateError:'',
-   contactError:''
+   contactError:'',
+   checkoutcustomeEmpty:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -226,6 +227,14 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }
         case 'CLEAR_STATUS_CODE_CHECK_OUT':
             return { ...state, checkOutStatusCode: 0 }
+
+            case 'CHECKOUT_CUSTOMER_LIST_ERROR':
+                return { ...state,checkoutcustomeEmpty: action.payload.statusCode }
+            case 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR':
+                return { ...state, checkoutcustomeEmpty: 0 }
+
+
+
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
 

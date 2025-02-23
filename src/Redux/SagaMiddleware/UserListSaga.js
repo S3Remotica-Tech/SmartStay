@@ -790,7 +790,7 @@ function* handleDeleteWalkInCustomer(action) {
 
 function* handleCheckoutCustomer(action) {
    const response = yield call(getCheckOutCustomer, action.payload);
-
+console.log("handleCheckoutCustomer",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CHECKOUT_CUSTOMER_LIST', payload: { response: response.data.checkout_details, statusCode: response.status || response.statusCode } })
    }
