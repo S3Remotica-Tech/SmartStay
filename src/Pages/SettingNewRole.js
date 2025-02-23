@@ -247,144 +247,89 @@ function SettingNewRole({ hostelid }) {
       )}
 
 
-      <div className="row mt-3 mb-3">
-
-        {
-          currentItems.length > 0 ? currentItems.map((view, index) => {
-            return (
-              <div key={index} className="col-12 col-sm-6 col-md-12 col-lg-4 col-xs-12 mb-3 ">
+<div 
+  className="row mt-3 mb-3 overflow-auto show-scroll" 
+  style={{ maxHeight: "400px" }}
+>
+  {currentItems.length > 0 ? (
+    currentItems.map((view, index) => (
+      <div key={index} className="col-12 col-sm-6 col-md-12 col-lg-4 col-xs-12 mb-3">
+        <div
+          className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
+          style={{ height: 64, width: "100%" }}
+        >
+          <div className="d-flex align-items-center">
+            <img src={role} width={24} height={24} alt="Role Icon" />
+            <span 
+              title={view.role_name}
+              className="ms-3 fw-bold text-dark text-truncate d-inline-block"
+              style={{ fontSize: 16, maxWidth: 100 }}
+            >
+              {view.role_name}
+            </span>
+          </div>
+          <div
+            className="d-flex justify-content-center align-items-center border rounded-circle"
+            style={{
+              height: "40px",
+              width: "40px",
+              cursor: "pointer",
+              backgroundColor: showDots === index ? "#E7F1FF" : "white",
+              position: "relative",
+            }}
+            onClick={() => handleShowDots(index)}
+          >
+            <PiDotsThreeOutlineVerticalFill 
+              style={{ height: "20px", width: "20px" }} 
+            />
+            {showDots === index && (
+              <div
+                ref={popupRef}
+                className="position-absolute bg-light border rounded p-2"
+                style={{
+                  top: 30,
+                  right: 40,
+                  width: 120,
+                  height: 70,
+                  zIndex: 1000,
+                }}
+              >
                 <div
-                  className="d-flex align-items-center justify-content-between p-3 border rounded relative"
-                  style={{ height: 64, width: "100%" }}
+                  className="mb-2 d-flex align-items-center gap-2"
+                  onClick={() => handleEditForm(view)}
                 >
-                  <div className="d-flex align-items-center">
-                    <img src={role} width={24} height={24} alt="Role Icon" />
-                    <span title={view.role_name}
-                      style={{
-                        marginLeft: 20,
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        color: "#222222",
-                        width:50,
-                        textOverflow:"ellipsis", overflow:"hidden", whiteSpace:"nowrap"
-                      }}
-                    >
-                      {view.role_name}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      height: "40px",
-                      width: "40px",
-                      borderRadius: "50%",
-                      border: "1px solid #EFEFEF",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      zIndex: showDots ? 1000 : "auto",
-                      position: "relative",
-                      cursor: "pointer",
-                      backgroundColor:
-                      showDots === index
-                        ? "#E7F1FF"
-                        : "white",
-                
-                    }}
-
-                    onClick={() => handleShowDots(index)}
-                  >
-                    <PiDotsThreeOutlineVerticalFill
-                      style={{ height: "20px", width: "20px" }}
-                    />
-
-                    {showDots === index && (
-                      <div
-                        ref={popupRef}
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor: "#F9F9F9",
-                          position: "absolute",
-                          top: 30,
-                          right: 40,
-                          width: 120,
-                          height: 70,
-                          border: "1px solid #EBEBEB",
-                          borderRadius: 10,
-                          display: "flex",
-                          flexDirection: "column",
-                          padding: 10,
-                          alignItems: "start",
-                        }}
-                      >
-                        <div
-                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          onClick={() => handleEditForm(view)}
-                        >
-                          <img
-                            src={Edit}
-                            style={{ height: 16, width: 16 }}
-                            alt="Edit"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#000000",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
-                        <div className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          onClick={() => handleDeleteForm(view)}
-                        >
-                          <img
-                            src={Delete}
-                            style={{ height: 16, width: 16 }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-
+                  <img src={Edit} width={16} height={16} alt="Edit" />
+                  <label className="text-dark fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
+                    Edit
+                  </label>
                 </div>
-
-
+                <div
+                  className="d-flex align-items-center gap-2"
+                  onClick={() => handleDeleteForm(view)}
+                >
+                  <img src={Delete} width={16} height={16} alt="Delete" />
+                  <label className="text-danger fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
+                    Delete
+                  </label>
+                </div>
               </div>
-
-            )
-          })
-
-
-            : !loading  && currentItems.length === 0 &&
-
-            <div style={{ justifyContent: "center", alignItems: "center", marginTop: 80 }}>
-              <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-              <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Role available</div>
-
-            </div>
-
-
-        }
-
-
+            )}
+          </div>
+        </div>
       </div>
+    ))
+  ) : (
+    !loading && (
+      <div className="d-flex flex-column align-items-center text-center mt-5">
+        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+        <div className="mt-3 fw-semibold text-secondary" style={{ fontSize: 20 }}>
+          No Role Available
+        </div>
+      </div>
+    )
+  )}
+</div>
+
 
 
 
