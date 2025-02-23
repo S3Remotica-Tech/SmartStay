@@ -84,13 +84,13 @@ function UserlistWalkin(props) {
   const [walkinLoader,setWalkingLoader] = useState(true)
 
   useEffect(() => {
-    // if(hostel_Id){
+    if(state.login.selectedHostel_Id){
       setWalkingLoader(true)
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id:state.login.selectedHostel_Id},
       });
-    // }
+    }
 
   }, [state.login.selectedHostel_Id]);
 

@@ -679,11 +679,14 @@ function UserList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    setLoading(true);
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: uniqueostel_Id },
-    });
+    if(uniqueostel_Id){
+      setLoading(true);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: uniqueostel_Id },
+      });
+    }
+   
   }, [uniqueostel_Id]);
 
   //  useEffect(() => {
@@ -999,11 +1002,6 @@ function UserList(props) {
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-    const timeout = setTimeout(() => {
-      // setLoading(false);
-    }, 2000); // Adjust the duration (1000ms = 1 second) as needed
-  
-    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -1316,6 +1314,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.NoUserListStatusCode === 201) {
       setUserDetails([])
+      setFilteredUsers([])
       // setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_USER_LIST' })

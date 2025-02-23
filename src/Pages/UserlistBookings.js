@@ -120,11 +120,14 @@ function Booking(props) {
   const [customerBooking,setCustomerBooking] = useState([])
 
   useEffect(() => {
-    setLoader(true)
-    dispatch({
-      type: "GET_BOOKING_LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+    if(state.login.selectedHostel_Id){
+      setLoader(true)
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+   
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
