@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import RoomDetailsPage from "./RoomDetailsPage";
+
 function CreatePG(props) {
     const [number_Of_Rooms,setnumber_Of_Rooms] = useState('')
     const [roomList,setRoomList] = useState([])
@@ -53,10 +54,12 @@ props.handleFloorList(props.index,roomList)
                         type="text"
                         className="form-control custom-border-bottom p-0"
                         id="exampleInput"
+                        data-testid='input-no-rooms'
                         placeholder="Enter here"
                         style={{ fontSize: "11px" }}
                         value={number_Of_Rooms}
                         onChange={(e) => {
+                            console.log(e.target.value)
                             setnumber_Of_Rooms(e.target.value)
                         }}
                     />
