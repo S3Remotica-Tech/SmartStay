@@ -864,7 +864,7 @@ function Expenses({ allPageHostel_Id }) {
               </div>
               <div className="d-flex  flex-wrap justify-content-between align-items-center">
 
-                <div style={{ position: 'relative', paddingRight: 20, marginTop: 11 }}>
+                <div style={{ position: 'relative', paddingRight: 20, marginTop: 11,background:"white" }}>
                   <Sort
                     Size="22"
                     color="#222"
@@ -874,7 +874,7 @@ function Expenses({ allPageHostel_Id }) {
                   />
 
                   {showFilter &&
-                    <ListGroup  ref={filterRef} style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                    <ListGroup  ref={filterRef} style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer",background:"white" }}>
                       <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
 
 

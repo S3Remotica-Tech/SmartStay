@@ -378,7 +378,7 @@ function BankingAddForm(props) {
                   }}
                 >
                   IFSC code{" "}
-                  {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -398,12 +398,12 @@ function BankingAddForm(props) {
                   }}
                 />
               </Form.Group>
-              {/* {ifcsCodeError && (
+              {ifcsCodeError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize:"14",marginRight:"5px"}}/>
                   <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
                 </div>
-              )} */}
+              )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group >

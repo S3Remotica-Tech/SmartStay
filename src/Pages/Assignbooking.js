@@ -852,12 +852,12 @@ function AssignBooking(props) {
            
                                  {bedError && (
                                    <div style={{ color: "red" }}>
-                                     <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                                     <MdError style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}/>
                                      <label
                                        className="mb-0"
                                        style={{
                                          color: "red",
-                                         fontSize: "12px",
+                                         fontSize: "13px",
                                          fontFamily: "Gilroy",
                                          fontWeight: 500,
                                        }}

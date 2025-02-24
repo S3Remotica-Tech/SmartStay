@@ -6527,6 +6527,7 @@ const InvoicePage = () => {
                     color: "red",
                     marginTop: "3px",
                     fontFamily: "Gilroy",
+                    textAlign:"center"
                   }}
                 >
                   {allfielderrmsg !== " " && (
@@ -6549,7 +6550,7 @@ const InvoicePage = () => {
           {tableErrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px",textAlign:"center" }}
                   >
                     {tableErrmsg !== " " && (
                       <MdError
