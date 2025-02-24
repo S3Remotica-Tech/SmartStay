@@ -4,7 +4,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
 import imageCompression from "browser-image-compression";
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Button from "react-bootstrap/Button";
@@ -18,14 +18,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { Eye, EyeSlash } from "iconsax-react";
 import Logout from "../Assets/Images/LogoutCurve-Linear.png";
 import VISA from "../Assets/Images/visa.png";
-import { style } from "@mui/system";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile_Security from "./Profile_security";
 import Notify from "../Assets/Images/New_images/notify.png";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Dropdown, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -35,35 +33,26 @@ const Accountsettings = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [profilePicture, setProfilePicture] = useState("");
   const [settingGeneral, setSettigGeneral] = useState("");
   const [profilepermissionError, setProfilePermissionError] = useState("");
   const [profileEdit, setProfileEdit] = useState("");
-  const [selectedTab, setSelectedTab] = useState("Personal");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [Address, setAddress] = useState("");
-  const [Country, setCountry] = useState("");
-  const [City, setCity] = useState("");
-  const [statee, setStatee] = useState("");
   const [id, setId] = useState("");
-  const [updateval, setUpdateval] = useState("");
-  const [login_Password, setLogin_Password] = useState("");
   const [currentpasswordfilter, setcurentpasswordfilter] = useState("");
   const initialValuesRef = useRef({});
   const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [mobilenoError, setMobileNoError] = useState("");
   const [AddressError, setAddressError] = useState("");
-  const [error, setError] = useState(false);
   const [value, setValue] = React.useState("1");
   const [countryCode, setCountryCode] = useState("91");
   const [displayPassword, setDisplayPassword] = useState(false);
   const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState([]);
+  // const [notification, setNotification] = useState([]);
   const [currentpassword, setCurrentpassword] = useState("");
   const [passworderrmsg, setPasswordErrormsg] = useState("");
   const [inputdisable, setInputDisable] = useState("");
@@ -76,9 +65,9 @@ const Accountsettings = () => {
   const [hideCurrentpassword, setHideCurrentPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentpassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
-  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
-  const [isNumericEnough, setNumericEnough] = useState(false);
+  // const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
+  // const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
+  // const [isNumericEnough, setNumericEnough] = useState(false);
 
   useEffect(() => {
     setSettigGeneral(state.createAccount.accountList);
@@ -106,7 +95,7 @@ const Accountsettings = () => {
     }
   }, [settingGeneral]);
 
-  const cookies = new Cookies();
+  // const cookies = new Cookies();
 
   // const tokenCookies = cookies.get('token');
 
@@ -123,21 +112,20 @@ const Accountsettings = () => {
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
-    setNotification(state.login.Notification);
   }, []);
 
-  useEffect(() => {
-    if (
-      state.login.UpdateNotificationMessage != null &&
-      state.login.UpdateNotificationMessage != ""
-    ) {
-      dispatch({ type: "ALL-NOTIFICATION-LIST" });
-      setTimeout(() => {
-        dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        newNotificationIDs = [];
-      }, 100);
-    }
-  }, [state.login.UpdateNotificationMessage]);
+  // useEffect(() => {
+  //   if (
+  //     state.login.UpdateNotificationMessage != null &&
+  //     state.login.UpdateNotificationMessage != ""
+  //   ) {
+  //     dispatch({ type: "ALL-NOTIFICATION-LIST" });
+  //     setTimeout(() => {
+  //       dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
+  //       newNotificationIDs = [];
+  //     }, 100);
+  //   }
+  // }, [state.login.UpdateNotificationMessage]);
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -156,7 +144,7 @@ const Accountsettings = () => {
       (notification) => notification.status === 1
     ).map((notification) => notification.id);
 
-  const newNotificationsCount = newNotificationIDs.length;
+  // const newNotificationsCount = newNotificationIDs.length;
 
   const handleClosepopup = () => setShow(false);
 
@@ -229,9 +217,9 @@ const Accountsettings = () => {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_MOBILE_ERROR" });
 
-    const phoneNumber = parseInt(phone, 10);
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(e.target.value);
+    // const phoneNumber = parseInt(phone, 10);
+    // const pattern = new RegExp(/^\d{1,10}$/);
+    // const isValidMobileNo = pattern.test(e.target.value);
 
     if (e.target.value.trim() === "") {
       setMobileNoError("Please Enter phone");
@@ -319,7 +307,7 @@ const Accountsettings = () => {
     }
   }, [state?.createAccount?.accountList]);
 
-  const tokenCookies = cookies.get("token");
+  // const tokenCookies = cookies.get("token");
 
   useEffect(() => {
     if (state.createAccount.statusCodeForAccount == 200) {
@@ -446,7 +434,7 @@ const Accountsettings = () => {
 
       if (loginInfo) {
         const LoginId = loginInfo.id;
-        const NameId = loginInfo.Name;
+        // const NameId = loginInfo.Name;
         const phoneId = loginInfo.mobileNo;
         const emilidd = loginInfo.email_Id;
         const Is_Enable = loginInfo.isEnable;
@@ -517,7 +505,7 @@ const Accountsettings = () => {
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
-    localStorage.setItem("NameId", "");
+    // localStorage.setItem("NameId", "");
     localStorage.setItem("phoneId", "");
     localStorage.setItem("emilidd", "");
     // localStorage.setItem('currentPage', 'dashboard');
@@ -532,17 +520,17 @@ const Accountsettings = () => {
     selectedImage !== initialValuesRef.current.Profile;
 
   const handleSaveUpdate = () => {
-    const emailcapitalelement = document.getElementById("emailIDError");
-    const emailCapitalError = emailcapitalelement
-      ? emailcapitalelement.innerHTML
-      : "";
-    const phoneNumberError = document.getElementById("MobileNumberError");
-    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : "";
+    // const emailcapitalelement = document.getElementById("emailIDError");
+    // const emailCapitalError = emailcapitalelement
+    //   ? emailcapitalelement.innerHTML
+    //   : "";
+    // const phoneNumberError = document.getElementById("MobileNumberError");
+    // const mobileError = phoneNumberError ? phoneNumberError.innerHTML : "";
 
     const emailElement = document.getElementById("emailIDError");
     const emailError = emailElement ? emailElement.innerHTML : "";
 
-    const phoneNumber = parseInt(phone, 10);
+    // const phoneNumber = parseInt(phone, 10);
     const phonePattern = new RegExp(/^\d{10}$/);
     const isValidMobileNo = phonePattern.test(phone);
 
@@ -621,23 +609,23 @@ const Accountsettings = () => {
     const password = e.target.value;
     let errorMessage = "";
 
-    if (password.length >= 8) {
-      setIsPasswordLongEnough(true);
-    } else {
-      setIsPasswordLongEnough(false);
-    }
+    // if (password.length >= 8) {
+    //   setIsPasswordLongEnough(true);
+    // } else {
+    //   setIsPasswordLongEnough(false);
+    // }
 
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
-      setLowerCaseEnough(true);
-    } else {
-      setLowerCaseEnough(false);
-    }
+    // if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+    //   setLowerCaseEnough(true);
+    // } else {
+    //   setLowerCaseEnough(false);
+    // }
 
-    if (/\d/.test(password) && /[@$!%*?&]/.test(password)) {
-      setNumericEnough(true);
-    } else {
-      setNumericEnough(false);
-    }
+    // if (/\d/.test(password) && /[@$!%*?&]/.test(password)) {
+    //   setNumericEnough(true);
+    // } else {
+    //   setNumericEnough(false);
+    // }
 
     if (password.length < 8) {
       errorMessage = "Password must be at least 8 characters long.";
@@ -701,16 +689,19 @@ const Accountsettings = () => {
           confirm_password: confirmpassword,
         },
       });
-      inputRefs &&
+    
+      if (inputRefs) {
         inputRefs.forEach((ref) => {
           if (ref.current) {
             ref.current.value = null;
           }
         });
-
+      }
+    
       setPassword("");
       setConfirmPassword("");
-    } else {
+    }
+     else {
       // setShowOtpVerification(false);
       Swal.fire({
         icon: "error",
@@ -726,7 +717,6 @@ const Accountsettings = () => {
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
       entries,
-      appearOnScrool
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -800,10 +790,10 @@ const Accountsettings = () => {
           style={{ maxHeight: "calc(100vh - 35px)", overflowY: "auto" }}
         >
           <div
-            class="d-flex flex-row bd-highlight mb-3  item"
+            className="d-flex flex-row bd-highlight mb-3  item"
             style={{ marginTop: "-20px", fontSize: "15px" }}
           >
-            <div class="p-1 bd-highlight user-menu">
+            {/* <div className="p-1 bd-highlight user-menu">
               <div>
                 {newNotificationsCount > 0 && (
                   <p style={{ marginTop: "10px" }}>
@@ -861,7 +851,7 @@ const Accountsettings = () => {
                   </div>
                 </>
               </div>
-            </div>
+            </div> */}
           </div>
         </Offcanvas.Body>
       </Offcanvas>
@@ -1892,12 +1882,12 @@ const Accountsettings = () => {
                     fill="none"
                   >
                     <path
-                      d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5"
-                      stroke="#1e45e1"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
+  d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5"
+  stroke="#1e45e1"
+  strokeWidth="1.5"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+/>
                   </svg>
                 </div>
 

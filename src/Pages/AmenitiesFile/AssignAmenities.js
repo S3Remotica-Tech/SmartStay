@@ -1,20 +1,18 @@
-import React, { useRef, useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button';
+import React, {useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { MdError } from "react-icons/md";
-import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {  CloseCircle} from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Forward from '../../Assets/Images/New_images/Forward.svg'
 import BackWard from '../../Assets/Images/New_images/Backward.svg'
 import Image from 'react-bootstrap/Image';
+import PropTypes from "prop-types";
 
 
-function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }) {
+function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 
   const state = useSelector(state => state)
 
@@ -184,8 +182,8 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {unAssignedList.length > 0 && unAssignedList.map((list) => {
                       return (
-                        <div>
-                          <div key={list.user_id} className='d-flex justify-content-between'>
+                        <div key={list.user_id}>
+                          <div  className='d-flex justify-content-between'>
                             <div>
                               <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
 
@@ -229,8 +227,8 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {AssignedList.length > 0 && AssignedList.map((list) => {
                       return (
-                        <div>
-                          <div key={list.user_id} className='d-flex justify-content-between'>
+                        <div key={list.user_id}>
+                          <div  className='d-flex justify-content-between'>
                             <div>
                               <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
 
@@ -290,5 +288,11 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     </div>
   )
 }
+AssignAmenities.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  assignAmenitiesDetails: PropTypes.func.isRequired, 
+};
+
 
 export default AssignAmenities

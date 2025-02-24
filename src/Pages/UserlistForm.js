@@ -1,59 +1,21 @@
-import {
-  Button,
-  Offcanvas,
-  Form,
-  FormControl,
-  FormSelect,
-} from "react-bootstrap";
-import moment from "moment";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import {Button, Form,FormControl,} from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
 import "../Pages/UserList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup, Pagination } from "react-bootstrap";
+import { InputGroup} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
-import User from "../Assets/Images/Profile-complaint.png";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
-import Select from "react-select";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
+import PropTypes from "prop-types";
 
 function UserlistForm(props) {
-  const bottomBorderStyle = {
-    border: "none",
-    borderBottom: "1px solid #ced4da",
-    borderRadius: "0",
-    boxShadow: "none",
-    fontWeight: "bold",
-    fontSize: "12px",
-  };
-
-  const bottomBorderStyles = {
-    border: "none",
-    borderBottom: "1px solid #ced4da",
-    borderRadius: "0",
-    boxShadow: "none",
-    fontWeight: "bold",
-    fontSize: "12px",
-    padding: "3px",
-  };
 
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
@@ -73,17 +35,12 @@ function UserlistForm(props) {
   const [paid_rent, setPaidrent] = useState("");
   const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
-  const [isActive, setIsActive] = useState("");
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  const [bedArray, setBedArray] = useState("");
-  const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState(null);
-  const [romnum, setRoomnum] = useState("");
-  const [createdat, setCreatedAt] = useState("");
+  // const [romnum, setRoomnum] = useState("");
   const [payableamount, setPayableamount] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
   const [selectedDate, setSelectedDate] = useState(null);
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
@@ -100,8 +57,7 @@ function UserlistForm(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
-
-
+  const countryCode = '91';
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
   // };
@@ -109,9 +65,6 @@ function UserlistForm(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
-
-  const [profilePicture, setProfilePicture] = useState("");
-  const [filteredProfile, setFilteredProfile] = useState(null);
   const [dateError, setDateError] = useState("");
 
   const handleImageChange = async (event) => {
@@ -142,10 +95,10 @@ function UserlistForm(props) {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-  const handleDate = (selectedDates) => {
-    setSelectedDate(selectedDates[0]);
-    setDateError("");
-  };
+  // const handleDate = (selectedDates) => {
+  //   setSelectedDate(selectedDates[0]);
+  //   setDateError("");
+  // };
 
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
@@ -159,13 +112,13 @@ function UserlistForm(props) {
       });
     }
   }, [Floor]);
-  useEffect(() => {
-    const Roomdetail = state.UsersList.Users.filter((item) => {
-      return item.Hostel_Id == hostel_Id && item.Floor == Floor;
-    });
+  // useEffect(() => {
+  //   const Roomdetail = state.UsersList.Users.filter((item) => {
+  //     return item.Hostel_Id == hostel_Id && item.Floor == Floor;
+  //   });
 
-    setRoomnum(Roomdetail);
-  }, [state.UsersList.Users]);
+  //   setRoomnum(Roomdetail);
+  // }, [state.UsersList.Users]);
 
   const handleFirstName = (e) => {
     setFirstname(e.target.value);
@@ -239,20 +192,20 @@ function UserlistForm(props) {
     setLastname(e.target.value);
   };
 
-  const handlePaidadvance = (e) => {
-    setPaidAdvance(e.target.value);
-  };
+  // const handlePaidadvance = (e) => {
+  //   setPaidAdvance(e.target.value);
+  // };
 
   // useEffect(() => {
   //   dispatch({ type: "COUNTRYLIST" });
   // }, []);
 
-  const handlePaidrent = (e) => {
-    const value = e.target.value;
-    if (value <= payableamount) {
-      setPaidrent(e.target.value);
-    }
-  };
+  // const handlePaidrent = (e) => {
+  //   const value = e.target.value;
+  //   if (value <= payableamount) {
+  //     setPaidrent(e.target.value);
+  //   }
+  // };
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -293,9 +246,9 @@ function UserlistForm(props) {
     setAddressError("");
   };
 
-  const handleIsActiveUser = (e) => {
-    setIsActive(e.target.value);
-  };
+  // const handleIsActiveUser = (e) => {
+  //   setIsActive(e.target.value);
+  // };
 
   useEffect(() => {
     const selectedHostel = state.UsersList.hostelListNewDetails.data &&
@@ -438,14 +391,14 @@ function UserlistForm(props) {
   //  },[hostel_Id,Floor,Rooms, Bed])
 
   const handleRoomRent = (e) => {
-    const value = e.target.value;
+    // const value = e.target.value;
     setRoomRent(e.target.value);
     setRoomRentError("");
   };
 
-  const handlePaymentType = (e) => {
-    setPaymentType(e.target.value);
-  };
+  // const handlePaymentType = (e) => {
+  //   setPaymentType(e.target.value);
+  // };
 
   const handleAdvanceAmount = (e) => {
     const advanceAmount = e.target.value;
@@ -453,15 +406,15 @@ function UserlistForm(props) {
     setAdvanceAmountError("");
   };
 
-  const handleAadharNo = (e) => {
-    setAadharNo(e.target.value);
-  };
-  const handlePancardNo = (e) => {
-    setPancardNo(e.target.value);
-  };
-  const handlelicence = (e) => {
-    setLicence(e.target.value);
-  };
+  // const handleAadharNo = (e) => {
+  //   setAadharNo(e.target.value);
+  // };
+  // const handlePancardNo = (e) => {
+  //   setPancardNo(e.target.value);
+  // };
+  // const handlelicence = (e) => {
+  //   setLicence(e.target.value);
+  // };
 
   const handleClose = () => {
     setFirstname("");
@@ -498,26 +451,6 @@ function UserlistForm(props) {
     }
   };
 
-  const [reports, setReports] = useState([
-    {
-      id: 1,
-      CustomerName: "mathu",
-      contactPerson: "Chitra",
-      Email: "abc@gmail.com",
-      Mobile: 1234587685,
-      Address: "North strret chennai, Gst:GST501",
-      openingBalance: 2500,
-    },
-    {
-      id: 2,
-      CustomerName: "Jasvika",
-      contactPerson: "Chitra",
-      Email: "abc@gmail.com",
-      Mobile: 1234587685,
-      Address: "North strret chennai, Gst:GST501",
-      openingBalance: 2500,
-    },
-  ]);
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
@@ -580,7 +513,6 @@ function UserlistForm(props) {
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     const payload = {
       profile: file,
       firstname: capitalizedFirstname,
@@ -711,20 +643,7 @@ function UserlistForm(props) {
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
-  const countries = [
-    {
-      value: "IN",
-      label: (
-        <>
-          <img
-            src="https://www.worldometers.info/img/flags/in-flag.gif"
-            alt="India Flag"
-            style={{ height: "20px", width: "20px", marginRight: "5px" }}
-          />{" "}
-        </>
-      ),
-    },
-  ];
+ 
 
 
   const customDateInput = (props) => {
@@ -769,7 +688,6 @@ function UserlistForm(props) {
         <Modal.Dialog
           style={{
             maxWidth: 950,
-            paddingRight: "10px",
             paddingRight: "10px",
             borderRadius: "30px",
           }}
@@ -1668,4 +1586,24 @@ function UserlistForm(props) {
     </div>
   );
 }
+
+
+UserlistForm.propTypes = {
+  EditObj: PropTypes.func.isRequired,
+  setRoomDetail: PropTypes.func.isRequired,
+  setUserClicked: PropTypes.func.isRequired, 
+  setShowMenu: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
+  OnShowTable: PropTypes.func.isRequired, 
+  setEdit: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  AfterEditHostels: PropTypes.func.isRequired, 
+  AfterEditFloors: PropTypes.func.isRequired,
+  AfterEditRoomses: PropTypes.func.isRequired,
+  AfterEditBeds: PropTypes.func.isRequired, 
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  displayDetail: PropTypes.func.isRequired, 
+  showMenu: PropTypes.func.isRequired, 
+};
 export default UserlistForm;
