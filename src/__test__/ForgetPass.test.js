@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { render, screen } from "@testing-library/react";
 import ForgetPasswordPage from "../Components/Forgetpass";
 import userEvent from "@testing-library/user-event";

@@ -1,10 +1,9 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+/* eslint-env jest */
+import { render, screen } from "@testing-library/react";
 import CreatePG from "../Components/CreatePG";
-import userEvent from "@testing-library/user-event";
 
 describe('test create PG UI', () => {
 
-    const event = userEvent.setup()
     const props = {
         handleFloorList: jest.fn(),
         index: 0

@@ -1,10 +1,10 @@
+/* eslint-env jest */
 import { render, screen } from "@testing-library/react";
 import CreateAccountPage from "../Components/CreateAccount";
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from '@testing-library/user-event'
-import { fn } from "moment/moment";
 
 
 jest.mock('react-redux', () => ({
@@ -130,7 +130,7 @@ describe('checking for create account', () => {
 
     })
 
-    it('it should verify the first name with empty values', async () => {
+    it('it should verify the first name with no values', async () => {
         render(<Provider store={store}>
             <MemoryRouter>
                 <CreateAccountPage />
