@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios'; 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 
 
 function OTPSend() {
 
-  const state = useSelector(state => state)
+ 
   const dispatch = useDispatch();
 
 
   const [email, setEmail] = useState('');
-  const [otpSent, setOTPSent] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);

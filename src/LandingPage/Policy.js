@@ -66,7 +66,8 @@ function Policy() {
         <ul style={listStyle}>
           <li>with certain personally identifiable information, including but not limited to Name, mobile number, address, location (ONLY Limited For emergency support by your community).</li>
           <li>The information that we request will be retained by us and used as described in this privacy policy. At NO stage of business, we share or exchange your information to vendors or third parties.</li>
-          <li>Resident's Profile image: For identification and mandated by all governments, these hostels may ask you to upload your profile image.</li>
+          <li>Resident&#39;s Profile image: For identification and mandated by all governments, these hostels may ask you to upload your profile image.</li>
+
         </ul>
       </section>
 

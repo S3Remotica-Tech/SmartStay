@@ -1,26 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Appicon from "../Assets/Images/Logo-color.png";
-import Login from "../Assets/Images/new icon/login-user.png";
 // import Eye from "../Assets/Images/new icon/eye.png";
 import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import eyeClosed from '../Assets/Images/Show_password.png';
-import HomeSideComponent from "./HomeSideContent";
-import CryptoJS from "crypto-js";
 import OtpVerificationModal from '../Pages/OtpVerificationModal';
 import Cookies from 'universal-cookie';
 import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { Alert } from 'react-bootstrap';
 import { MdError } from "react-icons/md";
 
 
@@ -32,8 +25,8 @@ const MyComponent = () => {
 
   const [email_Id, setemail_Id] = useState('')
   const [password, setpassword] = useState('')
-  const [rolePermission,setRolePermission]=useState("")
-  const [permissionError,setPermissionError]=useState("")
+  // const [rolePermission,setRolePermission]=useState("")
+  // const [permissionError,setPermissionError]=useState("")
 
   const [showPassword, setShowpassword] = useState(false)
 
@@ -83,18 +76,18 @@ const MyComponent = () => {
   }, [state.login.otpSuccessStatusCode])
 
 
-useEffect(()=>{
-  setRolePermission(state.createAccount.accountList)
-},[state.createAccount.accountList])
+// useEffect(()=>{
+//   setRolePermission(state.createAccount.accountList)
+// },[state.createAccount.accountList])
 
-useEffect(()=>{
-if(rolePermission.is_owner != 1){
-  setPermissionError('')
-}
-else{
-  setPermissionError('Permission Denied')
-}
-},[])
+// useEffect(()=>{
+// if(rolePermission.is_owner != 1){
+//   setPermissionError('')
+// }
+// else{
+//   setPermissionError('Permission Denied')
+// }
+// },[])
 
 
 
@@ -108,7 +101,6 @@ else{
       const token = state.login.JWTtoken
       const cookies = new Cookies()
       cookies.set('token', token, { path: '/' });
-      const tokenCookies = cookies.get('token');
 
 
       //  dispatch({ type: 'ACCOUNTDETAILS'})
@@ -144,7 +136,7 @@ else{
   const handleLogin = () => {
 
 
-    let hasError = false;
+    // let hasError = false;
 
     setEmailError('');
     setPasswordError('');
@@ -153,14 +145,14 @@ else{
       setEmailError('Please enter email id');
       setPasswordError('Please enter password');
       return
-      hasError = true;
+      // hasError = true;
     } else if (!email_Id) {
       setEmailError('Please enter email id');
-      hasError = true;
+      // hasError = true;
       return
     } else if (!password) {
       setPasswordError('Please enter password');
-      hasError = true;
+      // hasError = true;
       return
     }
 
@@ -172,29 +164,6 @@ else{
 
 
 
-
-
-    // if (!email_Id && !password) {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         title: 'Error',
-    //         text: 'Enter Email id and Password',
-    //                });
-    // } else if (!email_Id) {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         title: 'Error',
-    //         text: 'Enter Email id',
-    //                });
-    // } else if (!password) {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         title: 'Error',
-    //         text: 'Enter Password',
-    //             });
-    // } else {
-    //     dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
-    // }
   };
 
 
@@ -203,7 +172,7 @@ else{
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -345,8 +314,10 @@ else{
             <img src={Loginimage} className='responsive-image' alt='Hai' />
           </div>
         </div>
-        <div className=' d-flex mt-3 gap-1'>
-          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>Don't have an account? </p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
+        <div className='d-flex mt-3 gap-1'>
+        <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
+  Don&apos;t have an account?
+</p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
         </div>
 
       </div>

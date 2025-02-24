@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Plus from "../Assets/Images/Create-button.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-import CreatePG from "../Components/CreatePG";
 import "../Pages/Dashboard.css";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";

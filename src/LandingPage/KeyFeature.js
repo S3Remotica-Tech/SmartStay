@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Room from '../Assets/Images/Key/Rooms.png'
 import Custom from '../Assets/Images/Key/People.png'
 import Inventry from '../Assets/Images/Key/Inventory.png'
@@ -12,7 +12,7 @@ function KeyFeature() {
  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const [keyValue, setKeyValue] = useState([
+  const keyValue = [
     { id: 1, Heading: "Room Management", Title: "Easily manage room availability, bookings, and occupancy status.", KeyImage: Room },
     { id: 2, Heading: "Customer Management", Title: "Keep track of customer details, stay history, and preferences.", KeyImage: Custom },
     { id: 3, Heading: "Inventory Management", Title: "Monitor and manage your inventory with real-time updates.", KeyImage: Inventry },
@@ -20,14 +20,14 @@ function KeyFeature() {
     { id: 5, Heading: "Complaint Management", Title: "Efficiently handle customer complaints and feedback.", KeyImage: Compliant },
     { id: 6, Heading: "Utility Bill Management", Title: "Track and manage electricity bills and other expenses.", KeyImage: Bill }
 
-  ])
+  ]
 
   useEffect(() => {
     const appearOptions = {
       threshold : 0.5
     };
     const faders = document.querySelectorAll('.fade-in'); 
-    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    const appearOnScro1l = new IntersectionObserver(function(entries){
       entries.forEach(entry =>{
         if(!entry.isIntersecting){
           return;

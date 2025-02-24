@@ -9,26 +9,16 @@ import EbHostel from "../Pages/EB_Hostel";
 import Checkout from "../Pages/Checkout";
 import Invoices from "../Pages/Invoice";
 import Compliances from "../Pages/Compliance";
-import Payments from "../Pages/Payment";
-import UserAccesss from "../Pages/UserAccess";
 import Report from "../Reports/Reports";
-import Setting from "../Pages/Settings";
-import Supports from "../Pages/Support";
 import VendorComponent from "../Pages/VendorFIle/Vendor";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup, FormControl, Pagination } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
-import Notify from "../Assets/Images/New_images/notify.png";
 import Profileimage from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import Cookies from "universal-cookie";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
-import Smarts from "../Assets/Images/Smartstaysm1.png";
-import Dash from "../Assets/Images/New_images/home.svg";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Manage from "../Assets/Images/New_images/category.png";
@@ -42,10 +32,8 @@ import Eb from "../Assets/Images/New_images/electricity.png";
 import Compl from "../Assets/Images/New_images/messages_gray.png";
 import Expense from "../Assets/Images/New_images/expenses.png";
 import Repo from "../Assets/Images/New_images/reports.png";
-import Sett from "../Assets/Images/New_images/settings.png";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
-import Dash2 from "../Assets/Images/New_images/category-active.png";
 import Paying2 from "../Assets/Images/New_images/housepay.png";
 import Custom2 from "../Assets/Images/New_images/profile_blue.png";
 import Invoice2 from "../Assets/Images/New_images/clipboard-text.png";
@@ -55,7 +43,6 @@ import Eb2 from "../Assets/Images/New_images/ele-active.png";
 import Compl2 from "../Assets/Images/New_images/messages-active.png";
 import Expense2 from "../Assets/Images/New_images/coin.png";
 import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
-import Sett2 from "../Assets/Images/New_images/setting-2.png";
 import Profilesettings from "../Pages/AccountSettings";
 import Banking from "../Pages/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
@@ -63,11 +50,6 @@ import bankblank from "../Assets/Images/New_images/blank_bank.png";
 import {
   ArrowUp2,
   ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
 } from "iconsax-react";
 import SettingAllPages from "../Pages/SettingAllPages";
 import hostelimage from "../Assets/Images/New_images/hostelImage.png";
@@ -76,21 +58,18 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import AddPg from "../Pages/PayingGuestFile/AddPg";
 import SettingManage from "../Pages/SettingManage";
 
 function Sidebar() {
-  const cookies = new Cookies();
-  let navigate = useNavigate();
+  // const cookies = new Cookies();
+  // let navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state", state);
   const stateData = useSelector((state) => state.createAccount);
-  const stateLogin = useSelector((state) => state.login);
 
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [currentPageDrop, setCurrentPageDrop] = useState("settingNewDesign");
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [isInitialized, setIsInitialized] = useState(false);
@@ -110,12 +89,11 @@ function Sidebar() {
     }
   }, [currentPage]);
 
-  let LoginId = localStorage.getItem("loginId");
-  let checkedValue = localStorage.getItem("checked");
-  const [hover, setHover] = useState(false);
+  // let LoginId = localStorage.getItem("loginId");
+  // let checkedValue = localStorage.getItem("checked");
   const [hostelListDetail,setHostelDetail] = useState("")
 
-  const loginId = localStorage.getItem("loginId");
+  // const loginId = localStorage.getItem("loginId");
 
   useEffect(() => {
     // dispatch({ type: "HOSTELLIST" });
@@ -142,58 +120,18 @@ function Sidebar() {
       }
       },[state.UsersList.statusCodeForhostelListNewDetails])
 
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState([]);
-  const [hostel_Id, setHostel_Id] = useState("");
+  // const [show, setShow] = useState(false);
+  // const [notification, setNotification] = useState([]);
+  // const [hostel_Id, setHostel_Id] = useState("");
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
-    setNotification(state.login.Notification);
   }, []);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
-  }, [state.login.selectedHostel_Id]);
-  console.log("state.login.selectedHostel_Id", state.login.selectedHostel_Id);
-  let newNotificationIDs =
-    state.login.Notification &&
-    state.login.Notification?.length > 0 &&
-    state.login.Notification.filter(
-      (notification) => notification.status === 1
-    ).map((notification) => notification.id);
+  
+  
 
-  const newNotificationsCount = newNotificationIDs.length;
-
-  const handleClosepopup = () => setShow(false);
-
-  const handleShowpopup = () => {
-    setShow(true);
-    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
-      setTimeout(() => {
-        dispatch({
-          type: "UPDATE-NOTIFICATION",
-          payload: { id: newNotificationIDs },
-        });
-      }, 1000);
-    }
-
-    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-  };
-
-  useEffect(() => {
-    if (
-      state.login.UpdateNotificationMessage != null &&
-      state.login.UpdateNotificationMessage != ""
-    ) {
-      dispatch({ type: "ALL-NOTIFICATION-LIST" });
-      setTimeout(() => {
-        dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        newNotificationIDs = [];
-      }, 100);
-    }
-  }, [state.login.UpdateNotificationMessage]);
+  
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList == 200) {
@@ -201,7 +139,7 @@ function Sidebar() {
 
       if (loginInfo) {
         const LoginId = loginInfo.id;
-        const NameId = loginInfo.Name;
+        // const NameId = loginInfo.Name;
         const phoneId = loginInfo.mobileNo;
         const emilidd = loginInfo.email_Id;
         const Is_Enable = loginInfo.isEnable;
@@ -283,26 +221,26 @@ function Sidebar() {
   //   setProfiles(0)
   // }
 
-  const [selectedHostel, setSelectedHostel] = useState(null);
+  // const [selectedHostel, setSelectedHostel] = useState(null);
 
-  const handleHostelSelect = (hostelName) => {
-    const selected = state.hostelList.find((item) => {
-      return item.Name === hostelName;
-    });
-    setSelectedHostel(selected);
-  };
+  // const handleHostelSelect = (hostelName) => {
+  //   const selected = state.hostelList.find((item) => {
+  //     return item.Name === hostelName;
+  //   });
+  //   // setSelectedHostel(selected);
+  // };
 
-  const [activePage, setActivePage] = useState(true);
+  // const [activePage, setActivePage] = useState(true);
 
-  const [pgList, setPgList] = useState({
-    Name: "",
-    phoneNumber: "",
-    email_Id: "",
-    location: "",
-    number_Of_Floor: "",
-    number_Of_Rooms: "",
-    floorDetails: [],
-  });
+  // const [pgList, setPgList] = useState({
+  //   Name: "",
+  //   phoneNumber: "",
+  //   email_Id: "",
+  //   location: "",
+  //   number_Of_Floor: "",
+  //   number_Of_Rooms: "",
+  //   floorDetails: [],
+  // });
 
   useEffect(() => {
     setCurrentPage(localStorage.getItem("currentPage"));
@@ -310,7 +248,7 @@ function Sidebar() {
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
-    setActivePage(false);
+    // setActivePage(false);
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
   };
@@ -331,23 +269,23 @@ function Sidebar() {
       setAllPageHostel_Id("");
       dispatch(StoreSelectedHostelAction(""));
       console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(""));
-      setHostel_Id("");
+      // setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
 
-  const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
-  const toggleSidebar = () => {
-    setIsSidebarMaximized(!isSidebarMaximized);
-  };
+  // const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
+  // const toggleSidebar = () => {
+  //   setIsSidebarMaximized(!isSidebarMaximized);
+  // };
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+  // useEffect(() => {
+  //   const handleResize = () => setWindowWidth(window.innerWidth);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   const [logoutformshow, setLogoutformshow] = useState(false);
 
@@ -365,7 +303,7 @@ function Sidebar() {
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
-    localStorage.setItem("NameId", "");
+    // localStorage.setItem("NameId", "");
     localStorage.setItem("phoneId", "");
     localStorage.setItem("emilidd", "");
     localStorage.setItem("selectedHostelId", "");
@@ -375,28 +313,28 @@ function Sidebar() {
 
   const stateAccount = useSelector((state) => state.createAccount);
 
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
 
-  useEffect(() => {
-    const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile;
-    setProfile(Filteredprofile);
-  }, []);
+  // useEffect(() => {
+  //   const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile;
+  //   // setProfile(Filteredprofile);
+  // }, []);
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile;
-      setProfile(loginProfile);
+      // const loginProfile = stateAccount.accountList[0].user_details.profile;
+      // setProfile(loginProfile);
     }
   }, [stateAccount.statusCodeForAccountList]);
 
-  const handledisplaycompliace = (compliance) => {
+  const handledisplaycompliace = () => {
     setCurrentPage("compliance");
     localStorage.setItem("currentPage", "compliance");
   };
 
   const [settignspgshow, setSettingsPGShow] = useState(false);
 
-  const handledisplaySettingsPG = (settingNewDesign) => {
+  const handledisplaySettingsPG = () => {
     setCurrentPage("settingNewDesign");
     localStorage.setItem("currentPage", "settingNewDesign");
     setSettingsPGShow(true);
@@ -435,7 +373,7 @@ function Sidebar() {
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
-    const savedHostelName = localStorage.getItem("selectedHostelName");
+    // const savedHostelName = localStorage.getItem("selectedHostelName");
 
     if (
       !isInitialized &&
@@ -517,7 +455,7 @@ function Sidebar() {
   console.log("state.UsersList.hostelList", state.UsersList.hostelList.length);
 
   const [pgshow, setPgshow] = useState(false);
-  const [pgformshow, setPgformshow] = useState(true);
+  // const [pgformshow, setPgformshow] = useState(true);
 
   const handleShowsettingsPG = (settingNewDesign) => {
     handledisplaySettingsPG(settingNewDesign);
@@ -535,7 +473,7 @@ function Sidebar() {
   console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
   
 
-  const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
+  // const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import "./FrontPage.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -10,13 +10,9 @@ import { useNavigate } from "react-router-dom";
 import Lock from "../Assets/Images/Lock.png";
 import Heart from '../Assets/Images/heart.png';
 import { BiCopyright } from "react-icons/bi";
-import { useDispatch, useSelector } from 'react-redux';
-import CryptoJS from "crypto-js";
 
 function FrontPage() {
 
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
   
   let navigate = useNavigate();
 
@@ -42,12 +38,12 @@ function FrontPage() {
           expand="lg"
           className="navigation" style={{ height: "auto", width: "100%", display: "flex" }}>
           <img src={Logo}
-            class="smartstay"
+            className="smartstay"
             alt='SmartStay Logo'
           ></img>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <Nav class="navbar12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Nav className="navbar12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Nav.Link href="#action1" className="mainNavbar">Home</Nav.Link>
               <Nav.Link href="#action2" className="mainNavbar">Why smart stay?</Nav.Link>
               <Nav.Link href="#action3" className="mainNavbar">About Smartstay</Nav.Link>
@@ -69,35 +65,35 @@ function FrontPage() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div class="join" style={{ position: "relative",height:"auto",backgroundColor:"" }} >
-          <div class="paragraph" style={{ backgroundColor: "" }}>
+        <div className="join" style={{ position: "relative",height:"auto",backgroundColor:"" }} >
+          <div className="paragraph" style={{ backgroundColor: "" }}>
             <h2 className="mb-3">Join. Promote. Earn.</h2>
             <p style={{ fontSize: "15px", color: "gray", textAlign: "justify", wordSpacing: -2 }} >
               Generate revenue from your audience by promoting
               Smartstay hostels and homes. Be a part of Smartstay
               Circle, an invite-only, global community of social
               media influencers and affiliate networks.
-              <button type="button" class="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} onClick={handleStartNow}>
+              <button type="button" className="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} onClick={handleStartNow}>
                 Start Now
               </button>
             </p>
           </div>
-          <div calss="image" style={{ backgroundColor: "" }}>
+          <div className="image" style={{ backgroundColor: "" }}>
             <img src={Screen} alt="Laptop"
               className="screen"
             ></img>
           </div>
         </div>
 
-        <div class="row m-0 pt-3" style={{backgroundColor: "#EDF1F2", width: "100%", height: "auto", color: "black", }}>
-          <div class="col-lg-3 offset-lg-1 p-0" >
+        <div className="row m-0 pt-3" style={{backgroundColor: "#EDF1F2", width: "100%", height: "auto", color: "black", }}>
+          <div className="col-lg-3 offset-lg-1 p-0" >
             <div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-              <BiCopyright  class="mb-0" style={{ height:12, color: "gray" }} />
-              <p class="ps-0 mb-0" style={{ fontSize: "11px", fontWeight: "500", color: "gray" }}>All rights reserved</p>
+              <BiCopyright  className="mb-0" style={{ height:12, color: "gray" }} />
+              <p className="ps-0 mb-0" style={{ fontSize: "11px", fontWeight: "500", color: "gray" }}>All rights reserved</p>
             </div>
           </div>
 
-          <div class="col-lg-3 offset-lg-5" >
+          <div className="col-lg-3 offset-lg-5" >
             <div>
               <p style={{ fontSize: "11px", fontWeight: "500", color: "gray" }}>Brought to you with <span><img src={Heart} style={{ height: 10, width: 10 }} /></span> by the Smartstay Team</p>
             </div>

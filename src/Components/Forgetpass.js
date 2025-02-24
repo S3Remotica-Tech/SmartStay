@@ -3,13 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Forgetpass.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import eyeClosed from '../Assets/Images/Show_password.png'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Hand from "../Assets/Images/hand.png";
-import HomeSideComponent from "./HomeSideContent";
-import Swal from 'sweetalert2'
 import Spinner from 'react-bootstrap/Spinner';
 import Forgot from '../Assets/Images/New_images/forgot.png'
 import Logo from '../Assets/Images/New_images/Group.png'
@@ -18,7 +14,6 @@ import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 // import { ClipLoader } from 'react-spinners';
 import { MdError } from "react-icons/md";
-import { BsNutFill } from 'react-icons/bs';
 
 
 function ForgetPasswordPage() {
@@ -31,7 +26,6 @@ function ForgetPasswordPage() {
   // const [showPassword, setShowpassword] = useState(false);
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [newPassword, setNewPassword] = useState(false)
-  const [otpValue, setOtpValue] = useState('');
   const [showLoader, setShowLoader] = useState('')
   const [showEmailSend, setShowEmailSend] = useState(true)
 
@@ -84,19 +78,12 @@ function ForgetPasswordPage() {
 
 
 
-  const toastStyle = {
-
-    backgroundColor: 'green',
-    color: 'white',
-    width: "100%"
-  };
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
       navigate("/login-Page")
       setEmail("");
       setPassword("");
-      setOtpValue("");
       setConfirmPassword('')
       setIsPasswordLongEnough(false)
       setLowerCaseEnough(false)
@@ -137,58 +124,59 @@ function ForgetPasswordPage() {
 
   const [confirmationError, setConfirmationError] = useState('')
 
-  const handlePasswordReset = () => {
-    // setShowOtpVerification(true)
+  // const handlePasswordReset = () => {
+  //   // setShowOtpVerification(true)
 
 
-    // if (passwordError) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Invalid Password',
-    //     text: passwordError,
-    //     confirmButtonText: 'Ok'
-    //   });
-    //   return;
-    // }
+  //   // if (passwordError) {
+  //   //   Swal.fire({
+  //   //     icon: 'warning',
+  //   //     title: 'Invalid Password',
+  //   //     text: passwordError,
+  //   //     confirmButtonText: 'Ok'
+  //   //   });
+  //   //   return;
+  //   // }
 
 
-    if (!password && !confirmpassword) {
-      setAllError('Please Enter  password  and confirm password ')
-    }
+  //   if (!password && !confirmpassword) {
+  //     setAllError('Please Enter  password  and confirm password ')
+  //   }
 
 
 
-    if (password !== confirmpassword) {
+  //   if (password !== confirmpassword) {
 
-      setConfirmationError('Please Enter Confirm Password Same as Password')
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Please Enter Confirm Password Same as Password',
-      //   confirmButtonText: 'Ok'
-      // });
-      // return;
-    }
+  //     setConfirmationError('Please Enter Confirm Password Same as Password')
+  //     // Swal.fire({
+  //     //   icon: 'warning',
+  //     //   title: 'Please Enter Confirm Password Same as Password',
+  //     //   confirmButtonText: 'Ok'
+  //     // });
+  //     // return;
+  //   }
 
 
-    if (password && confirmpassword && email) {
-      dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email, confirm_password: confirmpassword } });
-      inputRefs && inputRefs.forEach(ref => {
-        if (ref.current) {
-          ref.current.value = null;
-        }
+  //   if (password && confirmpassword && email) {
+  //     dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email, confirm_password: confirmpassword } });
+  //     inputRefs && inputRefs.forEach(ref => {
+  //       if (ref.current) {
+  //         ref.current.value = null;
+  //       }
 
-      });
+  //     });
 
-    } else {
+  //   } 
+  //   // else {
 
-      //   Swal.fire({
-      //   icon: 'error',
-      //   title: 'Please Enter All Fields',
+  //     //   Swal.fire({
+  //     //   icon: 'error',
+  //     //   title: 'Please Enter All Fields',
 
-      // });
+  //     // });
 
-    }
-  };
+  //   // }
+  // };
 
 
   // useEffect(()=>{
@@ -198,7 +186,33 @@ function ForgetPasswordPage() {
 
   // },[showOtpVerification])
 
-
+  const handlePasswordReset = () => {
+    if (!password && !confirmpassword) {
+      setAllError('Please Enter password and confirm password ');
+      return; 
+    }
+  
+    if (password !== confirmpassword) {
+      setConfirmationError('Please Enter Confirm Password Same as Password');
+      return;
+    }
+  
+    if (password && confirmpassword && email) {
+      dispatch({ 
+        type: 'FORGETPAGE', 
+        payload: { NewPassword: password, email: email, confirm_password: confirmpassword } 
+      });
+  
+      if (inputRefs) {
+        inputRefs.forEach(ref => {
+          if (ref.current) {
+            ref.current.value = null;
+          }
+        });
+      }
+    }
+  };
+  
 
 
 
@@ -295,12 +309,6 @@ function ForgetPasswordPage() {
   };
   
 
- 
-
-  const validatePassword = () => {
-    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
-    return pattern.test(password);
-  }
 
   const handleLogin = () => {
     setTimeout(() => {
@@ -315,24 +323,24 @@ function ForgetPasswordPage() {
     useRef(null),
     useRef(null),
   ];
-  const handleOtpInputChange = (e, index) => {
-    if (e.target.value.length === 1 && index < inputRefs.length - 1) {
-      inputRefs[index + 1].current.focus();
-    }
-    const updatedOtpValue = inputRefs.map(ref => ref.current.value).join('');
-    setOtpValue(updatedOtpValue);
-  };
+  // const handleOtpInputChange = (e, index) => {
+  //   if (e.target.value.length === 1 && index < inputRefs.length - 1) {
+  //     inputRefs[index + 1].current.focus();
+  //   }
+  //   const updatedOtpValue = inputRefs.map(ref => ref.current.value).join('');
+  //   setOtpValue(updatedOtpValue);
+  // };
 
   // const otpResponse = state.NewPass?.OTP?.response;
   // const otp = otpResponse?.otp
 
 
-  const handleOtpVerify = () => {
-    if (otpValue) {
-      dispatch({ type: 'OTPVERIFYFORGOTPASSWORD', payload: { Email_Id: email, OTP: otpValue } })
-    }
+  // const handleOtpVerify = () => {
+  //   if (otpValue) {
+  //     dispatch({ type: 'OTPVERIFYFORGOTPASSWORD', payload: { Email_Id: email, OTP: otpValue } })
+  //   }
 
-  }
+  // }
 
  
 
@@ -346,11 +354,11 @@ function ForgetPasswordPage() {
   };
 
 
-  const [passwordError, setPasswordError] = useState([]);
+  // const [passwordError, setPasswordError] = useState([]);
   const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(null);
   const [isLowerCaseEnough, setLowerCaseEnough] = useState(null);
   const [isNumericEnough, setNumericEnough] = useState(null);
-  const [disabledButton, setDisabledButton] = useState(false)
+
   const [passwordChanged, setPasswordChanged] = useState(false);
 
   const handlePassword = (e) => {
@@ -389,7 +397,8 @@ function ForgetPasswordPage() {
     } else if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
       errorMessages.push('Numeric and Special symbols');
 
-    } setPasswordError(errorMessages);
+    } 
+    // setPasswordError(errorMessages);
   };
 
 
@@ -413,7 +422,7 @@ function ForgetPasswordPage() {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -472,7 +481,7 @@ function ForgetPasswordPage() {
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Control size="lg"
-                        // disabled={disabledButton}
+                        
                         data-testid='input-email'
                         value={email} onChange={(e) => handleEmailid(e)}
                         type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
@@ -508,8 +517,8 @@ function ForgetPasswordPage() {
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1 d-flex gap-5" >
                     <Button
                       onClick={handleAccountVerification}
-                      //  disabled={disabledButton}
-                      className="w-100" style={{ border: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", backgroundColor: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
+                    
+                      className="w-100" style={{ border:  "rgba(30, 69, 225, 1)", backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
                     <div>
                       {showLoader && <Spinner animation="grow" variant="primary" />}
 
