@@ -142,12 +142,17 @@ function BankingAddForm(props) {
     return true;
   };
   const handleSubmitBank = () => {
-    if (!validateField(accountName, "accountName"));
-    if (!validateField(accountNo, "accountNo"));
+    let isValid = true;
 
-    if (!validateField(bankName, "bankName"));
-    if (!validateField(ifscCode, "ifscCode"));
-    if (!validateField(description, "description"));
+    if (!validateField(accountName, "accountName")) isValid = false;
+    if (!validateField(accountNo, "accountNo")) isValid = false;
+    if (!validateField(bankName, "bankName")) isValid = false;
+    if (!validateField(ifscCode, "ifscCode")) isValid = false;
+    if (!validateField(description, "description")) isValid = false;
+  
+    if (!isValid) {
+      return; 
+    }
 
 
     if (props.edit) {
