@@ -3,23 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CreateAccount.css';
-import hand from "../Assets/Images/hand.png";
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import eye from '../Assets/Images/login-password.png'
-import eyeClosed from '../Assets/Images/Show_password.png';
-import HomeSideComponent from "./HomeSideContent";
 import Logo from '../Assets/Images/New_images/Group.png'
-import Icon from '../Assets/Images/New_images/Smartstay.png'
 import CreateAccount from '../Assets/Images/New_images/createAccount.png'
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import OpenEye from '../Assets/Images/New_images/eye.png'
 import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { MdError } from "react-icons/md";
 
 
@@ -29,9 +19,7 @@ function CreateAccountPage() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log(state)
   let navigate = useNavigate();
-  const [userName, setUserName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [emailID, setEmailID] = useState('');
   const [password, setPassword] = useState('')
@@ -40,11 +28,11 @@ function CreateAccountPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [passwordError, setPasswordError] = useState([]);
 
-
-  const [countryCode, setCountryCode] = useState('91');
+  const countryCode = '91';
+  
 
 
   // const handleCountryCodeChange = (e) => {
@@ -59,14 +47,14 @@ function CreateAccountPage() {
 
     if (value === "") {
       setFirstName(value);
-      setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
+      // setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
       return;
     }
 
 
     if (value.trim() !== "") {
       setFirstName(value);
-      setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
+      // setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
     }
   };
 
@@ -75,14 +63,14 @@ function CreateAccountPage() {
     const value = e.target.value;
     if (value === "") {
       setLastName(value);
-      setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
+      // setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
       return;
     }
 
 
     if (value.trim() !== "") {
       setLastName(value);
-      setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
+      // setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
     }
   };
 
@@ -321,37 +309,20 @@ function CreateAccountPage() {
     if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
       setAllError('Please enter all mandatory fields')
 
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Please Enter All Fields',
-      //   confirmButtonText: 'Ok'
-      // });
-      // return;
+     
     }
 
     if (!firstName) {
 
       setFirstNameError('Please enter first name')
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Enter First Name',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
+     
     }
 
     if (!emailID) {
 
       setEmailError('Please enter email id')
 
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Enter Email ID',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
+      
     }
 
 
@@ -360,27 +331,14 @@ function CreateAccountPage() {
 
       setEmailError('Please enter a valid email address')
 
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Please enter a valid email address',
-      //   confirmButtonText: 'Ok',
-
-
-      // });
-      // return;
+      
     }
 
     if (!countryCode) {
 
       setCountryCodeError('Please select country code')
 
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Select CountryCode',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
+      
     }
 
     if (!phoneNo) {
@@ -388,13 +346,7 @@ function CreateAccountPage() {
 
 
       setPhoneError('Please enter mobile no.')
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Enter Phone Number',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
+     
     }
 
     const phoneNumber = parseInt(phoneNo, 10);
@@ -403,45 +355,19 @@ function CreateAccountPage() {
 
     if (!isValidMobileNo) {
       setPhoneError('Please enter a valid 10-digit mobile number')
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
-      //   confirmButtonText: 'Ok'
-      // });
-      // return;
+      
     }
 
 
     if (!password) {
       setPasswordErrors('Please enter password')
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Enter Password',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
-    }
-    if (passwordError) {
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Invalid Password',
-      //   text: passwordError,
-      //   confirmButtonText: 'Ok'
-      // });
-      // return;
+     
     }
     if (!confirmpassword) {
 
       setConfirmPasswordError('Please enter confirm password');
 
-      // Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Error',
-      //     text: 'Confirm Your Password',
-      //     confirmButtonText: 'Ok'
-      // });
-      // return;
+     
     }
 
 
@@ -458,12 +384,7 @@ function CreateAccountPage() {
 
       setBothPasswordError('Please Enter Confirm Password Same as Password')
 
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Please Enter Confirm Password Same as Password',
-      //   confirmButtonText: 'Ok'
-      // });
-      // return;
+      
     }
 
 
@@ -484,7 +405,7 @@ function CreateAccountPage() {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;

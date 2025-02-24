@@ -9,26 +9,16 @@ import EbHostel from "../Pages/EB_Hostel";
 import Checkout from "../Pages/Checkout";
 import Invoices from "../Pages/Invoice";
 import Compliances from "../Pages/Compliance";
-import Payments from "../Pages/Payment";
-import UserAccesss from "../Pages/UserAccess";
 import Report from "../Reports/Reports";
-import Setting from "../Pages/Settings";
-import Supports from "../Pages/Support";
 import VendorComponent from "../Pages/VendorFIle/Vendor";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup, FormControl, Pagination } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
-import Notify from "../Assets/Images/New_images/notify.png";
 import Profileimage from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import Cookies from "universal-cookie";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
-import Smarts from "../Assets/Images/Smartstaysm1.png";
-import Dash from "../Assets/Images/New_images/home.svg";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Manage from "../Assets/Images/New_images/category.png";
@@ -42,10 +32,8 @@ import Eb from "../Assets/Images/New_images/electricity.png";
 import Compl from "../Assets/Images/New_images/messages_gray.png";
 import Expense from "../Assets/Images/New_images/expenses.png";
 import Repo from "../Assets/Images/New_images/reports.png";
-import Sett from "../Assets/Images/New_images/settings.png";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
-import Dash2 from "../Assets/Images/New_images/category-active.png";
 import Paying2 from "../Assets/Images/New_images/housepay.png";
 import Custom2 from "../Assets/Images/New_images/profile_blue.png";
 import Invoice2 from "../Assets/Images/New_images/clipboard-text.png";
@@ -55,7 +43,6 @@ import Eb2 from "../Assets/Images/New_images/ele-active.png";
 import Compl2 from "../Assets/Images/New_images/messages-active.png";
 import Expense2 from "../Assets/Images/New_images/coin.png";
 import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
-import Sett2 from "../Assets/Images/New_images/setting-2.png";
 import Profilesettings from "../Pages/AccountSettings";
 import Banking from "../Pages/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
@@ -63,11 +50,6 @@ import bankblank from "../Assets/Images/New_images/blank_bank.png";
 import {
   ArrowUp2,
   ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
 } from "iconsax-react";
 import SettingAllPages from "../Pages/SettingAllPages";
 import hostelimage from "../Assets/Images/New_images/hostelImage.png";
@@ -76,21 +58,18 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import AddPg from "../Pages/PayingGuestFile/AddPg";
 import SettingManage from "../Pages/SettingManage";
 
 function Sidebar() {
-  const cookies = new Cookies();
-  let navigate = useNavigate();
+  // const cookies = new Cookies();
+  // let navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state", state);
   const stateData = useSelector((state) => state.createAccount);
-  const stateLogin = useSelector((state) => state.login);
 
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [currentPageDrop, setCurrentPageDrop] = useState("settingNewDesign");
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [isInitialized, setIsInitialized] = useState(false);
@@ -110,9 +89,8 @@ function Sidebar() {
     }
   }, [currentPage]);
 
-  let LoginId = localStorage.getItem("loginId");
-  let checkedValue = localStorage.getItem("checked");
-  const [hover, setHover] = useState(false);
+  // let LoginId = localStorage.getItem("loginId");
+  // let checkedValue = localStorage.getItem("checked");
   const [hostelListDetail,setHostelDetail] = useState("")
 
   const loginId = localStorage.getItem("loginId");
@@ -142,13 +120,12 @@ function Sidebar() {
       }
       },[state.UsersList.statusCodeForhostelListNewDetails])
 
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState([]);
+  // const [show, setShow] = useState(false);
+  // const [notification, setNotification] = useState([]);
   const [hostel_Id, setHostel_Id] = useState("");
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
-    setNotification(state.login.Notification);
   }, []);
 
   useEffect(() => {
@@ -157,43 +134,9 @@ function Sidebar() {
     }
   }, [state.login.selectedHostel_Id]);
   console.log("state.login.selectedHostel_Id", state.login.selectedHostel_Id);
-  let newNotificationIDs =
-    state.login.Notification &&
-    state.login.Notification?.length > 0 &&
-    state.login.Notification.filter(
-      (notification) => notification.status === 1
-    ).map((notification) => notification.id);
+  
 
-  const newNotificationsCount = newNotificationIDs.length;
-
-  const handleClosepopup = () => setShow(false);
-
-  const handleShowpopup = () => {
-    setShow(true);
-    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
-      setTimeout(() => {
-        dispatch({
-          type: "UPDATE-NOTIFICATION",
-          payload: { id: newNotificationIDs },
-        });
-      }, 1000);
-    }
-
-    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-  };
-
-  useEffect(() => {
-    if (
-      state.login.UpdateNotificationMessage != null &&
-      state.login.UpdateNotificationMessage != ""
-    ) {
-      dispatch({ type: "ALL-NOTIFICATION-LIST" });
-      setTimeout(() => {
-        dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        newNotificationIDs = [];
-      }, 100);
-    }
-  }, [state.login.UpdateNotificationMessage]);
+  
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList == 200) {

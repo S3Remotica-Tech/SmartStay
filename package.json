@@ -84,7 +84,7 @@
     "start": "react-scripts start",
     "build": "react-scripts --max_old_space_size=8192  build",
     "test": "react-scripts test --env=jsdom",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint src ",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
