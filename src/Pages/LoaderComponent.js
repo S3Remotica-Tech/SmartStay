@@ -5,7 +5,10 @@ function LoaderComponent() {
     <div
     style={{
       position: 'absolute',
-      inset: 0,
+        top: 200,
+        right: 0,
+        bottom: 0,
+        left: 0,
       display: 'flex',
       height: "50vh",
       alignItems: 'center',

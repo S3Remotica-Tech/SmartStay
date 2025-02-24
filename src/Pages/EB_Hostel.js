@@ -27,6 +27,9 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
+import closecircle from "../Assets/Images/New_images/close-circle.png";
+import searchteam from "../Assets/Images/New_images/Search Team.png";
+import LoaderComponent from "./LoaderComponent";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
@@ -75,19 +78,33 @@ function EB_Hostel(props) {
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
   const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
-
-
+  const [filterInput, setFilterInput] = useState("");
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [filterStatus, setFilterStatus] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [loader, setLoader] = useState(true);
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
+    
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST", payload: { hostel_id: selectedHostel } });
-  }, [selectedHostel]);
+  // useEffect(() => {
+  //   if (selectedHostel) {
+  //     dispatch({
+  //       type: "ALL_HOSTEL_DETAILS",
+  //       payload: { hostel_id: selectedHostel },
+  //     });
+  //   }
+  // }, [selectedHostel]);
+
+  const [editeb, setEditEb] = useState(false);
 
   const handleHostelForm = () => {
     setHostelBasedForm(true);
+    setEditEb(false)
   };
 
   useEffect(() => {
@@ -171,24 +188,71 @@ function EB_Hostel(props) {
   }, [ebrolePermission]);
 
   const handleChanges = (event, newValue) => {
+    setLoader(false)
     setValue(newValue);
     setaddEbDetail(false);
     setHostelBasedForm(false);
+    setFilterInput("")
+    setSearch(false)
+    setDropdownVisible(false);
   };
 
   const calendarRef = useRef(null);
   useEffect(() => {
     dispatch({ type: "EBLIST" });
   }, []);
+  const [electricityFilterd, setelectricityFilterd] = useState([]);
+  const [electricityHostel, setelectricityHostel] = useState([]);
+  const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
-    if (selectedHostel) {
+    setLoader(true)
+    dispatch({
+     type: "CUSTOMEREBLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+
+    
+  }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+      setLoader(false)
+      setelectricityFilterd(state.PgList?.EB_startmeterlist);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForEbRoomList])
+  useEffect(() => {
+    setLoader(true)
+    dispatch({
+      type: "EBSTARTMETERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    
+  }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    setLoader(true)
       dispatch({
-        type: "CUSTOMEREBLIST",
+        type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
       });
-    }
+    
   }, [selectedHostel]);
 
+
+   useEffect(() => {
+      if (state.PgList.getStatusCodeForHostelBased === 200) {
+        setLoader(false)
+        setelectricityHostel(
+          state?.PgList?.getHostelBasedRead?.hostel_readings
+        );
+        
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
+        }, 200);
+      }
+    }, [state.PgList.getStatusCodeForHostelBased]);
   const options = {
     dateFormat: "Y/m/d",
     maxDate: new Date(),
@@ -205,9 +269,9 @@ function EB_Hostel(props) {
     }
   }, [selectedDate]);
 
-  useEffect(() => {
-    setSelectedHostel(state.login.selectedHostel_Id);
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   setSelectedHostel(state.login.selectedHostel_Id);
+  // }, [state.login.selectedHostel_Id]);
 
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -228,12 +292,8 @@ function EB_Hostel(props) {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
-  }, [selectedHostel]);
+  
+  
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -245,17 +305,21 @@ function EB_Hostel(props) {
   }, [Floor]);
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: selectedHostel },
-    });
+    if (selectedHostel) {
+      dispatch({
+        type: "HOSTELDETAILLIST",
+        payload: { hostel_Id: selectedHostel },
+      });
+    }
   }, [selectedHostel]);
 
   useEffect(() => {
-    dispatch({
-      type: "EB-BILLING-UNIT-LIST",
-      payload: { hostel_id: selectedHostel },
-    });
+    if (selectedHostel) {
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
   }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
@@ -269,6 +333,7 @@ function EB_Hostel(props) {
     setEndmeter(e.target.value);
     setendMeterError("");
     setEbErrorunit("");
+    setDateErrorMesg("")
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
@@ -298,22 +363,35 @@ function EB_Hostel(props) {
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
+    
     if (state.PgList.statusCodeforEbCustomer === 200) {
+      
       setelectricityFilterddata(state.PgList?.EB_customerTable);
-
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
+console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
+
+  useEffect(() => {
+    if (state.PgList.nostatusCodeforEbCustomer == 201) {
+      setelectricityFilterddata([]);
+      setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NOHOSTEL" });
+      }, 200);
+    }
+  }, [state.PgList.nostatusCodeforEbCustomer]);
+
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
       }, 200);
     }
-  }, [state.PgList.statusCodeForEbRoomList])
-
+  }, [state.PgList.statusCodeForEbRoomList]);
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
@@ -321,6 +399,7 @@ function EB_Hostel(props) {
         type: "EBSTARTMETERLIST",
         payload: { hostel_id: selectedHostel },
       });
+      dispatch({ type: "CUSTOMEREBLIST", payload: { hostel_id: selectedHostel } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB" });
@@ -346,10 +425,10 @@ function EB_Hostel(props) {
           setBedError("Bed is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
         case "endmeter":
-          setendMeterError("reading is required");
+          setendMeterError("Reading is required");
           break;
         default:
           break;
@@ -368,7 +447,7 @@ function EB_Hostel(props) {
         setBedError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       case "endmeter":
         setendMeterError("");
@@ -392,6 +471,8 @@ function EB_Hostel(props) {
     setFloor("");
     setSelectedDate("");
     setDateError("");
+    setDateErrorMesg("")
+    
   };
 
   const handleSaveEbBill = () => {
@@ -409,18 +490,14 @@ function EB_Hostel(props) {
     }
 
     // Validate Room field
-    if (Rooms === "Select Room" || !isRoomValid) {
+    if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please select a valid Room");
       return;
     } else {
       setRoomError("");
     }
 
-    if (
-
-      !isEndMeterValid ||
-      (!isFloorValid && !isRoomValid && !isDatevalid)
-    ) {
+    if (!isEndMeterValid || (!isFloorValid && !isRoomValid && !isDatevalid)) {
       return;
     }
     if (Floor && Rooms && endmeter && selectedDate) {
@@ -461,16 +538,21 @@ function EB_Hostel(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRoomelectricity = electricityFilterddata?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+  // const currentRoomelectricity = electricityFilterddata?.slice(
+  //   indexOfFirstRowelectricity,
+  //   indexOfLastRowelectricity
+  // );
+  const currentRoomelectricity =
+    filterInput.length > 0
+      ? electricityFilterddata
+      : electricityFilterddata?.slice(indexOfFirstRowelectricity, indexOfLastRowelectricity);
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
   const handleItemsPerPageChange = (event) => {
     setElectricityrowsPerPage(Number(event.target.value));
+    setelectricitycurrentPage(1) 
   };
   const totalPagesinvoice = Math.ceil(
     electricityFilterddata?.length / electricityrowsPerPage
@@ -539,7 +621,7 @@ function EB_Hostel(props) {
   const customDateInput = (props) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container "
         onClick={props.onClick}
         style={{ position: "relative" }}
       >
@@ -583,97 +665,470 @@ function EB_Hostel(props) {
   const handleDateChange = (date) => {
     setDateError("");
     setEbErrorunit("");
+    setDateErrorMesg("")
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
+  const handleSearch = () => {
+    setSearch(!search);
+    // setFilterStatus(false);
+  };
+
+  const [originalElec, setOriginalElec] = useState("")
+  const [originalElecRoom, etOriginalElecRoom] = useState("")
+
+  // const handleUserSelect = (user) => {
+  //   setFilterInput(user.Name);
+  //   setelectricityFilterddata([user]);
+  //   setDropdownVisible(false);
+  // };
+  const handleUserSelect = (user) => {
+    setFilterInput(user.Name);
+    setelectricityFilterddata([user]);
+
+    setDropdownVisible(false);
+  };
+
+
+  // const handlefilterInput = (e) => {
+  //   const inputValue = e.target.value;
+  //   setFilterInput(inputValue);
+  //   setDropdownVisible(inputValue.length > 0);
+
+  //   if (inputValue.length === 0) {
+  //     setelectricityFilterddata(originalElec);
+  //   } else {
+  //     const filteredData = originalElec?.filter((item) =>
+  //       item.Name.toLowerCase().includes(inputValue.toLowerCase())
+  //     );
+  //     setelectricityFilterddata(filteredData);
+  //   }
+  // };
+  const handlefilterInput = (e) => {
+    const searchText = e.target.value;
+    setFilterInput(searchText);
+    setDropdownVisible(searchText.length > 0);
+
+    if (searchText.length > 0) {
+        // Filter the latest list
+        setelectricityFilterddata(
+            originalElec.filter((item) => 
+                item.Name.toLowerCase().includes(searchText.toLowerCase())
+            )
+        );
+    } else {
+        // Reset to the full list when input is cleared
+        setelectricityFilterddata(originalElec);
+    }
+};
+
+  useEffect(() => {
+    if (electricityFilterddata?.length > 0 && originalElec?.length === 0) {
+      setOriginalElec(electricityFilterddata);
+    }
+  }, [electricityFilterddata]);
+ 
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("");
+    setelectricityFilterddata(originalElec);
+    // setRoomBasedDetail(originalElecRoom);
+    // setReceiptData(originalReceipt);
+  };
+  const handleRoomUserSelect = (user) => {
+    setFilterInput(user.floor_name);
+    // setRoomBasedDetail([user]);
+    setDropdownVisible(false);
+  };
 
   return (
-    <div style={{ paddingLeft: 15, marginTop: 8 }}>
-      <div className="d-flex justify-content-between align-items-center ms-3 mb-3"
-      //  style={{position:'sticky' , top:10, backgroundColor:'white'}}
+    <div style={{ paddingLeft: 15,paddingRight:15 }}>
+      <div
+       className="container justify-content-between d-flex align-items-center"
+       style={{
+        //  position: "sticky",
+         top: 0,
+         right: 0,
+         left: 0,
+         zIndex: 1000,
+         backgroundColor: "#FFFFFF",
+         height: 83,
+       }}
       >
-        <div style={{ padding: 15 }}>
-          <label
-            style={{
-              fontSize: 18,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
-            Electricity
-          </label>
-        </div>
+        <div style={{ marginTop: -7 }}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Electricity</label>
+                  </div>
 
         <div
-          className="d-flex justify-content-between align-items-center"
-          style={{ paddingRight: 25 }}
+          className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap"
+          
         >
-          {/* <div className="me-3">
-            <Image
-              src={Filter}
-              roundedCircle
-              style={{ height: "30px", width: "30px" }}
-            />
-          </div> */}
-          <div style={{ paddingRight: "10px" }}>
+          {search && value === "1" ? (
+            <>
+              <div
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            marginRight: 20,
+                          }}
+                        >
+                <div
+                            style={{
+                              position: "relative",
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              marginTop: '10px',
+                              marginBottom: '10px'
+                            }}
+                          >
+                  <Image
+                    src={searchteam}
+                    alt="Search"
+                    style={{
+                      position: "absolute",
+                      left: "10px",
+                      width: "24px",
+                      height: "24px",
+                      pointerEvents: "none",
+                    }}
+                  />
+                  <div
+                    className="input-group"
+                    style={{ marginRight: 20 }}
+                  >
+                    <span className="input-group-text bg-white border-end-0">
+                      <Image
+                        src={searchteam}
+                        style={{ height: 20, width: 20 }}
+                      />
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control border-start-0"
+                      placeholder="Search"
+                      aria-label="Search"
+                      style={{
+                        boxShadow: "none",
+                        outline: "none",
+                        borderColor: "rgb(207,213,219)",
+                        borderRight: "none",
+                      }}
+                      value={filterInput}
+                      onChange={(e) => handlefilterInput(e)}
+                    />
+                    <span className="input-group-text bg-white border-start-0">
+                      <img
+                        src={closecircle}
+                        onClick={handleCloseSearch}
+                        style={{ height: 20, width: 20 }}
+                      />
+                    </span>
+                  </div>
+                </div>
+
+                {value === "1" &&
+                  isDropdownVisible &&
+                  electricityFilterddata?.length > 0 && (
+                    <div
+                      style={{
+                        border: "1px solid #d9d9d9 ",
+                        position: "absolute",
+                        top: 60,
+                        left: 0,
+                        zIndex: 1000,
+                        padding: 10,
+                        borderRadius: 8,
+                        backgroundColor: "#fff",
+                        width: "94%",
+                      }}
+                    >
+                      <ul
+                        className="show-scroll p-0"
+                        style={{
+                          backgroundColor: "#fff",
+                          borderRadius: "4px",
+                          maxHeight: electricityFilterddata?.length > 1 ? "174px" : "auto",
+                          minHeight: 100,
+                          overflowY:
+                            electricityFilterddata?.length > 1 ? "auto" : "hidden",
+                          margin: "0",
+                          listStyleType: "none",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        {electricityFilterddata?.map((user, index) => {
+                          const imagedrop = user.profile || Profile;
+                          return (
+                            <li
+                              key={index}
+                              className="list-group-item d-flex align-items-center"
+                              style={{
+                                cursor: "pointer",
+                                padding: "10px 5px",
+                                borderBottom:
+                                  index !== electricityFilterddata?.length - 1
+                                    ? "1px solid #eee"
+                                    : "none",
+                              }}
+                              onClick={() => handleUserSelect(user)}
+                            >
+                              <Image
+                                src={imagedrop}
+                                alt={user.Name || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span>{user.Name}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                {/* {value === "2" &&
+                        isDropdownVisible &&
+                        roomBasedDetail?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                roomBasedDetail?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                roomBasedDetail?.length > 1
+                                    ? "auto"
+                                    : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {roomBasedDetail?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== roomBasedDetail?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleRoomUserSelect(user)}
+                                  >
+                                   
+                                    <span>{user.floor_name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )} */}
+
+                {/* {value === "3" &&
+                        isDropdownVisible &&
+                        receiptdata?.length > 0 && (
+                          <div
+                            style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 60,
+                              left: 0,
+                              zIndex: 1000,
+                              padding: 10,
+                              borderRadius: 8,
+                              backgroundColor: "#fff",
+                              width: "94%",
+                            }}
+                          >
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                maxHeight:
+                                  receiptdata?.length > 1 ? "174px" : "auto",
+                                minHeight: 100,
+                                overflowY:
+                                  receiptdata?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {receiptdata?.map((user, index) => {
+                                const imagedrop = user.profile || Profile;
+                                return (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom:
+                                        index !== receiptdata?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                    }}
+                                    onClick={() => handleUserReceipt(user)}
+                                  >
+                                    <Image
+                                      src={imagedrop}
+                                      alt={user.Name || "Default Profile"}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )} */}
+              </div>
+            </>
+          ) : (
+            <>
+              {
+                value === "1" &&
+                <div style={{ paddingRight: 21 }}>
+                  <Image
+                    src={searchteam}
+                    roundedCircle
+                    style={{
+                      height: "24px",
+                      width: "24px",
+
+                      cursor: "pointer",
+
+                    }}
+                    onClick={handleSearch}
+                  />
+                </div>
+
+              }
+
+            </>
+          )}
+          <div className="me-4" style={{ paddingRight: 5, marginTop: 5 }}>
+
             {value === "1" && (
               <img
                 src={excelimg}
                 width={38}
                 height={38}
                 onClick={handleEbExcel}
+                style={{ cursor: "pointer" }}
               />
             )}
+
           </div>
 
           {hostelBased == 1 ? (
-            <div>
+            <div className="me-4">
               <Button
+
+
                 style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 13,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
                   backgroundColor: "#1E45E1",
                   color: "white",
-                  height: 52,
                   fontWeight: 600,
-                  borderRadius: 8,
-                  width: 162,
-                  // padding: "5px 5px",// Corrected padding
-                  border: "none",
-                  cursor: "pointer",
+                  borderRadius: "8px",
+                  padding: "11px 17px",
+                  marginTop: 2,
+                  paddingLeft: 17,
                   whiteSpace: "nowrap",
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 5,
-                  paddingRight: 5,
+cursor:"pointer"
                 }}
+
                 // disabled={ebAddPermission}
                 onClick={handleHostelForm}
               >
-                + Add HostelReading
+                + Hostel Reading
               </Button>
             </div>
           ) : (
-            <div>
+            <div className="">
               <Button
+                // style={{
+                //   fontFamily: "Montserrat",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   height: 52,
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   width: 162,
+                //   padding: "12px 16px", // Corrected padding
+                //   border: "none",
+                //   cursor: "pointer",
+                //   whiteSpace: "nowrap",
+                //   paddingTop: 10,
+                //   paddingBottom: 10,
+                //   paddingLeft: 5,
+                //   paddingRight: 5,
+                // }}
                 style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 14,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 52,
-                  fontWeight: 600,
-                  borderRadius: 8,
-                  width: 162,
-                  padding: "12px 16px", // Corrected padding
-                  border: "none",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 5,
-                  paddingRight: 5,
+                  // fontFamily: "Gilroy",
+                  // fontSize: "14px",
+                  // backgroundColor: "#1E45E1",
+                  // color: "white",
+                  // fontWeight: 600,
+                  // borderRadius: "8px",
+                  // padding: "11px 18px",
+                  // marginTop: 2,
+                  // paddingLeft: 19,
+                  // whiteSpace: "nowrap",
+                  // cursor:"pointer"
+                    fontFamily: "Gilroy",
+                                          fontSize: "14px",
+                                          backgroundColor: "#1E45E1",
+                                          color: "white",
+                                          fontWeight: 600,
+                                          borderRadius: "8px",
+                                          padding: "11px 18px",
+                                          marginTop: 4,
+                                          // paddingLeft: 34,
+                                          whiteSpace: "nowrap",
+                                          cursor:"pointer",
+                                          marginRight:"8px"
                 }}
                 disabled={ebAddPermission}
                 onClick={handleAddEbDetails}
@@ -685,14 +1140,14 @@ function EB_Hostel(props) {
         </div>
       </div>
 
-      <TabContext value={value}>
-        <div>
+      <TabContext value={value} >
+        <div >
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "14px", marginTop: "-30px" }}
+              style={{ marginLeft: "14px",marginTop:"-25px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
@@ -751,6 +1206,9 @@ function EB_Hostel(props) {
               setHostelName={setHostelName}
               value={value}
               hostelBased={hostelBased}
+              editeb={editeb}
+              setEditEb={setEditEb}
+              electricityHostel = {electricityHostel}
             />
 
             {ebpermissionError ? (
@@ -783,64 +1241,86 @@ function EB_Hostel(props) {
                       }}
                     >
                       <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{ebpermissionError}</span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {ebpermissionError}
+                      </span>
                     </div>
                   )}
                 </div>
               </>
             ) : (
               <>
-                <div>
-                  {currentRoomelectricity?.length > 0 ? (
+               
+
+               
+                  {currentRoomelectricity?.length > 0 && 
                     <div
                       style={{
                         // height: "400px",
-                        height: currentRoomelectricity.length >= 6 ? "400px" : "auto",
-                        overflowY: currentRoomelectricity.length >= 6 ? "auto" : "visible",
+                        height:
+                          currentRoomelectricity.length >= 6 ? "400px" : "auto",
+                        overflowY:
+                          currentRoomelectricity.length >= 6
+                            ? "auto"
+                            : "visible",
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
-                      }}>
+                      }}
+                    >
                       <Table
                         responsive="md"
                         className="Table_Design"
-                        style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                        style={{
+                          border: "1px solid #DCDCDC",
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
+                        }}
                       >
                         <thead
                           style={{
                             color: "gray",
                             fontSize: "11px",
                             backgroundColor: "#E7F1FF",
-                            position:"sticky",
-                            top:0,
-                            zIndex:1,
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
                           }}
                         >
                           <tr style={{ height: "30px" }}>
-
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                // textAlign: "center",
-                                textAlign: hostelBased === 1 ? "start" : "center",
+                                textAlign: "start",
+                                paddingLeft: "20px",
+                                borderTopLeftRadius: 24,
+                                // textAlign: hostelBased === 1 ? "start" : "center",
                               }}
                             >
                               Name
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Paying Guest
@@ -850,26 +1330,27 @@ function EB_Hostel(props) {
                               <>
                                 <th
                                   style={{
-                                    color: "#939393",
+                                    color: "rgb(147, 147, 147)",
                                     fontWeight: 500,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                   }}
                                 >
                                   Floor
                                 </th>
                                 <th
                                   style={{
-                                    color: "#939393",
+                                    color: "rgb(147, 147, 147)",
                                     fontWeight: 500,
                                     fontSize: "14px",
                                     fontFamily: "Gilroy",
                                     paddingTop: "10px",
                                     paddingBottom: "10px",
-                                    textAlign: "center",
+                                    paddingRight: "5px",
+                                    textAlign: "start",
                                   }}
                                 >
                                   Room
@@ -879,74 +1360,77 @@ function EB_Hostel(props) {
 
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Previous
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
                               }}
                             >
                               Current
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
+                                paddingLeft: "15px",
                               }}
                             >
                               Date
                             </th>
                             <th
                               style={{
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 paddingTop: "10px",
                                 paddingBottom: "10px",
-                                textAlign: "center",
+                                textAlign: "start",
+
+
                               }}
                             >
                               Units
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "#939393",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
                               Amount
                             </th>
                             <th
                               style={{
-                                textAlign: "center",
+                                textAlign: "start",
                                 fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
+                                color: "rgb(147, 147, 147)",
                                 fontSize: 14,
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 borderTopRightRadius: 24,
                               }}
                             >
@@ -965,15 +1449,15 @@ function EB_Hostel(props) {
 
                             return (
                               <tr key={v.id}>
-
                                 <td
                                   style={{
                                     border: "none",
                                     display: "flex",
                                     padding: "10px",
+                                    paddingLeft: "20px",
                                   }}
                                 >
-                                  <Image
+                                  {/* <Image
                                     src={imageUrl}
                                     alt={v.Name || "Default Profile"}
                                     roundedCircle
@@ -986,7 +1470,7 @@ function EB_Hostel(props) {
                                       e.target.onerror = null;
                                       e.target.src = Profile;
                                     }}
-                                  />
+                                  /> */}
                                   <span
                                     style={{
                                       fontSize: "16px",
@@ -994,6 +1478,7 @@ function EB_Hostel(props) {
                                       fontFamily: "Gilroy",
                                       cursor: "pointer",
                                       paddingTop: 10,
+                                      textAlign: "start",
                                     }}
                                   >
                                     {v.Name}
@@ -1016,7 +1501,7 @@ function EB_Hostel(props) {
                                   style={{
                                     paddingTop: 15,
                                     border: "none",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
@@ -1026,8 +1511,8 @@ function EB_Hostel(props) {
                                   <span
                                     style={{
                                       paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
+                                      paddingLeft: "12px",
+                                      paddingRight: "12px",
                                       paddingBottom: "3px",
                                       borderRadius: "60px",
                                       backgroundColor: "#FFEFCF",
@@ -1035,6 +1520,7 @@ function EB_Hostel(props) {
                                       fontSize: "14px",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
+                                      verticalAlign: "middle",
                                     }}
                                   >
                                     {v.HostelName}
@@ -1047,7 +1533,7 @@ function EB_Hostel(props) {
                                         fontSize: "16px",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        textAlign: "center",
+                                        textAlign: "start",
                                         verticalAlign: "middle",
                                         borderBottom: "none",
                                       }}
@@ -1059,7 +1545,7 @@ function EB_Hostel(props) {
                                         fontSize: "16px",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        textAlign: "center",
+                                        textAlign: "start",
                                         verticalAlign: "middle",
                                         borderBottom: "none",
                                       }}
@@ -1073,7 +1559,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1085,7 +1571,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1094,12 +1580,9 @@ function EB_Hostel(props) {
                                 </td>
                                 <td
                                   style={{
-                                    // textAlign: "center",
-                                    // verticalAlign: "middle",
-                                    // borderBottom: "none",
-                                    padding: "10px",
+                                    paddingTop: "15px",
                                     border: "none",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     fontSize: "16px",
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
@@ -1110,15 +1593,6 @@ function EB_Hostel(props) {
                                 >
                                   <span
                                     style={{
-                                      // backgroundColor: "#EBEBEB",
-                                      // paddingTop: "5px",
-                                      // paddingLeft: "16px",
-                                      // paddingRight: "16px",
-                                      // paddingBottom: "5px",
-                                      // borderRadius: "60px",
-                                      // fontSize: "14px",
-                                      // fontWeight: 500,
-                                      // fontFamily: "Gilroy",
                                       paddingTop: "5px",
                                       paddingLeft: "16px",
                                       paddingRight: "16px",
@@ -1143,7 +1617,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1155,7 +1629,7 @@ function EB_Hostel(props) {
                                     fontSize: "16px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     verticalAlign: "middle",
                                     borderBottom: "none",
                                   }}
@@ -1168,8 +1642,47 @@ function EB_Hostel(props) {
                         </tbody>
                       </Table>
                     </div>
-                  ) : (
-                    <div  style={{marginTop:40}}>
+                        }
+
+
+
+
+  
+{loader && <LoaderComponent/>
+
+// <div
+              //   style={{
+              //     position: 'absolute',
+              //     top: 0,
+              //     right: 0,
+              //     bottom: 0,
+              //     left: '200px',
+              //     display: 'flex',
+              //     alignItems: 'center',
+              //     justifyContent: 'center',
+              //     backgroundColor: 'transparent',
+              //     opacity: 0.75,
+              //     zIndex: 10,
+              //   }}
+              // >
+              //   <div
+              //     style={{
+              //       borderTop: '4px solid #1E45E1',
+              //       borderRight: '4px solid transparent',
+              //       borderRadius: '50%',
+              //       width: '40px',
+              //       height: '40px',
+              //       animation: 'spin 1s linear infinite',
+              //     }}
+              //   ></div>
+              // </div>
+             
+            }
+
+
+{
+                   !loader && currentRoomelectricity && currentRoomelectricity?.length == 0 &&
+                    <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
                           src={emptyimg}
@@ -1264,134 +1777,10 @@ function EB_Hostel(props) {
                         </div>
                       )} */}
                     </div>
-                  )}
-                </div>
+}
 
-                {currentRoomelectricity?.length > 0 && (
-                  // <nav>
-                  //   <ul
-                  //     style={{
-                  //       display: "flex",
-                  //       alignItems: "center",
-                  //       listStyleType: "none",
-                  //       padding: 0,
-                  //       justifyContent: "end",
-                  //     }}
-                  //   >
-                  //     <li style={{ margin: "0 5px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px 10px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                  //           cursor:
-                  //             electricitycurrentPage === 1
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "5px",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() =>
-                  //           handleElectricityPageChange(
-                  //             electricitycurrentPage - 1
-                  //           )
-                  //         }
-                  //         disabled={electricitycurrentPage === 1}
-                  //       >
-                  //         {" "}
-                  //         <ArrowLeft2 size="16" color="#1E45E1" />
-                  //       </button>
-                  //     </li>
-                  //     {electricitycurrentPage > 3 && (
-                  //       <li style={{ margin: "0 5px" }}>
-                  //         <button
-                  //           style={{
-                  //             padding: "5px 10px",
-                  //             textDecoration: "none",
-                  //             color: "white",
-                  //             cursor: "pointer",
-                  //             borderRadius: "5px",
-                  //             display: "inline-block",
-                  //             minWidth: "30px",
-                  //             textAlign: "center",
-                  //             backgroundColor: "transparent",
-                  //             border: "none",
-                  //           }}
-                  //           onClick={() => handleElectricityPageChange(1)}
-                  //         >
-                  //           1
-                  //         </button>
-                  //       </li>
-                  //     )}
-                  //     {electricitycurrentPage > 3 && <span>...</span>}
-                  //     {renderPageNumberselectricity()}
-                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  //       <span>...</span>
-                  //     )}
-                  //     {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  //       <li style={{ margin: "0 5px" }}>
-                  //         <button
-                  //           style={{
-                  //             padding: "5px 10px",
-                  //             textDecoration: "none",
-
-                  //             cursor: "pointer",
-                  //             borderRadius: "5px",
-                  //             display: "inline-block",
-                  //             minWidth: "30px",
-                  //             textAlign: "center",
-                  //             backgroundColor: "transparent",
-                  //             border: "none",
-                  //           }}
-                  //           onClick={() =>
-                  //             handleElectricityPageChange(totalPagesinvoice)
-                  //           }
-                  //         >
-                  //           {totalPagesinvoice}
-                  //         </button>
-                  //       </li>
-                  //     )}
-                  //     <li style={{ margin: "0 5px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px 10px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             electricitycurrentPage === electricitycurrentPage
-                  //               ? "#ccc"
-                  //               : "#007bff",
-                  //           cursor:
-                  //             electricitycurrentPage === electricitycurrentPage
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "5px",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() =>
-                  //           handleElectricityPageChange(
-                  //             electricitycurrentPage + 1
-                  //           )
-                  //         }
-                  //         disabled={
-                  //           electricitycurrentPage === totalPagesinvoice
-                  //         }
-                  //       >
-                  //         <ArrowRight2 size="16" color="#1E45E1" />
-                  //       </button>
-                  //     </li>
-                  //   </ul>
-                  // </nav>
-
-
+                {electricityFilterddata?.length >= 5 && (
+                  
 
                   <nav
                     style={{
@@ -1422,7 +1811,6 @@ function EB_Hostel(props) {
                           cursor: "pointer",
                           outline: "none",
                           boxShadow: "none",
-
                         }}
                       >
                         <option value={5}>5</option>
@@ -1448,8 +1836,12 @@ function EB_Hostel(props) {
                           style={{
                             padding: "5px",
                             textDecoration: "none",
-                            color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
-                            cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                            color:
+                              electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                            cursor:
+                              electricitycurrentPage === 1
+                                ? "not-allowed"
+                                : "pointer",
                             borderRadius: "50%",
                             display: "inline-block",
                             minWidth: "30px",
@@ -1457,15 +1849,28 @@ function EB_Hostel(props) {
                             backgroundColor: "transparent",
                             border: "none",
                           }}
-                          onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                          onClick={() =>
+                            handlePageChange(electricitycurrentPage - 1)
+                          }
                           disabled={electricitycurrentPage === 1}
                         >
-                          <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                          <ArrowLeft2
+                            size="16"
+                            color={
+                              electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"
+                            }
+                          />
                         </button>
                       </li>
 
                       {/* Current Page Indicator */}
-                      <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                      <li
+                        style={{
+                          margin: "0 10px",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
                         {electricitycurrentPage} of {totalPagesinvoice}
                       </li>
 
@@ -1475,8 +1880,14 @@ function EB_Hostel(props) {
                           style={{
                             padding: "5px",
                             textDecoration: "none",
-                            color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
-                            cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                            color:
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "#ccc"
+                                : "#1E45E1",
+                            cursor:
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "not-allowed"
+                                : "pointer",
                             borderRadius: "50%",
                             display: "inline-block",
                             minWidth: "30px",
@@ -1484,21 +1895,38 @@ function EB_Hostel(props) {
                             backgroundColor: "transparent",
                             border: "none",
                           }}
-                          onClick={() => handlePageChange(electricitycurrentPage + 1)}
-                          disabled={electricitycurrentPage === totalPagesinvoice}
+                          onClick={() =>
+                            handlePageChange(electricitycurrentPage + 1)
+                          }
+                          disabled={
+                            electricitycurrentPage === totalPagesinvoice
+                          }
                         >
                           <ArrowRight2
                             size="16"
-                            color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                            color={
+                              electricitycurrentPage === totalPagesinvoice
+                                ? "#ccc"
+                                : "#1E45E1"
+                            }
                           />
                         </button>
                       </li>
                     </ul>
                   </nav>
                 )}
+
+
+
+
+
+                
               </>
             )}
           </>
+
+
+
         </TabPanel>
         <Modal
           show={addEbDetail}
@@ -1506,7 +1934,7 @@ function EB_Hostel(props) {
           backdrop="static"
           centered
         >
-          <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+          <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
             <div
               style={{
                 fontSize: 20,
@@ -1548,7 +1976,7 @@ function EB_Hostel(props) {
               </span>
             </button>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ marginTop: "-10px" }}>
             <div className="row ">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -1595,9 +2023,19 @@ function EB_Hostel(props) {
                     ))}
                 </Form.Select>
                 {floorError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{floorError}</span>
+                  <div >
+                    <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        marginLeft: 5
+                      }}
+                    >
+                      {floorError}
+                    </span>
                   </div>
                 )}
               </div>
@@ -1640,15 +2078,25 @@ function EB_Hostel(props) {
                     ))}
                 </Form.Select>
                 {roomError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
+                  <div >
+                    <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        marginLeft: 5
+                      }}
+                    >
+                      {roomError}
+                    </span>
                   </div>
                 )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
+                <Form.Group >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1680,14 +2128,24 @@ function EB_Hostel(props) {
                 </Form.Group>
                 {endMeterError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{endMeterError}</span>
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        marginLeft: 5
+                      }}
+                    >
+                      {endMeterError}
+                    </span>
                   </div>
                 )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Group controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1714,18 +2172,35 @@ function EB_Hostel(props) {
                     />
                   </div>
                 </Form.Group>
-                {dateError && (
+                {dateErrorMesg && (
                   <div style={{ color: "red" }}>
-                    <MdError />
-                    {dateError}
+                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        marginLeft: 5
+                      }}
+                    >
+                      {dateErrorMesg}
+                    </span>
                   </div>
                 )}
               </div>
             </div>
+            
           </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center">
+          {dateError && (
+                                    <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+                                    <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                    <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+                                  </div>
+                                    )}
+          <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
             <Button
-              className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+              className="w-100"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,
@@ -1733,7 +2208,7 @@ function EB_Hostel(props) {
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Montserrat, sans-serif",
-                marginTop: 20,
+                marginTop: 10,
               }}
               onClick={handleSaveEbBill}
             >
@@ -1752,6 +2227,9 @@ function EB_Hostel(props) {
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
             selectedHostel={selectedHostel}
+            
+            electricityFilterd={electricityFilterd}
+            loading = {loader}
           />
         </TabPanel>
 
@@ -1765,6 +2243,10 @@ function EB_Hostel(props) {
             value={value}
             handleHostelForm={handleHostelForm}
             hostelBased={hostelBased}
+            editeb={editeb}
+            setEditEb={setEditEb}
+            electricityHostel = {electricityHostel}
+            loading = {loader}
           />
         </TabPanel>
       </TabContext>

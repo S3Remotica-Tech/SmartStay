@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form';
 
 
 
-function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
+function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
 
 
     const state = useSelector(state => state)
@@ -24,6 +24,8 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     const [errorPermission, setErrorPermission] = useState("")
     const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
+    const [roleError,setRoleError] = useState("")
+    const [editRoleError,setEditRoleError] = useState("")
     const initialFormState = useRef(null);
 
      const [checkboxValues, setCheckboxValues] = useState({
@@ -134,13 +136,14 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     useEffect(() => {
         if (editPermissionDetails) {
 
-            setRoleName(editRoleDetails.role_name)
+            setRoleName(editRoleDetails.role_name ? editRoleDetails.role_name.trim() : '');
+
 
             const updatedCheckboxValues = { ...checkboxValues };
 
             editPermissionDetails.forEach((permission) => {
                 const permissionName = Object.keys(permissionMapping).find(
-                    (key) => permissionMapping[key] === permission.permission_id
+                    (key) => permissionMapping[key] == permission.permission_id
                 );
 
                 if (permissionName) {
@@ -155,7 +158,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
             setCheckboxValues(updatedCheckboxValues);
             initialFormState.current = {
-                roleName: editRoleDetails.role_name,
+                roleName: editRoleDetails.role_name ? editRoleDetails.role_name.trim() : '',
                 permissionRole: editPermissionDetails,
             };
 
@@ -164,13 +167,41 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     }, [editPermissionDetails]);
 
 
+    const handleClose = ()=>{
+        setShowRole(false)
+        setRoleError("")
+        setErrorForm('')
+        setErrorPermission('')
+        setErrorIsChanged("")
+        setEditRoleError("")
+        dispatch({type: "CLEAR_ROLE_ERROR"})
+        dispatch({type: "CLEAR_ROLE_EDIT_ERROR"})
+    }
 
     const handleRoleName = (e) => {
         setErrorForm('')
         setRoleName(e.target.value.trim());
         setErrorIsChanged("")
+        setRoleError("")
+        setEditRoleError("")
+        dispatch({type: "CLEAR_ROLE_ERROR"})
+        dispatch({type: "CLEAR_ROLE_EDIT_ERROR"})
 
     }
+
+    useEffect(()=>{
+        if(state.Settings.roleError){
+            setRoleError(state.Settings.roleError)
+        }
+
+    },[state.Settings.roleError])
+
+    useEffect(()=>{
+        if(state.Settings.roleEditError){
+            setEditRoleError(state.Settings.roleEditError)
+        }
+
+    },[state.Settings.roleEditError])
 
 
     const renderRow = (rowName, label) => (
@@ -196,7 +227,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             per_view,
             per_edit,
             per_delete,
-        }));
+        })).sort((a, b) => a.permission_id - b.permission_id);
 
 
 
@@ -216,26 +247,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             isValid = false;
         }
 
-        // const currentState = {
-        //     roleName,
-        //     permissionRole,
-        // };
-
-        // const hasChanges  = initialFormState.current.roleName !== currentState.roleName
-
-
-        // const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
-        // const normalizedCurrent = normalizePermissions(currentState.permissionRole);
-    
-    
-        // if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
-        //     setErrorIsChanged("No changes detected in the form.");
-        //     isValid = false;
-        // }else if(!hasChanges){
-        //     setErrorIsChanged("No changes detected in the form.");
-        //     isValid = false;
-        // }
-        const currentState = {
+               const currentState = {
             roleName,
             permissionRole,
         };
@@ -243,21 +255,33 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
         const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
         const normalizedCurrent = normalizePermissions(currentState.permissionRole);
     
-        const hasRoleNameChanged = initialFormState.current.roleName !== currentState.roleName;
+        const hasRoleNameChanged = initialFormState.current.roleName?.trim() !== currentState.roleName?.trim();
         const hasPermissionRoleChanged = JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
     
-        if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
-            setErrorIsChanged("No changes detected in the form.");
-            isValid = false;
-            return;
-        }
+
+console.log("normalizedInitial",normalizedInitial)
+console.log("normalizedCurrent",normalizedCurrent)
+console.log("hasRoleNameChanged",hasRoleNameChanged, initialFormState.current.roleName,currentState.roleName )
+console.log("hasPermissionRoleChanged",hasPermissionRoleChanged)
+
+console.log("Comparison Result:", JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent));
+console.log("roleName Comparison",initialFormState.current.roleName.trim() !== currentState.roleName.trim())
+
+if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
+    setErrorIsChanged("No changes detected in the form.");
+    isValid = false;
+}
     
-        console.log("Form is valid. Proceeding to save.");
+
+
+        if (!isValid) return;
+
+       console.log("isvalid",isValid)
 
 
         const payload = {
             id: editRoleDetails.id || null,
-            hostel_id: state.login.Settings_Hostel_Id,
+            hostel_id: state.login.selectedHostel_Id,
             role_name: roleName,
             permissions: permissionRole,
             
@@ -270,17 +294,13 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             } else{
                 dispatch({ type: "SETTING_ADD_ROLE_LIST", payload });
             }
-            
-        }
-
-
-
+                    }
     };
 
 
     useEffect(()=>{
         if(addRole){
-          
+            setEditPermissionDetails([])
             setRoleName("")
                        setPermissionRole([])
                        setCheckboxValues((prevValues) => {
@@ -306,41 +326,16 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             <Modal show={showRole} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities" >
                 <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role ' : 'Create Role' }</Modal.Title>
+                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role' : 'Create Role' }</Modal.Title>
 
-                        <CloseCircle size="24" color="#000" onClick={handleClose} />
+                        <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
 
                     </Modal.Header>
 
-                    <Modal.Body>
+                    <Modal.Body className='pt-0'>
                    
 
-                    {errorIsChanged && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {errorIsChanged}
-                                </label>
-                            </div>
-                        )}
-
-                        {errorForm && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {errorForm}
-                                </label>
-                            </div>
-                        )}
-
-                        {errorPermission && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {errorPermission}
-                                </label>
-                            </div>
-                        )}
+                   
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group className="mb-3">
                                 <Form.Label
@@ -375,11 +370,41 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
                                     }}
                                 />
                             </Form.Group>
+
+                            {roleError && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {roleError}
+                                </label>
+                            </div>
+                        )}
+                           {editRoleError && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {editRoleError}
+                                </label>
+                            </div>
+                        )}
+
+
+
+                            {errorForm && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {errorForm}
+                                </label>
+                            </div>
+                        )}
                         </div>
 
 
 
-                        <div className="mt-3" style={{ border: "1px solid #DCDCDC", borderRadius: "16px" }}>
+
+
+                        <div className="mt-3 " style={{ border: "1px solid #DCDCDC", borderRadius: "16px" , maxHeight: "350px", overflowY: "auto",}}>
                             <table className="table mb-0">
                                 <thead style={{ backgroundColor: "#E7F1FF",
                                     position:"sticky",
@@ -394,7 +419,9 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
                                         <th style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B", borderTopRightRadius: 16 }}>Delete</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, color: "#4B4B4B" }}>
+                                
                                     {renderRow('Dashboard', 'Dashboard')}
                                     {renderRow('Announcement', 'Announcement')}
                                     {renderRow('Updates', 'Updates')}
@@ -415,14 +442,34 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
                                     {renderRow('Profile', 'Profile')}
                                     {renderRow('Amenities', 'Amenities')}
 
-
+                                    
                                 </tbody>
+                               
                             </table>
                         </div>
 
+                  
 
                     </Modal.Body>
+                    {errorIsChanged && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {errorIsChanged}
+                                </label>
+                            </div>
+                        )}
 
+                       
+
+                        {errorPermission && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {errorPermission}
+                                </label>
+                            </div>
+                        )}
                     <Modal.Footer style={{ border: "none" }}>
 
                         <Button

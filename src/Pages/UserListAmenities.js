@@ -46,6 +46,7 @@ function UserListAmenities(props) {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
+    setEdit(false)
 
     if (value === "" || value === "Select an Amenities") {
       setamnityError("Please select a valid amenity Id");
@@ -113,24 +114,61 @@ function UserListAmenities(props) {
   const [statusAmni, setStatusAmni] = useState(false);
   const [statusShow, setstatusShow] = useState(false);
   const [amnitynotshow, setamnitynotshow] = useState([]);
+  const[selectError,setSelectError] = useState("")
+  const [edit,setEdit] = useState(false)
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value);
+    setSelectError("")
   };
-
-  const handleAddUserAmnities = () => {
-    if (statusAmni) {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          userID: props.customerUser_Id,
-          amenityID: selectAmneties,
-          Status: props.statusAmni,
-          hostelID: props.hostelIds,
-        },
-      });
-      setStatusAmni("");
-      setselectAmneties("");
+  const validateAssignField = (value, fieldName) => {
+    if (
+      !value ||
+      value === "Select Status" 
+      
+    ) {
+      switch (fieldName) {
+        case "statusAmni":
+          setSelectError("status is required");
+          break;
+        
+        default:
+          break;
+      }
+      return false;
     } else {
+      switch (fieldName) {
+        case "statusAmni":
+          setSelectError("");
+          break;
+       
+        default:
+          break;
+      }
+      return true;
+    }
+  };
+const handleAmnitiesSelect = ()=>{
+  if (!validateAssignField(statusAmni, "statusAmni"));
+  if (statusAmni === "Select Status" || selectError) {
+    setSelectError("Please select a valid Status");
+    return;
+  }
+  if (statusAmni && statusShow) {
+    dispatch({
+      type: "AddUserAmnities",
+      payload: {
+        userID: props.customerUser_Id,
+        amenityID: selectAmneties,
+        Status:statusAmni,
+        hostelID: props.hostelIds,
+      },
+    });
+    setStatusAmni("");
+    setselectAmneties("");
+  }
+}
+  const handleAddUserAmnities = () => {
+    if(selectAmneties){
       dispatch({
         type: "AddUserAmnities",
         payload: {
@@ -139,9 +177,11 @@ function UserListAmenities(props) {
           amenityID: selectAmneties,
         },
       });
+    }
+      
       setStatusAmni("");
       setselectAmneties("");
-    }
+    
   };
 
   useEffect(() => {
@@ -151,6 +191,7 @@ function UserListAmenities(props) {
   }, [state.UsersList.statusCustomerAddUser]);
 
   const handleEdit = (v) => {
+    setEdit(true)
     setamnityEdit(v);
     setaddamenityShow(true);
     setstatusShow(true);
@@ -162,10 +203,10 @@ function UserListAmenities(props) {
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(
-    indexOfFirstRowamnities,
-    indexOfLastRowamneties
-  );
+  const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities,indexOfLastRowamneties);
+
+  console.log(" amnitiesFilterddata", amnitiesFilterddata)
+
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
@@ -451,6 +492,23 @@ function UserListAmenities(props) {
                 <option value="1">Active</option>
                 <option value="0">In Active</option>
               </Form.Select>
+               {selectError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                        <label
+                                          className="mb-0"
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {selectError}
+                                        </label>
+              
+                                      </div>
+                                    )}
             </div>
           )}
         </Modal.Body>
@@ -466,9 +524,16 @@ function UserListAmenities(props) {
               fontFamily: "Gilroy",
               marginTop: 20,
             }}
-            onClick={handleAddUserAmnities}
+            // onClick={handleAddUserAmnities}
+            onClick={() => {
+              if (statusShow) {
+                handleAmnitiesSelect();
+              } else {
+                handleAddUserAmnities();
+              }
+            }}
           >
-            Add Amnities
+            Add Amenities
           </Button>
         </Modal.Footer>
       </Modal>
@@ -508,10 +573,10 @@ function UserListAmenities(props) {
             );
           })}
       </div>
-      <div
+      <div 
         style={{
           // height: "400px",
-          height: currentRowAmnities.length >= 1 ? "100px" : "auto",
+          height: currentRowAmnities.length >= 1 ? "150px" : "auto",
           overflowY: "auto",
           borderRadius: "24px",
           border: "1px solid #DCDCDC",
@@ -520,7 +585,7 @@ function UserListAmenities(props) {
       >
         <Table
           responsive="md"
-          className="Table_Design"
+          className="Table_Design "
           style={{
             border: "1px solid #DCDCDC",
             borderBottom: "1px solid transparent",
@@ -600,11 +665,19 @@ function UserListAmenities(props) {
               >
                 Status
               </th>
-              <th scope="col"></th>
+              <th scope="col"   style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}>Action</th>
             </tr>
           </thead>
 
-          <tbody style={{ verticalAlign: "middle" }}>
+         
+          <tbody  style={{ verticalAlign: "middle" }}>
             {currentRowAmnities &&
               currentRowAmnities?.map((v) => {
                 let Datform = new Date(v.created_At);
@@ -696,7 +769,7 @@ function UserListAmenities(props) {
                           justifyContent: "center",
                           alignItems: "center",
                           position: "relative",
-                          zIndex: 1000,
+                          // zIndex: 1000,
                         }}
                       >
                         <PiDotsThreeOutlineVerticalFill
@@ -717,20 +790,22 @@ function UserListAmenities(props) {
               </tr>
             )}
           </tbody>
+          
         </Table>
       </div>
-      {currentRowAmnities.length > 0 && (
+       {amnitiesFilterddata?.length >= 1 && (
+<> 
+
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "end", // Align dropdown and pagination
+            justifyContent: "end", 
             padding: "10px",
-            // borderTop: "1px solid #ddd",
+         
           }}
         >
-          {/* Dropdown for Items Per Page */}
-          <div>
+                   <div>
             <select
               value={amentiesrowsPerPage}
               onChange={handleItemsPerPageChange}
@@ -835,6 +910,7 @@ function UserListAmenities(props) {
             </li>
           </ul>
         </nav>
+         </>
       )}
     </div>
   );

@@ -39,6 +39,12 @@ function StaticExample({
     floorNo: "",
   });
 
+
+
+
+
+
+
   useEffect(() => {
     if (editFloor) {
       setFloorNo(editFloor.floorName);
@@ -122,30 +128,6 @@ function StaticExample({
       }
     }
 
-    // Swal.fire({
-    //   icon: 'warning',
-    //   title: 'Do you want create one floor ?',
-    //   confirmButtonText: 'Yes',
-    //   cancelButtonText: 'No',
-    //   showCancelButton: true,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     const floors = floorDetails.map((floor) => (
-    //       { number_of_floors: 1 }));
-    //     const hostel_ID = hostel_Id.toString()
-    //     dispatch({
-    //       type: 'CREATEFLOOR',
-    //       payload: {
-    //         hostel_Id: hostel_ID,
-    //         hostelDetails: floors,
-    //       },
-    //     });
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Create Floor details saved Successfully',
-    //     })
-    //   }
-    // });
   };
 
   return (
@@ -157,7 +139,7 @@ function StaticExample({
         fontFamily: "Gilroy,sans-serif",
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -177,13 +159,13 @@ function StaticExample({
               {updateFloor ? " Edit Floor" : "Add floor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
-          <Modal.Body style={{ padding: 20 }}>
+          <Modal.Body style={{ paddingTop: 10, paddingLeft:10, paddingRight:10, paddingBottom:10 }}>
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                  // className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -215,40 +197,14 @@ function StaticExample({
                   />
                 </Form.Group>
               </div>
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Floor name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
-                                    <Form.Control
-                                         value={floorName}
-                                         onChange={handleFloorNameChange}
-                                        type="text" placeholder="Enter floor name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                                </Form.Group>
-                            </div> */}
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Beds</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select">
-                                        <option>Select no. of beds</option>
-                                       
-                                    </Form.Select>
-                                </Form.Group>
-                            </div>
-                           
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Room</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select">
-                                        <option>Select no. of rooms</option>
-                                       
-                                    </Form.Select>
-                                </Form.Group>
-                            </div> */}
+              
+            
             </div>
           </Modal.Body>
-
+{/*  p-1 mb-2 */}
           {floorId && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -264,8 +220,8 @@ function StaticExample({
           )}
 
           {floorError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -280,8 +236,8 @@ function StaticExample({
             </div>
           )}
           {state.UsersList?.alreadyFloorHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -296,8 +252,8 @@ function StaticExample({
             </div>
           )}
           {state.PgList?.alreadyfloorNameHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -313,16 +269,18 @@ function StaticExample({
           )}
 
           {isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center  justify-content-center">
+              <MdError style={{ fontSize: "14px",color: "red", marginRight: "6px", marginLeft: "10px" , fontFamily:"Gilroy"}} />
               <label
                 className="mb-0"
-                style={{ color: "red", fontSize: "12px", fontWeight: 500 }}
+                style={{ color: "red", fontSize: "12px", fontWeight: 500,fontFamily:"Gilroy" }}
               >
                 {isChangedError}
               </label>
             </div>
           )}
+          
+          
 
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button

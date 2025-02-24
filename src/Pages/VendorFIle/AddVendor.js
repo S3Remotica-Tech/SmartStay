@@ -21,7 +21,7 @@ import {
   Trash,
 } from "iconsax-react";
 
-function AddVendor({ show, handleClose, currentItem }) {
+function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -49,6 +49,8 @@ function AddVendor({ show, handleClose, currentItem }) {
   const [countryError, setCountryError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
+  const [vendorPhoneError,setVendorPhoneError] = useState("")
+  const [vendorEmailError,setVendorEmailError]= useState("")
 
   const handleCountryChange = (e) => {
     setCountry(e.target.value);
@@ -63,6 +65,14 @@ function AddVendor({ show, handleClose, currentItem }) {
     setIsChangedError("");
     setPinCodeError("");
   };
+
+const handleClose =()=>{
+  setShow(false)
+  setVendorPhoneError("")
+  setVendorEmailError("")
+  dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+  dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+}
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -152,6 +162,7 @@ function AddVendor({ show, handleClose, currentItem }) {
       setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
     }
   };
+  
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
@@ -164,6 +175,8 @@ function AddVendor({ show, handleClose, currentItem }) {
       setIsChangedError("");
       setCountryCodeError("");
       setMobileError("");
+      setVendorPhoneError("")
+      dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
 
       if (value.length === 10) {
         setErrors((prevErrors) => ({ ...prevErrors, vendor_Mobile: "" }));
@@ -217,11 +230,13 @@ function AddVendor({ show, handleClose, currentItem }) {
   // }
 
   const handleEmailChange = (e) => {
-    const email = e.target.value;
+    const email = e.target.value.toLowerCase();
     setEmail_Id(email);
     setGeneralError("");
     setIsChangedError("");
     setEmailError("");
+    setVendorEmailError("")
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
 
     if (email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -326,6 +341,7 @@ function AddVendor({ show, handleClose, currentItem }) {
     if (!isChanged) {
       setIsChangedError("No changes detected");
       isValid = false;
+
     }
 
     const MobileNumber = `${countryCode}${vendor_Mobile}`;
@@ -457,13 +473,24 @@ function AddVendor({ show, handleClose, currentItem }) {
     }
   }, [currentItem]);
 
-  useEffect(() => {
-    if (state.ComplianceList?.alreadyVendorHere) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-      }, 3000);
-    }
-  }, [state.ComplianceList?.alreadyVendorHere]);
+
+ 
+  useEffect(()=>{
+    setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+  },[state.ComplianceList?.alreadyVendorHere])
+
+  useEffect(()=>{
+setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+  },[state.ComplianceList.alreadyVendorEmailError])
+
+  // useEffect(() => {
+  //   if (state.ComplianceList?.alreadyVendorHere) {
+  //     setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+  //     }, 3000);
+  //   }
+  // }, [state.ComplianceList?.alreadyVendorHere]);
   const [initialState, setInitialState] = useState({
     first_Name: "",
     last_Name: "",
@@ -532,46 +559,16 @@ function AddVendor({ show, handleClose, currentItem }) {
                 fontWeight: 600,
               }}
             >
-              {check === "EDIT" ? "Edit a vendor " : "Add a vendor"}
+              {check === "EDIT" ? "Edit a vendor" : "Add a vendor"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose}
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
 
-          {state.ComplianceList?.alreadyVendorHere && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.ComplianceList?.alreadyVendorHere}
-              </label>
-            </div>
-          )}
+         
 
-          {isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
-            </div>
-          )}
+
           <Modal.Body>
             <div className="d-flex align-items-center">
               <div
@@ -601,6 +598,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                       top: 90,
                       left: 80,
                       transform: "translate(-50%, -50%)",
+                      cursor:"pointer"
                     }}
                   />
                   <input
@@ -645,7 +643,6 @@ function AddVendor({ show, handleClose, currentItem }) {
             <div className="row mt-4">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -678,7 +675,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 </Form.Group>
                 {firstNameError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -707,9 +704,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                     }}
                   >
                     Last Name{" "}
-                    <span style={{ color: "transparent", fontSize: "20px" }}>
-                      *
-                    </span>
+
                   </Form.Label>
                   <Form.Control
                     value={last_Name}
@@ -725,15 +720,13 @@ function AddVendor({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      marginTop: 5
                     }}
                   />
                 </Form.Group>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile Number</Form.Label>
-                  <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: vendor_Mobile ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                </Form.Group> */}
+
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
@@ -794,7 +787,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
                   {countryCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -811,7 +804,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
                   {mobileError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -826,6 +819,23 @@ function AddVendor({ show, handleClose, currentItem }) {
                     </div>
                   )}
                 </Form.Group>
+
+                {vendorPhoneError && (
+            <div className="d-flex align-items-center p-1 mb-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {vendorPhoneError}
+              </label>
+            </div>
+          )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -841,9 +851,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                     }}
                   >
                     Email ID{" "}
-                    <span style={{ color: "transparent", fontSize: "20px" }}>
-                      *
-                    </span>
+                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={email_Id}
@@ -859,6 +867,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      marginTop: 5
                     }}
                   />
                   {emailError && (
@@ -878,6 +887,23 @@ function AddVendor({ show, handleClose, currentItem }) {
                     </div>
                   )}
                 </Form.Group>
+
+                {vendorEmailError && (
+            <div className="d-flex align-items-center p-1 mb-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {vendorEmailError}
+              </label>
+            </div>
+          )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -913,7 +939,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                   />
                   {businessNameError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -963,7 +989,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                   />
                   {addressError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1014,7 +1040,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                   />
                   {countryError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1028,6 +1054,24 @@ function AddVendor({ show, handleClose, currentItem }) {
                       </label>
                     </div>
                   )}
+                {/* {isChangedError && (
+            <div style={{color: "red", marginTop: "15px"}}>
+              <MdError  />
+              <span
+               
+                style={{
+                  // marginTop: "10px",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                 
+                }}
+              >
+                {isChangedError}
+              </span>
+            </div>
+          )}  */}
+
                 </Form.Group>
               </div>
 
@@ -1065,7 +1109,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                   />
                   {pinCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1079,6 +1123,8 @@ function AddVendor({ show, handleClose, currentItem }) {
                       </label>
                     </div>
                   )}
+
+
                 </Form.Group>
               </div>
             </div>
@@ -1100,6 +1146,32 @@ function AddVendor({ show, handleClose, currentItem }) {
             </div>
           )}
 
+          {/* {isChangedError && (
+            <div style={{ color: "red", marginTop: "30px" }}>
+              <MdError />
+              <span
+
+                style={{
+                  marginTop: "10px",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </span>
+            </div>
+          )} */}
+{isChangedError && (
+    <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
+        <MdError style={{fontSize: "13px",marginRight:"7px",marginBottom:"15px"}}/>
+        <span style={{ fontSize: "14px", fontFamily: "Gilroy",marginBottom:"15px"}}>
+            {isChangedError}
+        </span>
+    </div>
+)}
+
+
           <Modal.Footer style={{ border: "none" }}>
             <Button
               className="w-100"
@@ -1110,6 +1182,7 @@ function AddVendor({ show, handleClose, currentItem }) {
                 fontSize: 16,
                 fontFamily: "Gilroy",
                 padding: 12,
+                marginTop: "-20px"
               }}
               onClick={handleAddVendor}
             >

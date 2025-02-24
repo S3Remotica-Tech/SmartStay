@@ -22,7 +22,7 @@ function* handleGetAsset(action) {
 
 function* handleAddAsset(action) {
    const response = yield call(AddAsset, action.payload);
-
+console.log("handleAddAsset",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -60,6 +60,9 @@ function* handleAddAsset(action) {
      
       yield put ({type:'ASSET_NAME_ERROR', payload:response.data.message})
   }
+  else  if(response.status === 203 || response.data.statusCode === 203) {
+   yield put ({type:'BANK_AMOUNT_ERROR', payload:response.data.message})
+}
    if (response) {
       refreshToken(response)
    }

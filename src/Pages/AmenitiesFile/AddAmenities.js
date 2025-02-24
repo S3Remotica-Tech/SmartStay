@@ -106,7 +106,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             Amount: amount,
             setAsDefault: isChecked,
             Status: editDetails.Status,
-            Hostel_Id: state.login.Settings_Hostel_Id,
+            Hostel_Id: state.login.selectedHostel_Id,
           },
         });
       } else {
@@ -116,7 +116,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             amenitiesName: amenity,
             Amount: amount,
             setAsDefault: isChecked,
-            Hostel_Id: state.login.Settings_Hostel_Id,
+            Hostel_Id: state.login.selectedHostel_Id,
           },
         });
       }
@@ -140,7 +140,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             style={{ maxWidth: 850, width: "100%" }}
             className="m-0 p-0"
           >
-            <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Header style={{ border: "1px solid #E7E7E7", marginBottom: "-15px" }}>
               <Modal.Title
                 style={{
                   fontSize: 18,
@@ -152,18 +152,11 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 {editDetails ? "Edit Amenities" : "Add Amenities"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleClose} />
+              <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
             </Modal.Header>
 
             <Modal.Body>
-              {isChangedError && (
-                <div
-                  style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
-                >
-                  <MdError style={{ marginRight: "4px" }} />
-                  {isChangedError}
-                </div>
-              )}
+             
 
               {hostelError && (
                 <div className="d-flex align-items-center mt-1">
@@ -184,7 +177,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               <div className="row mt-2">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group
-                    className="mb-3"
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label
@@ -216,12 +209,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                     />
                   </Form.Group>
                   {errorAmenity && (
-                    <div className="d-flex align-items-center mt-1">
+                    <div className="d-flex align-items-center">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
                       <span
                         style={{
                           color: "red",
-                          fontSize: "12px",
+                          fontSize: "13px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
@@ -233,7 +226,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group
-                    className="mb-3"
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label
@@ -266,12 +259,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   </Form.Group>
 
                   {errorAmount && (
-                    <div className="d-flex align-items-center mt-1">
+                    <div className="d-flex align-items-center">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
                       <span
                         style={{
                           color: "red",
-                          fontSize: "12px",
+                          fontSize: "13px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
@@ -308,6 +301,14 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 </div> */}
               </div>
             </Modal.Body>
+            {isChangedError && (
+                <div className="d-flex align-items-center justify-content-center"
+                  style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
+                >
+                  <MdError style={{ marginRight: "5px" }} />
+                  {isChangedError}
+                </div>
+              )}
 
             <Modal.Footer style={{ border: "none" }}>
               <Button

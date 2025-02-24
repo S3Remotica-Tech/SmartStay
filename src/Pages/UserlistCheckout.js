@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import More from "../Assets/Images/more.svg";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
@@ -36,6 +37,7 @@ function CheckOut(props) {
 
 
 
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -55,6 +57,10 @@ function CheckOut(props) {
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
+  const [checkoutLoader,setCheckOutLoader] = useState(true)
+
+
+  
 
   useEffect(() => {
     if (
@@ -92,11 +98,33 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
+    setCheckOutLoader(true)
     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, []);
+  }, [state.login.selectedHostel_Id]);
 
+
+ useEffect(() => {
+       dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id } })
+     
+   }, [state.login.selectedHostel_Id])
+
+    useEffect(() => {
+        if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+          setCheckOutLoader(false)
+         setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
+          }, 1000);
+        }
+      }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+
+
+
+
+      
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      
       checkoutcloseModal()
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
@@ -106,14 +134,22 @@ function CheckOut(props) {
 
   }, [state.UsersList.statusCodeAddConfirmCheckout])
 
-  useEffect(() => {
-    if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
-      setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
-      }, 2000);
-    }
-  }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+ 
+
+
+   useEffect(() => {
+      if (state.UsersList?.checkoutcustomeEmpty == 201) {
+        setCheckOutLoader(false)
+        setCheckOutCustomer([])
+       
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR' })
+        }, 2000)
+      }
+  
+    }, [state.UsersList?.checkoutcustomeEmpty])
+
+    console.log("state.UsersList?.checkoutcustomeEmpty",state.UsersList?.checkoutcustomeEmpty)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -129,9 +165,10 @@ function CheckOut(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.addCheckoutCustomerStatusCode == 200 ||
-      state.UsersList.deleteCheckoutCustomerStatusCode == 200
+      state.UsersList.addCheckoutCustomerStatusCode === 200 ||
+      state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
+      
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       setModalType(null);
@@ -152,14 +189,20 @@ function CheckOut(props) {
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const totalPages = Math.ceil(checkOutCustomer?.length / itemsPerPage);
+  // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers :checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+
+  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (props.search ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
 
@@ -207,17 +250,29 @@ function CheckOut(props) {
 
 
   const [activeRow, setActiveRow] = useState(null)
-
-  const toggleMoreOptions = (id, checkout) => {
-
-
-
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+  const toggleMoreOptions = (id, checkout, event) => {
     setCheckOutConfirm(checkout)
     if (activeDotsId === id) {
       setActiveDotsId(null);
     } else {
       setActiveDotsId(id);
     }
+
+
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
+
+
+
+
+
   };
 
   const handleDotsClick = (id, checkout) => {
@@ -287,63 +342,40 @@ function CheckOut(props) {
     setCurrentPage(pageNumber);
   };
 
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={1}
-  //         active={1 === currentPage}
-  //         onClick={() => paginate(1)}
-  //       >
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={i}
-  //         active={i === currentPage}
-  //         onClick={() => paginate(i)}
-  //       >
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item
-  //         key={totalPages}
-  //         active={totalPages === currentPage}
-  //         onClick={() => paginate(totalPages)}
-  //       >
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
-
+  
   return (
 
-
-
-
     <>
-      {checkOutPermissionError ? (
+    <div>
+    {checkoutLoader &&
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
+      { checkOutPermissionError? (
         <>
           <div
             style={{
@@ -382,7 +414,7 @@ function CheckOut(props) {
 
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {currentCustomers?.length > 0 ? (
+            {currentCustomers?.length > 0 ?  (
               <div
                 className="p-10 booking-table-userlist"
                 style={{ paddingBottom: "20px" }}
@@ -404,24 +436,25 @@ function CheckOut(props) {
                   >
                     <thead
                       style={{
-                        position:"sticky",
-                        top:0,
-                        zIndex:1,
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1,
                       }}
                     >
                       <tr>
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft:"20px"
                           }}
                         >
                           Name
@@ -431,7 +464,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -445,7 +478,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -459,7 +492,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -473,7 +506,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -488,7 +521,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -502,7 +535,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -516,7 +549,7 @@ function CheckOut(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -591,7 +624,7 @@ function CheckOut(props) {
                         return (
                           <tr key={checkout.ID} className="customer-row">
 
-                            <td>
+                            <td style={{verticalAlign: "middle"}}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -601,7 +634,8 @@ function CheckOut(props) {
                                     fontFamily: "Gilroy",
                                     color: "#222222",
                                     paddingLeft: "4px",
-                                    textAlign:"center"
+                                    textAlign: "start",
+                                    verticalAlign: "middle"
                                   }}
                                   className="ms-2 customer-name"
                                 >
@@ -619,6 +653,7 @@ function CheckOut(props) {
                                 color: "#000000",
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               +
@@ -639,6 +674,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -654,6 +690,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.Floor}
@@ -669,6 +706,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -684,6 +722,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.room_name}
@@ -698,6 +737,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -713,6 +753,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {checkout.bed_name}
@@ -727,6 +768,7 @@ function CheckOut(props) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
+                                verticalAlign: "middle"
                               }}
                             >
                               <span
@@ -742,6 +784,7 @@ function CheckOut(props) {
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
+                                  verticalAlign: "middle"
                                 }}
                               >
                                 {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
@@ -783,6 +826,7 @@ function CheckOut(props) {
                               fontSize: "16px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              verticalAlign: "middle",
                               whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
                             }}>
                               {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span
@@ -803,8 +847,9 @@ function CheckOut(props) {
                                   position: "relative",
                                   zIndex:
                                     activeDotsId === checkout.ID ? 1000 : "auto",
+                                    backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
                                 }}
-                                onClick={() => toggleMoreOptions(checkout.ID, checkout)}
+                                onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
                               // onClick={() => handleDotsClick(checkout.id , checkout)}
                               >
                                 <PiDotsThreeOutlineVerticalFill
@@ -817,8 +862,10 @@ function CheckOut(props) {
                                     style={{
                                       cursor: "pointer",
                                       backgroundColor: "#EBEBEB",
-                                      position: "absolute",
-                                      right: 0,
+                                      position: "fixed",
+                                      top:   popupPosition.top,
+                                      left:  popupPosition.left,
+                                      
                                       width: 200,
                                       border: "1px solid #EBEBEB",
                                       borderRadius: 12,
@@ -828,7 +875,7 @@ function CheckOut(props) {
                                       padding: 15,
                                       boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                       zIndex: 10,
-                                      marginTop: "140px",
+                                      // marginTop: "140px",
                                       marginRight: "20px",
                                     }}
                                   >
@@ -855,6 +902,9 @@ function CheckOut(props) {
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           // color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Confirm Check-Out
@@ -915,6 +965,9 @@ function CheckOut(props) {
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#222222",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Edit
@@ -953,6 +1006,9 @@ function CheckOut(props) {
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#FF0000",
+                                          cursor: checkOutEditPermissionError
+                                          ? "not-allowed"
+                                          : "pointer",
                                         }}
                                       >
                                         Delete
@@ -970,104 +1026,9 @@ function CheckOut(props) {
                     </tbody>
                   </Table>
                 </div>
-                {currentCustomers.length > 0 && (
+                {(props.search ? props.filteredUsers?.length : checkOutCustomer?.length) >= 5 && (
 
-                  //  <nav
-                  //                 style={{
-                  //                   display: "flex",
-                  //                   alignItems: "center",
-                  //                   justifyContent: "end", 
-                  //                   padding: "10px",
-
-                  //                 }}
-                  //               >
-
-                  //                 <div>
-                  //                   <select
-                  //                     value={itemsPerPage}
-                  //                     onChange={handleItemsPerPageChange}
-                  //                     style={{
-                  //                       padding: "5px",
-                  //                       border: "1px solid #1E45E1",
-                  //                       borderRadius: "5px",
-                  //                       color: "#1E45E1",
-                  //                       fontWeight: "bold",
-                  //                       cursor: "pointer",
-                  //                       outline: "none",
-                  //                       boxShadow: "none",
-
-                  //                     }}
-                  //                   >
-                  //                      <option value={5}>5</option>
-                  //                     <option value={10}>10</option>
-                  //                     <option value={50}>50</option>
-                  //                     <option value={100}>100</option>
-                  //                   </select>
-                  //                 </div>
-
-
-                  //                 <ul
-                  //                   style={{
-                  //                     display: "flex",
-                  //                     alignItems: "center",
-                  //                     listStyleType: "none",
-                  //                     margin: 0,
-                  //                     padding: 0,
-                  //                   }}
-                  //                 >
-
-                  //                   <li style={{ margin: "0 10px" }}>
-                  //                     <button
-                  //                       style={{
-                  //                         padding: "5px",
-                  //                         textDecoration: "none",
-                  //                         color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  //                         cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  //                         borderRadius: "50%",
-                  //                         display: "inline-block",
-                  //                         minWidth: "30px",
-                  //                         textAlign: "center",
-                  //                         backgroundColor: "transparent",
-                  //                         border: "none",
-                  //                       }}
-                  //                       onClick={() => handlePageChange(currentPage - 1)}
-                  //                       disabled={currentPage === 1}
-                  //                     >
-                  //                       <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                  //                     </button>
-                  //                   </li>
-
-
-                  //                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                  //                     {currentPage} of {totalPages}
-                  //                   </li>
-
-
-                  //                   <li style={{ margin: "0 10px" }}>
-                  //                     <button
-                  //                       style={{
-                  //                         padding: "5px",
-                  //                         textDecoration: "none",
-                  //                         color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  //                         cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                  //                         borderRadius: "50%",
-                  //                         display: "inline-block",
-                  //                         minWidth: "30px",
-                  //                         textAlign: "center",
-                  //                         backgroundColor: "transparent",
-                  //                         border: "none",
-                  //                       }}
-                  //                       onClick={() => handlePageChange(currentPage + 1)}
-                  //                       disabled={currentPage === totalPages}
-                  //                     >
-                  //                       <ArrowRight2
-                  //                         size="16"
-                  //                         color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                  //                       />
-                  //                     </button>
-                  //                   </li>
-                  //                 </ul>
-                  //               </nav>
+                
 
                   <nav
                     style={{
@@ -1075,13 +1036,13 @@ function CheckOut(props) {
                       alignItems: "center",
                       justifyContent: "end",
                       padding: "10px",
-                      position: "fixed", 
-                      bottom: "10px", 
-                      right: "10px", 
-                      backgroundColor: "#fff", 
-                      borderRadius: "5px", 
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-                      zIndex: 1000, 
+                      position: "fixed",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      borderRadius: "5px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      zIndex: 1000,
                     }}
                   >
                     <div>
@@ -1174,75 +1135,76 @@ function CheckOut(props) {
 
                 )}
 
-          </div>
-        ) : (
-          <div style={{marginTop:30,height:"60vh" }}>
-            <div style={{ textAlign: "center" }}>
-              {" "}
-              <img src={Emptystate} alt="emptystate" />
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 20,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No checkout List available{" "}
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 16,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no checkout List added.{" "}
-            </div>
+              </div>
+              
+            ) : ( !checkoutLoader && currentCustomers?.length === 0 && (
+              <div style={{ marginTop: 30, height: "60vh" }}>
+                <div style={{ textAlign: "center" }}>
+                  {" "}
+                  <img src={Emptystate} alt="emptystate" />
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No checkout List available{" "}
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no checkout List added.{" "}
+                </div>
 
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-    </div>
-    
-      
-      // (
-      //   <div className="">
-      //     {currentCustomers.length > 0 ? (
-      //       <div className="row mt-3 row-gap-3">
-      //         {currentCustomers.map((checkout, index) => (
-      //           <div
-      //             key={index}
-      //             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-      //           >
-      //             <Card
-      //               className=" h-100 border p-3"
-      //               style={{
-      //                 borderColor: "#E6E6E6",
-      //                 borderWidth: "1px",
-      //                 borderRadius: "16px",
-      //                 position: "relative",
-      //               }}
-      //             >
-      //               <div className="d-flex align-items-center">
-      //                 <Image
-      //                   src={
-      //                     checkout.profile &&
-      //                     checkout.profile !== "0" &&
-      //                     checkout.profile.trim() !== ""
-      //                       ? checkout.profile
-      //                       : People
-      //                   }
-      //                   roundedCircle
-      //                   style={{ height: "60px", width: "60px" }}
-      //                   alt="profile"
-      //                 />
+        </div>
+
+
+        // (
+        //   <div className="">
+        //     {currentCustomers.length > 0 ? (
+        //       <div className="row mt-3 row-gap-3">
+        //         {currentCustomers.map((checkout, index) => (
+        //           <div
+        //             key={index}
+        //             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+        //           >
+        //             <Card
+        //               className=" h-100 border p-3"
+        //               style={{
+        //                 borderColor: "#E6E6E6",
+        //                 borderWidth: "1px",
+        //                 borderRadius: "16px",
+        //                 position: "relative",
+        //               }}
+        //             >
+        //               <div className="d-flex align-items-center">
+        //                 <Image
+        //                   src={
+        //                     checkout.profile &&
+        //                     checkout.profile !== "0" &&
+        //                     checkout.profile.trim() !== ""
+        //                       ? checkout.profile
+        //                       : People
+        //                   }
+        //                   roundedCircle
+        //                   style={{ height: "60px", width: "60px" }}
+        //                   alt="profile"
+        //                 />
 
         //                 {/* <img src={Room} alt="Room Image" /> */}
         //                 <div style={{ marginLeft: "10px" }}>
@@ -1853,6 +1815,7 @@ function CheckOut(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+    </div>
     </>
   );
 }

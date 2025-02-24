@@ -67,8 +67,30 @@ export async function addVendor(params) {
     })
   }
 
+  export async function ComplianceChangeStatus(compliance) {
+    return await AxiosConfig.post('/compliance/change_details', compliance, {
+      data: compliance
+    })
+  }
+
+
+
+
   export async function complianceDelete(datum) {
     return await AxiosConfig.post('/complaint/delete_compliant', datum, {
+      data: datum
+    })
+  }
+
+
+  // 
+  export async function getComplianceComment(datum) {
+    return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
+      data: datum
+    })
+  }
+  export async function addComplianceComment(datum) {
+    return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
       data: datum
     })
   }

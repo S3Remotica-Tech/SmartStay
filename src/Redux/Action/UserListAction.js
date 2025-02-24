@@ -61,9 +61,9 @@ export async function roomsCount(floorAndHostelID){
   })
 }
 
-export async function hosteliddetail(id) {
-  return await AxiosConfig.post('/floor_list', id,{
-    data:id
+export async function hosteliddetail(datum) {
+  return await AxiosConfig.post('/floor_list', datum,{
+    data:datum
   })
 }
 export async function userBillPaymentHistory() {
@@ -304,4 +304,17 @@ export async function uploadDocument(params) {
   } catch (error) {
     console.error("Axios Error", error);
   }
+}
+
+
+
+
+export async function deleteCustomer(contact){
+  return await AxiosConfig.post('/users/delete',contact,{
+    data:contact
+  })
+}
+export async function hostelDetailsId() {
+  return await AxiosConfig.get('/list/hosteldetails',{
+  })
 }

@@ -44,6 +44,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from "react-bootstrap/Image";
+import LoaderComponent from "./LoaderComponent";
 
 function Dashboard(props) {
   
@@ -83,6 +84,7 @@ function Dashboard(props) {
   const [reveneReceived, setRevenueReceived] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
+   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if(state.login.selectedHostel_Id){
@@ -99,25 +101,41 @@ function Dashboard(props) {
   const handleSelectedRevenue = (e) => {
     setSelectRevenu(e.target.value);
   };
+
   useEffect(() => {
-    dispatch({
-      type: "DASHBOARDFILTERCASHBACK",
-      payload: {
-        type: "cashback",
-        range: selectCashback,
-        hostel_id: hostel_id,
-      },
-    });
+    setLoading(true);
+    if(hostel_id){
+      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    }
+    
+  }, [hostel_id]);
+
+  useEffect(() => {
+    if(hostel_id){
+      dispatch({
+        type: "DASHBOARDFILTERCASHBACK",
+        payload: {
+          type: "cashback",
+          range: selectCashback,
+          hostel_id: hostel_id,
+        },
+      });
+    }
+  
   }, [selectCashback, hostel_id]);
   useEffect(() => {
-    dispatch({
-      type: "DASHBOARDFILTERREVENUE",
-      payload: {
-        type: "exp_vs_rev",
-        range: selectRevenu,
-        hostel_id: hostel_id,
-      },
-    });
+
+    if(hostel_id){
+      dispatch({
+        type: "DASHBOARDFILTERREVENUE",
+        payload: {
+          type: "exp_vs_rev",
+          range: selectRevenu,
+          hostel_id: hostel_id,
+        },
+      });
+    }
+   
   }, [selectRevenu, hostel_id]);
   useEffect(() => {
     const cashBackDataRevenu =
@@ -135,6 +153,7 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilterCashBack === 200) {
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
       }, 1000);
@@ -146,10 +165,12 @@ function Dashboard(props) {
     // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
   };
   useEffect(() => {
+   if(hostel_id){
     dispatch({
       type: "DASHBOARDFILTER",
       payload: { type: "expenses", range: selectExpence, hostel_id: hostel_id },
     });
+   }
   }, [selectExpence, hostel_id]);
 
   const handleChanges = (event, newValue) => {
@@ -249,16 +270,17 @@ function Dashboard(props) {
   //   setData(state.PgList?.dashboardFilterRevenu?.response?.cash_back_data);
   // }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
 
-  useEffect(() => {
-    dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
-  }, [hostel_id]);
+ 
 
-  console.log("loginid",hostel_id);
+  console.log("loading",state.PgList.statuscodeForDashboard);
   
 
   useState(()=>{
-if(state.PgList.statuscodeForDashboard === 200){
-  setTimeout(() => {
+    
+  if(state.PgList.statuscodeForDashboard === 200){
+
+    
+  setTimeout(() => {   
     dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
   }, 200);
 }
@@ -539,6 +561,8 @@ if(state.PgList.statuscodeForDashboard === 200){
               </TabList>
             </Box>
           </div>
+
+          {loading && <LoaderComponent />}
           
           <div style={{maxHeight: "calc(100vh - 83px)", 
       overflowY: "auto",}}>
@@ -594,7 +618,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                         <div class="text-primary mb-3">
                           <i class="bi bi-house-door-fill fs-3"></i>
                         </div>
-                        <h6 class="text-muted">Total Room</h6>
+                        <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>Total Room</h6>
                         {/* <h4 class="mb-0">{dashboardList[0]?.roomCount}</h4> */}
                         <h4 class="mb-0">
                           {dashboardList && dashboardList?.length > 0
@@ -607,7 +631,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                       <div class="d-flex flex-column gap-3 spacecard">
                         <div class="border rounded-4 p-3 text-start bg-white shadow-sm secondcard d-flex justify-content-between align-items-center">
                           <div>
-                            <h6 class="text-muted">Total Beds</h6>
+                            <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>Total Beds</h6>
                             <h4 class="mb-0">
                               {dashboardList && dashboardList?.length > 0
                                 ? dashboardList[0]?.TotalBed
@@ -620,7 +644,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                         <div class="border rounded-4 p-3 text-start bg-white shadow-sm thirdcard">
                           <div class="d-flex justify-content-between align-items-center">
                             <div>
-                              <h6 class="text-muted mb-0">Free Bed</h6>
+                              <h6 class="text-muted mb-0" style={{fontFamily:"Gilroy"}}>Free Bed</h6>
                               <h4 class="mb-0">
                                 {dashboardList && dashboardList?.length > 0
                                   ? dashboardList[0]?.availableBed
@@ -642,7 +666,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                           style={{ flex: 1 }}
                         >
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm fourthcard">
-                            <h6 class="text-muted">Occupied Bed</h6>
+                            <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>Occupied Bed</h6>
                             <h4 class="mb-0">
                               {dashboardList && dashboardList?.length > 0
                                 ? dashboardList[0]?.occupied_Bed
@@ -650,7 +674,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                             </h4>
                           </div>
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm fifthcard">
-                            <h6 class="text-muted">Total Customer</h6>
+                            <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>Total Customer</h6>
                             <h4 class="mb-0">
                               {" "}
                               <h4 class="mb-0">
@@ -666,7 +690,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                           style={{ flex: 1, padding: 5 }}
                         >
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm sixthcard">
-                            <h6 class="text-muted">Next Month Projection</h6>
+                            <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>Next Month Projection</h6>
                             <h4 class="mb-0">
                               {/* {dashboardList[0]?.project_amount} */}
                               {dashboardList && dashboardList?.length > 0
@@ -675,7 +699,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                             </h4>
                           </div>
                           <div class="border rounded-4 p-3 text-start bg-white shadow-sm seventhcard">
-                            <h6 class="text-muted">EB Amount</h6>
+                            <h6 class="text-muted" style={{fontFamily:"Gilroy"}}>EB Amount</h6>
                             <h4 class="mb-0">
                               {" "}
                               <h4 class="mb-0">
@@ -697,7 +721,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                               style={{
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
+                                fontFamily: "Gilroy",
                                 marginTop: 12,
                               }}
                             >
@@ -791,6 +815,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                   appearance: "none",
                                   background: `url(${drop}) no-repeat right 10px center`,
                                   backgroundSize: "16px 16px",
+                                  cursor:'pointer'
                                 }}
                               >
                                 <option value="six_month">
@@ -1032,6 +1057,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                   backgroundRepeat: "no-repeat",
                                   backgroundPosition: "right 10px center",
                                   backgroundSize: "16px 16px",
+                                    cursor:'pointer'
                                 }}
                               >
                                 <option value="this_month">This month</option>
@@ -1177,6 +1203,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 appearance: "none",
                                 background: `url(${drop}) no-repeat right 10px center`,
                                 backgroundSize: "16px 16px",
+                                  cursor:'pointer'
                               }}
                             >
                               <option value="this_month">This month</option>
@@ -1484,7 +1511,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 borderTopLeftRadius: "24px",
-                                textAlign: "left",
+                                textAlign: "center",
                                 paddingLeft: 20,
                               }}
                             >
@@ -1497,7 +1524,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 padding: "10px",
-                                textAlign: "left",
+                                textAlign: "center",
                               }}
                             >
                               Booking
@@ -1509,19 +1536,20 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 padding: "10px",
-                                textAlign: "left",
+                                textAlign: "center",
+                                borderTopRightRadius: "24px",
                               }}
                             >
                               Amount
                             </th>
 
-                            <th
+                            {/* <th
                               style={{
                                 padding: "10px",
                                 borderTopRightRadius: "24px",
                                 textAlign: "center",
                               }}
-                            ></th>
+                            ></th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -1554,12 +1582,18 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 <tr style={{ overflowX: "auto" }}>
                                   <td
                                     style={{
-                                      border: "none",
-                                      display: "flex",
-                                      padding: "10px",
+                                      fontWeight: 500,
+                                      fontSize: "16px",
+                                      fontFamily: "Gilroy",
+                                      textAlign: "center",
+                                      paddingTop: 17,
+                                      whiteSpace: "nowrap",
                                     }}
                                   >
-                                    <Image
+
+                                    {item.first_name} {" "}
+                                    {item.last_name}
+                                    {/* <Image
                                       src={imageUrl}
                                       alt={item.Invoices || "Default Profile"}
                                       roundedCircle
@@ -1572,8 +1606,8 @@ if(state.PgList.statuscodeForDashboard === 200){
                                         e.target.onerror = null;
                                         e.target.src = Profile;
                                       }}
-                                    />
-                                    <span
+                                    /> */}
+                                    {/* <span
                                       className="Customer_Name_Hover"
                                       style={{
                                         fontSize: "16px",
@@ -1581,20 +1615,20 @@ if(state.PgList.statuscodeForDashboard === 200){
                                         fontFamily: "Gilroy",
                                         // color: "#1E45E1",
                                         cursor: "pointer",
+                                        textAlign: "center",
                                         marginTop: 10,
                                       }}
                                       // onClick={() => handleRoomDetailsPage(user)}
                                     >
-                                      {item.first_name}
-                                      {item.last_name}
-                                    </span>
+                                     
+                                    </span> */}
                                   </td>
                                   <td
                                     style={{
                                       fontWeight: 500,
                                       fontSize: "16px",
                                       fontFamily: "Gilroy",
-                                      textAlign: "left",
+                                      textAlign: "center",
                                       paddingTop: 17,
                                       whiteSpace: "nowrap",
                                     }}
@@ -1606,7 +1640,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                     style={{
                                       paddingTop: 15,
                                       border: "none",
-                                      textAlign: "start",
+                                      textAlign: "center",
                                       fontSize: "16px",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
@@ -1617,7 +1651,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                     {item.amount}
                                   </td>
 
-                                  <td style={{ textAlign: "center" }}>
+                                  {/* <td style={{ textAlign: "center" }}>
                                     <div
                                       style={{
                                         height: "40px",
@@ -1636,7 +1670,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                         }}
                                       />
                                     </div>
-                                  </td>
+                                  </td> */}
                                 </tr>
                               );
                             }
@@ -1674,7 +1708,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                         responsive="md"
                         className="dashTable mt-3 mt-md-0 mt-lg-0 "
                         style={{
-                          tableLayout: "auto",
+                          tableLayout: "fixed",
                           borderRadius: "24px",
                           border: "1px solid #DCDCDC",
                         }}
@@ -1687,10 +1721,10 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontWeight: 600,
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
+                                padding: "10px",
                                 borderTopLeftRadius: "24px",
-                                textAlign: "left",
-                                paddingLeft: 20,
-                              }}
+                                textAlign: "center",  width: "33.33%",
+                                                             }}
                             >
                               Invoice number
                             </th>
@@ -1701,7 +1735,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 padding: "10px",
-                                textAlign: "left",
+                                textAlign: "center",  width: "33.33%",
                               }}
                             >
                               Due Date
@@ -1713,19 +1747,20 @@ if(state.PgList.statuscodeForDashboard === 200){
                                 fontSize: "14px",
                                 fontFamily: "Gilroy",
                                 padding: "10px",
-                                textAlign: "left",
+                                textAlign: "center",
+                                borderTopRightRadius: "24px",  width: "33.33%",
                               }}
                             >
                               Amount
                             </th>
 
-                            <th
+                            {/* <th
                               style={{
                                 padding: "10px",
                                 borderTopRightRadius: "24px",
                                 textAlign: "center",
                               }}
-                            ></th>
+                            ></th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -1756,14 +1791,18 @@ if(state.PgList.statuscodeForDashboard === 200){
 
                               return (
                                 <tr style={{ overflowX: "auto" }}>
-                                  <td
+                                  <td title={item.Invoices}
                                     style={{
                                       fontWeight: 500,
                                       fontSize: "16px",
                                       fontFamily: "Gilroy",
-                                      //  textAlign: "left",
+                                       textAlign: "center",
                                       //  padding:10,
                                       paddingLeft: 20,
+                                      paddingTop: 17,
+                                      overflow:"hidden",
+                                      textOverflow:"ellipsis",
+                                      whiteSpace:"nowrap"
                                     }}
                                   >
                                     {item.Invoices}
@@ -1773,7 +1812,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                       fontWeight: 500,
                                       fontSize: "16px",
                                       fontFamily: "Gilroy",
-                                      textAlign: "left",
+                                      textAlign: "center",
                                       paddingTop: 17,
                                       whiteSpace: "nowrap",
                                     }}
@@ -1785,18 +1824,17 @@ if(state.PgList.statuscodeForDashboard === 200){
                                     style={{
                                       paddingTop: 15,
                                       border: "none",
-                                      textAlign: "start",
+                                      textAlign: "center",
                                       fontSize: "16px",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
-                                      marginTop: 10,
                                       whiteSpace: "nowrap",
                                     }}
                                   >
                                     {item.total_amount}
                                   </td>
 
-                                  <td style={{ textAlign: "center" }}>
+                                  {/* <td style={{ textAlign: "center" }}>
                                     <div
                                       style={{
                                         height: "40px",
@@ -1815,7 +1853,7 @@ if(state.PgList.statuscodeForDashboard === 200){
                                         }}
                                       />
                                     </div>
-                                  </td>
+                                  </td> */}
                                 </tr>
                               );
                             }

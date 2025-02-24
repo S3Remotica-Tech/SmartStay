@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
-
+import { MdError } from "react-icons/md";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -77,41 +77,43 @@ function UserListKyc(props) {
 
     }
   }, [state.UsersList.kycValidateOtpVerifySuccess])
+
+  const [checkoUtDateError, setCheckOutDateError] = useState('')
+
+  
   return (
-    <div>
+    <div style={{borderRadius:24}}>
       <Modal
         show={props.kycdetailsForm}
         onHide={handleCloseyc}
         backdrop="static"
         centered
         className="modal-dialog-centered"
-        style={{ width: 400 }}
+        style={{ width: 411,height:390,borderRadius:24 }}
       >
-        <Modal.Dialog
-          style={{
-            maxWidth: "400px",
+      
+          <Modal.Body style={{ padding: "0px"}}>
+            <div className="d-flex align-items-center" style={{borderRadius:24,padding:0,margin:0,width: "100%",}}>
 
-            paddingRight: "10px",
-
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
-          <Modal.Body>
-            <div className="d-flex align-items-center">
-
-              <div className="container">
-                <div className="row mb-3"></div>
+              <div className="container" style={{
+                padding:10,
+            
+            borderRadius:24
+          }}>
 
                 <Modal.Header
-                  style={{ marginBottom: "30px", position: "relative" }}
+                  style={{  position: "relative",
+                    marginBottom: "10px",
+                    padding: "20px", }}
                 >
+                  
                   <div
                     style={{
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      marginTop:-20
                     }}
                   >
                     KYC Verify
@@ -124,7 +126,7 @@ function UserListKyc(props) {
                     style={{
                       position: "absolute",
                       right: "10px",
-                      top: "16px",
+                      marginTop: "-15px",
                       border: "1px solid black",
                       background: "transparent",
                       cursor: "pointer",
@@ -132,8 +134,8 @@ function UserListKyc(props) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "32px",
-                      height: "32px",
+                      width: "20px",
+                      height: "20px",
                       borderRadius: "50%",
                     }}
                   >
@@ -160,12 +162,14 @@ function UserListKyc(props) {
                           fontFamily: "Gilroy",
                           display: "flex",
                           alignItems: "center",
-
+                          gap: "5px", // Add gap between icon and text
                         }}
                       >
                         Aadhar Number
 
+                        <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
+   
                       <FormControl
                         type="text"
                         id="form-controls"
@@ -265,7 +269,7 @@ function UserListKyc(props) {
                     fontWeight: 600,
                     height: 50,
                     borderRadius: 12,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontFamily: "Montserrat",
                   }}
                   // onClick={handleSubmit}
@@ -278,8 +282,7 @@ function UserListKyc(props) {
             </div>
           </Modal.Body>
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-        </Modal.Dialog>
+       
       </Modal>
     </div>
   )

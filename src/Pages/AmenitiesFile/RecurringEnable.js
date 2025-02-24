@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
+import Select from "react-select";
+import { borderRadius, fontSize } from '@mui/system';
 
 function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails }) {
 
@@ -17,7 +19,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     const dispatch = useDispatch();
 
 
-    const [startDate, setStartDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState('');
     const [recurringDay, setRecurringDay] = useState('');
 
@@ -25,24 +27,86 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
     const [errorEndDate, setErrorEndDate] = useState('');
     const [errorRecurringDay, setErrorRecurringDay] = useState('');
 
-    const handleStartDateChange = (e) => {
-        setStartDate(e.target.value);
-        setErrorStartDate('');
+    // const handleStartDateChange = (e) => {
+    //     setStartDate(e.target.value);
+    //     setErrorStartDate('');
 
+    // };
+
+
+
+
+    const dayOptions = Array.from({ length: 31 }, (_, i) => ({
+        value: i + 1,
+        label: i + 1,
+    }));
+
+    const dayOptionsEnd = Array.from({ length: 31 }, (_, i) => ({
+        value: i + 1,
+        label: i + 1,
+    }));
+
+    console.log(dayOptions, "dayOptions")
+
+  
+    const customStyles = {
+        control: (base) => ({
+            ...base,
+            height: "50px",
+            border: "1px solid #ced4da",
+            borderRadius: "7px",
+            fontSize: 14, 
+            color: "#222222", 
+            fontFamily: "Gilroy", 
+            fontWeight: 500
+          }),
+          menu: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            border: "1px solid #ced4da",
+          }),
+          menuList: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            overflowY: "auto",
+            maxHeight: "120px",
+            padding: 0,
+            scrollbarWidth: "thin",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#555",
+          }),
+          dropdownIndicator: (base) => ({
+            ...base,
+            color: "#555",
+            display: "inline-block",
+            fill: "currentColor",
+            lineHeight: 1,
+            stroke: "currentColor",
+            strokeWidth: 0,
+          }),
+          indicatorSeparator: () => ({
+            display: "none",
+          }),
+    }
+  
+    const handleStartDateChange = (selectedOption) => {
+        setStartDate(selectedOption ? selectedOption.value : null);
     };
-
-    const handleEndDateChange = (e) => {
-        setEndDate(e.target.value);
+    const handleEndDateChange = (selectedOption) => {
+        setEndDate(selectedOption ? selectedOption.value : null);
         setErrorEndDate('');
-
     };
+
+   
 
     const handleRecurringDayChange = (e) => {
         setRecurringDay(e.target.value);
         setErrorRecurringDay('');
 
     };
-    const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
+
 
 
 
@@ -75,7 +139,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
 
                     type: "amenities",
                     recure: 1,
-                    hostel_id: state.login.Settings_Hostel_Id,
+                    hostel_id: state.login.selectedHostel_Id,
                     start_date: startDate,
                     end_date: endDate,
                     am_id: amenityDetails.id,
@@ -104,12 +168,10 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Recurring Enable</Modal.Title>
                         <CloseCircle size="24" color="#000" onClick={handleCloseRecurring} />
                     </Modal.Header>
-                    {errorStartDate && (
+                    {/* {errorStartDate && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
-                    )}
-                    {errorEndDate && (
-                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
-                    )}
+                    )} */}
+                    
                     {errorRecurringDay && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorRecurringDay}</div>
                     )}
@@ -119,12 +181,23 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities calculation Start Date will be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
+                            {errorStartDate && (
+                            <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
+                    )} 
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Form.Select
+                                <Select
+                                    options={dayOptions}
+                                    value={dayOptions.find((option) => option.value === startDate) || null}
+                                    onChange={handleStartDateChange}
+                                    placeholder="Start Day"
+                                    styles={customStyles}
+                                   
+                                />
+                            </div>
+                            {/* <Form.Select
                                     value={startDate}
                                     onChange={handleStartDateChange}
                                     id="vendor-select"
@@ -136,20 +209,32 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                             {day}
                                         </option>
                                     ))}
-                                </Form.Select>
+                                </Form.Select> */}
 
-                            </div>
+
 
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities calculation End Date will be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
+                                        {errorEndDate && (
+                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
+                    )}
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                                <Select
+                                    options={dayOptionsEnd}
+                                    value={dayOptionsEnd.find((option) => option.value === endDate) || null}
+                                    onChange={handleEndDateChange}
+                                    placeholder="End Day"
+                                    styles={customStyles}
+                                    
+                                />
+                            </div>
+                            {/* <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
                                     value={endDate}
                                     id="vendor-select"
@@ -157,7 +242,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                     onChange={handleEndDateChange}
                                 >
                                     <option value="">End day</option>
-                                    {dayOptions.map((day) => (
+                                    {dayOptionsEnd.map((day) => (
                                         <option key={day} value={day}>
                                             {day}
                                         </option>
@@ -165,7 +250,7 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
                                 </Form.Select>
 
 
-                            </div>
+                            </div> */}
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

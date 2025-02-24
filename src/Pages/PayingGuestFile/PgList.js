@@ -18,7 +18,7 @@ import "./PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "./AddRoom";
 import { IoIosArrowDropleft } from "react-icons/io";
-import { ArrowLeft } from "iconsax-react";
+import { ArrowLeft, Pointer } from "iconsax-react";
 import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
 import Notify from "../../Assets/Images/New_images/notify.png";
@@ -33,7 +33,7 @@ import {
   Edit,
   Trash,
 } from "iconsax-react";
-import {ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
 import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -50,7 +50,7 @@ import SettingManage from "../../Pages/SettingManage";
 function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log('PgList',state)
+  console.log('PgList', state)
   const [showHostelDetails, setShowHostelDetails] = useState("");
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
@@ -58,19 +58,17 @@ function PgList(props) {
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
 
-  const [customerPermission,setCustomerPermission] = useState("")
-  const [customerAddPermission,setCustomerAddPermission]= useState("")
-  const [customerDeletePermission,setCustomerDeletePermission]=useState("")
+  const [customerPermission, setCustomerPermission] = useState("")
+  const [customerAddPermission, setCustomerAddPermission] = useState("")
+  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
+  const [key, setKey] = useState("1");
+
+  const [visibleRange, setVisibleRange] = useState([0, 2]);
 
   const popupRef = useRef(null);
 
-  // const [pgList, setPgList] = useState({
-  //   Name: "",
-  //   phoneNumber: "",
-  //   email_Id: "",
-  //   location: "",
-  //    });
+  console.log("showHostelDetails", showHostelDetails)
 
   let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
@@ -84,14 +82,15 @@ function PgList(props) {
   const [show, setShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState(false);
 
-   const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(null);
+  const [trigger, setTrigger] = useState(true)
   const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
 
-  const [settingsshow, setSettingsShow]= useState(false)
+  const [settingsshow, setSettingsShow] = useState(false)
   const stateAccount = useSelector((state) => state.createAccount);
 
   const [profile, setProfile] = useState(
@@ -123,27 +122,27 @@ function PgList(props) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
-const [hostel_Id,setHostel_Id] = useState("")
+  const [hostel_Id, setHostel_Id] = useState("")
 
 
- useEffect(() => {
-  if(state.login.selectedHostel_Id){
-    setHostel_Id(state.login.selectedHostel_Id);
-    setSelectedHostel(false);
-    setFloorClick("");
-    setFloorName("");
-    setHidePgList(true);
-  } 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostel_Id(state.login.selectedHostel_Id);
+      setSelectedHostel(false);
+      setFloorClick("");
+      setFloorName("");
+      setHidePgList(true);
+    }
   }, [state?.login?.selectedHostel_Id]);
 
 
-//  useEffect
+  //  useEffect
 
   useEffect(() => {
-    if(hostel_Id){
+    if (hostel_Id) {
       setLoader(true)
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} });
-    }  
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+    }
   }, [hostel_Id]);
 
 
@@ -154,17 +153,22 @@ const [hostel_Id,setHostel_Id] = useState("")
   }, [selectedHostel]);
 
 
-console.log("state",state)
+  console.log("state", state)
 
 
   useEffect(() => {
 
-    if (hostel_Id && state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
       setLoader(false);
+
+      setTimeout(() => {
+        setTrigger(false)
+      }, 100)
+
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.statuscodeForhotelDetailsinPg]);
 
@@ -173,8 +177,11 @@ console.log("state",state)
       setFilteredData([]);
       setLoader(false);
       setTimeout(() => {
+        setTrigger(false)
+      }, 100)
+      setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 4000);
+      }, 1000);
     }
   }, [state.UsersList?.noAllHosteListStatusCode]);
 
@@ -184,7 +191,7 @@ console.log("state",state)
     }
   }, [filteredData[0]]);
 
- console.log("filteredData",filteredData)
+  console.log("filteredData", filteredData)
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -198,59 +205,121 @@ console.log("state",state)
       setLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
- 
+
   useEffect(() => {
     if (
       state.UsersList.createFloorSuccessStatusCode === 200 ||
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      
+      dispatch({ type: "HOSTELIDDETAILS" });
+
+
       setShowFloor(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_FLOOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_UPDATE_FLOOR_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
     }
   }, [
     state.UsersList.createFloorSuccessStatusCode,
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
+console.log("visible range", visibleRange)
+
+
+useEffect(()=>{
+  if(state.UsersList.createFloorSuccessStatusCode == 200 && showHostelDetails?.floorDetails.length > 0){
+  const updatedFloors = showHostelDetails?.floorDetails || [];
+   if (updatedFloors.length > 0) {
+           const lastFloor = updatedFloors[updatedFloors.length - 1];
+  const lastIndex = updatedFloors.length - 1;
+    setFloorClick(lastFloor?.floor_id || null);
+    setKey(lastFloor?.floor_id?.toString() || "");
+    setFloorName(lastFloor?.floor_name || "");
+     
+   
+    const newStart = Math.max(0, lastIndex - 2); 
+    const newEnd = lastIndex; 
+    setVisibleRange([newStart, newEnd]);
+
+
+
+
+  } else {
+    setFloorClick(null);
+    setKey("");
+    setFloorName("");
+  }
+}
+},[state.UsersList.createFloorSuccessStatusCode, showHostelDetails?.floorDetails])
+  
+
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
 
-      setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-   
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
-      }, 4000);
+
+        const updatedFloors = showHostelDetails?.floorDetails || [];
+
+        if (updatedFloors.length > 0) {
+
+          const firstVisibleFloor = updatedFloors.find(
+            (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
+          );
+
+          if (firstVisibleFloor) {
+            setFloorClick(firstVisibleFloor.floor_id);
+            setKey(firstVisibleFloor.floor_id.toString());
+            setFloorName(firstVisibleFloor.floor_name);
+          } else {
+
+            setFloorClick(updatedFloors[0]?.floor_id || null);
+            setKey(updatedFloors[0]?.floor_id?.toString() || "");
+            setFloorName(updatedFloors[0]?.floor_name || "");
+          }
+        } else {
+          setFloorClick(null);
+          setKey("");
+          setFloorName("");
+        }
+      }, 500);
     }
-  }, [state.UsersList.deleteFloorSuccessStatusCode]);
+  }, [state.UsersList.deleteFloorSuccessStatusCode,]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (
       state.PgList.deletePgSuccessStatusCode === 200 ||
       state.PgList.dleteHostelImagesStatusCode === 200
     ) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
-      }, 4000);
+      }, 1000);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
     }
   }, [
     state.PgList.deletePgSuccessStatusCode,
@@ -259,12 +328,13 @@ console.log("state",state)
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
-
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-      }, 4000);
+      }, 1000);
 
       // setPgList({
       //   Name: "",
@@ -281,6 +351,14 @@ console.log("state",state)
         (item) => item.id === showHostelDetails.id
       );
       setShowHostelDetails(selected);
+
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
@@ -293,16 +371,63 @@ console.log("state",state)
   }, [stateAccount.statusCodeForAccountList]);
 
 
-  useEffect(() => { 
+  useEffect(() => {
     if (floorClick) {
-        const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-            return item.floor_id == floorClick;
-        }) || []; 
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
 
-        setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : ""); 
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
     }
-}, [selectedHostel, floorClick]);
+  }, [selectedHostel, floorClick]);
 
+  useEffect(() => {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+
+        return item.floor_id === floorClick;
+      }) || [];
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+      // setTimeout(() => {
+
+      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+      // }, 1000);
+    }
+  }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
+
+  useEffect(() => {
+    if (state.UsersList.hosteListStatusCode == 200) {
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList.hosteListStatusCode])
+
+
+  console.log("all hostel", state.UsersList?.statuscodeForhotelDetailsinPg)
+
+
+  useEffect(() => {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+        return item.floor_id == floorClick;
+      }) || [];
+
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+
+      // setTimeout(() => {
+      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
+      // }, 100);
+    }
+
+  }, [state.UsersList?.statuscodeForhotelDetailsinPg])
 
 
   useEffect(() => {
@@ -312,12 +437,13 @@ console.log("state",state)
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS",payload:{hostel_id:hostel_Id} })
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELIDDETAILS" });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
-      }, 4000);
+      }, 100);
     }
   }, [state.PgList.statusCodeForDeleteRoom]);
 
@@ -348,7 +474,7 @@ console.log("state",state)
         }
       });
     },
-    appearOptions);
+      appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -404,7 +530,7 @@ console.log("state",state)
 
 
 
-  
+
 
 
 
@@ -419,7 +545,7 @@ console.log("state",state)
   // const handleCancels = () => {
   //   handlecloseHostelForm();
   // };
- 
+
   // const handleshowHostelForm = () => {
   //   setAddhostelForm(true);
   // };
@@ -434,7 +560,7 @@ console.log("state",state)
   //   setAddhostelForm(false);
   // };
 
-  
+
 
   // const [emailError, setEmailError] = useState("");
 
@@ -461,17 +587,18 @@ console.log("state",state)
       return item.id == selectedHostelId;
     });
     setSelectedHostel(true);
-    console.log("selected",selected)
+    console.log("selected", selected)
     setShowHostelDetails(selected);
   };
 
 
 
 
-  console.log("showHostelDetails",showHostelDetails)
+  console.log("showHostelDetails", showHostelDetails)
 
   const handleCloses = () => {
     setShowAddPg(false);
+
   };
 
   const handleShowAddPg = () => {
@@ -479,20 +606,20 @@ console.log("state",state)
     setEditHostelDetails("");
   };
 
- 
 
- 
+
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
     props.displaysettings(settingNewDesign);
-    dispatch({ type: 'MANAGE_PG'})
+    dispatch({ type: 'MANAGE_PG' })
   };
 
   const handleDisplayPgList = (isVisible) => {
     setHidePgList(isVisible);
   };
 
- 
+
 
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
@@ -501,10 +628,10 @@ console.log("state",state)
   //   setItemsPerPage(Number(event.target.value));
   // };
 
-  
- 
 
- 
+
+
+
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true);
@@ -515,6 +642,8 @@ console.log("state",state)
 
   const handleCloseFloor = () => {
     setShowFloor(false);
+    dispatch({ type: "CLEAR_ALREADY_FLOOR_ERROR" });
+    dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
   };
 
   const handleShowAddRoom = (room, selectedFloor) => {
@@ -531,16 +660,17 @@ console.log("state",state)
     setFloorClick("");
     setFloorName("");
     setHidePgList(true);
+    setVisibleRange([0,2])
   };
 
   const handleDIsplayFloorClick = (floorNo) => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   };
 
- 
- 
 
-  
+
+
+
 
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
@@ -583,49 +713,84 @@ console.log("state",state)
     setShowDropDown(false);
   };
 
- 
+
 
   const handleMoreClick = () => setShowMore(!showMore);
 
-  const visibleFloors =
-    showHostelDetails?.number_Of_Floor > 5
-      ? 5
-      : showHostelDetails?.number_Of_Floor;
-  const remainingFloors = showHostelDetails?.number_Of_Floor - visibleFloors;
+
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
     setEditHostelDetails(hostelDetails);
   };
 
-  const [key, setKey] = useState("1");
-
-  const [visibleRange, setVisibleRange] = useState([0, 3]);
 
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;
 
+
   const handlePrev = () => {
-    if (visibleRange[0] > 0) {
-      setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+    if (floorClick > 0) {
+
+      const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
+        (floor) => floor.floor_id === floorClick
+      ) - 1;
+
+      if (prevFloorIndex >= 0) {
+        const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
+
+
+        setKey(prevFloor.floor_id.toString());
+        setFloorClick(prevFloor.floor_id);
+        setFloorName(prevFloor.floor_name);
+
+
+        if (prevFloorIndex < visibleRange[0]) {
+          setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+        }
+      }
     }
   };
 
+
+
+
   const handleNext = () => {
-    if (visibleRange[1] < numberOfFloors - 1) {
-      setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+    const floorIndex = showHostelDetails.floorDetails.findIndex(
+      (floor) => floor.floor_id === floorClick
+    );
+
+    if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
+      const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
+
+
+      setKey(nextFloor.floor_id.toString());
+      setFloorClick(nextFloor.floor_id);
+      setFloorName(nextFloor.floor_name);
+
+      if (floorIndex + 1 > visibleRange[1]) {
+        setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+      }
     }
   };
+
+
+
+
+
+
+
 
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
     setFloorName(floorName);
+    // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorNumber, hostel_Id: showHostelDetails.id } })
   };
 
- 
+
 
   const handleShowDots = (id) => {
     setShowDots(!showDots);
@@ -670,7 +835,7 @@ console.log("state",state)
     setUpdate(true);
   };
 
- 
+
 
 
 
@@ -717,7 +882,7 @@ console.log("state",state)
           {hidePgList && (
             <>
               <div
-                className="container justify-content-between d-flex align-items-center flex-wrap"
+                className="container justify-content-between d-flex align-items-center flex-wrap "
                 style={{
                   height: 83,
                   position: "sticky",
@@ -730,7 +895,7 @@ console.log("state",state)
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div>
+                <div style={{ marginTop: -5 }}>
                   <label
                     style={{
                       fontSize: 18,
@@ -746,16 +911,16 @@ console.log("state",state)
                 <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
-                      <SearchNormal1 size="26" color="#222" />
+                      {/* <SearchNormal1 size="26" color="#222" /> */}
                     </div>
                   )}
                   {showFilter && (
                     <div className="me-3 flex flex-wrap" style={{ position: "relative" }}>
-                      <InputGroup  style={{
-                          display: 'flex',
-                          flexWrap: 'nowrap',
-                          width: '100%',
-                        }}>
+                      <InputGroup style={{
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        width: '100%',
+                      }}>
                         <FormControl
                           size="lg"
                           value={searchQuery}
@@ -818,22 +983,22 @@ console.log("state",state)
                               }}
                             >
                               {/* {filteredData.map((user, index) => ( */}
-                                <li
-                                  // key={index}
-                                  onClick={() => {
-                                    handleDropDown(filteredData[0].Name);
-                                  }}
-                                  style={{
-                                    padding: "10px",
-                                    cursor: "pointer",
-                                    borderBottom: "1px solid #dcdcdc",
-                                    fontSize: "14px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {filteredData[0].Name}
-                                </li>
+                              <li
+                                // key={index}
+                                onClick={() => {
+                                  handleDropDown(filteredData[0].Name);
+                                }}
+                                style={{
+                                  padding: "10px",
+                                  cursor: "pointer",
+                                  borderBottom: "1px solid #dcdcdc",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {filteredData[0].Name}
+                              </li>
                               {/* ))} */}
                             </ul>
                           </div>
@@ -841,22 +1006,35 @@ console.log("state",state)
                     </div>
                   )}
 
-                  <div className="me-3">
+                  {/* <div className="me-3">
                     <Sort Size="24" color="#222" variant="Outline" />
-                  </div>
+                  </div> */}
 
-                  <div>
+                  <div style={{ marginTop: 5 }}>
                     <Button
                       onClick={handleShowsettingsPG}
                       disabled={addPermissionError}
+                      // style={{
+                      //   fontFamily: "Gilroy",
+                      //   fontSize: 14,
+                      //   backgroundColor: "#1E45E1",
+                      //   color: "white",
+                      //   fontWeight: 600,
+                      //   borderRadius: 8,
+                      //   padding: "16px 20px 16px 20px",
+                      // }}
+
                       style={{
                         fontFamily: "Gilroy",
-                        fontSize: 14,
+                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
-                        borderRadius: 8,
-                        padding: "16px 20px 16px 20px",
+                        borderRadius: "8px",
+                        padding: "11px",
+                        paddingLeft: 30,
+                        paddingRight: 26
+
                       }}
                     >
                       {" "}
@@ -864,7 +1042,7 @@ console.log("state",state)
                     </Button>
                   </div>
 
-                  
+
                 </div>
                 {/* </div> */}
               </div>
@@ -926,32 +1104,96 @@ console.log("state",state)
               )}
               <div className="container mt-2" style={{}}>
                 <div className="row row-gap-3">
-                  {/* {currentItems.length > 0 &&
-                    currentItems.map((hostel) => {
-                      return (
-                        <> */}
-                          <div
-                            // key={hostel.id}
-                            className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
-                          >
-                            <PayingHostel
-                              // hostel={hostel}
-                              // key={hostel.id}
-                              OnSelectHostel={handleSelectedHostel}
-                              onRowVisiblity={handleDisplayPgList}
-                              OnEditHostel={handleEditHostel}
-                              editPermissionError={editPermissionError}
-                              deletePermissionError={deletePermissionError}
-                              filteredData={filteredData}
-                              handleShowsettingsPG = {handleShowsettingsPG}
+                  {filteredData?.length > 0 ?
+
+                    <div
+                      // key={hostel.id}
+                      className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
+                    >
+                      <PayingHostel
+                        // hostel={hostel}
+                        // key={hostel.id}
+                        OnSelectHostel={handleSelectedHostel}
+                        onRowVisiblity={handleDisplayPgList}
+                        OnEditHostel={handleEditHostel}
+                        editPermissionError={editPermissionError}
+                        deletePermissionError={deletePermissionError}
+                        filteredData={filteredData}
+                        handleShowsettingsPG={handleShowsettingsPG}
+                      />
+                    </div>
+
+                    :
+                    !loader && !trigger && filteredData?.length === 0 && (
+                      <div
+                        className="d-flex align-items-center justify-content-center fade-in"
+                        style={{
+                          width: "100%",
+                          margin: "0px auto",
+                          backgroundColor: "",
+                        }}
+                      >
+                        <div>
+                          <div className="d-flex  justify-content-center">
+                            <img
+                              src={EmptyState}
+                              style={{ height: 240, width: 240 }}
+                              alt="Empty state"
                             />
                           </div>
-                        {/* </>
-                      );
-                    })} */}
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No Paying Guest available
+                          </div>
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no Paying Guest added.
+                          </div>
+                          {/* <div className="d-flex justify-content-center pb-1 mt-3">
+                          {" "}
+                          <Button
+                            style={{
+                              fontSize: 16,
+                              backgroundColor: "#1E45E1",
+                              color: "white",
+                              fontWeight: 600,
+                              borderRadius: 12,
+                              padding: "20px 40px",
+                              fontFamily: "Gilroy",
+                            }}
+                            onClick={handleShowsettingsPG}
+                          >
+                            {" "}
+                            + Manage PG
+                          </Button>
+                        </div> */}
+                        </div>
+                        <div></div>
+                      </div>
+                    )
 
-                  {!loader && filteredData?.length === 0 && (
-                    <div
+
+                  }
+
+
+                  {
+                    !hostel_Id && <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
                         width: "100%",
@@ -991,69 +1233,50 @@ console.log("state",state)
                         >
                           There are no Paying Guest added.
                         </div>
-                        <div className="d-flex justify-content-center pb-1 mt-3">
-                          {" "}
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              padding: "20px 40px",
-                              fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowsettingsPG}
-                          >
-                            {" "}
-                            + Manage PG
-                          </Button>
-                        </div>
+
                       </div>
                       <div></div>
                     </div>
-                  )}
+                  }
+
 
                   <div className="mt-2 mb-2 d-flex justify-content-center w-100">
                     {loader && (
-                       <div
-                       style={{
-                         position: 'absolute',
-                         inset: 0,
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         backgroundColor: 'transparent',
-                         opacity: 0.75,
-                         zIndex: 10,
-                       }}
-                     >
-                       <div
-                         style={{
-                           borderTop: '4px solid #1E45E1',
-                           borderRight: '4px solid transparent',
-                           borderRadius: '50%',
-                           width: '40px',
-                           height: '40px',
-                           animation: 'spin 1s linear infinite',
-                         }}
-                       ></div>
-                     </div>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: '200px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        ></div>
+                      </div>
 
-                   
+
                     )}
                   </div>
                 </div>
               </div>
-             
 
-              {/* <Pagination className="mt-4 d-flex justify-content-end">
-        {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
-          <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-            {number + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination> */}
+
+
             </>
           )}
 
@@ -1085,422 +1308,406 @@ console.log("state",state)
 
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3">
-                    <Sort Size="24" color="#222" variant="Outline" />
+                    {/* <Sort Size="24" color="#222" variant="Outline" /> */}
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   </div>
 
-                  <div>
+                  <div style={{ marginTop: 5 }}>
                     <Button
                       style={{
                         fontSize: 14,
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
-                        borderRadius: 12,
-                        padding: "16px 20px 16px 20px",
+                        borderRadius: 8,
+                        padding: "11px 50px",
+                        paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
                       onClick={() => handleAddFloors(showHostelDetails.id)}
                     >
-                      + Add floor
+                      +  Floor
                     </Button>
                   </div>
                 </div>
               </div>
 
-              {showHostelDetails?.floorDetails?.length > 0 ? (
-                <Tab.Container
-                  activeKey={key}
-                  onSelect={(k) => setKey(k)}
-                  id="vertical-tabs-example"
-                >
-                  <Row className="g-0">
-                    <Col
-                      sm={12}
-                      xs={12}
-                      md={2}
-                      lg={2}
-                      className="d-flex justify-content-start"
-                    >
-                      <div>
-                        <div className="d-flex justify-content-center">
-                          <div
-                            onClick={handlePrev}
-                            disabled={visibleRange[0] === 0}
-                            style={{
-                              border: "1px solid rgba(239, 239, 239, 1)",
-                              width: "fit-content",
-                              borderRadius: 50,
-                              cursor: "pointer",
-                              padding: 3,
-                            }}
-                          >
-                            <ArrowUp2
-                              size="32"
-                              color={
-                                visibleRange[0] === 0
-                                  ? "rgba(156, 156, 156, 1)"
-                                  : "#000000"
-                              }
-                              variant="Bold"
-                            />
-                          </div>
-                        </div>
-
-                        <Nav variant="" className="flex-column">
-                          {showHostelDetails.floorDetails.map(
-                            (floor, index) =>
-                              index >= visibleRange[0] &&
-                              index <= visibleRange[1] && (
-                                <Nav.Item
-                                  key={floor.floor_id}
-                                  onClick={() =>
-                                    handleFloorClick(
-                                      floor.floor_id,
-                                      floor.floor_name
-                                    )
-                                  }
-                                  className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${
-                                Number(floorClick) == Number(floor.floor_id)
-                                  ? "active-floor"
-                                  : "Navs-Item"
-                              }`}
-                                  style={{
-                                    border: "1px solid rgba(156, 156, 156, 1)",
-                                    borderRadius: 16,
-                                    height: 95,
-                                    width: 95,
-                                    overflowY: "auto",
-                                  }}
-                                >
-                                  <Nav.Link
-                                    className="text-center Paying-Guest"
-                                    style={{ padding: "unset" }}
-                                  >
-                                    <div
-                                      className={
-                                        Number(floorClick) ==
-                                        Number(floor.floor_id)
-                                          ? "ActiveNumberFloor"
-                                          : "UnActiveNumberFloor"
-                                      }
-                                      style={{
-                                        fontSize: 32,
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 600,
-                                        textTransform: "capitalize",
-                                        height: "fit-content",
-                                      }}
-                                    >
-                                      {/* {floor.floor_id == 1 ? 'G' : floor.floor_id - 1} */}
-                                      {floor.floor_name
-                                        ? floor.floor_name.charAt(0)
-                                        : floor.floor.id}
-                                    </div>
-                                    <div
-                                      className={
-                                        Number(floorClick) ==
-                                        Number(floor.floor_id)
-                                          ? "ActiveFloortext"
-                                          : "UnActiveFloortext"
-                                      }
-                                      style={{
-                                        fontSize: 14,
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 600,
-                                        textTransform: "capitalize",
-                                        wordBreak: "break-word",
-                                        whiteSpace: "normal",
-                                        overflowWrap: "break-word",
-                                        width: "100%",
-                                        textAlign: "center",
-                                        padding: "1px 16px ",
-                                      }}
-                                    >
-                                      {/* {floor.floor_id === 1
-                                  ? "Ground Floor"
-                                  : (!floor.floor_name || floor.floor_name.trim() === "" || floor.floor_name === "null")
-                                    ? getFloorName(floor.floor_id)
-                                    : floor.floor_name} */}
-                                      {/* {
-                                  floor.floor_name && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
-                                    ? floor.floor_name
-                                    : floor.floor_id === 1
-                                      ? "Ground Floor"
-                                      : getFloorName(floor.floor_id)
-                                } */}
-
-                                      {/* {
-                                  typeof floor.floor_name === "string" && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
-                                    ? isNaN(floor.floor_name)
-                                      ? floor.floor_name
-                                      : getFloorName(Number(floor.floor_name))
-                                    : floor.floor_id
-                                } */}
-
-                                      {typeof floor.floor_name === "string" &&
-                                      floor.floor_name.trim() !== "" &&
-                                      floor.floor_name !== "null"
-                                        ? isNaN(floor.floor_name)
-                                          ? floor.floor_name
-                                          : floor.floor_name
-                                        : floor.floor_id}
-                                    </div>
-
-                                    {/* <div className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform:"capitalize" }}>{floor.floor_id ==  1  ? "Ground Floor" :  floor.floor_name ? floor.floor_name : getFloorName(floor.floor_id)}</div> */}
-                                  </Nav.Link>
-                                </Nav.Item>
-                              )
-                          )}
-                        </Nav>
-
-                        <div className="d-flex justify-content-center">
-                          <div
-                            onClick={handleNext}
-                            disabled={
-                              key ===
-                              (showHostelDetails.number_Of_Floor - 1).toString()
-                            }
-                            style={{
-                              border: "1px solid rgba(239, 239, 239, 1)",
-                              width: "fit-content",
-                              borderRadius: 50,
-                              padding: 3,
-                            }}
-                          >
-                            <ArrowDown2
-                              size="32"
-                              color={
-                                visibleRange[1] === numberOfFloors - 1
-                                  ? "rgba(156, 156, 156, 1)"
-                                  : "#000000"
-                              }
-                              variant="Bold"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </Col>
-                    <Col sm={12} xs={12} md={10} lg={10}>
-                      <div className="container">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div
-                            style={{
-                              fontSize: 20,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {floorName !== null &&
-                            floorName !== undefined &&
-                            floorName.trim() !== ""
-                              ? floorName
-                              : ""}
-                          </div>
-                          <div>
+              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto" }}>
+                {showHostelDetails?.floorDetails?.length > 0 ? (
+                  <Tab.Container
+                    activeKey={key}
+                    onSelect={(k) => setKey(k)}
+                    id="vertical-tabs-example"
+                  >
+                    <Row className="g-0">
+                      <Col
+                        sm={12}
+                        xs={12}
+                        md={2}
+                        lg={2}
+                        className="d-flex justify-content-start"
+                      >
+                        <div>
+                          <div className="d-flex justify-content-center">
                             <div
+                              onClick={handlePrev}
+                              disabled={visibleRange[0] === 0}
                               style={{
+                                border: "1px solid rgba(239, 239, 239, 1)",
+                                width: "fit-content",
+                                borderRadius: 50,
                                 cursor: "pointer",
-                                height: 40,
-                                width: 40,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                zIndex: showDots ? 1000 : "auto",
+                                padding: 3,
                               }}
-                              onClick={() => handleShowDots()}
                             >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 20, width: 20 }}
+                              <ArrowUp2
+                                size="32"
+                                color={
+                                  visibleRange[0] === 0
+                                    ? "rgba(156, 156, 156, 1)"
+                                    : "#000000"
+                                }
+                                variant="Bold"
                               />
+                            </div>
+                          </div>
 
-                              {showDots && (
-                                <>
-                                  <div
-                                    ref={popupRef}
+                          <Nav variant="" className="flex-column">
+                            {showHostelDetails.floorDetails.map(
+                              (floor, index) =>
+                                index >= visibleRange[0] &&
+                                index <= visibleRange[1] && (
+                                  <Nav.Item
+                                    key={floor.floor_id}
+                                    onClick={() =>
+                                      handleFloorClick(
+                                        floor.floor_id,
+                                        floor.floor_name
+                                      )
+                                    }
+                                    className={`mb-3 mt-2 d-flex justify-content-center a
+                              lign-items-center  ${Number(floorClick) == Number(floor.floor_id)
+                                        ? "active-floor"
+                                        : "Navs-Item"
+                                      }`}
                                     style={{
-                                      cursor: "pointer",
-                                      backgroundColor: "#f9f9f9",
-                                      position: "absolute",
-                                      right: 0,
-                                      top: 50,
-                                      width: 163,
-                                      height: "auto",
-                                      border: "1px solid #EBEBEB",
-                                      borderRadius: 10,
-                                      display: "flex",
-                                      justifyContent: "start",
-                                      padding: 15,
-                                      alignItems: "center",
+                                      border: "1px solid rgba(156, 156, 156, 1)",
+                                      borderRadius: 16,
+                                      height: 95,
+                                      width: 95,
+                                      overflowY: "auto",
                                     }}
                                   >
-                                    <div>
-                                    <div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    if (editPermissionError) {
-      handleEditFloor(floorClick, showHostelDetails.id, floorName);
-    }
-  }}
-  style={{
-    cursor: editPermissionError ? "not-allowed" : "pointer",
-    opacity:editPermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Edit 
-      size="16" 
-      color={editPermissionError ? "#888888" : "#1E45E1"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Outfit, sans-serif",
-        color:editPermissionError ? "#888888" : "#222222",
-        cursor:editPermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
+                                    <Nav.Link
+                                      className="text-center Paying-Guest"
+                                      style={{ padding: "unset" }}
+                                    >
+                                      <div
+                                        className={
+                                          Number(floorClick) ==
+                                            Number(floor.floor_id)
+                                            ? "ActiveNumberFloor"
+                                            : "UnActiveNumberFloor"
+                                        }
+                                        style={{
+                                          fontSize: 32,
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 600,
+                                          textTransform: "capitalize",
+                                          height: "fit-content",
+                                        }}
+                                      >
+                                        {floor.floor_name
+                                          ? isNaN(floor.floor_name)
+                                            ? floor.floor_name.charAt(0)
+                                            : floor.floor_name
+                                          : floor.floor.id
+                                        }
+                                      </div>
+                                      <div
+                                        className={
+                                          Number(floorClick) ==
+                                            Number(floor.floor_id)
+                                            ? "ActiveFloortext"
+                                            : "UnActiveFloortext"
+                                        }
+                                        style={{
+                                          fontSize: 14,
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 600,
+                                          textTransform: "capitalize",
+                                          wordBreak: "break-word",
+                                          whiteSpace: "normal",
+                                          overflowWrap: "break-word",
+                                          width: "100%",
+                                          textAlign: "center",
+                                          padding: "1px 16px ",
+                                        }}
+                                      >
+                                        {typeof floor.floor_name === "string" &&
+                                          floor.floor_name.trim() !== "" &&
+                                          floor.floor_name !== "null"
+                                          ? isNaN(floor.floor_name)
+                                            ? floor.floor_name
+                                            : floor.floor_name
+                                          : floor.floor_id}
+                                      </div>
 
+                                    </Nav.Link>
+                                  </Nav.Item>
+                                )
+                            )}
+                          </Nav>
 
-<div
-  className="d-flex gap-2 mb-2 align-items-center"
-  onClick={() => {
-    if (!deletePermissionError) {
-      handleShowDelete(floorClick, showHostelDetails.id, floorName);
-    }
-  }}
-  style={{
-    cursor:deletePermissionError ? "not-allowed" : "pointer",
-    opacity:deletePermissionError ? 0.6 : 1,
-  }}
->
-  <div>
-    <Trash 
-      size="16" 
-      color={deletePermissionError ? "#888888" : "red"} 
-    />
-  </div>
-  <div>
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        color: deletePermissionError ? "#888888" : "#FF0000",
-        cursor:deletePermissionError ? "not-allowed" : "pointer",
-      }}
-    >
-      Delete
-    </label>
-  </div>
-</div>
-
-                                    </div>
-                                  </div>
-                                </>
-                              )}
+                          <div className="d-flex justify-content-center">
+                            <div
+                              onClick={handleNext}
+                              disabled={
+                                key === (showHostelDetails.number_Of_Floor - 1).toString()
+                              }
+                              style={{
+                                border: "1px solid rgba(239, 239, 239, 1)",
+                                width: "fit-content",
+                                borderRadius: 50,
+                                padding: 3,
+                              }}
+                            >
+                              <ArrowDown2
+                                size="32"
+                                color={
+                                  visibleRange[1] === numberOfFloors - 1
+                                    ? "rgba(156, 156, 156, 1)"
+                                    : "#000000"
+                                }
+                                variant="Bold"
+                                style={{ cursor: "pointer" }}
+                              />
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Col>
+                      <Col sm={12} xs={12} md={10} lg={10}>
+                        <div className="container">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div
+                              style={{
+                                fontSize: 20,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              {floorName !== null &&
+                                floorName !== undefined &&
+                                floorName.trim() !== ""
+                                ? floorName
+                                : ""}
+                            </div>
+                            <div>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: 100,
+                                  border: "1px solid #EFEFEF",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  position: "relative",
+                                  zIndex: showDots ? 1000 : "auto",
+                                  backgroundColor: showDots ? "#E7F1FF" : '#fff'
+                                }}
+                                onClick={() => handleShowDots()}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  style={{ height: 20, width: 20 }}
+                                />
 
-                      <Tab.Content>
-                        <ParticularHostelDetails
-                          floorID={floorClick}
-                          hostel_Id={showHostelDetails.id}
-                          // currentPage={1}
-                          phoneNumber={showHostelDetails.hostel_PhoneNo}
-                          editPermissionError={editPermissionError}
-                          deletePermissionError={deletePermissionError}
-                          addPermissionError={addPermissionError}
+                                {showDots && (
+                                  <>
+                                    <div
+                                      ref={popupRef}
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "#f9f9f9",
+                                        position: "absolute",
+                                        right: 0,
+                                        top: 50,
+                                        width: 163,
+                                        height: "auto",
+                                        border: "1px solid #EBEBEB",
+                                        borderRadius: 10,
+                                        display: "flex",
+                                        justifyContent: "start",
+                                        padding: 15,
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <div>
+                                        <div
+                                          className="d-flex gap-2 mb-2 align-items-center"
+                                          // onClick={() => {
+                                          //   if (editPermissionError) {
+                                          //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
+                                          //   }
+                                          // }}
+                                          onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
+                                          style={{
+                                            cursor: editPermissionError ? "not-allowed" : "pointer",
+                                            opacity: editPermissionError ? 0.6 : 1,
+                                          }}
+                                        >
+                                          <div>
+                                            <Edit
+                                              size="16"
+                                              color={editPermissionError ? "#888888" : "#1E45E1"}
+                                            />
+                                          </div>
+                                          <div>
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Outfit, sans-serif",
+                                                color: editPermissionError ? "#888888" : "#222222",
+                                                cursor: editPermissionError ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
+                                        </div>
+
+
+                                        <div
+                                          className="d-flex gap-2 mb-2 align-items-center"
+                                          onClick={() => {
+                                            if (!deletePermissionError) {
+                                              handleShowDelete(floorClick, showHostelDetails.id, floorName);
+                                            }
+                                          }}
+                                          style={{
+                                            cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                            opacity: deletePermissionError ? 0.6 : 1,
+                                          }}
+                                        >
+                                          <div>
+                                            <Trash
+                                              size="16"
+                                              color={deletePermissionError ? "#888888" : "red"}
+                                            />
+                                          </div>
+                                          <div>
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                color: deletePermissionError ? "#888888" : "#FF0000",
+                                                cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <Tab.Content>
+                          <ParticularHostelDetails
+                            floorID={floorClick}
+                            hostel_Id={showHostelDetails.id}
+                            // currentPage={1}
+                            phoneNumber={showHostelDetails.hostel_PhoneNo}
+                            editPermissionError={editPermissionError}
+                            deletePermissionError={deletePermissionError}
+                            addPermissionError={addPermissionError}
+                          />
+                        </Tab.Content>
+                      </Col>
+                    </Row>
+                  </Tab.Container>
+                ) : (
+                  <div
+                    className="d-flex align-items-center justify-content-center animated-text mt-5"
+                    style={{
+                      width: "100%",
+                      margin: "0px auto",
+                      backgroundColor: "",
+                    }}
+                  >
+                    <div>
+                      <div className="d-flex  justify-content-center">
+                        <img
+                          src={EmptyState}
+                          style={{ height: 240, width: 240 }}
+                          alt="Empty state"
                         />
-                      </Tab.Content>
-                    </Col>
-                  </Row>
-                </Tab.Container>
-              ) : (
-                <div
-                  className="d-flex align-items-center justify-content-center animated-text mt-5"
-                  style={{
-                    width: "100%",
-                    margin: "0px auto",
-                    backgroundColor: "",
-                  }}
-                >
-                  <div>
-                    <div className="d-flex  justify-content-center">
-                      <img
-                        src={EmptyState}
-                        style={{ height: 240, width: 240 }}
-                        alt="Empty state"
-                      />
-                    </div>
-                    <div
-                      className="pb-1 mt-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No floors available
-                    </div>
-                    <div
-                      className="pb-1 mt-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There is no floor added to this paying guest.
-                    </div>
-                    <div className="d-flex justify-content-center pb-1 mt-3">
-                      {" "}
-                      <Button
+                      </div>
+                      <div
+                        className="pb-1 mt-1"
                         style={{
-                          fontSize: 16,
-                          backgroundColor: "#1E45E1",
-                          color: "white",
+                          textAlign: "center",
                           fontWeight: 600,
-                          borderRadius: 12,
-                          padding: "20px 40px",
                           fontFamily: "Gilroy",
+                          fontSize: 20,
+                          color: "rgba(75, 75, 75, 1)",
                         }}
-                        onClick={() => handleAddFloors(showHostelDetails.id)}
                       >
+                        No floors available
+                      </div>
+                      <div
+                        className="pb-1 mt-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 16,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There is no floor added to this paying guest.
+                      </div>
+                      <div className="d-flex justify-content-center pb-1 mt-3">
                         {" "}
-                        + Add floor
-                      </Button>
+                        <Button
+                          style={{
+                            fontSize: 16,
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: 12,
+                            padding: "20px 40px",
+                            fontFamily: "Gilroy",
+                          }}
+                          onClick={() => handleAddFloors(showHostelDetails.id)}
+                        >
+                          {" "}
+                          + Add floor
+                        </Button>
+                      </div>
                     </div>
+                    <div></div>
                   </div>
-                  <div></div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           )}
 
           {showAddPg && (
 
-         
-            
+
+
             <AddPg
               show={showAddPg}
               handleClose={handleCloses}
@@ -1544,7 +1751,7 @@ console.log("state",state)
             />
           )}
 
-         
+
         </div>
       )}
 

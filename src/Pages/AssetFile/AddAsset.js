@@ -25,8 +25,9 @@ import {
   Edit,
   Trash,
 } from "iconsax-react";
+import "./addAsset.css";
 
-function StaticExample({ show, handleClose, currentItem }) {
+function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [assetName, setAssetName] = useState("");
@@ -52,6 +53,8 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [paymentError, setPaymentError] = useState("");
   const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+  const [bankking,setBanking] = useState("")
+  const [bankingError,setBankingError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -63,10 +66,28 @@ function StaticExample({ show, handleClose, currentItem }) {
     productName: "",
   });
 
-  useEffect(() => {
-    // setLoading(true);
-    dispatch({ type: "BANKINGLIST", hostel_id: state.login.selectedHostel_Id });
-  }, []);
+    useEffect(() => {
+      // setLoading(true);
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }, [state.login.selectedHostel_Id]);
+
+
+    useEffect(()=>{
+      if(state.AssetList?.bankAmountError){
+        setBankingError(state.AssetList?.bankAmountError)
+      }
+
+    },[state.AssetList?.bankAmountError])
+
+    useEffect(() => {
+        if (state.bankingDetails.statusCodeForGetBanking === 200) {
+          
+          setBanking(state.bankingDetails.bankingList.banks)
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_BANKING_LIST" });
+          }, 200);
+        }
+      }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     dispatch({
@@ -74,6 +95,12 @@ function StaticExample({ show, handleClose, currentItem }) {
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
+  const handleClose = ()=>{
+    setShow(false)
+    setBankingError('')
+    setPaymentError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
+  }
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -135,6 +162,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       setPrice("");
       setTotalPrice("");
       handleClose();
+      setBankingError("")
     }
   }, [state.AssetList.addAssetStatusCode]);
 
@@ -144,6 +172,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     setAccount("");
     setIsChangedError("");
     setPaymentError("");
+    setBankingError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
     // setGeneralError("");
     // setPaymentError("");
     // setIsChangedError("");
@@ -152,6 +182,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     setAccount(e.target.value);
     setAccountError("");
     setIsChangedError("");
+    setBankingError("")
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
   };
 
   const handleAssetNameChange = (e) => {
@@ -239,6 +271,9 @@ function StaticExample({ show, handleClose, currentItem }) {
     setPriceError("");
     setIsChangedError("");
     setGeneralError("");
+    setBankingError("")
+    
+    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
   };
 
   const handleProductNameChange = (e) => {
@@ -451,16 +486,16 @@ function StaticExample({ show, handleClose, currentItem }) {
   };
 
   return (
+    <div>
     <div
       className="modal show"
       style={{
         display: "block",
         position: "initial",
-      
       }}
     >
       <Modal show={show} onHide={handleClose} backdrop="static"
-        dialogClassName="custom-modal"
+        // dialogClassName="custom-modal"  id="AddAsset"
       >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
@@ -478,45 +513,14 @@ function StaticExample({ show, handleClose, currentItem }) {
               {currentItem ? "Edit an asset" : "Add an asset"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }}/>
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
-          {isChangedError && (
-            <div className="d-flex align-items-center p-1 mt-4">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
-            </div>
-          )}
-          {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
-          )}
+         
 
           {state.AssetList?.alreadyAssetNameHere && (
             <div className="d-flex align-items-center p-1">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -533,9 +537,7 @@ function StaticExample({ show, handleClose, currentItem }) {
           <Modal.Body>
             <div className="row mt-1">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
                     style={{
@@ -567,8 +569,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
 
                 {assetError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center">
+                    <MdError style={{ color: "red", marginRight: "5px" ,fontSize:"13px",marginBottom:"2px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -584,9 +586,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                <Form.Group className="mb-1"  controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
                     style={{
@@ -618,8 +618,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
 
                 {productNameError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center">
+                    <MdError style={{ color: "red", marginRight: "6px",fontSize:"13px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -645,6 +645,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginTop:10
                     }}
                   >
                     Vendor Name
@@ -653,20 +654,23 @@ function StaticExample({ show, handleClose, currentItem }) {
                     aria-label="Default select example"
                     value={vendorName}
                     onChange={handleVendorNameChange}
-                    className=""
                     id="vendor-select"
                     style={{ fontWeight: vendorName ? 600 : 500 }}
                   >
-                    <option>Select a vendor</option>
-                    {state.ComplianceList.VendorList &&
+                    <option value="">Select a vendor</option>
+                    {state.ComplianceList.VendorList && state.ComplianceList.VendorList.length > 0 ? (
                       state.ComplianceList.VendorList.map((view) => (
-                        <>
-                          <option key={view.id} value={view.id}>
-                            {view.Vendor_Name}
-                          </option>
-                        </>
-                      ))}
+                        <option key={view.id} value={view.id}>
+                          {view.Vendor_Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No vendors available
+                      </option>
+                    )}
                   </Form.Select>
+
                 </Form.Group>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -683,7 +687,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     }}
                   >
                     Brand Name{" "}
-                    <span style={{ color: "white", fontSize: "20px" }}>*</span>
+                   
                   </Form.Label>
                   <Form.Control
                     value={brandName}
@@ -699,14 +703,13 @@ function StaticExample({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      marginTop:6
                     }}
                   />
                 </Form.Group>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                <Form.Group controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
                     style={{
@@ -719,7 +722,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     Serial Number{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control className="mb-1" 
                     value={serialNumber}
                     onChange={handleSerialNumberChange}
                     type="text"
@@ -738,8 +741,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
 
                 {serialNumberError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center ">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -756,7 +759,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                 {state.AssetList?.alreadySerialNumberHere && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -772,79 +775,10 @@ function StaticExample({ show, handleClose, currentItem }) {
                 )}
               </div>
 
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Product Count</Form.Label>
-                                    <Form.Control
-                                        value={productCount}
-                                        onChange={handleProductCountChange}
-                                        type="text" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                                </Form.Group>
-
-                            </div> */}
-
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                   
-                                    <div style={{ position: 'relative' }}>
-                                        <label
-                                            htmlFor="date-input"
-                                            style={{
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                                padding: 12,
-                                                fontSize: 14,
-                                                fontFamily: "Gilroy",
-                                                fontWeight: selectedDate ? 600 : 500,
-                                                color: "#222222",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                            onClick={() => {
-                                                if (calendarRef.current) {
-                                                    calendarRef.current.flatpickr.open();
-                                                }
-                                            }}
-                                        >
-                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                                        </label>
-                                        <Flatpickr
-                                            ref={calendarRef}
-                                            options={options}
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            style={{
-                                                padding: 15,
-                                                fontSize: 16,
-                                                width: "100%",
-                                                borderRadius: 8,
-                                                border: "1px solid #D9D9D9",
-                                                position: 'absolute',
-                                                top: 100,
-                                                left: 100,
-                                                zIndex: 1000,
-                                                display: "none"
-                                            }}
-                                        />
-                                    </div>
-                                </Form.Group>
-
-                                {selectedDateError && (
-                                    <div className="d-flex align-items-center p-1">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                            {selectedDateError}
-                                        </label>
-                                    </div>
-                                )}
-
-                            </div> */}
+            
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Group  controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -878,7 +812,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
                 {selectedDateError && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px" ,marginBottom:"2px",fontSize:"13px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -895,8 +829,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
+                <Form.Group className="mb-1" 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -928,8 +861,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                   />
                 </Form.Group>
                 {priceError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center ">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -949,6 +882,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                   className=""
                   controlId="exampleForm.ControlInput1"
                 >
+                  
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -960,7 +894,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     Mode of payment{" "}
                     <span
                       style={{
-                        color: "#FF0000",
+                        color: "#FF0000",fontSize:20,
                         display: modeOfPayment ? "none" : "inline-block",
                       }}
                     >
@@ -989,7 +923,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1000,6 +934,23 @@ function StaticExample({ show, handleClose, currentItem }) {
                       }}
                     >
                       {paymentError}
+                    </label>
+                  </div>
+                )}
+
+{bankingError && (
+                  <div className="d-flex align-items-center p-1">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {bankingError}
                     </label>
                   </div>
                 )}
@@ -1025,6 +976,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                       *{" "}
                     </span>
                   </Form.Label>
+                 
+
                   <Form.Select
                     aria-label="Default select example"
                     placeholder="Select no. of floor"
@@ -1045,12 +998,23 @@ function StaticExample({ show, handleClose, currentItem }) {
                     disabled={currentItem}
                   >
                     <option value="">Select Account</option>
-                    {state.bankingDetails?.bankingList?.banks?.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.bank_name}
+                    {bankking?.length > 0 ? (
+                      bankking.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
                       </option>
-                    ))}
+                    )}
                   </Form.Select>
+
+
+
+
+
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -1081,13 +1045,48 @@ function StaticExample({ show, handleClose, currentItem }) {
                             </div> */}
             </div>
           </Modal.Body>
+          {isChangedError && (
+            <div className="d-flex align-items-center justify-content-center mt-4">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "13px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </label>
+            </div>
+          )}
           <Modal.Footer style={{ border: "none" }} className="">
+
+  
+{generalError && (
+            <div className="d-flex align-items-center p-1 mb-2 mt-2" style={{width:"100%",marginLeft:"130px"}}>
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {generalError}
+              </label>
+            </div>
+          )}
+
             <Button
               onClick={handleAddAsset}
               className="w-100"
               style={{
                 backgroundColor: "#1E45E1",
-                fontWeight: 500,
+                fontWeight: 600,
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
@@ -1099,6 +1098,7 @@ function StaticExample({ show, handleClose, currentItem }) {
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
+    </div>
     </div>
   );
 }

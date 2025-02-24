@@ -3,8 +3,10 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Emptystate from '../Assets/Images/Empty-State.jpg'
+import { FaChevronDown } from "react-icons/fa";
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import { InputLabel, Select, MenuItem } from "@mui/material";
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -18,9 +20,9 @@ import Filters from "../Assets/Images/Filters.svg";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import '../Pages/Compliance.css'
 import CryptoJS from "crypto-js";
@@ -29,7 +31,7 @@ import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 
 
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 import Filter from '../Assets/Images/New_images/Group 13.png';
 import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
@@ -65,7 +67,6 @@ import excelimg from "../Assets/Images/New_images/excel_blue.png";
 const Compliance = () => {
 
   const state = useSelector(state => state)
-  console.log("Compliance", state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
 
@@ -90,18 +91,18 @@ const Compliance = () => {
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
-
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
+  const [room_name, setRoomName] = useState('')
   const [beds, setBeds] = useState('');
   const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
   const [hosId, setHosId] = useState("")
+  const [floorname, setFloorname] = useState('')
 
 
   const [filterInput, setFilterInput] = useState("");
@@ -130,6 +131,14 @@ const Compliance = () => {
       setHosId(state.login.selectedHostel_Id)
     }
   }, [state.login.selectedHostel_Id])
+
+
+  useEffect(() => {
+    if (hosId) {
+      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
+    }
+
+  }, [hosId])
 
   useEffect(() => {
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
@@ -163,7 +172,6 @@ const Compliance = () => {
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportcompliance])
-  console.log("state.UsersList?.statusCodeCompliance", state.UsersList?.statusCodeCompliance)
 
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
@@ -236,13 +244,15 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: hosId },
-    });
+    if (hosId) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: hosId },
+      });
+    }
+
   }, [hosId])
-  console.log("state.ComplianceList.statusCodeForAddCompliance", state.ComplianceList.statusCodeForAddCompliance)
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
@@ -304,7 +314,11 @@ const Compliance = () => {
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems =
+    filterInput.length > 0
+      ? filteredUsers
+      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
@@ -353,8 +367,14 @@ const Compliance = () => {
 
   const handleSearch = () => {
     setSearch(!search);
-    setFilterStatus(false);
+    // setFilterStatus(false);
   };
+
+  const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  }
+
+
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -379,18 +399,21 @@ const Compliance = () => {
     setSearchicon(false)
   }
 
-  const handleStatusFilter = (e) => {
-    const searchTerm = e.target.value;
+  const handleStatusFilter = (event) => {
+    const searchTerm = event.target.value;
+    console.log("searchTerm", searchTerm)
     setStatusfilter(searchTerm)
-    if (searchTerm == "ALL") {
-      setData(state.ComplianceList.Compliance)
+    if (searchTerm == "All") {
+      setFilteredUsers(state.ComplianceList.Compliance)
     }
     else {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
-      setData(filteredItems);
+      setFilteredUsers(filteredItems);
+
     }
   }
+  console.log("data", data)
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -412,6 +435,7 @@ const Compliance = () => {
     setHostel_Id('')
     setFloor('')
     setRooms('')
+    setFloorname('')
   }
 
   const handlePhone = (e) => {
@@ -516,6 +540,8 @@ const Compliance = () => {
       }
       )
       if (filteredDetails.length > 0) {
+        console.log('filteredDetails', filteredDetails);
+
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         // setName(firstFilteredDetail.Name || '');
@@ -526,6 +552,8 @@ const Compliance = () => {
         setBeds(firstFilteredDetail.Bed || '');
         setRooms(firstFilteredDetail.room_id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
+        setRoomName(firstFilteredDetail.Rooms || '')
+        setFloorname(firstFilteredDetail.floor_name || '')
 
       } else {
         setFilteredUserDetails([]);
@@ -535,6 +563,7 @@ const Compliance = () => {
         setBeds('')
         setFloor('');
         setRooms('');
+        setFloorname('');
       }
     } else {
       setFilteredUserDetails([]);
@@ -544,6 +573,7 @@ const Compliance = () => {
       setBeds('')
       setFloor('');
       setRooms('');
+      setFloorname('')
     }
   }, [selectedUsername]);
 
@@ -578,7 +608,12 @@ const Compliance = () => {
     setFloor('');
     setRooms('');
     setHostelName('');
-    setStatus('')
+    setStatus('');
+    setFloorname('')
+    setRoomName('')
+    setUserErrmsg('')
+    setDateErrmsg('')
+    setComplaintTypeErrmsg('')
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
@@ -622,6 +657,15 @@ const Compliance = () => {
 
 
   const handleAddcomplaint = () => {
+
+    if (edit && !hasChanges) {
+      setTotalErrmsg('Please make some changes before saving');
+      setTimeout(() => {
+        setTotalErrmsg('');
+      }, 10000);
+      return;
+    }
+
 
 
     //   if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
@@ -698,12 +742,19 @@ const Compliance = () => {
 
   }
 
+  useEffect(() => {
+    if (hasChanges) {
+      setTotalErrmsg('');
+    }
+  }, [selectedUsername, Complainttype, Assign, description, selectedDate, beds, Rooms, hostelname, Floor, Status]);
+
+
 
 
   const [editdata, setEditData] = useState('')
   const [editcomplainttype, setEditcomplainttype] = useState('')
-
-
+  const [floor_name, setFloorName] = useState('')
+  // const [room_name, setRoomName] = useState('')
 
 
   const handleEditcomplaint = (Complaintdata) => {
@@ -716,9 +767,7 @@ const Compliance = () => {
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
-      console.log("Complaintdata.Complainttype", Complaintdata.Complainttype)
       setEditcomplainttype(Complaintdata.complaint_name)
-      console.log("Complaintdata.complaint_name", Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
@@ -768,11 +817,24 @@ const Compliance = () => {
 
   const [complainttypelist, setComplainttypelist] = useState([])
 
+  // useEffect(() => {
+
+  //     dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
+
+  // }, [hosId])
   useEffect(() => {
     if (hosId) {
-      dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId } })
+      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
     }
-  }, [hosId])
+  }, [hosId]);
+  useEffect(() => {
+    if (state.Settings.StatusForaddSettingStaffList === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_USER_STAFF_LIST' });
+      }, 500);
+    }
+  }, [state.Settings.StatusForaddSettingStaffList])
+
 
   useEffect(() => {
     setComplainttypelist(state.Settings.Complainttypelist)
@@ -927,11 +989,11 @@ const Compliance = () => {
                     height: 83,
                   }}
                 >
-                  <div>
-                    <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
+                  <div style={{ marginTop: -7 }}>
+                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Complaints</label>
                   </div>
 
-                  <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
 
 
                     {search ? (
@@ -950,7 +1012,7 @@ const Compliance = () => {
                               alignItems: "center",
                               width: "100%",
                               marginTop: '10px',
-                              marginBottom: '10px'
+                              marginBottom: '10px',
                             }}
                           >
                             <Image
@@ -962,11 +1024,12 @@ const Compliance = () => {
                                 width: "24px",
                                 height: "24px",
                                 pointerEvents: "none",
+                               
                               }}
                             />
                             <div
                               className="input-group"
-                              style={{ marginRight: 20 }}
+                              style={{ marginRight: 20,cursor:"pointer" }}
                             >
                               <span className="input-group-text bg-white border-end-0">
                                 <Image
@@ -983,7 +1046,8 @@ const Compliance = () => {
                                   boxShadow: "none",
                                   outline: "none",
                                   borderColor: "rgb(207,213,219)",
-                                  borderRight: "none"
+                                  borderRight: "none",
+                               
 
                                 }}
                                 value={filterInput}
@@ -1071,7 +1135,41 @@ const Compliance = () => {
                       </>
                     ) : (
                       <>
-                        <div className="me-3">
+                        <div style={{ marginTop: 10, paddingRight: 7,cursor:"pointer"}}>
+                          <Image
+                            src={Filters}
+                            roundedCircle
+                            style={{ height: "50px", width: "50px" }}
+                            onClick={handleFilterd}
+                          />
+                        </div>
+
+
+                        {
+                          filterStatus &&
+
+                          <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width:  "250px"}}>
+                            <Form.Select
+                              onChange={(e) => handleStatusFilter(e)}
+                              value={statusfilter}
+                              aria-label="Select Price Range"
+                              className=''
+                              id="statusselect"
+                              style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+                            >
+                              <option value="All">All</option>
+                              <option value="open">Open</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="resolved">Resolved</option>
+
+
+                            </Form.Select>
+                          </div>
+
+                        }
+
+
+                        <div style={{ marginTop: 6, paddingRight: 21,cursor:"pointer" }}>
                           <Image
                             src={searchteam}
                             roundedCircle
@@ -1082,34 +1180,31 @@ const Compliance = () => {
                       </>
                     )}
 
-                    <div className="me-3">
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px" }}
-                        onClick={handleSearch}
-                      />
-                    </div>
-
                     {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
         
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-                    <div style={{ paddingRight: "15px" }}>
+                    <div style={{ paddingRight: "21px", marginTop: 9 ,cursor:"pointer"}}>
                       <img src={excelimg} width={38} height={38}
                         onClick={handleComplianceeExcel}
+
                       />
                     </div>
 
-                    <div style={{ paddingRight: "15px" }}>
+                    <div style={{marginTop:6}}>
                       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
                         style={{
-                          fontSize: 14, backgroundColor: "#1E45E1", color: "white", height: 52, fontWeight: 600, borderRadius: 8, width: 152,
-                          padding: "12px, 16px, 12px, 16px", color: '#FFF', fontFamily: 'Montserrat', whiteSpace: "nowrap"
-                        }}> + Complaint</Button>
+                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8,
+
+                          padding: "12px 31px",
+                          paddingBottom: 11,
+                          paddingLeft: 32,
+                          color: '#FFF', fontFamily: 'Montserrat',
+                          whiteSpace: "nowrap"
+                        }} > + Complaint</Button>
                     </div>
                   </div>
                 </div>
@@ -1127,7 +1222,7 @@ const Compliance = () => {
                   }
 
 
-                  {currentItems.length == 0 &&
+                  {currentItems && currentItems.length == 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
@@ -1147,7 +1242,7 @@ const Compliance = () => {
                   }
 
                 </div>
-                {currentItems?.length > 0 && (
+                {filteredUsers?.length >= 5 && (
                   <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
                   // style={{
                   //   display: "flex",
@@ -1261,13 +1356,13 @@ const Compliance = () => {
                     onHide={handleClose}
                     centered
                     backdrop="static">
-                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
 
                       <Modal.Body>
                         <div>
 
-                          <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                          <Modal.Header style={{ marginBottom: "30px", position: "relative",marginTop:"-15px" }}>
                             <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
                             <button
                               type="button"
@@ -1285,8 +1380,8 @@ const Compliance = () => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                width: '32px',
-                                height: '32px',
+                                width: '28px',
+                                height: '28px',
                                 borderRadius: '50%',
 
                               }}
@@ -1298,7 +1393,7 @@ const Compliance = () => {
                               }}>&times;</span>
                             </button>
 
-                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : ""}</Modal.Title> */}
                           </Modal.Header>
                         </div>
 
@@ -1314,7 +1409,7 @@ const Compliance = () => {
                                 value={selectedUsername}
                                 onChange={handleCheckoutChange}
                                 disabled={edit}
-                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8,backgroundColor: edit ? "#E7F1FF" : "#fff",}}
                               >
                                 <option value="">Select a customer</option>
 
@@ -1341,8 +1436,8 @@ const Compliance = () => {
                               </Form.Select>
                               {usererrmsg.trim() !== "" && (
                                 <div>
-                                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                                    {usererrmsg !== " " && <MdError style={{ color: 'red' }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
+                                  <p style={{ fontSize: '15px', color: 'red' }}>
+                                    {usererrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
                                   </p>
                                 </div>
                               )}
@@ -1352,44 +1447,78 @@ const Compliance = () => {
 
                           </div>
 
-                          {/* complaint type */}
-                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                                Complaint Type <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                              </Form.Label>
-                              <Form.Select
-                                className='border'
-                                value={Complainttype}
-                                onChange={(e) => handleComplaintType(e)}
-                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <label
+                              style={{
+                                fontSize: 14,
+                                color: "#222",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                marginBottom: 5,
+                                display: "block",
+                              }}
+                            >
+                              Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
+                            </label>
+
+                            <Dropdown>
+                              <Dropdown.Toggle
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                  width: "100%",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "0 15px",
+                                  backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                }}
                               >
-                                {edit ? (
-                                  <option value={Complainttype}>{editcomplainttype}</option>
-                                ) : (
-                                  <>
-                                    <option value="">Select a type</option>
-                                    {
-                                      Array.isArray(complainttypelist) && complainttypelist?.length > 0 ? (
-                                        complainttypelist.map((u, index) => (
-                                          <option key={index} value={u.id}>{u.complaint_name}</option>
-                                        ))
-                                      ) : (
-                                        <option value="" disabled>No complaint types available</option>
-                                      )
-                                    }
-                                  </>
-                                )}
-                              </Form.Select>
-                              {complaint_typeerrmsg.trim() !== "" && (
+                                <span>
+                                  {edit && editcomplainttype
+                                    ? editcomplainttype
+                                    : Complainttype
+                                      ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
+                                      : "Select a type"}
+                                </span>
+                                {/* <FaChevronDown style={{ fontSize: "14px", color: "#4B4B4B" }} /> */}
+                              </Dropdown.Toggle>
+
+                              {!edit && (
+                                <Dropdown.Menu
+                                  style={{
+                                    maxHeight: "200px",
+                                    overflowY: "auto",
+                                    width: "100%",
+                                  }}
+                                >
+                                  {Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
+                                    complainttypelist.map((u, index) => (
+                                      <Dropdown.Item key={index} onClick={() => handleComplaintType({ target: { value: u.id } })}>
+                                        {u.complaint_name}
+                                      </Dropdown.Item>
+                                    ))
+                                  ) : (
+                                    <Dropdown.Item disabled>No complaint types available</Dropdown.Item>
+                                  )}
+                                </Dropdown.Menu>
+                              )}
+                            </Dropdown>
+                          </div>
+                          {complaint_typeerrmsg.trim() !== "" && (
                                 <div>
-                                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                  <p style={{ fontSize: '15px', color: 'red' }}>
+                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px"}} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
                                   </p>
                                 </div>
                               )}
-                            </Form.Group>
-                          </div>
 
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
@@ -1417,7 +1546,7 @@ const Compliance = () => {
                   </div> */}
 
                           {/* //floor  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 //  style={labelStyle}
@@ -1427,37 +1556,16 @@ const Compliance = () => {
                               </Form.Label>
                               <Form.Control
                                 type="text"
-                                placeholder="Paying Guests"
-                                value={hostelname}
+                                placeholder="Floor"
+                                value={floorname}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}
                               />
                             </Form.Group>
                           </div>
-
-                          {/* bed  */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      // style={labelStyle}
-                      >
-                        Beds<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Beds"
-                        value={beds}
-                        readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      // style={inputStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
-
                           {/* Room  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
@@ -1467,7 +1575,7 @@ const Compliance = () => {
                               <Form.Control
                                 type="text"
                                 placeholder="Rooms"
-                                value={Rooms}
+                                value={room_name}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               // style={inputStyle}
@@ -1475,90 +1583,8 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
 
-                          {/* {!edit &&  Assign == !null( */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Assignee<span style={{ color: 'transparent', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        value={Assign}
-                        onChange={(e) =>  handleAssign(e) }
-                      >
-                        {edit ? (
-                          <option selected value={Assign}>{Assign}</option>
-                        ) : (
-                          <>
-                            <option value="">Select assignee</option>
-                            <option value="John">John</option>
-                            <option value="Josh">Josh</option>
-                          </>
-                        )}
-                      </Form.Select>
-                     
-                    </Form.Group>
-                  </div> */}
 
-                          {/* status  */}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Status<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        value={Status}
-                        onChange={(e) =>  handleStatus(e)}
-                      > */}
-                          {/* {edit ? (
-          <option selected value={Status}>{Status}</option>
-
-        ) : (
-          <> */}
-                          {/* <option value="">Select a status</option>
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option> */}
-                          {/* </> */}
-                          {/* )} */}
-                          {/* </Form.Select>
-    
-
-{statsuserrormsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {statsuserrormsg !== " " && <MdError style={{ color: 'red' }} />} {statsuserrormsg}
-    </p>
-  </div>
-)}
-                    </Form.Group>
-                  </div> */}
-                          {/* )} */}
-
-
-                          {/* Floor no*/}
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Room no<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Rooms"
-                        value={Rooms}
-                        readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      // style={inputStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
-
-                          {/* bet */}
+                          {/* bed */}
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -1566,7 +1592,7 @@ const Compliance = () => {
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               // style={labelStyle}
                               >
-                                Bet<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Bed<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <Form.Control
                                 type="text"
@@ -1579,80 +1605,14 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
 
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
-
-                  
-
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between", 
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (calendarRef.current) {
-                            calendarRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={calendarRef}
-                        options={options}
-                        value={selectedDate}
-                        onChange={(selectedDates) => {
-                          setSelectedDate(selectedDates[0]);
-                        }}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
-
-
-
-
-
-
-
-                    {dateerrmsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                          {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
-                        </p>
-                      </div>
-                    )}
-                  </div> */}
-
+                      
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-2" controlId="purchaseDate">
+                            <Form.Group className='mb-1' controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              <div style={{ position: 'relative', width: "100%" }}>
+                              <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
                                 <DatePicker
                                   selected={selectedDate}
                                   onChange={(date) => {
@@ -1673,8 +1633,8 @@ const Compliance = () => {
                             </Form.Group>
 
                             {dateerrmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center p-1">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                              <div className="d-flex align-items-center">
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                   {dateerrmsg}
                                 </label>
@@ -1731,7 +1691,7 @@ const Compliance = () => {
 
                       {totalErrormsg.trim() !== "" && (
                         <div>
-                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
                             {totalErrormsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
                           </p>
                         </div>
@@ -1740,7 +1700,8 @@ const Compliance = () => {
                       <Modal.Footer style={{ border: "none" }}>
 
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                          disabled={edit && !hasChanges} onClick={handleAddcomplaint}
+                          // disabled={edit && !hasChanges} 
+                          onClick={handleAddcomplaint}
                         >
                           {edit ? "Save complaint" : "Add complaint"}
                         </Button>

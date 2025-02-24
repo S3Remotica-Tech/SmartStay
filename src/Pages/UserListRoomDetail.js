@@ -48,8 +48,12 @@ import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
+import docDown from "../Assets/Images/New_images/doc_download.png";
+import axios from "axios";
 
 function UserListRoomDetail(props) {
+  console.log(props,"propssroom");
+  
   const state = useSelector((state) => state);
   console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
@@ -87,7 +91,7 @@ function UserListRoomDetail(props) {
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
   const [customerAsignBed, setcustomerAsignBed] = useState(false);
   const [Editbed, seteditBed] = useState("");
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
   const [countryCode, setCountryCode] = useState("91");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -108,6 +112,7 @@ function UserListRoomDetail(props) {
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
+  const [generateError,setGenerateError] = useState("")
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
@@ -120,6 +125,51 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
+
+  // useEffect(() => {
+  //   console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
+  //   if (state.UsersList.isUsersListTrue === 3) {
+  //     setValue("3");
+  //   } else {
+  //     setValue("1");
+  //   }
+  // }, [state.UsersList.isUsersListTrue]);
+  useEffect(() => {
+    console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
+    
+    if (state.UsersList.isUsersListTrue === 3 && value !== "3") {
+      setValue("3");
+    } else if (state.UsersList.isUsersListTrue !== 3 && value !== "1") {
+      setValue("1");
+    }
+  }, [state.UsersList.isUsersListTrue]);
+  
+
+
+  const handleEditItem = (item) =>{
+    console.log("itemmm",item);
+    
+    props.onEditItem(item)
+  }
+  const handleDeleteItem = (items) =>{
+    props.onDeleteItem(items)
+  }
+  const handleEditRoomItem = (item) => {
+    props.onEditRoomItem(item)
+  }
+  const handleEditHostelItem = (item) => {
+    props.onEditHostelItem (item)
+  }
+
+ const handleDeleteHostelItem = (user) => {
+  console.log("user",user);
+  
+  props.onDeleteHostelItem(user)
+ }
+
+ const handleDeleteRoomItem = (user) => {
+  props.onDeleteRoomItem(user)
+ }
 
   const handleContactEdit = (u) => {
     setEditAdditional(true);
@@ -142,7 +192,14 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
+  
   };
+  // useEffect(() => {
+  //   if (value === "1") {
+  //     dispatch({ type: 'UPDATE_USERSLIST_FALSE' });
+  //   }
+  // }, [value]);
+  
   const options = {
     dateFormat: "Y/m/d",
     maxDate: null,
@@ -355,7 +412,7 @@ function UserListRoomDetail(props) {
     if (isValidMobileNo && e.target.value.length === 10) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid mobile number");
     }
     setPhoneErrorMessage("");
     setFormError("");
@@ -365,10 +422,10 @@ function UserListRoomDetail(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const handleEmail = (e) => {
-    const emailValue = e.target.value;
+    const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
 
-    const hasUpperCase = /[A-Z]/.test(emailValue);
+    
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
     const isValidEmail = emailRegex.test(emailValue);
@@ -376,10 +433,7 @@ function UserListRoomDetail(props) {
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    } else if (hasUpperCase) {
-      setEmailErrorMessage("Email should be in lowercase *");
-      setEmailError("Invalid Email Id *");
-    } else if (!isValidEmail) {
+    }  else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
     } else {
@@ -442,8 +496,8 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter(
+    state.UsersList.hostelListNewDetails.data &&
+    state.UsersList.hostelListNewDetails.data.filter(
         (item) => item.id == state.login.selectedHostel_Id
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
@@ -643,7 +697,7 @@ function UserListRoomDetail(props) {
       setHostelIdError("Please select a valid PG"); // Set the error message if not already set
       return;
     }
-    if (phoneError === "Invalid mobile number *") {
+    if (phoneError === "Invalid mobile number") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
       return;
     } else {
@@ -720,6 +774,12 @@ const handleCloseGenerateFormShow =()=>{
 const handleGenerateAdvance=()=>{
   dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id } });
 }
+
+useEffect(()=>{
+if(state.UsersList.generateError){
+setGenerateError(state.UsersList.generateError)
+}
+},[state.UsersList.generateError])
 
 
   const [initialState, setInitialState] = useState({
@@ -945,7 +1005,48 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  console.log("state.UsersList?.customerdetails?.data",advanceDetail[0]?.inv_id)
+  console.log("advanceDetail[0]?.doc1",advanceDetail[0]?.doc1)
+  
+  
+  // const handleButtonClick = async () => {
+  //   const pdfUrl = advanceDetail[0]?.doc1;
+
+  //   if (pdfUrl) {
+  //     console.log("PDF URL", pdfUrl);
+
+  //     const pdfWindow = window.open(pdfUrl, "_blank");
+  //     if (pdfWindow) {
+  //       console.log("PDF opened successfully.");
+  //       // setShowLoader(false);
+  //     } else {
+  //       console.error("Failed to open the PDF.");
+  //     }
+  //   }
+  // };
+  
+  
+  const handleButtonClick = () => {
+    const pdfUrl = advanceDetail[0]?.doc1;
+  
+    if (pdfUrl && pdfUrl.startsWith("http")) {
+      console.log("Opening PDF URL:", pdfUrl);
+  
+      // Open PDF in a new tab
+      const newTab = window.open(pdfUrl, "_blank", "noopener,noreferrer");
+  
+      if (!newTab) {
+        alert("Please allow pop-ups to view the PDF.");
+      }
+    } else {
+      alert("Invalid PDF URL!");
+      console.error("Invalid or missing PDF URL:", pdfUrl);
+    }
+  };
+  
+  
+  
+  
+
   const customDateInput = (props) => {
     return (
       <div
@@ -1012,58 +1113,12 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
   // const otherDocInputRef = useRef();
 
 const [otherFile,setOtherFile] = useState(null)
+const [uploadError,setUploadError]= useState("")
 
-  const handleOtherDocUploadClick = (e, type) => {
-    if (e.target.files && e.target.files[0]) {
-      setOtherFile(e.target.files[0].name);
-      dispatch({
-        type: "UPLOADOTHERDOCUMENT",
-        payload: {
-          user_id: props.id,
-          type:'doc2',
-          file1: e.target.files[0],
-        },
-      });
-    }
-  };
-  const handleOtherDocument = (ref) => {
-    ref.current.click(); // Trigger the hidden file input
-  };
-
-
-
- 
-
-  // const handleAadharUploadClick = () => {
-  //   const aadharInputRef = document.getElementById('aadharInput');
-  //   if (aadharInputRef.current) {
-  //     aadharInputRef.current.click();
-
-
-  //   }
-   
-  //   dispatch({ type: "UPLOADDOCUMENT", payload: {user_id: props.id,type:'doc1',file1:aadharInputRef.files[0]}});
-  // };
-console.log("aadharInputRef",aadharInputRef)
-  // Handle Other Document upload click
-  // const handleOtherDocUploadClick = () => {
-  //   if (otherDocInputRef.current) {
-  //     otherDocInputRef.current.click();
-  //   }
-  // };
-
-  // Handle file selection
-  // const handleFileChange = (e, type) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     if (type === "aadhar") {
-  //       setAadharFile(file.name); // Store file name for Aadhar
-  //     } else if (type === "otherDoc") {
-  //       setOtherDocFile(file.name); // Store file name for Other Document
-  //     }
-  //   }
-  // };
-
+// useEffect(()=>{
+//   setUploadError(state.UsersList.adharuploadfileError)
+// },[state.UsersList.adharuploadfileError])
+  
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -1092,22 +1147,37 @@ console.log("aadharInputRef",aadharInputRef)
   };
 
   const handleUploadClick = (ref) => {
-    ref.current.click(); // Trigger the hidden file input
+    ref.current.click(); 
+    setUploadError("")
+    dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
+    
   };
-
   useEffect(()=>{
-    if(state.UsersList.statusCodeForUploadDocument === 200){
+    if(state.UsersList.statuscodeForAdharFileError === 201){
+      setUploadError(state.UsersList.adharuploadfileError)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+      }, 100);
+    }
+  },[state.UsersList.statuscodeForAdharFileError])
+  const handleOtherUploadClick = (ref) => {
+    ref.current.click(); 
+  };
+  console.log("state.UsersList.statusCodeForUploadDocument",state.UsersList.statusCodeForUploadDocument)
+  useEffect(()=>{
+    if(state.UsersList.statusCodeForUploadDocument == 200){
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
-      }, 100);
+      }, 500);
     }
       },[state.UsersList.statusCodeForUploadDocument])
 
+      console.log("state.UsersList.statusCodeForOtherDocu",state.UsersList.statusCodeForOtherDocu)
 
 
       useEffect(()=>{
-        if(state.UsersList.statusCodeForOtherDocu === 200){
+        if(state.UsersList.statusCodeForOtherDocu == 200){
           dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
           setTimeout(() => {
             dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
@@ -1163,21 +1233,23 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
               return (
                 <div
                   key={item.ID}
-                  className="container"
-                  style={{ marginLeft: "-20px" }}
+                  className="container mt-2"
+                  // style={{ marginLeft: "-20px" }}
                 >
                   <div
                     className="container justify-content-start  d-flex align-items-start"
-                    style={{
-                      position: "sticky",
-                      top: 0,
-                      right: 0,
-                      left: 0,
-                      zIndex: 1000,
-                      backgroundColor: "#FFFFFF",
-                      height: 60,
+                    style={{ 
+                      position: "sticky", 
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: "60px",
+    padding: "10px 20px", 
                     }}
                   >
+                    <div style={{position:"fixed"}}>
                     <img
                       src={leftarrow}
                       width={20}
@@ -1189,14 +1261,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       style={{
                         fontWeight: 600,
                         fontSize: "18px",
-                        marginLeft: 15,
+                        // marginLeft: 15,
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Cutomer Profile
+                      Customer Profile
                     </span>{" "}
+                    </div>
                   </div>
-                  <div className="card mt-1" style={{ borderRadius: "24px" }}>
+                  <div className="card mt-3" style={{ borderRadius: "24px",marginLeft:'20px' }}>
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image
@@ -1403,6 +1476,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 style={{
                                   borderRadius: "20px",
                                   padding: "20px",
+                                  marginLeft:'20px'
                                 }}
                               >
                                 <div
@@ -1735,13 +1809,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 </div>
                               </div>
                             </div>
-
+                             <div className="col-lg-12 col-md-12">
                             <div
-                              className="card col-lg-12 col-md-12  "
+                              className="card"
                               style={{
                                 borderRadius: "20px",
-                                padding: "20px",
+                                padding: "30px",
                                 marginTop: 30,
+                                marginLeft:'20px',
+                                
                               }}
                             >
                               {/* Header */}
@@ -1753,6 +1829,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   alignItems: "center",
                                   borderBottom: "1px solid #e0e0e0",
                                   marginBottom: "15px",
+                                 
                                 }}
                               >
                                 <div
@@ -1805,13 +1882,23 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         />
         Upload Document
       </button>
-      <input
+       <input
          type="file"
          ref={aadharInputRef}
          style={{ display: "none" }}
          onChange={(e) => handleFileChange(e, "doc1")}
-      />
-      {aadharFile && (
+         
+      />  
+      {/* <img src={docDown} style={{width:20,height:20}}/> */}
+      {/* {advanceDetail && advanceDetail[0]?.doc1 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+{advanceDetail[0]?.doc1 && (
+  <a href={advanceDetail[0]?.doc1} target="_blank" rel="noopener noreferrer">
+    <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+  </a>
+)}
+   {/* {aadharFile && (
         <div
           style={{
             marginTop: "10px",
@@ -1821,7 +1908,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         >
           {aadharFile}
         </div>
-      )}
+      )} */}
+     {uploadError && (
+                               <div style={{ color: "red" }}>
+                                 <MdError />
+                                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{uploadError}</span> 
+                               </div>
+                             )}
     </div>
 
                                 {/* Other Document */}
@@ -1845,7 +1938,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       border: "1px solid #D9D9D9",
                                     }}
                                     // onClick={handleOtherDocument}
-                                    onClick={() => handleUploadClick(otherDocInputRef)}
+                                    onClick={() => handleOtherUploadClick(otherDocInputRef)}
                                   >
                                     <img
                                       src={upload}
@@ -1863,8 +1956,22 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     //   handleOtherDocUploadClick(e, "doc2")
                                     // }
                                     onChange={(e) => handleFileChange(e, "doc2")}
-                                  />
-                                  {otherFile && (
+                                  />  
+                                  {/* <img src={docDown} style={{width:20,height:20}}/> */}
+                                  {/* {advanceDetail && advanceDetail[0]?.doc2 && (
+  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+)} */}
+
+
+{advanceDetail && advanceDetail[0]?.doc2 && (
+  <img
+    src={docDown}
+    style={{ width: 20, height: 20, marginLeft: "10px", cursor: "pointer" }}
+    alt="Download Document"
+    onClick={() => window.open(advanceDetail[0]?.doc2, "_blank")}
+  />
+)}
+                                  {/* {otherFile && (
                                     <div
                                       style={{
                                         marginTop: "10px",
@@ -1874,9 +1981,10 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       Selected File: {otherFile}
                                     </div>
-                                  )}
+                                  )} */}
                                 </div>
                               </div>
+                            </div>
                             </div>
                           </div>
 
@@ -1923,101 +2031,115 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </div>
 
                                       <div className="card-body">
-                                        <div className="row mb-3">
-                                          {/* Advance Amount */}
-                                          <div className="col-sm-4 d-flex flex-column align-items-start">
-                                            <div
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Advance Amount
-                                            </div>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              <img
-                                                src={Money}
-                                                alt="Money Icon"
-                                              />{" "}
-                                              ₹
-                                              {
-                                                props.userDetails[0]
-                                                  ?.AdvanceAmount
-                                              }
-                                            </p>
-                                          </div>
 
-                                          {/* Bill Status - Generate */}
-                                          {!advanceDetail[0]?.inv_id &&
-                                          <div className="col-sm-4 d-flex flex-column align-items-center">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Bill Status
-                                            </strong>
-                                           
-                                            <Button
-                                            style={{
-                                              width: 102,
-                                              height: 31,
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              fontFamily: "Gilroy",
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              backgroundColor: "#1E45E1",
-                                              color: "#fff",
-                                              borderRadius: "5px",
-                                              marginTop: "5px",
-                                            }}
-                                            onClick={handlegenerateForm}
-                                          >
-                                            Generate
-                                          </Button>
-                                         
-                                           
-                                          </div>
+                                      {
+  props.userDetails[0]?.AdvanceAmount > 0 
+    ? <div className="row mb-3">
+    {/* Advance Amount */}
+    <div className="col-sm-4 d-flex flex-column align-items-start">
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Advance Amount
+      </div>
+      <p
+        style={{
+          fontSize: 14,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+        }}
+      >
+        <img
+          src={Money}
+          alt="Money Icon"
+        />{" "}
+        ₹
+        {
+          props.userDetails[0]
+            ?.AdvanceAmount
+        }
+      </p>
+    </div>
+
+    {/* Bill Status - Generate */}
+    {!advanceDetail[0]?.inv_id &&
+    <div className="col-sm-4 d-flex flex-column align-items-center">
+      {/* <strong
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Bill Status
+      </strong> */}
+     
+      <Button
+      style={{
+        width: 102,
+        height: 31,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 500,
+        backgroundColor: "#1E45E1",
+        color: "#fff",
+        borderRadius: "5px",
+        marginTop: "10px",
+      }}
+      onClick={handlegenerateForm}
+    >
+      Generate
+    </Button>
+   
+     
+    </div>
 }
-                                          {/* Bill Status - Paid */}
-                                          <div className="col-sm-4 d-flex flex-column align-items-end">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Bill Status
-                                            </strong>
-                                            <p
-                                              style={{
-                                                backgroundColor: "#D9FFD9",
-                                                padding: "2px 12px",
-                                                borderRadius: "10px",
-                                                display: "inline-block",
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                fontWeight: "500",
-                                                marginTop: "5px",
-                                              }}
-                                            >
-                                              Paid
-                                            </p>
-                                          </div>
-                                        </div>
+    {/* Bill Status - Paid */}
+    <div className="col-sm-4 d-flex flex-column align-items-end">
+      <strong
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          textAlign:"start",paddingRight:15
+        }}
+      >
+        Bill Status
+      </strong>
+      <p
+        style={{
+          backgroundColor: "#D9FFD9",
+          padding: "2px 12px",
+          borderRadius: "10px",
+          display: "inline-block",
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+          fontWeight: "500",
+          marginTop: "5px",
+        }}
+      >
+         {state.UsersList?.customerdetails.data &&
+      state.UsersList?.customerdetails.data.map((item) => (
+        <>
+          {item.status}
+            </>
+              ))}
+        {/* Paid */}
+      </p>
+    </div>
+  </div> 
+    : <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>In this User Not Assigned</div>
+}
+                                        
                                       </div>
+
                                     </div>
                                 
                               </div>
@@ -2231,7 +2353,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         </div>
                                       )
                                     ) : (
-                                      <p>No data available</p>
+                                      <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>No data Found</div>
                                     )}
                                   </div>
                                 </div>
@@ -2291,6 +2413,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       fontSize: 20,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
+                                      marginTop:8
                                     }}
                                   >
                                     Edit Customer
@@ -2304,7 +2427,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     style={{
                                       position: "absolute",
                                       right: "10px",
-                                      top: "16px",
+                                      top: "28px",
                                       border: "1px solid black",
                                       background: "transparent",
                                       cursor: "pointer",
@@ -2312,8 +2435,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
-                                      width: "32px",
-                                      height: "32px",
+                                      width: "28px",
+                                      height: "28px",
                                       borderRadius: "50%",
                                     }}
                                   >
@@ -2403,7 +2526,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                 </div>
 
                                 <div className="row mt-4">
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  mb-2">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2443,13 +2566,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {firstnameError && (
-                                      <div style={{ color: "red" }}>
+                                      <div style={{ marginTop:"-15px",color: "red" }}>
                                         {" "}
-                                        <MdError style={{}} />
+                                        <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }} />
                                         <span
                                           style={{
-                                            fontSize: "12px",
-                                            color: "red",
+                                            fontSize: "13px",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                           }}
@@ -2459,7 +2581,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </div>
                                     )}
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2470,15 +2592,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Last Name{" "}
-                                        <span
-                                          style={{
-                                            color: "transparent",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
+                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2495,13 +2609,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
+                                          marginTop:6
                                         }}
                                       />
                                     </Form.Group>
                                   </div>
 
                                   <div
-                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2"
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Group>
@@ -2544,23 +2659,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                             paddingRight: 10,
                                           }}
                                         >
-                                          {/* {state.UsersList?.countrycode?.country_codes?.map(
-                                            (item) => {
-
-                                              return (
-                                               
-                                                (
-                                                  <>
-                                                    <option
-                                                      value={item.country_code}
-                                                    >
-                                                      +{item.country_code}
-                                                    </option>
-                                                  </>
-                                                )
-                                              );
-                                            }
-                                          )} */}
+                                         
 
                                           <option> +{countryCode}</option>
                                         </Form.Select>
@@ -2594,14 +2693,24 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       ></p>
                                       {phoneError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
-                                          {phoneError}
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
+                                          <span
+                                            style={{
+                                              fontSize: "13px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {phoneError}
+                                          </span>
+                                         
                                         </div>
                                       )}
                                       {phonenumError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2615,8 +2724,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         </div>
                                       )}
                                       {phoneErrorMessage && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
+                                        <div style={{ marginTop:"-15px",color: "red" }}>
+                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2631,7 +2740,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                     </Form.Group>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -2642,15 +2751,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Email Id{" "}
-                                        <span
-                                          style={{
-                                            color: "transparent",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
+                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2668,12 +2769,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
+                                          marginTop:6
                                         }}
                                       />
 
                                       {emailError && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2688,7 +2790,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                       {emailIdError && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2703,7 +2805,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       )}
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
-                                          <MdError />
+                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2730,7 +2832,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Address{" "}
-                                        <span
+                                        {/* <span
                                           style={{
                                             color: "red",
                                             fontSize: "20px",
@@ -2738,7 +2840,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         >
                                           {" "}
                                           *{" "}
-                                        </span>
+                                        </span> */}
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2822,11 +2924,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   </div> */}
                                 </div>
                                 {formError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
+                                  <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+                                    <MdError style={{marginRight:"5px"}}/>
                                     <span
                                       style={{
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         color: "red",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
@@ -2961,7 +3063,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Select>
                                     {floorError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3030,7 +3132,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Select>
                                     {roomError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3116,7 +3218,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                                     {bedError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3183,8 +3285,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
 
                                     {dateError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
+                                      <div style={{ color: "red",marginTop:"-7px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3240,7 +3342,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
                                     {advanceAmountError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3293,8 +3395,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {roomrentError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
+                                      <div style={{ color: "red",marginTop:"-15px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3309,21 +3411,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     )}
                                   </div>
                                 </div>
-                                {formError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {formError}
-                                    </span>
-                                  </div>
-                                )}
+                               {formError && (
+                                                        <div className="" style={{ color: "red",paddingBottom:"8px",textAlign:"center"}}>
+                                                          <MdError style={{fontSize: '14px',marginRight:"6px" }}/>
+                                                          <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                        </div>
+                                                      )}
                                 <Button
                                   className="w-100"
                                   style={{
@@ -3333,6 +3426,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Montserrat",
+                                    marginTop:"10px !importent"
                                   }}
                                   onClick={handleSaveUserlistAddUser}
                                 >
@@ -3515,10 +3609,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
         </Modal.Footer>
       </Modal>
                     <TabPanel value="2">
-                      <UserEb id={props.id} />{" "}
+                      {/* <UserEb id={props.id} />{" "} */}
+                      <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}
+                      handleDeleteHostelItem={handleDeleteHostelItem}
+                      handleDeleteRoomItem={handleDeleteRoomItem}
+                      />
                     </TabPanel>
                     <TabPanel value="3">
-                      <UserListInvoice id={props.id} />
+                      <UserListInvoice id={props.id} handleEditItem={handleEditItem} handleDeleteItem={handleDeleteItem} />
                     </TabPanel>
 
                     {/* <TabPanel value="4">

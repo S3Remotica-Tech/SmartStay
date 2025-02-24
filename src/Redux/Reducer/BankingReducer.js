@@ -9,10 +9,11 @@ const initialState = {
   statusCodeForAddBankingAmount: 0,
   editTransaction: [],
   statusEditTrasactionCode: 0,
-  deleteBank:[],
-  statusCodeDeleteBank:0,
-  deleteBankTransaction:[],
-  statusCodeForDeleteTrans:0
+  deleteBank: [],
+  statusCodeDeleteBank: 0,
+  deleteBankTransaction: [],
+  statusCodeForDeleteTrans: 0,
+  bankingError: ''
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -25,6 +26,12 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
+
+    case 'ERROR_BOOKING':
+      return { ...state, bankingError: action.payload }
+
+    case 'REMOVE_ERROR_BOOKING':
+      return { ...state, bankingError: '' }
 
     case "EDIT_BANK_TRANSACTION":
       return {
@@ -63,22 +70,22 @@ const BankingReducer = (state = initialState, action) => {
       return { ...state, statusCodeForDefaultAccount: 0 };
 
 
-      case "DELETE_BANKING":
-        return {
-          ...state,
-          deleteBank: action.payload,
-          statusCodeDeleteBank: action.payload.statusCode,
-        };
-      case "CLEAR_DELETE_BANKING":
-        return { ...state, statusCodeDeleteBank: 0 };
-        case "DELETE_BANKING_TRANSACTION":
-        return {
-          ...state,
-          deleteBankTransaction: action.payload,
-          statusCodeForDeleteTrans: action.payload.statusCode,
-        };
-      case "CLEAR_DELETE_BANKING_TRANSACTION":
-        return { ...state, statusCodeForDeleteTrans: 0 };
+    case "DELETE_BANKING":
+      return {
+        ...state,
+        deleteBank: action.payload,
+        statusCodeDeleteBank: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_BANKING":
+      return { ...state, statusCodeDeleteBank: 0 };
+    case "DELETE_BANKING_TRANSACTION":
+      return {
+        ...state,
+        deleteBankTransaction: action.payload,
+        statusCodeForDeleteTrans: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_BANKING_TRANSACTION":
+      return { ...state, statusCodeForDeleteTrans: 0 };
   }
   return state;
 };

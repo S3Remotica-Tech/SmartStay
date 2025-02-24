@@ -35,26 +35,31 @@ function BankingAddForm(props) {
     setAccountName(e.target.value);
     setError("")
     setaccountnameError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleAccountNo = (e) => {
     setAccountNo(e.target.value);
     setError("")
     setaccountNumberError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleBankName = (e) => {
     setBankName(e.target.value);
     setError("")
     setBankNameError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleIfscCode = (e) => {
     setIfscCode(e.target.value);
     setError("")
     setIfcsCodeError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setError("")
     setDescriptionError("")
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ function BankingAddForm(props) {
   }, [])
 
   const handleClose = () => {
+    dispatch({ type: 'REMOVE_ERROR_BOOKING'})
     props.setShowForm(false);
     props.setEdit(false);
     setAccountName("")
@@ -179,19 +185,7 @@ function BankingAddForm(props) {
     });
   };
 
-  // const handleSubmitBank = () => {
-  //   dispatch({
-  //     type: "ADD_BANKING",
-  //     payload: {
-  //       acc_name: accountName,
-  //       acc_no: accountNo,
-  //       bank_name: bankName,
-  //       ifsc_code: ifscCode,
-  //       desc: description,
-  //       id:props.edit?bankId:""
-  //     },
-  //   });
-  // };
+ 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleClose();
@@ -209,14 +203,9 @@ function BankingAddForm(props) {
         onHide={() => handleClose()}
         backdrop="static"
         centered
-        className="BankingCustom-modal"
+        // className="BankingCustom-modal"
 
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
 
         <Modal.Header style={{ position: "relative" }}>
           <div
@@ -235,7 +224,7 @@ function BankingAddForm(props) {
             onClick={handleClose}
             style={{
               position: "absolute",
-              right: "10px",
+              right: "15px",
               top: "16px",
               border: "1px solid black",
               background: "transparent",
@@ -244,8 +233,8 @@ function BankingAddForm(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "24px",
+              height: "24px",
               borderRadius: "50%",
             }}
           >
@@ -263,7 +252,7 @@ function BankingAddForm(props) {
         <Modal.Body>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -295,14 +284,14 @@ function BankingAddForm(props) {
               </Form.Group>
               {accountNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
                 </div>
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -334,19 +323,19 @@ function BankingAddForm(props) {
               </Form.Group>
               {accountNumberError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
                 </div>
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontWeight: 500,marginTop:5
                   }}
                 >
                   Bank Name{" "}
@@ -372,24 +361,24 @@ function BankingAddForm(props) {
               </Form.Group>
               {bankNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
                 </div>
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontWeight: 500,marginTop:5
                   }}
                 >
                   IFSC code{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -409,21 +398,21 @@ function BankingAddForm(props) {
                   }}
                 />
               </Form.Group>
-              {ifcsCodeError && (
+              {/* {ifcsCodeError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
                 </div>
-              )}
+              )} */}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontWeight: 500,marginTop:5
                   }}
                 >
                   Description{" "}
@@ -450,34 +439,45 @@ function BankingAddForm(props) {
               </Form.Group>
               {descriptionError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
         {error && (
-          <div style={{ color: "red" }}>
-            <MdError />
+          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
+            <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
             <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
           </div>
         )}
+
+
+{/* {state.bankingDetails?.bankingError && (
+          <div className="d-flex justify-content-center align-items-center " style={{ color: "red" }}>
+            <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.bankingDetails.bankingError}</span>
+          </div>
+        )} */}
+
+
+
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
-              fontWeight: 600,
               height: 50,
+              fontWeight: 600,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginBottom: 12
+              fontFamily: "Gilroy",
+              marginTop: -10,width:"100%"
             }}
             onClick={handleSubmitBank}
           >
-            {props.edit ? "save changes" : "Add Bank"}
+            {props.edit ? "Save Changes" : "Add Bank"}
           </Button>
         </Modal.Footer>
       </Modal>

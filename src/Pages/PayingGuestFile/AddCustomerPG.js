@@ -10,6 +10,7 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
+import DatePicker from 'react-datepicker';
 import {
   ArrowUp2,
   ArrowDown2,
@@ -169,11 +170,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     maxDate: "today",
   };
 
-  const handleDateChange = (selectedDates) => {
-    setSelectedDate(selectedDates[0]);
-    setGeneralError("");
-    setDateError("");
-  };
+  // const handleDateChange = (selectedDates) => {
+  //   setSelectedDate(selectedDates[0]);
+  //   setGeneralError("");
+  //   setDateError("");
+  // };
 
   const handleAddress = (e) => {
     const value = e.target.value;
@@ -219,17 +220,17 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       return view.id == Hostel_Id;
     });
 
-    if (
-      !firstname &&
-      !phone &&
-      !AdvanceAmount &&
-      !RoomRent &&
-      !address &&
-      !selectedDate
-    ) {
-      setGeneralError("Please fill in all the required fields.");
-      return;
-    }
+    // if (
+    //   !firstname &&
+    //   !phone &&
+    //   !AdvanceAmount &&
+    //   !RoomRent &&
+    //   !address &&
+    //   !selectedDate
+    // ) {
+    //   setGeneralError("Please fill in all the required fields.");
+    //   return;
+    // }
 
     if (!firstname) {
       setFirstNameError("Please enter First Name");
@@ -351,6 +352,38 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     setGeneralError("");
   };
 
+
+  const customDateInput = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                    width: "100%",
+                    height: 50,
+                    boxSizing: "border-box",
+                    boxShadow: "none"
+                }}
+            />
+            <img 
+                src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
+
   return (
     <div>
       <Modal show={show} onHide={handleClosing} centered backdrop="static">
@@ -451,7 +484,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                 </div>
 
                 <div className="row mt-4">
-                  {generalError && (
+                  {/* {generalError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
                       <label
@@ -466,11 +499,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         {generalError}
                       </label>
                     </div>
-                  )}
+                  )} */}
 
                   {state.UsersList.phoneError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -486,7 +519,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                   )}
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -520,14 +553,15 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     </Form.Group>
                     {firstNameError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
-                          className="mb-0"
+                          className="mb-6"
                           style={{
                             color: "red",
                             fontSize: "12px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
+                            marginTop: "2px"
                           }}
                         >
                           {firstNameError}
@@ -546,11 +580,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         }}
                       >
                         Last Name{" "}
-                        <span
-                          style={{ color: "transparent", fontSize: "20px" }}
-                        >
-                          *
-                        </span>
+                        
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -567,26 +597,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           border: "1px solid #D9D9D9",
                           height: 50,
                           borderRadius: 8,
+                          marginTop:6
                         }}
                       />
                     </Form.Group>
                   </div>
-
-                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
-                      <FormControl
-                        type="phone"
-                        id="form-controls"
-                        placeholder='Enter mobile Number'
-                        maxLength={10}
-                        value={phone}
-                        onChange={(e) => handlePhone(e)}
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: phone ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      />
-                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                    </Form.Group>
-                  </div> */}
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group
@@ -651,15 +666,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     </Form.Group>
 
                     {phoneError && (
-                      <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <div className="d-flex align-items-center p-1">
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginTop:"-32px" }} />
                         <label
-                          className="mb-0"
+                          className=""
                           style={{
                             color: "red",
                             fontSize: "12px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
+                            marginTop:"-13px"
                           }}
                         >
                           {phoneError}
@@ -669,7 +685,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                     {countryCodeError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",marginTop:"-32px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -677,6 +693,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                             fontSize: "12px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
+                             marginTop:"-13px"
                           }}
                         >
                           {countryCodeError}
@@ -696,11 +713,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         }}
                       >
                         Email Id{" "}
-                        <span
-                          style={{ color: "transparent", fontSize: "20px" }}
-                        >
-                          *
-                        </span>
+                       
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -717,13 +730,14 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           border: "1px solid #D9D9D9",
                           height: 50,
                           borderRadius: 8,
+                          marginTop:6
                         }}
                       />
                     </Form.Group>
 
                     {emailError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -739,7 +753,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     )}
                     {state.UsersList.emailError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -756,7 +770,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -791,7 +805,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                     {addressError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize:"13px",marginBottom:"2px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -807,81 +821,35 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     )}
                   </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group
-                      className="mb-2"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
+                 
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-1" controlId="purchaseDate">
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                </Form.Label>
+                <div style={{ position: 'relative', width: "100%" }}>
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => {
+                            setDateError('');
+                            setSelectedDate(date);
                         }}
-                      >
-                        Joining_Date
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          *
-                        </span>
-                      </Form.Label>
+                        dateFormat="dd/MM/yyyy"
+                        minDate={null}
+                        maxDate={null} 
+                        customInput={customDateInput({
+                            value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
+                                ? selectedDate.toLocaleDateString('en-GB')
+                                : '', 
+                        })}
+                    />
+                </div>
+            </Form.Group>
 
-                      <div style={{ position: "relative" }}>
-                        <label
-                          htmlFor="date-input"
-                          style={{
-                            border: "1px solid #D9D9D9",
-                            borderRadius: 8,
-                            padding: 12,
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: selectedDate ? 600 : 500,
-                            color: "#222222",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                          onClick={() => {
-                            if (calendarRef.current) {
-                              calendarRef.current.flatpickr.open();
-                            }
-                          }}
-                        >
-                          {selectedDate instanceof Date && !isNaN(selectedDate)
-                            ? selectedDate.toLocaleDateString("en-GB")
-                            : "DD/MM/YYYY"}
-                          <img
-                            src={Calendars}
-                            style={{ height: 24, width: 24, marginLeft: 10 }}
-                            alt="Calendar"
-                          />
-                        </label>
-                        <Flatpickr
-                          ref={calendarRef}
-                          options={options}
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                          className="d-none d-sm-none d-md-none"
-                          style={{
-                            padding: 10,
-                            fontSize: 16,
-                            width: "100%",
-                            borderRadius: 8,
-                            border: "1px solid #D9D9D9",
-                            position: "absolute",
-                            top: 100,
-                            left: 100,
-                            zIndex: 1000,
-                            display: "none",
-                          }}
-                        />
-                      </div>
-                    </Form.Group>
-
-                    {dateError && (
-                      <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
-                        <label
+            {dateError && (
+                <div>
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize:"13px",marginBottom:"2px"}} />
+                   <label
                           className="mb-0"
                           style={{
                             color: "red",
@@ -892,12 +860,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         >
                           {dateError}
                         </label>
-                      </div>
-                    )}
-                  </div>
+                       
+                   
+                      
+                
+                </div>
+            )}
+        </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -931,7 +903,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                     {advanceAmountError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize:"13px",marginBottom:"2px"}} />
                         <label
                           className="mb-0"
                           style={{
@@ -947,7 +919,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -980,7 +952,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     </Form.Group>
                     {roomRentError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize:"13px",marginBottom:"2px"}} />
                         <label
                           className="mb-0"
                           style={{

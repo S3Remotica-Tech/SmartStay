@@ -22,10 +22,10 @@ function Vendor() {
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
-
+  const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchQuery, setSearchQuery] = useState('')
-  const [loader, setLoader] = useState(true)
+  const [loading, setLoading] = useState(true)
+
 
 
   const [vendorrolePermission, setVendorRolePermission] = useState("");
@@ -88,17 +88,18 @@ function Vendor() {
   }, [vendorrolePermission]);
 
   useEffect(() => {
+    setLoading(true)
     dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    setLoader(true)
+
   }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
       setFilteredData(state.ComplianceList.VendorList)
-      setLoader(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_VENDOR_STATUS_CODE' })
-      }, 1000)
+      }, 500)
     }
   }, [state.ComplianceList.getVendorStatusCode])
 
@@ -107,10 +108,10 @@ function Vendor() {
   useEffect(() => {
     if (state.ComplianceList.noVendorStatusCode === 201) {
       setFilteredData([])
-      setLoader(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ERROR_VENDOR_LIST' })
-      }, 1000)
+      }, 500)
     }
   }, [state.ComplianceList.noVendorStatusCode])
 
@@ -219,24 +220,24 @@ function Vendor() {
     setCurrentItem('')
 
   }
-  const handleClose = () => {
-    setShow(false);
-  }
+  // const handleClose = () => {
+  //   setShow(false);
+  // }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
+
+  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
   // const renderPagination = () => {
   //   const pageNumbers = [];
@@ -443,6 +444,7 @@ function Vendor() {
                 alignItems: "center",
                 justifyContent: "center",
                 height: "100vh",
+
               }}
             >
               {/* Image */}
@@ -471,7 +473,8 @@ function Vendor() {
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
 
-            <div className='container mt-3'
+
+            <div
 
               style={{
                 height: 83,
@@ -486,28 +489,27 @@ function Vendor() {
 
 
 
-              <div className=" d-flex justify-content-between align-items-center flex-wrap  mb-3"
+              <div className="container d-flex justify-content-between align-items-center flex-wrap"
                 style={{
                   position: 'sticky',
-                  top: 25,
                   backgroundColor: 'white',
                   zIndex: 10,
-                  padding: '10px',
+
                 }}
               >
 
-                <div>
+                <div style={{ marginTop: 4 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center flex-wrap">
+                <div style={{ marginTop: 22 }} className="d-flex justify-content-between align-items-center flex-wrap">
 
 
 
                   {
                     !showFilterData &&
 
-                    <div className='me-3' onClick={handleShowSearch}>
+                    <div onClick={handleShowSearch} style={{ paddingRight: 30,cursor:"pointer" }}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -607,19 +609,30 @@ function Vendor() {
 
 
 
-                  <div className='me-3'>
+                  {/* <div className='me-3'>
                     <Sort
                       Size="24"
                       color="#222"
                       variant="Outline"
                     />
-                  </div>
+                  </div> */}
 
-                  <div>
-                    <Button disabled={vendorAddPermission} onClick={handleShow} style={{
-                      fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                      fontWeight: 600, borderRadius: 12, padding: "12px 16px"
-                    }}> + Vendor</Button>
+                  <div >
+                    <Button disabled={vendorAddPermission} onClick={handleShow}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "11px 42px",
+                        paddingLeft: 45,
+                        marginBottom: "10px",
+
+
+                      }}
+                    > + Vendor</Button>
                   </div>
                 </div>
               </div>
@@ -639,23 +652,50 @@ function Vendor() {
             )}
 
             <div className='container'
-              style={{
-                maxHeight: "470px",
+            >
+              {loading && (
+                  <div
+                  style={{
+                      position: 'fixed',
+             right: "40%",
+                      display: 'flex',
+                      height: "50vh",
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                  }}
+              >
+                  <div
+                      style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                      }}
+                  ></div>
+              </div>
+              )}
+              <div style={{
+                maxHeight: "450px",
                 overflowY: "auto",
+                position: "relative"
+
               }}>
 
-              <div className='row row-gap-3'>
-                {currentItems && currentItems.map((vendor) => (
-                  <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                    <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
-                    />
-                  </div>
-                ))
-                }
-
-                {!loader && currentItems.length == 0 &&
-
+                <div className='row row-gap-3'>
+                  {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
+                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                      <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
+                        onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
+                      />
+                    </div>
+                  ))
+                  }
+                  {/* {!loading  && filteredData.length === 0 &&
                   <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
 
 
@@ -669,62 +709,35 @@ function Vendor() {
 
                     </div>
                   </div>
-                  // <div style={{ width:"100%", fontWeight:600, fontFamily:"Gilroy" }} className='d-flex justify-content-center align-items-center fade-in'>
-                  //   <Alert variant="warning"  >
-                  //     Currently, no vendors are available.
-                  //   </Alert>
+                } */}
 
-                  // </div>
-                }
-                {loader &&
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>
-                }
+                  {!loading && filteredData.length === 0 && (
+                    <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
+                      <div>
+                        <div className='d-flex justify-content-center'>
+                          <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+                        </div>
+                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
+                          No vendor available
+                        </div>
+                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>
+                          There are no Vendors added.
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
 
 
 
 
+                </div>
               </div>
-
             </div>
             {
-              currentItems.length > 0 &&
+              filteredData.length >= 5 &&
               <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-              // style={{
-              //   marginBottom:20,
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "end", // Align dropdown and pagination
-              //   padding: "10px",
-              //   position:"sticky",
-
-              //   right:0,
-
-              // }}
               >
-                {/* Dropdown for Items Per Page */}
                 <div>
                   <select
                     value={itemsPerPage}
@@ -741,7 +754,7 @@ function Vendor() {
 
                     }}
                   >
-                    <option value={5}>5</option>
+                    <option value={4}>4</option>
                     <option value={10}>10</option>
                     <option value={50}>50</option>
                     <option value={100}>100</option>
@@ -816,12 +829,12 @@ function Vendor() {
             {/* </div> */}
 
             {show &&
-              <AddVendor show={show} handleClose={handleClose} currentItem={currentItem} />
+              <AddVendor show={show} currentItem={currentItem} setShow={setShow} />
             }
 
 
 
-            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static"
+            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static" dialogClassName="custom-modal"
               style={{
                 width: 388,
                 height: 250,
@@ -829,25 +842,31 @@ function Vendor() {
                 marginTop: "200px",
               }}>
 
-              <Modal.Header style={{ borderBottom: "none", justifyContent: "center", display: "flex" }}>
-                <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete Vendor?</Modal.Title>
+              <Modal.Header style={{ borderBottom: "none" }}>
+                <Modal.Title style={{ fontSize: "18px",fontFamily: "Gilroy", textAlign: "center", fontWeight: 600, flex: 1,
+                }}>Delete Vendor?</Modal.Title>
                 {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
               </Modal.Header>
 
-
-
-
-              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px", }}>
+              <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px",  }}>
                 Are you sure you want to delete this vendor?
               </Modal.Body>
 
 
-              <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-                <Button onClick={handleCloseForDeleteVendor} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+              <Modal.Footer style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px" }}>
+                <Button onClick={handleCloseForDeleteVendor} style={{ borderRadius: 8, padding: "12px 20px", 
+                  border: "1px solid rgba(36, 0, 255, 1)", 
+                  backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+                  fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",  width: 160,
+                  height: 52,
+                  marginRight: 10, }}>
                   Cancel
                 </Button>
 
-                <Button style={{ borderRadius: 8, padding: "16px 45px ", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={ConfirmDeleteVendor}>
+                <Button style={{ borderRadius: 8, padding: "12px 20px ", border: "1px solid rgba(36, 0, 255, 1)", 
+                  backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, 
+                  fontWeight: 600, fontFamily: "Gilroy", width: 160,
+                  height: 52,}} onClick={ConfirmDeleteVendor}>
                   Delete
                 </Button>
 

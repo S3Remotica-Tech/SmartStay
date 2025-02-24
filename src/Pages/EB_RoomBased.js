@@ -27,7 +27,7 @@ const EBROOM = (props) => {
         dispatch({ type: 'EBSTARTMETERLIST' })
     }, [])
 
-   
+
 
     useEffect(() => {
         if (props.hosteldetails.id) {
@@ -80,27 +80,27 @@ const EBROOM = (props) => {
             setAmount('')
             Swal.fire({
                 icon: "success",
-                title: 'EB Added successfully', 
-                confirmButtonText: "ok"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                }
-            });
-        } 
-        else if (props.hosteldetails.id && endmeter && amount) {
-            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, end_Meter_Reading: endmeter, EbAmount: amount } });
-            setEndmeter('')
-            setAmount('')
-            Swal.fire({
-                icon: "success",
-                title: 'EB Added successfully', 
+                title: 'EB Added successfully',
                 confirmButtonText: "ok"
             }).then((result) => {
                 if (result.isConfirmed) {
                 }
             });
         }
-         else {
+        else if (props.hosteldetails.id && endmeter && amount) {
+            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, end_Meter_Reading: endmeter, EbAmount: amount } });
+            setEndmeter('')
+            setAmount('')
+            Swal.fire({
+                icon: "success",
+                title: 'EB Added successfully',
+                confirmButtonText: "ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                }
+            });
+        }
+        else {
             Swal.fire({
                 icon: "warning",
                 title: 'Please Enter All Fields',
@@ -110,23 +110,23 @@ const EBROOM = (props) => {
             });
         }
     }
-    
+
     const [filtervalue, setFilteredvalue] = useState([]);
 
     useEffect(() => {
         const filteredArray = state.PgList.EB_Customerlist.filter(item => item.Hostel_Id == props.hosteldetails.id);
         setFilteredvalue(filteredArray);
     }, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
-    
 
-    const [startmeterdata,setStartmeterData]= useState([])
-   
+
+    const [startmeterdata, setStartmeterData] = useState([])
+
     useEffect(() => {
-        const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item =>  item.Floor ==0 && item.Room ==0 ? item?.hostel_Id == props?.hosteldetails.id : item?.hostel_Id == props?.hosteldetails.id && item.Floor == floorId  && item.Room == RoomId);
-        const lastItem = filteredstartmeter[filteredstartmeter.length - 1]; 
+        const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.Floor == 0 && item.Room == 0 ? item?.hostel_Id == props?.hosteldetails.id : item?.hostel_Id == props?.hosteldetails.id && item.Floor == floorId && item.Room == RoomId);
+        const lastItem = filteredstartmeter[filteredstartmeter.length - 1];
         setStartmeterData(lastItem);
-    }, [props.hosteldetails.id, state.PgList.EB_startmeterlist,floorId ,RoomId]);
-    
+    }, [props.hosteldetails.id, state.PgList.EB_startmeterlist, floorId, RoomId]);
+
 
 
 
@@ -134,18 +134,18 @@ const EBROOM = (props) => {
     return (
         <div className="container ms-2 me-2">
             <div className="d-flex row justify-content-between mt-2 me-4 pt-3">
-                          <div className='col-lg-8 col-md-6 col-sm-12 d-flex '>
-                            <div className="me-2 d-flex justify-content-center align-items-center" title="Back" onClick={handlebackbtn} style={{height:40, width:40, backgroundColor:"#E6EDF5",borderRadius:50 }}>
+                <div className='col-lg-8 col-md-6 col-sm-12 d-flex '>
+                    <div className="me-2 d-flex justify-content-center align-items-center" title="Back" onClick={handlebackbtn} style={{ height: 40, width: 40, backgroundColor: "#E6EDF5", borderRadius: 50 }}>
 
-                            <MdOutlineKeyboardDoubleArrowLeft   style={{ fontSize: '22px' }}  />
+                        <MdOutlineKeyboardDoubleArrowLeft style={{ fontSize: '22px' }} />
 
-                            </div>
-                   <div>
-                   <h1 style={{ fontSize: "20px" }}>{props.hosteldetails.isHostelBased == 0 ? "Equally divided by Room based" : "Equally divided by Hostel based"}</h1>
-                    <p>Manage your account settings</p>
-                    </div> 
+                    </div>
+                    <div>
+                        <h1 style={{ fontSize: "20px" }}>{props.hosteldetails.isHostelBased == 0 ? "Equally divided by Room based" : "Equally divided by Hostel based"}</h1>
+                        <p>Manage your account settings</p>
+                    </div>
                 </div>
-                
+
 
             </div>
 
@@ -170,44 +170,58 @@ const EBROOM = (props) => {
                     <div className="col-4 mt-3 mb-2 me-4" style={{ display: 'flex', flexDirection: 'column' }}>
                         <label style={{ fontSize: '13px', fontWeight: 700, marginBottom: '5px' }}>Select floor</label>
                         <select
-                            class="RoomSelectBox"
+                            className="RoomSelectBox"
                             aria-label="Default select example"
                             value={floorId}
-                            onChange={(e) => handleFloorChange(e)}>
-                            <option selected>select floor</option>
-                            {state.UsersList?.hosteldetailslist
-                                ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
-                                .map((u) => (
-                                    <option key={u.Floor_Id} >
-                                        {u.Floor_Id}
-                                    </option>
-                                ))}
-
-
+                            onChange={(e) => handleFloorChange(e)}
+                        >
+                            <option value="" disabled>
+                                Select floor
+                            </option>
+                            {state.UsersList?.hosteldetailslist?.length > 0 ? (
+                                state.UsersList.hosteldetailslist
+                                    .filter(
+                                        (item, index, array) =>
+                                            array.findIndex((i) => i.Floor_Id === item.Floor_Id) === index
+                                    )
+                                    .map((u) => (
+                                        <option key={u.Floor_Id} value={u.Floor_Id}>
+                                            {u.Floor_Id}
+                                        </option>
+                                    ))
+                            ) : (
+                                <option value="" disabled>
+                                    No floors available
+                                </option>
+                            )}
                         </select>
+
                     </div>
 
                     <div className="col-4 mt-3 mb-2" style={{ display: 'flex', flexDirection: 'column' }}>
                         <label style={{ fontSize: '13px', fontWeight: 700, marginBottom: '5px' }}>Select Room</label>
                         <select
-                            class="RoomSelectBox"
+                            className="RoomSelectBox"
                             aria-label="Default select example"
                             value={RoomId}
                             onChange={(e) => handleRoomchange(e)}
                         >
-                            <option selected>select Room</option>
-                            {roomsByFloor.map((item) => {
-                                return (
-                                    <>
-                                        <option key={item.Room_Id} >
-                                            {item.Room_Id}</option>
-                                    </>
-                                )
-
-                            })
-                            }
-
+                            <option value="" disabled>
+                                Select Room
+                            </option>
+                            {roomsByFloor?.length > 0 ? (
+                                roomsByFloor.map((item) => (
+                                    <option key={item.Room_Id} value={item.Room_Id}>
+                                        {item.Room_Id}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="" disabled>
+                                    No rooms available
+                                </option>
+                            )}
                         </select>
+
                     </div>
                 </div>
             }
@@ -215,33 +229,33 @@ const EBROOM = (props) => {
 
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-            
+
                 <div className="col-4 mt-2 mb-2 me-4">
                     <label style={{ fontSize: '13px', fontWeight: 700 }}>Start Meter Reading</label>
-                   
+
                     <Form.Control
-                placeholder="123-098"
-                aria-label='Start Meter Reading'
-                className='custom-input'
-                aria-describedby="basic-addon2"
-                autoFocus
-                disabled
-                value={startmeterdata ? startmeterdata.end_Meter_Reading : 0}
-                onChange={(e) => handlestartmeter(e)}
-                style={{
-                    border: "1px solid lightgray",
-                    fontSize: 12,
-                    fontWeight: "530",
-                    opacity: 1,
-                    marginTop: '9px',
-                    borderRadius: "4px",
-                    color: "gray",
-                    '::placeholder': { color: "gray", fontSize: 12 }
-                }}
+                        placeholder="123-098"
+                        aria-label='Start Meter Reading'
+                        className='custom-input'
+                        aria-describedby="basic-addon2"
+                        autoFocus
+                        disabled
+                        value={startmeterdata ? startmeterdata.end_Meter_Reading : 0}
+                        onChange={(e) => handlestartmeter(e)}
+                        style={{
+                            border: "1px solid lightgray",
+                            fontSize: 12,
+                            fontWeight: "530",
+                            opacity: 1,
+                            marginTop: '9px',
+                            borderRadius: "4px",
+                            color: "gray",
+                            '::placeholder': { color: "gray", fontSize: 12 }
+                        }}
                     />
-                
+
                 </div>
-                
+
 
                 <div className="col-4 mt-2 mb-2">
                     <label style={{ fontSize: '13px', fontWeight: 700 }}>End Meter Reading</label>
@@ -315,9 +329,11 @@ const EBROOM = (props) => {
 
             <div class="table-responsive mt-3" style={{ width: "100%" }}>
                 <table class="table text-center" >
-                    <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px",  position:"sticky",
-                        top:0,
-                        zIndex:1, }}>
+                    <thead style={{
+                        backgroundColor: "#E6EDF5", color: "rgb(147, 147, 147)",fontWeight:500, fontSize: "10px", position: "sticky",
+                        top: 0,
+                        zIndex: 1,
+                    }}>
                         <tr >
                             <th scope="col">Customer <i class="bi bi-caret-down-fill ms-2"></i></th>
                             <th scope="col">Room Number <i class="bi bi-caret-down-fill ms-2"></i></th>

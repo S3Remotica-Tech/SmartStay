@@ -72,6 +72,12 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function AddRecurrBillsUsers(recurr) {
+    return await AxiosConfig.post('/users/recuring_bill_users',recurr,{  //Recurr add customer filter 
+      data:recurr
+    })
+  }
+
   export async function GetRecurrBills(bills) {
     return await AxiosConfig.post('/all_recuring_bills',bills,{  //Recurr bills data
       data:bills
@@ -81,6 +87,42 @@ export async function UpdateInvoice(datum) {
   export async function DeleteRecurrBills(bills) {
     return await AxiosConfig.post('/delete_recuring_bill',bills, { // Delete Recurr bills
       data:bills
+    })
+  }
+
+  export async function GetReceiptData(receipt) {
+    return await AxiosConfig.post('/receipts/all_receipts',receipt,{  //Receipts data
+      data:receipt
+    })
+  }
+
+  export async function AddReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/add', receipt, { // create new Receipt
+      data: receipt
+    })
+  }
+
+  
+  export async function EditReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/edit', receipt, { // Edit Receipt
+      data: receipt
+    })
+  }
+
+  export async function DeleteReceipt(receipt) {
+    return await AxiosConfig.post('/receipts/delete',receipt, { // Delete receipt 
+      data:receipt
+    })
+  }
+
+  export async function ReferenceIdGet() {
+    return await AxiosConfig.get('/receipts/gen_reference',{ //refrence id
+    })
+  }
+
+  export async function ReceiptPDf(datum) {
+    return await AxiosConfig.post('/receipts/pdf_generate',datum, {
+      data:datum
     })
   }
 

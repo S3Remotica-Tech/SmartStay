@@ -8,6 +8,9 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
+import { MdError } from "react-icons/md";
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingCompliance({ hostelid }) {
 
@@ -15,19 +18,22 @@ function SettingCompliance({ hostelid }) {
     const state = useSelector((state) => state);
     const popupRef = useRef(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const [activeRow, setActiveRow] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [complaintTypeName, setComplaintTypeName] = useState('')
-    const [comlaintError, setComplaintError] = useState('')
+    const [originalComplaintTypeName, setOriginalComplaintTypeName] = useState('');
+    const [complaintError, setComplaintError] = useState('')
+    const [isChangedError, setIsChangedError] = useState("");
     const [edit, setEdit] = useState(false);
     const [id, setId] = useState('');
     const [rowDetails, setRowDetails] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
-const [ loading , setLoading] = useState(true)
-
-
-
+    const [loading, setLoading] = useState(true)
+    const [showDots, setShowDots] = useState(null);
+    const [menuLoaded, setMenuLoaded] = useState(false);
+    const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
+    const [complianceFilterddata, setComplianceFilterddata] = useState([]);
+    const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
 
 
     const handleDeleteClick = () => {
@@ -35,7 +41,6 @@ const [ loading , setLoading] = useState(true)
     };
 
     const handleConfirmDelete = () => {
-        setActiveRow(false)
         if (rowDetails.id) {
             dispatch({ type: 'DELETE-COMPLAINT-TYPE', payload: { id: rowDetails.id } })
         }
@@ -46,64 +51,73 @@ const [ loading , setLoading] = useState(true)
 
     const handleCancel = () => {
         setShowPopup(false);
-        setActiveRow(false)
     };
 
     useEffect(() => {
         dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
     }, [hostelid])
 
-    const handleShowDots = (e, row) => {
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleShowDots = (e, row, index) => {
+        e.stopPropagation();
+        setShowDots((prev) => (prev === index ? null : index));
         setRowDetails(row)
-        if (activeRow === true) {
-            setActiveRow(false);
-        } else {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setPopupPosition({
-                top: rect.top + window.scrollY + 30,
-                left: rect.left + window.scrollX - 120,
-            });
-            setActiveRow(true);
-        }
+        const rect = e.currentTarget.getBoundingClientRect();
+        // rect.top
+        setPopupPosition({
+            // top: rect.top + window.scrollY + 30,
+            // left: rect.left + window.scrollX - 120,
+            top: rect.top + window.scrollY + 30,
+            left: rect.left + window.scrollX - 675,
+        });
+
+        setMenuLoaded(true);
     };
 
-    // const handleEdit = () => {
-    //     setActiveRow(null)
-    //     setShowForm(true)
-    //     setEdit(true)
-    //     setId(rowDetails.id)
-    //     setComplaintTypeName(rowDetails.complaint_name)
-    // }
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+    };
     const handleEdit = () => {
-        setActiveRow(null)
         setShowEditForm(true)
         setEdit(true)
         setId(rowDetails.id)
         setComplaintTypeName(rowDetails.complaint_name)
+        setOriginalComplaintTypeName(rowDetails.complaint_name);
     }
 
     const handleClose = () => {
         setShowForm(false)
         setId('')
         setComplaintTypeName('')
-        setShowEditForm(false)
+        setOriginalComplaintTypeName('');
+        setIsChangedError('');
+        setShowEditForm(false);
+        setComplaintError('');
     }
 
     //add compliance 
     // const handleShowForm = () => {
     //     setShowForm(true)
     // }
-      const [showPopupvalidation, setShowPopupValidation] = useState(false);
+    const [showPopupvalidation, setShowPopupValidation] = useState(false);
     const handleShowForm = () => {
         if (!hostelid) {
-          setShowPopupValidation(true); 
-          return;
+            setShowPopupValidation(true);
+            return;
         }
         setShowForm(true);
         console.log("Opening Form...");
-      };
-      
-//add complaint
+    };
+
+    //add complaint
     const handleAddComplaintType = () => {
         if (!complaintTypeName) {
             setComplaintError('Please enter Complaint Type')
@@ -116,19 +130,32 @@ const [ loading , setLoading] = useState(true)
 
     //edit complaint type
     //COMPLAINT-TYPE-LIST 
-            //COMPLAINT-TYPE-EDIT (complaint_name,id,hostel_id)
+    //COMPLAINT-TYPE-EDIT (complaint_name,id,hostel_id)
+    // const handleEditType = () => {
+
+    //     if (!complaintTypeName) {
+    //         setIsChangedError('No changes Detected')
+    //     }
+    //     else {
+    //         dispatch({ type: 'COMPLAINT-TYPE-EDIT', payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id } })
+    //         setIsChangedError('')
+    //     }
+    // }
+
     const handleEditType = () => {
-
-        if (!complaintTypeName) {
-            setComplaintError('Please enter Complaint Type')
+        if (complaintTypeName === originalComplaintTypeName) {
+            setIsChangedError('No changes detected');
+        } else {
+            dispatch({
+                type: 'COMPLAINT-TYPE-EDIT',
+                payload: { complaint_name: complaintTypeName, hostel_id: hostelid, id: id }
+            });
+            setIsChangedError('');
         }
-        else {
-            dispatch({ type: 'COMPLAINT-TYPE-EDIT', payload: { complaint_name: complaintTypeName, hostel_id: hostelid,id:id } })
-            setComplaintError('')
-        }
-    }
+    };
 
-    
+
+
     const handleComplaintType = (e) => {
         setComplaintTypeName(e.target.value)
         if (e.target.value) {
@@ -138,12 +165,31 @@ const [ loading , setLoading] = useState(true)
 
     useEffect(() => {
         if (state.Settings.getcomplainttypeStatuscode === 200) {
+            setComplianceFilterddata(state.Settings.Complainttypelist);
             setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_GET_COMPLAINTTYPE_STATUS_CODE' })
             }, 1000);
         }
     }, [state.Settings.getcomplainttypeStatuscode])
+
+
+    useEffect(() => {
+        if (state.Settings.errorCompliants) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ERROR_COMPLIANTS' })
+            }, 1000);
+        }
+    }, [state.Settings.errorCompliants])
+
+
+
+
+
+
+
+
 
     useEffect(() => {
         if (state.Settings.addComplaintSuccessStatusCode === 200) {
@@ -177,313 +223,495 @@ const [ loading , setLoading] = useState(true)
     }, [state.Settings.editComplaintSuccessStatusCode])
 
 
+    // pagination
+    const indexOfLastRowCompliance = compliancecurrentPage * compliancerowsPerPage;
+    const indexOfFirstRowCompliance = indexOfLastRowCompliance - compliancerowsPerPage;
+    const currentRowCompliance = complianceFilterddata?.slice(
+        indexOfFirstRowCompliance,
+        indexOfLastRowCompliance
+
+    );
+
+    const handlePageChange = (generalpageNumber) => {
+        setCompliancecurrentPage(generalpageNumber);
+    };
+
+    const handleItemsPerPageChange = (event) => {
+        setCompliancerowsPerPage(Number(event.target.value));
+    };
+
+    const totalPagesGeneral = Math.ceil(
+        complianceFilterddata?.length / compliancerowsPerPage
+    );
+
+
 
     return (
-        <div className="container" style={{position:"relative"}}>
-
-{loading &&
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            height: "50vh",
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>
-      }
+        <div className="container" style={{ position: "relative" }}>
 
 
-
-
-
-          <div style={{ position: "sticky",top: 0, zIndex: 1000,backgroundColor: "white" }}>
-               <div className="d-flex row mb-4 mt-4">
-                 <Col>
-                   <h4 style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy"}}>
-                    Complaint Type
-                     </h4>
-                 </Col>
-                 
-                <Col>
-                  <div className="d-flex justify-content-end">
-                    <Button  style={{ backgroundColor: "#1E45E1", color: "#ffffff", fontFamily: "Gilroy",
-                                     fontSize: 14,  fontWeight: 600,  borderRadius: 8,  padding: "12px 16px 12px 16px"}}
-                               onClick={handleShowForm} disabled={showPopupvalidation}>
-                           + Complaint Type
-                             </Button>
-                                    </div>
-                </Col>
+            {loading &&
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: '200px',
+                        display: 'flex',
+                        height: "50vh",
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
                 </div>
-                </div>
-              
-                {showPopupvalidation && (
-        <div className="d-flex flex-wrap mt-3 align-items-center" 
-        style={{ gap: "10px" }} >
-        <p style={{color: "red"}} className="col-12 col-sm-6 col-md-6 col-lg-9">
-          !Please add a hostel before adding Complaints information.
-        </p>
-        
-        <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopupValidation(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/>
+            }
 
-      </div>
-      
-      
-      )}
-    
+
+
+
+
+            <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "white" }}>
+                <div className="d-flex row mb-4 " >
+                    <div style={{ marginTop: 28 }}>
+                        <Col>
+                            <h4 style={{ fontSize: 20, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
+                                Complaint Type </h4>
+                        </Col></div>
+                    <div style={{ marginTop: -27 }}>
+                        <Col>
+                            <div className="d-flex justify-content-end">
+                                <Button
+                                    style={{
+                                        fontFamily: "Gilroy",
+                                        fontSize: "14px",
+                                        backgroundColor: "#1E45E1",
+                                        color: "white",
+                                        fontWeight: 600,
+                                        borderRadius: "8px",
+                                        padding: "11px 15px",
+                                        paddingLeft: 16,
+                                        // width: "auto",
+                                        // maxWidth: "100%",
+                                        // maxHeight: 50,
+                                        marginTop: "-11px",
+
+                                    }}
+                                    onClick={handleShowForm} disabled={showPopupvalidation}>
+                                    + Complaint Type
+                                </Button>
+                            </div>
+                        </Col></div>
+                </div>
+            </div>
+
+            {showPopupvalidation && (
+                <div className="d-flex flex-wrap mt-3 align-items-center"
+                    style={{ gap: "10px" }} >
+                    <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                        Please add a hostel before adding Complaints information.
+                    </p>
+
+                    {/* <img
+                        src={close}
+                        alt="close icon"
+                        onClick={() => setShowPopupValidation(false)}
+                        className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
+                        style={{ width: '20px', height: 'auto', cursor: "pointer" }}
+                    /> */}
+
+                </div>
+
+
+            )}
+
 
 
 
             <div>
-  {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? (
-    <div className="container">
-      <div className="row">
-                    {
+                {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
+                {currentRowCompliance && currentRowCompliance.length > 0 ? (
+                    //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}
 
-                        state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u) => {
-                            return (
-                                <>
-                                    <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
-                                        <div
-                                            className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
-                                            style={{ height: 64, width: "100%" }}
-                                        >
-                                            <div className="d-flex align-items-center">
-                                                <img src={message} width={24} height={24} alt="Role Icon" />
-                                                <span
-                                                    style={{
-                                                        marginLeft: 20,
-                                                        fontSize: 16,
-                                                        fontWeight: 600,
-                                                        fontFamily: "Gilroy",
-                                                        color: "#222222",
-                                                        // whiteSpace:"nowrap"
-                                                    }}
+                    <div className="container">
+                        <div className="row">
+                            {
+                                currentRowCompliance.map((u, i) => {
+                                    // state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
+                                    return (
+                                        <>
+                                            <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
+                                                <div
+                                                    className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
+                                                    style={{ height: 64, width: "100%" }}
                                                 >
-                                                    {u.complaint_name}
-                                                </span>
-                                            </div>
-                                            <button className="btn p-2">
-                                                <img src={round} width={34} height={34} alt="Menu Icon"
-                                                    onClick={(e) => handleShowDots(e, u)}
-                                                />
-                                            </button>
-                                        </div>
-
-                                        {activeRow && (
-                                            <div
-                                                ref={popupRef}
-                                                className="position-absolute"
-                                                style={{
-                                                    cursor: "pointer",
-                                                    backgroundColor: "#fff",
-                                                    top: popupPosition.top,
-                                                    left: popupPosition.left,
-                                                    width: 163,
-                                                    border: "1px solid #EBEBEB",
-                                                    borderRadius: 10,
-                                                    display: "flex",
-                                                    justifyContent: "start",
-                                                    padding: 10,
-                                                    alignItems: "center",
-                                                    zIndex: 1000,
-                                                }}
-                                            >
-                                                <div>
-                                                    <div
-                                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                        onClick={() => handleEdit(u)}
-                                                    >
-                                                        <img src={Edit} style={{ height: 16, width: 16 }} />
-                                                        <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
-                                                            Edit
-                                                        </label>
-                                                    </div>
-                                                    <div
-                                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                        style={{ backgroundColor: "#fff" }}
-                                                        onClick={() => handleDeleteClick()}
-                                                    >
-                                                        <img
-                                                            src={Delete}
-                                                            style={{ height: 16, width: 16 }}
-                                                        />{" "}
-                                                        <label
+                                                    <div className="d-flex align-items-center">
+                                                        <img src={message} width={24} height={24} alt="Role Icon" />
+                                                        <span
                                                             style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy,sans-serif",
-                                                                color: "#FF0000",
-                                                                cursor: "pointer",
+                                                                marginLeft: 20,
+                                                                fontSize: 16,
+                                                                fontWeight: 600,
+                                                                fontFamily: "Gilroy",
+                                                                color: "#222222",
+                                                                // whiteSpace:"nowrap"
                                                             }}
                                                         >
-                                                            Delete
-                                                        </label>
+                                                            {u.complaint_name}
+                                                        </span>
                                                     </div>
+                                                    {/* <button className="btn p-2 border-0 bg-transparent">
+                                                        <img src={round} width={34} height={34} alt="Menu Icon"
+                                                            onClick={(e) => handleShowDots(e, u, i)}
+                                                        />
+                                                    </button> */}
+                                                    <button
+                                                     onClick={(e) => handleShowDots(e, u, i)}
+                                                     style={{
+                                                        height: "35px",
+                                                        width: "35px",
+                                                        borderRadius: "50%",
+                                                        border: "1px solid #EFEFEF",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        zIndex: showDots ? 1000 : "auto",
+                                                        position: "relative",
+                                                        cursor: "pointer",
+                                                        backgroundColor: showDots === i ?"#E7F1FF" : "white",
+
+                                                     }}
+                                                     >
+                                                        <PiDotsThreeOutlineVerticalFill
+                                                        style={{ height: "18px", width: "18px",
+                                                            cursor: "pointer",
+                                                         }}
+                                                    />
+
+                                                     </button>
 
                                                 </div>
+
+                                                {/* {activeRow && showDots === i && ( */}
+                                                {showDots === i && menuLoaded && (
+                                                    <div
+                                                        ref={popupRef}
+                                                        className="position-absolute"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                            backgroundColor: "#fff",
+                                                            top: popupPosition.top,
+                                                            left: popupPosition.left,
+                                                            // width: 163,
+                                                            width: 140,
+                                                            border: "1px solid #EBEBEB",
+                                                            borderRadius: 10,
+                                                            display: "flex",
+                                                            justifyContent: "start",
+                                                            padding: 10,
+                                                            alignItems: "center",
+                                                            zIndex: 1000,
+                                                        }}
+                                                    >
+                                                        <div>
+                                                            <div
+                                                                className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                                onClick={() => handleEdit(u)}
+                                                            >
+                                                                <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                                <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222", cursor: "pointer" }}>
+                                                                    Edit
+                                                                </label>
+                                                            </div>
+                                                            <div
+                                                                className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                                style={{ backgroundColor: "#fff" }}
+                                                                onClick={() => handleDeleteClick()}
+                                                            >
+                                                                <img
+                                                                    src={Delete}
+                                                                    style={{ height: 16, width: 16 }}
+                                                                />{" "}
+                                                                <label
+                                                                    style={{
+                                                                        fontSize: 14,
+                                                                        fontWeight: 500,
+                                                                        fontFamily: "Gilroy,sans-serif",
+                                                                        color: "#FF0000",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                >
+                                                                    Delete
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                </>
-                                
-                            )
-                        })
-                    }
-                </div>
-    </div>
-  ) :  !loading && (
-    <div style={{marginTop:100}}>
-      <div className="d-flex justify-content-center">
-        <img
-          src={EmptyState}
-          style={{ height: 240, width: 240 }}
-          alt="Empty state"
-        />
-      </div>
-      <div
-        className="pb-1 mt-3"
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          fontSize: 20,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        No Complaints available
-      </div>
-    </div>
-  )}
-</div>
+                                        </>
 
-<Modal className="editform"
-show={showEditForm}
-onHide={() => handleClose()}
-backdrop="static"
-centered
->
-<Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-    <div
-        style={{
-            fontSize: 20,
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-        }}
-    >
-        Edit Complaint Type
-    </div>
-    <button
-        type="button"
-        className="close"
-        aria-label="Close"
-        onClick={handleClose}
-        style={{
-            position: "absolute",
-            right: "10px",
-            top: "16px",
-            border: "1px solid black",
-            background: "transparent",
-            cursor: "pointer",
-            padding: "0",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-        }}
-    >
-        <span
-            aria-hidden="true"
-            style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-            }}
-        >
-            &times;
-        </span>
-    </button>
-</Modal.Header>
-<Modal.Body>
-    <div className="col">
-        <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-            <Form.Group className="mb-3">
-                <Form.Label
-                    style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                    }}
-                >
-                    Complaint Type{" "}
-                    {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
-                </Form.Label>
-                <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Complaint Type"
-                    value={complaintTypeName}
-                    onChange={(e) => handleComplaintType(e)}
-                    style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                    }}
-                />
-            </Form.Group>
-            {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
-        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                ) : !loading && (
+                    <div style={{ marginTop: 100 }}>
+                        <div className="d-flex justify-content-center">
+                            <img
+                                src={EmptyState}
+                                style={{ height: 240, width: 240 }}
+                                alt="Empty state"
+                            />
+                        </div>
+                        <div
+                            className="pb-1 mt-3"
+                            style={{
+                                textAlign: "center",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 20,
+                                color: "rgba(75, 75, 75, 1)",
+                            }}
+                        >
+                            No Complaints available
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {complianceFilterddata.length > compliancerowsPerPage && (
+                <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+                    {/* Dropdown for Items Per Page */}
+                    <div>
+                        <select
+                            value={compliancerowsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            style={{
+                                padding: "5px",
+                                border: "1px solid #1E45E1",
+                                borderRadius: "5px",
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                outline: "none",
+                                boxShadow: "none",
+                            }}
+                        >
+                            <option value={2}>2</option>
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
+
+                    {/* Pagination Controls */}
+                    <ul
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            listStyleType: "none",
+                            margin: 0,
+                            padding: 0,
+                        }}
+                    >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: compliancecurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                    cursor: compliancecurrentPage === 1 ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(compliancecurrentPage - 1)}
+                                disabled={compliancecurrentPage === 1}
+                            >
+                                <ArrowLeft2
+                                    size="16"
+                                    color={compliancecurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                                />
+                            </button>
+                        </li>
+
+                        {/* Current Page Indicator */}
+                        <li
+                            style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+                        >
+                            {compliancecurrentPage} of {totalPagesGeneral}
+                        </li>
+
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color:
+                                        compliancecurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1",
+                                    cursor:
+                                        compliancecurrentPage === totalPagesGeneral
+                                            ? "not-allowed"
+                                            : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(compliancecurrentPage + 1)}
+                                disabled={compliancecurrentPage === totalPagesGeneral}
+                            >
+                                <ArrowRight2
+                                    size="16"
+                                    color={
+                                        compliancecurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1"
+                                    }
+                                />
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            )}
+
+            <Modal className="editform custom-modal"
+                show={showEditForm}
+                onHide={() => handleClose()}
+                backdrop="static"
+                centered
+            >
+                <Modal.Header style={{ position: "relative" }}>
+                    <div
+                        style={{
+                            fontSize: 18,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                        }}
+                    >
+                        Edit Complaint Type
+                    </div>
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        onClick={handleClose}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                        }}
+                    >
+                        <span
+                            aria-hidden="true"
+                            style={{
+                                fontSize: "30px",
+                                paddingBottom:6,
+                            }}
+                        >
+                            &times;
+                        </span>
+                    </button>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="col">
+                        <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12 ">
+                            <Form.Group>
+                                <Form.Label
+                                    style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Complaint Type{" "}
+                                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                                </Form.Label>
+                                <FormControl
+                                    type="text"
+                                    id="form-controls"
+                                    placeholder="Enter Complaint Type"
+                                    value={complaintTypeName}
+                                    onChange={(e) => handleComplaintType(e)}
+                                    style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                    }}
+                                />
+
+                            </Form.Group>
+                           
+                            <div className="d-flex align-items-center justify-content-center"style={{marginTop:"10px"}}>
+                                {isChangedError && (
+                                    <>
+                                        <MdError style={{marginRight:"7px",color:"red"}}/>
+                                        <span style={{ color: "red", fontSize: 16, fontFamily:"Gilroy"}}> {isChangedError} </span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
 
 
-    </div>
-</Modal.Body>
-
-<Modal.Footer className="d-flex justify-content-center">
-    <Button
-        className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-        style={{
-            backgroundColor: "#1E45E1",
-            fontWeight: 600,
-            height: 50,
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Montserrat, sans-serif",
-            marginTop: 20,
-        }}
-        onClick={handleEditType}
-    >
-        Edit Complaint Type
-    </Button>
-</Modal.Footer>
-</Modal>
+                    </div>
+                    <Button
+                        className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                        style={{
+                            backgroundColor: "#1E45E1",
+                            fontWeight: 600,
+                            height: 50,
+                            borderRadius: 12,
+                            fontSize: 16,
+                            fontFamily: "Montserrat, sans-serif",
+                            marginTop: 8,
+                        }}
+                        onClick={handleEditType}
+                    >
+                        Edit Complaint Type
+                    </Button>
+                </Modal.Body>
+            </Modal>
 
             <Modal
                 show={showForm}
@@ -491,7 +719,7 @@ centered
                 backdrop="static"
                 centered
             >
-                <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                <Modal.Header style={{ position: "relative" }}>
                     <div
                         style={{
                             fontSize: 20,
@@ -539,14 +767,14 @@ centered
                             <Form.Group className="mb-3">
                                 <Form.Label
                                     style={{
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: "#222222",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
                                     }}
                                 >
                                     Complaint Type{" "}
-                                    {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
+                                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                 </Form.Label>
                                 <FormControl
                                     type="text"
@@ -566,14 +794,23 @@ centered
                                     }}
                                 />
                             </Form.Group>
-                            {comlaintError && <span style={{ color: "red", fontSize: 16 }}> * {comlaintError} </span>}
+                            <div style={{ marginTop: "-10px" }}>
+                                {complaintError && (
+                                    <p style={{ display: "flex", fontSize: "13px", alignItems: "center", color: "red", fontFamily: "Gilroy", marginBottom: "-15px" }}>
+                                        <span style={{ fontSize: "13px", color: "red", marginRight: "5px", marginBottom: "5px" }}>
+                                            <MdError />
+                                        </span>
+                                        {complaintError}
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
 
                     </div>
                 </Modal.Body>
 
-                <Modal.Footer className="d-flex justify-content-center">
+                <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                     <Button
                         className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                         style={{
@@ -582,9 +819,10 @@ centered
                             height: 50,
                             borderRadius: 12,
                             fontSize: 14,
-                            padding:"12px 16px 12px 16px",
+                            padding: "12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
-                            marginTop: 20,
+                            marginBottom: 15,
+
                         }}
                         onClick={handleAddComplaintType}
                     >
@@ -592,7 +830,7 @@ centered
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {showPopup && (
+            {/* {showPopup && (
                 <div
                     style={{
                         position: "fixed",
@@ -635,7 +873,82 @@ centered
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
+            <Modal
+                show={showPopup}
+                // onHide={handleCloseDelete}
+                centered
+                backdrop="static"
+                style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+            >
+                <Modal.Header style={{ borderBottom: 'none' }}>
+                    <Modal.Title
+                        style={{
+                            fontSize: '18px',
+                            fontFamily: 'Gilroy',
+                            textAlign: 'center',
+                            fontWeight: 600,
+                            color: '#222222',
+                            flex: 1
+                        }}
+                    >
+                        Delete ComplaintType?
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body
+                    style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: 'Gilroy',
+                        color: '#646464',
+                        textAlign: 'center',
+                        marginTop: '-20px'
+                    }}
+                >
+                    Are you sure you want to delete this Complaint-type?
+                </Modal.Body>
+
+                <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+                    <Button
+                        style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: '12px 20px',
+                            background: '#fff',
+                            color: '#1E45E1',
+                            border: '1px solid #1E45E1',
+                            fontWeight: 600,
+                            fontFamily: 'Gilroy',
+                            fontSize: '14px',
+                            marginRight: 10
+                        }}
+                        // onClick={handleCloseDelete}  
+                        onClick={() => { handleCancel() }}
+
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        style={{
+                            width: 160,
+                            height: 52,
+                            borderRadius: 8,
+                            padding: '12px 20px',
+                            background: '#1E45E1',
+                            color: '#FFFFFF',
+                            fontWeight: 600,
+                            fontFamily: 'Gilroy',
+                            fontSize: '14px'
+                        }}
+                        // onClick={confirmDelete}  
+                        onClick={() => { handleConfirmDelete() }}
+                    >
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </div>
     )

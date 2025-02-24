@@ -27,8 +27,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 
-function StaticExample({ show, handleClose, currentItem, hostelId }) {
+function StaticExample({ show, currentItem, hostelId,setShowModal }) {
   const state = useSelector((state) => state);
+  console.log("StaticExample",state)
   const dispatch = useDispatch();
   const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
@@ -58,6 +59,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [formattedDate, setFormattedDate] = useState("");
+  const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -91,9 +93,14 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
+  useEffect(()=>{
+if(state.ExpenseList.expenceNetBanking){
+setNetPaymentError(state.ExpenseList.expenceNetBanking)
+}
+  },[state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", hostel_id: state.login.selectedHostel_Id });
+    dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
   }, []);
 
   useEffect(() => {
@@ -184,6 +191,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setAccount(e.target.value);
     setAccountError("");
     setIsChangedError("");
+    setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
   const handleModeOfPaymentChange = (e) => {
@@ -191,6 +200,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setGeneralError("");
     setPaymentError("");
     setIsChangedError("");
+    setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
   const handlePurchaseDateChange = (e) => {
@@ -204,10 +215,16 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    if (/^\d*$/.test(value)) {
+    setNetPaymentError("")
+    // if (/^\d*$/.test(value)) {
+    //   setPrice(value);
+    // }
+    if (/^\d*\.?\d*$/.test(value)) {
       setPrice(value);
     }
   };
+ 
+  
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -236,6 +253,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   };
 
   const handleAddExpenses = () => {
+    // Reset all error messages
     setHostelError("");
     setVendorError("");
     setAssetError("");
@@ -244,12 +262,47 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     setCountError("");
     setPriceError("");
     setPaymentError("");
-
-    if (!category && !selectedDate && !count && !price && !modeOfPayment) {
-      setGeneralError("Please enter all mandatory fields");
-      return;
+    setIsChangedError("");
+    
+    let hasError = false;
+  
+    // Validate individual fields and show specific errors
+    if (!category) {
+      setCategoryError("Please select a category");
+      hasError = true;
     }
-
+  
+    if (!selectedDate) {
+      setDateError("Please select a purchase date");
+      hasError = true;
+    }
+  
+    if (!modeOfPayment) {
+      setPaymentError("Please enter a mode of payment");
+      hasError = true;
+    }
+  
+    if (!price) {
+      setPriceError("Please enter a valid price");
+      hasError = true;
+    } else if (isNaN(price) || price <= 0) {
+      setPriceError("Price must be a positive number");
+      hasError = true;
+    }
+  
+    if (!count) {
+      setCountError("Please enter a valid unit count");
+      hasError = true;
+    } else if (isNaN(count) || count <= 0) {
+      setCountError("Unit count must be a positive number");
+      hasError = true;
+    }
+  
+    if (modeOfPayment === "Net Banking" && !account) {
+      setAccountError("Please choose a bank account");
+      hasError = true;
+    }
+  
     const isChanged =
       initialState.assetName !== assetName ||
       initialState.vendorName !== vendorName ||
@@ -262,76 +315,133 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
       initialState.description !== description ||
       Number(initialState.count) !== Number(count) ||
       initialState.hostelName !== hostelName;
+  
     if (!isChanged) {
       setIsChangedError("Please make some changes before saving.");
+      hasError = true;
+    }
+  
+    // If any validation fails, do not proceed
+    if (hasError) {
       return;
     }
-    if (!category) {
-      setCategoryError("Please select a category");
-      // return;
-    }
-    if (!selectedDate) {
-      setDateError("Please select a purchase date");
-      // return;
-    }
-    if (!modeOfPayment) {
-      setPaymentError("Please enter a mode of payment");
-      // return;
-    }
-
-    if (!price) {
-      setPriceError("Please enter a valid price");
-      // return;
-    }
-
-    if (!count) {
-      setCountError("Please enter a valid unit count");
-      // return;
-    }
-
-    if (isNaN(count) || count <= 0) {
-      setCountError("Please enter a valid unit count");
-      return;
-    }
-    if (isNaN(price) || price <= 0) {
-      setPriceError("Please enter a valid price");
-      return;
-    }
-
-    if (modeOfPayment == "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      return;
-    }
-
+  
+    // Format the date and dispatch the action
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-    if (
-      hostelId &&
-      modeOfPayment &&
-      count &&
-      price &&
-      category &&
-      selectedDate
-    ) {
-      dispatch({
-        type: "ADDEXPENSE",
-        payload: {
-          // vendor_id: vendorName || "",
-          // asset_id: assetName || "",
-          category_id: category,
-          purchase_date: formattedDate,
-          unit_count: count,
-          unit_amount: price,
-          description: description,
-          payment_mode: modeOfPayment,
-          hostel_id: hostelId,
-          id: currentItem ? currentItem.id : null,
-          bank_id: account,
-          hostel_id: state.login.selectedHostel_Id,
-        },
-      });
-    }
-    // handleClose();
+    dispatch({
+      type: "ADDEXPENSE",
+      payload: {
+        category_id: category,
+        purchase_date: formattedDate,
+        unit_count: count,
+        unit_amount: price,
+        description: description,
+        payment_mode: modeOfPayment,
+        hostel_id: state.login.selectedHostel_Id,
+        id: currentItem ? currentItem.id : null,
+        bank_id: account,
+      },
+    });
   };
+  
+
+  // const handleAddExpenses = () => {
+  //   setHostelError("");
+  //   setVendorError("");
+  //   setAssetError("");
+  //   setCategoryError("");
+  //   setDateError("");
+  //   setCountError("");
+  //   setPriceError("");
+  //   setPaymentError("");
+
+  //   if (!category && !selectedDate && !count && !price && !modeOfPayment) {
+  //     setGeneralError("Please enter all mandatory fields");
+  //     return;
+  //   }
+
+  //   const isChanged =
+  //     initialState.assetName !== assetName ||
+  //     initialState.vendorName !== vendorName ||
+  //     (initialState.selectedDate &&
+  //       selectedDate &&
+  //       initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+  //     Number(initialState.price) !== Number(price) ||
+  //     initialState.category !== category ||
+  //     initialState.modeOfPayment !== modeOfPayment ||
+  //     initialState.description !== description ||
+  //     Number(initialState.count) !== Number(count) ||
+  //     initialState.hostelName !== hostelName;
+  //   if (!isChanged) {
+  //     setIsChangedError("Please make some changes before saving.");
+  //     return;
+  //   }
+  //   if (!category) {
+  //     setCategoryError("Please select a category");
+  //     // return;
+  //   }
+  //   if (!selectedDate) {
+  //     setDateError("Please select a purchase date");
+  //     // return;
+  //   }
+  //   if (!modeOfPayment) {
+  //     setPaymentError("Please enter a mode of payment");
+  //     // return;
+  //   }
+
+  //   if (!price) {
+  //     setPriceError("Please enter a valid price");
+  //     // return;
+  //   }
+
+  //   if (!count) {
+  //     setCountError("Please enter a valid unit count");
+  //     // return;
+  //   }
+
+  //   if (isNaN(count) || count <= 0) {
+  //     setCountError("Please enter a valid unit count");
+  //     return;
+  //   }
+  //   if (isNaN(price) || price <= 0) {
+  //     setPriceError("Please enter a valid price");
+  //     return;
+  //   }
+
+  //   if (modeOfPayment == "Net Banking" && !account) {
+  //     setAccountError("Please Choose Bank Account");
+  //     return;
+  //   }
+
+  //   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+  //   if (
+  //     hostelId &&
+  //     modeOfPayment &&
+  //     count &&
+  //     price &&
+  //     category &&
+  //     selectedDate
+  //   ) {
+  //     dispatch({
+  //       type: "ADDEXPENSE",
+  //       payload: {
+  //         // vendor_id: vendorName || "",
+  //         // asset_id: assetName || "",
+  //         category_id: category,
+  //         purchase_date: formattedDate,
+  //         unit_count: count,
+  //         unit_amount: price,
+  //         description: description,
+  //         payment_mode: modeOfPayment,
+  //         hostel_id: hostelId,
+  //         id: currentItem ? currentItem.id : null,
+  //         bank_id: account,
+  //         hostel_id: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //   }
+  //   // handleClose();
+  // };
 
   const calendarRef = useRef(null);
   
@@ -407,6 +517,18 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
     );
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+    setNetPaymentError("")
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+
+  }
+  const calculatePurchaseAmount = (count, price) => {
+    return count * price;
+    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+  };
+
+
   return (
     <div
       className="modal show"
@@ -416,12 +538,12 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal">
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
         >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Header>
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -433,25 +555,10 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
               {currentItem ? "Edit an expense" : "Add an expense"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
           </Modal.Header>
 
-          {isChangedError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
-            </div>
-          )}
+          
 
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -472,205 +579,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
 
           <Modal.Body style={{ padding: 20 }}>
             <div className="row mt-1">
-              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Hostel Name
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={hostelName}
-                    onChange={handleHostelNameChange}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: hostelName ? 600 : 500,
-                    }}
-                  >
-                    <option value="" disabled>
-                      Select an hostel
-                    </option>
-                    {state.UsersList.hostelList &&
-                      state.UsersList.hostelList.map((view) => (
-                        <>
-                          <option key={view.id} value={view.id}>
-                            {view.Name}
-                          </option>
-                        </>
-                      ))}
-                  </Form.Select>
-                </Form.Group>
-
-                {hostelError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {hostelError}
-                    </label>
-                  </div>
-                )}
-              </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Vendor Name{" "}
-                    <span
-                      style={{
-                        color: "#fff",
-                        display: vendorName ? "none" : "inline-block",
-                      }}
-                    >
-                      *
-                    </span>
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={vendorName}
-                    onChange={handleVendorNameChange}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: vendorName ? 600 : 500,
-                    }}
-                  >
-                    <option value="" disabled>
-                      Select a vendor
-                    </option>
-                    {state.ComplianceList.VendorList &&
-                      state.ComplianceList.VendorList.map((view) => (
-                        <>
-                          <option key={view.id} value={view.id}>
-                            {view.Vendor_Name}
-                          </option>
-                        </>
-                      ))}
-                  </Form.Select>
-                </Form.Group>
-
-                {vendorError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {vendorError}
-                    </label>
-                  </div>
-                )}
-              </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-2"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Asset Name
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={assetName || ""}
-                    onChange={handleAssetNameChange}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: assetName ? 600 : 500,
-                    }}
-                  >
-                    <option value="" disabled>
-                      Select an asset
-                    </option>
-                    {state.AssetList.assetList &&
-                      state.AssetList.assetList.map((view) => (
-                        <>
-                          <option key={view.Asset_id} value={view.Asset_id}>
-                            {view.asset_name}
-                          </option>
-                        </>
-                      ))}
-                  </Form.Select>
-                  {/* <Form.Select
-                                        aria-label="Default select example"
-                                        value={assetName}
-                                        onChange={handleAssetNameChange}
-                                        className=''
-                                        id="vendor-select"
-                                        style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}
-                                    >
-                                        <option>Select an asset</option>
-                                        {state.AssetList.assetList &&
-                                            [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                                <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
-                                            ))
-                                        }
-                                    </Form.Select> */}
-              {/* </Form.Group>
-                {assetError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {assetError}
-                    </label>
-                  </div>
-                )}
-              </div>  */}
+             
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length == 0 && (
                   <label
@@ -690,7 +599,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -702,7 +610,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     }}
                   >
                     Category{" "}
-                    <span style={{ color: "#FF0000", display: "inline-block" }}>
+                    <span style={{ color: "#FF0000", display: "inline-block",fontSize: "20px" }}>
                       *
                     </span>
                   </Form.Label>
@@ -721,8 +629,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       fontWeight: category ? 600 : 500,
                     }}
                   >
-                    <option>Select a Category</option>
-                    {state.Settings.Expences.data &&
+                    <option value="" >Select a Category</option>
+                    {state.Settings.Expences.data && state.Settings.Expences.data.length > 0 ? 
                       state.Settings.Expences.data.map((view) => (
                         <>
                           <option
@@ -732,12 +640,19 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                             {view.category_Name}
                           </option>
                         </>
-                      ))}
+                      ))
+                    :
+                    (
+                      <option value="" disabled>
+                      No category available
+                    </option>
+                    )
+                    }
                   </Form.Select>
                 </Form.Group>
                 {categoryError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                  <div className="d-flex align-items-center p-1">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -753,59 +668,10 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                 )}
               </div>
 
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>
-                                                                        <div style={{ position: 'relative' }}>
-                                        <label
-                                            htmlFor="date-input"
-                                            style={{
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                                padding: 7,
-                                                fontSize: 14,
-                                                fontFamily: "Gilroy",
-                                                fontWeight: selectedDate ? 600 : 500,
-                                                color: "rgba(75, 75, 75, 1)",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                            onClick={() => {
-                                                if (calendarRef.current) {
-                                                    calendarRef.current.flatpickr.open();
-                                                }
-                                            }}
-                                        >
-                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                                        </label>
-                                        <Flatpickr
-                                            ref={calendarRef}
-                                            options={options}
-                                            value={selectedDate}
-                                            id="custom-flatpickr-1"
-                                            onChange={handleDateChange}
-                                            style={{   display: "none" }}
-                                        />
-                                         <div ref={customContainerRef} style={{ position: 'absolute', top: '700px', left: '0', zIndex: 1000 }} />
-                                    </div>
-
-
-
-                                </Form.Group>
-                                {dateError && (
-                                    <div className="d-flex align-items-center p-1 mb-2">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                            {dateError}
-                                        </label>
-                                    </div>
-                                )}
-                            </div> */}
+             
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Group  controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -839,7 +705,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -857,7 +723,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -866,6 +731,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginTop:"5px",
                     }}
                   >
                     Unit count{" "}
@@ -873,6 +739,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       style={{
                         color: "#FF0000",
                         display: count ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
@@ -898,7 +765,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                 </Form.Group>
                 {countError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -915,7 +782,6 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -924,6 +790,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"5px",
                     }}
                   >
                     Per unit amount{" "}
@@ -931,6 +798,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       style={{
                         color: "#FF0000",
                         display: price ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
@@ -955,7 +823,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                 </Form.Group>
                 {priceError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -982,6 +850,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"15px",
                     }}
                   >
                     Purchase Amount
@@ -1007,7 +876,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                  className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1016,6 +885,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                       marginTop:"5px",
                     }}
                   >
                     Mode of transaction{" "}
@@ -1023,6 +893,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       style={{
                         color: "#FF0000",
                         display: modeOfPayment ? "none" : "inline-block",
+                        fontSize:"20px",
                       }}
                     >
                       *
@@ -1050,7 +921,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1086,7 +957,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       *{" "}
                     </span>
                   </Form.Label>
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     placeholder="Select no. of floor"
                     style={{
@@ -1111,7 +982,44 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                         {u.bank_name}
                       </option>
                     ))}
+                  </Form.Select> */}
+
+
+
+
+                  <Form.Select
+                    aria-label="Default select example"
+                    placeholder="Select no. of floor"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                    id="form-selects"
+                    className="border"
+                    value={account}
+                    onChange={(e) => handleAccount(e)}
+                    disabled={currentItem}
+                  >
+                    <option value="">Select Account</option>
+                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
+                      state.bankingDetails.bankingList.banks.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.bank_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No accounts available
+                      </option>
+                    )}
                   </Form.Select>
+
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -1128,6 +1036,12 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       </label>
                     </div>
                   )}
+                   {netPaymentError && (
+                                            <div style={{ color: "red" }}>
+                                              <MdError />
+                                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {netPaymentError}</span>
+                                            </div>
+                                          )}
                 </div>
               )}
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
@@ -1165,6 +1079,22 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
               </div>
             </div>
           </Modal.Body>
+          {currentItem && isChangedError && (
+            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "13px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </label>
+            </div>
+          )}
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
               onClick={handleAddExpenses}

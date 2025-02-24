@@ -13,6 +13,7 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import close from '../Assets/Images/close.svg';
 import { FaBullseye } from 'react-icons/fa';
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 
 
 function SettingAmenities({ hostelid }) {
@@ -36,12 +37,16 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(true)
+    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
+    const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
+    const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
+     const [formFilled, setFormFilled] = useState(false);
+     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 
 
 
-
-
+  
 
 
 
@@ -65,25 +70,36 @@ function SettingAmenities({ hostelid }) {
     const handleToggle = (amenity) => {
         setSwitchStates((prevSwitchStates) => {
             const newChecked = !prevSwitchStates[amenity.id];
-
+    
             setIsChecked(newChecked);
+            setAmenityDetails(amenity);
+    
             return {
                 ...prevSwitchStates,
                 [amenity.id]: newChecked,
             };
         });
-
-        setAmenityDetails(amenity);
+    
+        // Open modal only when enabling the switch
+        if (!switchStates[amenity.id]) {
+            setIsDisplayRecurring(true);
+        }
     };
+    
 
 
 
 
     useEffect(() => {
-        if (isChecked === null) {
-            return;
-        }
-        if (!isChecked) {
+        if (isChecked === null) return;
+    
+        console.log("isChecked value:", isChecked);
+        
+        if (isChecked) {
+            setIsDisplayRecurring(true); 
+            setIsFormSubmitted(false);  
+        } else {
+           
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
@@ -92,16 +108,16 @@ function SettingAmenities({ hostelid }) {
                     hostel_id: state.login.selectedHostel_Id,
                     start_date: '0',
                     end_date: '0',
-                    am_id: amenityDetails.id,
+                    am_id: amenityDetails?.id, // Ensure amenityDetails is available
                 },
             });
-        } else {
-            setIsDisplayRecurring(true)
         }
     }, [isChecked]);
 
 
-
+    useEffect(() => {
+        console.log("isDisplayRecurring updated:", isDisplayRecurring);
+    }, [isDisplayRecurring]);
 
 
 
@@ -119,13 +135,6 @@ function SettingAmenities({ hostelid }) {
     };
 
 
-    //add amentities
-
-    // const handleOpenAmenities = () => {
-    //     setOpenAmenitiesForm(true)
-    //     setEditDetails('')
-    // }
-    //add amentities
     const [showPopup, setShowPopup] = useState(false);
 
     const handleOpenAmenities = () => {
@@ -143,8 +152,34 @@ function SettingAmenities({ hostelid }) {
         setOpenAmenitiesForm(false)
     }
 
+
+
+    const resetSwitchStates = () => {
+        setSwitchStates((prevSwitchStates) => {
+            const resetStates = {};
+            Object.keys(prevSwitchStates).forEach((key) => {
+                resetStates[key] = false;
+            });
+            return resetStates;
+        });
+    };
+
+
+
+
+
+
     const handleCloseRecurringPopUp = () => {
-        setIsDisplayRecurring(false)
+        setIsDisplayRecurring(false);
+
+        // Reset switch back to false if no form submission
+        setSwitchStates((prev) => ({
+            ...prev,
+            [amenityDetails?.id]: false,
+        }));
+
+
+
     }
 
 
@@ -175,29 +210,29 @@ function SettingAmenities({ hostelid }) {
     }
 
     useEffect(() => {
-        const initialSwitchStates = amenitiesList.reduce((acc, amenity) => {
+        const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
             acc[amenity.id] = amenity.recuring === 1;
             return acc;
         }, {})
         setSwitchStates(initialSwitchStates);
-    }, [amenitiesList])
+    }, [amenitiesFilterddata])
 
 
 
 
     useEffect(() => {
-        if (state.login.selectedHostel_Id) {
+        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-        }
     }, [state.login.selectedHostel_Id])
 
 
 
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
+
+            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
             setLoading(false)
-            setAmenitiesList(state.InvoiceList.AmenitiesList)
+
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
             }, 2000)
@@ -205,7 +240,30 @@ function SettingAmenities({ hostelid }) {
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
 
-  
+
+    useEffect(() => {
+        if (state.InvoiceList.alreadyAssignAmenitiesStatusCode == 201) {
+            setDeleteAmenities(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ALREADY_ASSIGN_ERROR' })
+            }, 200)
+        }
+
+    }, [state.InvoiceList.alreadyAssignAmenitiesStatusCode])
+
+
+
+    useEffect(() => {
+        if (state.InvoiceList.errorAmenities) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ERROR_AMENITIES' })
+            }, 200)
+
+        }
+
+    }, [state.InvoiceList.errorAmenities])
+
 
 
     useEffect(() => {
@@ -270,11 +328,33 @@ function SettingAmenities({ hostelid }) {
     }, [state.InvoiceList?.deleteAmenitiesSuccessStatusCode])
 
 
+    // pagination
+    const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
+    const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
+    const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
 
+    const handlePageChange = (generalpageNumber) => {
+        setAmenitiescurrentPage(generalpageNumber);
+    };
 
+    const handleItemsPerPageChange = (event) => {
+        setAmenitiesrowsPerPage(Number(event.target.value));
+    };
+
+    const totalPagesGeneral = Math.ceil(
+        amenitiesFilterddata?.length / amenitiesrowsPerPage
+    );
+
+    console.log("data", amenitiesFilterddata);
+    
+    console.log("switchStates", switchStates)
 
     return (
-        <div className="container">
+        <div className="container"
+            style={{
+                position: "relative", maxHeight: "500px",
+                overflowY: "auto",
+            }}>
             <div className='d-flex justify-content-between align-items-center'
                 style={{
                     display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
@@ -285,15 +365,30 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                <div>
+                <div style={{ marginTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div>
                     <Button
                         onClick={handleOpenAmenities}
+                        // style={{
+                        //     fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
+                        //     fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                        // }}
                         style={{
-                            fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-                            fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: "8px",
+                            padding: "11px 35px",
+                            paddingLeft: 34,
+                            width: "auto",
+                            maxWidth: "100%",
+                            maxHeight: 50,
+                            marginTop: 5
+
                         }}
                         disabled={showPopup}
                     >
@@ -305,24 +400,26 @@ function SettingAmenities({ hostelid }) {
 
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding Amentities information.
                     </p>
 
-                   
+
 
                 </div>
 
 
             )}
 
-            <div className='container mt-4 mb-3' style={{position:"relative"}}>
+            <div className='container mt-4 mb-3' style={{ position: "relative" }}>
 
 
                 <div className='row row-gap-3'>
-                    {
-                        amenitiesList.length > 0 ? amenitiesList.map((amenity, index) => (
 
+
+                    {/* { amenitiesList.length > 0 ? amenitiesList.map((amenity, index) => ( */}
+                    {currentRowAmenities && currentRowAmenities.length > 0 ? (
+                        currentRowAmenities.map((amenity, index) => (
 
                             <div className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
@@ -333,7 +430,15 @@ function SettingAmenities({ hostelid }) {
                                             </div>
                                             <div>
 
-                                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
+                                                <div style={{
+                                                    cursor: "pointer", height: 40,
+                                                    width: 40, borderRadius: 100,
+                                                    border: "1px solid #EFEFEF", display: "flex",
+                                                    justifyContent: "center", alignItems: "center",
+                                                    position: "relative",
+                                                    zIndex: showDots ? 1000 : 'auto',
+                                                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                                                }}
                                                     onClick={() => handleDotsClick(index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
@@ -458,8 +563,9 @@ function SettingAmenities({ hostelid }) {
                                                 <div>
                                                     <Form.Check
                                                         type="switch"
+                                                        style={{ boxShadow: "none" ,cursor:"pointer"}}
                                                         label="Recurring"
-                                                        checked={switchStates[amenity.id] || false}
+                                                        checked={switchStates[amenity.id] }
 
                                                         onChange={() => handleToggle(amenity)}
                                                     />
@@ -489,13 +595,13 @@ function SettingAmenities({ hostelid }) {
                             </div>
                         ))
 
-                            : !loading &&
+                    ) : !loading &&
 
-                            <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
-                                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                                <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
+                    <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
+                        <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                        <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
 
-                            </div>
+                    </div>
 
 
 
@@ -512,31 +618,31 @@ function SettingAmenities({ hostelid }) {
 
 
                 {loading &&
-                <div
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        display: 'flex',
-                        height:"50vh",
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
                     <div
                         style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
+                            position: 'fixed',
+                   right: "30%",
+                            display: 'flex',
+                            height: "50vh",
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
                         }}
-                    ></div>
-                </div>
-            }
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>
+                }
 
 
 
@@ -546,7 +652,111 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-           
+            {amenitiesFilterddata.length >= 2 && (
+                <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+                    {/* Dropdown for Items Per Page */}
+                    <div>
+                        <select
+                            value={amenitiesrowsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            style={{
+                                padding: "5px",
+                                border: "1px solid #1E45E1",
+                                borderRadius: "5px",
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                outline: "none",
+                                boxShadow: "none",
+                            }}
+                        >
+                            <option value={2}>2</option>
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
+
+                    {/* Pagination Controls */}
+                    <ul
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            listStyleType: "none",
+                            margin: 0,
+                            padding: 0,
+                        }}
+                    >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                                    cursor: amenitiescurrentPage === 1 ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(amenitiescurrentPage - 1)}
+                                disabled={amenitiescurrentPage === 1}
+                            >
+                                <ArrowLeft2
+                                    size="16"
+                                    color={amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                                />
+                            </button>
+                        </li>
+
+                        {/* Current Page Indicator */}
+                        <li
+                            style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+                        >
+                            {amenitiescurrentPage} of {totalPagesGeneral}
+                        </li>
+
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color:
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1",
+                                    cursor:
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "not-allowed"
+                                            : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(amenitiescurrentPage + 1)}
+                                disabled={amenitiescurrentPage === totalPagesGeneral}
+                            >
+                                <ArrowRight2
+                                    size="16"
+                                    color={
+                                        amenitiescurrentPage === totalPagesGeneral
+                                            ? "#ccc"
+                                            : "#1E45E1"
+                                    }
+                                />
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            )}
 
 
 
@@ -556,7 +766,7 @@ function SettingAmenities({ hostelid }) {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={hostelid} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} />
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted = {setIsFormSubmitted} isFormSubmitted = {isFormSubmitted}/>
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />

@@ -31,7 +31,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   useEffect(() => {
     dispatch({
       type: 'GETASSIGNAMENITIES', payload: {
-        hostel_id: state.login.Settings_Hostel_Id,
+        hostel_id: state.login.selectedHostel_Id,
         am_id: assignAmenitiesDetails.id,
       }
     })
@@ -59,10 +59,17 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.Settings_Hostel_Id,
+          hostel_id: state.login.selectedHostel_Id,
           am_id: assignAmenitiesDetails.id,
         }
       })
+
+
+      setTimeout(()=>{
+        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE'})
+      },100)
+
+
     }
     setAssignedCheckedUsers([])
 
@@ -74,10 +81,16 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200) {
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.Settings_Hostel_Id,
+          hostel_id: state.login.selectedHostel_Id,
           am_id: assignAmenitiesDetails.id,
         }
       })
+
+      setTimeout(()=>{
+        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE'})
+      },100)
+
+
     }
     setUnassignedCheckedUsers([])
 
@@ -112,7 +125,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
 
 
 
-    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
   }
 
 
@@ -123,7 +136,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
       return;
     }
 
-    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.Settings_Hostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
+    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
 
   }
 
@@ -134,20 +147,22 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
     <div
       className="modal show"
       style={{
-        display: 'block', position: 'initial'
+        display: 'block',
       }}
     >
-      <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities">
+      <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities" style={{border:"none"}}>
         <Modal.Dialog style={{
           maxWidth: 1000,
           width: '100%',
+          position:"fixed",
+          top:100
 
         }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Assign Amenities</Modal.Title>
-            <CloseCircle size="24" color="#000" onClick={handleClose} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{border:"none"}}>
             {errorAssign && (
               <div className="d-flex align-items-center mt-1 mb-2">
                 <MdError style={{ color: 'red', marginRight: '5px' }} />
@@ -177,11 +192,11 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" style={{ cursor: "pointer", boxShadow: "none" }}
+                              <Form.Check aria-label="option 1" 
 
                                 checked={assignedCheckedUsers.includes(list.user_id)}
                                 onChange={() => handleAssignedCheckboxChange(list.user_id)}
-
+                                style={{ cursor: "pointer", boxShadow: "none" }}
                               />
                             </div>
                           </div>

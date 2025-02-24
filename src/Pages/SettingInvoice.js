@@ -24,6 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import close from '../Assets/Images/close.svg';
+import Select from "react-select";
 
 function SettingInvoice({ hostelid }) {
 
@@ -33,7 +34,9 @@ function SettingInvoice({ hostelid }) {
 
   const [invoice, setSetinvoice] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [invoicedueDate, setInvoiceDueDate] = useState(null);
+
+  const [invoiceDate, setInvoiceDate] = useState('');
+  const [invoicedueDate, setInvoiceDueDate] = useState('');
 
   const [selectedHostel, setSelectedHostel] = useState({ id: "", name: "" });
   const [showTable, setShowTable] = useState(false);
@@ -74,7 +77,10 @@ function SettingInvoice({ hostelid }) {
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
-const [InvoiceList, setInvoiceList] = useState([])
+  const [InvoiceList, setInvoiceList] = useState([]);
+  const [formFilled, setFormFilled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); 
+
 
 
   useEffect(() => {
@@ -114,15 +120,11 @@ const [InvoiceList, setInvoiceList] = useState([])
     }
   }, [billrolePermission]);
 
-  // useEffect(() => {
-  //     dispatch({ type: 'HOSTELLIST' })
-  // }, [])
-
   useEffect(() => {
-    if (hostelid) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
-    }
-  }, [hostelid]);
+    // if (state.login.selectedHostel_Id) {
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    // }
+  }, [state.login.selectedHostel_Id]);
 
   console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
   useEffect(() => {
@@ -210,19 +212,31 @@ const [InvoiceList, setInvoiceList] = useState([])
     }
   };
 
-
-
   const handleEdit = (item) => {
+    console.log("item", item);
+    setTotalErrmsg("");
+    setPrefix(item.prefix);
+    setStartNumber(item.suffix);
+    setInvoiceDate(item.inv_date)
+    setInvoiceDueDate(item.due_date)
+
+    setEdit(true);
+    setShowForm(true);
     setShow(true);
     setEditPrefix(item.prefix);
     setEditStartnumber(item.suffix);
     setEditHostel({ id: item.id, name: item.Name });
 
+    // Save initial values for editing
     initialValuesRef.current = {
       editprefix: item.prefix,
       editstartnumber: item.suffix,
+      editinvoicedate: item.inv_date,
+      editduedate : item.due_date
     };
   };
+
+
 
   let hasChanges =
     editprefix !== initialValuesRef.current.editprefix ||
@@ -244,82 +258,75 @@ const [InvoiceList, setInvoiceList] = useState([])
 
 
   const handleInvoiceSettings = () => {
-
-    const isPrefixValid =
-      prefix !== undefined && prefix !== null && prefix !== "";
-    const isStartNumberValid =
-      startNumber !== undefined && startNumber !== null && startNumber !== "";
+    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
+    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== "";
     const isSelectedImageValid = selectedImage !== null;
-
-
-
-    if (!isPrefixValid || !isStartNumberValid || !selectedDate || !invoicedueDate) {
-
+  
+    if (!isPrefixValid || !isStartNumberValid || !invoiceDate || !invoicedueDate) {
       if (!isPrefixValid) {
         setPrefixErrmsg("Please enter Prefix");
       }
-
       if (!isStartNumberValid) {
-        setSuffixfixErrmsg("Please Enter Suffix")
+        setSuffixfixErrmsg("Please Enter Suffix");
       }
-      if (!selectedDate) {
-        setInvoiceDateErrmsg("Please Select Invoice Date")
+      if (!invoiceDate) {
+        setInvoiceDateErrmsg("Please Select Date");
+        
       }
       if (!invoicedueDate) {
-        setDueDateErrmsg("Please Select Due Date")
+        setDueDateErrmsg("Please Select Date");
       }
-
       return;
     }
-
-
-
-    if (isPrefixValid && isStartNumberValid && hostelid && selectedDate && invoicedueDate) {
+  
+    // Check if any changes were made
+    if (
+      edit && 
+      prefix === initialValuesRef.current.editprefix &&
+      startNumber === initialValuesRef.current.editstartnumber &&
+      invoiceDate === initialValuesRef.current.editinvoicedate &&
+      invoicedueDate === initialValuesRef.current.editduedate 
+    ) {
+      setTotalErrmsg("No changes detected.");
+      return;
+    }
+  
+    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && invoiceDate && invoicedueDate) {
       const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');
       const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');
-
+  
       dispatch({
         type: "INVOICESETTINGS",
-        payload: { hostel_Id: hostelid, prefix: prefix, suffix: startNumber, inv_date: formattedInvoiceDate, due_date: formattedDueDate }
+        payload: {
+          hostel_Id: state.login.selectedHostel_Id,
+          prefix: prefix,
+          suffix: startNumber,
+          inv_date: invoiceDate,
+          due_date: invoicedueDate
+        }
       });
-
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
-
+  
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+  
       setShowForm(false);
       setPrefix("");
       setStartNumber("");
-      setSelectedDate('')
-      setInvoiceDueDate('')
-
-
+      setSelectedDate("");
+      setInvoiceDueDate("");
+      setTotalErrmsg("");
+    } else {
+      setSelectedDate("");
+      setInvoiceDueDate("");
     }
-
-    else {
-      setSelectedDate('')
-      setInvoiceDueDate('')
-    }
-    // else if (isPrefixValid &&isStartNumberValid  && hostelid) {
-    //   dispatch({type: "INVOICESETTINGS",payload: { hostel_Id: hostelid, prefix: prefix,suffix: startNumber} });
-
-    //   dispatch({ type: "HOSTELLIST" });
-
-    //   setShowForm(false);
-    //   setPrefix("");
-    //   setStartNumber("");
-    //   setSelectedImage("");
-    //   setSelectedDate('')
-    //   setInvoiceDueDate('')
-    // }
-
-
   };
+  
 
 
 
   useEffect(() => {
     if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setSelectedDate('')
       setInvoiceDueDate('')
 
@@ -333,18 +340,46 @@ const [InvoiceList, setInvoiceList] = useState([])
 
 
   useEffect(() => {
-    const filteredHostels = state.UsersList?.hotelDetailsinPg?.filter(
-      (item) => item.id === Number(selectedHostel.id)
+    if (!state.UsersList?.hotelDetailsinPg) return; 
+  
+    const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+      (item) => item.id === Number(hostelid)
     );
-
-
+  
     if (filteredHostels.length > 0) {
+      const recureEnable = filteredHostels[0]?.recure === 1;
+      setIsChecked(recureEnable);
+      console.log("recure", filteredHostels[0]?.recure);
+  
       const profileURL = filteredHostels[0]?.profile;
       setLogo(profileURL);
     } else {
       setLogo(Logo);
     }
-  }, [selectedHostel]);
+  }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
+
+  
+  
+
+
+  useEffect(() => {
+  if (state.UsersList?.hotelDetailsinPg) {
+    setTimeout(() => {
+      const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
+        (item) => item.id === Number(hostelid)
+      );
+
+      if (filteredHostels.length > 0) {
+        setIsChecked(filteredHostels[0]?.recure === 1);
+        setLogo(filteredHostels[0]?.profile);
+      } else {
+        setLogo(Logo);
+      }
+    }, 500); 
+  }
+}, [state.UsersList?.hotelDetailsinPg, hostelid]);
+
+  console.log("recure",isChecked);
 
   const rowsPerPage = 10;
 
@@ -418,15 +453,15 @@ const [InvoiceList, setInvoiceList] = useState([])
     return pageNumbers;
   };
 
-  
 
-  const handlestartDateChange = (e) => {
-    setCalculatedstartdate(e.target.value);
-  };
 
-  const handleEndDateChange = (e) => {
-    setCalculatedEnddate(e.target.value);
-  };
+  // const handlestartDateChange = (e) => {
+  //   setCalculatedstartdate(e.target.value);
+  // };
+
+  // const handleEndDateChange = (e) => {
+  //   setCalculatedEnddate(e.target.value);
+  // };
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value)
@@ -447,7 +482,7 @@ const [InvoiceList, setInvoiceList] = useState([])
 
     dispatch({
       type: "SETTINGSADDRECURRING",
-      payload: { hostel_id: Number(hostelid), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
+      payload: { hostel_id: Number(state.login.selectedHostel_Id), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
     });
     setRecurringForm(false);
   }
@@ -455,27 +490,20 @@ const [InvoiceList, setInvoiceList] = useState([])
 
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostelid } });
+      setCalculatedstartdate("")
+      setCalculatedEnddate("")
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
       }, 100)
     }
   }, [state.InvoiceList.settingsaddRecurringStatusCode])
 
-  //add invoice
-  // const handleShow = () => {
-  //   setShowForm(true);
-  //   setEdit(false);
-  // };
-  // useEffect(() => {
-  //   console.log("showForm state:", showform);
-  // }, [showform]);
 
   const [showPopup, setShowPopup] = useState(false);
   const handleShow = () => {
 
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       setShowPopup(true);
       return;
     }
@@ -491,6 +519,7 @@ const [InvoiceList, setInvoiceList] = useState([])
     setSuffixfixErrmsg('')
     setInvoiceDateErrmsg('')
     setDueDateErrmsg('')
+    setTotalErrmsg("");
     setPrefix('')
     setStartNumber('')
     setSelectedDate('')
@@ -500,17 +529,32 @@ const [InvoiceList, setInvoiceList] = useState([])
   const handleRecurringFormShow = (item) => {
     setRecurringForm(true);
 
-    // setCalculatedstartdate(item.inv_startdate || '')
-    // setCalculatedEnddate(item.inv_enddate || '')
   };
 
+  // const handleCloseRecurringForm = () => {
+  //   setRecurringForm(false);
+  //   setCalculatedstartdateErrmsg('')
+  //   setCalculatedEnddateErrMsg('')
+  //   setCalculatedstartdate('')
+  //   setCalculatedEnddate('')
+  // };
+
+  
+
   const handleCloseRecurringForm = () => {
+    // Close form WITHOUT calling API
     setRecurringForm(false);
     setCalculatedstartdateErrmsg('')
     setCalculatedEnddateErrMsg('')
     setCalculatedstartdate('')
     setCalculatedEnddate('')
-  };
+
+    if (!formFilled) {
+        setIsChecked(false); // Reset switch only if no data entered
+    }
+
+    setFormFilled(false);
+};
 
 
   const handleEditInvoice = (editData) => {
@@ -588,19 +632,56 @@ const [InvoiceList, setInvoiceList] = useState([])
     </div>
   ));
 
-useEffect(()=>{
-  if(state?.UsersList?.statuscodeForhotelDetailsinPg == 200){
-    setInvoiceList(state?.UsersList?.hotelDetailsinPg)
-    setLoading(false)
-    setTimeout(()=>{
-dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
-    },1000)
-  }
+  useEffect(() => {
+    if (state?.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+      setInvoiceList(state?.UsersList?.hotelDetailsinPg)
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE' })
+      }, 1000)
+    }
 
-},[state?.UsersList?.statuscodeForhotelDetailsinPg])
+  }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
+  console.log("UsersListSTATUSCODE", state?.UsersList?.statuscodeForhotelDetailsinPg);
 
 
+  useEffect(() => {
+    if (InvoiceList.length == 0) {
+      setLoading(true)
+    }
+    else if (InvoiceList && InvoiceList?.every(
+      (item) =>
+        (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+        (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+    )) {
+      setLoading(false)
+    }
+  }, [InvoiceList])
 
+
+  console.log("InvoiceList:", InvoiceList);
+
+  // start date change
+  const options = Array.from({ length: 31 }, (_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  }));
+
+  const handleInvoiceStartDateChange = (selectedOption) => {
+    setTotalErrmsg("");
+    setInvoiceDate(selectedOption?.value);
+  };
+  const handleInvoiceEndDateChange = (selectedOption) => {
+    setTotalErrmsg("");
+    setInvoiceDueDate(selectedOption?.value);
+  };
+
+  const handleStartDateChange = (selectedOption) => {
+    setCalculatedstartdate(selectedOption?.value);
+  };
+  const handleEndDateChange = (selectedOption) => {
+    setCalculatedEnddate(selectedOption?.value);
+  };
 
 
   return (
@@ -611,7 +692,10 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
         <div
           style={{
             position: 'absolute',
-            inset: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
             display: 'flex',
             height: "50vh",
             alignItems: 'center',
@@ -641,103 +725,105 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
-        height: 83,
+        // height: 83, 
+        marginTop: 5
       }}>
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
-        <div></div>
-        <Button onClick={handleShow} style={{
-          fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-          fontWeight: 600, borderRadius: 8, padding: "12px 16px 12px 16px",
-        }}
-          disabled={showPopup}
-        >+ Invoice</Button>
+
+
+        {InvoiceList && InvoiceList.length > 0 ? (
+          InvoiceList.map((list) => {
+            const isDefaultPrefixSuffix =
+              (!list.prefix || list.prefix === 'null' || list.prefix === null || list.prefix === 0) &&
+              (!list.suffix || list.suffix === 'null' || list.suffix === null || list.suffix === 0);
+
+            return isDefaultPrefixSuffix ? (
+              <button
+                key={`add-invoice-${list.id}`}
+                onClick={handleShow}
+                // style={{
+                //   border: "none",
+                //   fontFamily: "Gilroy",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   padding: "12px 16px",
+                // }}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "8px 10px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  marginBottom: "10px",
+                  maxHeight: 50,
+                  marginTop: "-7px",
+               boxShadow:"none",
+                  border: "2px solid #1E45E1" 
+                }}
+                disabled={showPopup}
+              >
+                + Invoice
+              </button>
+            ) : (
+              <button
+                key={`edit-invoice-${list.id}`}
+                onClick={() => handleEdit(list)}
+                // style={{
+                //   border: "none",
+                //   fontFamily: "Gilroy",
+                //   fontSize: 14,
+                //   backgroundColor: "#1E45E1",
+                //   color: "white",
+                //   fontWeight: 600,
+                //   borderRadius: 8,
+                //   padding: "12px 16px",
+                // }}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "10px 34px",
+                  width: "auto",
+                  maxWidth: "100%",
+                  marginBottom: "10px",
+                  maxHeight: 50,
+                  marginTop: "-7px",
+                  // borderColor: "#1E45E1",
+                  border: "2px solid #1E45E1" 
+                  // border: "none",
+                }}
+              >
+                Edit Invoice
+              </button>
+            );
+          })
+        ) : null}
+
+
+
+
+
+
+
+
       </div>
 
       {showPopup && (
         <div className="d-flex flex-wrap">
-          <p style={{ color: "red" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            !Please add a hostel before adding Invoice information.
+          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            Please add a hostel before adding Invoice information.
           </p>
-
-
-        </div>
-
-
-      )}
-
-
-      {/* <div>
-  {invoice.length === 0 && !(state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0) ? (
-    <div className="emptystate">
-                <div className="d-flex justify-content-center">
-                  <img
-                    src={EmptyState}
-                    style={{ height: 240, width: 240 }}
-                    alt="Empty state"
-                  />
-                </div>
-                <div
-                  className="pb-1 mt-3"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Electricity available
-                </div>
-              </div>
-  ) : null}
-</div> */}
-
-      {/* <div>
-     {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
-      .filter(item => item.prefix || item.suffix) 
-      .map((item) => (
-        
-        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-          <InvoiceSettingsList item={item}  handleRecurringFormShow={handleRecurringFormShow} 
-            OnEditInvoice={handleEditInvoice}
-          />
-        </div>
-      ))}
-</div> */}
-
-
-      {/* <div>
-  {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 ? (
-    state.UsersList.hostelList
-      .filter(item => {
-        const isValidPrefix = item.prefix && item.prefix !== 'null' && item.prefix !== null && item.prefix !== 0;
-        const isValidSuffix = item.suffix && item.suffix !== 'null' && item.suffix !== null && item.suffix !== 0;
-        console.log('Item:', item, 'isValidPrefix:', isValidPrefix, 'isValidSuffix:', isValidSuffix);
-        return isValidPrefix || isValidSuffix;
-      })
-      .map((item) => (
-        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-          <InvoiceSettingsList 
-            item={item}  
-            handleRecurringFormShow={handleRecurringFormShow} 
-            OnEditInvoice={handleEditInvoice} 
-          />
-        </div>
-      ))
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-      </div>
-      <div 
-        className="pb-1 mt-3" 
-        style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}
-      >
-        No Invoice available
-      </div>
-    </div>
-  )}
-</div> */}
+        </div>)}
 
       <div>
         {InvoiceList && InvoiceList.length > 0 ? (
@@ -776,8 +862,13 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                 <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
                   <InvoiceSettingsList
                     item={item}
-                    handleRecurringFormShow={handleRecurringFormShow}
-                    OnEditInvoice={handleEditInvoice}
+                    isChecked={isChecked} // Pass controlled state
+            setIsChecked={setIsChecked} // Allow child to update toggle
+            handleRecurringFormShow={handleRecurringFormShow}
+            handleCloseRecurringForm={handleCloseRecurringForm}
+            setFormFilled={setFormFilled}
+                    setRecurringForm={setRecurringForm}
+                  // OnEditInvoice={handleEditInvoice}
                   />
                 </div>
               ))
@@ -845,11 +936,13 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                 <div className="row mt-1">
                   <div className="d-flex row ">
                     <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
-                          Prefix </Form.Label>
+                          Prefix
+                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                        </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
@@ -865,14 +958,14 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                         <div>
                           <p
                             style={{
-                              fontSize: "15px",
+                              fontSize: "13px",
                               color: "red",
-                              // marginBottom: "15px",
+                              
                             }}
                           >
                             {prefixerrormsg !== " " && (
                               <MdError
-                                style={{ fontSize: "15px", color: "red" }}
+                                style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
                               />
                             )}{" "}
                             {prefixerrormsg}
@@ -884,13 +977,14 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
 
                     <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
                       <Form.Group
-                        className="mb-3"
+                        className="mb-1"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
                         >
                           Suffix
+                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
                         </Form.Label>
                         <Form.Control
                           style={{
@@ -916,14 +1010,14 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                           <div>
                             <p
                               style={{
-                                fontSize: "15px",
+                                fontSize: "13px",
                                 color: "red",
                                 marginTop: "3px",
                               }}
                             >
                               {suffixerrormsg !== " " && (
                                 <MdError
-                                  style={{ fontSize: "15px", color: "red" }}
+                                  style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
                                 />
                               )}{" "}
                               {suffixerrormsg}
@@ -951,7 +1045,6 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                           fontStyle: "normal",
                           lineHeight: "normal",
                         }}
-                      // style={labelStyle}
                       >
                         Preview
                       </Form.Label>
@@ -976,46 +1069,73 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                     </Form.Group>
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
+               
+
+
+                  <div class="mb-3 d-flex row">
+                    <div className="col-lg-8">
+                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date 
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceStartDateChange}
+                        value={options.find((option) => option.value === invoiceDate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" 
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                      >
-                        Invoice date
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-                        <DatePicker
-                          selected={selectedDate}
-                          onChange={(date) => setSelectedDate(date)}
-                          dateFormat="dd/MM/yyyy"
-                          customInput={
-                            React.createElement(customDateInput, {
-                              value: selectedDate
-                                ? selectedDate.toLocaleDateString("en-GB")
-                                : "",
-                            })
-                          }
-                        />
-
-
-
-
-                      </div>
-                    </Form.Group>
-
+                      />
+                    </div>
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                         <label
                           className="mb-0"
                           style={{
                             color: "red",
-                            fontSize: "12px",
+                            fontSize: "13px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
@@ -1024,50 +1144,85 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                         </label>
                       </div>
                     )}
+                     
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
+                  <div class="mb-3 d-flex row">
+                    <div className="col-lg-8">
+                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date 
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceEndDateChange}
+                        value={options.find((option) => option.value === invoicedueDate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            overflowY: "auto",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                      >
-                        Due date
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-
-                        <DatePicker
-                          selected={invoicedueDate}
-                          onChange={(date) => setInvoiceDueDate(date)}
-                          dateFormat="dd/MM/yyyy"
-                          customInput={
-                            React.createElement(customDateInput, {
-                              value: invoicedueDate
-                                ? invoicedueDate.toLocaleDateString("en-GB")
-                                : "",
-                            })
-                          }
-                        />
-
-
-
-
-
+                      />
+                    </div>
+                    {/* {duedateerrmsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
+                        >
+                          {duedateerrmsg !== " " && (
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
+                          )}{" "}
+                          {duedateerrmsg}
+                        </p>
                       </div>
-                    </Form.Group>
+                    )} */}
 
-                    {duedateerrmsg.trim() !== "" && (
+{duedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                         <label
                           className="mb-0"
                           style={{
                             color: "red",
-                            fontSize: "12px",
+                            fontSize: "13px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
@@ -1076,6 +1231,7 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                         </label>
                       </div>
                     )}
+
                   </div>
 
 
@@ -1083,16 +1239,16 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
 
 
                   {totalErrormsg.trim() !== "" && (
-                    <div>
+                    <div className="text-center">
                       <p
                         style={{
                           fontSize: "15px",
                           color: "red",
-                          marginTop: "3px",
+                          marginTop: "13px",
                         }}
                       >
                         {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "15px", color: "red" }} />
+                          <MdError style={{ fontSize: "12px", color: "red",marginBottom:"2px" }} />
                         )}{" "}
                         {totalErrormsg}
                       </p>
@@ -1113,11 +1269,11 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                     fontFamily: "Gilroy",
                     fontStyle: "normal",
                     lineHeight: "normal",
+                    marginTop:"-23px"
                   }}
                   onClick={handleInvoiceSettings}
                 >
-                  Add Invoice
-                  {/* {edit ? "Save invoice" : "Add invice"} */}
+                   {edit ? "Update Invoice" : "Add Invoice "}
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>
@@ -1142,6 +1298,7 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
             show={recurringform}
             onHide={handleCloseRecurringForm}
             centered
+            className="custom-modal"
             backdrop="static"
           >
             <Modal.Dialog
@@ -1199,34 +1356,72 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
                       </span>
                     </button>
 
-                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                   </Modal.Header>
                 </div>
 
                 <div className="row mt-1">
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
                     </div>
+
                     <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedstartdate}
-                        onChange={handlestartDateChange}
-                      >
-                        <option value="">Select</option>
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
+                      <Select
+                        options={options}
+                        onChange={handleStartDateChange}
+                        value={options.find((option) => option.value === calculatedstartdate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px", fontFamily:"Gilroy" }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1236,26 +1431,66 @@ dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE'})
 
                   <div class="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be</label>
+                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </label>
                     </div>
+
                     <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedenddate}
+                      <Select
+                        options={options}
                         onChange={handleEndDateChange}
-                      >
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
+                        value={options.find((option) => option.value === calculatedenddate)}
+                        placeholder="Select"
+                        classNamePrefix="custom" // Prefix for custom styles
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            overflowY: "auto",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy"}}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "15px", color: "red" }} />
+                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

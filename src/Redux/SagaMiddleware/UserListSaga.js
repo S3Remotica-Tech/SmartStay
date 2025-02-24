@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, deleteBed, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument } from "../Action/UserListAction"
+import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, deleteBed, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,9 +9,12 @@ import { RepeatOneSharp } from "@mui/icons-material";
 
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
-
    if (response.status === 200 ) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
+   }
+
+   else if (response.status === 201 || response.data.statusCode === 201){
+      yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -20,9 +23,75 @@ function* handleuserlist(user) {
       refreshToken(response)
    }
 }
+
+
+function* handleDeleteCustomer(customer) {
+   const response = yield call(deleteCustomer,customer.payload);
+
+ 
+   
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+   };
+
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode} })
+  
+      toast.success('Deleted successfully!', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
+    
+   }
+      else if (response.status === 201 || response.statusCode === 201){
+      toast.error('Cannot delete, bed already assigned.', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+               });
+      // yield put({ type: 'DELETE_CUSTOMER_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+   }
+   else {
+      // yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
+
+
+
+
+
+
 function* handleHostelList(hostel) {
    const response = yield call(hostelList, hostel.payload)
-   console.log("handleHostelList",response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -37,7 +106,6 @@ function* handleHostelList(hostel) {
 
 function* handleAllHostelList(action) {
    const response = yield call(hostelList, action.payload)
-   console.log("handleAllHostelList",response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -158,162 +226,6 @@ function* handleRoomsDetails(ID) {
 }
 
 
-
-// function* handleAddUser(datum) {
-//    try {
-//      const response = yield call(addUser, datum.payload);
-
-//      // Define toastStyle within the try block to ensure it is accessible where needed
-//      const toastStyle = {
-//        position: 'fixed',
-//        display: 'flex',
-//        alignItems: 'center',
-//        justifyContent: 'center',
-//        top: '50%',
-//        left: '50%',
-//        transform: 'translate(-50%, -50%)',
-//        zIndex: 9999, // Ensures it appears above other elements
-//        backgroundColor: 'green', // Background color red
-//        color: 'white', // Text color white
-//      };
-
-//      if (response.statusCode === 200 || response.status === 200) {
-//        yield put({
-//          type: 'ADD_USER',
-//          payload: { response: response.message, statusCode: response.statusCode || response.status },
-//        });
-
-//        toast.success(response.message, {
-//          position: "top-right",
-//          autoClose: 5000, // Duration in milliseconds
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//          style: toastStyle, // Applying the defined style
-//        });
-
-//      } else if (response.statusCode === 202) {
-//        toast.warn(`Phone number ${datum.payload.Phone} already exists in the database`, {
-//          position: "top-right",
-//          autoClose: 5000,
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//          style: toastStyle, // Applying the defined style
-//        });
-
-//      } else if (response.statusCode === 203) {
-//        toast.warn(`Email ${datum.payload.Email} already exists in the database`, {
-//          position: "top-right",
-//          autoClose: 5000,
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//          style: toastStyle, // Applying the defined style
-//        });
-//      }
-
-//      // Handle token refresh if needed
-//      if (response) {
-//        refreshToken(response);
-//      }
-
-//    } catch (error) {
-//      console.error("Error adding user:", error);
-//      toast.error("An error occurred while adding the user.", {
-//        position: "top-right",
-//        autoClose: 5000,
-//        hideProgressBar: false,
-//        closeOnClick: true,
-//        pauseOnHover: true,
-//        draggable: true,
-//        progress: undefined,
-//        style: {
-//          position: 'fixed',
-//          display: 'flex',
-//          alignItems: 'center',
-//          justifyContent: 'center',
-//          top: '50%',
-//          left: '50%',
-//          transform: 'translate(-50%, -50%)',
-//          zIndex: 9999, // Ensures it appears above other elements
-//          backgroundColor: 'red', // Background color red
-//          color: 'white', // Text color white
-//        },
-//      });
-//    }
-//  }
-
-
-
-
-// function* handleAddUser(datum) {
-//    try {
-//      const response = yield call(addUser, datum.payload);
-
-//      if (response.statusCode === 200 || response.status === 200) {
-//        yield put({
-//          type: 'ADD_USER',
-//          payload: { response: response.message, statusCode: response.statusCode || response.status },
-//        });
-
-//        toast.success(response.message, {
-//          position: "top-right",
-//          autoClose: 5000, // You can set your desired duration
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//        });
-
-//      } else if (response.statusCode === 202) {
-//        toast.warn(`Phone number ${datum.payload.Phone} is already exist in the database`, {
-//          position: "top-right",
-//          autoClose: 5000,
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//        });
-
-//      } else if (response.statusCode === 203) {
-//        toast.warn(`Email ${datum.payload.Email} is already exist in the database`, {
-//          position: "top-right",
-//          autoClose: 5000,
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: true,
-//          draggable: true,
-//          progress: undefined,
-//        });
-//      }
-
-//      // Handle token refresh if needed
-//      if (response) {
-//        refreshToken(response);
-//      }
-
-//    } catch (error) {
-//      console.error("Error adding user:", error);
-//      toast.error("An error occurred while adding the user.", {
-//        position: "top-right",
-//        autoClose: 5000,
-//        hideProgressBar: false,
-//        closeOnClick: true,
-//        pauseOnHover: true,
-//        draggable: true,
-//        progress: undefined,
-//      });
-//    }
-//  }
 
 function* handleAddUser(datum) {
    const response = yield call(addUser, datum.payload);
@@ -779,6 +691,7 @@ function* handleCountrylist() {
 
 function* handleGetWalkInCustomer(action) {
    const response = yield call(getWalkInCustomer, action.payload);
+  
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -877,7 +790,6 @@ function* handleDeleteWalkInCustomer(action) {
 
 function* handleCheckoutCustomer(action) {
    const response = yield call(getCheckOutCustomer, action.payload);
-
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CHECKOUT_CUSTOMER_LIST', payload: { response: response.data.checkout_details, statusCode: response.status || response.statusCode } })
    }
@@ -1241,6 +1153,9 @@ function* handleCustomerAddContact(action) {
            style: toastStyle,
         });
       }
+      else if (response.status === 201 || response.data.statusCode === 201) {
+         yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
+      }
     
       else {
          yield put ({type:'ERROR', payload:response.message})
@@ -1256,7 +1171,6 @@ function* handleCustomerAddContact(action) {
 
  function* handleCustomerAllDetails(action) {
    const response = yield call(customerAllContact,action.payload);
-   console.log("handleCustomerAllDetails",response)
    if (response.status === 200 || response.data.statusCode === 200) {
      yield put({ type: "CUSTOMER_ALL_DETAILS", payload: {response: response.data , statusCode: response.status || response.data.statusCode}  });
    } else {
@@ -1319,7 +1233,6 @@ function* handleCustomerAddContact(action) {
 
   function* handleGenerateAdvance(action) {
    const response = yield call(generateAdvance, action.payload);
- console.log("handleGenerateAdvance",response)
    var toastStyle = {
      backgroundColor: "#E6F6E6",
      color: "black",
@@ -1355,7 +1268,12 @@ function* handleCustomerAddContact(action) {
        progress: undefined,
        style: toastStyle,
      });
-   }  else {
+   }
+   else if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'GENERATE_ERROR', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+   }
+   
+   else {
      yield put({ type: 'ERROR', payload: response.data.message })
   }
    if (response) {
@@ -1367,7 +1285,6 @@ function* handleCustomerAddContact(action) {
 
  function* handleUploadDocument(data) {
    const response = yield call(uploadDocument, data.payload);
-console.log("handleUploadDocument",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -1400,6 +1317,9 @@ console.log("handleUploadDocument",response)
          style: toastStyle,
       });
    }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   }
    else {
       yield put ({type:'ERROR', payload:response.message})
    }
@@ -1415,7 +1335,6 @@ console.log("handleUploadDocument",response)
 
 function* handleUploadOtherDocument(data) {
    const response = yield call(uploadDocument, data.payload);
-console.log("handleUploadOtherDocument",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -1453,6 +1372,20 @@ console.log("handleUploadOtherDocument",response)
    }
 
    
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
+function* handlehostelDetailsId() {
+   const response = yield call(hostelDetailsId);
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'HOSTEL_ID_LIST', payload: response.data, statusCode: response.status || response.data.statusCode })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
    if (response) {
       refreshToken(response)
    }
@@ -1505,6 +1438,9 @@ function* UserListSaga() {
    yield takeEvery('UPLOADDOCUMENT', handleUploadDocument)
    yield takeEvery('UPLOADOTHERDOCUMENT', handleUploadOtherDocument)
 
+   yield takeEvery('DELETECUSTOMER', handleDeleteCustomer)
+
+   yield takeEvery('HOSTELIDDETAILS', handlehostelDetailsId)
 
 
 }

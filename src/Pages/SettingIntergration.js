@@ -9,9 +9,9 @@ import { Button } from "react-bootstrap";
 function SettingIntergration(){
     return(
         <>
-       <div class="container py-3">
-        <div>
-            <p style={{fontSize:"20",fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
+       <div class="container ">
+        <div style={{marginTop:25}}>
+            <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
         </div>
        <div className="row g-3">
   <div className="col-12 col-md-6">

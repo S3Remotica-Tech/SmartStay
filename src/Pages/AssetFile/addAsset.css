@@ -9,10 +9,13 @@
         border-radius: 8px;
 }
 .custom-modal .modal-content {
-  border-radius: 20px !important;
+  border-radius: 8px !important;
   
 }
 
+#AddAsset{
+  border-radius: 8;
+}
 .modal-content {
   position: relative;
   display: flex;

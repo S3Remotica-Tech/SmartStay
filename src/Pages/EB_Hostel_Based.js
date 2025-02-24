@@ -19,6 +19,8 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
+import moment from "moment";
+import { Loader } from "rsuite";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -38,16 +40,28 @@ function EBHostelReading(props) {
   const [hostelIdError, setHostelIdError] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
-  const [editeb, setEditEb] = useState(false);
+  
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
+   const [loading, setLoading] = useState(false)
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [dateErrorMesg,setDateErrorMesg] = useState("")
 
-  const handleShowActive = (eb_Id) => {
+
+
+  const handleShowActive = (eb_Id, event) => {
     if (activeRow === eb_Id) {
       setActiveRow(null);
     } else {
       setActiveRow(eb_Id);
     }
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
 
   useEffect(() => {
@@ -65,6 +79,7 @@ function EBHostelReading(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+ 
 
   const handleDeleteEb = (item) => {
     setDeleteForm(true);
@@ -73,14 +88,20 @@ function EBHostelReading(props) {
   const handleCloseDelete = () => {
     setDeleteForm(false);
   };
-
+//  useEffect(() => {
+//     dispatch({
+//       type: "CUSTOMEREBLIST",
+//       payload: { hostel_id: state.login.selectedHostel_Id },
+//     });
+   
+//   }, [state.login.selectedHostel_Id]);
   const handlehosetelDelete = () => {
     dispatch({
       type: "HOSTELBASEDDELETEEB",
       payload: { id: hosteldeleteId },
     });
   };
-
+console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCodeForDeleteHostelBased)
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteHostelBased === 200) {
       handleCloseDelete();
@@ -89,43 +110,47 @@ function EBHostelReading(props) {
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
       });
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_HOSTEL_BASED" });
+      }, 200);
+
     }
   }, [state.PgList.statusCodeForDeleteHostelBased]);
 
   const handleEditEb = (user) => {
-    setEditEb(true);
+    props.setEditEb(true);
     props.setHostelBasedForm(true);
     setHos_Name(user.hoatel_Name);
     setReading(user.reading);
     setSelectedHostel(selectedHostel);
     setEditId(user.eb_Id);
-    const formattedJoiningDate = user.date ? new Date(user.date) : null;
-
-    let localDate = null; // Declare localDate here
-
-    if (formattedJoiningDate) {
-      localDate = new Date(
-        formattedJoiningDate.getUTCFullYear(),
-        formattedJoiningDate.getUTCMonth(),
-        formattedJoiningDate.getUTCDate()
-      );
-
-      setSelectedDate(localDate);
-    }
+ setSelectedDate(user.date || "");
+          // const formattedJoiningDate = item.joining_date
+          //   ? new Date(item.joining_date)
+          //   : null;
+          // setJoiningDate(formattedJoiningDate);
+          setSelectedDate(
+            user.date ? moment(user.date).toDate("") : null
+          );
 
     setInitialStateAssign({
       // hos_Name: user.hoatel_Name || "",
       reading: user.reading || "",
-      selectedDate: localDate || "",
+      selectedDate: user.date || "",
     });
   };
 
+ 
   useEffect(() => {
     setDateError(state.PgList.dateAlready);
   }, [state.PgList.dateAlready]);
 
   useEffect(() => {
-    if (editeb) {
+    if (props.editeb) {
       setDateError(state.PgList.editDateAlready);
     }
   }, [state.PgList.editDateAlready]);
@@ -135,17 +160,13 @@ function EBHostelReading(props) {
     setHos_Name(props.hostelName);
   }, [props, state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
-  }, [selectedHostel]);
+
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
     setReadingError("");
     setFormError("");
+    setDateError("")
   };
 
   const validateAssignField = (value, fieldName) => {
@@ -157,13 +178,13 @@ function EBHostelReading(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("reading is required");
+          setReadingError("Reading is required");
           break;
         case "Hostel ID":
           setHostelIdError("Hostel is required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateErrorMesg("Date is required");
           break;
 
         default:
@@ -181,7 +202,7 @@ function EBHostelReading(props) {
         setHostelIdError("");
         break;
       case "selectedDate":
-        setDateError("");
+        setDateErrorMesg("");
         break;
       default:
         break;
@@ -200,11 +221,11 @@ function EBHostelReading(props) {
     const isReadingValid = validateAssignField(reading, "reading");
     const isDateValid = validateAssignField(selectedDate, "selectedDate");
     const isHostelValid = validateAssignField(hos_Name, "Hostel ID");
-  
+
     if (!isReadingValid || !isDateValid || !isHostelValid) {
       return;
     }
-  
+
     // Helper function to increment and format a date
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
@@ -218,39 +239,40 @@ function EBHostelReading(props) {
       const day = String(newDate.getDate()).padStart(2, "0"); // Two digits for day
       return `${year}-${month}-${day}`; // Return formatted date
     };
-  
+
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
-  
+
     // Helper function to check if a date is valid
     const isValidDate = (date) => !isNaN(Date.parse(date));
-  
-    if (editeb && editId) {
+    const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
+    if (props.editeb && editId) {
+      
       const isChangedBed =
         (isValidDate(selectedDate) &&
-        isValidDate(initialStateAssign.selectedDate)
+          isValidDate(initialStateAssign.selectedDate)
           ? new Date(selectedDate).toISOString().split("T")[0] !==
-            new Date(initialStateAssign.selectedDate)
-              .toISOString()
-              .split("T")[0]
+          new Date(initialStateAssign.selectedDate)
+            .toISOString()
+            .split("T")[0]
           : selectedDate !== initialStateAssign.selectedDate) ||
         String(reading) !== String(initialStateAssign.reading);
-  
+
       if (!isChangedBed) {
         setFormError("No changes detected.");
         return;
       }
-  
+
       setFormError("");
-  
+
       // Dispatch edit action
       dispatch({
         type: "HOSTELBASEDEDITEB",
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDate, // Use formatted date
+          date: formattedDated, // Use formatted date
           id: editId,
         },
       });
@@ -261,12 +283,12 @@ function EBHostelReading(props) {
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDate, // Use formatted date
+          date: formattedDated, // Use formatted date
         },
       });
     }
   };
-  
+
   // const handleSaveEb = () => {
   //   const isreadingValid = validateAssignField(reading, "reading");
   //   const isDatevalid = validateAssignField(selectedDate, "selectedDate");
@@ -338,10 +360,7 @@ function EBHostelReading(props) {
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
       handleCloseHostel();
-      dispatch({
-        type: "EBSTARTMETERLIST",
-        payload: { hostel_id: selectedHostel },
-      });
+      
       dispatch({
         type: "CUSTOMEREBLIST",
         payload: { hostel_id: selectedHostel },
@@ -360,10 +379,14 @@ function EBHostelReading(props) {
   useEffect(() => {
     if (state.PgList.statusCodeForEditHostelBased === 200) {
       handleCloseHostel();
-      setEditEb(false);
+      props.setEditEb(false);
       // dispatch({ type: "EBSTARTMETERLIST" });
       dispatch({
         type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+      dispatch({
+        type: "CUSTOMEREBLIST",
         payload: { hostel_id: selectedHostel },
       });
 
@@ -382,6 +405,7 @@ function EBHostelReading(props) {
     setFormError("");
     setDateError("");
     setEditId("")
+    setDateErrorMesg("")
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -390,17 +414,18 @@ function EBHostelReading(props) {
     setDateError("");
     setEbErrorunit("");
     setFormError("");
+    setDateErrorMesg("")
   };
 
   //  const electricityrowsPerPage = 5;
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
-  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
+  // const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = electricityFilterddata?.slice(
+  const currentRowelectricity = props.electricityHostel?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -413,10 +438,11 @@ function EBHostelReading(props) {
   };
   const handleItemsPerPageChange = (event) => {
     setElectricityrowsPerPage(Number(event.target.value));
+    setelectricitycurrentPage(1)
   };
 
   const totalPagesinvoice = Math.ceil(
-    electricityFilterddata?.length / electricityrowsPerPage
+    props.electricityHostel?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -479,20 +505,7 @@ function EBHostelReading(props) {
   //   setelectricityFilterddata(state?.PgList?.getHostelBasedRead?.hostel_readings);
   // }, [state?.PgList?.getHostelBasedRead?.hostel_readings]);
 
-  useEffect(() => {
-    if (state.PgList.getStatusCodeForHostelBased === 200) {
-      setelectricityFilterddata(
-        state?.PgList?.getHostelBasedRead?.hostel_readings
-      );
-      // dispatch({ type: "EBSTARTMETERLIST" });
-
-      // dispatch({ type: "CUSTOMEREBLIST", payload: { hostel_id: selectedHostel}});
-      // setSelectedHostel("")
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
-      }, 200);
-    }
-  }, [state.PgList.getStatusCodeForHostelBased]);
+ 
 
   const customDateInput = (props) => {
     return (
@@ -541,337 +554,344 @@ function EBHostelReading(props) {
   return (
     <>
       <div>
-        {props.value === "3" && currentRowelectricity?.length > 0 ? (
+        {props.value === "3" &&   currentRowelectricity?.length > 0 ? (
           <div style={{
             // height: "400px",
             height: currentRowelectricity.length >= 6 ? "400px" : "auto",
-            overflowY:  currentRowelectricity.length >= 6  ? "auto" : "visible",
+            overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
             borderRadius: "24px",
             border: "1px solid #DCDCDC",
             // borderBottom:"none"
           }}>
-          <Table
-           responsive="md"
-           className="Table_Design"
-           style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}
-          >
-            <thead
-              style={{
-                color: "gray",
-                fontSize: "11px",
-                backgroundColor: "#E7F1FF",
-                position:"sticky",
-                top:0,
-                zIndex:1,
-              }}
+            <Table
+              responsive="md"
+              className="Table_Design"
+              style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
             >
-              <tr style={{ height: "30px" }}>
-                
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Paying Guest
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Reading
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Dated
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Units
-                </th>
-                <th
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "Gilroy",
-                    color: "#939393",
-                    fontSize: 14,
-                    fontWeight: 600,
-                  }}
-                >
-                  Amount
-                </th>
-                <th
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "Gilroy",
-                    color: "rgba(34, 34, 34, 1)",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    borderTopRightRadius: 24,
-                  }}
-                >
-                  {" "}
-                </th>
-              </tr>
-            </thead>
-            <tbody style={{ fontSize: "12px" }}>
-              {currentRowelectricity.map((v) => {
-                const imageUrl = v.profile || Profile;
-                let formattedDate;
+              <thead
+                style={{
+                  color: "gray",
+                  fontSize: "11px",
+                  backgroundColor: "#E7F1FF",
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
+                <tr style={{ height: "30px" }}>
 
-                if (v.date && v.date !== "0000-00-00") {
-                  // Parse the date correctly even if it includes a timestamp
-                  let dateParts = v.date.split("T")[0]; // Extract only the date part (YYYY-MM-DD)
-                  let [year, month, day] = dateParts.split("-");
-                  formattedDate = `${day}/${month}/${year}`;
-                } else {
-                  // Format the current date
-                  let today = new Date();
-                  let day = String(today.getDate()).padStart(2, "0");
-                  let month = String(today.getMonth() + 1).padStart(2, "0");
-                  let year = today.getFullYear();
-                  formattedDate = `${day}/${month}/${year}`;
-                }
+                  <th
+                    style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "center",
+                      borderTopLeftRadius: 24,
+                      // paddingLeft: "25px"
+                    }}
+                  >
+                    Paying Guest
+                  </th>
+                  <th
+                    style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Reading
+                  </th>
+                  <th
+                    style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Date
+                  </th>
+                  <th
+                    style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Units
+                  </th>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      fontFamily: "Gilroy",
+                      color: "#939393",
+                      fontSize: 14,
+                      fontWeight: 600,
+                    }}
+                  >
+                    Amount
+                  </th>
+                  <th
+                    style={{
+                      textAlign: "start",
+                      fontFamily: "Gilroy",
+                      color: "#939393",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      borderTopRightRadius: 24,
+                    }}
+                  >
+                   Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody style={{ fontSize: "12px" }}>
+                {currentRowelectricity.map((v) => {
+                  const imageUrl = v.profile || Profile;
+                  let formattedDate;
 
-                return (
-                  <tr key={v.eb_Id}>
-                 
-                    <td
-                      style={{
-                        border: "none",
-                        padding: "10px",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      <div
+                  // Check if v.date exists and is not "00-00-00"
+                  if (v.date && v.date != '0000-00-00') {
+                    let Dated = new Date(v.date);
+                    let day = Dated.getDate();
+                    let month = Dated.getMonth() + 1;
+                    let year = Dated.getFullYear();
+                    formattedDate = `${day}/${month}/${year}`;
+                  } else {
+                    // Use a default initial date if v.date is empty or "00-00-00"
+                    let initialDate = new Date(v.initial_date); // Set your default initial date here
+                    let day = initialDate.getDate();
+                    let month = initialDate.getMonth() + 1;
+                    let year = initialDate.getFullYear();
+                    formattedDate = `${day}/${month}/${year}`;
+                  }
+
+                  return (
+                    <tr key={v.eb_Id}>
+
+                      <td
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          border: "none",
+                          padding: "10px",
+                          textAlign: "center",
+                          verticalAlign: "middle",
                         }}
                       >
-                        <Image
-                          src={imageUrl}
-                          alt={v.hoatel_Name || "Default Profile"}
-                          roundedCircle
-                          style={{
-                            height: "40px",
-                            width: "40px",
-                            marginRight: "10px",
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = Profile;
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
+                        <div
+                         
                         >
-                          {v.hoatel_Name}
-                        </span>
-                      </div>
-                    </td>
-                    <td
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {v.reading}
-                    </td>
-                    <td
-                      style={{
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        borderBottom: "none",
-                      }}
-                    >
-                      <span
+                          {/* <Image
+                            src={imageUrl}
+                            alt={v.hoatel_Name || "Default Profile"}
+                            roundedCircle
+                            style={{
+                              height: "40px",
+                              width: "40px",
+                              marginRight: "10px",
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = Profile;
+                            }}
+                          /> */}
+                          <span
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            {v.hoatel_Name}
+                          </span>
+                        </div>
+                      </td>
+                      <td
                         style={{
-                          backgroundColor: "#EBEBEB",
-                          paddingTop: "5px",
-                          paddingLeft: "16px",
-                          paddingRight: "16px",
-                          paddingBottom: "5px",
-                          borderRadius: "60px",
-                          fontSize: "14px",
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "center",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {v.reading}
+                      </td>
+                      <td
+                        style={{
+                          textAlign: "center",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                          fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
                       >
-                        {formattedDate}
-                      </span>
-                    </td>
-                    <td
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {v.total_reading}
-                    </td>
-                    <td
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        borderBottom: "none",
-                      }}
-                    >
-                      {v.total_amount}
-                    </td>
-                    <td style={{ paddingTop: 12, border: "none" }}>
-                      <div
+                      
+                        
+                          {formattedDate}
+                        {/* </span> */}
+                      </td>
+                      <td
                         style={{
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "center",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {v.total_reading}
+                      </td>
+                      <td
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "center",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {v.total_amount}
+                      </td>
+                      <td  style={{
+                      textAlign: "center",
+                      fontFamily: "Gilroy",
+                      color: "#939393",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      // borderTopRightRadius: 24,
+                    }}>
+                        <div
+                         style={{
                           cursor: "pointer",
-                          height: 40,
-                          width: 40,
+                          height: 35,
+                          width: 35,
                           borderRadius: 100,
                           border: "1px solid #EFEFEF",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
                           position: "relative",
-                          zIndex: 1000,
+                          // zIndex: 1000,
+                          zIndex:activeRow === v.eb_Id? 1000: "auto",
+                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
                         }}
-                        onClick={() => handleShowActive(v.eb_Id)}
-                      >
-                        <PiDotsThreeOutlineVerticalFill
-                          style={{ height: 20, width: 20 }}
-                        />
-                        {activeRow === v.eb_Id && (
-                          <div
-                            ref={popupRef}
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#fff",
-                              position: "absolute",
-                              right: 50,
-                              top: 20,
-                              width: 163,
-                              height: "auto",
-                              border: "1px solid #EBEBEB",
-                              borderRadius: 10,
-                              display: "flex",
-                              justifyContent: "start",
-                              padding: 10,
-                              alignItems: "center",
-                              zIndex: showDots ? 1000 : "auto",
-                            }}
-                          >
-                            <div>
-                              <div
-                                className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                style={{
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => handleEditEb(v)}
-                              >
-                                <img
-                                  src={Edit}
+                          onClick={(e) => handleShowActive(v.eb_Id, e)}
+                        >
+                          <PiDotsThreeOutlineVerticalFill
+                            style={{ height: 20, width: 20,color:"#000000"}}
+                          />
+                          {activeRow === v.eb_Id && (
+                            <div
+                              ref={popupRef}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#fff",
+                                position: "fixed",
+                                top: popupPosition.top,
+                                left: popupPosition.left,
+                                // position: "absolute",
+                                // right: 50,
+                                // top: 20,
+                                width: 163,
+                                height: "auto",
+                                border: "1px solid #EBEBEB",
+                                borderRadius: 10,
+                                display: "flex",
+                                justifyContent: "start",
+                                padding: 10,
+                                alignItems: "center",
+                                zIndex: showDots ? 1000 : "auto",
+                              }}
+                            >
+                              <div>
+                                <div
+                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                   style={{
-                                    height: 16,
-                                    width: 16,
-                                    filter: props.ebEditPermission
-                                      ? "grayscale(100%)"
-                                      : "none",
-                                  }}
-                                  alt="Edit"
-                                />
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy, sans-serif",
                                     cursor: "pointer",
                                   }}
+                                  onClick={() => handleEditEb(v)}
                                 >
-                                  Edit
-                                </label>
-                              </div>
-                              <div
-                                className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                style={{
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => handleDeleteEb(v)}
-                              >
-                                <img
-                                  src={Delete}
+                                  <img
+                                    src={Edit}
+                                    style={{
+                                      height: 16,
+                                      width: 16,
+                                      filter: props.ebEditPermission
+                                        ? "grayscale(100%)"
+                                        : "none",
+                                    }}
+                                    alt="Edit"
+                                  />
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      cursor: "pointer",
+                                      color:"#000000"
+                                    }}
+                                  >
+                                    Edit
+                                  </label>
+                                </div>
+                                <div
+                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                   style={{
-                                    height: 16,
-                                    width: 16,
-                                  }}
-                                  alt="Delete"
-                                />
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy, sans-serif",
                                     cursor: "pointer",
                                   }}
+                                  onClick={() => handleDeleteEb(v)}
                                 >
-                                  Delete
-                                </label>
+                                  <img
+                                    src={Delete}
+                                    style={{
+                                      height: 16,
+                                      width: 16,
+                                    }}
+                                    alt="Delete"
+                                  />
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      cursor: "pointer",
+                                      color:"#000000"
+                                    }}
+                                  >
+                                    Delete
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
           </div>
-        ) : props.value === "3" ? (
+        ) :
+         props.value === "3"  && !props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -901,42 +921,54 @@ function EBHostelReading(props) {
               There are no Hostel readings available.
             </div>
 
-            <div style={{ textAlign: "center" }}>
-              <Button
-                onClick={props.handleHostelForm}
-                style={{
-                  fontSize: 16,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 59,
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  width: 185,
-                  padding: "18px, 20px, 18px, 20px",
-                  fontFamily: "Gilroy",
-                }}
-              >
-                + Add HostelReading
-              </Button>
-            </div>
           </div>
         ) : null}
       </div>
 
-      {props.value === "3" && currentRowelectricity?.length > 0 && (
+      {props.loading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
+
+
+      {props.value === "3" && props.electricityHostel?.length >= 5 && (
         <nav
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
             padding: "10px",
-            position: "fixed", 
-            bottom: "10px", 
-            right: "10px", 
-            backgroundColor: "#fff", 
-            borderRadius: "5px", 
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-            zIndex: 1000, 
+            position: "fixed",
+            bottom: "10px",
+            right: "10px",
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
           }}
         >
           {/* Dropdown for Items Per Page */}
@@ -1055,7 +1087,7 @@ function EBHostelReading(props) {
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1063,7 +1095,8 @@ function EBHostelReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Hostel Reading
+          {/* {editeb ? "Edit Hostel Readig":"Add Hostel Reading"}   */}
+          {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
           <button
             type="button"
@@ -1097,7 +1130,7 @@ function EBHostelReading(props) {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{marginTop:"-13px"}}>
           <div className="row ">
             {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 {ebErrorunit && (
@@ -1338,7 +1371,7 @@ function EBHostelReading(props) {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group >
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1377,6 +1410,7 @@ function EBHostelReading(props) {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginLeft:5
                     }}
                   >
                     {" "}
@@ -1392,7 +1426,7 @@ function EBHostelReading(props) {
               )} */}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Group  controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1418,7 +1452,7 @@ function EBHostelReading(props) {
                   />
                 </div>
               </Form.Group>
-              {dateError && (
+              {dateErrorMesg && (
                 <div style={{ color: "red" }}>
                   <MdError />
                   <span
@@ -1427,30 +1461,30 @@ function EBHostelReading(props) {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginLeft:5
                     }}
                   >
-                    {dateError}
+                    {" "}
+                    {dateErrorMesg}
                   </span>
                 </div>
               )}
             </div>
           </div>
+
+          {dateError && (
+              <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+              <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+              <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+            </div>
+              )}
         </Modal.Body>
-        {formError && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span
-              style={{
-                fontSize: "12px",
-                color: "red",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {formError}
-            </span>
-          </div>
-        )}
+         {formError && (
+                                                                <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+                                                                  <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                                                                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                                </div>
+                                                              )}
         <Modal.Footer className="d-flex justify-content-center">
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -1461,12 +1495,13 @@ function EBHostelReading(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginTop: 10,
             }}
             onClick={handleSaveEb}
-            // disabled={!!formError}
+          // disabled={!!formError}
           >
-            Save Changes
+            {/* Save Changes */}
+            {props.editeb ? "Save Changes" : "Add Reading"}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -1495,7 +1530,7 @@ function EBHostelReading(props) {
               flex: 1,
             }}
           >
-            Delete RoomReading?
+            Delete Reading?
           </Modal.Title>
         </Modal.Header>
 
@@ -1509,7 +1544,7 @@ function EBHostelReading(props) {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this RoomReading?
+          Are you sure you want to delete this Reading?
         </Modal.Body>
 
         <Modal.Footer

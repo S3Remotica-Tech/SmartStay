@@ -164,12 +164,16 @@ console.log("response",response);
 }
 function* handleCustomerEblist(action) {
   const response = yield call(EB_CustomerListTable,action.payload);
-
+  console.log("....responsecus", response);
   if (response.status === 200 || response.data.statusCode === 200) {
-    console.log("....responsecus", response);
+    
     yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data.eb_details,statusCode:response.status || response.data.statusCode } });
 
-  } else {
+  } 
+  else if (response.status === 201 || response.data.statusCode === 201){
+    yield put ({type:'NO_HOSTEL', payload: {statusCode:response.data.statusCode}})
+ }
+  else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
   if (response) {
@@ -314,8 +318,13 @@ function* handleCreatePGDashboard(action) {
   const response = yield call(createAllPGDetails, action.payload);
   console.log("handleCreatePGDashboard",response)
 
-  if (response.status === 200) {
-    yield put({ type: "CREATE_PG_DASHBOARD", payload: {response:response.data,statusCode:response.status} });
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({ type: "CREATE_PG_DASHBOARD", 
+      payload: {
+        response: response.data,
+        statusCode: response.status || response.statusCode,
+      },
+    });
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }

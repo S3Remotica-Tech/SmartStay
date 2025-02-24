@@ -21,6 +21,28 @@
     color: rgba(156, 156, 156, 1) !important;
 }
 
+.show-scrolls::-webkit-scrollbar {
+    width: 8px !important;
+    
+  }
+   
+  .show-scrolls::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 8px !important;
+   
+  }
+   
+  .show-scrolls::-webkit-scrollbar-thumb {
+    background: #E0E0E0 !important;
+    border: 3px solid #E0E0E0 !important;
+     border-radius: 8px;
+    max-height: 5px !important;
+  }
+  
+
+
+
+
 /* .Paying-Guest .nav-link {
     display: block;
     padding: unset !important;

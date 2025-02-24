@@ -1,0 +1,34 @@
+name: Deploy React App to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - main  # Deploy when pushing to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.18.0  # Change if needed
+
+      - name: Install Dependencies & Build
+        run: |
+          npm install --legacy-peer-deps  # ✅ Fix dependency conflicts
+          npm run build
+
+      - name: Install SSH Key
+        run: |
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      - name: Deploy to AWS Lightsail
+        run: |
+          scp -o StrictHostKeyChecking=no -i key.pem -r build/* ec2-user@13.126.102.54:/usr/share/nginx/html/
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.126.102.54 "sudo systemctl restart nginx"

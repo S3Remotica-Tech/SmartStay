@@ -7,26 +7,198 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { PinDropSharp } from "@material-ui/icons";
 import { propsToClassKey } from "@mui/styles";
-
+import Edit from '../Assets/Images/Edit-blue.png';
+import Delete from '../Assets/Images/Delete_red.png';
 
 function UserEb(props) {
   const state = useSelector(state => state)
-
+  console.log(state,"statuss");
+  console.log(props,'props');
+  
+  
+ const dispatch = useDispatch();
 
   // const EbrowsPerPage = 10;
-  const [EbrowsPerPage, setEbrowsPerPage] = useState(10);
+  const [EbrowsPerPage, setEbrowsPerPage] = useState(6);
   const [EbcurrentPage, setEbCurrentPage] = useState(1);
   const [EbFilterddata, setEbFilterddata] = useState([]);
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
+const [activeId, setActiveId] = useState(null);
+ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showDots, setShowDots] = useState("");
+  const [selectedHostel, setSelectedHostel] = useState("");
+    const [hostelBased, setHostelBased] = useState("");
+     const [hostelName, setHostelName] = useState("");
+     const [roomBased, setRoomBased] = useState(null);
+const popupRef = useRef(null);
+
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
 
   }
     const handleItemsPerPageChange = (event) => {
       setEbrowsPerPage(Number(event.target.value));
+      setEbCurrentPage(1)
     };
+
+    // const handleShowDots = (item) => {
+    //    console.log("ClickedID:", item); // Debugging
+    //    setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
+       
+    //  };
+    const handleShowDots = (eb_Id,event) => {
+      setActiveId((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
+  
+      const { top, left, width, height } = event.target.getBoundingClientRect();
+      const popupTop = top + (height / 2);
+      const popupLeft = left - 200;
+  
+      setPopupPosition({ top: popupTop, left: popupLeft });
+  
+
+    };
+     const handleClickOutside = (event) => {
+       if (popupRef.current && !popupRef.current.contains(event.target)) {
+         setActiveId(null);
+       }
+     };
+      useEffect(() => {
+         document.addEventListener('mousedown', handleClickOutside);
+         return () => {
+           document.removeEventListener('mousedown', handleClickOutside);
+         };
+       }, []); 
+
+       const handleEditRoomReading = (item) => {
+        console.log(item,"items");
+        
+      props.handleEditRoomItem(item)
+        
+         dispatch({ type: 'USERREADINGTRUE' });
+       
+      };
+      const handleEditHostelReading = (item) => {
+        console.log(item,"items");
+        
+      props.handleEditHostelItem(item)
+        
+       dispatch({ type: 'USERHOSTELREADINGTRUE' });
+       
+      };
+
+      const handleDeleteHostelReading = (detail) => {
+         props.handleDeleteHostelItem(detail)
+
+         dispatch({type:'USERHOSTEL_READING_DELETETRUE'})
+      }
+
+     const handleDeleteRoomReading = (read) => {
+      props.handleDeleteRoomItem(read)
+
+      dispatch({type:'USERREADING_DELETETRUE'})
+     }
+  
+      useEffect(() => {
+         if(selectedHostel){
+           dispatch({
+             type: "EB-BILLING-UNIT-LIST",
+             payload: { hostel_id: selectedHostel },
+           });
+         }
+       
+       }, [selectedHostel]);
+
+        useEffect(() => {
+           if (selectedHostel) {
+             dispatch({
+               type: "HOSTELBASEDEBLIST",
+               payload: { hostel_id: selectedHostel },
+             });
+           }
+         }, [selectedHostel]);
+        // useEffect(() => {
+        //    const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
+        //      (item) => item.hostel_id == selectedHostel
+        //    );
+       
+        //    if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
+        //      setHostelBased(FilterHostelBased[0]?.hostel_based);
+        //      setHostelName(FilterHostelBased[0]?.Name);
+        //    } else {
+        //      console.log("unitAmount is not a valid array or is empty.");
+        //    }
+        //  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
+
+        useEffect(() => {
+          if (selectedHostel) {
+            console.log("selectedHostel", selectedHostel);
+            const FilterRoomBased = state.Settings.EBBillingUnitlist?.filter(
+              (item) => item.hostel_id == selectedHostel
+            );
+        
+            if (Array.isArray(FilterRoomBased) && FilterRoomBased.length > 0) {
+              const roomValue = Number(FilterRoomBased[0]?.room_based);
+              console.log("Setting roomBased to:", roomValue);
+              setRoomBased(roomValue);
+              setHostelName(FilterRoomBased[0]?.Name);
+            }
+          }
+        }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+        
+
+        //  useEffect(() => {
+        //   if (selectedHostel) {
+        //     console.log("selectedHostel", selectedHostel);
+        //     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
+        //       (item) => item.hostel_id == selectedHostel
+        //     );
+        
+        //     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
+        //       console.log("hostelBased updated to:", FilterHostelBased[0]?.hostel_based);
+        //       setHostelBased(FilterHostelBased[0]?.hostel_based);
+        //       setHostelName(FilterHostelBased[0]?.Name);
+        //     }
+        //   }
+        // }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+        
+        useEffect(() => {
+          setSelectedHostel(state.login.selectedHostel_Id);
+        
+          // Check if EBBillingUnitlist is available and is an array
+          if (Array.isArray(state.Settings.EBBillingUnitlist)) {
+            const selectedHostelData = state.Settings.EBBillingUnitlist.find(
+              (item) => item.hostel_id == state.login.selectedHostel_Id
+            );
+        
+            if (selectedHostelData) {
+              setHostelName(selectedHostelData.Name); 
+              console.log('names',selectedHostelData.Name);
+              
+            } else {
+              setHostelName(""); // Reset if no match is found
+            }
+          }
+        
+        }, [props, state.login.selectedHostel_Id, state.Settings.EBBillingUnitlist]);
+        
+
+        // useEffect(() => {
+        //    setSelectedHostel(state.login.selectedHostel_Id);
+        //  }, [state.login.selectedHostel_Id]);
+
+        //    useEffect(() => {
+        //      setSelectedHostel(state.login.selectedHostel_Id);
+        //      setHostelName(state.Settings.EBBillingUnitlist.Name);
+             
+             
+        //    }, [props, state.login.selectedHostel_Id,state.Settings.EBBillingUnitlist.Name]);
+
+           useEffect(() => {
+            console.log("Forcing hostelBased update:", hostelBased);
+          }, [hostelBased]);
+          
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
   // const renderPageNumbersEb = () => {
@@ -93,7 +265,7 @@ function UserEb(props) {
 
         <div   style={{
                             // height: "400px",
-                            height: currentRowsEb.length >= 3 ? "250px" : "auto",
+                            height: currentRowsEb?.length >= 6? "290px" : "auto",
                             overflowY: "auto",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
@@ -111,14 +283,14 @@ function UserEb(props) {
               <tr >
 
                 <th style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Room</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",paddingLeft:5 }}>Room</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start meter</th>
 
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>End meter</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Date</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"start" }}>Date</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>unit</th>
                 {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Units used</th> */}
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"center" }}>Amount</th>
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
               </tr>
             </thead>
@@ -135,18 +307,129 @@ function UserEb(props) {
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
                     <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.floor_name}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_Id}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",}}>{u.Room_Id}</td>
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_meter}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_meter}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy"}}>{u.end_meter}</td>
                     <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",textAlign:"center" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
+                        }}
+                    
+                        onClick={(e) => handleShowDots(u.eb_Id,e)}
+                      
+                      >
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                      </div>
-                      {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+
+                        {activeId === u.eb_Id && (
+                                    <>
+                                      <div
+                                        ref={popupRef}
+                                        style={{
+                                          cursor: "pointer",
+                                          backgroundColor: "#fff",
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+                                          // position: "absolute",
+                                          // right: 50,
+                                          // top: 20,
+                                          width: 163,
+                                          height: "auto",
+                                          border: "1px solid #EBEBEB",
+                                          borderRadius: 10,
+                                          display: "flex",
+                                          justifyContent: "start",
+                                          padding: 10,
+                                          alignItems: "center",
+                                          zIndex: showDots ? 1000 : "auto",
+                                        }}
+                                      >
+                                        <div
+                                          style={{ backgroundColor: "#fff" }}
+                                          className=""
+                                        >
+                                          <div
+                                            className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
+                                            style={{
+                                              // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
+                                              cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                                            }}
+                                          
+                                            // onClick={() => {
+                                            //   if (!props.ebEditPermission) {
+                                            //     handleEditRoomReading(u);
+                                            //   }
+                                            // }}
+                                            
+                                            
+                                          >
+                                            <img
+                                              src={Edit}
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                                              }}
+                                              alt="Edit"
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebEditPermission ? "#ccc" : "#222222",
+                                                cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
+
+
+
+                                          <div
+                                            className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
+                                            style={{
+                                              // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
+                                              cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                                            }}
+                                              // onClick={() => {
+                                            //   if (!props.ebDeletePermission) {
+                                            //     handleDeleteShow(u);
+                                            //   }
+                                            // }}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                                              }}
+                                              alt="Delete"
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                                                cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
+                      </div> */}
+                    
                     </td>
 
                   </tr>
@@ -154,9 +437,9 @@ function UserEb(props) {
 
               })}
               {currentRowsEb?.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                </tr>
+                <tr style={{width:"100%"}}>
+                <td colSpan="10" style={{ textAlign: "center", color: "red", fontFamily:"Gilroy", fontSize:14 }}>No data found</td>
+              </tr>
               )}
 
             </tbody>
@@ -164,16 +447,21 @@ function UserEb(props) {
 
         </div>
 
-        {currentRowsEb?.length > 0 && (
+        {EbFilterddata?.length >= 6 && (
 
            <nav
-                               style={{
-                                 display: "flex",
-                                 alignItems: "center",
-                                 justifyContent: "end", // Align dropdown and pagination
-                                 padding: "10px",
-                                 // borderTop: "1px solid #ddd",
-                               }}
+           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "10px",
+            position: "fixed",
+            bottom: "10px",
+            right: "10px",
+            backgroundColor: "#fff", // Optional: to give a background for better visibility
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+            borderRadius: "5px", // Optional: to make edges rounded
+          }}
                              >
                                {/* Dropdown for Items Per Page */}
                                <div>
@@ -181,18 +469,17 @@ function UserEb(props) {
                                    value={EbrowsPerPage}
                                    onChange={handleItemsPerPageChange}
                                    style={{
-                                     padding: "5px",
-                                     border: "1px solid #1E45E1",
-                                     borderRadius: "5px",
-                                     color: "#1E45E1",
-                                     fontWeight: "bold",
-                                     cursor: "pointer",
-                                     outline: "none",
-                                     boxShadow: "none",
-                                     
-                                   }}
+                                    padding: "5px",
+                                    border: "1px solid #1E45E1",
+                                    borderRadius: "5px",
+                                    color: "#1E45E1",
+                                    fontWeight: "bold",
+                                    cursor: "pointer",
+                                    outline: "none",
+                                    boxShadow: "none",
+                                  }}
                                  >
-                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
                                    <option value={10}>10</option>
                                    <option value={50}>50</option>
                                    <option value={100}>100</option>

@@ -43,7 +43,7 @@ function Expenses({ allPageHostel_Id }) {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const filterRef = useRef(null); 
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
@@ -68,6 +68,34 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
+  const [checkLength, setCheckLength] = useState(false);
+
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilter(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showFilter]);
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
@@ -178,10 +206,6 @@ function Expenses({ allPageHostel_Id }) {
 
   }
 
-  const handleClose = () => {
-    setShowModal(false);
-
-  }
 
 
   const handleAmountValueChange = (e) => {
@@ -219,7 +243,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
+  console.log("loading", loading)
 
 
   useEffect(() => {
@@ -265,7 +289,7 @@ function Expenses({ allPageHostel_Id }) {
     // }
 
 
-
+    console.log("assetValue", assetValue, "vendorValue", vendorValue, "modeValue", modeValue)
 
 
     if (selectedValue === 'All') {
@@ -356,31 +380,22 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList)
+      setLoading(false)
+      setGetData(state.ExpenseList.expenseList)
 
-        setLoading(false)
-
-
-      }, 500)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
       }, 4000)
     }
-    else {
-      setLoading(false)
-    }
+
 
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setTimeout(() => {
-        setGetData([])
-        setLoading(false)
-      }, 100)
-
+      setGetData([])
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
       }, 200)
@@ -633,6 +648,7 @@ function Expenses({ allPageHostel_Id }) {
   const handleAssetChange = (e) => {
     setSelectedValue(null)
     setAssetValue(e.target.getAttribute('value'));
+    console.log("asset value", e.target.value)
     setShowFilter(false)
   }
 
@@ -730,7 +746,7 @@ function Expenses({ allPageHostel_Id }) {
 
   // ////////////////////////////////////////////////
 
-
+  console.log("state.ExpenseList.categoryList", state)
 
 
   return (
@@ -775,24 +791,24 @@ function Expenses({ allPageHostel_Id }) {
           </>
         ) : <div className='container' style={{ width: "100%" }} >
 
-          <div >
+          <div className='container'>
 
 
-            <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap"
+            <div className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
                 position: 'sticky',
-                top: 25,
+
                 backgroundColor: 'white',
                 zIndex: 10,
-                padding: '10px',
+
               }}
             >
-              <div className='d-flex align-items-center flex-wrap'>
+              <div className='d-flex align-items-center flex-wrap' style={{ marginTop: -2 }}>
                 <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
 
 
 
-                <div style={{ margin: 20, position: 'relative' }}>
+                <div style={{ margin: 20, position: 'relative', }}>
                   <label
                     htmlFor="date-input"
                     style={{
@@ -848,100 +864,9 @@ function Expenses({ allPageHostel_Id }) {
               </div>
               <div className="d-flex  flex-wrap justify-content-between align-items-center">
 
-
-                {
-                  !showFilterExpense &&
-
-                  <div className='me-3' onClick={handleShowSearch}>
-                    <SearchNormal1
-                      size="26"
-                      color="#222"
-                    />
-                  </div>
-                }
-                {
-                  showFilterExpense &&
-                  <div className='me-3 ' style={{ position: 'relative' }}>
-                    <InputGroup style={{
-                      display: 'flex',
-                      flexWrap: 'nowrap',
-                      width: '100%',
-                    }}>
-
-                      <FormControl size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-
-                        style={{
-                          width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                          //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                        }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                      </InputGroup.Text>
-                    </InputGroup>
-
-
-
-                    {
-                      getData.length > 0 && searchQuery !== '' && showDropDown && (
-
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{
-                            // position: 'absolute',
-                            // top: '50px',
-                            // left: 0,
-                            width: 260,
-                            backgroundColor: '#fff',
-                            // border: '1px solid #D9D9D9',
-                            borderRadius: '4px',
-                            maxHeight: 174,
-                            minHeight: 100,
-                            overflowY: 'auto',
-                            padding: '5px 10px',
-                            margin: '0',
-                            listStyleType: 'none',
-
-                            borderRadius: 8,
-                            boxSizing: 'border-box'
-                          }}>
-                            {
-                              getData.map((user, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() => {
-                                    handleDropDown(user.category_Name);
-
-                                  }}
-                                  style={{
-                                    padding: '10px',
-                                    cursor: 'pointer',
-                                    borderBottom: '1px solid #dcdcdc',
-                                    fontSize: '14px',
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-
-                                  }}
-                                >
-                                  {user.category_Name}
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </div>
-                      )
-                    }
-
-                  </div>
-
-
-                }
-
-                <div className='me-3' style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', paddingRight: 20, marginTop: 11 }}>
                   <Sort
-                    Size="24"
+                    Size="22"
                     color="#222"
                     style={{ cursor: "pointer" }}
                     variant="Outline"
@@ -949,7 +874,7 @@ function Expenses({ allPageHostel_Id }) {
                   />
 
                   {showFilter &&
-                    <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                    <ListGroup  ref={filterRef} style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
                       <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
 
 
@@ -961,12 +886,16 @@ function Expenses({ allPageHostel_Id }) {
 
                         {showCategory && (<>
 
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                          <ListGroup className='show-scroll-category' style={{
+                            position: 'absolute', right: 250, top: 0, borderRadius: 2,
+                            maxHeight: '200px',
+                            overflowY: 'auto'
+                          }}
                             value={categoryValue} onClick={handleCatogoryChange}
                           >
-                            {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
-                              <ListGroup.Item
-                                className='sub_item' key={view.category_Id} value={view.category_Id}>
+                            {state.Settings.Expences.data && state.Settings.Expences.data.map((view) => (
+                              <ListGroup.Item 
+                                className='sub_item ' key={view.category_Id} value={view.category_Id}>
                                 {view.category_Name}
                               </ListGroup.Item >
                             ))}
@@ -979,7 +908,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-                      <ListGroup.Item
+                      {/* <ListGroup.Item
                         active={showAsset}
                         onMouseEnter={() => setShowAsset(true)}
                         onMouseLeave={() => setShowAsset(false)}
@@ -992,27 +921,23 @@ function Expenses({ allPageHostel_Id }) {
                           >
                             {state.AssetList.assetList &&
                               [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
+                                <ListGroup.Item title={view.asset_name} className='sub_item' key={view.id} value={view.id} style={{textOverflow:"ellipsis",overflow:"hidden", whiteSpace:"nowrap", width :50}}>
                                   {view.asset_name}
                                 </ListGroup.Item >
 
                               ))
                             }
-                            {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
-                          <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
-                            {view.asset_name}
-                          </ListGroup.Item >
-                        ))} */}
+                           
 
                           </ListGroup>
                         )}
 
 
 
-                      </ListGroup.Item>
+                      </ListGroup.Item> */}
 
 
-                      <ListGroup.Item
+                      {/* <ListGroup.Item
                         active={showVendor}
                         onMouseEnter={() => setShowVendor(true)}
                         onMouseLeave={() => setShowVendor(false)}
@@ -1033,7 +958,7 @@ function Expenses({ allPageHostel_Id }) {
                           </ListGroup>
                         )}
 
-                      </ListGroup.Item>
+                      </ListGroup.Item> */}
 
 
                       <ListGroup.Item
@@ -1100,18 +1025,122 @@ function Expenses({ allPageHostel_Id }) {
 
                 </div>
 
-                <div style={{ paddingRight: "10px" }}>
+                {
+                  !showFilterExpense &&
+
+                  <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
+                    <SearchNormal1
+                      color="#222"
+                      style={{ height: "34px", width: "34px", cursor: 'pointer', paddingRight: 10, marginTop: 9 }}
+                    />
+                  </div>
+                }
+                {
+                  showFilterExpense &&
+                  <div className='me-3 ' style={{ position: 'relative' }}>
+                    <InputGroup style={{
+                      display: 'flex',
+                      flexWrap: 'nowrap',
+                      width: '100%',
+                    }}>
+
+                      <FormControl size="lg"
+                        value={searchQuery}
+                        onChange={handleInputChange}
+
+                        style={{
+                          width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                          //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                        }}
+                        placeholder="Search..."
+                      />
+                      <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
+                        <CloseCircle size="24" color="#222" style={{ cursor: 'pointer' }} onClick={handleCloseSearch} />
+                      </InputGroup.Text>
+                    </InputGroup>
+
+
+
+                    {
+                      getData?.length > 0 && searchQuery !== '' && showDropDown && (
+
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{
+                            // position: 'absolute',
+                            // top: '50px',
+                            // left: 0,
+                            width: 260,
+                            backgroundColor: '#fff',
+                            // border: '1px solid #D9D9D9',
+                            borderRadius: '4px',
+                            maxHeight: 174,
+                            minHeight: 100,
+                            overflowY: 'auto',
+                            padding: '5px 10px',
+                            margin: '0',
+                            listStyleType: 'none',
+
+                            borderRadius: 8,
+                            boxSizing: 'border-box'
+                          }}>
+                            {
+                              getData.map((user, index) => (
+                                <li
+                                  key={index}
+                                  onClick={() => {
+                                    handleDropDown(user.category_Name);
+
+                                  }}
+                                  style={{
+                                    padding: '10px',
+                                    cursor: 'pointer',
+                                    borderBottom: '1px solid #dcdcdc',
+                                    fontSize: '14px',
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500,
+
+                                  }}
+                                >
+                                  {user.category_Name}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
+                    }
+
+                  </div>
+
+
+                }
+
+
+                <div style={{ paddingRight: "21px", cursor: 'pointer', marginTop: 11 }}>
                   <img src={excelimg} width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
 
-                <div>
-                  <Button disabled={expenceAddPermission} onClick={handleShow} style={{
-                    fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
-                    borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
-                  }}> + Expense</Button>
+                <div style={{ marginTop: 9 }}>
+                  <Button disabled={expenceAddPermission} onClick={handleShow}
+                    // style={{
+                    //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
+                    //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
+                    // }}
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "11px 39px",
+                      paddingLeft: 40
+
+                    }}
+                  > + Expense</Button>
                 </div>
               </div>
             </div>
@@ -1137,7 +1166,10 @@ function Expenses({ allPageHostel_Id }) {
             <div
               style={{
                 position: 'absolute',
-                inset: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: '200px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1161,7 +1193,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {currentItems && currentItems.length > 0 ? (
+          {currentItems && currentItems.length > 0 && (
             <div className='p-3'>
               <div style={{
                 // height: "400px",
@@ -1177,6 +1209,7 @@ function Expenses({ allPageHostel_Id }) {
                 >
                   <thead style={{
                     fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)", position: "sticky",
+
                     top: 0,
                     zIndex: 1,
                   }}>
@@ -1184,18 +1217,18 @@ function Expenses({ allPageHostel_Id }) {
                       {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
                 <input type='checkbox' style={customCheckboxStyle} />
               </th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500, paddingLeft: "20px", borderTopLeftRadius: 24 }}>Date</th>
 
                       {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
                       {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Description</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Unit Count</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Per Unit Price</th>
 
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
-                      <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
-                      <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Amount</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
+                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
                     </tr>
                   </thead>
                   {/* <tbody>
@@ -1267,29 +1300,32 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
             </div>
-          )
+          )}
 
 
-            :
 
 
-            !loading &&
 
+
+          {!loading && currentItems && currentItems.length === 0 &&
             <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
               <div>
                 <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                 <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
                 <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
-                <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+                {/* <div className='d-flex justify-content-center pb-1 mt-3'>                  
+                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
                   disabled={expenceAddPermission} onClick={handleShow}
                 > + Expense</Button>
-                </div>
+                </div> */}
               </div>
               <div>
 
               </div>
             </div>
+
+
 
 
           }
@@ -1302,10 +1338,8 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
-
           {/*  Pagination code */}
-          {currentItems.length > 0 &&
+          {filteredData.length >= 5 &&
             <nav
               style={{
                 display: "flex",
@@ -1413,30 +1447,54 @@ function Expenses({ allPageHostel_Id }) {
         </div>
       }
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} handleClose={handleClose} currentItem={currentItem} />}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal={setShowModal} />}
 
 
 
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static">
-        <Modal.Header style={{ display: "flex", justifyContent: "center" }} >
-          <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", }}>Delete expense?</Modal.Title>
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} 
+      centered backdrop="static" dialogClassName="custom-modal"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}>
+        <Modal.Header style={{
+          borderBottom: "none"
+        }} >
+          <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", flex: 1, }}>Delete expense?</Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
 
 
 
 
-        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>
+        <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
           Are you sure you want to delete this expense?
         </Modal.Body>
 
 
-        <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-          <Button onClick={handleCloseForDeleteExpense} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+        <Modal.Footer  style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px",
+         }}>
+          <Button onClick={handleCloseForDeleteExpense} style={{ borderRadius: 8, padding: "12px 20px", 
+            border: "1px solid rgba(36, 0, 255, 1)", 
+            backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+            fontSize: 14, fontWeight: 600, 
+            fontFamily: "Gilroy",
+            width: 160,
+              height: 52,
+              marginRight: 10,
+             }}>
             Cancel
           </Button>
 
-          <Button style={{ borderRadius: 8, padding: "16px 45px ", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={ConfirmDeleteExpense}>
+          <Button style={{ borderRadius: 8, 
+            padding: "12px 20px ", border: "1px solid rgba(36, 0, 255, 1)", 
+            backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", 
+            fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",
+            width: 160,
+            height: 52,
+            }} onClick={ConfirmDeleteExpense}>
             Delete
           </Button>
 

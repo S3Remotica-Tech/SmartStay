@@ -9,17 +9,19 @@ import User from "../Assets/Images/Profile-complaint.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
-import Delete from "../Assets/Images/New_images/trash.png";
+// import Delete from "../Assets/Images/New_images/trash.png";
 import { useDispatch, useSelector } from "react-redux";
 
 
 const InvoiceSettingsList = (props) => {
- 
+ console.log(props,"props");
+
   const dispatch = useDispatch();
    const state = useSelector((state) => state);
 
    
-   const [isChecked, setIsChecked] = useState(null);
+  //  const [isChecked, setIsChecked] = useState(null);
+  // const [isChecked, setIsChecked] = useState(props.item.recure === 1);
    const [invoiceDetails, setInvoiceDetails] = useState('')
    const [switchStates, setSwitchStates] = useState({});
    const [showDots, setShowDots] = useState(false);
@@ -29,53 +31,42 @@ const InvoiceSettingsList = (props) => {
     setShowDots(!showDots);
   };
 
-  const handleEditInvoice = (item) => {
-    props.OnEditInvoice(item);
-  };
+  // const handleEditInvoice = (item) => {
+  //   props.OnEditInvoice(item);
+  // };
+
+  useEffect(()=>{
+
+  },[])
 
  
 
-  const handleToggle = (item) => {
-    setSwitchStates((prevSwitchStates) => {
-        const newChecked = !prevSwitchStates[item.id];
+  const handleToggle = () => {
+    const newChecked = !props.isChecked;
+    props.setIsChecked(newChecked);
 
-        setIsChecked(newChecked);
-
-
-        return {
-            ...prevSwitchStates,
-            [item.id]: newChecked,
-        };
-    });
-
-
-    setInvoiceDetails(item);
+    if (newChecked) {
+        props.handleRecurringFormShow();
+    } else {
+        // Directly update state to reset API call
+        dispatch({
+            type: 'SETTINGSADDRECURRING',
+            payload: {
+                type: "invoice",
+                recure: 0,
+                hostel_id: Number(props.item.id),
+                start_date: '0',
+                end_date: '0',
+            },
+        });
+    }
 };
 
-    useEffect(() => {
-      if (isChecked === null) {
-        return; 
+useEffect(() => {
+    if (!props.recurringform && !props.formFilled) {
+        props.setIsChecked(false); // Reset toggle only if no data was entered
     }
-        if (!isChecked ) {
-       
-            dispatch({
-              type: 'SETTINGSADDRECURRING',
-              payload: {
-                  type: "invoice",
-                  recure: 0,
-                  hostel_id: Number(props.item.id),
-                  start_date: '0',
-                  end_date: '0',
-                  // am_id: amenityDetails.id,
-              },
-          });
-                
-        }else{
-          props.handleRecurringFormShow();
-        }
-    }, [isChecked]);
-
-    
+}, [props.recurringform]);
     
 
 
@@ -105,9 +96,9 @@ const InvoiceSettingsList = (props) => {
 
   
 
-  // const handleEdit = (item) => {
-  //   props.OnEditInvoice(item)
-  // }
+  const handleEdit = (item) => {
+    props.OnEditInvoice(item)
+  }
 
   return (
     <>
@@ -199,7 +190,7 @@ const InvoiceSettingsList = (props) => {
               </label>
             </div>
 
-            <div>
+            {/* <div>
               <div
                 style={{
                   height: 40,
@@ -223,10 +214,10 @@ const InvoiceSettingsList = (props) => {
                       style={{
                         backgroundColor: "#FFFFFF",
                         position: "absolute",
-                        right: 0,
+                        right: 20,
                         top: 50,
-                        width: 163,
-                        height: 92,
+                        width: 113,
+                        height: 42,
                         border: "1px solid #EBEBEB",
                         borderRadius: 10,
                         display: "flex",
@@ -239,9 +230,6 @@ const InvoiceSettingsList = (props) => {
                         <div
                          onClick={()=>handleEditInvoice(props.item)}
                           className={"mb-2"}
-                          // onClick={() => {
-                          //     handleEdit(props.item);
-                          // }}
                           style={{
                             cursor: "pointer",
                           }}
@@ -297,12 +285,13 @@ const InvoiceSettingsList = (props) => {
                             Delete
                           </label>
                         </div>
+
                       </div>
                     </div>
                   </>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
           <hr style={{ border: "1px solid #E7E7E7" }} />
 
@@ -348,7 +337,7 @@ const InvoiceSettingsList = (props) => {
               <div>
                 <label
                   style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-                  {moment(props.item.inv_date).format('DD-MM-YYYY')}
+                  {props.item.inv_date}
                 </label>
               </div>
             </div>
@@ -362,24 +351,23 @@ const InvoiceSettingsList = (props) => {
               <div>
                 <label
                   style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-                   {moment(props.item.due_date).format('DD-MM-YYYY')} 
+                     {props.item.due_date}
                 </label>
               </div>
             </div>
           </div>
 
           <div>
-            <label
-              style={{ color: "#939393", fontSize: 14,fontWeight: 500, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-              Recurring
-            </label>
-            <Form.Check
-              type="switch"
-              label="Recurring"
-              checked={props.item.recure || false }
-             onChange={() => handleToggle(props.item)} />
-          </div>
-
+        <label style={{ color: "#939393", fontSize: 14, fontWeight: 500 }}>
+            Recurring
+        </label>
+        <Form.Check
+            type="switch"
+            label="Recurring"
+            checked={props.isChecked}
+            onChange={handleToggle}
+        />
+    </div>
           <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap mt-3">
             <div className="mb-2">
               <div className="mb-1">

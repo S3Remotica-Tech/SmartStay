@@ -1,133 +1,170 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { StoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
-import '../Components/Sidebar.css'
-import Dashboards from '../Pages/Dashboard';
-import PgLists from '../Pages/PayingGuestFile/PgList';
-import UserLists from '../Pages/UserList';
-import EbHostel from '../Pages/EB_Hostel';
-import Checkout from '../Pages/Checkout';
-import Invoices from '../Pages/Invoice';
-import Compliances from '../Pages/Compliance';
-import Payments from '../Pages/Payment';
-import UserAccesss from '../Pages/UserAccess';
-import Report from '../Reports/Reports';
-import Setting from '../Pages/Settings';
-import Supports from '../Pages/Support';
-import VendorComponent from '../Pages/VendorFIle/Vendor';
-import { useDispatch, useSelector } from 'react-redux';
-import { InputGroup, FormControl, Pagination } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
+import "../Components/Sidebar.css";
+import Dashboards from "../Pages/Dashboard";
+import PgLists from "../Pages/PayingGuestFile/PgList";
+import UserLists from "../Pages/UserList";
+import EbHostel from "../Pages/EB_Hostel";
+import Checkout from "../Pages/Checkout";
+import Invoices from "../Pages/Invoice";
+import Compliances from "../Pages/Compliance";
+import Payments from "../Pages/Payment";
+import UserAccesss from "../Pages/UserAccess";
+import Report from "../Reports/Reports";
+import Setting from "../Pages/Settings";
+import Supports from "../Pages/Support";
+import VendorComponent from "../Pages/VendorFIle/Vendor";
+import { useDispatch, useSelector } from "react-redux";
+import { InputGroup, FormControl, Pagination } from "react-bootstrap";
 import { CiSearch } from "react-icons/ci";
-import Notify from '../Assets/Images/New_images/notify.png';
-import Profileimage from '../Assets/Images/New_images/profile.png';
-import Image from 'react-bootstrap/Image';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import Notify from "../Assets/Images/New_images/notify.png";
+import Profileimage from "../Assets/Images/New_images/profile-picture.png";
+import Image from "react-bootstrap/Image";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "sweetalert2/dist/sweetalert2.min.css";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import Cookies from 'universal-cookie';
-import Smartstay from '../Assets/Images/New_images/LogoSmart.svg';
-import Smarts from '../Assets/Images/Smartstaysm1.png';
-import Dash from '../Assets/Images/New_images/home.svg';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Manage from '../Assets/Images/New_images/category.png';
+import Cookies from "universal-cookie";
+import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
+import Smarts from "../Assets/Images/Smartstaysm1.png";
+import Dash from "../Assets/Images/New_images/home.svg";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Manage from "../Assets/Images/New_images/category.png";
 
-import Paying from '../Assets/Images/New_images/house.png';
-import Custom from '../Assets/Images/New_images/customers.png';
-import Vendor from '../Assets/Images/New_images/vendor.png';
-import Invo from '../Assets/Images/New_images/invoice.png';
-import Asset from '../Assets/Images/New_images/Asset.png';
-import Eb from '../Assets/Images/New_images/electricity.png';
-import Compl from '../Assets/Images/New_images/messages_gray.png';
-import Expense from '../Assets/Images/New_images/expenses.png';
-import Repo from '../Assets/Images/New_images/reports.png';
-import Sett from '../Assets/Images/New_images/settings.png';
-import Assets from '../Pages/AssetFile/Asset'
-import Expenses from '../Pages/ExpenseFile/Expense'
-import Dash2 from '../Assets/Images/New_images/category-active.png';
-import Paying2 from '../Assets/Images/New_images/housepay.png';
-import Custom2 from '../Assets/Images/New_images/profile_blue.png';
-import Invoice2 from '../Assets/Images/New_images/clipboard-text.png';
-import Vendor2 from '../Assets/Images/New_images/shop.png'
-import Asset2 from '../Assets/Images/New_images/Money.png';
-import Eb2 from '../Assets/Images/New_images/ele-active.png';
-import Compl2 from '../Assets/Images/New_images/messages-active.png';
-import Expense2 from '../Assets/Images/New_images/coin.png';
-import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
-import Sett2 from '../Assets/Images/New_images/setting-2.png';
-import Profilesettings from '../Pages/AccountSettings'
-import Banking from '../Pages/Banking';
-import bank from '../Assets/Images/New_images/bank.png';
-import bankblank from '../Assets/Images/New_images/blank_bank.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
-import SettingAllPages from '../Pages/SettingAllPages';
-import hostelimage from '../Assets/Images/New_images/hostelImage.png';
+import Paying from "../Assets/Images/New_images/house.png";
+import Custom from "../Assets/Images/New_images/customers.png";
+import Vendor from "../Assets/Images/New_images/vendor.png";
+import Invo from "../Assets/Images/New_images/invoice.png";
+import Asset from "../Assets/Images/New_images/Asset.png";
+import Eb from "../Assets/Images/New_images/electricity.png";
+import Compl from "../Assets/Images/New_images/messages_gray.png";
+import Expense from "../Assets/Images/New_images/expenses.png";
+import Repo from "../Assets/Images/New_images/reports.png";
+import Sett from "../Assets/Images/New_images/settings.png";
+import Assets from "../Pages/AssetFile/Asset";
+import Expenses from "../Pages/ExpenseFile/Expense";
+import Dash2 from "../Assets/Images/New_images/category-active.png";
+import Paying2 from "../Assets/Images/New_images/housepay.png";
+import Custom2 from "../Assets/Images/New_images/profile_blue.png";
+import Invoice2 from "../Assets/Images/New_images/clipboard-text.png";
+import Vendor2 from "../Assets/Images/New_images/shop.png";
+import Asset2 from "../Assets/Images/New_images/Money.png";
+import Eb2 from "../Assets/Images/New_images/ele-active.png";
+import Compl2 from "../Assets/Images/New_images/messages-active.png";
+import Expense2 from "../Assets/Images/New_images/coin.png";
+import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
+import Sett2 from "../Assets/Images/New_images/setting-2.png";
+import Profilesettings from "../Pages/AccountSettings";
+import Banking from "../Pages/Banking";
+import bank from "../Assets/Images/New_images/bank.png";
+import bankblank from "../Assets/Images/New_images/blank_bank.png";
+import {
+  ArrowUp2,
+  ArrowDown2,
+  CloseCircle,
+  SearchNormal1,
+  Sort,
+  Edit,
+  Trash,
+} from "iconsax-react";
+import SettingAllPages from "../Pages/SettingAllPages";
+import hostelimage from "../Assets/Images/New_images/hostelImage.png";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-import SettingIcon from '../Assets/Images/sidebariconOne.svg';
-import HelpDocumentIcon from '../Assets/Images/sidebariconThree.svg';
-import HelpVideoIcon from '../Assets/Images/sidebariconFour.svg';
-import Logout from "../Assets/Images/turn-off.png"
-import AddPg from '../Pages/PayingGuestFile/AddPg';
-import SettingManage from '../Pages/SettingManage';
-
+import SettingIcon from "../Assets/Images/sidebariconOne.svg";
+import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
+import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
+import Logout from "../Assets/Images/turn-off.png";
+import AddPg from "../Pages/PayingGuestFile/AddPg";
+import SettingManage from "../Pages/SettingManage";
 
 function Sidebar() {
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   let navigate = useNavigate();
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
-  console.log("state", state)
-  const stateData = useSelector(state => state.createAccount)
-  const stateLogin = useSelector(state => state.login)
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  console.log("state", state);
+  const stateData = useSelector((state) => state.createAccount);
+  const stateLogin = useSelector((state) => state.login);
 
-  const [manageOpen, setManageOpen] = useState(false)
+  const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [currentPageDrop, setCurrentPageDrop] = useState('settingNewDesign');
+  const [currentPageDrop, setCurrentPageDrop] = useState("settingNewDesign");
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
-  const [payingGuestName, setPayingGuestName] = useState('payingGuest');
+  const [payingGuestName, setPayingGuestName] = useState("payingGuest");
+  const [isInitialized, setIsInitialized] = useState(false);
 
-
+  const [currentPage, setCurrentPage] = useState("dashboard");
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  useEffect(() => {
+    localStorage.setItem("manageOpen", manageOpen);
+  }, [manageOpen]);
+  useEffect(() => {
+    if (["pg-list", "user-list", "asset", "vendor"].includes(currentPage)) {
+      setManageOpen(true);
+      localStorage.setItem("manageOpen", true);
+    }
+  }, [currentPage]);
 
-
-
-  let LoginId = localStorage.getItem("loginId")
-  let checkedValue = localStorage.getItem("checked")
+  let LoginId = localStorage.getItem("loginId");
+  let checkedValue = localStorage.getItem("checked");
   const [hover, setHover] = useState(false);
+  const [hostelListDetail,setHostelDetail] = useState("")
 
-  const loginId = localStorage.getItem('loginId');
-
-
+  const loginId = localStorage.getItem("loginId");
 
   useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-    dispatch({ type: 'ACCOUNTDETAILS' })
+    // dispatch({ type: "HOSTELLIST" });
+    dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
+  useEffect(()=>{
+    dispatch({ type: "HOSTELIDDETAILS"});
+  },[])
+
+  // useEffect(()=>{
+  //   if(state.UsersList.hosteListStatusCode === 200){
+  //     setHostelDetail(state.UsersList.hostelList)
+  //     setTimeout(()=>{
+  //       dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE"});
+  //     },500)
+  //   }
+  //   },[state.UsersList.hosteListStatusCode])
+    useEffect(()=>{
+      if(state.UsersList.statusCodeForhostelListNewDetails === 200){
+        setHostelDetail(state.UsersList.hostelListNewDetails.data)
+        setTimeout(()=>{
+          dispatch({ type: "CLEAR_HOSTEL_ID_LIST"});
+        },500)
+      }
+      },[state.UsersList.statusCodeForhostelListNewDetails])
 
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState([]);
-  const [hostel_Id, setHostel_Id] = useState("")
+  const [hostel_Id, setHostel_Id] = useState("");
 
   useEffect(() => {
-    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-    setNotification(state.login.Notification)
-  }, [])
+    dispatch({ type: "ALL-NOTIFICATION-LIST" });
+    setNotification(state.login.Notification);
+  }, []);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id)
+      setHostel_Id(state.login.selectedHostel_Id);
     }
-  }, [state.login.selectedHostel_Id])
-  console.log("state.login.selectedHostel_Id", state.login.selectedHostel_Id)
-  let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
-
+  }, [state.login.selectedHostel_Id]);
+  console.log("state.login.selectedHostel_Id", state.login.selectedHostel_Id);
+  let newNotificationIDs =
+    state.login.Notification &&
+    state.login.Notification?.length > 0 &&
+    state.login.Notification.filter(
+      (notification) => notification.status === 1
+    ).map((notification) => notification.id);
 
   const newNotificationsCount = newNotificationIDs.length;
-
 
   const handleClosepopup = () => setShow(false);
 
@@ -135,29 +172,32 @@ function Sidebar() {
     setShow(true);
     if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
       setTimeout(() => {
-        dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
-      }, 1000)
+        dispatch({
+          type: "UPDATE-NOTIFICATION",
+          payload: { id: newNotificationIDs },
+        });
+      }, 1000);
     }
 
     // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-  }
-
+  };
 
   useEffect(() => {
-    if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '') {
-      dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    if (
+      state.login.UpdateNotificationMessage != null &&
+      state.login.UpdateNotificationMessage != ""
+    ) {
+      dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
-        dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
-        newNotificationIDs = []
+        dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
+        newNotificationIDs = [];
       }, 100);
     }
-  }, [state.login.UpdateNotificationMessage])
-
+  }, [state.login.UpdateNotificationMessage]);
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList == 200) {
-
-      const loginInfo = stateData.accountList[0].user_details
+      const loginInfo = stateData.accountList[0].user_details;
 
       if (loginInfo) {
         const LoginId = loginInfo.id;
@@ -167,12 +207,27 @@ function Sidebar() {
         const Is_Enable = loginInfo.isEnable;
         const Pass_word = loginInfo.password;
 
-        const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+        const encryptedLoginId = CryptoJS.AES.encrypt(
+          LoginId.toString(),
+          "abcd"
+        ).toString();
         // const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
-        const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
-        const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
-        const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
-        const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+        const encryptedphone = CryptoJS.AES.encrypt(
+          phoneId.toString(),
+          "abcd"
+        ).toString();
+        const encryptedemail = CryptoJS.AES.encrypt(
+          emilidd.toString(),
+          "abcd"
+        ).toString();
+        const encryptIsEnable = CryptoJS.AES.encrypt(
+          Is_Enable.toString(),
+          "abcd"
+        ).toString();
+        const encryptPassword = CryptoJS.AES.encrypt(
+          Pass_word.toString(),
+          "abcd"
+        ).toString();
 
         localStorage.setItem("loginId", encryptedLoginId);
         // localStorage.setItem("NameId", encryptedname);
@@ -181,69 +236,48 @@ function Sidebar() {
         localStorage.setItem("IsEnable", encryptIsEnable);
         localStorage.setItem("Password", encryptPassword);
 
-
         if (Is_Enable == 0) {
-          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+          const encryptData = CryptoJS.AES.encrypt(
+            JSON.stringify(true),
+            "abcd"
+          );
           localStorage.setItem("login", encryptData.toString());
         } else {
-          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+          const encryptData = CryptoJS.AES.encrypt(
+            JSON.stringify(false),
+            "abcd"
+          );
           localStorage.setItem("login", encryptData.toString());
         }
       } else {
-        console.log("No data found")
+        console.log("No data found");
       }
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
-      }, 100)
+        dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
+      }, 100);
     }
-
-  }, [stateData.statusCodeForAccountList])
-
-
-
-
-
-
-
-
-
-
+  }, [stateData.statusCodeForAccountList]);
 
   // const [filterhostellist, setFilterhostellist] = useState([]);
   // const [loginCustomerid, setLoginCustomerId] = useState('')
-  const [profiles, setProfiles] = useState(null)
-  const [profilename, setProfileArray] = useState('')
-
-
-
+  const [profiles, setProfiles] = useState(null);
+  const [profilename, setProfileArray] = useState("");
 
   useEffect(() => {
     if (stateData.accountList.length > 0) {
       try {
-
-
-        const FilteredProfile = stateData.accountList[0]?.user_details
+        const FilteredProfile = stateData.accountList[0]?.user_details;
 
         const profilePictures = FilteredProfile.profile;
-
-
 
         const profileName = FilteredProfile.first_name;
         setProfiles(profilePictures);
         setProfileArray(profileName);
-      }
-
-      catch (error) {
+      } catch (error) {
         console.log("Error decrypting loginid", error);
       }
-
     }
-
-  }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount])
-
-
-
-
+  }, [stateData.accountList, state.UsersList.hostelListNewDetails.data, stateData.statusCodeForAccount]);
 
   // if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
   //   setProfiles(0)
@@ -253,63 +287,50 @@ function Sidebar() {
 
   const handleHostelSelect = (hostelName) => {
     const selected = state.hostelList.find((item) => {
-      return item.Name === hostelName
+      return item.Name === hostelName;
     });
     setSelectedHostel(selected);
-
   };
 
-
-
   const [activePage, setActivePage] = useState(true);
-  const [currentPage, setCurrentPage] = useState('dashboard');
-
-
 
   const [pgList, setPgList] = useState({
-    Name: '',
-    phoneNumber: '',
-    email_Id: '',
-    location: '',
-    number_Of_Floor: '',
-    number_Of_Rooms: '',
-    floorDetails: []
-  })
-
+    Name: "",
+    phoneNumber: "",
+    email_Id: "",
+    location: "",
+    number_Of_Floor: "",
+    number_Of_Rooms: "",
+    floorDetails: [],
+  });
 
   useEffect(() => {
-    setCurrentPage(localStorage.getItem('currentPage'));
+    setCurrentPage(localStorage.getItem("currentPage"));
   }, [currentPage]);
-
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
     setIsDropdownOpen(false);
-    localStorage.setItem('currentPage', page);
+    localStorage.setItem("currentPage", page);
   };
-
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
-      setCurrentPage('dashboard')
+      setCurrentPage("dashboard");
     }
-  }, [state.login?.isLoggedIn])
-
-
-
-  console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(allPageHostel_Id))
+  }, [state.login?.isLoggedIn]);
 
   useEffect(() => {
     console.log("isLoggedIn:", state.login?.isLoggedIn);
     if (state.login?.isLoggedIn === false) {
       console.log("Clearing hostel data...");
-      dispatch({ type: 'CLEAR_HOSTEL_LIST' });
-      dispatch({ type: 'CLEAR_DASHBOARD' })
-      dispatch({ type: 'CLEAR_HOSTEL_DATA' })
-      setAllPageHostel_Id("")
-      dispatch(StoreSelectedHostelAction(''))
-      console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(""))
+      dispatch({ type: "CLEAR_HOSTEL_LIST" });
+      dispatch({ type: "CLEAR_DASHBOARD" });
+      dispatch({ type: "CLEAR_HOSTEL_DATA" });
+      setAllPageHostel_Id("");
+      dispatch(StoreSelectedHostelAction(""));
+      console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(""));
       setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
@@ -319,160 +340,189 @@ function Sidebar() {
     setIsSidebarMaximized(!isSidebarMaximized);
   };
 
-
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-  const [logoutformshow, setLogoutformshow] = useState(false)
+  const [logoutformshow, setLogoutformshow] = useState(false);
 
   const handleShowLogout = () => {
-    setLogoutformshow(true)
-  }
+    setLogoutformshow(true);
+  };
 
   const handleCloseLogout = () => {
-    setLogoutformshow(false)
-  }
-
-
+    setLogoutformshow(false);
+  };
 
   const handleLogout = () => {
+    dispatch({ type: "LOG_OUT" });
 
-    dispatch({ type: 'LOG_OUT' })
-
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-    localStorage.setItem("login", encryptData.toString())
-    localStorage.setItem("loginId", '')
-    localStorage.setItem("NameId", '')
-    localStorage.setItem("phoneId", '')
-    localStorage.setItem("emilidd", '')
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+    localStorage.setItem("login", encryptData.toString());
+    localStorage.setItem("loginId", "");
+    localStorage.setItem("NameId", "");
+    localStorage.setItem("phoneId", "");
+    localStorage.setItem("emilidd", "");
+    localStorage.setItem("selectedHostelId", "");
+    localStorage.setItem("selectedHostelName", "");
     // localStorage.setItem('currentPage', 'dashboard');
+  };
 
+  const stateAccount = useSelector((state) => state.createAccount);
 
-  }
-
-
-
-  const stateAccount = useSelector(state => state.createAccount)
-
-
-  const [profile, setProfile] = useState(null)
-
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-
-    const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile
-    setProfile(Filteredprofile)
-  }, [])
-
-
+    const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile;
+    setProfile(Filteredprofile);
+  }, []);
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile
-      setProfile(loginProfile)
+      const loginProfile = stateAccount.accountList[0].user_details.profile;
+      setProfile(loginProfile);
     }
-
-  }, [stateAccount.statusCodeForAccountList])
+  }, [stateAccount.statusCodeForAccountList]);
 
   const handledisplaycompliace = (compliance) => {
-    setCurrentPage('compliance')
-    localStorage.setItem('currentPage', 'compliance');
-  }
+    setCurrentPage("compliance");
+    localStorage.setItem("currentPage", "compliance");
+  };
 
-  const [settignspgshow, setSettingsPGShow] = useState(false)
+  const [settignspgshow, setSettingsPGShow] = useState(false);
 
   const handledisplaySettingsPG = (settingNewDesign) => {
-    setCurrentPage('settingNewDesign')
-    localStorage.setItem('currentPage', 'settingNewDesign');
-    setSettingsPGShow(true)
-  }
+    setCurrentPage("settingNewDesign");
+    localStorage.setItem("currentPage", "settingNewDesign");
+    setSettingsPGShow(true);
+  };
 
-  const [selectedProfileImage, setSelectedProfileImage] = useState("")
+  const [selectedProfileImage, setSelectedProfileImage] = useState("");
+
   const handleHostelId = (id, name, profile) => {
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
-
-
-
-
-    setIsDropdownOpen(false);
     setSelectedProfileImage(
       profile && profile !== "0" && profile !== "" ? profile : Profile
     );
+    setIsDropdownOpen(false);
 
+    // Save selected hostel ID and name to localStorage
+    localStorage.setItem("selectedHostelId", id);
+    localStorage.setItem("selectedHostelName", name);
   };
 
   const handleSettingspage = () => {
-    handlePageClick('settingNewDesign');
-    setSettingsPGShow(false)
-  }
-
+    handlePageClick("settingNewDesign");
+    setSettingsPGShow(false);
+  };
 
   useEffect(() => {
     if (allPageHostel_Id) {
-      dispatch(StoreSelectedHostelAction(allPageHostel_Id))
+      dispatch(StoreSelectedHostelAction(allPageHostel_Id));
     }
+  }, [allPageHostel_Id]);
 
-  }, [allPageHostel_Id])
-
-  console.log("state.UsersList.hosteListStatusCode ", state.UsersList.hosteListStatusCode)
-
-
-  const [isInitialized, setIsInitialized] = useState(false);
+  console.log(
+    "state.UsersList.statusCodeForhostelListNewDetails ",
+    state.UsersList.statusCodeForhostelListNewDetails
+  );
 
   useEffect(() => {
+    const savedHostelId = localStorage.getItem("selectedHostelId");
+    const savedHostelName = localStorage.getItem("selectedHostelName");
 
-    console.log("state.UsersList.hosteListStatusCode:", state.UsersList.hosteListStatusCode);
+    if (
+      !isInitialized &&
+      hostelListDetail?.length > 0 &&
+      state.UsersList.statusCodeForhostelListNewDetails === 200
+    ) {
+      const currentHostel =
+        savedHostelId &&
+        hostelListDetail?.find(
+          (item) => item.id === parseInt(savedHostelId, 10)
+        );
 
-
-    if (!isInitialized && state.UsersList.hostelList.length > 0 && state.UsersList.hosteListStatusCode == 200) {
-
-      console.log(state.UsersList.hostelList, " state.UsersList.hostelList");
-
-
-      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
-        prev.id < current.id ? prev : current
-      );
-      console.log("lowestIdItem.Name", lowestIdItem.Name)
-      setPayingGuestName(lowestIdItem.Name);
-      setAllPageHostel_Id(lowestIdItem.id);
-      setIsDropdownOpen(false);
-      setSelectedProfileImage(
-        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
-          ? lowestIdItem.profile
-          : Profile
-      );
+      if (currentHostel) {
+        // Restore saved hostel data if available
+        setPayingGuestName(currentHostel.Name);
+        setAllPageHostel_Id(currentHostel.id);
+        setSelectedProfileImage(
+          currentHostel.profile &&
+            currentHostel.profile !== "0" &&
+            currentHostel.profile !== ""
+            ? currentHostel.profile
+            : Profile
+        );
+      } else {
+        const lowestIdItem = hostelListDetail?.reduce(
+          (prev, current) => (prev.id < current.id ? prev : current)
+        );
+        setPayingGuestName(lowestIdItem.Name);
+        setAllPageHostel_Id(lowestIdItem.id);
+        setSelectedProfileImage(
+          lowestIdItem.profile &&
+            lowestIdItem.profile !== "0" &&
+            lowestIdItem.profile !== ""
+            ? lowestIdItem.profile
+            : Profile
+        );
+      }
 
       setIsInitialized(true);
     }
+  }, [
+    state.UsersList.hostelListNewDetails.data,
+    hostelListDetail,
+    state.UsersList.statusCodeForhostelListNewDetails,
+    isInitialized,
+  ]);
 
-    else if (state.UsersList.hosteListStatusCode === 0) {
-      // setPayingGuestName("");
-      // setAllPageHostel_Id("");
-      setIsDropdownOpen("");
+  useEffect(() => {
+    // Check if the user is logged in
+    if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
+      const firstHostel = hostelListDetail.reduce((prev, current) =>
+        prev.id < current.id ? prev : current
+      );
+
+      // Update state after login with the first hostel
+      setAllPageHostel_Id(firstHostel.id); // State update here
+      setPayingGuestName(firstHostel.Name); // State update here
+      setSelectedProfileImage(
+        firstHostel.profile &&
+          firstHostel.profile !== "0" &&
+          firstHostel.profile !== ""
+          ? firstHostel.profile
+          : Profile
+      );
+
+      // Store the selected hostel id in the Redux store
+      dispatch(StoreSelectedHostelAction(firstHostel.id));
+
+      // Clear localStorage when logging out
+      // localStorage.removeItem("selectedHostelId");
     }
-  }, [state.UsersList.hostelList, state.UsersList.hosteListStatusCode, isInitialized, Profile]);
+  }, [
+    state.login?.isLoggedIn,
+    state.UsersList.hostelListNewDetails.data,
+    hostelListDetail,
+    state.UsersList.statusCodeForhostelListNewDetails,
+  ]);
 
+  console.log("state.UsersList.hostelList", state.UsersList.hostelList.length);
 
-
-  console.log("state.UsersList.hostelList", state.UsersList.hostelList.length)
-
-
-
-  const [pgshow, setPgshow] = useState(false)
-  const [pgformshow, setPgformshow] = useState(true)
+  const [pgshow, setPgshow] = useState(false);
+  const [pgformshow, setPgformshow] = useState(true);
 
   const handleShowsettingsPG = (settingNewDesign) => {
     handledisplaySettingsPG(settingNewDesign);
-    dispatch({ type: 'MANAGE_PG' })
-    setPgshow(true)
+    dispatch({ type: "MANAGE_PG" });
+    setPgshow(true);
   };
 
   const [hoveredIcon, setHoveredIcon] = useState(null);
@@ -480,244 +530,177 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
+  console.log("Hostel List Data:", state.UsersList?.hostelListNewDetails?.data);
+  console.log("Is Array:", Array.isArray(state.UsersList?.hostelListNewDetails?.data));
+  console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
+  
+
+  const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
+
   return (
     <>
-
-
-
-      <Container fluid className='p-0'>
-
-        <Row className='g-0 m-0'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar h-100" style={{
-            cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed",
-            //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
-          }}
-
+      <Container fluid className="p-0">
+        <Row className="g-0 m-0">
+          <Col
+            lg={2}
+            md={2}
+            sm={2}
+            xs={2}
+            className="d-sm-block  sidebar h-100"
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#E0ECFF",
+              position: "fixed",
+              //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
+            }}
           >
-            <div className='container' style={{ position: "relative" }}>
-              <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 10px" }}>
-                <img src={Smartstay} style={{ height: 25.06, width: 134 }} className="Title" onClick={() => handlePageClick('dashboard')} />
+            <div className="container" style={{ position: "relative" }}>
+              <div
+                className="d-flex align-items-center justify-content-start"
+                style={{ padding: "16px 10px" }}
+              >
+                <img
+                  src={Smartstay}
+                  style={{ height: 25.06, width: 134 }}
+                  className="Title"
+                  onClick={() => handlePageClick("dashboard")}
+                />
               </div>
 
-
-              {/* <li className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`} onClick={() => handlePageClick('settingNewDesign')} style={{ listStyleType: "none", display: "flex" }}>
-                  <img src={Manage} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>payingGuest</span>
-                  <span className="ms-auto ">
-                    <ArrowDown2
-                      size="16"
-                      color="#4B4B4B"
-                    />
-                  </span>
-                </li> */}
-              {/* <li
-  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
-  onClick={toggleDropdown}
-  style={{
-    listStyleType: 'none',
-    display: 'flex',
-    position: 'relative', 
-    cursor: 'pointer',
-  }}
->
-  
-  <img
-    src={
-      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
-        ? selectedProfileImage
-        : hostelimage 
-    }
-    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
-    alt="Selected Profile"
-  />
-  <span
-    className="Title"
-    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
-  >
-    {payingGuestName}
-  </span>
-  <span className="ms-auto">
-    {isDropdownOpen ? (
-      <ArrowUp2 size="16" color="#4B4B4B" />
-    ) : (
-      <ArrowDown2 size="16" color="#4B4B4B" />
-    )}
-  </span>
-
-  {isDropdownOpen && (
-    <div
-      style={{
-        position: 'absolute',
-        top: '100%', 
-        left: 0,
-        backgroundColor: 'white',
-        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-        padding: '5px 0',
-        borderRadius: '4px',
-        width: '100%',
-        zIndex: 10,
-      }}
-    >
-      <ul style={{ margin: 0, padding: 0 }}>
-        {state.UsersList?.hostelList?.map((item) => (
-          <li
-            key={item.id}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '8px 12px',
-              cursor: 'pointer',
-              color: '#007bff',
-            }}
-            onClick={() => handleHostelId(item.id, item.Name, item.profile)} 
-          >
-
-            <img
-              src={
-                item.profile && item.profile !== "0" && item.profile !== ""
-                  ? item.profile
-                  : Profile
-              }
-              style={{
-                height: 25,
-                width: 25,
-                borderRadius: '50%',
-                marginRight: 8,
-              }}
-              alt={item.Name || "Default Profile"}
-            />
-            {item.Name}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</li> */}
-
-              {state.UsersList?.hostelList && state.UsersList?.hostelList?.length > 0 && (
-                <li
-                  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
-                  onClick={toggleDropdown}
-                  style={{
-                    listStyleType: 'none',
-                    display: 'flex',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    fontFamily: "Gilroy"
-                  }}
-                >
-                  <img
-                    src={
-                      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
-                        ? selectedProfileImage
-                        : hostelimage
-                    }
-                    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8, fontFamily: "Gilroy" }}
-                    alt="Selected Profile"
-                  />
-                  <span
-                    className="Title"
-                    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
+              {hostelListDetail &&
+                hostelListDetail?.length > 0 && (
+                  <li
+                    className={`align-items-center list-Item ${
+                      currentPage === "settingNewDesign" ? "active" : ""
+                    }`}
+                    onClick={toggleDropdown}
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      position: "relative",
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
                   >
-                    {payingGuestName}
-                  </span>
-                  <span className="ms-auto">
-                    {isDropdownOpen ? (
-                      <ArrowUp2 size="16" color="#4B4B4B" />
-                    ) : (
-                      <ArrowDown2 size="16" color="#4B4B4B" />
-                    )}
-                  </span>
-
-                  {/* Dropdown */}
-                  {isDropdownOpen && (
-                    <div
+                    <img
+                      src={
+                        selectedProfileImage &&
+                        selectedProfileImage !== "0" &&
+                        selectedProfileImage !== ""
+                          ? selectedProfileImage
+                          : hostelimage
+                      }
                       style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: 0,
-                        backgroundColor: 'white',
-                        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-                        padding: '5px 0',
-                        borderRadius: '4px',
-                        width: '100%',
-                        zIndex: 10,
+                        height: 25,
+                        width: 25,
+                        borderRadius: "50%",
+                        marginRight: 8,
+                      }}
+                      alt="Selected Profile"
+                    />
+                    <span
+                      className="Title"
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        display: "inline-block",
+                        fontFamily: "Gilroy",
                       }}
                     >
-                      <ul style={{ margin: 0, padding: 0 }}>
-                        {state.UsersList?.hostelList && state.UsersList?.hostelList.length > 0 ? (
-                          state.UsersList.hostelList.map((item) => (
+                      {payingGuestName}
+                    </span>
+                    <span className="ms-auto">
+                      {isDropdownOpen ? (
+                        <ArrowUp2 size="16" color="#4B4B4B" />
+                      ) : (
+                        <ArrowDown2 size="16" color="#4B4B4B" />
+                      )}
+                    </span>
+
+                    {/* Dropdown */}
+                    {isDropdownOpen && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          backgroundColor: "white",
+                          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                          padding: "5px 0",
+                          borderRadius: "4px",
+                          width: "100%",
+                          zIndex: 10,
+                        }}
+                      >
+                        <ul style={{ margin: 0, padding: 0 }}>
+                          {hostelListDetail.map((item) => (
                             <li
                               key={item.id}
                               style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: '8px 12px',
-                                cursor: 'pointer',
-                                color: '#007bff',
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "8px 12px",
+                                cursor: "pointer",
+                                color: "#007bff",
                               }}
-                              onClick={() => handleHostelId(item.id, item.Name, item.profile)} // Pass profile image as well
+                              onClick={() =>
+                                handleHostelId(item.id, item.Name, item.profile)
+                              }
                             >
-                              {/* Profile Image with fallback */}
                               <img
                                 src={
-                                  item.profile && item.profile !== "0" && item.profile !== ""
+                                  item.profile &&
+                                  item.profile !== "0" &&
+                                  item.profile !== ""
                                     ? item.profile
                                     : Profile
                                 }
                                 style={{
                                   height: 25,
                                   width: 25,
-                                  borderRadius: '50%',
+                                  borderRadius: "50%",
                                   marginRight: 8,
                                 }}
                                 alt={item.Name || "Default Profile"}
                               />
                               {item.Name}
                             </li>
-                          ))
-                        ) : (
-                          <li
-                            style={{
-                              padding: '8px 12px',
-                              textAlign: 'center',
-                              color: '#6c757d',
-                            }}
-                          >
-                            No hostel available
-                          </li>
-                        )}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              )}
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                )}
 
-              {state.UsersList?.hostelList && state.UsersList?.hostelList.length === 0 && (
-                <li
-                  className="align-items-center d-flex justify-content-center list-Button mb-2"
-                  style={{
-                    listStyleType: "none",
-                    display: "flex",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-
-                  }}
-                  onClick={() => handleShowsettingsPG()}
-                >
-                  + Add PG
-                </li>
-              )}
+{!(hostelListDetail ?? []).length && (
+  <li
+    className="align-items-center d-flex justify-content-center list-Button mb-2"
+    style={{
+      listStyleType: "none",
+      display: "flex",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+    onClick={() => handleShowsettingsPG()}
+  >
+    + Add PG
+  </li>
+)}
 
 
-              <ul className="first p-0 show-scrolls" style={{
-                display: "flex", flexDirection: "column", alignItems: "start", position: "relative", marginBottom: "20px",
-                maxHeight: manageOpen ? "310px" : "unset",
-                overflowY: manageOpen ? "auto" : "hidden",
-                paddingBottom: "30px"
-
-
-              }}>
+              <ul
+                className="first p-0 show-scrolls"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  position: "relative",
+                  marginBottom: "20px",
+                  maxHeight: manageOpen ? "310px" : "unset",
+                  overflowY: manageOpen ? "auto" : "hidden",
+                  paddingBottom: "30px",
+                }}
+              >
                 {/* <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                
                     <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ height: 20, width: 20 }} />
@@ -726,19 +709,24 @@ function Sidebar() {
                 </li> */}
 
                 <li
-                  className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`}
-                  onClick={() => handlePageClick('dashboard')}
-                  style={{ listStyleType: "none", display: "flex", alignItems: "center" }}
+                  className={`align-items-center list-Item ${
+                    currentPage === "dashboard" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("dashboard")}
+                  style={{
+                    listStyleType: "none",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
-
                   <svg
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    stroke={currentPage === 'dashboard' ? 'blue' : '#4B4B4B'}
-                    style={{ marginRight: 8 }}
+                    stroke={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                    // style={{ marginRight: 8 }}
                   >
                     <path
                       d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
@@ -766,63 +754,173 @@ function Sidebar() {
                       fontSize: 14,
                       fontWeight: 500,
                       display: "inline-block",
-                      fontFamily: "Gilroy"
+                      fontFamily: "Gilroy",
                     }}
                   >
                     Home
                   </span>
                 </li>
 
-
                 {/* manage */}
-                <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`}
-                  onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex", position: "relative" }}>
+                <li
+                  className={`align-items-center list-Item ${
+                    currentPage === "manage" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setManageOpen(!manageOpen);
+                    localStorage.setItem("manageOpen", !manageOpen);
+                  }}
+                  style={{
+                    listStyleType: "none",
+                    display: "flex",
+                    position: "relative",
+                  }}
+                >
                   <img src={Manage} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Manage</span>
-                  <span className="ms-auto ">{manageOpen ?
-                    <ArrowUp2
-                      size="16"
-                      color="#4B4B4B"
-                    /> :
-                    <ArrowDown2
-                      size="16"
-                      color="#4B4B4B"
-                    />
-                  }</span>
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Manage
+                  </span>
+                  <span className="ms-auto ">
+                    {manageOpen ? (
+                      <ArrowUp2 size="16" color="#4B4B4B" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#4B4B4B" />
+                    )}
+                  </span>
                 </li>
 
-
                 {manageOpen && (
-                  <ul className="p-1" style={{
-                    marginLeft: 10, zIndex: 1, position: "relative",
-                    // marginTop: manageOpen ? "20px" : "0px",
-                  }}>
-                    <li className={` align-items-center list-sub-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
+                  <ul
+                    className="p-1"
+                    style={{ marginLeft: 10, zIndex: 1, position: "relative" }}
+                  >
+                    <li
+                      className={`align-items-center list-sub-Item ${
+                        currentPage === "pg-list" ? "active" : ""
+                      }`}
+                      onClick={() => handlePageClick("pg-list")}
+                      style={{ listStyleType: "none", display: "flex" }}
+                    >
+                      <img
+                        src={currentPage === "pg-list" ? Paying2 : Paying}
+                        style={{ height: 20, width: 20 }}
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Paying Guest
+                      </span>
                     </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span>
+                    <li
+                      className={`align-items-center list-sub-Item ${
+                        currentPage === "user-list" ? "active" : ""
+                      }`}
+                      onClick={() => handlePageClick("user-list")}
+                      style={{ listStyleType: "none", display: "flex" }}
+                    >
+                      <img
+                        src={currentPage === "user-list" ? Custom2 : Custom}
+                        style={{ height: 20, width: 20 }}
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Customers
+                      </span>
                     </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span>
+                    <li
+                      className={`align-items-center list-sub-Item ${
+                        currentPage === "asset" ? "active" : ""
+                      }`}
+                      onClick={() => handlePageClick("asset")}
+                      style={{ listStyleType: "none", display: "flex" }}
+                    >
+                      <img
+                        src={currentPage === "asset" ? Asset2 : Asset}
+                        style={{ height: 20, width: 20 }}
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Assets
+                      </span>
                     </li>
-                    <li className={`align-items-center list-sub-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
-                      <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height: 20, width: 20 }} />
-                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span>
+                    <li
+                      className={`align-items-center list-sub-Item ${
+                        currentPage === "vendor" ? "active" : ""
+                      }`}
+                      onClick={() => handlePageClick("vendor")}
+                      style={{ listStyleType: "none", display: "flex" }}
+                    >
+                      <img
+                        src={currentPage === "vendor" ? Vendor2 : Vendor}
+                        style={{ height: 20, width: 20 }}
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Vendor
+                      </span>
                     </li>
                   </ul>
                 )}
 
+                <li
+                  className={`align-items-center list-Item ${
+                    currentPage === "banking" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("banking")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "banking" ? bank : bankblank}
+                    style={{ height: 20, width: 20 }}
+                  />
 
-
-                <li className={`align-items-center list-Item ${currentPage === 'banking' ? 'active' : ''}`} onClick={() => handlePageClick('banking')} style={{ listStyleType: "none", display: "flex" }}>
-
-                  <img src={currentPage === 'banking' ? bank : bankblank} style={{ height: 20, width: 20 }} />
-
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Banking</span></li>
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Banking
+                  </span>
+                </li>
 
                 {/* <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
 
@@ -840,102 +938,242 @@ function Sidebar() {
                 <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height:20,width:20}} />
                 <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span></li> */}
 
-                <li className={`align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
+                <li
+                  className={`align-items-center list-Item ${
+                    currentPage === "invoice" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("invoice")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "invoice" ? Invoice2 : Invo}
+                    style={{ height: 20, width: 20 }}
+                  />
 
-                  <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ height: 20, width: 20 }} />
-
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Bills</span></li>
-
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Bills
+                  </span>
+                </li>
 
                 {/* <li className={`p-2 mb-2 align-items-center list-Item ${currentPage == 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" ,backgroundColor: currentPage === 'asset' ? '#FFFFFF' : 'inherit',color: currentPage === 'asset' ? 'rgba(30, 69, 225, 1)' : 'inherit'}}>
                 <img src={currentPage == 'asset' ? Asset2 : Asset} style={{ height:20,width:20 ,color:currentPage == 'asset' && "rgba(30, 69, 225, 1)" }} />
                 <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span></li> */}
 
-
-
-
-                <li className={`align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
-                  <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ height: 20, width: 20 }} />
-                  <span className="ms-1 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity</span>
+                <li
+                  className={`align-items-center list-Item ${
+                    currentPage === "eb" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("eb")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "eb" ? Eb2 : Eb}
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className=" Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Electricity
+                  </span>
                 </li>
 
-                <li className={` align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
-                  <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ height: 20, width: 20 }} />
-                  <span className=" Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Compliants</span></li>
-                <li className={`align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
+                <li
+                  className={` align-items-center list-Item ${
+                    currentPage === "compliance" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("compliance")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "compliance" ? Compl2 : Compl}
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className=" Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Compliants
+                  </span>
+                </li>
+                <li
+                  className={`align-items-center list-Item ${
+                    currentPage === "expenses" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("expenses")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "expenses" ? Expense2 : Expense}
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Expenses
+                  </span>
+                </li>
 
-                  <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Expenses</span></li>
-
-                <li className={` align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
-
-                  <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ height: 20, width: 20 }} />
-                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
+                <li
+                  className={` align-items-center list-Item ${
+                    currentPage === "reports" ? "active" : ""
+                  }`}
+                  onClick={() => handlePageClick("reports")}
+                  style={{ listStyleType: "none", display: "flex" }}
+                >
+                  <img
+                    src={currentPage === "reports" ? Repo2 : Repo}
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className="Title"
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Reports
+                  </span>
+                </li>
 
                 {/* <li className={`align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
                   <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span>
                 </li> */}
-
-
               </ul>
             </div>
 
-
-            <div className="mb-3" style={{ position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center" }}>
-
-
-              <ul className=" p-0" >
-                <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`}
+            <div
+              className="mb-3"
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <ul className=" p-0">
+                <li
+                  className={` align-items-center list-Items ${
+                    currentPage === "profile" ? "active" : ""
+                  }`}
                   //  onClick={() => handlePageClick('profile')}
-                  style={{ listStyleType: "none", display: "flex", width: 200 }}>
+                  style={{ listStyleType: "none", display: "flex", width: 200 }}
+                >
                   <div className="mr-3" style={{ cursor: "pointer" }}>
                     <Image
-                      src={(profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' || (profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
-                      roundedCircle style={{ height: "40px", width: "40px" }}
-                    // onClick={() => handlePageClick('profile')}
+                      src={
+                        profiles == "null" ||
+                        profiles == null ||
+                        profiles == undefined ||
+                        profiles == "undefined" ||
+                        profiles == "" ||
+                        profiles == 0 ||
+                        profiles == "0"
+                          ? Profileimage
+                          : profiles
+                      }
+                      alt="profile-image"
+                      roundedCircle
+                      style={{ height: "40px", width: "40px" }}
+                      // onClick={() => handlePageClick('profile')}
                     />
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", textTransform: "capitalize" }}>{profilename}</span>
-                    <span className="ms-3 Title" style={{ fontSize: 12, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", color: 'blue' }}>Admin</span>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span
+                      className="ms-3 Title"
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        display: "inline-block",
+                        fontFamily: "Gilroy",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {profilename}
+                    </span>
+                    <span
+                      className="ms-3 Title"
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        display: "inline-block",
+                        fontFamily: "Gilroy",
+                        color: "blue",
+                      }}
+                    >
+                      Admin
+                    </span>
                   </div>
-
-
                 </li>
               </ul>
               <div style={{ border: "1px solid white " }}></div>
 
               {/* Four sidebar icons */}
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }} className=" w-100">
-
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
+                className=" w-100"
+              >
                 {/* Settings Icon */}
                 <div
-                  onMouseEnter={() => handleMouseEnter('settings')}
+                  onMouseEnter={() => handleMouseEnter("settings")}
                   onMouseLeave={handleMouseLeave}
                   onClick={handleSettingspage}
                   style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    cursor: 'pointer',
+                    position: "relative",
+                    display: "inline-block",
+                    cursor: "pointer",
                   }}
                 >
                   <img src={SettingIcon} alt="Settings Icon" />
-                  {hoveredIcon === 'settings' && (
+                  {hoveredIcon === "settings" && (
                     <span
                       style={{
-                        display: 'block',
-                        position: 'absolute',
-                        top: '-30px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: 'White',
-                        color: 'black',
-                        padding: '5px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
+                        display: "block",
+                        position: "absolute",
+                        top: "-30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "White",
+                        color: "black",
+                        padding: "5px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       Settings
@@ -946,13 +1184,13 @@ function Sidebar() {
                 {/* log out */}
                 <div
                   className="logout"
-                  onMouseEnter={() => handleMouseEnter('logout')}
+                  onMouseEnter={() => handleMouseEnter("logout")}
                   onMouseLeave={handleMouseLeave}
                   onClick={handleShowLogout}
                   style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    cursor: 'pointer',
+                    position: "relative",
+                    display: "inline-block",
+                    cursor: "pointer",
                   }}
                 >
                   <img
@@ -960,20 +1198,20 @@ function Sidebar() {
                     alt="Logout Icon"
                     style={{ width: 24, height: 24 }}
                   />
-                  {hoveredIcon === 'logout' && (
+                  {hoveredIcon === "logout" && (
                     <span
                       style={{
-                        display: 'block',
-                        position: 'absolute',
-                        top: '-30px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: 'White',
-                        color: 'black',
-                        padding: '5px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
+                        display: "block",
+                        position: "absolute",
+                        top: "-30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "White",
+                        color: "black",
+                        padding: "5px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       Logout
@@ -983,29 +1221,29 @@ function Sidebar() {
 
                 {/* Help Document Icon */}
                 <div
-                  onMouseEnter={() => handleMouseEnter('helpDoc')}
+                  onMouseEnter={() => handleMouseEnter("helpDoc")}
                   onMouseLeave={handleMouseLeave}
                   style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    cursor: 'pointer',
+                    position: "relative",
+                    display: "inline-block",
+                    cursor: "pointer",
                   }}
                 >
                   <img src={HelpDocumentIcon} alt="Help Document Icon" />
-                  {hoveredIcon === 'helpDoc' && (
+                  {hoveredIcon === "helpDoc" && (
                     <span
                       style={{
-                        display: 'block',
-                        position: 'absolute',
-                        top: '-30px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: 'White',
-                        color: 'black',
-                        padding: '5px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
+                        display: "block",
+                        position: "absolute",
+                        top: "-30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "White",
+                        color: "black",
+                        padding: "5px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       Help Document
@@ -1015,52 +1253,51 @@ function Sidebar() {
 
                 {/* Help Video Icon */}
                 <div
-                  onMouseEnter={() => handleMouseEnter('helpVideo')}
+                  onMouseEnter={() => handleMouseEnter("helpVideo")}
                   onMouseLeave={handleMouseLeave}
                   style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    cursor: 'pointer',
+                    position: "relative",
+                    display: "inline-block",
+                    cursor: "pointer",
                   }}
                 >
                   <img src={HelpVideoIcon} alt="Help Video Icon" />
-                  {hoveredIcon === 'helpVideo' && (
+                  {hoveredIcon === "helpVideo" && (
                     <span
                       style={{
-                        display: 'block',
-                        position: 'absolute',
-                        top: '-30px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: 'White',
-                        color: 'black',
-                        padding: '5px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
+                        display: "block",
+                        position: "absolute",
+                        top: "-30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "White",
+                        color: "black",
+                        padding: "5px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       Help Video
                     </span>
                   )}
                 </div>
-
-
-
               </div>
-
             </div>
-
-
-
-
           </Col>
-          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }}
-            style={{
-              // maxWidth: 1126,
-              //  width: "100%"
-
-            }}>
+          <Col
+            className="bg-white main-content"
+            lg={{ span: 10, offset: 2 }}
+            md={{ span: 10, offset: 2 }}
+            sm={{ span: 10, offset: 2 }}
+            xs={{ span: 10, offset: 2 }}
+            style={
+              {
+                // maxWidth: 1126,
+                //  width: "100%"
+              }
+            }
+          >
             {/* <div className='container d-flex justify-content-end align-items-center m-0' style={{ marginTop: '20px' }}>
 
               <div > */}
@@ -1076,7 +1313,6 @@ function Sidebar() {
             {/* <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
 </div> */}
-
 
             {/* </div> */}
 
@@ -1112,46 +1348,121 @@ function Sidebar() {
               </Offcanvas.Body>
             </Offcanvas> */}
 
-            {currentPage === 'dashboard' && <Dashboards displayCompliance={handledisplaycompliace} allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'pg-list' && < PgLists displaysettings={handledisplaySettingsPG} allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'user-list' && < UserLists allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'invoice' && < Invoices allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'vendor' && < VendorComponent allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'compliance' && < Compliances allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'asset' && < Assets allPageHostel_Id={allPageHostel_Id} />}
-            {currentPage === 'reports' && < Report allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
+            {currentPage === "dashboard" && (
+              <Dashboards
+                displayCompliance={handledisplaycompliace}
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "pg-list" && (
+              <PgLists
+                displaysettings={handledisplaySettingsPG}
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "user-list" && (
+              <UserLists
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "invoice" && (
+              <Invoices
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "vendor" && (
+              <VendorComponent
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "compliance" && (
+              <Compliances
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "asset" && (
+              <Assets allPageHostel_Id={allPageHostel_Id} />
+            )}
+            {currentPage === "reports" && (
+              <Report
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
             {/* {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>} */}
-            {currentPage === 'eb' && <  EbHostel allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'checkout' && <Checkout allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'profile' && <Profilesettings allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'banking' && <Banking allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
-            {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} payingGuestName={payingGuestName} settignspgshow={settignspgshow} onhandleShowsettingsPG={handleShowsettingsPG} />}
+            {currentPage === "eb" && (
+              <EbHostel
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "checkout" && (
+              <Checkout
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "expenses" && (
+              <Expenses
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "profile" && (
+              <Profilesettings
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "banking" && (
+              <Banking
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+              />
+            )}
+            {currentPage === "settingNewDesign" && (
+              <SettingAllPages
+                allPageHostel_Id={allPageHostel_Id}
+                setAllPageHostel_Id={setAllPageHostel_Id}
+                payingGuestName={payingGuestName}
+                settignspgshow={settignspgshow}
+                onhandleShowsettingsPG={handleShowsettingsPG}
+              />
+            )}
           </Col>
         </Row>
       </Container>
-      {
-        pgshow == true ? <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
-          : null
-      }
-
+      {pgshow == true ? (
+        <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
+      ) : null}
 
       <Modal
         show={logoutformshow}
         onHide={handleCloseLogout}
         centered
         backdrop="static"
-        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
       >
-        <Modal.Header style={{ borderBottom: 'none' }}>
+        <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
             style={{
-              fontSize: '18px',
-              fontFamily: 'Gilroy',
-              textAlign: 'center',
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
               fontWeight: 600,
-              color: '#222222',
-              flex: 1
+              color: "#222222",
+              flex: 1,
             }}
           >
             Logout?
@@ -1162,29 +1473,35 @@ function Sidebar() {
           style={{
             fontSize: 14,
             fontWeight: 500,
-            fontFamily: 'Gilroy',
-            color: '#646464',
-            textAlign: 'center',
-            marginTop: '-20px'
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
           }}
         >
           Are you sure you want Logout?
         </Modal.Body>
 
-        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
           <Button
             style={{
               width: 160,
               height: 52,
               borderRadius: 8,
-              padding: '12px 20px',
-              background: '#fff',
-              color: '#1E45E1',
-              border: '1px solid #1E45E1',
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
               fontWeight: 600,
-              fontFamily: 'Gilroy',
-              fontSize: '14px',
-              marginRight: 10
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
             }}
             onClick={handleCloseLogout}
           >
@@ -1195,12 +1512,12 @@ function Sidebar() {
               width: 160,
               height: 52,
               borderRadius: 8,
-              padding: '12px 20px',
-              background: '#1E45E1',
-              color: '#FFFFFF',
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
               fontWeight: 600,
-              fontFamily: 'Gilroy',
-              fontSize: '14px'
+              fontFamily: "Gilroy",
+              fontSize: "14px",
             }}
             onClick={handleLogout}
           >
@@ -1208,8 +1525,6 @@ function Sidebar() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
     </>
   );
 }

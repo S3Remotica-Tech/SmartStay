@@ -117,7 +117,10 @@ function VendorListMap(props) {
             </div>
 
             <div>
-              <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(props.vendor.id)}>
+              <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto',  backgroundColor:
+                                              showDots
+                                                ? "#E7F1FF"
+                                                : "white", }} onClick={() => handleShowDots(props.vendor.id)}>
                 <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                 {showDots && (
@@ -129,7 +132,7 @@ function VendorListMap(props) {
                       position: "absolute",
                       right: 0,
                       top: 50,
-                      width: 163,
+                      width: 143,
                       height: 92,
                       border: "1px solid #EBEBEB",
                       borderRadius: 10,
@@ -141,11 +144,11 @@ function VendorListMap(props) {
                     }}
                   >
                     <div
-                      className="mb-2 gap-2"
+                      className="gap-1"
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "20px",
+                        gap: "10px",
                         cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
                         pointerEvents: props.vendorEditPermission ? "none" : "auto",
                         opacity: props.vendorEditPermission ? 0.5 : 1,
@@ -172,7 +175,7 @@ function VendorListMap(props) {
 
 
                     <div
-                      className="mb-2 gap-2"
+                      className="gap-1"
                       style={{
                         display: "flex",
                         alignItems: "center",

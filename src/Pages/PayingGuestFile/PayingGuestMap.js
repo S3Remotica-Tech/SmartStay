@@ -214,7 +214,7 @@ function PayingGuestMap(props) {
                     <div
 
                     >
-                        <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
+                        <div style={{backgroundColor: showDots ? "#E7F1FF" : '#fff', cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto',backgroundColor: showDots ? "#E7F1FF" : '#fff' }}
                             onClick={handleDotsClick}
                         // onClick={() => handleDotsClick(props.hostel.id)}
                         >
@@ -251,9 +251,10 @@ function PayingGuestMap(props) {
                                                 <label
                                                     style={{
                                                         fontSize: 14,
-                                                        fontWeight: 600,
+                                                        fontWeight: 500,
                                                         fontFamily: "Gilroy",
                                                         color: props.editPermissionError ? "#A0A0A0" : "#222222",
+                                                        cursor:"pointer"
                                                     }}
                                                 >
                                                     Edit
@@ -295,9 +296,10 @@ function PayingGuestMap(props) {
                                                 <label
                                                     style={{
                                                         fontSize: 14,
-                                                        fontWeight: 600,
+                                                        fontWeight: 500,
                                                         fontFamily: "Gilroy",
                                                         color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+                                                         cursor:"pointer"
                                                     }}
                                                 >
                                                     Delete
@@ -439,7 +441,6 @@ function PayingGuestMap(props) {
                 <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
-
 
                 <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
                     <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>

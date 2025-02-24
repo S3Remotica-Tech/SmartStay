@@ -181,6 +181,12 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_EB_CUSTOMER_EBLIST':
             return { ...state, statusCodeforEbCustomer: 0 }
 
+        case 'NO_HOSTEL':
+            return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
+        case 'CLEAR_NOHOSTEL':
+            return { ...state, nostatusCodeforEbCustomer: 0 }
+
+
         case 'EB_ERROR':
             return { ...state, ebError: action.payload }
 

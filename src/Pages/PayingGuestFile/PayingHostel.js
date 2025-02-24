@@ -22,7 +22,7 @@ function PayingHostel(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [showDots, setShowDots] = useState(false);
+    const [showDots, setShowDots] = useState(null);
 
     const [activeHostel, setActiveHostel] = useState(null);
     const [hoverPgCard, setHoverPgCard] = useState(false)
@@ -57,6 +57,10 @@ function PayingHostel(props) {
     const handleDotsClick = () => {
         setShowDots(!showDots);
     };
+
+    // const handleDotsClick = (index) => {
+    //     setShowDots(showDots === index ? null : index); 
+    // };
 
 
 
@@ -181,8 +185,13 @@ function PayingHostel(props) {
         {
             props.filteredData[0] && (
                 <Card className="animated-text ms-0 h-100 " style={{
-                    borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C" : "1px solid #E6E6E6", transition: "border 0.3s ease",
+                    borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #e6e6e6" : "1px solid #E6E6E6", transition: "border 0.3s ease, box-shadow 0.3s ease",
                     height: "auto",
+                    boxShadow: selectedHostelHover 
+                    ? "0px 4px 10px rgba(30, 69, 225, 0.4)"  
+                    : hoverPgCard 
+                      ? "0px 4px 10px rgba(156, 156, 156, 0.3)"  
+                      : "0px 2px 5px rgba(0, 0, 0, 0.1)",
                 }}
 
                     onMouseEnter={handleMouseEnter}
@@ -214,13 +223,16 @@ function PayingHostel(props) {
                             <div
 
                             >
-                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                                    onClick={handleDotsClick}
+                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
+                                display: "flex", justifyContent: "center", alignItems: "center", position: "relative", 
+                                zIndex: showDots ? 1000 : 'auto',backgroundColor: showDots ? "#E7F1FF" : '#fff' }}
+                                    // onClick={handleDotsClick}
+                                    onClick={() => handleDotsClick()}
                                 // onClick={() => handleDotsClick(props.hostel.id)}
                                 >
                                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                                    {showDots && <>
+                                    {showDots  && <>
 
                                         <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                             <div >
@@ -236,24 +248,26 @@ function PayingHostel(props) {
                                             </div>
                                         </div> */}
                                                 <div
-                                                    className="d-flex gap-2 mb-2 align-items-center"
+                                                    className="d-flex gap-2  align-items-center"
                                                     onClick={!props.editPermissionError ? () => handleEdit(props.filteredData[0]) : undefined}
                                                     style={{
                                                         pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
                                                         opacity: props.editPermissionError ? 0.5 : 1, // Visual indication
-                                                        cursor: props.editPermissionError ? "not-allowed" : "pointer", // Cursor style
+                                                        // cursor: props.editPermissionError ? "not-allowed" : "pointer",
+
                                                     }}
                                                 >
-                                                    <div>
+                                                    <div style={{ cursor: "pointer" }}>
                                                         <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
                                                     </div>
                                                     <div>
                                                         <label
                                                             style={{
                                                                 fontSize: 14,
-                                                                fontWeight: 600,
+                                                                fontWeight: 500,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#222222",
+                                                                cursor: "pointer"
                                                             }}
                                                         >
                                                             Edit
@@ -279,11 +293,12 @@ function PayingHostel(props) {
                                                     style={{
                                                         pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
                                                         opacity: props.editPermissionError ? 0.5 : 1, // Dims element when disabled
-                                                        cursor: props.editPermissionError ? "not-allowed" : "pointer", // Changes cursor style
+                                                        // cursor: props.editPermissionError ? "not-allowed" : "pointer", 
+                                                        cursor: "pointer"
                                                     }}
                                                 >
                                                     {/* Trash Icon */}
-                                                    <div>
+                                                    <div style={{ cursor: "pointer" }}>
                                                         <Trash
                                                             size="16"
                                                             color={props.editPermissionError ? "#A0A0A0" : "red"} // Gray when disabled
@@ -295,9 +310,10 @@ function PayingHostel(props) {
                                                         <label
                                                             style={{
                                                                 fontSize: 14,
-                                                                fontWeight: 600,
+                                                                fontWeight: 500,
                                                                 fontFamily: "Gilroy",
                                                                 color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+                                                                cursor: "pointer"
                                                             }}
                                                         >
                                                             Delete
@@ -350,7 +366,7 @@ function PayingHostel(props) {
                                     <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                                 </div>
                                 <div >
-                                    <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined" ? props.filteredData[0]?.email_id : "N/A"}
+                                    <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textOverflow:"ellipsis", whiteSpace:"nowrap",  display: "block", overflow: "hidden", width:200}}>{props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined" ? props.filteredData[0]?.email_id : "N/A"}
                                     </label>
                                 </div>
 
@@ -389,8 +405,8 @@ function PayingHostel(props) {
 
                             </div>
 
-                            <div style={{ lineHeight: 1.5 }}>
-                                <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.filteredData[0] && props.filteredData[0].Address}</label>
+                            <div style={{ backgroundColor:"",lineHeight: 1.5 , textOverflow:"ellipsis", whiteSpace:"nowrap", display: "block",}}>
+                                <label title={props.filteredData[0] && props.filteredData[0].Address} style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textOverflow:"ellipsis", whiteSpace:"nowrap",  display: "block",overflow: "hidden"}}>{props.filteredData[0] && props.filteredData[0].Address}</label>
                             </div>
 
                         </div>
@@ -403,54 +419,14 @@ function PayingHostel(props) {
                 </Card>
             )
 
-            // : 
-            //     <>
-            //         <div
-            //             style={{
-            //                 display: "flex",
-            //                 flexDirection: "column",
-            //                 alignItems: "center",
-            //                 justifyContent: "center",
-            //                 //   height: "100vh",
-            //             }}
-            //         >
-            //             {/* Image */}
-            //             <img
-            //                 src={EmptyState}
-            //                 alt="Empty State"
-            //                 style={{ maxWidth: "100%", height: "auto" }}
-            //             />
-
-            //             {/* Permission Error */}
-
-            //             <div>
-            //                 <Button
-            //                     onClick={props.handleShowsettingsPG}
-            //                     //   disabled={addPermissionError}
-            //                     style={{
-            //                         fontFamily: "Gilroy",
-            //                         fontSize: 14,
-            //                         backgroundColor: "#1E45E1",
-            //                         color: "white",
-            //                         fontWeight: 600,
-            //                         borderRadius: 8,
-            //                         padding: "16px 20px 16px 20px",
-            //                     }}
-            //                 >
-            //                     {" "}
-            //                     + Manage PG
-            //                 </Button>
-            //             </div>
-
-            //         </div>
-            //     </>
+     
         }
 
 
 
 
         {show &&
-            <Modal show={show} onHide={handleClose} centered backdrop="static"
+            <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modal"
                 style={{
                     width: 388,
                     height: 250,
@@ -459,38 +435,46 @@ function PayingHostel(props) {
                 }}>
                 <Modal.Header style={{
                     borderBottom: "none",
-                    justifyContent: "center",
-                    display: "flex"
+                    // justifyContent: "center",
+                    // display: "flex"
                 }}>
                     <Modal.Title style={{
                         fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy"
+                        fontFamily: "Gilroy",  textAlign: "center", flex: 1,
                     }}>Delete paying guest?</Modal.Title>
 
 
-                    {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
-                </Modal.Header>
+                                   </Modal.Header>
 
+
+                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+                    Are you sure you want to delete this paying guest?
+                </Modal.Body>
                 {state.PgList?.deletePgError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    <div className="d-flex align-items-center">
+                        <MdError style={{ color: "red", marginLeft: "40px" }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", 
+                            fontWeight: 500 }}>
                             {state.PgList?.deletePgError}
                         </label>
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center",marginTop:"-20px" }}>
-                    Are you sure you want to delete this paying guest?
-                </Modal.Body>
 
-
-                <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <Modal.Footer  style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px", }}>
+                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "12px 20px", border: "1px solid rgba(36, 0, 255, 1)", 
+                        backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+                        fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", width: 160,
+                        height: 52,
+                        marginRight: 10, }}>
                         Cancel
                     </Button>
-                    <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                    <Button style={{ borderRadius: 8, padding: "12px 20px", border: "1px solid rgba(36, 0, 255, 1)", 
+                    backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", 
+                    fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",
+                    width: 160,
+                    height: 52, }}
                         onClick={() => handleDeletePG(props.filteredData[0])}
                     >
                         Delete

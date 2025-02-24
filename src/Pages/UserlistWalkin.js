@@ -15,9 +15,13 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
+import LoaderComponent from "./LoaderComponent";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
+  console.log("UserlistWalkin", state)
+  console.log("props", props);
+
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
@@ -25,10 +29,16 @@ function UserlistWalkin(props) {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
-  const [walkInEditPermissionError, setWalkInEditPermissionError] =
-    useState("");
-  const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
-    useState("");
+  const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
+  const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
+  const [hostel_Id, setHostelId] = useState("")
+  // const [loader, setLoader] = useState(true);
+  
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostelId(state.login.selectedHostel_Id)
+    }
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (
@@ -71,26 +81,55 @@ function UserlistWalkin(props) {
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
+  const [walkinLoader,setWalkingLoader] = useState(true)
 
   useEffect(() => {
-    dispatch({
-      type: "WALKINCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
+    if(state.login.selectedHostel_Id){
+      setWalkingLoader(true)
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id:state.login.selectedHostel_Id},
+      });
+    }
+
+  }, [state.login.selectedHostel_Id]);
+
+  console.log("state.UsersList.getWalkInStatusCode", state.UsersList.getWalkInStatusCode)
+
+
+
+//  useEffect(() => {
+//   setLoader(true)
+//   }, [state.login.selectedHostel_Id]);
+// //  useEffect(() => {
+//     if (state.UsersList?.getWalkInStatusCode == 200) {
+//       setLoader(false)
+//     }
+//   }, [state.UsersList?.getWalkInStatusCode]);
+
+  // useEffect(() => {
+  //   if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
+  //     setLoader(false)
+  //   }
+  // }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
+
+
 
   useEffect(() => {
     if (state.UsersList.getWalkInStatusCode == 200) {
+      setWalkingLoader(false)
       setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 2000);
+      }, 1000);
     }
   }, [state.UsersList.getWalkInStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.NoDataWalkInCustomerStatusCode == 201) {
+    if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
+      setWalkingLoader(false)
       setWalkInCustomer([]);
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 2000);
@@ -122,8 +161,18 @@ function UserlistWalkin(props) {
     state.UsersList.deleteWalkInCustomerStatusCode,
   ]);
 
-  const handleDotsClick = (id) => {
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+  const handleDotsClick = (id, event) => {
     setDotsButton((prevId) => (prevId === id ? null : id));
+
+    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
   const handleDelete = (customer) => {
@@ -196,9 +245,13 @@ function UserlistWalkin(props) {
 
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
-  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (props.search ? props.filteredUsers?.length : walkInCustomer?.length) / itemsPerPage
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -218,9 +271,11 @@ function UserlistWalkin(props) {
     setShowForm(true);
     setSelectedCustomer(null);
   };
+  const safeWalkInCustomer = Array.isArray(walkInCustomer) ? walkInCustomer : [];
 
   return (
     <>
+    
       {walkInPermissionError ? (
         <>
           <div
@@ -268,8 +323,36 @@ function UserlistWalkin(props) {
       ) : (
         <>
           <div style={{ marginLeft: "-20px" }}>
-            {currentCustomers?.length > 0 ? (
-              <div className=" walkin_table_custom">
+           
+          {walkinLoader ? (
+            <div
+ style={{
+   position: "absolute",
+   top: 0,
+   right: 0,
+   bottom: 0,
+   left: "200px",
+   display: "flex",
+   alignItems: "center",
+   justifyContent: "center",
+   backgroundColor: "transparent",
+   opacity: 0.75,
+   zIndex: 10,
+ }}
+>
+ <div
+   style={{
+     borderTop: "4px solid #1E45E1",
+     borderRight: "4px solid transparent",
+     borderRadius: "50%",
+     width: "40px",
+     height: "40px",
+     animation: "spin 1s linear infinite",
+   }}
+ ></div>
+</div>
+) : currentCustomers?.length > 0 && (
+  <div className=" walkin_table_custom">
                 <div style={{
                   // height: "400px",
                   height: currentCustomers.length >= 6 ? "380px" : "auto",
@@ -279,22 +362,25 @@ function UserlistWalkin(props) {
                   // borderBottom:"none"
                 }}>
                   <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
-                    <thead style={{ border: "none",  position:"sticky",
-                        top:0,
-                        zIndex:1, }}>
+                    <thead style={{
+                      border: "none", position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                    }}>
                       <tr>
 
                         <th
                           style={{
-                            textAlign: "center",
+                            textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                             borderTopLeftRadius: 24,
+                            paddingLeft: "20px"
                           }}
                         >
                           Name
@@ -303,7 +389,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -318,7 +404,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -333,7 +419,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -348,7 +434,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -363,7 +449,7 @@ function UserlistWalkin(props) {
                           style={{
                             textAlign: "start",
                             padding: "10px",
-                            color: "#4B4B4B",
+                            color: "rgb(147, 147, 147)",
                             fontSize: "14px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
@@ -378,10 +464,12 @@ function UserlistWalkin(props) {
                       {currentCustomers?.map((customer) => (
                         <tr key={customer.id} className="customer-row">
 
-                          <td>
+                          <td style={{ verticalAlign: "middle" }}>
                             <div className="d-flex align-items-center">
                               {/* <Image
                                 src={Ellipse1}
+
+
                                 roundedCircle
                                 height={30}
                                 width={30}
@@ -399,7 +487,7 @@ function UserlistWalkin(props) {
                                 }}
                                 className=" customer-name"
                               >
-                                {customer.customer_Name}
+                                {customer.first_name} {customer.last_name}
                               </span>
                             </div>
                           </td>
@@ -410,6 +498,7 @@ function UserlistWalkin(props) {
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.email_Id || "-"}
@@ -421,7 +510,7 @@ function UserlistWalkin(props) {
                               fontFamily: "Gilroy",
                               color: "#000000",
                               textAlign: "start",
-
+                              verticalAlign: "middle",
                               padding: "10px",
                             }}
                           >
@@ -438,6 +527,7 @@ function UserlistWalkin(props) {
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               padding: "10px",
+                              verticalAlign: "middle"
                             }}
                           >
                             <span
@@ -450,6 +540,7 @@ function UserlistWalkin(props) {
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 padding: "2px",
+                                verticalAlign: "middle"
                               }}
                             >
                               {moment(customer.walk_In_Date).format(
@@ -466,7 +557,8 @@ function UserlistWalkin(props) {
                               color: "#000000",
                               textAlign: "start",
                               padding: "10px",
-                              whiteSpace: "nowrap"
+                              whiteSpace: "nowrap",
+                              verticalAlign: "middle"
                             }}
                           >
                             {customer.comments || "-"}
@@ -484,10 +576,11 @@ function UserlistWalkin(props) {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 position: "relative",
+                                backgroundColor: dotsButton === customer.id ? "#E7F1FF" : "white",
                                 zIndex:
                                   dotsButton === customer.id ? 1000 : "auto",
                               }}
-                              onClick={() => handleDotsClick(customer.id)}
+                              onClick={(e) => handleDotsClick(customer.id, e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
@@ -498,10 +591,9 @@ function UserlistWalkin(props) {
                                   style={{
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    left: -170,
-                                    // bottom:0,
-                                    top: 30,
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
                                     overflow: "visible ! important",
                                     marginButtom: "30px",
                                     width: 163,
@@ -549,6 +641,7 @@ function UserlistWalkin(props) {
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                         color: "#222222",
+                                        cursor: "pointer"
                                       }}
                                     >
                                       Edit
@@ -589,6 +682,7 @@ function UserlistWalkin(props) {
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                         color: "#FF0000",
+                                        cursor: "pointer"
                                       }}
                                     >
                                       Delete
@@ -603,118 +697,47 @@ function UserlistWalkin(props) {
                     </tbody>
                   </Table>
                 </div>
-                {currentCustomers?.length > 0 && (
-                  // <nav
-                  //   style={{
-                  //     display: "flex",
-                  //     alignItems: "center",
-                  //     justifyContent: "end", 
-                  //     padding: "10px",
+                
+              </div>
+)}
 
-                  //   }}
-                  // >
+{
+   !walkinLoader && currentCustomers?.length == 0 && 
 
-                  //   <div>
-                  //     <select
-                  //       value={itemsPerPage}
-                  //       onChange={handleItemsPerPageChange}
-                  //       style={{
-                  //         padding: "5px",
-                  //         border: "1px solid #1E45E1",
-                  //         borderRadius: "5px",
-                  //         color: "#1E45E1",
-                  //         fontWeight: "bold",
-                  //         cursor: "pointer",
-                  //         outline: "none",
-                  //         boxShadow: "none",
-                  //       }}
-                  //     >
-                  //       <option value={5}>5</option>
-                  //       <option value={10}>10</option>
-                  //       <option value={50}>50</option>
-                  //       <option value={100}>100</option>
-                  //     </select>
-                  //   </div>
-
-
-                  //   <ul
-                  //     style={{
-                  //       display: "flex",
-                  //       alignItems: "center",
-                  //       listStyleType: "none",
-                  //       margin: 0,
-                  //       padding: 0,
-                  //     }}
-                  //   >
-
-                  //     <li style={{ margin: "0 10px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px",
-                  //           textDecoration: "none",
-                  //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  //           borderRadius: "50%",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() => handlePageChange(currentPage - 1)}
-                  //         disabled={currentPage === 1}
-                  //       >
-                  //         <ArrowLeft2
-                  //           size="16"
-                  //           color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                  //         />
-                  //       </button>
-                  //     </li>
-
-
-                  //     <li
-                  //       style={{
-                  //         margin: "0 10px",
-                  //         fontSize: "14px",
-                  //         fontWeight: "bold",
-                  //       }}
-                  //     >
-                  //       {currentPage} of {totalPages}
-                  //     </li>
-
-
-                  //     <li style={{ margin: "0 10px" }}>
-                  //       <button
-                  //         style={{
-                  //           padding: "5px",
-                  //           textDecoration: "none",
-                  //           color:
-                  //             currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  //           cursor:
-                  //             currentPage === totalPages
-                  //               ? "not-allowed"
-                  //               : "pointer",
-                  //           borderRadius: "50%",
-                  //           display: "inline-block",
-                  //           minWidth: "30px",
-                  //           textAlign: "center",
-                  //           backgroundColor: "transparent",
-                  //           border: "none",
-                  //         }}
-                  //         onClick={() => handlePageChange(currentPage + 1)}
-                  //         disabled={currentPage === totalPages}
-                  //       >
-                  //         <ArrowRight2
-                  //           size="16"
-                  //           color={
-                  //             currentPage === totalPages ? "#ccc" : "#1E45E1"
-                  //           }
-                  //         />
-                  //       </button>
-                  //     </li>
-                  //   </ul>
-                  // </nav>
-
+   <div style={{ marginTop: 30 }}>
+   <div style={{ textAlign: "center" }}>
+     <img src={Emptystate} alt="emptystate" />
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 600,
+       fontFamily: "Gilroy",
+       fontSize: 20,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     No Walk-in available
+   </div>
+   <div
+     className="pb-1"
+     style={{
+       textAlign: "center",
+       fontWeight: 500,
+       fontFamily: "Gilroy",
+       fontSize: 16,
+       color: "rgba(75, 75, 75, 1)",
+     }}
+   >
+     There are no Walk-in added.
+   </div>
+ </div>
+}
+                 
+          </div>
+          {(props.search ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && (
+                  
                   <nav
                     style={{
                       display: "flex",
@@ -819,47 +842,7 @@ function UserlistWalkin(props) {
                   </nav>
 
                 )}
-              </div>
-            ) : (
-              <div
-                className="d-flex align-items-center justify-content-center "
-                style={{ width: "100%", height:"60vh" }}
-              >
-                <div>
-                  <div className="no-data-container">
-                    <Image src={Emptystate} alt="No Data" />
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                        paddingTop: "10px",
-                      }}
-                    >
-                      No Walk-in available
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Walk-in added.{" "}
-                    </div>
-                  </div>
 
-                </div>
-                <div></div>
-              </div>
-            )}
-          </div>
         </>
       )}
 
@@ -878,73 +861,84 @@ function UserlistWalkin(props) {
         show={showDeleteModal}
         onHide={cancelDelete}
         centered
-        style={{ margin: "40px" }}
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
       >
-        <Modal.Title
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: "18px",
-            textAlign: "center",
-            color: "#222222",
-            paddingTop: "20px",
-          }}
-        >
-          Delete walk-in?
-        </Modal.Title>
-
-        {customerToDelete && (
-          <p
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
             style={{
-              color: "#646464",
+              fontSize: "18px",
               fontFamily: "Gilroy",
-              fontWeight: 500,
               textAlign: "center",
-              fontSize: "16px",
-              paddingTop: "20px",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
             }}
           >
-            Are you sure you want to delete this walk-in?
-          </p>
-        )}
+            Delete walk-in
+          </Modal.Title>
+        </Modal.Header>
 
-        <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
-          <button
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this walk-in?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
             style={{
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
               color: "#1E45E1",
-              transition: "all 0.3s ease",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
             }}
-            type="button"
-            className="btn hover-button"
             onClick={cancelDelete}
           >
             Cancel
-          </button>
-
-          <button
+          </Button>
+          <Button
             style={{
-              fontFamily: "Gilroy",
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
               fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
-              color: "#1E45E1",
-              transition: "all 0.3s ease",
+              fontFamily: "Gilroy",
+              fontSize: "14px",
             }}
-            type="button"
-            className="btn hover-button"
             onClick={confirmDelete}
           >
             Delete
-          </button>
-        </div>
+          </Button>
+        </Modal.Footer>
       </Modal>
 
       {/* <ToastContainer

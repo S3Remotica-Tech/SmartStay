@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Ellipse5 from "../Assets/Images/Profile.jpg";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
+
 import Search_Team from "../Assets/Images/Search Team.png";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
@@ -12,10 +13,34 @@ import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
-
-
+import {ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import LoaderComponent from "./LoaderComponent";
+import send from "../Assets/Images/send.svg";
 function DashboardAnnouncement(props) {
+
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6); 
+  // const [currentItem, setCurrentItem] = useState("");
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
+
+
+
   const state = useSelector((state) => state);
 
   console.log("state", state)
@@ -43,12 +68,14 @@ function DashboardAnnouncement(props) {
   const [Comments, setComments] = useState('')
   const [commentsList, setCommentsList] = useState([])
   const [displayError, setDisplayError] = useState("");
-  const [subCommentModal, setSubCommentModal] = useState(false)
+  const [subCommentModal, setSubCommentModal] = useState(true)
   const [subComment, setSubComment] = useState('')
   const [displaySubError, setDisplaySubError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
   const [CommentId, setCommentId] = useState('')
-
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+ const [loading, setLoading] = useState(true)
+ 
   const handleSubCommentsChange = (e) => {
     setSubComment(e.target.value)
     setDisplaySubError('')
@@ -56,16 +83,19 @@ function DashboardAnnouncement(props) {
 
 
 
-  console.log("sub-comment", subCommentModal, "comment", showCommentModal)
-  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  console.log("selectedCommentId", selectedCommentId, "CommentId", CommentId, "subCommentModal", subCommentModal)
+
+
 
   const handleCloseSubComment = () => {
     setSubCommentModal(false)
   }
 
   const handleCreateSubComments = (comment_id) => {
+    setDisplayError('')
+    setDisplaySubError('')
     setCommentId(comment_id)
-    setSubCommentModal(true)
+    setSubCommentModal(!subCommentModal)
     // setShowCommentModal(false)
     if (selectedCommentId === comment_id) {
       setSelectedCommentId(null);
@@ -90,6 +120,12 @@ function DashboardAnnouncement(props) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
     }
 
+
+    
+    setComments(""); 
+  setShowCommentModal(false);
+   setCommentsList([]); // Clear previous comments after sending
+
   }
 
 
@@ -108,8 +144,18 @@ function DashboardAnnouncement(props) {
         }
       })
     }
-
+    setSubComment("");
+    setShowCommentModal(false); 
+    setCommentsList([]); // Ensure previous sub-comments don't persist
   }
+
+//   const handleOpenCommentModal = (cardId) => {
+//   setSelectedCard(cardId); // Set the current card ID
+//   setShowCommentModal(true);
+//   setCommentsList([]); // Reset comments before fetching new ones
+//   dispatch({ type: 'FETCH_COMMENTS', payload: { an_id: cardId } }); // Fetch new comments for the selected card
+// };
+
 
   const handleShowAnnouncement = () => {
     setShowAnnouncement(true);
@@ -124,6 +170,7 @@ function DashboardAnnouncement(props) {
     setDescriptionError("")
     setErrorMessage('')
     setTitleError("")
+    setDisplayError('')
     dispatch({ type: 'CLEAR_SAME_TITLE' });
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
   }
@@ -165,6 +212,7 @@ function DashboardAnnouncement(props) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
+    setLoading(true)
     dispatch({
       type: "ANNOUNCEMENTLIST",
       payload: { hostel_id: hostel_id },
@@ -175,6 +223,7 @@ function DashboardAnnouncement(props) {
 
   useEffect(() => {
     if (state.PgList.statuscodeForAnnounceMentList === 200) {
+      setFilteredData(state.PgList?.announcementList?.announcements)
       setTimeout(() => {
         dispatch({ type: "CLEAR_ANNOUNCEMENT_LIST" });
       }, 1000);
@@ -184,7 +233,18 @@ function DashboardAnnouncement(props) {
   //  modal close
   const handleCloseMain = () => setShowMainModal(false);
   const handleCloseLike = () => setShowLikeModal(false);
-  const handleCloseComment = () => setShowCommentModal(false);
+
+  const handleCloseComment = () => {
+    setDisplayError('')
+    setDisplaySubError('')
+    setShowCommentModal(false)
+    setSubCommentModal(true)
+    setSelectedCommentId(null);
+    // setCommentsList(false);
+    // setSubCommentModal(false);
+     setCommentsList([]); // Reset comments when closing the modal
+  }
+
   const handleCloseTittle = () => setshowTittleModal(false);
 
   const handleLikeClick = (card) => {
@@ -212,6 +272,7 @@ function DashboardAnnouncement(props) {
         payload: { hostel_id: hostel_id },
       });
       setComments('')
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_COMMENTS' })
       }, 1000)
@@ -242,7 +303,7 @@ function DashboardAnnouncement(props) {
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-      setSubCommentModal(false)
+      setSubCommentModal(true)
       setSubComment('')
       setSelectedCommentId(null);
       setTimeout(() => {
@@ -265,7 +326,7 @@ function DashboardAnnouncement(props) {
       switch (fieldName) {
 
         case "title":
-          setTitleError("title is required");
+          setTitleError("Title is required");
           break;
         case "description":
           setDescriptionError("Description is required");
@@ -387,8 +448,23 @@ function DashboardAnnouncement(props) {
 
 
 
+useEffect(() => {
+  if (state.PgList?.announcementList !== undefined) {
+    setLoading(false);
+  }
+}, [state.PgList?.announcementList]);
 
 
+useEffect(() => {
+  if (state.PgList?.announcementErrorStatus === 201) {
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ERROR_ANNOUNCEMENT_LIST" });
+    }, 500);
+  }
+}, [state.PgList?.announcementErrorStatus]);
+
+console.log("state.PgList?.announcementList?.announcements",state.PgList?.announcementList?.announcements)
 
 
   return (
@@ -396,10 +472,13 @@ function DashboardAnnouncement(props) {
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "flex-end"
+        
+
         }}
       >
         <Button
+        
           style={{
             fontFamily: "Gilroy",
             fontSize: "14px",
@@ -413,7 +492,6 @@ function DashboardAnnouncement(props) {
             marginBottom: "10px",
             maxHeight: 50,
             marginTop: "-20px",
-
           }}
           onClick={handleShowAnnouncement}
           className="responsive-button"
@@ -421,53 +499,86 @@ function DashboardAnnouncement(props) {
           +  Announcement
         </Button>
       </div>
+      {/* {loading && ( */}
+      {loading ? (
+        <LoaderComponent />
+                // <div
+                //   style={{
+                //     position: 'absolute',
+                //     top: 100,
+                //     right: 0,
+                //     bottom: 0,
+                //     left: "200px",
+                //     // width: '100%',
+                //     // height: '100%',
+                //     display: 'flex',
+                //     alignItems: 'center',
+                //     justifyContent: 'center',
+                //     backgroundColor: 'transparent',
+                //     opacity: 0.75,
+                //     zIndex: 10,
+                //   }}
+                // >
+                //   {/* <div
+                //     style={{
+                //       borderTop: '4px solid #1E45E1',
+                //       borderRight: '4px solid transparent',
+                //       borderRadius: '50%',
+                //       width: '40px',
+                //       height: '40px',
+                //       animation: 'spin 1s linear infinite',
+                //     }}
+                //   ></div> */}
+                // </div>
+              // )}
+            ) : currentItems?.length > 0 ? (
 
+      // {props.announcePermissionError ? (
+      //   <div
+      //     style={{
+      //       display: "flex",
+      //       flexDirection: "column",
+      //       alignItems: "center",
+      //       justifyContent: "center",
+      //     }}
+      //   >
+      //     {/* Image */}
+      //     <img
+      //       src={Emptystate}
+      //       alt="Empty State"
+      //       style={{ maxWidth: "100%", height: "auto" }}
+      //     />
 
-      {props.announcePermissionError ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {/* Image */}
-          <img
-            src={Emptystate}
-            alt="Empty State"
-            style={{ maxWidth: "100%", height: "auto" }}
-          />
-
-          {/* Permission Error */}
-          {props.announcePermissionError && (
-            <div
-              style={{
-                color: "red",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                marginTop: "1rem",
-              }}
-            >
-              <MdError />
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {props.announcePermissionError}
-              </span>
-            </div>
-          )}
-        </div>
-      ) : (
+      //     {/* Permission Error */}
+      //     {props.announcePermissionError && (
+      //       <div
+      //         style={{
+      //           color: "red",
+      //           display: "flex",
+      //           alignItems: "center",
+      //           gap: "0.5rem",
+      //           marginTop: "1rem",
+      //         }}
+      //       >
+      //         <MdError />
+      //         <span
+      //           style={{
+      //             fontSize: "12px",
+      //             color: "red",
+      //             fontFamily: "Gilroy",
+      //             fontWeight: 500,
+      //           }}
+      //         >
+      //           {props.announcePermissionError}
+      //         </span>
+      //       </div>
+      //     )}
+      //   </div>
+      // ) : (
+      <div  style={{ maxHeight: "420px", overflowY: "auto", }}>
         <div className="row">
-          {state.PgList?.announcementList?.announcements?.length > 0 ? (
-            state.PgList?.announcementList?.announcements?.map((data) => (
+          {currentItems?.length > 0 ? (
+            currentItems?.map((data) => (
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
 
                 <Card
@@ -514,7 +625,14 @@ function DashboardAnnouncement(props) {
                         <p style={{ marginBottom: "0px" }}>
                           <Image
                             roundedCircle
-                            src={data?.profile || Profile}
+                            // src={data?.profile || Profile}
+                            // src={data?.profile && data.profile !== 0 ? data.profile : Profile}
+                            src={
+                              !data.profile || ["0", "", "undefined", "null", "NULL",null,undefined,0].includes(String(data.profile).trim()) 
+                                ? Profile 
+                                : data.profile
+                            }
+
                             alt="Ellipse5"
                             width={25}
                             height={25}
@@ -533,6 +651,8 @@ function DashboardAnnouncement(props) {
                           </span>
                         </p>
                       </div>
+                   
+                   {/* like */}
                       <div
                         className="bd-highlight"
                         style={{
@@ -564,6 +684,8 @@ function DashboardAnnouncement(props) {
                           </span>
                         </p>
                       </div>
+
+
                       <div
                         className="bd-highlight"
                         style={{
@@ -597,7 +719,11 @@ function DashboardAnnouncement(props) {
 
 
 
-                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onClick={() => handleShowDots(data.id)}>
+                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
+                        border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", 
+                        position: "relative", zIndex: showDots ? 1000 : 'auto'
+                        ,  backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
+                        }} onClick={() => handleShowDots(data.id)}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                         {showDots === data.id && (
@@ -608,7 +734,7 @@ function DashboardAnnouncement(props) {
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
                               right: 0,
-                              top: 50,
+                              top: 10,marginRight:30,
                               width: 163,
                               height: 92,
                               border: "1px solid #EBEBEB",
@@ -705,8 +831,12 @@ function DashboardAnnouncement(props) {
                   </Card.Body>
                 </Card>
               </div>
+
+
+
             ))
           ) : (
+            
             <div
               style={{
                 display: "flex",
@@ -727,11 +857,14 @@ function DashboardAnnouncement(props) {
                   fontFamily: "Gilroy",
                   fontSize: 20,
                   color: "rgba(75, 75, 75, 1)",
-                  marginBottom: "16px", // Add some spacing between the text and button
+                
                 }}
               >
                 No announcements available.
               </div>
+              <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16,
+                 color: "rgba(75, 75, 75, 1)" }}>There are no Announcement added.</div>
+
 
             </div>
 
@@ -741,11 +874,145 @@ function DashboardAnnouncement(props) {
 
 
 
+ 
+
 
         </div>
+        </div>
+      // )}
+
+    ) : (
+  // Show Empty State if no data is available
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "60vh",
+    }}
+  >
+    <div style={{ textAlign: "center" }}>
+      <img src={Emptystate} alt="emptystate" />
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No announcements available.
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 16,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no announcements added.
+    </div>
+  </div>
+)}
+
+
+<div>
+      {filteredData.length >= 5 && (
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+          <div>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+              }}
+            >
+              <option value={6}>6</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          {/* Pagination Controls */}
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {/* Previous Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+              </button>
+            </li>
+
+            {/* Current Page Indicator */}
+            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+              {currentPage} of {totalPages}
+            </li>
+
+            {/* Next Button */}
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
       )}
-
-
+    </div>
 
 
       <Modal show={showMainModal} onHide={handleCloseMain} centered backdrop="static">
@@ -1005,6 +1272,7 @@ function DashboardAnnouncement(props) {
                       color: "#222222",
                       paddingLeft: "4px",
                     }}
+
                   >
                     Comment
                   </span>
@@ -1135,305 +1403,138 @@ function DashboardAnnouncement(props) {
         showCommentModal &&
 
         <Modal show={showCommentModal} onHide={handleCloseComment} centered backdrop="static">
-          <Modal.Header
-            className="d-flex justify-content-between align-items-center"
-            style={{ border: "none" }}
-          >
-            <p
-              style={{
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                fontSize: "18px",
-                marginBottom: "0px",
-              }}
-            >
-              Monthly
-            </p>
-            <CloseCircle
-              size="32"
-              color="#222222"
-              onClick={handleCloseComment}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-              {
-                commentsList && commentsList.length > 0 ? (
-                  commentsList.map((comments, index) => {
-                    return (
-                      <div key={index}>
-                        {/* Comment header */}
-                        <div className="d-flex justify-content-between">
-                          <p style={{ marginBottom: "0px" }}>
-                            <Image roundedCircle
-                              src={comments.profile && comments.profile !== "0" && comments.profile !== 0 ? comments.profile : Profile}
-                              alt="Profile Image"
-                              width={20}
-                              height={20}
-                            />
+            <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
+                <div className="d-flex align-items-center">
+                    {/* <img src={Profile} alt="User Profile" width={40} height={40} className="rounded-circle" /> */}
+                    <div className="ms-2">
+                        <p className="mb-0 fw-bold">Monthly</p>
+                        
+                    </div>
+                </div>
+                <CloseCircle size="24" color="#222" onClick={handleCloseComment} style={{ cursor: "pointer" }} />
+            </Modal.Header>
 
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                fontSize: "12px",
-                                color: "#222222",
-                                paddingLeft: "6px",
-                              }}
-                            >
-                              {comments.name}
-                            </span>
-                          </p>
-                          <p
+            <Modal.Body style={{ maxHeight: "290px", overflowY: "auto" }}>
+                {commentsList && commentsList.length > 0 ? (
+                    commentsList.map((comment, index) => (
+                        <div key={index} className="p-2 rounded mb-2" style={{ background: "#F8F9FA" }}>
+                            <div className="d-flex align-items-center">
+                                <img src={comment.profile || Profile} alt="Profile" width={30} height={30} className="rounded-circle" />
+                                <div className="ms-2">
+                                    <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
+                                    <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
+                                </div>
+                            </div>
+                            <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222" }}>{comment.comment}</p>
+                        </div>
+                    ))
+                ) : (
+                  <div
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    fontSize: "16px",
+                    padding: "20px",
+                    fontFamily: "Gilroy",
+                    background: "#F8F9FA"
+                  }}
+                >
+                  No Comments available
+                </div>
+                )}
+            </Modal.Body>
+
+            {/* <Modal.Footer className="border-top-0">
+                <div className="w-100 position-relative">
+                    <textarea
+                        placeholder="Post your reply here..."
+                        value={Comments}
+                        onChange={handleCommentsChange}
+                        style={{ width: "100%", padding: "10px 40px 10px 10px", borderRadius: "8px", border: "1px solid #DCDCDC", outline: "none", resize: "none" }}
+                    />
+                   
+                   <img
+    src={send}
+    alt="Send"
+    style={{
+        width: "24px",
+        height: "24px",
+        position: "absolute",
+        right: "15px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        cursor: "pointer",
+    }}
+    onClick={handleSendComments}
+/>
+
+                </div>
+            </Modal.Footer> */}
+
+
+<Modal.Footer style={{ border: "none" }}>
+                        <div
+                          style={{
+                            marginTop: 15,
+                            position: "relative",
+                            display: "inline-block",
+                            width: "100%",
+                          }}
+                        >
+                          <Form.Control
+                            type="text"
+                            value={Comments}
+                            onChange={(e) => handleCommentsChange(e)}
+                            className="input-field"
                             style={{
+                              border: "1px solid #E7E7E7",
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                              paddingLeft: 16,
+                              width: "100%",
+                              height: "52px",
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              color: "#4B4B4B",
-                              paddingLeft: "6px",
+                              borderRadius: "12px",
+                            }}
+                            placeholder="Post your reply here"
+                          />
+                          <div className="input-field"
+                            style={{
+
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              backgroundColor: "#1E45E1",
+                              border: "1px solid #E7E7E7",
+                              borderRadius: "60px",
+                              padding: "12px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              cursor: "pointer",
                             }}
                           >
-                            {new Date(comments.created_at).toLocaleString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              // hour: "2-digit",
-                              // minute: "2-digit",
-                              // timeZone: "UTC",
-                            })}
-                          </p>
-                        </div>
-
-                        {/* Comment text */}
-                        <p
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            color: "#222222",
-                            paddingRight: "10px",
-                          }}
-                        >
-                          {comments.comment || "Lorem ipsum dolor sit amet consectetur..."}
-                        </p>
-
-
-                        <div
-                          className="d-flex justify-content-start p-2 gap-2 "
-                          style={{ paddingLeft: "35px", lineHeight: 1 }}
-                        >
-                          <div>
-                            {/* <p style={{ padding: "0px 5px" }}> */}
-                            <img src={like} alt="like" width={20} height={20} />
-                            {/* </p> */}
-                          </div>
-                          <div>
-                            {/* <p style={{ padding: "0px 5px" }}> */}
                             <img
-                              onClick={() => handleCreateSubComments(comments.comment_id, index)}
-                              src={message}
-                              alt="message"
-                              width={20}
-                              height={20}
-                              style={{ cursor: "pointer" }}
-                            />
-                            {/* </p> */}
-                          </div>
-                        </div>
-
-                        {/* <div
-                          className="d-flex justify-content-start mb-2"
-                          style={{
-                            borderBottom: "1px solid #DCDCDC",
-                          }}
-                        ></div> */}
-
-
-                        {
-                          comments?.replies?.length > 0 && comments?.replies.map((sub) => {
-                            return <div className="d-flex gap-2 align-items-center">
-
-                              <div
-
-                                style={{ paddingLeft: "30px", }}
-                              > <Image roundedCircle
-                                src={sub.profile && sub.profile !== "0" && sub.profile !== 0 ? sub.profile : Profile}
-                                alt="Profile Image"
-                                width={20}
-                                height={20}
-                                /></div>
-                              <div>
-
-                                <div>
-                                  <span
-                                    style={{
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      fontSize: "12px",
-                                      color: "#222222",
-                                      paddingLeft: "6px",
-                                    }}
-                                  >
-                                    {sub.name}
-                                  </span>
-                                </div>
-
-                                <div style={{
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  fontSize: "12px",
-                                  color: "#222222",
-                                  paddingLeft: "6px",
-                                }}>
-
-                                  {sub?.comment}
-
-                                </div>
-
-                              </div>
-
-
-
-
-
-                            </div>
-                          })
-                        }
-
-
-
-                        {selectedCommentId === comments.comment_id &&
-                          <div>
-
-
-                            {displaySubError && (
-                              <div style={{ color: "red" }}>
-                                <MdError />
-                                <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
-                              </div>
-                            )}
-
-                            <div
+                              src={send}
+                              alt="Send"
                               style={{
-                                marginTop: "10px",
-                                position: "relative",
-                                paddingLeft: "25px",
+                                width: "16px",
+                                height: "16px",
                               }}
-                            >
-                              <textarea
-                                type="text"
-                                placeholder="Post your reply here..."
-                                value={subComment}
-                                onChange={(e) => handleSubCommentsChange(e)}
+                              onClick={handleSendComments}
+                            />
+                          </div>
+                       </div>
+                      </Modal.Footer>
 
-                                style={{
-                                  width: "100%",
-                                  padding: "8px 40px 8px 8px",
-                                  borderRadius: "8px",
-                                  border: "1px solid #DCDCDC",
-                                  fontFamily: "Gilroy",
-                                  fontSize: "14px",
-                                  outline: "none",
-                                }}
-                                row={0}
-                              />
-                              <img
-                                onClick={handleSendSubComments}
-                                src={Search_Team}
-                                alt="Search_Team"
-                                style={{
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  right: "10px",
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
-                                  width: "30px",
-                                  height: "30px",
-                                }}
-                              />
-                            </div>
-
-
-
-                          </div>}
-
-                        <div
-                          className="d-flex justify-content-start mb-2"
-                          style={{
-                            borderBottom: "1px solid #DCDCDC",
-                          }}
-                        ></div>
-
-
-
-
-                      </div>
-                    );
-                  })
-                ) : (
-                  <p style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    color: "red",
-                    paddingRight: "10px",
-                  }}>No comments available</p>
-                )
-              }
-
-              {displayError && (
-                <div style={{ color: "red" }}>
+                      {displayError && (
+                <div className="ms-3" style={{ color: "red",marginBottom:20 }}>
                   <MdError />
-                  <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
+                  <span  style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
                 </div>
               )}
-
-              <div
-                style={{
-                  marginTop: "10px",
-                  position: "relative",
-                  paddingLeft: "25px",
-                }}
-              >
-                <textarea
-                  type="text"
-                  placeholder="Post your reply here..."
-                  value={Comments}
-                  onChange={(e) => handleCommentsChange(e)}
-
-                  style={{
-                    width: "100%",
-                    padding: "8px 40px 8px 8px",
-                    borderRadius: "8px",
-                    border: "1px solid #DCDCDC",
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    outline: "none",
-                  }}
-                  row={0}
-                />
-                <img
-                  onClick={handleSendComments}
-
-                  src={Search_Team}
-                  alt="Search_Team"
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "30px",
-                    height: "30px",
-                  }}
-                />
-              </div>
-
-
-
-            </div>
-          </Modal.Body>
+                     
         </Modal>
       }
 
@@ -1460,7 +1561,7 @@ function DashboardAnnouncement(props) {
             {selectTitleCard?.title}
           </p>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleCloseTittle}
             style={{ cursor: "pointer" }}
@@ -1468,8 +1569,8 @@ function DashboardAnnouncement(props) {
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between">
-            <p style={{ marginBottom: "0px" }}>
-              <Image roundedCircle src={createprofile?.profile || Profile} alt="Ellipse5" width={20} height={20} />
+            <p style={{ marginTop:-20}}>
+              <Image roundedCircle src={createprofile?.profile || Profile}  width={20} height={20} />
               <span
                 style={{
                   fontFamily: "Gilroy",
@@ -1479,6 +1580,8 @@ function DashboardAnnouncement(props) {
                   paddingLeft: "6px",
                 }}
               >
+
+                
                 {createprofile?.first_name} {createprofile?.last_name}
               </span>
             </p>
@@ -1606,7 +1709,7 @@ function DashboardAnnouncement(props) {
         show={showAnnouncement}
         onHide={handleCloseAnnouncement}
         centered
-        dialogClassName="custom-modal"
+        // dialogClassName="custom-modal"
         backdrop="static"
       >
 
@@ -1628,8 +1731,8 @@ function DashboardAnnouncement(props) {
             onClick={handleCloseAnnouncement}
             style={{
               position: "absolute",
-              right: "10px",
-              top: "16px",
+              right: "15px",
+              top: "20px",
               border: "1px solid black",
               background: "transparent",
               cursor: "pointer",
@@ -1637,8 +1740,8 @@ function DashboardAnnouncement(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "24px",
+              height: "24px",
               borderRadius: "50%",
             }}
           >
@@ -1653,12 +1756,6 @@ function DashboardAnnouncement(props) {
             </span>
           </button>
         </Modal.Header>
-        {errorMessage && (
-          <div style={{ color: "red" }}>
-            <MdError />
-            <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
-          </div>
-        )}
         <Modal.Body>
 
 
@@ -1667,7 +1764,7 @@ function DashboardAnnouncement(props) {
 
           <div className="row">
             {/* Title Field */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{marginTop:-20}}>
 
               <Form.Label
                 style={{
@@ -1677,7 +1774,7 @@ function DashboardAnnouncement(props) {
                   fontWeight: 500,
                 }}
               >
-                Title
+                Title <span style={{color:"red",fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1731,7 +1828,7 @@ function DashboardAnnouncement(props) {
             </div>
 
             {/* Description Field */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -1740,7 +1837,7 @@ function DashboardAnnouncement(props) {
                   fontWeight: 500,
                 }}
               >
-                Description
+                Description<span style={{color:"red",fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1768,9 +1865,13 @@ function DashboardAnnouncement(props) {
               )}
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
-          <Button
+          {errorMessage && (
+          <div style={{ color: "red" }}>
+            <MdError />
+            <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
+          </div>
+        )}
+            <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -1778,7 +1879,7 @@ function DashboardAnnouncement(props) {
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat",
+              fontFamily: "Gilroy",
               marginTop: 20,
               width: "100%",
             }}
@@ -1786,7 +1887,8 @@ function DashboardAnnouncement(props) {
           >
             {editDetails ? 'Save Changes' : 'Add Announcement'}
           </Button>
-        </Modal.Footer>
+          
+        </Modal.Body>
       </Modal>
 
 

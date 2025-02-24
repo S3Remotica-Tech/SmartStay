@@ -32,7 +32,7 @@ function* handleRecurringRole(action) {
        };
  
       
-       toast.success('Recurring Enabled successfully', {
+       toast.success(`${response.data.message}`, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -76,7 +76,7 @@ function* handleCategorylist(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_CATEGORY', payload: {statusCode: response.status || response.statusCode} })
    }
    if (response) {
       refreshToken(response)
@@ -87,7 +87,7 @@ function* handleCategoryAdd(params) {
    const response = yield call(AddExpencesCategory, params.payload);
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message , Type: response.data.type} })
       
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -145,8 +145,10 @@ function* handleEditCategory(params) {
        })
    }
  
-   else {
+   else if(response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ERROR', payload: response.data.message })
+      toast.error(response.data.message, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true,   pauseOnHover: true, draggable: true,  progress: undefined,
+      })
    }
    if (response) {
       refreshToken(response)
@@ -214,7 +216,7 @@ function* handleComplainttypelist(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_COMPLIANTS', payload: {statusCode: response.status || response.data.statusCode} })
    }
    if (response) {
       refreshToken(response)
@@ -397,8 +399,10 @@ function* handleDeleteComplainttype(action) {
 function* handleEBBillingUnitAdd(params) {
    
    const response = yield call(AddEBBillingUnit, params.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
+
+   console.log("handleEBBillingUnitAdd",response)
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
     
         
       var toastStyle = {
@@ -448,7 +452,7 @@ function* handleEBBillingUnitGet(action) {
       yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_EB_BILLING_UNIT_LIST', payload: {  statusCode: response.status || response.statusCode  } })
    }
    if (response) {
       refreshToken(response)
@@ -519,7 +523,7 @@ function* handleGetAllRoles(action) {
       yield put({ type: 'ROLE_LIST', payload:{response: response.data.roles, statusCode:response.status || response.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_ROLE', payload: {statusCode:response.status || response.statusCode}})
    }
    if(response){
       refreshToken(response)
@@ -560,8 +564,9 @@ function* handleAddSettingRole(action) {
      });
    }
 
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if (response.data.status === 201 || response.data.statusCode === 201) {
+     
+      yield put({ type: 'ROLE_ERROR', payload: response.data.message });
    }
    if(response){
       refreshToken(response)
@@ -619,6 +624,11 @@ function* handleEditRolePermission(detail) {
      });
    }
 
+   else if (response.data.status === 201 || response.data.statusCode === 201) {
+     
+      yield put({ type: 'ROLE_EDIT_ERROR', payload: response.data.message });
+   }
+
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
@@ -631,6 +641,9 @@ function* handleEditRolePermission(detail) {
 
 function* handleDeleteRolePermission(detail) {
    const response = yield call (deleteRolePermission, detail.payload);
+
+console.log("response",response)
+
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -663,9 +676,26 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+  else if (response.data.status === 202 || response.data.statusCode === 202 || response.status === 202){
+      yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.data.status || response.data.statusCode }});
+      // toast.error(`${response.data.message}`, {
+      toast.error("This role is assigned to user", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
    }
+
+
+   // else {
+   //    yield put ({type:'ERROR', payload:response.data.message})
+   // }
    if(response){
       refreshToken(response)
    }
@@ -726,11 +756,11 @@ function* handleAddStaffUserPage(detail) {
 function* handleGetAllStaffs(action) {
    const response = yield call(GetAllStaff,action.payload)
    console.log("handleGetAllStaffs",response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_USER', payload:{statusCode:response.status || response.data.statusCode}  })
    }
    if(response){
       refreshToken(response)

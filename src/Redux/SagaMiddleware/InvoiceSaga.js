@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -55,26 +55,25 @@ function* handleDeleteUser(action) {
 function* handleDeleteAmenities(action) {
    const response = yield call(DeleteAmenities, action.payload)
   
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
   
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'DELETE_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
- 
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center", 
-         padding: "10px",
-        
-       };
- 
+  
        toast.success('Deleted Successfully', {
          position: "bottom-center",
          autoClose: 2000,
@@ -91,8 +90,20 @@ function* handleDeleteAmenities(action) {
  
  
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else  if (response.status === 201 || response.statusCode === 201 ) {
+      yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: { statusCode:response.status || response.statusCode} })
+      toast.error('This amenity is assigned and cannot be deleted', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         // style: toastStyle
+       })
+
    }
    if(response){
       refreshToken(response)
@@ -248,9 +259,12 @@ function* handleInvoiceList(action) {
 
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
+
+       console.log("responseinvoiceupdate", response);
+       
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response,statusCode:response.status || response.statusCode })
+      yield put({ type: 'UPDATEINVOICE_DETAILS', payload: {response:response.data ,statusCode:response.status || response.statusCode}  })
    
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -414,7 +428,7 @@ function* handleGetAmenities(action) {
       yield put({ type: 'AMENITIES_LIST', payload:{response: response.data.data, statusCode:response.status || response.statusCode}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR_AMENITIES', payload: {statusCode:response.status || response.statusCode} })
    }
    if(response){
       refreshToken(response)
@@ -472,8 +486,8 @@ function* handleUpdateAmenities(action) {
 function* handleManualInvoice() {
    const response = yield call(ManualInvoice)
   
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status || response.statusCode} })
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status || response.data.statusCode} })
         }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -488,35 +502,7 @@ function* handleManualInvoiceNumber(params) {
    
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_NUMBER_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})      
-      // Define the style
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center", 
-         padding: "10px",
-        
-       };
- 
-       // Use the toast with the defined style
-       toast.success(response.data.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
-       })
+      // Define the style  
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -604,6 +590,10 @@ function* handleRecurrbillamountData(params) {
          style: toastStyle
        })
    }
+
+   else if (response.status === 202 || response.statusCode === 202){
+      yield put ({type : 'FAIL_ADD_RECURRING_BILL' , payload:{response:response.data.recure, statusCode:response.status || response.statusCode  , message: response.data.message}})
+   }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
@@ -675,7 +665,7 @@ console.log("API response",response);
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: "bottom-center",
+         position: "top-center",
          autoClose: 2000,
          hideProgressBar: true,
          closeButton: false,
@@ -686,23 +676,30 @@ console.log("API response",response);
          style: toastStyle
        })
    }
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if(response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'MANUAL_INVOICE_ERROR', payload:response.data.message})
+      toast.error(response.data.message, {
+         position: "top-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+               })
    }
    if(response){
       refreshToken(response)
    }
 }
 
+
 function* handleManualInvoiceDelete (params) {
-   console.log("paramss",params);
    
    const response = yield call (DeleteManualInvoiceBill,params.payload);
  
-console.log("API response",response);
-
-
-   if (response.status === 200 || response.statusCode === 200){
+  if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_DELETE' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
       var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
@@ -728,6 +725,30 @@ console.log("API response",response);
          style: toastStyle
        })
    }
+   else if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'DELETE_MANUAL_ERROR', payload: response.data.message })
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+      toast.error(response.data.message, {
+         position: "top-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
@@ -736,9 +757,10 @@ console.log("API response",response);
    }
 }
 
+
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
- 
+ console.log("handleRecurrBillsAdd",response)
 
 
    if (response.status === 200 || response.statusCode === 200){
@@ -767,6 +789,11 @@ function* handleRecurrBillsAdd (params) {
          style: toastStyle
        })
    }
+
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ERROR_RECURE', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   }
+
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
@@ -779,8 +806,8 @@ function* handleRecurrBillsAdd (params) {
 function* handleGetManualInvoice(action) {
    const response = yield call(GetManualInvoices,action.payload)   
    
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.statusCode}})
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -895,6 +922,229 @@ function* handleAddInvoiceRecurringSettings (param){
 }
 
 
+function* handleGetReceipts(action) {
+   const response = yield call(GetReceiptData, action.payload)
+   
+    console.log("responseforreceipt", response);
+    
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'RECEIPTS_LIST', payload:{response: response.data.all_receipts, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+function* handleAddReceipt (action) {
+   const response = yield call (AddReceipt,action.payload);
+ 
+
+
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'RECEIPTS_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleEditReceipt (action) {
+   const response = yield call (EditReceipt,action.payload);
+ 
+   console.log("responsereceiptedit",response);
+   
+
+   if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'RECEIPTS_EDIT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode }})
+      // Define the style
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleDeleteReceipt(action) {
+   const response = yield call(DeleteReceipt, action.payload);
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
+     
+        
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message , {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+
+}
+
+
+function* handleReference_Id() {
+   const response = yield call(ReferenceIdGet )
+
+   console.log("response", response);
+   
+   
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'REFERENCEID_GET' , payload:{response:response.data.reference_id, statusCode:response.status || response.statusCode }})      
+      // Define the style
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleReceiptPdf(action) {
+   const response = yield call(ReceiptPDf, action.payload)
+   console.log("response",response);
+   
+     if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'RECEIPT_PDF', payload: {response:response.data.pdf_url , statusCode:response.status || response.statusCode
+      }})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleFilterRecurrCustomer(action) {
+   const response = yield call(AddRecurrBillsUsers, action.payload)
+  
+   console.log("response", response);
+   
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: {response:response.data.user_data, statusCode:response.status || response.statusCode} }) 
+   
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
@@ -927,7 +1177,7 @@ function* InvoiceSaga() {
    yield takeEvery('MANUAL-INVOICE-EDIT',handleManualInvoiceEdit)
    yield takeEvery('MANUAL-INVOICE-DELETE',handleManualInvoiceDelete)
    yield takeEvery('RECURRING-BILLS-ADD',handleRecurrBillsAdd)
-   yield takeEvery('MANUAL-INVOICES-LIST',handleGetManualInvoice)
+   yield takeEvery('MANUALINVOICESLIST',handleGetManualInvoice)
    yield takeEvery('RECURRING-BILLS-LIST',handleGetRecurrbills)
    yield takeEvery('DELETE-RECURRING-BILLS',handleDeleteRecuringBills)
    yield takeEvery('SETTINGSADDRECURRING',handleAddInvoiceRecurringSettings)
@@ -937,9 +1187,12 @@ function* InvoiceSaga() {
       yield takeEvery('UNASSIGNAMENITIES', handleUnAssignAmenities)
           yield takeEvery('GETASSIGNAMENITIES', handleGetAssignAmenities)
 
-     
-      
-      
-
+          yield takeEvery('RECEIPTSLIST',handleGetReceipts)
+          yield takeEvery('ADD_RECEIPT',handleAddReceipt)
+          yield takeEvery('EDIT_RECEIPTS',handleEditReceipt)
+          yield takeEvery('DELETE_RECEIPT',handleDeleteReceipt)
+          yield takeEvery('GET_REFERENCE_ID',handleReference_Id)
+          yield takeEvery('RECEIPTPDF',handleReceiptPdf)
+          yield takeEvery('FILTERRECURRCUSTOMERS',handleFilterRecurrCustomer)
 }
 export default InvoiceSaga;
