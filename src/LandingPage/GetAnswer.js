@@ -2,7 +2,6 @@ import React,{useEffect} from 'react'
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card';
 import Smart from '../Assets/Images/get.png'
-import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 
 function GetAnswer() {
@@ -18,7 +17,7 @@ function GetAnswer() {
       threshold : 0.5
     };
     const faders = document.querySelectorAll('.fade-in'); 
-    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    const appearOnScro1l = new IntersectionObserver(function(entries){
       entries.forEach(entry =>{
         if(!entry.isIntersecting){
           return;

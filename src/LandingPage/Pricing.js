@@ -21,7 +21,7 @@ function Pricing() {
         threshold : 0.5
       };
       const faders = document.querySelectorAll('.fade-in'); 
-      const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      const appearOnScro1l = new IntersectionObserver(function(entries){
         entries.forEach(entry =>{
           if(!entry.isIntersecting){
             return;

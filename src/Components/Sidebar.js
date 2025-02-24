@@ -93,7 +93,7 @@ function Sidebar() {
   // let checkedValue = localStorage.getItem("checked");
   const [hostelListDetail,setHostelDetail] = useState("")
 
-  const loginId = localStorage.getItem("loginId");
+  // const loginId = localStorage.getItem("loginId");
 
   useEffect(() => {
     // dispatch({ type: "HOSTELLIST" });
@@ -122,18 +122,13 @@ function Sidebar() {
 
   // const [show, setShow] = useState(false);
   // const [notification, setNotification] = useState([]);
-  const [hostel_Id, setHostel_Id] = useState("");
+  // const [hostel_Id, setHostel_Id] = useState("");
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
   }, []);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
-  }, [state.login.selectedHostel_Id]);
-  console.log("state.login.selectedHostel_Id", state.login.selectedHostel_Id);
+  
   
 
   
@@ -144,7 +139,7 @@ function Sidebar() {
 
       if (loginInfo) {
         const LoginId = loginInfo.id;
-        const NameId = loginInfo.Name;
+        // const NameId = loginInfo.Name;
         const phoneId = loginInfo.mobileNo;
         const emilidd = loginInfo.email_Id;
         const Is_Enable = loginInfo.isEnable;
@@ -226,26 +221,26 @@ function Sidebar() {
   //   setProfiles(0)
   // }
 
-  const [selectedHostel, setSelectedHostel] = useState(null);
+  // const [selectedHostel, setSelectedHostel] = useState(null);
 
-  const handleHostelSelect = (hostelName) => {
-    const selected = state.hostelList.find((item) => {
-      return item.Name === hostelName;
-    });
-    setSelectedHostel(selected);
-  };
+  // const handleHostelSelect = (hostelName) => {
+  //   const selected = state.hostelList.find((item) => {
+  //     return item.Name === hostelName;
+  //   });
+  //   // setSelectedHostel(selected);
+  // };
 
-  const [activePage, setActivePage] = useState(true);
+  // const [activePage, setActivePage] = useState(true);
 
-  const [pgList, setPgList] = useState({
-    Name: "",
-    phoneNumber: "",
-    email_Id: "",
-    location: "",
-    number_Of_Floor: "",
-    number_Of_Rooms: "",
-    floorDetails: [],
-  });
+  // const [pgList, setPgList] = useState({
+  //   Name: "",
+  //   phoneNumber: "",
+  //   email_Id: "",
+  //   location: "",
+  //   number_Of_Floor: "",
+  //   number_Of_Rooms: "",
+  //   floorDetails: [],
+  // });
 
   useEffect(() => {
     setCurrentPage(localStorage.getItem("currentPage"));
@@ -253,7 +248,7 @@ function Sidebar() {
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
-    setActivePage(false);
+    // setActivePage(false);
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
   };
@@ -274,23 +269,23 @@ function Sidebar() {
       setAllPageHostel_Id("");
       dispatch(StoreSelectedHostelAction(""));
       console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(""));
-      setHostel_Id("");
+      // setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
 
-  const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
-  const toggleSidebar = () => {
-    setIsSidebarMaximized(!isSidebarMaximized);
-  };
+  // const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
+  // const toggleSidebar = () => {
+  //   setIsSidebarMaximized(!isSidebarMaximized);
+  // };
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+  // useEffect(() => {
+  //   const handleResize = () => setWindowWidth(window.innerWidth);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   const [logoutformshow, setLogoutformshow] = useState(false);
 
@@ -308,7 +303,7 @@ function Sidebar() {
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
-    localStorage.setItem("NameId", "");
+    // localStorage.setItem("NameId", "");
     localStorage.setItem("phoneId", "");
     localStorage.setItem("emilidd", "");
     localStorage.setItem("selectedHostelId", "");
@@ -318,28 +313,28 @@ function Sidebar() {
 
   const stateAccount = useSelector((state) => state.createAccount);
 
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
 
-  useEffect(() => {
-    const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile;
-    setProfile(Filteredprofile);
-  }, []);
+  // useEffect(() => {
+  //   const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile;
+  //   // setProfile(Filteredprofile);
+  // }, []);
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile;
-      setProfile(loginProfile);
+      // const loginProfile = stateAccount.accountList[0].user_details.profile;
+      // setProfile(loginProfile);
     }
   }, [stateAccount.statusCodeForAccountList]);
 
-  const handledisplaycompliace = (compliance) => {
+  const handledisplaycompliace = () => {
     setCurrentPage("compliance");
     localStorage.setItem("currentPage", "compliance");
   };
 
   const [settignspgshow, setSettingsPGShow] = useState(false);
 
-  const handledisplaySettingsPG = (settingNewDesign) => {
+  const handledisplaySettingsPG = () => {
     setCurrentPage("settingNewDesign");
     localStorage.setItem("currentPage", "settingNewDesign");
     setSettingsPGShow(true);
@@ -378,7 +373,7 @@ function Sidebar() {
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
-    const savedHostelName = localStorage.getItem("selectedHostelName");
+    // const savedHostelName = localStorage.getItem("selectedHostelName");
 
     if (
       !isInitialized &&
@@ -460,7 +455,7 @@ function Sidebar() {
   console.log("state.UsersList.hostelList", state.UsersList.hostelList.length);
 
   const [pgshow, setPgshow] = useState(false);
-  const [pgformshow, setPgformshow] = useState(true);
+  // const [pgformshow, setPgformshow] = useState(true);
 
   const handleShowsettingsPG = (settingNewDesign) => {
     handledisplaySettingsPG(settingNewDesign);
@@ -478,7 +473,7 @@ function Sidebar() {
   console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
   
 
-  const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
+  // const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
 
   return (
     <>

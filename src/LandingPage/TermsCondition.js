@@ -7,11 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import Logo from '../Assets/Images/New_images/Smartstay_LOGO.svg';
-import Smart from '../Assets/Images/New_images/logo_front.png';
-import { Link, Element, animateScroll as scroll } from 'react-scroll';
+import { Link, Element} from 'react-scroll';
 import FirstPage from './FirstPage';
 import KeyFeature from './KeyFeature';
-import WhySmartstay from './WhySmartstay';
 import Testimonials from './Testimonials';
 import Footer from './Footer';
 import Pricing from './Pricing';
@@ -75,20 +73,20 @@ console.log("state.login?.IsVisible",state.login?.IsVisible)
 
 console.log("state",state)
 
-const renderComponent = () => {
-  switch (state.login?.IsVisible) {
-    case 1:
-      return <Condition />;
-    case 2:
-      return <Policy />;
-    case 3:
-      return <ContactUs />;
-    case 4:
-      return <CookiesFooter />;
-    default:
-      return null;
-  }
-};
+// const renderComponent = () => {
+//   switch (state.login?.IsVisible) {
+//     case 1:
+//       return <Condition />;
+//     case 2:
+//       return <Policy />;
+//     case 3:
+//       return <ContactUs />;
+//     case 4:
+//       return <CookiesFooter />;
+//     default:
+//       return null;
+//   }
+// };
 
 
 

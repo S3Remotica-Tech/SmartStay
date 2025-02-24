@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Desktop from '../Assets/Images/New_images/home_dashboardimage.png'
-import { Height } from '@material-ui/icons';
 import Spring1 from '../Assets/Images/New_images/spring_left.png'
 import Spring2 from '../Assets/Images/New_images/spring_right.png';
 import { useNavigate } from "react-router-dom";
@@ -38,7 +37,7 @@ function FirstPage() {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;

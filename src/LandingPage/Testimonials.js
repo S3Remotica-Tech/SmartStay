@@ -1,15 +1,14 @@
-import React, { useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import OwlCarousel from 'react-owl-carousel2';
 import 'react-owl-carousel2/lib/styles.css';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Image1 from '../Assets/Images/New_images/Anil Kumar.png'
 import Image2 from '../Assets/Images/profile/Akshey kumar.jpg'
 import Image3 from '../Assets/Images/profile/Akash kumar.jpg';
 import {QuoteUp,QuoteDown} from 'iconsax-react';
 import Image from 'react-bootstrap/Image';
 import './Testimo.css'
-import { ArrowLeft, ArrowRight } from 'iconsax-react';
-// import 'owl.carousel/dist/assets/owl.theme.default.css';
+
+
 
 
 const MyCarousel = () => {
@@ -44,11 +43,11 @@ const MyCarousel = () => {
   };
 
 
-  const [images, setImages] = useState([
+  const images = [
     { src: Image1, name: "Anil Kumar", title: "Lead AI Designer at Google", text: 'Lorem ipsum dolor sit amet consectetur. Vulputate integer fermentum libero aliquet ut fermentum. Egestas semper iaculis mattis neque facilisis vitae. Consectetur in non faucibus nunc in. Ullamcorper facilisis aliquam eget ornare bibendum at. Eu etiam at aliquam aliquet nisl arcu. Phasellus justo velit mauris quam rhoncus tristique. Morbi sit ac morbi arcu eros. Eget cursus sed elementum morbi. Semper quam interdum sollicitudin tortor in neque commodo. Tempus consequat aenean pellentesque erat gravida massa amet.', style: { height: 100, width: 100 } },
     { src: Image2, name: "Akshay Kumar", title: "Lead AI Designer at Google", text: 'Lorem ipsum dolor sit amet consectetur. Vulputate integer fermentum libero aliquet ut fermentum. Egestas semper iaculis mattis neque facilisis vitae. Consectetur in non faucibus nunc in. Ullamcorper facilisis aliquam eget ornare bibendum at. Eu etiam at aliquam aliquet nisl arcu. Phasellus justo velit mauris quam rhoncus tristique. Morbi sit ac morbi arcu eros. Eget cursus sed elementum morbi. Semper quam interdum sollicitudin tortor in neque commodo. Tempus consequat aenean pellentesque erat gravida massa amet.', style: { height: 100, width: 100 } },
     { src: Image3, name: "Akash Kumar", title: "Lead AI Designer at Google", text: 'Lorem ipsum dolor sit amet consectetur. Vulputate integer fermentum libero aliquet ut fermentum. Egestas semper iaculis mattis neque facilisis vitae. Consectetur in non faucibus nunc in. Ullamcorper facilisis aliquam eget ornare bibendum at. Eu etiam at aliquam aliquet nisl arcu. Phasellus justo velit mauris quam rhoncus tristique. Morbi sit ac morbi arcu eros. Eget cursus sed elementum morbi. Semper quam interdum sollicitudin tortor in neque commodo. Tempus consequat aenean pellentesque erat gravida massa amet.', style: { height: 100, width: 100 } }
-  ]);
+  ];
 
   return (<>
 

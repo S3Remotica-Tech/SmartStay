@@ -18,15 +18,7 @@ const paragraphStyle = {
   marginBottom: "10px",
 };
 
-const listStyle = {
-  color: "#555",
-  fontFamily: "Gilroy",
-  fontSize: "16px",
-  fontWeight: 300,
-  lineHeight: "1.8",
-  marginBottom: "10px",
-  paddingLeft: "20px",
-};
+
 
 function Condition() {
   useEffect(() => {
@@ -91,9 +83,13 @@ function Condition() {
         <h4 style={sectionHeaderStyle}>
           Support
         </h4>
-        <p style={paragraphStyle} className='text-justify'>
+        {/* <p style={paragraphStyle} className='text-justify'>
           Providing the best customer experience and technical solutions is the aim and responsibility of the SmartStay team, and we take it very seriously. We have integrated support options in all our applications, and our team is always here to help you. Based on your subscription, we will strive to provide the best support. For any emergency, don't hesitate to email us at <a href="mailto:support@s3remotica.com">support@s3remotica.com</a>.
-        </p>
+        </p> */}
+        <p style={paragraphStyle} className='text-justify'>
+  Providing the best customer experience and technical solutions is the aim and responsibility of the SmartStay team, and we take it very seriously. We have integrated support options in all our applications, and our team is always here to help you. Based on your subscription, we will strive to provide the best support. For any emergency, don&#39;t hesitate to email us at <a href="mailto:support@s3remotica.com">support@s3remotica.com</a>.
+</p>
+
       </section>
 
       <section>
@@ -101,7 +97,7 @@ function Condition() {
           Limitations of Liability
         </h4>
         <p style={paragraphStyle} className='text-justify'>
-          Providing the best customer experience and technical solutions is the aim and responsibility of the SmartStay team, and we take it very seriously. We have integrated support options in all our applications, and our team is always here to help you. Based on your subscription, we will strive to provide the best support. For any emergency, don't hesitate to email us at <a href="mailto:support@s3remotica.com">support@s3remotica.com</a>.
+          Providing the best customer experience and technical solutions is the aim and responsibility of the SmartStay team, and we take it very seriously. We have integrated support options in all our applications, and our team is always here to help you. Based on your subscription, we will strive to provide the best support. For any emergency, don&#39;t hesitate to email us at <a href="mailto:support@s3remotica.com">support@s3remotica.com</a>.
         </p>
       </section>
     </div>

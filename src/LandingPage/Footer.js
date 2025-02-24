@@ -4,15 +4,14 @@ import Facebook from '../Assets/Images/New_images/facebook_icon.png';
 import Twitter from '../Assets/Images/New_images/twitter.png';
 import Linkedin from '../Assets/Images/New_images/linkedin.png';
 import Instagram from '../Assets/Images/New_images/instagram.png';
-import { Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {useNavigate } from "react-router-dom";
+import { useDispatch} from "react-redux";
 import { Link } from "react-scroll";
+import PropTypes from "prop-types";
 
 
 const Footer = (props) => {
 
-
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -49,7 +48,7 @@ const Footer = (props) => {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -142,4 +141,7 @@ const Footer = (props) => {
     </>
   )
 }
+Footer.propTypes = {
+  handleLinkName: PropTypes.func.isRequired,
+};
 export default Footer;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import './ContactUs.css';
-import { Offcanvas, Form, Dropdown } from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { send } from 'emailjs-com';
