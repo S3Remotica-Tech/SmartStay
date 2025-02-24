@@ -317,7 +317,7 @@ const AddReceiptForm = (props) => {
           }
 
           if(!invoicenumber){
-            setInvoicenumberErrmsg("please Select Invoice")
+            setInvoicenumberErrmsg("Please Select Invoice")
           }
 
           if(!received_amount){

@@ -288,7 +288,7 @@ function BookingModal(props) {
           setPhoneError("Phone  is required");
           break;
         case "joiningDate":
-          setDateError("joiningDate ID is required");
+          setDateError("JoiningDate ID is required");
           break;
         case "amount":
           setamountError("Amount is required");

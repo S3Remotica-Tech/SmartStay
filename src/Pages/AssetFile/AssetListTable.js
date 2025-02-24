@@ -266,7 +266,7 @@ function AssetListTable(props) {
                     position: "fixed",
                     top: popupPosition.top,
                     left: popupPosition.left,
-
+// marginBottom:"40px",
                     width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", 
                     justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
                   }}

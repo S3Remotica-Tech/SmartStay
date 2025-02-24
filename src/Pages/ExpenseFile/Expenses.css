@@ -21,14 +21,14 @@
   }
   
   .list-group-item.active {
-    background-color: #E7F1FF; 
+    /* background-color: #E7F1FF;  */
     color: #fff; 
   }
 
 
   .list-group-item .sub_item {
     width:200px !important;
-    background-color: #E7F1FF; 
+    /* background-color: #E7F1FF;  */
     color: #000; 
   }
 
@@ -45,7 +45,7 @@
 
  .list-group {
   --bs-list-group-color: var(--bs-body-color);
-  --bs-list-group-bg: #E7F1FF !important;
+  /* --bs-list-group-bg: #E7F1FF !important; */
   --bs-list-group-border-color: var(--bs-border-color);
   --bs-list-group-border-width: var(--bs-border-width);
   --bs-list-group-border-radius: var(--bs-border-radius);

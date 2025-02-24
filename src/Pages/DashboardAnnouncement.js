@@ -1529,7 +1529,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                       </Modal.Footer>
 
                       {displayError && (
-                <div className="ms-3" style={{ color: "red",marginBottom:20 }}>
+                <div className="ms-3" style={{ color: "red",marginBottom:20 ,textAlign:"center"}}>
                   <MdError />
                   <span  style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
                 </div>

@@ -1166,7 +1166,7 @@ const CheckOutForm = ({
             </div>
           )}
 
-          {generalError && (
+          {/* {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
@@ -1181,7 +1181,7 @@ const CheckOutForm = ({
                 {generalError}
               </label>
             </div>
-          )}
+          )} */}
 
           {isChangedError && (
             <div
