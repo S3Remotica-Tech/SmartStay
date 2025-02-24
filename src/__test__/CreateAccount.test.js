@@ -1,10 +1,10 @@
+/* eslint-env jest */
 import { render, screen } from "@testing-library/react";
 import CreateAccountPage from "../Components/CreateAccount";
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from '@testing-library/user-event'
-import { fn } from "moment/moment";
 
 
 jest.mock('react-redux', () => ({
@@ -20,10 +20,11 @@ describe('checking for create account', () => {
     beforeEach(() => {
         jest.mocked(useSelector).mockImplementation(() => ({
             createAccount: {
-                statusCodeCreateAccount: 0
+                statusCodeCreateAccount: 100
             }
         }))
     })
+    
 
     it('it should checks for UI renders and register', async () => {
 
@@ -65,6 +66,12 @@ describe('checking for create account', () => {
 
         await event.click(createAccount)
 
+        await jest.mocked(useSelector).mockImplementation(() => ({
+            createAccount: {
+                statusCodeCreateAccount: 200
+            }
+        }))
+
     })
 
     it('it should through error on all fields', async () => {
@@ -105,6 +112,25 @@ describe('checking for create account', () => {
     })
 
     it('it should verify the first name with empty values', async () => {
+        render(<Provider store={store}>
+            <MemoryRouter>
+                <CreateAccountPage />
+            </MemoryRouter>
+
+        </Provider>)
+
+        const fname = screen.getByTestId('first-name')
+        expect(fname).toBeInTheDocument()
+        const createAccount = await screen.getByTestId('create-account-btn')
+        expect(createAccount).toBeInTheDocument()
+        await event.click(createAccount)
+        expect(await screen.getByTestId('fname-container').children.length).toBe(2)
+        await event.type(fname, 'Seles')
+        expect(await screen.getByTestId('fname-container').children.length).toBe(1)
+
+    })
+
+    it('it should verify the first name with no values', async () => {
         render(<Provider store={store}>
             <MemoryRouter>
                 <CreateAccountPage />

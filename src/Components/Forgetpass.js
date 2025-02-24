@@ -473,6 +473,7 @@ function ForgetPasswordPage() {
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Control size="lg"
                         // disabled={disabledButton}
+                        data-testid='input-email'
                         value={email} onChange={(e) => handleEmailid(e)}
                         type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
@@ -482,28 +483,22 @@ function ForgetPasswordPage() {
 
                     <div className="mb-1 p-1"> {generalError ? <div className='d-flex align-items-center p-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>eneral {generalError}</label>
                     </div>
                       : null}</div>
 
                     <div className="mb-1 p-1"> {emailError ? <div className='d-flex align-items-center p-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>email {emailError}</label>
                     </div>
                       : null}</div>
 
 
                     <div className="mb-1 p-1"> {sendEmailError ? <div className='d-flex align-items-center p-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>send email {sendEmailError}</label>
                     </div>
                       : null}</div>
-
-
-
-
-
-
 
                   </div>
 
@@ -540,12 +535,6 @@ function ForgetPasswordPage() {
 
 
             </div>
-
-
-
-
-
-
 
 
           </div>
@@ -854,14 +843,6 @@ function ForgetPasswordPage() {
 
       </>
       }
-
-
-
-
-
-
-
-
 
 
     </div>
