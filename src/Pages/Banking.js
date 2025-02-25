@@ -817,7 +817,7 @@ function Banking() {
                               position: "absolute",
                               right: 10,
                               top: 60,
-                              width: 160,
+                              width: 120,
                               height: 70,
                               border: "1px solid #EBEBEB",
                               borderRadius: 10,
