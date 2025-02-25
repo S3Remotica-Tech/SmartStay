@@ -69,8 +69,8 @@ const Billings = () => {
                     <h2 style={{ fontSize: '20px', fontWeight: 600 }}>EB Billing</h2>
                   </div>
                   <div className='justify-content-end'>
-                    <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }}  onClick={handleSave} >Save change</button>
-                    <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
+                    <button type="button" className="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }}  onClick={handleSave} >Save change</button>
+                    <button type="button" className="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
 
                 </div>
                  
@@ -82,7 +82,7 @@ const Billings = () => {
         <div style={{ backgroundColor: "#E6EDF5",color:'black',padding:'5px' }}>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{fontWeight:600,flex:1}}>Hostel Name</div>
-            <div className="text-center" style={{flex:0.5,fontWeight:600}}>Settings<i class="bi bi-info-circle-fill ms-1"></i></div>           
+            <div className="text-center" style={{flex:0.5,fontWeight:600}}>Settings<i className="bi bi-info-circle-fill ms-1"></i></div>           
                <div style={{fontWeight:600,flex:0.5}}>Description</div>
           </div>
         </div>

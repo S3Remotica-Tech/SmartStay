@@ -544,21 +544,21 @@ function SettingAmenities({ hostelid }) {
                                         </div>
 
                                         <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
-                                        <div class="row row-gap-3">
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Name</p>
+                                        <div className="row row-gap-3">
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Name</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.Amnities_Name}</p>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Amount</p>
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Amount</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹{amenity.Amount}</p>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Assigned</p>
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Assigned</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{'-'}</p>
                                             </div>
-                                            <div class="col-lg-12 col-md-12 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
+                                            <div className="col-lg-12 col-md-12 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
 
                                                 <div>
                                                     <Form.Check
@@ -571,16 +571,16 @@ function SettingAmenities({ hostelid }) {
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation type</p>
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation type</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</p>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation start date</p>
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation start date</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.startdate}</p>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-12">
-                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation End date</p>
+                                            <div className="col-lg-4 col-md-4 col-12">
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation End date</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.enddate}</p>
                                             </div>
 

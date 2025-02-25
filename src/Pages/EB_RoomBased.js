@@ -306,7 +306,7 @@ const EBROOM = (props) => {
                         }}
 
                     /></div>
-                <div class="col-4 mt-2 mb-2 me-4">
+                <div className="col-4 mt-2 mb-2 me-4">
                     <button onClick={handleSaveEbBill}
                         type="button" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px', marginTop: '34px' }}  >Submit</button>
                 </div>
@@ -319,26 +319,26 @@ const EBROOM = (props) => {
 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div >
-                        <input class="input-field date" type="date" placeholder="Previous month EB" />
+                        <input className="input-field date" type="date" placeholder="Previous month EB" />
                     </div>
                     <div>
-                        <button type="button" class="mb-2 ms-2" style={{ backgroundColor: "#E1EAFF", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA", marginRight: '10px' }}  >See All</button>
+                        <button type="button" className="mb-2 ms-2" style={{ backgroundColor: "#E1EAFF", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA", marginRight: '10px' }}  >See All</button>
                     </div>
                 </div>
             </div>
 
-            <div class="table-responsive mt-3" style={{ width: "100%" }}>
-                <table class="table text-center" >
+            <div className="table-responsive mt-3" style={{ width: "100%" }}>
+                <table className="table text-center" >
                     <thead style={{
                         backgroundColor: "#E6EDF5", color: "rgb(147, 147, 147)",fontWeight:500, fontSize: "10px", position: "sticky",
                         top: 0,
                         zIndex: 1,
                     }}>
                         <tr >
-                            <th scope="col">Customer <i class="bi bi-caret-down-fill ms-2"></i></th>
-                            <th scope="col">Room Number <i class="bi bi-caret-down-fill ms-2"></i></th>
-                            <th scope="col">Unit <i class="bi bi-caret-down-fill ms-2"></i></th>
-                            <th scope="col">EB Amount <i class="bi bi-caret-down-fill ms-2"></i></th>
+                            <th scope="col">Customer <i className="bi bi-caret-down-fill ms-2"></i></th>
+                            <th scope="col">Room Number <i className="bi bi-caret-down-fill ms-2"></i></th>
+                            <th scope="col">Unit <i className="bi bi-caret-down-fill ms-2"></i></th>
+                            <th scope="col">EB Amount <i className="bi bi-caret-down-fill ms-2"></i></th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -350,8 +350,8 @@ const EBROOM = (props) => {
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Eb_Unit}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >{props.hosteldetails.isHostelBased == 0 ? item.Room_Based : item.Hostel_Based}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >
-                                    <span><i class="bi bi-pencil-fill me-2"></i></span>
-                                    <span><i class="bi bi-trash3"></i></span>
+                                    <span><i className="bi bi-pencil-fill me-2"></i></span>
+                                    <span><i className="bi bi-trash3"></i></span>
 
                                 </td>
                             </tr>

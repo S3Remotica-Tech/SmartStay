@@ -49,7 +49,7 @@ const handleClose = () => {
         <div className="col-12 col-md-6">
           <div className="card p-3 cardnewsubs">
             <div
-              class="d-flex align-items-center justify-content-center"
+              className="d-flex align-items-center justify-content-center"
               style={{
                 width: "40px",
                 height: "40px",
@@ -66,9 +66,9 @@ const handleClose = () => {
               </p>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center">
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{
                   fontSize: 12,
                   fontWeight: 500,
@@ -79,15 +79,15 @@ const handleClose = () => {
                 Amount
               </p>
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
               >
                 ₹500
               </p>
             </div>
-            <div class="d-flex justify-content-between align-items-center mt-2">
+            <div className="d-flex justify-content-between align-items-center mt-2">
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{
                   fontSize: 12,
                   fontWeight: 500,
@@ -98,15 +98,15 @@ const handleClose = () => {
                 Next payment
               </p>
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
               >
                 12 September 2024
               </p>
             </div>
-            <div class="d-flex justify-content-between align-items-center mt-2">
+            <div className="d-flex justify-content-between align-items-center mt-2">
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{
                   fontSize: 12,
                   fontWeight: 500,
@@ -117,7 +117,7 @@ const handleClose = () => {
                 Payment method
               </p>
               <p
-                class="mb-0"
+                className="mb-0"
                 style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}
               >
                 VISA **60

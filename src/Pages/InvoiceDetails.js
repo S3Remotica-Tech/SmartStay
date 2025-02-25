@@ -87,24 +87,24 @@ function InvoiceDetail(props) {
 
     return (
         <>
-         <button type="button" class="btn btn-primary" onClick={handleGoBack}>Back</button>
+         <button type="button" className="btn btn-primary" onClick={handleGoBack}>Back</button>
        
 
        <div>
     {
         submit ?
         <div>
-        <div class="row g-0 justify-content-center" ref={contentToPrint} style={{ display: "flex", justifyContent: "center", backgroundColor: "#F8F9FA55" }}>
-        <div class="col-lg-9" ref={targetRef}>
-            <div class="card shadow-sm p-0" style={{ border: "none", boxShadow: "0 20px 27px 0 rgb(0 0 0 / 5%)" }}>
+        <div className="row g-0 justify-content-center" ref={contentToPrint} style={{ display: "flex", justifyContent: "center", backgroundColor: "#F8F9FA55" }}>
+        <div className="col-lg-9" ref={targetRef}>
+            <div className="card shadow-sm p-0" style={{ border: "none", boxShadow: "0 20px 27px 0 rgb(0 0 0 / 5%)" }}>
                 <div className="card-header bg-primary text-white">
                     <div className="row  m-0" style={{ backgroundColor: "#2E75EA", padding: 3, color: "white" }}>
                         <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <h4 class="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} style={{ marginRight: 10 }} /> INVOICE</h4>
+                            <h4 className="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} style={{ marginRight: 10 }} /> INVOICE</h4>
                         </div>
                         <div className="col-lg-6 d-flex align-items-center justify-content-center">
                             <div>
-                                <h2 class="mb-0" style={{ color: "white", fontSize: 13, textTransform: "capitalize", fontWeight: 800 }}>{sendInvoiceDetail.Hostel_Name}</h2>
+                                <h2 className="mb-0" style={{ color: "white", fontSize: 13, textTransform: "capitalize", fontWeight: 800 }}>{sendInvoiceDetail.Hostel_Name}</h2>
                                 <p className="mb-0" style={{ color: "white", fontSize: 13, textTransform: "capitalize", fontWeight: 400 }}><b>Address:</b>&nbsp;&nbsp; {hostelName[0] && hostelName[0].Address}</p>
                                 <p className="mb-0" style={{ color: "white", fontSize: 13, textTransform: "capitalize", fontWeight: 400 }}><b>PhoneNo:</b>&nbsp;{hostelName[0] && hostelName[0].hostel_PhoneNo}</p>
                                 <p className="mb-0" style={{ color: "white", fontSize: 13, textTransform: "capitalize", fontWeight: 400 }}><b>Email:</b>&nbsp;&nbsp;&nbsp;&nbsp;  {hostelName[0] && hostelName[0].email_id}</p>
@@ -113,7 +113,7 @@ function InvoiceDetail(props) {
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-0" style={{ backgroundColor: "" }}>
+                <div className="card-body p-0" style={{ backgroundColor: "" }}>
                     <div className="row p-2 g-0">
                         <div className="col-lg-6 d-flex justify-content-start align-items-center ps-5">
                             <div>
@@ -145,9 +145,9 @@ function InvoiceDetail(props) {
                             </div>
                         </div>
                     </div>
-                    <div class="p-3 mb-5">
-                        <div class="table-responsive">
-                            <table class="table align-middle table-nowrap table-centered mb-0">
+                    <div className="p-3 mb-5">
+                        <div className="table-responsive">
+                            <table className="table align-middle table-nowrap table-centered mb-0">
                                 <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E",  position:"sticky",
                         top:0,
                         zIndex:1, }} >
@@ -157,7 +157,7 @@ function InvoiceDetail(props) {
                                         <th style={{ color: "gray", fontSize: 12 }}>Room Rent</th>
                                         <th style={{ color: "gray", fontSize: 12 }}>BalanceDue</th>
                                         <th style={{ color: "gray", fontSize: 12 }}>Status</th>
-                                        <th class="text-end" style={{ color: "gray", fontSize: 12 }}>Total</th>
+                                        <th className="text-end" style={{ color: "gray", fontSize: 12 }}>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,7 +173,7 @@ function InvoiceDetail(props) {
                                     ))}
                                 </tbody>
                             </table>
-                            <div class=" mt-5">
+                            <div className=" mt-5">
                                 <div >
                                     <i>Terms / Condition</i>
                                     <hr style={{ margin: "3px 0 5px" }} /><p style={{ fontSize: 13 }}> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit repudiandae numquam sit facere blanditiis, quasi distinctio ipsam? Libero odit ex expedita, facere sunt, possimus consectetur dolore, nobis iure amet vero.</p>
@@ -190,10 +190,10 @@ function InvoiceDetail(props) {
             </div>
         </div>
     </div>
-     <div class="d-print-none mt-4">
+     <div className="d-print-none mt-4">
      <div style={{ display: "flex", justifyContent: "center" }}>
-         <a onClick={() => { handlePrint(null, () => contentToPrint.current); }} class="btn btn-success  me-1"><BsPrinter /> Print</a>
-         <a onClick={() => generatePDF(targetRef, { filename: 'page.pdf' })} class="btn btn-primary w-md"><MdDownload />Download</a>
+         <a onClick={() => { handlePrint(null, () => contentToPrint.current); }} className="btn btn-success  me-1"><BsPrinter /> Print</a>
+         <a onClick={() => generatePDF(targetRef, { filename: 'page.pdf' })} className="btn btn-primary w-md"><MdDownload />Download</a>
      </div>
  </div>
  </div> :
