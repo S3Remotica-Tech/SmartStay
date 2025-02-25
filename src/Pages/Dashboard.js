@@ -19,7 +19,6 @@ import clock from "../Assets/Images/Car.png";
 import notification from "../Assets/Images/Notification.png";
 import rectangle from "../Assets/Images/Admin_Profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import DashboardChart from "./DashboardChart";
 import { FaSearch } from "react-icons/fa";
 import { createPortal } from "react-dom";
 import Compliance from "./Compliance";

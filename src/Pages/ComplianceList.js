@@ -11,15 +11,13 @@ import Delete from "../Assets/Images/New_images/trash.png";
 import ChangeStatusIcon from "../Assets/Images/ComplaintChangeStatusicon.svg";
 import AssignComplaintIcon from "../Assets/Images/profile-add-AssingnComplaint.svg";
 import CommentIcon from "../Assets/Images/Comment-icon-complaints page.svg";
-import manimg from "../Assets/Images/Man Img.svg";
-import closeicon from "../Assets/Images/close.svg";
 import send from "../Assets/Images/send.svg";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { Md10K, MdError } from "react-icons/md";
+import { MdError } from "react-icons/md";
+import PropTypes from "prop-types"
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -28,7 +26,6 @@ const ComplianceList = (props) => {
   const [status, setStatus] = useState("");
   const [statusError, setStatusError] = useState("");
   const [compliant, setCompliant] = useState("");
-  const [complianceError, setComplianceError] = useState("");
   const [showCard, setShowCard] = useState(false);
   const [showChangeStatus, setShowChangeStatus] = useState(false);
   const [showAssignComplaint, setShowAssignComplaint] = useState(false);
@@ -36,9 +33,7 @@ const ComplianceList = (props) => {
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
-  const [showAssignee, setShowAssigne] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isFocused, setIsFocused] = useState(false);
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -47,75 +42,8 @@ const ComplianceList = (props) => {
     }
   }, [state.login.selectedHostel_Id]);
 
-  function getFloorName(floor_Id) {
-    if (floor_Id === 1) {
-      return "Ground Floor";
-    } else if (floor_Id === 2) {
-      return "1st Floor";
-    } else if (floor_Id === 3) {
-      return "2nd Floor";
-    } else if (floor_Id === 4) {
-      return "3rd Floor";
-    } else if (floor_Id >= 11 && floor_Id <= 13) {
-      const id = floor_Id - 1;
-      return `${id}th Floor`;
-    } else {
-      const lastDigit = floor_Id % 10;
-      let suffix = "th";
 
-      switch (lastDigit) {
-        case 1:
-          suffix = "st";
-          break;
-        case 2:
-          suffix = "nd";
-          break;
-        case 3:
-          suffix = "rd";
-          break;
-      }
-
-      return `${floor_Id - 1}${suffix} Floor`;
-    }
-  }
-
-  function getFormattedRoomId(floor_Id, room_Id) {
-    const roomIdString = String(room_Id);
-    switch (floor_Id) {
-      case 1:
-        return `${roomIdString.padStart(3, "0")}`;
-      case 1:
-        return `G${roomIdString.padStart(3, "0")}`;
-      case 2:
-        return `F${roomIdString.padStart(3, "0")}`;
-      case 3:
-        return `S${roomIdString.padStart(3, "0")}`;
-      case 4:
-        return `T${roomIdString.padStart(3, "0")}`;
-      default:
-        const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
-        // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
-        return `${roomIdString.padStart(3, "0")}`;
-    }
-  }
-
-  function getFloorAbbreviation(floor_Id) {
-    switch (floor_Id) {
-      case 5:
-        return "F";
-      case 6:
-        return "S";
-      case 8:
-        return "E";
-      case 9:
-        return "N";
-      case 10:
-        return "T";
-
-      default:
-        return `${floor_Id}`;
-    }
-  }
+ 
 
   const handleDeleteFormShow = (item) => {
     setDeleteForm(true);
@@ -159,9 +87,7 @@ const ComplianceList = (props) => {
     props.onEditComplaints(item);
   };
 
-  const handleassignshow = () => {
-    props.onAssignshow();
-  };
+  
   const [customer_Id, setCustomer_Id] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -233,10 +159,7 @@ const ComplianceList = (props) => {
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
-  console.log("get", state.ComplianceList.statusCodeForDeleteCompliance,
-    "comment", state.ComplianceList.statusCodeForAddComplianceComment,
-    "change", state.ComplianceList.complianceAssignChangeStatus,
-    "complianceChangeStatus", state.ComplianceList.complianceChangeStatus)
+ 
 
 
 
@@ -278,6 +201,9 @@ const ComplianceList = (props) => {
 
   const handleAddComment = () => {
     const isFloorValid = validateAssignField(comments, "comments");
+
+    if (!isFloorValid) return;
+
     if (comments) {
       dispatch({
         type: "Add_COMPLIANCE_COMMENT",
@@ -317,7 +243,6 @@ const ComplianceList = (props) => {
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-    console.log("item", item)
     setAssignId(item?.ID);
     setShowDots(false);
     // setStatus("");
@@ -362,7 +287,6 @@ const ComplianceList = (props) => {
 
   const handleAssignComplaintClick = () => {
 
-    console.log("alreadyAssigned == compliant", alreadyAssigned, compliant)
 
     if (alreadyAssigned == compliant && compliant !== "") {
       setStatusErrorType("No changes detected");
@@ -455,8 +379,7 @@ const ComplianceList = (props) => {
     setShowChangeStatus(false);
   };
 
-  console.log("alreadyAssigned:", alreadyAssigned);
-  console.log("compliant:", compliant);
+ 
 
   const handleCloseAssign = () => {
     setShowAssignComplaint(false);
@@ -494,8 +417,7 @@ const ComplianceList = (props) => {
     };
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-      appearOnScrool
+      entries
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -513,7 +435,6 @@ const ComplianceList = (props) => {
   });
 
 
-  console.log("state for compliance", state)
 
 
 
@@ -531,7 +452,6 @@ const ComplianceList = (props) => {
     };
   }, []);
 
-  console.log("props", props);
 
   useEffect(() => {
 
@@ -544,7 +464,7 @@ const ComplianceList = (props) => {
 
 
 
-  console.log("props.complaints", props.complaints)
+ 
 
   return (
     <>
@@ -1431,7 +1351,6 @@ const ComplianceList = (props) => {
                     style={{
                       maxWidth: 950,
                       paddingRight: "10px",
-                      paddingRight: "10px",
                       borderRadius: "30px",
                     }}
                     className="m-0 p-0"
@@ -1578,7 +1497,6 @@ const ComplianceList = (props) => {
                     style={{
                       maxWidth: 950,
                       paddingRight: "10px",
-                      paddingRight: "10px",
                       borderRadius: "30px",
                     }}
                     className="m-0 p-0"
@@ -1676,7 +1594,7 @@ const ComplianceList = (props) => {
                                 Select a Complaint
                               </option>
                               {state.Settings.addSettingStaffList &&
-                                state.Settings.addSettingStaffList.map((v, i) => {
+                                state.Settings.addSettingStaffList.map((v) => {
                                   return (
                                     <option key={v.id} value={v.id}>
                                       {v.first_name}
@@ -1825,5 +1743,12 @@ const ComplianceList = (props) => {
       </Modal>
     </>
   );
+};
+
+ComplianceList.propTypes = {
+  complaints: PropTypes.func.isRequired,
+  onEditComplaints: PropTypes.func.isRequired,
+  complianceEditPermission: PropTypes.func.isRequired,
+  complianceDeletePermission: PropTypes.func.isRequired,
 };
 export default ComplianceList;

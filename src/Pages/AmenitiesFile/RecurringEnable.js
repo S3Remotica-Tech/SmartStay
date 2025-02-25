@@ -42,7 +42,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
         label: i + 1,
     }));
 
-    console.log(dayOptions, "dayOptions")
+    
 
   
     const customStyles = {

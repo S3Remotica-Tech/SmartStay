@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function DashboardUpdates() {
-  const [updates, setUpdates] = useState([
+  const updates = [
     {
       date: "01 September 2024",
       title: "August 2024 . Smarty Stay Version update",
@@ -21,7 +21,7 @@ function DashboardUpdates() {
       content:
         "Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida. Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer. Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet",
     },
-  ]);
+  ]
 
   return (
     <div className="container">

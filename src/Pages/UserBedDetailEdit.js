@@ -5,6 +5,7 @@ import Plus from '../Assets/Images/Create-button.png';
 import Profile from '../Assets/Images/Profile.jpg';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
 
 
 
@@ -782,5 +783,12 @@ function UserBedDetailsEdit(props) {
     </div>
   )
 }
+UserBedDetailsEdit.propTypes = {
+  EditObj: PropTypes.func.isRequired,
+  setUserClicked: PropTypes.func.isRequired,
+  setEdit: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  handleMenuClick: PropTypes.func.isRequired,
+};
 
 export default UserBedDetailsEdit

@@ -76,6 +76,7 @@ import Filters from "../Assets/Images/Filters.svg";
 import Receipt from "./Receipt";
 import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
+import PropTypes from "prop-types"
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -6612,5 +6613,9 @@ const InvoicePage = () => {
     </div>
   );
 };
-
+InvoicePage.propTypes = {
+  item: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 export default InvoicePage;

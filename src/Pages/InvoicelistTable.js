@@ -7,6 +7,7 @@ import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
 import moment from 'moment';
 import squre from '../Assets/Images/New_images/minus-square.png';
 import Download from '../Assets/Images/New_images/download.png';
+import PropTypes from "prop-types"
 
 
 
@@ -354,4 +355,9 @@ console.log("propsEDit",props)
     </>
   )
 }
+InvoiceTable.propTypes = {
+  item: PropTypes.func.isRequired,
+  billEditPermission: PropTypes.func.isRequired,
+  billAddPermission: PropTypes.func.isRequired,
+};
 export default InvoiceTable;

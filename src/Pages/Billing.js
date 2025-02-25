@@ -89,7 +89,7 @@ const Billings = () => {
      
        
         { state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
-          <EB_Billings Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
+          <EB_Billings key={item.id}  Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
 
          ))}
           {state.UsersList.hostelList.length === 0 && (

@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Card, Table, Row, Col, Button } from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
-import Share from '../Assets/Images/New_images/share.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/Logo-Icon.png'
-import { ImportCurve, CloseCircle, Call, Location, ArrowCircleLeft2, ArrowLeft } from 'iconsax-react';
+import { Call,Location,ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import PropTypes from "prop-types";
 
 
 
 
 
-const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
+const InvoiceCard = ({ rowData, handleClosed}) => {
     const invoiceData = {
         payment: {
             bank: 'Rimberio Bank',
@@ -64,31 +64,6 @@ const InvoiceCard = ({ rowData, handleClosed ,selectedItem}) => {
     };
 
 
-
-
-
-
-
-
-    // const handleShare = async () => {
-    //     if (navigator.share) {
-    //         try {
-    //             await navigator.share({
-    //                 title: "Invoice",
-    //                 text: "Here is your invoice.",
-    //                 url: window.location.href,
-    //             });
-    //         } catch (err) {
-    //             console.error("Error sharing", err);
-    //         }
-    //     } else {
-    //         alert("Web Share API not supported in this browser.");
-    //     }
-    // };
-
-    const handleClose = () => {
-        setIsVisible(false);
-    };
 
     const handleBackInvoice = () => {
         handleClosed()
@@ -508,5 +483,11 @@ console.log("Bill Row Data:",rowData);
         </div>
     );
 };
+
+InvoiceCard.propTypes = {
+  rowData: PropTypes.func.isRequired,
+  handleClosed: PropTypes.func.isRequired
+};
+
 
 export default InvoiceCard;

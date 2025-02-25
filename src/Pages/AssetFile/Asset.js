@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputGroup, Pagination, Table, DropdownButton, Dropdown, Form } from 'react-bootstrap';
-import Filter from '../../Assets/Images/New_images/Group 13.png';
+import { FormControl, InputGroup, Table, Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import Image from 'react-bootstrap/Image';
 import { useDispatch, useSelector } from 'react-redux';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import moment from 'moment';
-import Swal from 'sweetalert2';
 import AddAsset from './AddAsset'
-import { CiSearch } from "react-icons/ci";
-import Notify from '../../Assets/Images/New_images/notify.png';
-import Profile from '../../Assets/Images/New_images/profile.png';
 import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
-import Spinner from 'react-bootstrap/Spinner';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
@@ -43,7 +34,7 @@ function Asset() {
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
   const stateAccount = useSelector(state => state.createAccount)
-  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  // const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -212,16 +203,16 @@ function Asset() {
 
 
 
-  const customCheckboxStyle = {
-    appearance: 'none',
-    width: '20px',
-    height: '20px',
-    backgroundColor: '#fff',
-    border: '2px solid #DCDCDC',
-    borderRadius: '4px',
-    display: 'inline-block',
-    position: 'relative',
-  };
+  // const customCheckboxStyle = {
+  //   appearance: 'none',
+  //   width: '20px',
+  //   height: '20px',
+  //   backgroundColor: '#fff',
+  //   border: '2px solid #DCDCDC',
+  //   borderRadius: '4px',
+  //   display: 'inline-block',
+  //   position: 'relative',
+  // };
 
 
   const filterByPriceRange = (data) => {
@@ -261,13 +252,13 @@ function Asset() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
-  console.log("filteredData ",filteredData )
+ 
 
   // const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
   const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-console.log("currentItems",currentItems)
+
 
 const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -300,19 +291,6 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
-
-
-
-  console.log("sortedData:", sortedData);
-    console.log("sortConfig:", sortConfig);
-  
-
-
-
-
-
-
-
 
 
 
@@ -392,9 +370,9 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile
+      // const loginProfile = stateAccount.accountList[0].user_details.profile
 
-      setProfile(loginProfile)
+      // setProfile(loginProfile)
     }
 
   }, [stateAccount.statusCodeForAccountList])
@@ -412,7 +390,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -543,7 +521,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                               width: 260,
                               backgroundColor: '#fff',
                               // border: '1px solid #D9D9D9',
-                              borderRadius: '4px',
+                              // borderRadius: '4px',
                               maxHeight: 174,
                               minHeight: 100,
                               overflowY: 'auto',
@@ -652,11 +630,17 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
             {searchQuery && (
               <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {getData.length > 0 ? (
+                  // <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                  //   {getData.length} result{getData.length > 1 ? 's' : ''} found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                  // </span>
                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                    {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-                  </span>
+  {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
+  <span style={{ color: "rgba(34, 34, 34, 1)" }}>
+    &quot;{searchQuery}&quot;
+  </span>
+</span>
                 ) : (
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}> &quot;{searchQuery}&quot;</span></span>
                 )}
               </div>
             )}

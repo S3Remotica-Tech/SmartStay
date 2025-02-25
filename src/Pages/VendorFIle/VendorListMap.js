@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../../Assets/Images/New_images/trash.png';
-import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
 import Vendors from '../../Assets/Images/New_images/profile-picture.png';
-import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import { Edit} from 'iconsax-react';
+import PropTypes from "prop-types"
 
 
 function VendorListMap(props) {
@@ -24,14 +23,7 @@ function VendorListMap(props) {
   };
 
 
-  const handleMouseEnter = () => {
-    setShowDots(true)
-  }
-
-  const handleMouseLeave = () => {
-    setShowDots(false)
-
-  }
+  
 
   const handleEdit = (item) => {
     props.onEditVendor(item);
@@ -75,7 +67,7 @@ function VendorListMap(props) {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -275,5 +267,11 @@ function VendorListMap(props) {
     </>
   )
 }
+VendorListMap.propTypes = {
+  onEditVendor: PropTypes.func.isRequired,
+  onDeleteVendor: PropTypes.func.isRequired,
+  vendor: PropTypes.func.isRequired,
+};
+
 
 export default VendorListMap

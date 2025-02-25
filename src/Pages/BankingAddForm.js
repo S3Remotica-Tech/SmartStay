@@ -1,11 +1,12 @@
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
+import PropTypes from "prop-types";
 
 
 function BankingAddForm(props) {
@@ -489,4 +490,12 @@ function BankingAddForm(props) {
     </div>
   );
 }
+
+BankingAddForm.propTypes = {
+  editAddBank: PropTypes.func.isRequired,
+  setEdit: PropTypes.func.isRequired,
+  showForm: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
+};
 export default BankingAddForm;
