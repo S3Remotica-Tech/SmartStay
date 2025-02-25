@@ -2293,7 +2293,7 @@ function UserList(props) {
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20,cursor:"pointer"  }}
                           />
                         </span>
                         <input
@@ -2314,7 +2314,7 @@ function UserList(props) {
                           <img
                             src={closecircle}
                             onClick={handleCloseSearch}
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20,cursor:"pointer" }}
                           />
                         </span>
                       </div>
