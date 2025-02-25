@@ -887,7 +887,7 @@ function Expenses({ allPageHostel_Id }) {
                         {showCategory && (<>
 
                           <ListGroup className='show-scroll-category' style={{
-                            position: 'absolute', right: 250, top: 0, borderRadius: 2,
+                            position: 'absolute', right: 250, top: 0, borderRadius:"8px",
                             maxHeight: '200px',
                             overflowY: 'auto'
                           }}
@@ -968,7 +968,7 @@ function Expenses({ allPageHostel_Id }) {
                       >Payment Mode
 
                         {showPaymentMode && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius:"8px" }}
                             value={modeValue}
                             onClick={handleModeValueChange}
 
@@ -995,7 +995,7 @@ function Expenses({ allPageHostel_Id }) {
                       >Amount
 
                         {showAmount && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius:"8px" }}
                             value={amountValue}
                             onClick={handleAmountValueChange}
 
@@ -1140,7 +1140,7 @@ function Expenses({ allPageHostel_Id }) {
                       paddingLeft: 40
 
                     }}
-                  > + Expense</Button>
+                  > + Expenses</Button>
                 </div>
               </div>
             </div>
