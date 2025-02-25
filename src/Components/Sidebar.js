@@ -61,11 +61,10 @@ import Logout from "../Assets/Images/turn-off.png";
 import SettingManage from "../Pages/SettingManage";
 
 function Sidebar() {
-  // const cookies = new Cookies();
-  // let navigate = useNavigate();
+ 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log("state", state);
+  
   const stateData = useSelector((state) => state.createAccount);
 
   const [manageOpen, setManageOpen] = useState(false);
@@ -260,15 +259,14 @@ function Sidebar() {
   }, [state.login?.isLoggedIn]);
 
   useEffect(() => {
-    console.log("isLoggedIn:", state.login?.isLoggedIn);
+    
     if (state.login?.isLoggedIn === false) {
-      console.log("Clearing hostel data...");
+     
       dispatch({ type: "CLEAR_HOSTEL_LIST" });
       dispatch({ type: "CLEAR_DASHBOARD" });
       dispatch({ type: "CLEAR_HOSTEL_DATA" });
       setAllPageHostel_Id("");
       dispatch(StoreSelectedHostelAction(""));
-      console.log("StoreSelectedHostelAction", StoreSelectedHostelAction(""));
       // setHostel_Id("");
     }
   }, [state.login?.isLoggedIn]);
@@ -366,10 +364,7 @@ function Sidebar() {
     }
   }, [allPageHostel_Id]);
 
-  console.log(
-    "state.UsersList.statusCodeForhostelListNewDetails ",
-    state.UsersList.statusCodeForhostelListNewDetails
-  );
+  
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
@@ -452,7 +447,7 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
-  console.log("state.UsersList.hostelList", state.UsersList.hostelList.length);
+  
 
   const [pgshow, setPgshow] = useState(false);
   // const [pgformshow, setPgformshow] = useState(true);
@@ -468,10 +463,7 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-  console.log("Hostel List Data:", state.UsersList?.hostelListNewDetails?.data);
-  console.log("Is Array:", Array.isArray(state.UsersList?.hostelListNewDetails?.data));
-  console.log("Data Length:", state.UsersList?.hostelListNewDetails?.data?.length);
-  
+
 
   // const hostelList = state.UsersList?.hostelListNewDetails?.data ?? [];
 

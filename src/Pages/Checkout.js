@@ -182,7 +182,7 @@ function Checkout() {
 
                       </div>
                       <div className="mb-3">
-                        <span style={{ fontSize: 14 }} className="mb-2">Booking Date:</span>
+                        <span style={{ fontSize: 14 }} className="mb-2">Booking Dateeeee:</span>
                         <Badge bg="light" text="dark" className="ms-3 p-2">
                           <span style={{ fontSize: 13, padding: 5 }}>{moment(view.createdAt).format('DD/MM/YYYY')}</span>
                         </Badge>

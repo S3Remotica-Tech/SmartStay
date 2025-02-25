@@ -252,13 +252,13 @@ function Asset() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
-  console.log("filteredData ",filteredData )
+ 
 
   // const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
   const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-console.log("currentItems",currentItems)
+
 
 const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -291,19 +291,6 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
-
-
-
-  console.log("sortedData:", sortedData);
-    console.log("sortConfig:", sortConfig);
-  
-
-
-
-
-
-
-
 
 
 

@@ -1,65 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Emptystate from '../Assets/Images/Empty-State.jpg'
-import { FaChevronDown } from "react-icons/fa";
-import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
-import { InputLabel, Select, MenuItem } from "@mui/material";
-import { Table, Dropdown } from 'react-bootstrap';
-import { BsSearch } from "react-icons/bs";
-import { IoFilterOutline } from "react-icons/io5";
-import List from '../Assets/Images/list-report.png';
-import Edit from '../Assets/Images/edit.png';
+import { Dropdown } from 'react-bootstrap';
 import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import Filters from "../Assets/Images/Filters.svg";
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import 'sweetalert2/dist/sweetalert2.min.css';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import Select from '@mui/material/Select';
-import { format } from 'date-fns';
 import '../Pages/Compliance.css'
-import CryptoJS from "crypto-js";
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
-
-
-import Notify from '../Assets/Images/New_images/notify.png';
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import Profile from '../Assets/Images/New_images/profile-picture.png';
-import Filter from '../Assets/Images/New_images/Group 13.png';
-import { FaSearch } from 'react-icons/fa';
-import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
-import { CiSearch } from "react-icons/ci";
-// import AddVendor from './AddVendormodal';
+import { FormControl} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Alert from 'react-bootstrap/Alert';
-// import VendorListMap from './VendorListMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
-import Plus from '../Assets/Images/New_images/add-circle.png'
-import Tickicon from '../Assets/Images/tick-circle.png'
-import Profile_add from '../Assets/Images/profile-add.png'
 import Form from 'react-bootstrap/Form';
-import Swal from 'sweetalert2';
-import imageCompression from 'browser-image-compression';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Card from 'react-bootstrap/Card';
-import User from '../Assets/Images/Profile-complaint.png';
-import Calendor from '../Assets/Images/calendar.png';
-import Badge from 'react-bootstrap/Badge';
-import { Description, Room } from '@material-ui/icons';
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import ComplianceList from './ComplianceList';
 import { MdError } from "react-icons/md";
-// import Image from 'react-bootstrap/Image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
@@ -72,28 +33,14 @@ const Compliance = () => {
 
   const initialValuesRef = useRef({});
 
-  const bottomBorderStyles = {
-    border: 'none',
-    borderBottom: '1px solid #ced4da',
-    borderRadius: '0',
-    boxShadow: 'none',
-    fontWeight: 'bold',
-    fontSize: "11px",
-    marginTop: "",
-    paddingLeft: "2px",
-    backgroundColor: "#E6ECF8"
-  };
 
 
   const [id, setId] = useState('')
-  const [Name, setName] = useState('');
-  const [Phone, setPhone] = useState('');
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
-  const [editbtn, setEditbtn] = useState(false)
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
@@ -421,31 +368,7 @@ const Compliance = () => {
   };
 
 
-  const handleFormclose = () => {
-    handleMenuClick();
-    setShowMenu(false);
-    setId('')
-    setName('')
-    setPhone('')
-    setComplainttype('')
-    setAssign('')
-    setDescription('')
-    setDate('')
-    setStatus('')
-    setHostel_Id('')
-    setFloor('')
-    setRooms('')
-    setFloorname('')
-  }
 
-  const handlePhone = (e) => {
-    let phoneNo = e.target.value;
-    setPhone(e.target.value)
-    if (phoneNo.length === 10) {
-      setPhone(phoneNo)
-    }
-
-  }
 
 
 
@@ -544,8 +467,6 @@ const Compliance = () => {
 
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
-        // setName(firstFilteredDetail.Name || '');
-        // setPhone(firstFilteredDetail.Phone || '');
         setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
         setFloor(firstFilteredDetail.Floor || '');
@@ -557,8 +478,6 @@ const Compliance = () => {
 
       } else {
         setFilteredUserDetails([]);
-        setName('');
-        // setPhone('');
         setHostelName('');
         setBeds('')
         setFloor('');
@@ -567,8 +486,6 @@ const Compliance = () => {
       }
     } else {
       setFilteredUserDetails([]);
-      setName('');
-      // setPhone('');
       setHostelName('');
       setBeds('')
       setFloor('');

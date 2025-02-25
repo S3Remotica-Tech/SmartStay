@@ -51,36 +51,6 @@ function AssetListTable(props) {
 
   }
 
-  //   const handleDelete = (item) =>{
-  //     console.log("delete item",item)
-  // if(item){
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Do you want to delete the asset ?',
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //       showCancelButton: true,
-  //   }).then((result) => {
-  //       if (result.isConfirmed) {
-  //           dispatch({
-  //               type: 'DELETEASSET',
-  //               payload: {
-  //                 asset_id: item.id,
-  //                 },
-  //           });
-  //           Swal.fire({
-  //               icon: 'success',
-  //               title: 'Asset deleted Successfully',
-  //           })
-  //       }
-
-  //   });
-
-  // }
-
-  //   }
-
-
   const handleDelete = () => {
 
 

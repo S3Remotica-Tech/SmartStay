@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import { Button, Form, FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import imageCompression from "browser-image-compression";
 import { MdError } from "react-icons/md";
-import Plus from "../Assets/Images/New_images/add-circle.png";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from "prop-types";
 
 function CustomerReAssign(props){
     const state = useSelector((state) => state);
@@ -265,7 +262,6 @@ setTimeout(() => {
         <Modal.Dialog
           style={{
             maxWidth: 666,
-            paddingRight: "10px",
             paddingRight: "10px",
             borderRadius: "30px",
           }}
@@ -883,4 +879,13 @@ setTimeout(() => {
         </>
     )
 }
+
+CustomerReAssign.propTypes = {
+  customerReassign: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  reAssignDetail: PropTypes.func.isRequired,
+  setCustomerReAssign: PropTypes.func.isRequired,
+};
+
 export default CustomerReAssign;

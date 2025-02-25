@@ -21,7 +21,6 @@ import { MdError } from "react-icons/md";
 
 function Banking() {
   const state = useSelector((state) => state);
-  console.log("Banking", state)
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [loader, setLoader] = useState(true);
@@ -407,8 +406,7 @@ function Banking() {
     setDropdownVisible(false);
   };
   const handleStatusFilter = (event) => {
-    const searchTerm = event.target.value;
-    console.log("searchTerm", searchTerm);
+    const searchTerm = event.target.value;;
     setStatusfilter(searchTerm);
 
     if (searchTerm === "All") {
@@ -430,9 +428,7 @@ function Banking() {
     }
   }, [transactionFilterddata]);
 
-  console.log("transactionFilterddata", transactionFilterddata);
-
-  console.log("transactionFilterddata", transactionFilterddata);
+  
 
   return (
     <>
