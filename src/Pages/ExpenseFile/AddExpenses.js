@@ -552,7 +552,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 fontWeight: 600,
               }}
             >
-              {currentItem ? "Edit an expenses" : "Add an expenses"}
+              {currentItem ? "Edit an expense" : "Add an expense"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
@@ -1108,7 +1108,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 padding: 12,
               }}
             >
-              {currentItem ? "Save Changes" : "Add  expenses"}
+              {currentItem ? "Save Changes" : "Add  expense"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

@@ -535,12 +535,12 @@ function Vendor() {
                             onChange={handleInputChange}
 
                             style={{
-                              width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                              width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222", 
                               //  '::placeholder': { color: "#222", fontWeight: 500 } 
                             }}
                             placeholder="Search..."
                           />
-                          <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                          <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
                             <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                           </InputGroup.Text>
                         </InputGroup>

@@ -1041,7 +1041,7 @@ const AddReceiptForm = (props) => {
       onClick={handleCreateReceipt}
        className='w-80 mt-5 me-5' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
        borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
-     {edit ? "Update Receipt" : "Create Receipt"}    
+     {edit ? "Update Receipte" : "Create Receipt"}    
       </Button>
    </div>
   
@@ -1050,7 +1050,7 @@ const AddReceiptForm = (props) => {
 
 {allfielderrmsg.trim() !== "" && (
   <div>
-    <p style={{ fontSize: '14px', color: 'red', marginTop: '3px' }}>
+    <p style={{ fontSize: '14px', color: 'red', marginTop: '3px', textAlign: "center" }}>
       {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
     </p>
   </div>
