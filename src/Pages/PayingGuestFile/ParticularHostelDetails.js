@@ -26,6 +26,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import PropTypes from "prop-types"
 
 
 
@@ -813,7 +814,12 @@ console.log("itemsPerPage",itemsPerPage)
     </>
   )
 }
-
+ParticularHostelDetails.propTypes = {
+  floorID: PropTypes.func.isRequired,
+  hostel_Id: PropTypes.func.isRequired,
+  deletePermissionError: PropTypes.func.isRequired,
+  addPermissionError: PropTypes.func.isRequired,
+};
 export default ParticularHostelDetails
 
 

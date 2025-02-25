@@ -1,4 +1,3 @@
-import { BsBorderStyle } from "react-icons/bs";
 
 export const Styles = {
 
@@ -10,7 +9,6 @@ export const Styles = {
   backgroundColorGrey: 'rgba(246, 246, 246, 1);',
   backgroundColorWhite: 'white',
   backgroundColorTransparent: 'transparent',
-  backgroundColorGrey: '#F6F6F6',
   backgroundColorBlack:'#141414',
 
   //  Color
@@ -34,7 +32,6 @@ export const Styles = {
   borderBottomGray300: 'rgba(209, 209, 209, 1);',
   borderGray200: 'rgba(220, 220, 220, 1);',
   borderLightGray: '#C3C3C3',
-  borderGray200: 'rgba(220, 220, 220, 1);',
   borderLeftGrey: '#D1D1D1',
   borderBlue: '#0047FF',
 
