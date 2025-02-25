@@ -552,7 +552,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 fontWeight: 600,
               }}
             >
-              {currentItem ? "Edit an expense" : "Add an expense"}
+              {currentItem ? "Edit an expenses" : "Add an expenses"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
@@ -593,7 +593,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                   >
                     {" "}
                     Please add a 'Category' option in Settings, accessible after
-                    adding an expense.
+                    adding an expenses.
                   </label>
                 )}
 
@@ -1108,7 +1108,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 padding: 12,
               }}
             >
-              {currentItem ? "Save Changes" : "Add  expense"}
+              {currentItem ? "Save Changes" : "Add  expenses"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
