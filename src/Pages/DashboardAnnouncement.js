@@ -575,8 +575,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //     )}
       //   </div>
       // ) : (
-      <div  style={{ maxHeight: "420px", overflowY: "auto", }}>
-        <div className="row">
+      <div  style={{ maxHeight: "420px", overflowY: "auto", overflowX: "hidden" }}>
+        <div className="row" >
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
@@ -1866,7 +1866,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </div>
           </div>
           {errorMessage && (
-          <div style={{ color: "red" }}>
+          <div style={{ color: "red",textAlign:"center",paddingTop:"8px" }}>
             <MdError />
             <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
           </div>

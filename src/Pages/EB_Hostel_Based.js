@@ -1487,7 +1487,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                                                               )}
         <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
-            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12 w-100"
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,

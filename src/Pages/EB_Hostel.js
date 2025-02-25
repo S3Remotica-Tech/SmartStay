@@ -821,7 +821,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
                       <img
                         src={closecircle}
                         onClick={handleCloseSearch}
-                        style={{ height: 20, width: 20 }}
+                        style={{ height: 20, width: 20,cursor: "pointer" }}
                       />
                     </span>
                   </div>
@@ -1026,7 +1026,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
             <>
               {
                 value === "1" &&
-                <div style={{ paddingRight: 21 }}>
+                <div style={{ paddingRight: 21 ,cursor: "pointer"}}>
                   <Image
                     src={searchteam}
                     roundedCircle
@@ -1045,7 +1045,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
 
             </>
           )}
-          <div className="me-4" style={{ paddingRight: 5, marginTop: 5 }}>
+          <div className="me-4" style={{ paddingRight: 5, marginTop: 5,cursor: "pointer" }}>
 
             {value === "1" && (
               <img
