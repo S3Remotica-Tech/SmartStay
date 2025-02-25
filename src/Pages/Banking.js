@@ -4,13 +4,9 @@ import closecircle from "../Assets/Images/New_images/close-circle.png";
 import "./Banking.css";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { borderRadius } from "@mui/system";
-import more from "../Assets/Images/New_images/Three_dots.png";
-import { Dropdown, Table } from "react-bootstrap";
-import Skeleton from "react-loading-skeleton";
-import squre from "../Assets/Images/New_images/minus-square.png";
+import {Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "./BankingAddForm";
 import Edit from "../Assets/Images/Edit-blue.png";
@@ -19,16 +15,7 @@ import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 
@@ -37,11 +24,9 @@ function Banking() {
   console.log("Banking", state)
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-  const editRef = useRef(null);
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [dotsshowbank, setdotsshowbank] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
   const [typeId, setTypeId] = useState(null);
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
@@ -52,7 +37,6 @@ function Banking() {
   const [EditTransactionForm, setEditTransactionForm] = useState(false);
   const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
   const [openMenuId, setOpenMenuId] = useState(null);
-  const [changeAmount, setchangeAmount] = useState("");
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
   const [AddBankName, setAddBankName] = useState("");
@@ -68,7 +52,6 @@ function Banking() {
   const [hostel_id, setHostel_Id] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [filterStatus, setFilterStatus] = useState(false);
   const [originalBills, setOriginalBills] = useState([]);
   const [statusfilter, setStatusfilter] = useState("");
@@ -239,7 +222,7 @@ function Banking() {
   const handleDeleteForm = (v) => {
     setDeleteBankId(v.id);
     setDeleteShow(true);
-    setdotsshowbank(false);
+    // setdotsshowbank(false);
     setOpenMenuId(false);
   };
   const handleDeleteBank = () => {
@@ -260,7 +243,7 @@ function Banking() {
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
-    setdotsshowbank(false);
+    // setdotsshowbank(false);
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -268,7 +251,7 @@ function Banking() {
   const handleEditTrans = (id, event) => {
     setEditTransaction((prevId) => (prevId === id ? null : id));
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left} = event.target.getBoundingClientRect();
     const popupTop = top - 20;
     const popupLeft = left - 200;
 
@@ -324,7 +307,7 @@ function Banking() {
     setAddBankName(item.acc_name);
     setTypeId(item.id);
     setshowAddBalance(true);
-    setdotsshowbank(false);
+    // setdotsshowbank(false);
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
@@ -375,10 +358,6 @@ function Banking() {
   const totalPagesTransaction = Math.ceil(
     transactionFilterddata?.length / transactionrowsPerPage
   );
-
-  // useEffect(() => {
-  //   settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
-  // }, [state?.bankingDetails?.bankingList?.bank_trans])
 
 
   useEffect(() => {
@@ -445,7 +424,6 @@ function Banking() {
     }
   };
 
-  // Store original data once when it is first loaded
   useEffect(() => {
     if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
       setOriginalBillsFilter(transactionFilterddata);
@@ -469,14 +447,14 @@ function Banking() {
               height: "100vh",
             }}
           >
-            {/* Image */}
+          
             <img
               src={emptyimg}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {bankingpermissionError && (
               <div
                 style={{
@@ -600,7 +578,7 @@ function Banking() {
                           className="show-scroll p-0"
                           style={{
                             backgroundColor: "#fff",
-                            borderRadius: "4px",
+                            // borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
                               transactionFilterddata?.length > 1 ? "174px" : "auto",
@@ -630,21 +608,7 @@ function Banking() {
                                 }}
                                 onClick={() => handleUserSelect(user)}
                               >
-                                {/* <Image
-                                        src={imagedrop}
-                                        alt={user.Name || "Default Profile"}
-                                        roundedCircle
-                                        style={{
-                                          height: "30px",
-                                          width: "30px",
-                                          marginRight: "10px",
-                                        }}
-                                        onError={(e) => {
-                                          e.target.onerror = null;
-                                          e.target.src = Profile;
-                                        }}
-                                      /> */}
-                                {/* <span>{user.Name}</span> */}
+                                
                                 <span>{user.bank_name}</span>
                               </li>
                             );
@@ -748,7 +712,7 @@ function Banking() {
 
                     }}
                   >
-                    {/* Card Body */}
+                    
                     <div
                       className="card-body"
                       style={{ overflowY: "auto", scrollBehavior: "smooth" }}
@@ -795,12 +759,7 @@ function Banking() {
                               alignItems: "center",
                               position: "relative",
                               backgroundColor: openMenuId === item.id   ? "#E7F1FF": "white"
-                              // backgroundColor:
-                              //   EditTransaction === user.id
-                              //     ? "#E7F1FF"
-                              //     : "white",
-                              // zIndex:
-                              //   EditTransaction === user.id ? 1000 : "auto",
+                             
                                 }}>
                         <PiDotsThreeOutlineVerticalFill
                          onClick={() => handleShowDots(item.id)}
@@ -1108,76 +1067,7 @@ function Banking() {
               })
             ) : (
               <></>
-              //     <div
-              //       className="card mx-2"
-              //       style={{
-              //         minWidth: "280px",
-              //         borderRadius: "12px",
-              //         overflow: "visible",
-              //         height: 187,
-              //       }}
-              //     >
-              //       {/* Card Body */}
-              //       <div className="card-body">
-              //       <div>
-              //   <div style={{ textAlign: "center" }}>
-              //     <img
-              //       src={emptyimg}
-              //       width={50}
-              //       height={50}
-              //       alt="emptystate"
-              //     />
-              //   </div>
-              //   <div
-              //     className="pb-1"
-              //     style={{
-              //       textAlign: "center",
-              //       fontWeight: 600,
-              //       fontFamily: "Gilroy",
-              //       fontSize: 20,
-              //       color: "rgba(75, 75, 75, 1)",
-              //     }}
-              //   >
-              //     No Bank{" "}
-              //   </div>
-              //   <div
-              //     className="pb-1"
-              //     style={{
-              //       textAlign: "center",
-              //       fontWeight: 500,
-              //       fontFamily: "Gilroy",
-              //       fontSize: 16,
-              //       color: "rgba(75, 75, 75, 1)",
-              //     }}
-              //   >
-              //     There are no Bank Details available.{" "}
-              //   </div>
-              //   <div style={{ textAlign: "center" }}>
-              //   <Button
-              //         onClick={handleShowForm}
-              //         disabled={bankingAddPermission}
-              //         style={{
-              //           fontSize: 14,
-              //           backgroundColor: "#1E45E1",
-              //           color: "white",
-              //           height: 52,
-              //           fontWeight: 600,
-              //           borderRadius: 12,
-              //           width: 123,
-              //           padding: "10px, 20px, 10px, 20px",
-              //           color: "#FFF",
-              //           fontFamily: "Gilroy",
-              //         }}
-              //       >
-              //         {" "}
-              //         + Add Bank
-              //       </Button>
-              //             </div>
-
-              // </div>
-
-              //       </div>
-              //     </div>
+              
             )}
           </div>
 

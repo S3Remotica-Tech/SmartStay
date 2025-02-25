@@ -383,7 +383,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile
+      // const loginProfile = stateAccount.accountList[0].user_details.profile
 
       // setProfile(loginProfile)
     }
@@ -643,25 +643,17 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
             {searchQuery && (
               <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {getData.length > 0 ? (
+                  // <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                  //   {getData.length} result{getData.length > 1 ? 's' : ''} found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                  // </span>
                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                    {/* {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span> */}
-                    <p>
   {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
-  <span
-    style={{
-      textAlign: "center",
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      fontSize: 16,
-      color: "rgba(34, 34, 34, 1)",
-    }}
-  >
-    "{searchQuery}"
+  <span style={{ color: "rgba(34, 34, 34, 1)" }}>
+    &quot;{searchQuery}&quot;
   </span>
-</p>
-                  </span>
+</span>
                 ) : (
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for{" "} <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}> &quot;{searchQuery}&quot;</span></span>
                 )}
               </div>
             )}

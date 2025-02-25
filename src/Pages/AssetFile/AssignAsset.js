@@ -1,36 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { InputGroup, FormControl } from 'react-bootstrap';
-import Profile from '../../Assets/Images/New_images/profile-picture.png'
-import Image from 'react-bootstrap/Image';
-import Plus from '../../Assets/Images/New_images/add-circle.png'
+import {FormControl } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 import "../../Pages/AssetFile/addAsset.css";
 import moment from 'moment';
-import Flatpickr from 'react-flatpickr';
+// import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import Calendars from '../../Assets/Images/New_images/calendar.png'
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {CloseCircle } from 'iconsax-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from "prop-types";
 
 
 
 
-function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
+function StaticExample({ show, handleClose, currentItem }) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
     const [pglist, setPgList] = useState(state.login.selectedHostel_Id)
     const [room, setRoom] = useState('')
-    const [date, setDate] = useState('')
+    // const [date, setDate] = useState('')
     const [Floor, setFloor] = useState('')
 
-    const [pglistError, setPglistError] = useState('');
+    // const [pglistError, setPglistError] = useState('');
     const [roomError, setRoomError] = useState('');
     const [dateError, setDateError] = useState('');
     const [floorError, setFloorError] = useState('');
@@ -42,8 +39,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
     const [roomList, setRoomList] = useState([])
 
 
-    console.log("currentItem", currentItem)
-    console.log("state", state)
+  
 
     const [initialState, setInitialState] = useState({
         pglist: '',
@@ -112,15 +108,14 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
     }, [selectedDate])
 
 
-    console.log("pg", pglist)
 
 
-    const handlePgChange = (e) => {
-        setPgList(e.target.value)
-        setGeneralError('')
-        setPglistError('')
-        setNoChangeError('');
-    }
+    // const handlePgChange = (e) => {
+    //     setPgList(e.target.value)
+    //     setGeneralError('')
+    //     setPglistError('')
+    //     setNoChangeError('');
+    // }
 
     const handleRoomChange = (e) => {
         setRoom(e.target.value)
@@ -129,12 +124,12 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
         setNoChangeError('');
     }
 
-    const handleDateChange = (selectedDates) => {
-        setSelectedDate(selectedDates[0]);
-        setGeneralError('')
-        setDateError('');
-        setNoChangeError('');
-    }
+    // const handleDateChange = (selectedDates) => {
+    //     setSelectedDate(selectedDates[0]);
+    //     setGeneralError('')
+    //     setDateError('');
+    //     setNoChangeError('');
+    // }
 
     const handleFloor = (e) => {
         setFloor(e.target.value)
@@ -171,7 +166,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
 
     const handleAddAssignAsset = () => {
 
-        setPglistError('');
+        // setPglistError('');
         setRoomError('');
         setDateError('');
         setFloorError('');
@@ -183,10 +178,10 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
             return;
         }
 
-        if (!pglist) {
-            setPglistError('Please select a PG List');
-            // return;
-        }
+        // if (!pglist) {
+        //     setPglistError('Please select a PG List');
+        //     // return;
+        // }
 
         if (!Floor) {
             setFloorError('Please select a Floor');
@@ -250,9 +245,7 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
             })
 
 
-        } else {
-
-        }
+        } 
     }
 
     useEffect(() => {
@@ -511,5 +504,11 @@ function StaticExample({ show, handleClose, currentItem, hostel_Id }) {
         </div>
     );
 }
-
+StaticExample.propTypes = {
+    show: PropTypes.func.isRequired,
+    currentItem: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired 
+};
 export default StaticExample;

@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdError } from "react-icons/md";
-import { setISODay } from "date-fns";
-import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import "./BankingAddForm.css";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -25,11 +24,11 @@ function BankingEditTransaction(props) {
   const [transError, setTransError] = useState("");
   const [describtionError, setdescribtionError] = useState("");
   const [id, setId] = useState("");
-  const [error, setError] = useState("")
-  const [hostel_id, setHostel_Id] = useState("")
+  const [error, setError] = useState("");
+  const [hostel_id, setHostel_Id] = useState("");
 
   useEffect(() => {
-    setHostel_Id(state.login.selectedHostel_Id)
+    setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
@@ -37,18 +36,13 @@ function BankingEditTransaction(props) {
 
   const handleAccount = (e) => {
     setAccount(e.target.value);
-    setAccountError("")
-    setError("")
-  };
-  const handleDate = (e) => {
-    setSelectedDate(e.target.value);
-    setError("")
-
+    setAccountError("");
+    setError("");
   };
   const handleAmount = (e) => {
     setAmount(e.target.value);
-    setAmountError("")
-    setError("")
+    setAmountError("");
+    setError("");
   };
   const handleTransaction = (e) => {
     setTransaction(e.target.value);
@@ -57,13 +51,13 @@ function BankingEditTransaction(props) {
     } else {
       setTransError("");
     }
-    setTransError("")
-    setError("")
+    setTransError("");
+    setError("");
   };
   const handleDescription = (e) => {
     setDescribtion(e.target.value);
-    setdescribtionError("")
-    setError("")
+    setdescribtionError("");
+    setError("");
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
     account: "",
@@ -74,52 +68,31 @@ function BankingEditTransaction(props) {
   });
   useEffect(() => {
     setAccount(props.updateTransaction.bank_id);
-    // setSelectedDate(props.updateTransaction.date);
     setSelectedDate(props.updateTransaction.date || "");
-          // const formattedJoiningDate = item.joining_date
-          //   ? new Date(item.joining_date)
-          //   : null;
-          // setJoiningDate(formattedJoiningDate);
-          setSelectedDate(
-            props.updateTransaction.date ? moment(props.updateTransaction.date).toDate("") : null
-          );
-    setId(props.updateTransaction.id)
-    // const isValidDate =
-    //   props.updateTransaction.date &&
-    //   props.updateTransaction.date !== "0000-00-00";
-    // const parsedDate = isValidDate
-    //   ? new Date(props.updateTransaction.date)
-    //   : null;
 
-    // if (parsedDate && !isNaN(parsedDate.getTime())) {
-    //   setSelectedDate(parsedDate);
-    // } else {
-    //   setSelectedDate("");
-    // }
+    setSelectedDate(
+      props.updateTransaction.date
+        ? moment(props.updateTransaction.date).toDate("")
+        : null
+    );
+    setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
     setTransaction(props.updateTransaction.type);
     setDescribtion(props.updateTransaction.description);
-
-
-
 
     setInitialStateAssign({
       account: props.updateTransaction.bank_id || "",
       selectedDate: props.updateTransaction.date || "",
       amount: props.updateTransaction.amount || "",
       transaction: props.updateTransaction.type || "",
-      describtion: props.updateTransaction.description || ""
-
+      describtion: props.updateTransaction.description || "",
     });
   }, []);
 
   const handleCloseTransactionEdit = () => {
     props.setEditTransactionForm(false);
-    setDescribtion("")
-    setError("")
-  };
-  const handleCloseTransactionDelete = () => {
-    props.setDeleteTransactionForm(false);
+    setDescribtion("");
+    setError("");
   };
   const validateField = (value, fieldName) => {
     if (!value || (typeof value === "string" && value.trim() === "")) {
@@ -147,83 +120,22 @@ function BankingEditTransaction(props) {
     return true;
   };
 
-  // const handleEditSave = () => {
-  //   if (!validateField(account, "account"));
-  //   if (!validateField(selectedDate, "selectedDate"));
-
-  //   if (!validateField(amount, "amount"));
-  //   if (!validateField(transaction, "transaction"));
-  //   if (!validateField(describtion, "describtion"));
-
-  //   if (transaction === "" || transaction === "Select Transaction" || transaction === 0) {
-  //     setTransError("Please select a valid transaction type");
-  //     return;
-  //   }
-  //   if (account === "Selected Account" || accountError) {
-  //     setAccountError("Please select a valid account");
-  //     return;
-  //   }
-  //   // const isChanged = 
-  //   // account !== initialStateAssign.account ||
-
-  //   //     Number(amount) !== Number(initialStateAssign.amount) ||
-  //   //     selectedDate !== initialStateAssign.selectedDate ||
-  //   //     transaction !== initialStateAssign.transaction ||
-  //   //     describtion !== initialStateAssign.describtion;
-  //   const isValidDate = (date) => {
-  //     return !isNaN(Date.parse(date));
-  //   };
-  //   const isChanged =
-  //     (isNaN(account)
-  //       ? String(account).toLowerCase() !==
-  //       String(initialStateAssign.account).toLowerCase()
-  //       : Number(account) !== Number(initialStateAssign.account)) ||
-  //     (isNaN(transaction)
-  //       ? String(transaction).toLowerCase() !==
-  //       String(initialStateAssign.transaction).toLowerCase()
-  //       : Number(transaction) !== Number(initialStateAssign.transaction)) ||
-
-  //     (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-  //       ? new Date(selectedDate).toISOString().split("T")[0] !==
-  //       new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
-  //       : selectedDate !== initialStateAssign.selectedDate) ||
-  //     Number(amount) !== Number(initialStateAssign.amount) ||
-  //     String(describtion) !== String(initialStateAssign.describtion)
-
-
-  //   if (!isChanged) {
-  //     setError("No changes detected.");
-  //     return;
-  //   }
-  //   else {
-  //     setError("");
-  //   }
-
-  //   const modifiedDate = new Date(selectedDate);
-  //   modifiedDate.setDate(modifiedDate.getDate() + 1);
-  //   dispatch({
-  //     type: "EDITBANKTRANSACTION",
-  //     payload: { id: id, bank_id: account, date: modifiedDate.toISOString().split("T")[0], amount: amount, type: transaction, desc: describtion },
-  //   });
-  // }
-
-
-
   const handleEditSave = () => {
     let isValid = true;
-  
 
     if (!validateField(account, "account")) isValid = false;
     if (!validateField(selectedDate, "selectedDate")) isValid = false;
     if (!validateField(amount, "amount")) isValid = false;
     if (!validateField(transaction, "transaction")) isValid = false;
     if (!validateField(describtion, "describtion")) isValid = false;
-  
-    
+
     if (!isValid) return;
-  
-  
-    if (transaction === "" || transaction === "Select Transaction" || transaction === 0) {
+
+    if (
+      transaction === "" ||
+      transaction === "Select Transaction" ||
+      transaction === 0
+    ) {
       setTransError("Please select a valid transaction type");
       return;
     }
@@ -231,40 +143,33 @@ function BankingEditTransaction(props) {
       setAccountError("Please select a valid account");
       return;
     }
-  
+
     const isValidDate = (date) => !isNaN(Date.parse(date));
-  
- 
+
     const isChanged =
       (isNaN(account)
-        ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
+        ? String(account).toLowerCase() !==
+          String(initialStateAssign.account).toLowerCase()
         : Number(account) !== Number(initialStateAssign.account)) ||
       (isNaN(transaction)
-        ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
+        ? String(transaction).toLowerCase() !==
+          String(initialStateAssign.transaction).toLowerCase()
         : Number(transaction) !== Number(initialStateAssign.transaction)) ||
       (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-        ? new Date(selectedDate).toISOString().split("T")[0] !== 
+        ? new Date(selectedDate).toISOString().split("T")[0] !==
           new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
         : selectedDate !== initialStateAssign.selectedDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(describtion) !== String(initialStateAssign.describtion);
-  
 
     if (!isChanged) {
       setError("No changes detected.");
       return;
     }
-  
-    
+
     setError("");
-  
-    // const modifiedDate = new Date(selectedDate);
-    // modifiedDate.setDate(modifiedDate.getDate() + 1);
-  
-   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-   
-       // Normalize phone number
-      //  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+
     dispatch({
       type: "EDITBANKTRANSACTION",
       payload: {
@@ -273,37 +178,28 @@ function BankingEditTransaction(props) {
         date: formattedDate,
         amount: amount,
         type: transaction,
-        desc: describtion
+        desc: describtion,
       },
     });
   };
-  
-
-
-
 
   useEffect(() => {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
-      handleCloseTransactionEdit()
+      handleCloseTransactionEdit();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_BANK_TRANSACTION" });
       }, 1000);
     }
-  }, [state.bankingDetails.statusEditTrasactionCode])
+  }, [state.bankingDetails.statusEditTrasactionCode]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
-
-
-
-
 
   const customDateInput = (props) => {
     return (
@@ -356,14 +252,7 @@ function BankingEditTransaction(props) {
         onHide={() => handleCloseTransactionEdit()}
         backdrop="static"
         centered
-        // className="BankingCustom-modal"
       >
-        {/* <Modal.Header closeButton className="text-center">
-          <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-            Add a Reading
-          </Modal.Title>
-        </Modal.Header> */}
-
         <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
@@ -454,8 +343,17 @@ function BankingEditTransaction(props) {
               </Form.Select>
               {accountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountError}</span>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 13,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {accountError}
+                  </span>
                 </div>
               )}
             </div>
@@ -477,7 +375,7 @@ function BankingEditTransaction(props) {
                     selected={selectedDate}
                     onChange={(date) => {
                       setDateError("");
-                      setError("")
+                      setError("");
                       setSelectedDate(date);
                     }}
                     dateFormat="yyyy/MM/dd"
@@ -486,7 +384,7 @@ function BankingEditTransaction(props) {
                     customInput={customDateInput({
                       value:
                         selectedDate instanceof Date &&
-                          !isNaN(selectedDate.getTime())
+                        !isNaN(selectedDate.getTime())
                           ? selectedDate.toLocaleDateString("en-GB")
                           : "",
                     })}
@@ -496,14 +394,23 @@ function BankingEditTransaction(props) {
 
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 13,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {dateError}
+                  </span>
                 </div>
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group >
+              <Form.Group>
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -535,8 +442,16 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
-                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {amountError}
+                  </span>
                 </div>
               )}
             </div>
@@ -581,18 +496,19 @@ function BankingEditTransaction(props) {
                 <option value="">Select Transaction</option>
                 <option value={1}>Credit</option>
                 <option value={2}>Debit</option>
-                {/* {state.UsersList?.hostelList?.map(
-                                        (item) => (
-                                          <option key={item.id} value={item.id}>
-                                            {item.Name}
-                                          </option>
-                                        )
-                                      )} */}
               </Form.Select>
               {transError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
-                  <span style={{fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{transError}</span>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {transError}
+                  </span>
                 </div>
               )}
             </div>
@@ -603,7 +519,8 @@ function BankingEditTransaction(props) {
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,marginTop:5
+                    fontWeight: 500,
+                    marginTop: 5,
                   }}
                 >
                   Description{" "}
@@ -629,33 +546,56 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {describtionError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"13px",marginRight:"5px" }}/>
-                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{describtionError}</span>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {describtionError}
+                  </span>
                 </div>
               )}
             </div>
           </div>
         </Modal.Body>
-        
-         {error && (
-                  <div className="" style={{ color: "red" ,textAlign:"center",paddingBottom:"8px"}}>
-                    <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
-                    <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
-                )}
-        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
+
+        {error && (
+          <div
+            className=""
+            style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}
+          >
+            <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+            <span
+              style={{
+                color: "red",
+                fontSize: 13,
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}
+            >
+              {error}
+            </span>
+          </div>
+        )}
+        <Modal.Footer
+          className="d-flex justify-content-center"
+          style={{ borderTop: "none" }}
+        >
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
-              width:"100%",
+              width: "100%",
               height: 50,
               fontWeight: 600,
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
               // marginBottom: 15
-              marginTop:-10
+              marginTop: -10,
             }}
             onClick={handleEditSave}
           >
@@ -663,11 +603,16 @@ function BankingEditTransaction(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-
     </>
   );
 }
+BankingEditTransaction.propTypes = {
+  updateTransaction: PropTypes.func.isRequired,
+  setDeleteTransactionForm: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  EditTransactionForm: PropTypes.func.isRequired,
+  setEditTransactionForm: PropTypes.func.isRequired
+};
+
 export default BankingEditTransaction;

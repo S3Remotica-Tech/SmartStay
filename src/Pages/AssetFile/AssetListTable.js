@@ -1,23 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../../Assets/Images/New_images/trash.png';
-import Assign from '../../Assets/Images/New_images/assign.png'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
-import Swal from 'sweetalert2';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import AssignAsset from '../../Pages/AssetFile/AssignAsset'
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FormControl, InputGroup, Pagination, Table, DropdownButton, Dropdown, Form, Modal } from 'react-bootstrap';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import { Modal } from 'react-bootstrap';
+import { Edit, Trash, ProfileAdd } from 'iconsax-react';
 import Button from 'react-bootstrap/Button';
+import PropTypes from "prop-types"
 
 
 function AssetListTable(props) {
 
 
-  const state = useSelector(state => state)
+  // const state = useSelector(state => state)
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
@@ -32,7 +29,7 @@ function AssetListTable(props) {
 
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)
-    const { top, left, width, height } = e.target.getBoundingClientRect();
+    const { top, left, height } = e.target.getBoundingClientRect();
 
     const popupHeight = 100;
     const viewportHeight = window.innerHeight;
@@ -47,17 +44,6 @@ function AssetListTable(props) {
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
-
-  const customCheckboxStyle = {
-    appearance: 'none',
-    width: '20px',
-    height: '20px',
-    backgroundColor: '#fff',
-    border: '2px solid #DCDCDC',
-    borderRadius: '4px',
-    display: 'inline-block',
-    position: 'relative',
-  };
 
 
   const handleEdit = (item) => {
@@ -476,5 +462,12 @@ function AssetListTable(props) {
     </>
   )
 }
+AssetListTable.propTypes = {
+  OnEditAsset: PropTypes.func.isRequired,
+  item: PropTypes.func.isRequired,
+  assetAddPermission: PropTypes.func.isRequired,
+  assetEditPermission: PropTypes.func.isRequired,
+  assetDeletePermission: PropTypes.func.isRequired 
+};
 
 export default AssetListTable
