@@ -3417,7 +3417,7 @@ const InvoicePage = () => {
                   </>
                 ) : (
                   <div
-                    class=""
+                    className=""
                     style={{ position: "relative", marginTop: "-5px" }}
                   >
                     <div className="texxttt">

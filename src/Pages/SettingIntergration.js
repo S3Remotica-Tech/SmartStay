@@ -9,7 +9,7 @@ import { Button } from "react-bootstrap";
 function SettingIntergration(){
     return(
         <>
-       <div class="container ">
+       <div className="container ">
         <div style={{marginTop:25}}>
             <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
         </div>

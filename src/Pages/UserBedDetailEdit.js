@@ -411,8 +411,8 @@ function UserBedDetailsEdit(props) {
   {props.edit && props.edit === 'Add' ? "Add User" : "EditUser"}
 </Offcanvas.Title>
 <Offcanvas.Body>
-  <div class="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
-    <div class="p-1 bd-highlight user-menu">
+  <div className="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+    <div className="p-1 bd-highlight user-menu">
       <ul className={props.showForm ? 'active' : ''} onClick={props.handleMenuClick}  >
         User Details
       </ul>
@@ -703,7 +703,7 @@ function UserBedDetailsEdit(props) {
 
 
       <hr />
-      <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+      <div className="d-flex justify-content-end" style={{ marginTop: "30px" }} >
 
         <Button variant="white" size="sm" onClick={handleClose}>
           Cancel

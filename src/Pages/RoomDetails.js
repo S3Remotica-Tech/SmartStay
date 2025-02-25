@@ -74,15 +74,15 @@ function RoomDetails() {
     return (
         <>
 
-            <div class="row g-0 w-100 p-2">
-                <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
-                    <div class="d-flex justify-content-between">
-                        <div style={{ height: "40px", width: "35px", backgroundColor: "#F6F7FB", borderRadius: "50px" }} class="d-flex justify-content-center align-items-center" >
+            <div className="row g-0 w-100 p-2">
+                <div className="col-lg-4 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
+                    <div className="d-flex justify-content-between">
+                        <div style={{ height: "40px", width: "35px", backgroundColor: "#F6F7FB", borderRadius: "50px" }} className="d-flex justify-content-center align-items-center" >
                             <Image src={Room} roundedCircle style={{ height: "25px", width: "25px", backgroundColor: "#F6F7FB" }} />
                         </div>
-                        <div class="d-block ms-2">
-                            <p class="ms-1" style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>Ground Floor</p>
-                            <select class="ms-1" aria-label="Default select example" style={{ border: "none", fontSize: "12px", fontWeight: "700" }}>
+                        <div className="d-block ms-2">
+                            <p className="ms-1" style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>Ground Floor</p>
+                            <select className="ms-1" aria-label="Default select example" style={{ border: "none", fontSize: "12px", fontWeight: "700" }}>
                                 <option selected style={{ fontSize: "10px", fontWeight: "700" }}>Room No - F001</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -92,7 +92,7 @@ function RoomDetails() {
 
                         <div className="vertical-rule ms-3"></div>
 
-                        <div class="ms-5">
+                        <div className="ms-5">
                             <Nav variant="underline" >
                                 <Nav.Item>
                                     <Nav.Link href="#" onClick={handleOpen} style={{ fontSize: "12px", fontWeight: "700" }}>Bed - 001</Nav.Link>
@@ -103,37 +103,37 @@ function RoomDetails() {
 
                     </div>
                 </div>
-                <div class="col-lg-3 offset-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
-                    <div class="d-flex">
-                        <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}><img src={Edits} height="12" width="12" alt='Edits'/> Edit</button>
-                        <button type="button" class="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" alt='Plus'/> Create Bed</button>
+                <div className="col-lg-3 offset-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
+                    <div className="d-flex">
+                        <button type="button" className="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}><img src={Edits} height="12" width="12" alt='Edits'/> Edit</button>
+                        <button type="button" className="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" alt='Plus'/> Create Bed</button>
                     </div>
                 </div>
 
             </div>
 
-            <hr class="m-0 p-0" style={{ color: "#ccc" }} />
+            <hr className="m-0 p-0" style={{ color: "#ccc" }} />
             {isOpenTab && <>
-                <div class="row d-flex g-0">
+                <div className="row d-flex g-0">
                     <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                        <div class="d-flex justify-content-start align-items-start ps-1 pt-1 mb-0">
+                        <div className="d-flex justify-content-start align-items-start ps-1 pt-1 mb-0">
                             <p style={{ fontWeight: "700" }}>Bed-001 (Dhaskshan Sri)</p>
                         </div>
 
-                        <hr class="mt-0 mb-2" />
+                        <hr className="mt-0 mb-2" />
 
-                        <div class="row g-0">
+                        <div className="row g-0">
                             <div className='col-lg-2 col-md-12 col-sm-12 col-xs-12'>
                                 <Image src={Login} roundedCircle style={{ height: "45px", width: "45px", backgroundColor: "#F6F7FB" }} />
                             </div>
                             <div className='col-lg-4 col-md-12 col-sm-12 col-xs-12'>
-                                <div class="d-block">
-                                    <p style={{ fontWeight: "700" }} class="mb-0">Dhaskshan Sri</p>
-                                    <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Edit</button>
-                                    <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button>
+                                <div className="d-block">
+                                    <p style={{ fontWeight: "700" }} className="mb-0">Dhaskshan Sri</p>
+                                    <button type="button" className="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Edit</button>
+                                    <button type="button" className="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button>
                                 </div>
                             </div>
-                            <div class="col-lg-5 offset-lg-1">
+                            <div className="col-lg-5 offset-lg-1">
                                 <p style={{ fontSize: "12px", padding: "1px" }} >Joining Date:25-11-2022</p>
                             </div>
                         </div>
@@ -141,52 +141,52 @@ function RoomDetails() {
 
 
 
-                        <div class="d-flex justify-content-between pt-1 mb-0">
-                            <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">USER DETAIL</p>
+                        <div className="d-flex justify-content-between pt-1 mb-0">
+                            <p style={{ fontSize: "12px", fontWeight: '700' }} className="mb-2">USER DETAIL</p>
                             <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits'/>
                         </div>
-                        <hr class="m-0 mb-2" />
-                        <div class="d-flex justify-content-between">
+                        <hr className="m-0 mb-2" />
+                        <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px", fontWeight: '200', color: "gray" }}>Phone No</p>
                             <p style={{ fontSize: "12px" }}>+91 9025022738</p>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px", fontWeight: '200', color: "gray" }}>Email Id</p>
                             <p style={{ fontSize: "12px" }}>dhaskahansri@gmail.com</p>
                         </div>
 
-                        <div class="d-flex justify-content-between pt-1 mb-0">
+                        <div className="d-flex justify-content-between pt-1 mb-0">
                             <p style={{ fontSize: "12px", fontWeight: '700' }} >ADDRESS DETAIL</p>
                             <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits'/>
                         </div>
-                        <hr class="m-0 mb-2" />
-                        <div class="d-block">
-                            <p class="mb-1" style={{ fontSize: "12px" }} >PERMANENT ADDRESS</p>
-                            <p class="mb-1" style={{ fontSize: "12px" }}>Sivaswamy Street, opp.Town railway Station</p>
-                            <p class="mb-1" style={{ fontSize: "12px" }}>Salem, TamilNadu -36001</p>
+                        <hr className="m-0 mb-2" />
+                        <div className="d-block">
+                            <p className="mb-1" style={{ fontSize: "12px" }} >PERMANENT ADDRESS</p>
+                            <p className="mb-1" style={{ fontSize: "12px" }}>Sivaswamy Street, opp.Town railway Station</p>
+                            <p className="mb-1" style={{ fontSize: "12px" }}>Salem, TamilNadu -36001</p>
                         </div>
 
                         {/* <div class="d-flex">
                             <p style={{ color: "#0D99FF", fontSize: "13px" }}>Add Additional Address</p>
                         </div> */}
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
                             <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits'/>
                         </div>
-                        <hr class="m-0 mb-2" />
+                        <hr className="m-0 mb-2" />
 
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px" }}>Aadhar Card  No</p>
                             <p style={{ fontSize: "12px" }}>2354 5689 ** **</p>
                             <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px" }}>Pan Card  No</p>
                             <p style={{ fontSize: "12px" }}>AGD2562**</p>
                             <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
+                        <div className="d-flex justify-content-between mb-3">
                             <p style={{ fontSize: "12px" }}>licence</p>
                             <p style={{ fontSize: "12px" }}>TN52 071892****</p>
                             <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
@@ -197,11 +197,11 @@ function RoomDetails() {
                     </div>
 
                     <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12">
-                        <div class="d-flex justify-content-between" style={{ backgroundColor: "", width: "100%" }}>
-                            <div class="p-2" style={{ backgroundColor: "" }}>
+                        <div className="d-flex justify-content-between" style={{ backgroundColor: "", width: "100%" }}>
+                            <div className="p-2" style={{ backgroundColor: "" }}>
                                 <h6 style={{ fontSize: "16px" }}>Bill Payment</h6>
                             </div>
-                            <div class=" p-2" style={{ backgroundColor: "" }} >
+                            <div className=" p-2" style={{ backgroundColor: "" }} >
                                 <BsSearch class="ms-2" />
                                 <IoFilterOutline class="ms-2" />
                             </div>
@@ -228,14 +228,14 @@ function RoomDetails() {
                                         <td>{item.Amount} </td>
                                         <td>{item.BalanceDue}</td>
                                         <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
-                                        <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edits} height="20" width="20" alt='Edits'/></td>
+                                        <td className="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img className="ms-1" src={Edits} height="20" width="20" alt='Edits'/></td>
                                     </tr>
                                 ))}
                             </tbody>
                         </Table>
 
 
-                        <div class="d-flex justify-content-between mb-">
+                        <div className="d-flex justify-content-between mb-">
                             <p>Comments</p>
                             <p style={{ color: "#0D99FF", fontSize: "13px" }}>+ Add Comment</p>
                         </div>
@@ -304,25 +304,25 @@ function RoomDetails() {
                             </div>
                         </div> */}
 
-                        <div class="row" style={{ marginTop:30 }}>
+                        <div className="row" style={{ marginTop:30 }}>
 
-                            <div class="col-lg-3 offset-lg-1 col-md-12 col-xs-12 d-flex justify-content-center align-items-center" style={{ backgroundColor: "", }}>
+                            <div className="col-lg-3 offset-lg-1 col-md-12 col-xs-12 d-flex justify-content-center align-items-center" style={{ backgroundColor: "", }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
                                     <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "" }}>
                                         <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
-                                            <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+                                            <div className="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                                                 <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                                             </div>
                                             <div style={{ position: "absolute", left: -100, top: 0 }}>
-                                                <p class="mb-0" style={{ color: "black",fontSize: '11px' }}>05-01-2023</p>
+                                                <p className="mb-0" style={{ color: "black",fontSize: '11px' }}>05-01-2023</p>
                                                 <p style={{ color: "black",fontSize: '11px' }}>07.23PM</p>
                                             </div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',position:"absolute",left:50,top:-30 }}>
                                                 <div className="pop-overs" style={{padding:"20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width:"70vh", borderRadius: 5 }}>
-                                                    <div class="d-block">
-                                                        <p class="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice updated</p>
-                                                       <p class="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+                                                    <div className="d-block">
+                                                        <p className="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice updated</p>
+                                                       <p className="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
                                                     </div>
 
                                                     <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
@@ -347,18 +347,18 @@ function RoomDetails() {
                                         
                                         <div>
                                             <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
-                                                <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+                                                <div className="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                                                     <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                                                 </div>
                                                 <div style={{ position: "absolute", left: -100, top: 0 }}>
-                                                    <p class="mb-0" style={{ color: "black",fontSize: '11px' }} >05-01-2023</p>
+                                                    <p className="mb-0" style={{ color: "black",fontSize: '11px' }} >05-01-2023</p>
                                                     <p style={{ color: "black",fontSize: '11px'}}>07.20PM</p>
                                                 </div>
                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',position:"absolute",left:50,top:-30 }}>
                                                 <div className="pop-overs" style={{padding:"20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width:"70vh", borderRadius: 5 }}>
-                                                    <div class="d-block">
-                                                        <p class="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice added</p>
-                                                       <p class="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+                                                    <div className="d-block">
+                                                        <p className="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice added</p>
+                                                       <p className="mb-1" style={{ fontSize: '11px',color:"black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
                                                     </div>
 
                                                     <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
@@ -379,7 +379,7 @@ function RoomDetails() {
 
 
 
-                        <div class="">
+                        <div className="">
 
 
 

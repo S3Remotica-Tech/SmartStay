@@ -414,24 +414,24 @@ useEffect(() => {
   return (
     <div className='' style={{ width: "100%" }}>
       {userDetailForUser && userDetailForUser?.map((item, index) => (<>
-        <div class="row g-0 w-100 p-2">
-          <div class="col-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
-            <div class="d-flex justify-content-start">
+        <div className="row g-0 w-100 p-2">
+          <div className="col-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
+            <div className="d-flex justify-content-start">
               <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={<Tooltip id="back-tooltip"   >Go back to Floor</Tooltip>}>
                 <div className=" d-flex justify-content-center align-items-center me-1" style={{ cursor: "pointer", backgroundColor: "#CCCCCC55", borderRadius: 25, height: "35px", width: "35px" }}>
                   <MdOutlineKeyboardDoubleArrowLeft style={{ fontSize: 22 }} onClick={handleBack} /></div>
               </OverlayTrigger>
-              <div className='d-flex' style={{ height: "40px", width: "35px", backgroundColor: "#F6F7FB", borderRadius: "50px" }} class="d-flex justify-content-center align-items-center" >
+              <div className='d-flex' style={{ height: "40px", width: "35px", backgroundColor: "#F6F7FB", borderRadius: "50px" }} className="d-flex justify-content-center align-items-center" >
                 <Image src={Room} roundedCircle style={{ height: "25px", width: "25px", backgroundColor: "#F6F7FB" }} />
               </div>
-              <div class="d-block ms-2 me-1">
-                <p class="ms-1" style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>{getFloorName(item.Floor)}</p>
+              <div className="d-block ms-2 me-1">
+                <p className="ms-1" style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>{getFloorName(item.Floor)}</p>
                 <label style={{ fontSize: "13px", marginBottom: "0px", color: "black", fontWeight: 700 }}>Room No -{getFormattedRoomId(item.Floor, item.Rooms)}  </label>
               </div>
 
               <div className="vertical-rule ms-3"></div>
 
-              <div class="ms-5">
+              <div className="ms-5">
                 <Nav variant="underline" >
                   <Nav.Item>
                     <Nav.Link href="#" onClick={handleOpen} style={{ fontSize: "12px", fontWeight: "700" }}>Bed - {item.Bed}</Nav.Link>
@@ -442,9 +442,9 @@ useEffect(() => {
 
             </div>
           </div>
-          <div class="col-lg-2 offset-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
-            <div class="d-flex justify-content-end align-items-center">
-              <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
+          <div className="col-lg-2 offset-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
+            <div className="d-flex justify-content-end align-items-center">
+              <button type="button" className="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
               {/* <button type="button" class="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateBedDetails}><img src={Plus} height="12" width="12" alt='Plus' /> Create Bed</button> */}
             </div>
           </div>
@@ -452,49 +452,49 @@ useEffect(() => {
         </div>
         <hr className='m-0 p-0' />
         {isOpenTab && <>
-          <div class="row d-flex g-0" key={index}>
+          <div className="row d-flex g-0" key={index}>
             <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-3" style={{ borderRight: "1px solid lightgray" }}>
-              <div class="row g-0 p-0">
+              <div className="row g-0 p-0">
                 <div className='col-lg-2 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center justify-content-start' style={{ backgroundColor: "" }}>
 
                   <Image src={Login} roundedCircle style={{ height: "45px", width: "45px", backgroundColor: "#F6F7FB" }} />
                 </div>
                 <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center '>
-                  <div class="d-block ps-1">
-                    <p style={{ fontWeight: "700", textTransform: '' }} class="mb-0">{item.Name}</p>
+                  <div className="d-block ps-1">
+                    <p style={{ fontWeight: "700", textTransform: '' }} className="mb-0">{item.Name}</p>
                     {/* <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>IsActive</button> */}
                     {/* <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button> */}
 
                   </div>
                 </div>
-                <div class="col-lg-4  offset-lg-1 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center justify-content-center" style={{ backgroundColor: "" }}>
+                <div className="col-lg-4  offset-lg-1 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center justify-content-center" style={{ backgroundColor: "" }}>
                   <p className='mb-0' style={{ fontSize: "12px", padding: "1px", fontWeight: 700, color: "gray" }}>Joining Date:{new Date(item.createdAt).toLocaleDateString('en-GB')}</p>
                 </div>
               </div>
-              <div class="d-flex justify-content-between mb-0 mt-2">
-                <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">USER DETAIL</p>
+              <div className="d-flex justify-content-between mb-0 mt-2">
+                <p style={{ fontSize: "12px", fontWeight: '700' }} className="mb-2">USER DETAIL</p>
 
               </div>
-              <hr class="m-0 mb-2" />
-              <div class="d-flex justify-content-between">
+              <hr className="m-0 mb-2" />
+              <div className="d-flex justify-content-between">
                 <p style={{ fontSize: "12px", fontWeight: 700, color: "gray" }}>Phone No</p>
                 <p style={{ fontSize: "12px", fontWeight: 700 }}>+91 {item.Phone}</p>
               </div>
-              <div class="d-flex justify-content-between">
+              <div className="d-flex justify-content-between">
                 <p style={{ fontSize: "12px", fontWeight: 700, color: "gray" }}>Email Id</p>
                 <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.Email}</p>
               </div>
 
 
 
-              <div class="d-flex justify-content-between mt-3 mb-0">
-                <p class="mb-1" style={{ fontSize: "12px", fontWeight: 700 }} >ADDRESS DETAIL</p>
+              <div className="d-flex justify-content-between mt-3 mb-0">
+                <p className="mb-1" style={{ fontSize: "12px", fontWeight: 700 }} >ADDRESS DETAIL</p>
 
               </div>
-              <hr class="m-0 mb-2 p-0" />
-              <div class="d-block">
-                <p class="mb-1" style={{ fontSize: "12px", fontWeight: 700 }} >PERMANENT ADDRESS</p>
-                <p class="mb-3" style={{ fontSize: "12px", textTransform: 'capitalize', fontWeight: 500 }}>{item.Address}</p>
+              <hr className="m-0 mb-2 p-0" />
+              <div className="d-block">
+                <p className="mb-1" style={{ fontSize: "12px", fontWeight: 700 }} >PERMANENT ADDRESS</p>
+                <p className="mb-3" style={{ fontSize: "12px", textTransform: 'capitalize', fontWeight: 500 }}>{item.Address}</p>
 
               </div>
 
@@ -536,11 +536,11 @@ useEffect(() => {
 
             </div>
             <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 p-3">
-              <div class="d-flex justify-content-between " style={{ backgroundColor: "", width: "100%" }}>
-                <div class="p-2" style={{ backgroundColor: "" }}>
+              <div className="d-flex justify-content-between " style={{ backgroundColor: "", width: "100%" }}>
+                <div className="p-2" style={{ backgroundColor: "" }}>
                   <h6 style={{ fontSize: "16px", fontWeight: 700 }}>Bill Payment</h6>
                 </div>
-                <div class="d-flex justify-content-between align-items-center gap-3" style={{ backgroundColor: "" }} >
+                <div className="d-flex justify-content-between align-items-center gap-3" style={{ backgroundColor: "" }} >
                 {showLoader && <LoaderComponent />}
                   {search && <>
                     <input type="text" value={filterByInvoice} onChange={(e) => handleFilterByInvoice(e)} className='form-control form-control-sm me-2' placeholder='Search here....' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
@@ -550,7 +550,7 @@ useEffect(() => {
                   {
                     filterStatus &&
                     <>
-                      <select value={filterByStatus} onChange={(e) => handleStatusFilterChange(e)} class="form-control form-control-sm m-2"
+                      <select value={filterByStatus} onChange={(e) => handleStatusFilterChange(e)} className="form-control form-control-sm m-2"
                         style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
                       >
                         <option selected value="ALL"> ALL</option>
@@ -609,7 +609,7 @@ useEffect(() => {
 <div onClick={handlePreviousInvoice} disabled={currentPages === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
   Prev
 </div>
-<span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
+<span className="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
 <div onClick={handleNextInvoice} disabled={currentPages === totalPagesFor} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
   Next
 </div>
@@ -623,29 +623,29 @@ useEffect(() => {
           </div>
 <hr className='m-0'/>
 <div className='row ps-5 pt-3'>
-<div class="d-flex justify-content-between mb-3">
+<div className="d-flex justify-content-between mb-3">
                 <p style={{ fontWeight: 700 }}>Comments</p>
                 {/* <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}>+ Add Comment</p> */}
               </div>
 
-              <div class="" style={{ marginTop: 10 }}>
-                <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 10 }}>
+              <div className="" style={{ marginTop: 10 }}>
+                <div className="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 10 }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
                     <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "", }}>
                       <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
-                        <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+                        <div className="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                           <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                         </div>
                         <div style={{ position: "absolute", left: -80, top: 0 }}>
-                          <p class="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
+                          <p className="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
                           <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
                           <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", maxWidth: "1000px", borderRadius: 5 }}>
-                            <div class="d-block">
-                              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
-                              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+                            <div className="d-block">
+                              <p className="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
+                              <p className="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
                             </div>
 
                             <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
@@ -662,18 +662,18 @@ useEffect(() => {
                       </Step>
                       <div>
                         <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
-                          <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+                          <div className="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                             <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                           </div>
                           <div style={{ position: "absolute", left: -80, top: 0 }}>
-                            <p class="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
+                            <p className="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
                             <p style={{ color: "black", fontSize: '11px' }}>07.20PM</p>
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
                             <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", borderRadius: 5 }}>
-                              <div class="d-block">
-                                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice added</p>
-                                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+                              <div className="d-block">
+                                <p className="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice added</p>
+                                <p className="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
                               </div>
 
                               <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>

@@ -797,7 +797,7 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div class="container " style={{ position: "relative" ,  maxHeight: "470px",
+      <div className="container " style={{ position: "relative" ,  maxHeight: "470px",
                   overflowY: "auto",}}>
 
         {loading &&

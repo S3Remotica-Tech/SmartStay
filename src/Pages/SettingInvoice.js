@@ -1073,9 +1073,9 @@ function SettingInvoice({ hostelid }) {
                
 
 
-                  <div class="mb-3 d-flex row">
+                  <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date 
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice calculation Start Date 
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -1148,9 +1148,9 @@ function SettingInvoice({ hostelid }) {
                      
                   </div>
 
-                  <div class="mb-3 d-flex row">
+                  <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date 
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End date 
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -1361,9 +1361,9 @@ function SettingInvoice({ hostelid }) {
                 </div>
 
                 <div className="row mt-1">
-                  <div class="mb-3 d-flex row">
+                  <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice calculation Start Date will be
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice calculation Start Date will be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -1430,9 +1430,9 @@ function SettingInvoice({ hostelid }) {
                     )}
                   </div>
 
-                  <div class="mb-3 d-flex row">
+                  <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">Invoice Calculation End date wil be
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End date wil be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -1501,12 +1501,12 @@ function SettingInvoice({ hostelid }) {
                   </div>
 
 
-                  <div class="mb-3 d-flex row">
+                  <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label for="startDayDropdown" class="form-label">On Every</label>
+                      <label htmlFor="startDayDropdown" className="form-label">On Every</label>
                     </div>
                     <div className="col-lg-4">
-                      <select class="form-select border" id="startDayDropdown"
+                      <select className="form-select border" id="startDayDropdown"
                         value={every_recurr}
                         onChange={handlechangeEvery}
                       >
