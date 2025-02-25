@@ -1,18 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import Card from 'react-bootstrap/Card';
-import { MdError } from "react-icons/md";
-import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {  CloseCircle} from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Select from "react-select";
-import { borderRadius, fontSize } from '@mui/system';
+import PropTypes from "prop-types";
 
-function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails }) {
+function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
     const state = useSelector(state => state)
 
@@ -291,5 +287,11 @@ function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails 
 
     )
 }
+
+RecurringEnable.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleCloseRecurring: PropTypes.func.isRequired,
+  amenityDetails: PropTypes.func.isRequired, 
+};
 
 export default RecurringEnable

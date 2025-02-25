@@ -1,31 +1,14 @@
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
-import { Container, Row, Col } from 'react-bootstrap';
-import { Modal, Button ,FormControl} from 'react-bootstrap';
-import Image from 'react-bootstrap/Image';
-import { Table } from 'react-bootstrap';
-import { BsSearch } from "react-icons/bs";
-import { Offcanvas, Form, Dropdown } from 'react-bootstrap';
-import moment from 'moment';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import squre from '../Assets/Images/New_images/minus-square.png';
+import {Button ,FormControl} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import Calendars from '../Assets/Images/New_images/calendar.png'
-import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import Emptystate from '../Assets/Images/Empty-State.jpg'
-import BillPdfModal from '../Pages/BillPdfModal'
-import Closebtn from '../Assets/Images/CloseCircle.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Notes } from "@material-ui/icons";
+import PropTypes from "prop-types";
 
 
 const AddReceiptForm = (props) => {
@@ -44,8 +27,8 @@ const AddReceiptForm = (props) => {
       const [initial_due_amount , setInitial_DueAmount] =  useState ('')
       const [received_amount , setReceivedAmount] =  useState ('')
       const [payment_date , setPaymentDate] =  useState (null);
-      const [payment_mode , setPaymentMode] =  useState ('')
-      const [bank_id , setBank_Id] =  useState ('')
+      // const [payment_mode , setPaymentMode] =  useState ('')
+      // const [bank_id , setBank_Id] =  useState ('')
       const [notes , setNotes] =  useState ('')
         const [modeOfPayment, setModeOfPayment] = useState("");
         const [account, setAccount] = useState("")
@@ -54,12 +37,12 @@ const AddReceiptForm = (props) => {
       const [formatpaymentdate, setFormatPaymentDate] = useState(null)
       const [customererrmsg , setCustomerErrmsg] = useState('')
       const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-      const [referencideerrmsg , setReferenceIdErrmsg] = useState('')
+      // const [referencideerrmsg , setReferenceIdErrmsg] = useState('')
       const [receivedamounterrmsg , setReceivedAmountErrmsg] = useState('')
       const [payment_dateerrmsg , setPaymentDateErrmsg] = useState('')
-      const [paymentmode_errmsg , setPaymentmode_Errmsg] = useState('')
+      // const [paymentmode_errmsg , setPaymentmode_Errmsg] = useState('')
       const [notes_errmsg , setNotes_Errmsg] = useState('')
-      const [bank_errmsg , setBank_Errmsg] = useState('')
+      // const [bank_errmsg , setBank_Errmsg] = useState('')
         const [accountError, setAccountError] = useState("");
         const [paymentError, setPaymentError] = useState("");
       
@@ -144,13 +127,13 @@ const AddReceiptForm = (props) => {
       
       
 
-      const [dropdownClicked, setDropdownClicked] = useState(false);
+      // const [dropdownClicked, setDropdownClicked] = useState(false);
 
       const handleInvoiceNumber = (e) => {
         const selectedValue = e.target.value;
       
         setInvoiceNumber(selectedValue);
-        setDropdownClicked(true);
+        // setDropdownClicked(true);
         setAllFieldErrmsg("");
       
         const DueAmountFilter =
@@ -219,28 +202,28 @@ const AddReceiptForm = (props) => {
         // setIsChangedError("");
       };
 
-      const handlePaymentMode = (e) => {
-        setPaymentMode(e.target.value)
-        setAllFieldErrmsg('')
-        if(!e.target.value){
-          setPaymentmode_Errmsg("Please Select payment method")
-        }
-        else{
-            setPaymentmode_Errmsg('')
-        }
-      }
+      // const handlePaymentMode = (e) => {
+      //   setPaymentMode(e.target.value)
+      //   setAllFieldErrmsg('')
+      //   if(!e.target.value){
+      //     setPaymentmode_Errmsg("Please Select payment method")
+      //   }
+      //   else{
+      //       setPaymentmode_Errmsg('')
+      //   }
+      // }
 
       
-      const handleBanking = (e) => {
-        setBank_Id(e.target.value)
-        setAllFieldErrmsg('')
-        if(!e.target.value){
-          setBank_Errmsg("Please Select Bank")
-        }
-        else{
-            setBank_Errmsg('')
-        }
-      }
+      // const handleBanking = (e) => {
+      //   setBank_Id(e.target.value)
+      //   setAllFieldErrmsg('')
+      //   if(!e.target.value){
+      //     setBank_Errmsg("Please Select Bank")
+      //   }
+      //   else{
+      //       setBank_Errmsg('')
+      //   }
+      // }
 
       const handleNotes = (e) => {
         setNotes(e.target.value)
@@ -261,8 +244,8 @@ const AddReceiptForm = (props) => {
         setReferenceId('')
         setPaymentDate('')
         setReceivedAmount('')     
-        setPaymentMode('')
-        setBank_Id('')
+        // setPaymentMode('')
+        // setBank_Id('')
         setNotes('')
    }
  
@@ -387,8 +370,8 @@ const AddReceiptForm = (props) => {
              setReferenceId('')
              setPaymentDate('')
              setReceivedAmount('')     
-             setPaymentMode('')
-             setBank_Id('')
+            //  setPaymentMode('')
+            //  setBank_Id('')
              setNotes('')
           }
 
@@ -409,8 +392,8 @@ const AddReceiptForm = (props) => {
               setReferenceId('')
               setPaymentDate('')
               setReceivedAmount('')     
-              setPaymentMode('')
-              setBank_Id('')
+              // setPaymentMode('')
+              // setBank_Id('')
               setNotes('')
           }
 
@@ -593,7 +576,7 @@ const AddReceiptForm = (props) => {
           value={reference_id || ''} 
           readOnly
         />
- {referencideerrmsg && (
+ {/* {referencideerrmsg && (
                   <div className="d-flex align-items-center  mb-2">
                     <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
                     <label
@@ -608,7 +591,7 @@ const AddReceiptForm = (props) => {
                       {referencideerrmsg}
                     </label>
                   </div>
-                )}
+                )} */}
   
       </Form.Group>
     </div>
@@ -1100,4 +1083,12 @@ const AddReceiptForm = (props) => {
         </>
     )
 }
+
+AddReceiptForm.propTypes = {
+  editvalue: PropTypes.func.isRequired,
+  receiptedit: PropTypes.func.isRequired,
+  onhandleback: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired 
+};
 export default AddReceiptForm;

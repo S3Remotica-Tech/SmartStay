@@ -8,20 +8,18 @@ import {
   FormControl,
   InputGroup,
 } from "react-bootstrap";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import { Room, RoomOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import Booking from "./UserlistBookings";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Plus from "../Assets/Images/New_images/addplus-circle.svg";
 import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
+import PropTypes from "prop-types";
 // const BookingModal = ({
 
 //   show,
@@ -38,25 +36,24 @@ function BookingModal(props) {
   const [lastName, setLastName] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
   const [amount, setAmount] = useState("");
-  const [comments, setComments] = useState("");
-  const [paying, setPaying] = useState("");
-  const [floor, setFloor] = useState("");
-  const [room, setRoom] = useState("");
-  const [bed, setBed] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [endMeterError, setendMeterError] = useState("");
+  // const [paying, setPaying] = useState("");
+  // const [floor, setFloor] = useState("");
+  // const [room, setRoom] = useState("");
+  // const [bed, setBed] = useState("");
+  // const [hostelIdError, setHostelIdError] = useState("");
+  // const [floorError, setfloorError] = useState("");
+  // const [roomError, setRoomError] = useState("");
+  // const [bedError, setBedError] = useState("");
+  // const [endMeterError, setendMeterError] = useState("");
   const [firstNameError, setfirstNameError] = useState("");
   // const [startMeterError, setstartMeterError] = useState("");
   const [dateError, setDateError] = useState("");
   const [amountError, setamountError] = useState("");
-  const [formError, setFormError] = useState("");
-  const [HostelName, setHostelName] = useState("");
-  const [validated, setValidated] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [formEdit, setFormEdit] = useState({});
+  // const [formError, setFormError] = useState("");
+  // const [HostelName, setHostelName] = useState("");
+  // const [validated, setValidated] = useState(false);
+  // const [formErrors, setFormErrors] = useState({});
+  // const [formEdit, setFormEdit] = useState({});
   const [Phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
@@ -64,52 +61,48 @@ function BookingModal(props) {
   const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
+  // const [emailIdError, setemailIdError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
-  const [phonenumError, setphonenumError] = useState("");
-  const [errorInPhone, seterrorInPhone] = useState("");
-  const [errorInEmail, seterrorInEmail] = useState("");
-  const [hostalId, setHostalId] = useState(null);
+  // const [errorInPhone, seterrorInPhone] = useState("");
+  // const [errorInEmail, seterrorInEmail] = useState("");
+  // const [hostalId, setHostalId] = useState(null);
   const [file, setFile] = useState(null);
-
-  useEffect(() => {
-    setHostalId(props.uniqueostel_Id);
-  }, [props.uniqueostel_Id]);
+  const countryCode = '91';
+ 
 
   // useEffect(() => {
   //   dispatch({ type: "HOSTELLIST" });
   // }, []);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: paying },
-    });
-  }, [paying]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "HOSTELDETAILLIST",
+  //     payload: { hostel_Id: paying },
+  //   });
+  // }, [paying]);
   // useEffect(()=>{
   //   dispatch({ type: "GET_BOOKING_LIST"});
   // },[])
 
-  useEffect(() => {
-    if (paying && floor) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: { hostel_Id: paying, floor_Id: floor },
-      });
-    }
-  }, [floor]);
-  useEffect(() => {
-    dispatch({
-      type: "BOOKINGBEDDETAILS",
-      payload: {
-        hostel_id: paying,
-        floor_id: floor,
-        room_id: room,
-        joining_date: joiningDate,
-      },
-    });
-  }, [room]);
+  // useEffect(() => {
+  //   if (paying && floor) {
+  //     dispatch({
+  //       type: "ROOMDETAILS",
+  //       payload: { hostel_Id: paying, floor_Id: floor },
+  //     });
+  //   }
+  // }, [floor]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "BOOKINGBEDDETAILS",
+  //     payload: {
+  //       hostel_id: paying,
+  //       floor_id: floor,
+  //       room_id: room,
+  //       joining_date: joiningDate,
+  //     },
+  //   });
+  // }, [room]);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -169,59 +162,57 @@ function BookingModal(props) {
   //   setPaying(e.target.value)
   //   setHostelIdError('')
   // }
-  const handlePayingguest = (e) => {
-    const selectedHostelId = e.target.value;
-    // handleInputChange()
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter((item) => item.id == e.target.value);
+  // const handlePayingguest = (e) => {
+  //   const selectedHostelId = e.target.value;
+  //   // handleInputChange()
+  //   const selectedHostel =
+  //     state.UsersList.hostelList &&
+  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
 
-    setPaying(selectedHostelId);
-    setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    if (selectedHostelId === "Select a PG") {
-      setHostelIdError("Please select a valid PG");
-    } else {
-      setHostelIdError("");
-    }
-    setFloor("");
-    setRoom("");
-    setBed("");
-    setHostelIdError("");
-    setFormError("");
-  };
-  const handleFloor = (e) => {
-    setFloor(e.target.value);
-    setfloorError("");
-  };
+  //   setPaying(selectedHostelId);
+  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+  //   if (selectedHostelId === "Select a PG") {
+  //     setHostelIdError("Please select a valid PG");
+  //   } else {
+  //     setHostelIdError("");
+  //   }
+  //   setFloor("");
+  //   setRoom("");
+  //   // setBed("");
+  //   setHostelIdError("");
+  //   setFormError("");
+  // };
+  // const handleFloor = (e) => {
+  //   setFloor(e.target.value);
+  //   setfloorError("");
+  // };
 
-  const handleRoom = (e) => {
-    setRoom(e.target.value);
-    setRoomError("");
-  };
+  // const handleRoom = (e) => {
+  //   setRoom(e.target.value);
+  //   setRoomError("");
+  // };
 
-  const handleBed = (e) => {
-    setBed(e.target.value);
-    const Bedfilter =
-      state?.UsersList?.roomdetails &&
-      state.UsersList.roomdetails.filter(
-        (u) => u.Hostel_Id == paying && u.Floor_Id == floor && u.Room_Id == room
-      );
+  // const handleBed = (e) => {
+  //   setBed(e.target.value);
+  //   const Bedfilter =
+  //     state?.UsersList?.roomdetails &&
+  //     state.UsersList.roomdetails.filter(
+  //       (u) => u.Hostel_Id == paying && u.Floor_Id == floor && u.Room_Id == room
+  //     );
 
-    const Roomamountfilter =
-      Bedfilter &&
-      Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+  //   const Roomamountfilter =
+  //     Bedfilter &&
+  //     Bedfilter.length > 0 &&
+  //     Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
 
-    if (Roomamountfilter.length != 0) {
-      setAmount(Roomamountfilter[0].bed_amount);
-    }
-    setBedError("");
-    setamountError("");
-  };
+  //   if (Roomamountfilter.length != 0) {
+  //     setAmount(Roomamountfilter[0].bed_amount);
+  //   }
+  //   setBedError("");
+  //   setamountError("");
+  // };
 
-  const handleComments = (e) => {
-    setComments(e.target.value);
-  };
+
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -234,7 +225,7 @@ function BookingModal(props) {
       setPhoneError("Invalid mobile number *");
     }
     setPhoneErrorMessage("");
-    seterrorInPhone("");
+    // seterrorInPhone("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
   const options = {
@@ -245,10 +236,10 @@ function BookingModal(props) {
   };
  
 
-  const handleDate = (selectedDates) => {
-    setJoiningDate(selectedDates[0]);
-    setDateError("");
-  };
+  // const handleDate = (selectedDates) => {
+  //   setJoiningDate(selectedDates[0]);
+  //   setDateError("");
+  // };
   const handleAddress = (e) => {
     setAddress(e.target.value);
     setAddressError("");
@@ -381,15 +372,15 @@ function BookingModal(props) {
 
     // Format the joining date
     let formattedDate = null;
-    try {
-      const date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1); // Adjust date if necessary
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("Date is required.");
-      return;
-    }
-
+try {
+  const date = new Date(joiningDate);
+  date.setDate(date.getDate() + 1); 
+  formattedDate = date.toISOString().split("T")[0];
+} catch (error) {
+  console.error("Error formatting date:", error);
+  setDateError("Date is required.");
+  return;
+}
     // Ensure all required fields are present before dispatching
 
     dispatch({
@@ -418,15 +409,15 @@ function BookingModal(props) {
     setAddress("");
     setAddressError("");
     setfirstNameError("");
-    setfloorError("");
-    setHostelIdError("");
+    // setfloorError("");
+    // setHostelIdError("");
     setDateError("");
     setamountError("");
     setEmail("");
     setEmailError("");
     setEmailErrorMessage("");
-    seterrorInPhone("");
-    seterrorInEmail("");
+    // seterrorInPhone("");
+    // seterrorInEmail("");
     props.handleClose();
   };
  
@@ -506,7 +497,7 @@ function BookingModal(props) {
           <Modal.Title
             style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
           >
-            Add Booking
+            Add Booking form
           </Modal.Title>
           <CloseCircle
             size="24"
@@ -612,7 +603,7 @@ function BookingModal(props) {
                     height: "50px",
                   }}
                   value={firstName}
-                  className={formErrors.firstName ? "is-invalid" : ""}
+                  // className={formErrors.firstName ? "is-invalid" : ""}
                   onChange={(e) => handleFirstName(e)}
                 />
               </Form.Group>
@@ -660,7 +651,7 @@ function BookingModal(props) {
                     marginTop:5
                   }}
                   value={lastName}
-                  isInvalid={!!formErrors.lastName}
+                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleLastName(e)}
                 />
               </Form.Group>
@@ -818,7 +809,7 @@ function BookingModal(props) {
                     marginTop:5
                   }}
                   value={Email}
-                  isInvalid={!!formErrors.lastName}
+                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleEmail(e)}
                 />
               </Form.Group>
@@ -837,7 +828,7 @@ function BookingModal(props) {
                   </span>
                 </div>
               )}
-              {emailIdError && (
+              {/* {emailIdError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}} />
                   <span
@@ -851,7 +842,7 @@ function BookingModal(props) {
                     {emailIdError}
                   </span>
                 </div>
-              )}
+              )} */}
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
@@ -910,7 +901,7 @@ function BookingModal(props) {
                   height: "50px",
                 }}
                 value={Address}
-                className={formErrors.firstName ? "is-invalid" : ""}
+                // className={formErrors.firstName ? "is-invalid" : ""}
                 onChange={(e) => handleAddress(e)}
               />
             </Form.Group>
@@ -1059,5 +1050,12 @@ function BookingModal(props) {
     </div>
   );
 }
+
+BookingModal.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired 
+};
 
 export default BookingModal;
