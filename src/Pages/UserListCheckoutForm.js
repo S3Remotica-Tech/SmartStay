@@ -1202,7 +1202,7 @@ const CheckOutForm = ({
           )}
 
           {data && checkoutaction && !checkoutaddform && dueamount > 0 && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
+            <div className="d-flex align-items-center p-1  mt-2" style={{paddingTop:"6px"}}>
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
                 className="mb-0"

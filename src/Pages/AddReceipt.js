@@ -108,7 +108,7 @@ const AddReceiptForm = (props) => {
       
         setCustomerInvoiceFilter(CustomerinvoicedetailsFilter);
 
-          if(CustomerinvoicedetailsFilter[0].BalanceDue === 0){
+          if(CustomerinvoicedetailsFilter[0]?.BalanceDue === 0){
             setInvoicenumberErrmsg("This customer has no due amounts")
           }
         

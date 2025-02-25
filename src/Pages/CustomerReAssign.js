@@ -106,16 +106,16 @@ function CustomerReAssign(props){
         if (isValueEmpty) {
           switch (fieldName) {
             case "newRoomRent":
-              setRentError("newRoomRent is required");
+              setRentError("NewRoomRent is required");
               break;
               case "newFloor":
-                setfloorError("newFloor is required");
+                setfloorError("NewFloor is required");
                 break;
               case "newRoom":
-                setRoomError("newRoom is required");
+                setRoomError("NewRoom is required");
                 break;
                 case "newBed":
-                  setBedError("newBed is required");
+                  setBedError("NewBed is required");
                 break;
             case "selectedDate":
               setDateError("Date is required");
