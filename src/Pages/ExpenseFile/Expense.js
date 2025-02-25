@@ -1140,7 +1140,7 @@ function Expenses({ allPageHostel_Id }) {
                       paddingLeft: 40
 
                     }}
-                  > + Expenses</Button>
+                  > + Expense</Button>
                 </div>
               </div>
             </div>
