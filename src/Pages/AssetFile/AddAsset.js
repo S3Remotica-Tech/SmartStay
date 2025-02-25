@@ -1,31 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { InputGroup, FormControl } from "react-bootstrap";
+import {FormControl } from "react-bootstrap";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle,} from "iconsax-react";
 import "./addAsset.css";
+import PropTypes from "prop-types";
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -35,9 +23,9 @@ function StaticExample({ show, setShow, currentItem }) {
   const [brandName, setBrandName] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
   const [productCount, setProductCount] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState("");
+  // const [purchaseDate, setPurchaseDate] = useState("");
   const [price, setPrice] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+  // const [totalPrice, setTotalPrice] = useState("");
   const [id, setId] = useState("");
   const [productName, setProductName] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
@@ -51,7 +39,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [generalError, setGeneralError] = useState("");
   const [assetError, setAssetError] = useState("");
   const [paymentError, setPaymentError] = useState("");
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking,setBanking] = useState("")
   const [bankingError,setBankingError] = useState("")
@@ -124,7 +112,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setProductCount(currentItem.product_count || "");
       setSelectedDate(moment(currentItem.purchase_date).toDate());
       setPrice(currentItem.price || "");
-      setTotalPrice(currentItem.product_count * currentItem.price || "");
+      // setTotalPrice(currentItem.product_count * currentItem.price || "");
       setId(currentItem.id || 0);
       setProductName(currentItem.product_name || 0);
       setAccount(currentItem.bank_id || "");
@@ -158,9 +146,9 @@ function StaticExample({ show, setShow, currentItem }) {
       setBrandName("");
       setSerialNumber("");
       setProductCount("");
-      setPurchaseDate("");
+      // setPurchaseDate("");
       setPrice("");
-      setTotalPrice("");
+      // setTotalPrice("");
       handleClose();
       setBankingError("")
     }
@@ -196,16 +184,16 @@ function StaticExample({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
     if (value === "") {
       setAssetName(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        assetName: "Asset name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   assetName: "Asset name cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setAssetName(value);
-      setErrors((prevErrors) => ({ ...prevErrors, assetName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, assetName: "" }));
     }
   };
 
@@ -222,16 +210,16 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (value === "") {
       setBrandName(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        brandName: "Brand name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   brandName: "Brand name cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setBrandName(value);
-      setErrors((prevErrors) => ({ ...prevErrors, brandName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, brandName: "" }));
     }
   };
 
@@ -243,26 +231,26 @@ function StaticExample({ show, setShow, currentItem }) {
     setGeneralError("");
     if (value === "") {
       setSerialNumber(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        serial_Number: "Serial number cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   serial_Number: "Serial number cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setSerialNumber(value);
-      setErrors((prevErrors) => ({ ...prevErrors, serial_Number: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, serial_Number: "" }));
     }
   };
 
-  const handleProductCountChange = (e) => {
-    setProductCount(e.target.value);
-  };
+  // const handleProductCountChange = (e) => {
+  //   setProductCount(e.target.value);
+  // };
 
-  const handlePurchaseDateChange = (e) => {
-    setPurchaseDate(e.target.value);
-  };
+  // const handlePurchaseDateChange = (e) => {
+  //   setPurchaseDate(e.target.value);
+  // };
 
   const handlePriceChange = (e) => {
     const price = e.target.value;
@@ -284,16 +272,16 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (value === "") {
       setProductName(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        productName: "Product name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   productName: "Product name cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setProductName(value);
-      setErrors((prevErrors) => ({ ...prevErrors, productName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, productName: "" }));
     }
   };
 
@@ -426,20 +414,20 @@ function StaticExample({ show, setShow, currentItem }) {
     maxDate: "today",
   };
 
-  const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split("T")[0];
-  };
+  // const formatDateForPayload = (date) => {
+  //   if (!date) return null;
+  //   const offset = date.getTimezoneOffset();
+  //   date.setMinutes(date.getMinutes() - offset);
+  //   return date.toISOString().split("T")[0];
+  // };
 
-  const handleDateChange = (selectedDates) => {
-    setSelectedDateError("");
-    setIsChangedError("");
-    //    const date = selectedDates[0];
-    // const formatedDate = formatDateForPayload(date);
-    setSelectedDate(selectedDates[0]);
-  };
+  // const handleDateChange = (selectedDates) => {
+  //   setSelectedDateError("");
+  //   setIsChangedError("");
+  //   //    const date = selectedDates[0];
+  //   // const formatedDate = formatDateForPayload(date);
+  //   setSelectedDate(selectedDates[0]);
+  // };
 
   const customDateInput = (props) => {
     return (
@@ -1102,5 +1090,13 @@ function StaticExample({ show, setShow, currentItem }) {
     </div>
   );
 }
+
+StaticExample.propTypes = {
+  currentItem: PropTypes.func.isRequired,
+  setShow: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired, 
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired 
+};
 
 export default StaticExample;
