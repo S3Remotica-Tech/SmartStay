@@ -78,7 +78,7 @@ function ContactUs() {
         if (dataToSend.user_name && dataToSend.user_phone && dataToSend.user_city && dataToSend.message && dataToSend.site_name) {
             try {
                 const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', dataToSend);
-                console.log('API response:', response.data);
+                
     
                 await send('service_ael05nx', 'template_3dnr1i6', {
                     name: dataToSend.user_name,
@@ -88,7 +88,7 @@ function ContactUs() {
                     message: dataToSend.message
                 }, 'xM8OCsWJd_Fz844uW');
                 
-                console.log('Email successfully sent');
+               
     
                 setStatus('Message sent successfully!');
                 setFormData({
@@ -103,7 +103,6 @@ function ContactUs() {
                     setStatus('');
                 }, 1000);
             } catch (error) {
-                console.error('Error:', error);
                 setStatus('Failed to send message. Please try again later.');
             }
         }

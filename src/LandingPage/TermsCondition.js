@@ -57,7 +57,6 @@ function All_landing_pages() {
   }
 
 
-// console.log("state.login?.IsVisible",state.login?.IsVisible)
 useEffect(() => {
   if (
     state.login?.IsVisible === 1 || 
@@ -69,9 +68,7 @@ useEffect(() => {
   }
 }, [state.login?.IsVisible]);
 
-console.log("state.login?.IsVisible",state.login?.IsVisible)
 
-console.log("state",state)
 
 // const renderComponent = () => {
 //   switch (state.login?.IsVisible) {
