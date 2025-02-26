@@ -577,7 +577,7 @@ try {
           </div>
 
           <Row>
-            <Col md={6} className="mb-3">
+            <Col md={6} className="">
               <Form.Group controlId="formFirstName" >
                 <Form.Label
                   style={{
@@ -624,7 +624,7 @@ try {
                 </div>
               )}
             </Col>
-            <Col md={6} className="mb-3">
+            <Col md={6} className="">
               <Form.Group controlId="formLastName" >
                 <Form.Label
                   style={{
@@ -658,7 +658,7 @@ try {
             </Col>
           </Row>
           <Row>
-            <Col md={6} className="mb-3">
+            <Col md={6} className="">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -922,7 +922,7 @@ try {
             )}
           </Col>
 
-          <Row className="mb-3">
+          <Row className="">
             <Col md={6}>
               <Form.Group  controlId="purchaseDate">
                 <Form.Label

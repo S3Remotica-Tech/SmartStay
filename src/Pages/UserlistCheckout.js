@@ -263,7 +263,7 @@ function CheckOut(props) {
 
 
     const { top, left, width, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
+    const popupTop = top + height  / 2 - 15;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });

@@ -1743,7 +1743,7 @@ function Booking(props) {
               </div>
             </div>
           </div>
-          <Row className="mb-2">
+          <Row className="">
             <Col md={6}>
               <Form.Group controlId="formFirstName">
                 <Form.Label
@@ -1780,7 +1780,7 @@ function Booking(props) {
               )}
             </Col>
             <Col md={6}>
-              <Form.Group controlId="formLastName" className="mb-3">
+              <Form.Group controlId="formLastName" className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1810,7 +1810,7 @@ function Booking(props) {
             </Col>
           </Row>
 
-          <Row className="mb-3">
+          <Row className="mb-0">
             <Col md={6} className="mb-0">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
@@ -1910,7 +1910,7 @@ function Booking(props) {
               </Form.Group>
             </Col>
             <Col md={6}>
-              <Form.Group controlId="formLastName" className="mb-3">
+              <Form.Group controlId="formLastName" className="mb-0">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -2002,8 +2002,8 @@ function Booking(props) {
               )}
             </Col>
           </Row>
-          <Col md={12} className="mb-3">
-            <Form.Group controlId="formFirstName" className="mb-2">
+          <Col md={12} className="mb-0">
+            <Form.Group controlId="formFirstName" className="mb-0">
               <Form.Label
                 style={{
                   fontSize: 14,
