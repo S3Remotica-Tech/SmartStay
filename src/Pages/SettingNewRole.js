@@ -249,7 +249,7 @@ function SettingNewRole({ hostelid }) {
 
 <div 
   className="row mt-3 mb-3 overflow-auto show-scroll" 
-  style={{ maxHeight: "400px" }}
+  style={{ maxHeight: "480px" }}
 >
   {currentItems.length > 0 ? (
     currentItems.map((view, index) => (
@@ -287,7 +287,7 @@ function SettingNewRole({ hostelid }) {
                 ref={popupRef}
                 className="position-absolute bg-light border rounded p-2"
                 style={{
-                  top: 30,
+                  // top: 30,
                   right: 40,
                   width: 120,
                   height: 70,

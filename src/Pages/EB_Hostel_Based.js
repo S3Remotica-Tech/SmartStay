@@ -803,7 +803,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                               ref={popupRef}
                               style={{
                                 cursor: "pointer",
-                                backgroundColor: "#fff",
+                                backgroundColor: "#f9f9f9",
                                 position: "fixed",
                                 top: popupPosition.top,
                                 left: popupPosition.left,

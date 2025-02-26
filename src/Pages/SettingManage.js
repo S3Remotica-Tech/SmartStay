@@ -945,6 +945,7 @@ function SettingManage(props) {
               <div className="mt-2" style={{
                 maxHeight: "400px",
                 overflowY: "auto",
+                overflowX:"hidden"
               }}>
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ?
@@ -1377,13 +1378,13 @@ function SettingManage(props) {
                                         position: "absolute",
                                         right: 0,
                                         top: 50,
-                                        width: 163,
+                                        width: 140,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",
                                         borderRadius: 10,
                                         display: "flex",
                                         justifyContent: "start",
-                                        padding: 15,
+                                        padding:'6px',
                                         alignItems: "center",
                                       }}
                                     >

@@ -27,6 +27,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [amount, setAmount] = useState('');
   const [unitErr, setUnitErr] = useState('');
   const [amountErr, setAmountErr] = useState('');
+  const [totalErr, setTotalErr] = useState('');
   const [tableShow, setTableShow] = useState(false);
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
@@ -72,6 +73,7 @@ const SettingElectricity = ({ hostelid }) => {
     setUnit('')
     setAmount('')
     setAmountErr('');
+    setTotalErr('');
   }
 
   //add electricity button
@@ -132,10 +134,11 @@ const SettingElectricity = ({ hostelid }) => {
 
     if (newAmount !== '') {
       setAmountErr('');
+      setTotalErr('')
     }
 
     if (editHostel && editHostel.editamount == newAmount) {
-      setAmountErr('No changes Deducted');
+      setTotalErr('No changes Deducted');
     }
   };
 
@@ -146,7 +149,7 @@ const SettingElectricity = ({ hostelid }) => {
     }
 
     if (edit && editHostel && editHostel.editamount == amount) {
-      setAmountErr('No changes Deducted');
+      setTotalErr('No changes Deducted');
       return;
     }
 
@@ -838,8 +841,25 @@ console.log("called")
                 />
               </Form.Group>
               {/* {amountErr && <span style={{ color: "red", fontSize: 16 }}> {amountErr} </span>} */}
-              <div className='text-center'>
+              <div className=''>
               {amountErr && (
+                <p 
+                  style={{
+                    color: "red",
+                    fontSize: 14,
+                  textAlign:"start",
+                    margin: 0,
+                  }}
+                >
+                  <span style={{ fontSize: "20px" }}>
+                    <MdError style={{ fontSize: "15px" }} />
+                  </span>
+                  {amountErr}
+                </p>
+              )}
+              </div>
+              <div className=''>
+              {totalErr && (
                 <p 
                   style={{
                     color: "red",
@@ -851,7 +871,7 @@ console.log("called")
                   <span style={{ fontSize: "20px" }}>
                     <MdError style={{ fontSize: "15px" }} />
                   </span>
-                  {amountErr}
+                  {totalErr}
                 </p>
               )}
               </div>
@@ -870,7 +890,7 @@ console.log("called")
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              // marginTop: 20,
+              marginTop:'-10px',
             }}
             onClick={handleAddElectricity}
           >
