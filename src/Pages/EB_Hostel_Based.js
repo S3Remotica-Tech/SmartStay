@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
-import squre from "../Assets/Images/New_images/minus-square.png";
-import Image from "react-bootstrap/Image";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import addcircle from "../Assets/Images/New_images/add-circle.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
@@ -18,32 +14,26 @@ import { FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
-import { setISODay } from "date-fns";
 import moment from "moment";
-import { Loader } from "rsuite";
+import PropTypes from "prop-types";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const popupRef = useRef(null);
-  const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
-  const [ebEditShow, setebEditShow] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
-  const [deleteShow, setDeleteShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
   const [hos_Name, setHos_Name] = useState("");
   const [reading, setReading] = useState("");
   const [readingError, setReadingError] = useState("");
   const [formError, setFormError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
-  const [ebErrorunit, setEbErrorunit] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
   
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
-   const [loading, setLoading] = useState(false)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [dateErrorMesg,setDateErrorMesg] = useState("")
 
@@ -56,7 +46,7 @@ function EBHostelReading(props) {
       setActiveRow(eb_Id);
     }
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left,height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -226,25 +216,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
       return;
     }
 
-    // Helper function to increment and format a date
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      if (isNaN(newDate.getTime())) {
-        // Handle invalid date
-        return "";
-      }
-      newDate.setDate(newDate.getDate() + 1); // Increment by 1 day
-      const year = newDate.getFullYear();
-      const month = String(newDate.getMonth() + 1).padStart(2, "0"); // Two digits for month
-      const day = String(newDate.getDate()).padStart(2, "0"); // Two digits for day
-      return `${year}-${month}-${day}`; // Return formatted date
-    };
-
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-
-    // Helper function to check if a date is valid
+    
     const isValidDate = (date) => !isNaN(Date.parse(date));
     const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
     if (props.editeb && editId) {
@@ -412,7 +384,6 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
     dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
     setDateError("");
-    setEbErrorunit("");
     setFormError("");
     setDateErrorMesg("")
   };
@@ -661,7 +632,6 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
               </thead>
               <tbody style={{ fontSize: "12px" }}>
                 {currentRowelectricity.map((v) => {
-                  const imageUrl = v.profile || Profile;
                   let formattedDate;
 
                   // Check if v.date exists and is not "00-00-00"
@@ -818,7 +788,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                                 justifyContent: "start",
                                 padding: 10,
                                 alignItems: "center",
-                                zIndex: showDots ? 1000 : "auto",
+                                zIndex: 1000 ,
                               }}
                             >
                               <div>
@@ -1592,5 +1562,19 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
       </Modal>
     </>
   );
+}
+
+
+EBHostelReading.propTypes = {
+  electricityHostel: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  loading: PropTypes.func.isRequired,
+  editeb: PropTypes.func.isRequired,
+  setEditEb: PropTypes.func.isRequired,
+  ebEditPermission: PropTypes.func.isRequired,
+  hostelBasedForm: PropTypes.func.isRequired,
+  hostelName: PropTypes.func.isRequired,
+  setHostelBasedForm: PropTypes.func.isRequired,
 }
 export default EBHostelReading;

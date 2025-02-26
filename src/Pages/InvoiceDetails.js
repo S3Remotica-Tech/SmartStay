@@ -1,5 +1,4 @@
 import React, { useState, useEffect,useRef } from "react";
-import { TfiControlBackward } from "react-icons/tfi";
 import { BsPrinter } from "react-icons/bs";
 import Logo from "../Assets/Images/Logo-Icon-White.png"
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +8,7 @@ import { MdDownload } from "react-icons/md";
 import calen from "../Assets/Images/calendar.png"
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from "prop-types"
 
 
 
@@ -249,5 +249,9 @@ function InvoiceDetail(props) {
 
     )
 }
+InvoiceDetail.propTypes = {
+    handleInvoiceback: PropTypes.func.isRequired,
+    sendInvoiceDetail: PropTypes.func.isRequired,
+  };
 export default InvoiceDetail
 

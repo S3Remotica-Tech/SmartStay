@@ -1,40 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { FormControl, InputGroup, Pagination, Table, Form, Modal } from 'react-bootstrap';
+import { FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Swal from 'sweetalert2';
 import AddExpenses from './AddExpenses';
-import Profile from '../../Assets/Images/New_images/profile-picture.png'
-// import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../../Assets/Images/New_images/trash.png';
 import ExpensesListTable from './ExpensesListTable';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import { Calendar } from 'react-bootstrap-icons';
 import Calendars from '../../Assets/Images/New_images/calendar.png'
 import moment from 'moment';
-import Image from 'react-bootstrap/Image';
-import Filter from '../../Assets/Images/New_images/Group 13.png';
 import './Expenses.css'
-import { CiSearch } from "react-icons/ci";
-import Notify from '../../Assets/Images/New_images/notify.png';
-import Profiles from '../../Assets/Images/New_images/profile.png';
-import { Dropdown, NavDropdown, Container } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { AllInbox, TextDecreaseRounded } from '@mui/icons-material';
-import { TruckRemove } from 'iconsax-react';
 import { format } from 'date-fns';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {CloseCircle, SearchNormal1, Sort} from 'iconsax-react';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2,} from "iconsax-react";
+import PropTypes from "prop-types";
 
 
 
@@ -46,7 +30,7 @@ function Expenses({ allPageHostel_Id }) {
   const filterRef = useRef(null); 
 
   const [getData, setGetData] = useState([])
-  const [selectedPriceRange, setSelectedPriceRange] = useState('All');
+  const selectedPriceRange= 'All'
   const [showModal, setShowModal] = useState(null)
   const [showFilter, setShowFilter] = useState(false)
   const [categoryValue, setCategoryValue] = useState('')
@@ -68,7 +52,6 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
-  const [checkLength, setCheckLength] = useState(false);
 
 
   const handleClickOutside = (event) => {
@@ -428,16 +411,7 @@ function Expenses({ allPageHostel_Id }) {
   }, [state.ExpenseList.StatusCodeForAddExpenseSuccess, state.ExpenseList.deleteExpenseStatusCode])
 
 
-  const customCheckboxStyle = {
-    appearance: 'none',
-    width: '20px',
-    height: '20px',
-    backgroundColor: '#fff',
-    border: '2px solid #DCDCDC',
-    borderRadius: '4px',
-    display: 'inline-block',
-    position: 'relative',
-  };
+  
 
 
   const filterByPriceRange = (data) => {
@@ -457,10 +431,7 @@ function Expenses({ allPageHostel_Id }) {
     }
   };
 
-  const handlePriceRangeChange = (event) => {
-    setSelectedPriceRange(event.target.value);
-    setCurrentPage(1);
-  };
+ 
 
   const handleFilterByPrice = () => {
     setShowFilter(!showFilter)
@@ -616,25 +587,23 @@ function Expenses({ allPageHostel_Id }) {
     }
   }
 
-  const stateAccount = useSelector(state => state.createAccount)
+  // const stateAccount = useSelector(state => state.createAccount)
 
 
-  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  // const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
 
 
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile
+  // useEffect(() => {
+  //   if (stateAccount.statusCodeForAccountList == 200) {
+  //     const loginProfile = stateAccount.accountList[0].user_details.profile
 
-      setProfile(loginProfile)
-    }
+  //     // setProfile(loginProfile)
+  //   }
 
-  }, [stateAccount.statusCodeForAccountList])
+  // }, [stateAccount.statusCodeForAccountList])
 
 
   const [showCategory, setShowCategory] = useState(false);
-  const [showAsset, setShowAsset] = useState(false);
-  const [showVendor, setShowVendor] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
   const [showAmount, setShowAmount] = useState(false)
 
@@ -645,18 +614,7 @@ function Expenses({ allPageHostel_Id }) {
     setShowFilter(false)
   }
 
-  const handleAssetChange = (e) => {
-    setSelectedValue(null)
-    setAssetValue(e.target.getAttribute('value'));
-    console.log("asset value", e.target.value)
-    setShowFilter(false)
-  }
-
-  const handleVendorChange = (e) => {
-    setSelectedValue(null)
-    setVendorValue(e.target.getAttribute('value'));
-    setShowFilter(false)
-  }
+  
 
   const handleModeValueChange = (e) => {
     setSelectedValue(null)
@@ -1072,7 +1030,7 @@ function Expenses({ allPageHostel_Id }) {
                             width: 260,
                             backgroundColor: '#fff',
                             // border: '1px solid #D9D9D9',
-                            borderRadius: '4px',
+                            // borderRadius: '4px',
                             maxHeight: 174,
                             minHeight: 100,
                             overflowY: 'auto',
@@ -1153,10 +1111,10 @@ function Expenses({ allPageHostel_Id }) {
             <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
               {getData.length > 0 ? (
                 <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                  {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                  {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;${searchQuery}&quot;</span>
                 </span>
               ) : (
-                <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;${searchQuery}&quot;</span></span>
               )}
             </div>
           )}
@@ -1520,5 +1478,9 @@ function Expenses({ allPageHostel_Id }) {
     </>
   )
 }
+Expenses.propTypes = {
+  allPageHostel_Id: PropTypes.func.isRequired,
+};
+
 
 export default Expenses;

@@ -1,51 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import "../../Pages/AssetFile/addAsset.css";
-import { FileX } from "react-bootstrap-icons";
 import moment from "moment";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle} from "iconsax-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
+import PropTypes from "prop-types";
 
-function StaticExample({ show, currentItem, hostelId,setShowModal }) {
+function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
   console.log("StaticExample",state)
   const dispatch = useDispatch();
   const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
   const [vendorName, setVendorName] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState("");
   const [price, setPrice] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [description, setDescription] = useState("");
   const [count, setCount] = useState("");
-  const [id, setId] = useState("");
   const [hostelName, setHostelName] = useState("");
-  const [hostelError, setHostelError] = useState("");
-  const [vendorError, setVendorError] = useState("");
-  const [assetError, setAssetError] = useState("");
   const [categoryError, setCategoryError] = useState("");
   const [dateError, setDateError] = useState("");
   const [countError, setCountError] = useState("");
@@ -55,10 +36,7 @@ function StaticExample({ show, currentItem, hostelId,setShowModal }) {
   const [isChangedError, setIsChangedError] = useState("");
   const [account, setAccount] = useState("");
   const [accountError, setAccountError] = useState("");
-  const [purchaseDateError, setPurchaseDateError] = useState("");
-  const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
-  const [formattedDate, setFormattedDate] = useState("");
   const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
@@ -73,12 +51,7 @@ function StaticExample({ show, currentItem, hostelId,setShowModal }) {
     account: "",
   });
 
-  const handleHostelNameChange = (e) => {
-    setHostelName(e.target.value);
-    setGeneralError("");
-    setHostelError("");
-    setIsChangedError("");
-  };
+
 
   useEffect(() => {
     dispatch({
@@ -119,7 +92,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
   useEffect(() => {
     if (currentItem) {
-      setId((currentItem && currentItem.id) || "");
+      // setId((currentItem && currentItem.id) || "");
       setAssetName((currentItem && currentItem.asset_id) || "");
       setVendorName((currentItem && currentItem.vendor_id) || "");
       setSelectedDate(moment(currentItem.purchase_date).toDate());
@@ -167,19 +140,9 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     }
   };
 
-  const handleAssetNameChange = (e) => {
-    setAssetName(e.target.value);
-    setGeneralError("");
-    setAssetError("");
-    setIsChangedError("");
-  };
+  
 
-  const handleVendorNameChange = (e) => {
-    setVendorName(e.target.value);
-    setGeneralError("");
-    setVendorError("");
-    setIsChangedError("");
-  };
+ 
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -204,11 +167,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
-  const handlePurchaseDateChange = (e) => {
-    setPurchaseDate(e.target.value);
-    setGeneralError("");
-    setIsChangedError("");
-  };
+ 
 
   const handlePriceChange = (e) => {
     const value = e.target.value;
@@ -233,30 +192,18 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
     if (value === "") {
       setDescription(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        Description: "Description cannot be empty or spaces only",
-      }));
       return;
     }
 
     if (value.trim() !== "") {
       setDescription(value);
-      setErrors((prevErrors) => ({ ...prevErrors, Description: "" }));
     } else {
       setDescription(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        Description: "Description cannot be empty or spaces only",
-      }));
     }
   };
 
   const handleAddExpenses = () => {
-    // Reset all error messages
-    setHostelError("");
-    setVendorError("");
-    setAssetError("");
+
     setCategoryError("");
     setDateError("");
     setCountError("");
@@ -345,133 +292,12 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
   };
   
 
-  // const handleAddExpenses = () => {
-  //   setHostelError("");
-  //   setVendorError("");
-  //   setAssetError("");
-  //   setCategoryError("");
-  //   setDateError("");
-  //   setCountError("");
-  //   setPriceError("");
-  //   setPaymentError("");
-
-  //   if (!category && !selectedDate && !count && !price && !modeOfPayment) {
-  //     setGeneralError("Please enter all mandatory fields");
-  //     return;
-  //   }
-
-  //   const isChanged =
-  //     initialState.assetName !== assetName ||
-  //     initialState.vendorName !== vendorName ||
-  //     (initialState.selectedDate &&
-  //       selectedDate &&
-  //       initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-  //     Number(initialState.price) !== Number(price) ||
-  //     initialState.category !== category ||
-  //     initialState.modeOfPayment !== modeOfPayment ||
-  //     initialState.description !== description ||
-  //     Number(initialState.count) !== Number(count) ||
-  //     initialState.hostelName !== hostelName;
-  //   if (!isChanged) {
-  //     setIsChangedError("Please make some changes before saving.");
-  //     return;
-  //   }
-  //   if (!category) {
-  //     setCategoryError("Please select a category");
-  //     // return;
-  //   }
-  //   if (!selectedDate) {
-  //     setDateError("Please select a purchase date");
-  //     // return;
-  //   }
-  //   if (!modeOfPayment) {
-  //     setPaymentError("Please enter a mode of payment");
-  //     // return;
-  //   }
-
-  //   if (!price) {
-  //     setPriceError("Please enter a valid price");
-  //     // return;
-  //   }
-
-  //   if (!count) {
-  //     setCountError("Please enter a valid unit count");
-  //     // return;
-  //   }
-
-  //   if (isNaN(count) || count <= 0) {
-  //     setCountError("Please enter a valid unit count");
-  //     return;
-  //   }
-  //   if (isNaN(price) || price <= 0) {
-  //     setPriceError("Please enter a valid price");
-  //     return;
-  //   }
-
-  //   if (modeOfPayment == "Net Banking" && !account) {
-  //     setAccountError("Please Choose Bank Account");
-  //     return;
-  //   }
-
-  //   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-  //   if (
-  //     hostelId &&
-  //     modeOfPayment &&
-  //     count &&
-  //     price &&
-  //     category &&
-  //     selectedDate
-  //   ) {
-  //     dispatch({
-  //       type: "ADDEXPENSE",
-  //       payload: {
-  //         // vendor_id: vendorName || "",
-  //         // asset_id: assetName || "",
-  //         category_id: category,
-  //         purchase_date: formattedDate,
-  //         unit_count: count,
-  //         unit_amount: price,
-  //         description: description,
-  //         payment_mode: modeOfPayment,
-  //         hostel_id: hostelId,
-  //         id: currentItem ? currentItem.id : null,
-  //         bank_id: account,
-  //         hostel_id: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //   }
-  //   // handleClose();
-  // };
-
+ 
   const calendarRef = useRef(null);
   
 
-  const options = {
-    dateFormat: "d/m/Y",
-    defaultDate: selectedDate || new Date(),
-    maxDate: "today",
-    appendTo: customContainerRef.current,
-  };
 
-  // useEffect(() => {
-  //     if (calendarRef.current) {
-  //         calendarRef.current.flatpickr.set(options);
-  //     }
-  // }, [selectedDate])
-
-  const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split("T")[0];
-  };
-
-  const handleDateChange = (selectedDates) => {
-    setDateError("");
-    setGeneralError("");
-    setIsChangedError("");
-    setSelectedDate(selectedDates[0]);
-  };
+  
 
   const customDateInput = (props) => {
     return (
@@ -523,11 +349,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
 
   }
-  const calculatePurchaseAmount = (count, price) => {
-    return count * price;
-    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
-  };
-
+ 
 
   return (
     <div
@@ -583,18 +405,16 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length == 0 && (
                   <label
-                    className="pb-1"
-                    style={{
-                      fontSize: 14,
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {" "}
-                    Please add a 'Category' option in Settings, accessible after
-                    adding an expenses.
-                  </label>
+                  className="pb-1"
+                  style={{
+                    fontSize: 14,
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Please add a &apos;Category&apos; option in Settings, accessible after adding an expenses.
+                </label>
                 )}
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1116,5 +936,12 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     </div>
   );
 }
+StaticExample.propTypes = {
+  show: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default StaticExample;

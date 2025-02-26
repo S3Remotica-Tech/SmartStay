@@ -11,7 +11,6 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import squre from "../Assets/Images/New_images/minus-square.png";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -30,33 +29,19 @@ import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import LoaderComponent from "./LoaderComponent";
-
-function EB_Hostel(props) {
+import PropTypes from "prop-types";
+function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [loginid, setLoginid] = useState();
-  const loginId = localStorage.getItem("loginId");
-  const [ebShow, setebshow] = useState(false);
   const [addEbDetail, setaddEbDetail] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
-  const [roomsByFloor, setRoomsByFloor] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
-  const [startmeterdata, setStartmeterData] = useState([]);
-  const [startmeter, setStartmeter] = useState([]);
   const [endmeter, setEndmeter] = useState("");
-  const [amount, setAmount] = useState("");
-  const [unitAmount, setUnitAmount] = useState("");
-  const [totmetReading, settotmetReading] = useState("");
-  const [id, setId] = useState("");
-  const [edit, setEdit] = useState("");
-  const [ebErrorunit, setEbErrorunit] = useState("");
-  const [buttonShow, setbuttonShow] = useState(false);
   const [value, setValue] = React.useState("1");
   const [ebrolePermission, setEbRolePermission] = useState("");
   const [ebpermissionError, setEbPermissionError] = useState("");
@@ -70,19 +55,14 @@ function EB_Hostel(props) {
   const [hostelName, setHostelName] = useState("");
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
   const [endMeterError, setendMeterError] = useState("");
   const [dateError, setDateError] = useState("");
   const [hostelBasedForm, setHostelBasedForm] = useState(false);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
-  const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
-  const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
-  const [filterStatus, setFilterStatus] = useState(false);
-  const [loading, setLoading] = useState(false)
   const [loader, setLoader] = useState(true);
   const [dateErrorMesg,setDateErrorMesg] = useState("")
 
@@ -203,7 +183,6 @@ function EB_Hostel(props) {
   }, []);
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
-  const [roomBasedDetail, setRoomBasedDetail] = useState("");
   useEffect(() => {
     setLoader(true)
     dispatch({
@@ -275,20 +254,14 @@ function EB_Hostel(props) {
 
   const handleFloor = (e) => {
     setFloor(e.target.value);
-    const filteredRooms = state.UsersList?.hosteldetailslist.filter(
-      (room) => room.floor_id == e.target.value
-    );
-    setRoomsByFloor(filteredRooms);
     setRooms("");
     setfloorError("");
-    setEbErrorunit("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
   const handleRoom = (e) => {
     setRooms(e.target.value);
     setRoomError("");
-    setEbErrorunit("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
@@ -332,22 +305,21 @@ function EB_Hostel(props) {
   const handleendmeter = (e) => {
     setEndmeter(e.target.value);
     setendMeterError("");
-    setEbErrorunit("");
     setDateErrorMesg("")
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  useEffect(() => {
-    const FilterEbAmount = state.Settings.EBBillingUnitlist?.filter(
-      (item) => item.hostel_id == selectedHostel
-    );
-    setUnitAmount(FilterEbAmount);
-    if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
-      setUnitAmount(FilterEbAmount[0]?.amount);
-    } else {
-      console.log("unitAmount is not a valid array or is empty.");
-    }
-  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
+  // useEffect(() => {
+  //   const FilterEbAmount = state.Settings.EBBillingUnitlist?.filter(
+  //     (item) => item.hostel_id == selectedHostel
+  //   );
+  //   setUnitAmount(FilterEbAmount);
+  //   if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
+  //     setUnitAmount(FilterEbAmount[0]?.amount);
+  //   } else {
+  //     console.log("unitAmount is not a valid array or is empty.");
+  //   }
+  // }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
@@ -421,9 +393,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
         case "Rooms":
           setRoomError("Rooms is required");
           break;
-        case "Bed":
-          setBedError("Bed is required");
-          break;
+       
         case "selectedDate":
           setDateErrorMesg("Date is required");
           break;
@@ -443,9 +413,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
       case "Rooms":
         setRoomError("");
         break;
-      case "Bed":
-        setBedError("");
-        break;
+      
       case "selectedDate":
         setDateErrorMesg("");
         break;
@@ -464,8 +432,6 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     setfloorError("");
     setRoomError("");
     setendMeterError("");
-    setEbErrorunit("");
-    setStartmeter("");
     setEndmeter("");
     setRooms("");
     setFloor("");
@@ -614,9 +580,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   //   return pageNumberselectricity;
   // };
 
-  useEffect(() => {
-    seteleTransactionFilterddata(state.ExpenseList.transactionHistory);
-  }, [state.ExpenseList.transactionHistory]);
+  
 
   const customDateInput = (props) => {
     return (
@@ -630,7 +594,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
           className="date_input"
           value={props.value || "DD/MM/YYYY"}
           readOnly
-          disabled={edit}
+          // disabled={edit}
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -664,18 +628,15 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
   };
   const handleDateChange = (date) => {
     setDateError("");
-    setEbErrorunit("");
     setDateErrorMesg("")
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
   const handleSearch = () => {
     setSearch(!search);
-    // setFilterStatus(false);
   };
 
   const [originalElec, setOriginalElec] = useState("")
-  const [originalElecRoom, etOriginalElecRoom] = useState("")
 
   // const handleUserSelect = (user) => {
   //   setFilterInput(user.Name);
@@ -734,11 +695,6 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     setelectricityFilterddata(originalElec);
     // setRoomBasedDetail(originalElecRoom);
     // setReceiptData(originalReceipt);
-  };
-  const handleRoomUserSelect = (user) => {
-    setFilterInput(user.floor_name);
-    // setRoomBasedDetail([user]);
-    setDropdownVisible(false);
   };
 
   return (
@@ -894,132 +850,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
                       </ul>
                     </div>
                   )}
-                {/* {value === "2" &&
-                        isDropdownVisible &&
-                        roomBasedDetail?.length > 0 && (
-                          <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 60,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              width: "94%",
-                            }}
-                          >
-                            <ul
-                              className="show-scroll p-0"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                maxHeight:
-                                roomBasedDetail?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                roomBasedDetail?.length > 1
-                                    ? "auto"
-                                    : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
-                              }}
-                            >
-                              {roomBasedDetail?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== roomBasedDetail?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleRoomUserSelect(user)}
-                                  >
-                                   
-                                    <span>{user.floor_name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )} */}
-
-                {/* {value === "3" &&
-                        isDropdownVisible &&
-                        receiptdata?.length > 0 && (
-                          <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 60,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              width: "94%",
-                            }}
-                          >
-                            <ul
-                              className="show-scroll p-0"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                maxHeight:
-                                  receiptdata?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                  receiptdata?.length > 1 ? "auto" : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
-                              }}
-                            >
-                              {receiptdata?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== receiptdata?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleUserReceipt(user)}
-                                  >
-                                    <Image
-                                      src={imagedrop}
-                                      alt={user.Name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )} */}
+             
               </div>
             </>
           ) : (
@@ -1440,12 +1271,8 @@ cursor:"pointer"
                         </thead>
                         <tbody style={{ fontSize: "12px" }}>
                           {currentRoomelectricity.map((v) => {
-                            const imageUrl = v.profile || Profile;
-                            let Dated = new Date(v.createAt);
-                            let day = Dated.getDate();
-                            let month = Dated.getMonth() + 1;
-                            let year = Dated.getFullYear();
-                            let formattedDate = `${day}/${month}/${year}`;
+                           
+                            
 
                             return (
                               <tr key={v.id}>
@@ -2254,4 +2081,9 @@ cursor:"pointer"
   );
 }
 
+
+EB_Hostel.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+};
 export default EB_Hostel;

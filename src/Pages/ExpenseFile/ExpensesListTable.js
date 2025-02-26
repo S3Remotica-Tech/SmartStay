@@ -1,46 +1,30 @@
 import React, { useEffect, useState, useRef } from 'react';
-// import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../../Assets/Images/New_images/trash.png';
-import Assign from '../../Assets/Images/New_images/assign.png';
-import Profile from '../../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
-import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import Image from 'react-bootstrap/Image';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import { Edit, Trash } from 'iconsax-react';
 import TagAsset from '../../Assets/Images/TagAsset.svg';
 import closeicon from '../../Assets/Images/close.svg';
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import './Expenses.css'
-import { FaChevronDown } from "react-icons/fa";
-import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { FormControl, Select, MenuItem} from '@mui/material';
+import PropTypes from "prop-types";
 function ExpensesListTable(props) {
-  
-  const [selectedAsset, setSelectedAsset] = useState(null);
+ 
 
   const [showDots, setShowDots] = useState('')
   const popupRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const customCheckboxStyle = {
-    appearance: 'none',
-    width: '20px',
-    height: '20px',
-    backgroundColor: '#fff',
-    border: '2px solid #DCDCDC',
-    borderRadius: '4px',
-    display: 'inline-block',
-    position: 'relative',
-  };
+ 
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
    
   const handleShowDots = (event) => {
     setShowDots(!showDots)
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -158,7 +142,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{  fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
+          <div style={{  fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center",  fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
@@ -592,7 +576,7 @@ function ExpensesListTable(props) {
                   fontWeight: 500,
                 }}
               >
-                Please add an 'Asset' option in Asset page, accessible after
+                Please add an &apos;Asset&apos;option in Asset page, accessible after
                 adding an expense.
               </label>
             )}
@@ -644,5 +628,11 @@ function ExpensesListTable(props) {
   </>
   )
 }
-
+ExpensesListTable.propTypes = {
+  item: PropTypes.func.isRequired,
+  expenceEditPermission: PropTypes.func.isRequired,
+  OnEditExpense: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  expenceDeletePermission: PropTypes.func.isRequired,
+};
 export default ExpensesListTable

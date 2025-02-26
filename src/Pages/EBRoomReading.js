@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
@@ -22,7 +21,6 @@ function EBRoomReading(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const popupRef = useRef(null);
-  const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [ebEditShow, setebEditShow] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
@@ -35,7 +33,6 @@ function EBRoomReading(props) {
   const [readingError, setReadingError] = useState("");
   const [formError, setFormError] = useState("");
   const [id, setId] = useState("")
-  const [roomId, setRoomId] = useState("")
   const [hostelId, setHostelId] = useState("")
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
@@ -140,7 +137,6 @@ function EBRoomReading(props) {
     setRooms("");
     setfloorError("");
     setFormError("");
-    // setRoomId("")
   };
   const handleClose = () => {
     setebEditShow(false);
@@ -214,7 +210,6 @@ function EBRoomReading(props) {
             item.date ? moment(item.date).toDate("") : null
           );
     setId(item.eb_Id)
-    // setRoomId(item.Room_Id)
     setHostelId(item.hostel_Id)
 
 
@@ -929,7 +924,7 @@ function EBRoomReading(props) {
                                           justifyContent: "start",
                                           padding: 10,
                                           alignItems: "center",
-                                          zIndex: showDots ? 1000 : "auto",
+                                          zIndex: 1000 ,
                                         }}
                                       >
                                         <div
@@ -1553,5 +1548,6 @@ EBRoomReading.propTypes = {
   ebEditPermission: PropTypes.func.isRequired,
   ebpermissionError: PropTypes.func.isRequired,
   loading: PropTypes.func.isRequired,
+  ebDeletePermission: PropTypes.func.isRequired,
 };
 export default EBRoomReading;

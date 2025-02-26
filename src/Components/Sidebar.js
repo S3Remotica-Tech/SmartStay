@@ -6,7 +6,6 @@ import Dashboards from "../Pages/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
 import UserLists from "../Pages/UserList";
 import EbHostel from "../Pages/EB_Hostel";
-import Checkout from "../Pages/Checkout";
 import Invoices from "../Pages/Invoice";
 import Compliances from "../Pages/Compliance";
 import Report from "../Reports/Reports";
@@ -1328,12 +1327,6 @@ function Sidebar() {
             {/* {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>} */}
             {currentPage === "eb" && (
               <EbHostel
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "checkout" && (
-              <Checkout
                 allPageHostel_Id={allPageHostel_Id}
                 setAllPageHostel_Id={setAllPageHostel_Id}
               />
