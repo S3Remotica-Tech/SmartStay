@@ -315,10 +315,10 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
-          setFirstNameError("firstName is required");
+          setFirstNameError("FirstName is required");
           break;
         case "emilId":
-          setEmailError("emilId is required");
+          setEmailError("EmilId is required");
           break;
         case "Phone":
           setPhoneError("Phone num is required");
@@ -327,7 +327,7 @@ function SettingGeneral() {
           setAddressError("Address is required");
           break;
         case "password":
-          setPasswordError("password is required");
+          setPasswordError("Password is required");
           break;
         default:
           break;
@@ -802,16 +802,29 @@ function SettingGeneral() {
 
         {loading &&
           <div
+            // style={{
+            //   position: 'fixed',
+            //   top: 0,
+            //   right: 0,
+            //   bottom: 0,
+            //   left: '200px',
+            //   display: 'flex',
+            //   height: "50vh",
+            //   alignItems: 'center',
+            //   justifyContent: 'center',
+            //   backgroundColor: 'transparent',
+            //   opacity: 0.75,
+            //   zIndex: 10,
+            // }}
             style={{
               position: 'fixed',
-              top: 0,
+              top: 50,
               right: 0,
               bottom: 0,
-              left: '200px',
+              left: 0,
               display: 'flex',
-              height: "50vh",
               alignItems: 'center',
-              justifyContent: 'center',
+              // justifyContent: 'center',
               backgroundColor: 'transparent',
               opacity: 0.75,
               zIndex: 10,
@@ -1787,14 +1800,14 @@ function SettingGeneral() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "24px",
+              height: "24px",
               borderRadius: "50%",
             }}
           >
             <span
               aria-hidden="true"
-              style={{ fontSize: "24px", paddingBottom: "4px" }}
+              style={{ fontSize: "24px", paddingBottom: "6px" }}
             >
               &times;
             </span>

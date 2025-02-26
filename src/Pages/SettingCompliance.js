@@ -412,7 +412,7 @@ function SettingCompliance({ hostelid }) {
                                                         className="position-absolute"
                                                         style={{
                                                             cursor: "pointer",
-                                                            backgroundColor: "#fff",
+                                                            backgroundColor: "#F9F9F9",
                                                             top: popupPosition.top,
                                                             left: popupPosition.left,
                                                             // width: 163,
@@ -438,7 +438,7 @@ function SettingCompliance({ hostelid }) {
                                                             </div>
                                                             <div
                                                                 className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                                style={{ backgroundColor: "#fff" }}
+                                                                // style={{ backgroundColor: "#fff" }}
                                                                 onClick={() => handleDeleteClick()}
                                                             >
                                                                 <img

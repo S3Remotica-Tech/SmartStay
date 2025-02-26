@@ -714,7 +714,7 @@ function SettingExpenses({ hostelid }) {
 
   return (
     <div className="container" style={{
-      position: "relative", maxHeight: "470px",
+      position: "relative", maxHeight: "570px",
       overflowY: "auto",
     }}>
 
