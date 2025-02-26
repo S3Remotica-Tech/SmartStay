@@ -3,6 +3,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../Assets/Images/New_images/edit.png';
 import Hostel from  "../Assets/Images/Logo-Icon.png"
 import Image from 'react-bootstrap/Image';
+import PropTypes from "prop-types";
 
 
 
@@ -104,4 +105,10 @@ const EBBillingUnitlist = (props) => {
 
 
 }
+EBBillingUnitlist.propTypes = {
+  modalEditEbunit: PropTypes.func.isRequired,
+  ebEditPermission: PropTypes.func.isRequired,
+  item: PropTypes.func.isRequired,
+};
+
 export default EBBillingUnitlist;

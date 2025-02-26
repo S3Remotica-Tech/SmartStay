@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from "react";
-import SemiCircleProgressBar from "react-progressbar-semicircle";
-import { TbClockCheck, TbClockCancel } from "react-icons/tb";
-import { ImClock2 } from "react-icons/im";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Dropdown, DropdownButton, ListGroup, Badge } from "react-bootstrap";
 import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
 import "../Pages/Dashboard.css";
 import Card from "react-bootstrap/Card";
-import arrow from "../Assets/Images/Arrow 2.png";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import vector from "../Assets/Images/New_images/Asset_Arrow.png";
-import leftarrow from "../Assets/Images/Arrow 1.png";
 import key from "../Assets/Images/key.png";
-import car from "../Assets/Images/profile-2user (1).png";
 import clock from "../Assets/Images/Car.png";
-import notification from "../Assets/Images/Notification.png";
-import rectangle from "../Assets/Images/Admin_Profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import { FaSearch } from "react-icons/fa";
-import { createPortal } from "react-dom";
-import Compliance from "./Compliance";
-import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import drop from "../Assets/Images/New_images/arrow-down.png";
-import { Offcanvas, Form, FormControl } from "react-bootstrap";
-import CountUp from "react-countup";
 import DashboardAnnouncement from "./DashboardAnnouncement";
 import DashboardUpdates from "./DashboardUpdates";
 import Tab from "@mui/material/Tab";
@@ -41,32 +24,17 @@ import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContaine
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Table } from "react-bootstrap";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Image from "react-bootstrap/Image";
 import LoaderComponent from "./LoaderComponent";
+import PropTypes from "prop-types";
 
 function Dashboard(props) {
   
-  const formatYAxis = (tickItem) => {
-    return `${tickItem}`;
-  };
-
-  const noDataStyle = {
-    color: "#9C9C9C",
-    fontFamily: "Gilroy",
-    fontSize: "16px",
-    fontStyle: "normal",
-    fontWeight: "600",
-    lineHeight: "normal",
-  };
 
   const state = useSelector((state) => state);
   console.log("dash",state)
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState([]);
-  const LoginId = localStorage.getItem("loginId");
-  const [login_Id, setLogin_Id] = useState("");
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
   const [activecommpliance, setActivecommpliance] = useState([]);
@@ -80,7 +48,6 @@ function Dashboard(props) {
   const [selectExpence, setSelectExpence] = useState("this_month");
   const [selectCashback, setSelectCashback] = useState("this_month");
   const [cashBackData, setCashBackData] = useState("");
-  const [reveneReceived, setRevenueReceived] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
    const [loading, setLoading] = useState(true);
@@ -227,8 +194,7 @@ function Dashboard(props) {
     };
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-      appearOnScrool
+      entries
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -295,18 +261,6 @@ function Dashboard(props) {
     setActivecommpliance(state.PgList.dashboardDetails?.com_data);
   }, [state.PgList.dashboardDetails?.com_data]);
 
-  const {
-    hostelCount = 0,
-    roomCount = 0,
-    TotalBed = 0,
-    availableBed = 0,
-    occupied_Bed = 0,
-    Revenue = 0,
-    current = 0,
-    overdue = 0,
-    first_name = "",
-    last_name = "",
-  } = dashboardList[0] || {};
 
   useEffect(() => {
     setCashBackData(
@@ -315,10 +269,10 @@ function Dashboard(props) {
   }, [state.PgList?.dashboardFilterCashback?.response?.cash_back_data]);
 
   const currentvalue =
-    (cashBackData?.[0]?.Revenue || 0) + (cashBackData?.[0]?.overdue || 0);
+    (Number(cashBackData?.[0]?.Revenue) || 0) + (Number(cashBackData?.[0]?.overdue) || 0);
 
   const percentage = currentvalue
-    ? ((currentvalue - cashBackData?.[0]?.overdue) / currentvalue) * 100
+    ? ((currentvalue - Number(cashBackData?.[0]?.overdue)) / currentvalue) * 100
     : 0;
 
   const pathColor =
@@ -372,14 +326,7 @@ function Dashboard(props) {
     months.push({ month: monthYear, revenue: 0, expense: 0 });
   }
 
-  // Merge the generated months with existing data
-  const mergedData = months.map((monthData) => {
-    const existingData = data?.find((item) => item.month === monthData.month);
-    return {
-      ...monthData,
-      ...existingData, // Replace default values if data exists for the month
-    };
-  });
+  
 
   const fixedColors = [
     "#FF6384", // Red
@@ -1553,8 +1500,7 @@ function Dashboard(props) {
                         </thead>
                         <tbody>
                           {state.PgList?.dashboardDetails?.book_data?.map(
-                            (item) => {
-                              const imageUrl = item.profile || Profile;
+                            (item,index) => {
                               let Dated = new Date(item.joining_date);
 
                               let day = Dated.getDate();
@@ -1578,7 +1524,7 @@ function Dashboard(props) {
                               let formattedDate = `${year} ${formattedMonth} ${day}`;
 
                               return (
-                                <tr style={{ overflowX: "auto" }}>
+                                <tr key ={index} style={{ overflowX: "auto" }}>
                                   <td
                                     style={{
                                       fontWeight: 500,
@@ -1764,7 +1710,7 @@ function Dashboard(props) {
                         </thead>
                         <tbody>
                           {state.PgList?.dashboardDetails?.bill_details?.map(
-                            (item) => {
+                            (item,index) => {
                               // const imageUrl = item.profile || Profile;
                               let Dated = new Date(item.DueDate);
 
@@ -1789,7 +1735,7 @@ function Dashboard(props) {
                               let formattedDate = `${year} ${formattedMonth} ${day}`;
 
                               return (
-                                <tr style={{ overflowX: "auto" }}>
+                                <tr key={index} style={{ overflowX: "auto" }}>
                                   <td title={item.Invoices}
                                     style={{
                                       fontWeight: 500,
@@ -1899,5 +1845,10 @@ function Dashboard(props) {
     </>
   );
 }
+Dashboard.propTypes = {
+  payload: PropTypes.func.isRequired,
+  displayCompliance: PropTypes.func.isRequired,
+  billAddPermission: PropTypes.func.isRequired,
+};
 
 export default Dashboard;

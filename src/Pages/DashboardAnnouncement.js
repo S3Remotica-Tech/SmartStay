@@ -5,7 +5,6 @@ import Ellipse5 from "../Assets/Images/Profile.jpg";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
 
-import Search_Team from "../Assets/Images/Search Team.png";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
@@ -13,10 +12,10 @@ import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
-import {ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, ProfileAdd } from 'iconsax-react';
+import {ArrowLeft2, ArrowRight2,CloseCircle, Edit} from 'iconsax-react';
 import LoaderComponent from "./LoaderComponent";
 import send from "../Assets/Images/send.svg";
-function DashboardAnnouncement(props) {
+function DashboardAnnouncement() {
 
 
   const [filteredData, setFilteredData] = useState([]);
@@ -58,7 +57,6 @@ function DashboardAnnouncement(props) {
   const [description, setDescrption] = useState("");
   const [titleError, setTitleError] = useState("")
   const [descriptionError, setDescriptionError] = useState("")
-  const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [showDots, setShowDots] = useState(null);
   const [editDetails, setEditDetails] = useState('')
@@ -68,42 +66,12 @@ function DashboardAnnouncement(props) {
   const [Comments, setComments] = useState('')
   const [commentsList, setCommentsList] = useState([])
   const [displayError, setDisplayError] = useState("");
-  const [subCommentModal, setSubCommentModal] = useState(true)
-  const [subComment, setSubComment] = useState('')
-  const [displaySubError, setDisplaySubError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
-  const [CommentId, setCommentId] = useState('')
-  const [selectedCommentId, setSelectedCommentId] = useState(null);
  const [loading, setLoading] = useState(true)
  
-  const handleSubCommentsChange = (e) => {
-    setSubComment(e.target.value)
-    setDisplaySubError('')
-  }
+ 
 
 
-
-  console.log("selectedCommentId", selectedCommentId, "CommentId", CommentId, "subCommentModal", subCommentModal)
-
-
-
-  const handleCloseSubComment = () => {
-    setSubCommentModal(false)
-  }
-
-  const handleCreateSubComments = (comment_id) => {
-    setDisplayError('')
-    setDisplaySubError('')
-    setCommentId(comment_id)
-    setSubCommentModal(!subCommentModal)
-    // setShowCommentModal(false)
-    if (selectedCommentId === comment_id) {
-      setSelectedCommentId(null);
-    } else {
-      setSelectedCommentId(comment_id);
-    }
-
-  }
 
   const handleCommentsChange = (e) => {
     setComments(e.target.value)
@@ -130,24 +98,7 @@ function DashboardAnnouncement(props) {
 
 
 
-  console.log("selectedCard", selectedCard)
-
-  const handleSendSubComments = () => {
-    if (!subComment) {
-      setDisplaySubError('Please Enter Comments')
-      return
-    }
-    if (subComment) {
-      dispatch({
-        type: 'CREATESUBCOMMENTS', payload: {
-          an_id: selectedCard, comment: subComment, parent_comment_id: CommentId
-        }
-      })
-    }
-    setSubComment("");
-    setShowCommentModal(false); 
-    setCommentsList([]); // Ensure previous sub-comments don't persist
-  }
+  
 
 //   const handleOpenCommentModal = (cardId) => {
 //   setSelectedCard(cardId); // Set the current card ID
@@ -175,11 +126,7 @@ function DashboardAnnouncement(props) {
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
   }
 
-  //  card click
-  const handleCardClick = (card) => {
-    // setSelectedCard(card);
-    setShowMainModal(true);
-  };
+ 
 
   const handleCardTittleClick = (card) => {
     setSelectedTitleCard(card);
@@ -236,10 +183,9 @@ function DashboardAnnouncement(props) {
 
   const handleCloseComment = () => {
     setDisplayError('')
-    setDisplaySubError('')
     setShowCommentModal(false)
-    setSubCommentModal(true)
-    setSelectedCommentId(null);
+    // setSubCommentModal(true)
+    // setSelectedCommentId(null);
     // setCommentsList(false);
     // setSubCommentModal(false);
      setCommentsList([]); // Reset comments when closing the modal
@@ -247,10 +193,7 @@ function DashboardAnnouncement(props) {
 
   const handleCloseTittle = () => setshowTittleModal(false);
 
-  const handleLikeClick = (card) => {
-    setSelectedCard(card);
-    setShowLikeModal(true);
-  };
+ 
 
   const handleCommentClick = (card) => {
     console.log("card comments", card)
@@ -303,9 +246,7 @@ function DashboardAnnouncement(props) {
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-      setSubCommentModal(true)
-      setSubComment('')
-      setSelectedCommentId(null);
+     
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_SUB_COMMENTS' })
       }, 1000)
@@ -579,7 +520,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         <div className="row" >
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
+              <div key={data.id}  className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
 
                 <Card
                   className="card"
@@ -1067,7 +1008,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           </div>
 
           <p
-            tyle={{
+            style={{
               fontFamily: "Gilroy",
               fontWeight: 500,
               fontSize: "14px",
@@ -1199,7 +1140,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </div>
 
             <p
-              tyle={{
+              style={{
                 fontFamily: "Gilroy",
                 fontWeight: 500,
                 fontSize: "14px",
@@ -1303,7 +1244,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </div>
 
             <p
-              tyle={{
+              style={{
                 fontFamily: "Gilroy",
                 fontWeight: 500,
                 fontSize: "14px",
@@ -1360,7 +1301,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </div>
 
             <p
-              tyle={{
+              style={{
                 fontFamily: "Gilroy",
                 fontWeight: 500,
                 fontSize: "14px",
