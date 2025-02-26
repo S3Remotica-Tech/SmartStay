@@ -1150,8 +1150,8 @@ const CheckOutForm = ({
             )}
           </div>
           {state.UsersList.errorMessageAddCheckOut && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center p-1 mt-6">
+              <MdError style={{ color: "red", marginRight: "5px", }} />
               <label
                 className="mb-0"
                 style={{
@@ -1159,6 +1159,7 @@ const CheckOutForm = ({
                   fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
+                 
                 }}
               >
                 {state.UsersList.errorMessageAddCheckOut}
@@ -1186,7 +1187,7 @@ const CheckOutForm = ({
           {isChangedError && (
             <div
               className="d-flex justify-content-center align-items-center"
-              style={{ color: "red",marginTop:5 }}
+              style={{ color: "red",marginTop:15 }}
             >
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
@@ -1220,7 +1221,7 @@ const CheckOutForm = ({
           )}
 
           <Button
-            className="mt-4"
+            className="mt-3"
             style={{
               borderRadius: "8px",
               fontFamily: "Gilroy",
