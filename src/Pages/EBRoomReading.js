@@ -914,7 +914,7 @@ function EBRoomReading(props) {
                                         ref={popupRef}
                                         style={{
                                           cursor: "pointer",
-                                          backgroundColor: "#fff",
+                                          backgroundColor: "#F9F9F9",
                                           position: "fixed",
                                           top: popupPosition.top,
                                           left: popupPosition.left,
@@ -933,7 +933,7 @@ function EBRoomReading(props) {
                                         }}
                                       >
                                         <div
-                                          style={{ backgroundColor: "#fff" }}
+                                          style={{ backgroundColor: "#F9F9F9" }}
                                           className=""
                                         >
                                           <div

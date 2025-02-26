@@ -588,9 +588,9 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "center",
+                      textAlign: "start",
                       borderTopLeftRadius: 24,
-                      // paddingLeft: "25px"
+                      paddingLeft: "25px"
                     }}
                   >
                     Paying Guest
@@ -603,7 +603,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "center",
+                      textAlign: "start",
                     }}
                   >
                     Reading
@@ -616,7 +616,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "center",
+                      textAlign: "start",
                     }}
                   >
                     Date
@@ -629,14 +629,14 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       fontFamily: "Gilroy",
                       paddingTop: "10px",
                       paddingBottom: "10px",
-                      textAlign: "center",
+                      textAlign: "start",
                     }}
                   >
                     Units
                   </th>
                   <th
                     style={{
-                      textAlign: "center",
+                      textAlign: "start",
                       fontFamily: "Gilroy",
                       color: "#939393",
                       fontSize: 14,
@@ -687,8 +687,9 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                         style={{
                           border: "none",
                           padding: "10px",
-                          textAlign: "center",
+                          textAlign: "start",
                           verticalAlign: "middle",
+                          paddingLeft:"25px"
                         }}
                       >
                         <div
@@ -724,7 +725,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "center",
+                          textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
@@ -733,7 +734,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                       <td
                         style={{
-                          textAlign: "center",
+                          textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
                           fontSize: "16px",
@@ -751,7 +752,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "center",
+                          textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
@@ -763,7 +764,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           fontSize: "16px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          textAlign: "center",
+                          textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
                         }}
@@ -771,7 +772,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                         {v.total_amount}
                       </td>
                       <td  style={{
-                      textAlign: "center",
+                      textAlign: "start",
                       fontFamily: "Gilroy",
                       color: "#939393",
                       fontSize: 14,
