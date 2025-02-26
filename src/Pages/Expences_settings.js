@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Swal from 'sweetalert2';
 import Closebtn from '../Assets/Images/Delete_red.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
@@ -16,10 +15,6 @@ const ExpencesSettings = () => {
 
     const [type, setType] = useState('');
     const [subType, setSubType] = useState('');
-    const [typeerrmsg, setTypeErrmsg] = useState('')   
-
-    const [typeidname, setTypeIdName] = useState('')
-    const [types, setTypes] = useState([]);
     const [isSubCategory, setIsSubCategory] = useState(false);
     const [expences, setExpences] = useState([])
 
@@ -27,8 +22,6 @@ const ExpencesSettings = () => {
 
   const [expencepermissionError, setExpencePermissionError] = useState("");
   const [expenceAddPermission,setExpenceAddPermission]= useState("")
-  const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
-  const [expenceEditPermission,setExpenceEditPermission]=useState("")
 
 
 
@@ -62,26 +55,17 @@ const ExpencesSettings = () => {
   }, [expencerolePermission]);
 
 
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
-    ) {
-      setExpenceDeletePermission("");
-    } else {
-      setExpenceDeletePermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
-    ) {
-      setExpenceEditPermission("");
-    } else {
-      setExpenceEditPermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
+ 
+  // useEffect(() => {
+  //   if (
+  //     expencerolePermission[0]?.is_owner == 1 ||
+  //     expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
+  //   ) {
+  //     setExpenceEditPermission("");
+  //   } else {
+  //     setExpenceEditPermission("Permission Denied");
+  //   }
+  // }, [expencerolePermission]);
 
 
 

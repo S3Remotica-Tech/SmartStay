@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
+import PropTypes from "prop-types";
 
 
 const EB_Billings = (props) => {
 
 
   const [isChecked, setIsChecked] = useState(null);
-  const [checkedvalue,setCheckedvalue]= useState([])
 
   const state = useSelector(state => state)
 
@@ -63,4 +63,9 @@ const EB_Billings = (props) => {
 
   )
 }
+EB_Billings.propTypes = {
+  onBoxchange: PropTypes.func.isRequired,
+  Item: PropTypes.func.isRequired,
+  
+};
 export default EB_Billings;

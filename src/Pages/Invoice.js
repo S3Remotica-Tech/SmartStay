@@ -2,66 +2,34 @@ import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { InputGroup, FormControl, Pagination } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
+import { FormControl} from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
-import { BsSearch } from "react-icons/bs";
-import { IoFilterOutline } from "react-icons/io5";
-import List from "../Assets/Images/list-report.png";
-import Edit from "../Assets/Images/edit.png";
-import { Offcanvas, Form, Dropdown } from "react-bootstrap";
-import Plus from "../Assets/Images/Create-button.png";
-import Calendor from "../Assets/Images/calendar.png";
-// import Profile from '../Assets/Images/Profile.jpg';
-import Dots from "../Assets/Images/more.png";
+import {  Form } from "react-bootstrap";
 import User from "../Assets/Images/New_images/profile-picture.png";
 
-import NotificationIcon from "../Assets/Images/Notification.png";
-import rectangle from "../Assets/Images/Admin_Profile.png";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import InvoiceDetail from "./InvoiceDetails";
-import MessageModal from "./MessageModal";
 import LoaderComponent from "./LoaderComponent";
-import Sort from "../Assets/Images/sort.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {
-  fontSize,
-  fontStyle,
-  fontWeight,
-  height,
-  lineHeight,
-  padding,
-} from "@mui/system";
 import InvoiceTable from "./InvoicelistTable";
-import leftArrow from "../Assets/Images/New_images/left-arrow.png";
-import rightarrow from "../Assets/Images/New_images/right-arrow.png";
-import Notify from "../Assets/Images/New_images/notify.png";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import squre from "../Assets/Images/New_images/minus-square.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import BillPdfModal from "../Pages/BillPdfModal";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Closebtn from "../Assets/Images/CloseCircle.png";
 import DatePicker from "react-datepicker";
@@ -80,22 +48,13 @@ import PropTypes from "prop-types"
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
-  console.log("state", state);
-  const [editOption, setEditOption] = useState("");
   const dispatch = useDispatch();
 
   const [recurLoader, setRecurLoader] = useState(false);
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [isUserClicked, setUserClicked] = useState(true);
-  const [invoiceDetail, setInvoiceDetailss] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
-  const [file, setFile] = useState(null);
   const [bankking, setBanking] = useState("");
-  const d = new Date();
+  // const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -117,20 +76,9 @@ const InvoicePage = () => {
     transaction: "",
   });
 
-  const [invoicePage, setInvoicePage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
-  const [selectedItems, setSelectedItems] = useState("");
-  const [showDots, setShowDots] = useState("");
-  const [notification, setNotification] = useState([]);
-  const LoginId = localStorage.getItem("loginId");
-  const [loginID, setLoginID] = useState("");
-  const [filtericon, setFiltericon] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
-  const [searchItem, setSearchItem] = useState("");
-  const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-  const [searchicon, setSearchicon] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [filteredUserDetails, setFilteredUserDetails] = useState([]);
   const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
   const [amounterrormsg, setAmountErrmsg] = useState("");
   const [dateerrmsg, setDateErrmsg] = useState("");
@@ -141,17 +89,9 @@ const InvoicePage = () => {
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
-  const [formatstartdate, setFormatStartDate] = useState(null);
-  const [formatenddate, setFormatEndDate] = useState(null);
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
   const [formatduedate, setFormatDueDate] = useState(null);
-  const [invoicetotalamounts, setInvoiceTotalAmount] = useState([]);
-  const [billamounts, setBillAmounts] = useState([]);
-  const [ebamount, setEBAmount] = useState("");
-  const [rentamount, setRentAmount] = useState("");
-  const [amenityDetail, setAmenityDetails] = useState([]);
   const [totalAmount, setTotalAmount] = useState("");
-  const [selectedData, setSelectedData] = useState([]);
   const [bills, setBills] = useState([]);
   const [newRows, setNewRows] = useState([
     { "S.NO": 1, am_name: "", amount: "0" },
@@ -163,7 +103,6 @@ const InvoicePage = () => {
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
-  const [dataFetched, setDataFetched] = useState(false);
   const [amenityArray, setamenityArray] = useState([]);
   const [recurringbills, setRecurringBills] = useState([]);
   const [account, setAccount] = useState("");
@@ -186,18 +125,9 @@ const InvoicePage = () => {
   const [recurringPermission, setRecurringPermission] = useState("");
   const [receiptPermission, setReceiptPermission] = useState("");
   const [receiptaddPermission, setReceiptAddPermission] = useState("");
-
-  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-  const [totalPaidAmount, setTotalPaidAmount] = useState("");
-  const [paiddate, setPaidDate] = useState(null);
-  const [paiddateerrormsg, setPaidDateErrmsg] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [showform, setShowform] = useState(false);
-  const [invoicefilterdata, setinvoiceFilterddata] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const calendarRef = useRef(null);
-  const [formattedDate, setFormattedDate] = useState("");
-  const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
+  const calendarRef = useRef(null);;
   const [tableErrmsg, setTableErrmsg] = useState("");
   const [value, setValue] = React.useState("1");
   const [DownloadInvoice, setDownloadInvoice] = useState(false);
@@ -205,15 +135,12 @@ const InvoicePage = () => {
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [showPdfReceiptModal, setShowPdfReceiptModal] = useState(false);
   const [rowData, setRowData] = useState("");
-  const [showeditform, setShowEditform] = useState(false);
   const [showdeleteform, setShowDeleteform] = useState(false);
   const [billMode, setBillMode] = useState("New Bill");
-  const [selectedItem, setSelectedItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [search, setSearch] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
@@ -272,12 +199,10 @@ const InvoicePage = () => {
     setAccount("");
   };
 
-  const handleShowDots = () => {
-    setShowDots(!showDots);
-  };
+  
 
   const handleInvoiceDetail = (item) => {
-    setSelectedItems(item);
+    // setSelectedItems(item);
 
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
@@ -328,12 +253,7 @@ const InvoicePage = () => {
 
   const handleReceiptDetail = (item) => {
     if (item.User_Id) {
-      const originalDate = new Date(item.Date);
-      const year = originalDate.getFullYear();
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-      const day = originalDate.getDate().toString().padStart(2, "0");
-      const newDate = `${year}-${month}-${day}`;
-
+      
       dispatch({
         type: "RECEIPTPDF",
         payload: {
@@ -345,215 +265,11 @@ const InvoicePage = () => {
     }
   };
 
-  let newNotificationIDs =
-    state.login.Notification &&
-    state.login.Notification?.length > 0 &&
-    state.login.Notification.filter(
-      (notification) => notification.status === 1
-    ).map((notification) => notification.id);
+  
 
-  const newNotificationsCount = newNotificationIDs.length;
+ 
 
-  const handleClosepopup = () => setShow(false);
 
-  const handleShowpopup = () => {
-    setShow(true);
-    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
-      setTimeout(() => {
-        dispatch({
-          type: "UPDATE-NOTIFICATION",
-          payload: { id: newNotificationIDs },
-        });
-      }, 1000);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm);
-
-    const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-    const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-
-    if (searchTerm !== "") {
-      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setBills(
-        filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice)
-      );
-    } else {
-      setBills(
-        state.InvoiceList.Invoice.slice(
-          indexOfFirstRowinvoice,
-          indexOfLastRowinvoice
-        )
-      );
-    }
-  };
-
-  const handleiconshow = () => {
-    setSearchicon(!searchicon);
-    setFiltericon(false);
-  };
-
-  const handleInvoiceback = (isVisible) => {
-    setInvoiceDetailss(isVisible);
-  };
-
-  const handleImageChange = (event) => {
-    const fileimgage = event.target.files[0];
-    if (fileimgage) {
-      setFile(fileimgage);
-    }
-  };
-
-  const handlePhoneNo = (e) => {
-    const result = e.target.value.replace(/\D/g, "");
-    const phoneError = document.getElementById("phoneError");
-    setInvoiceList({ ...invoiceList, phone: result });
-    if (result.length < 10) {
-      phoneError.textContent = "Please put 10 digit mobile number";
-    } else {
-      phoneError.textContent = "";
-    }
-  };
-
-  const handleEmailID = (e) => {
-    const emailID = e.target.value;
-    const emailError = document.getElementById("emailError");
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    if (!emailPattern.test(emailID)) {
-      setInvoiceList({ ...invoiceList, email: emailID });
-      emailError.textContent = "Invalid email format";
-    } else {
-      setInvoiceList({ ...invoiceList, email: emailID });
-      emailError.textContent = "";
-    }
-  };
-
-  const handleClose = () => {
-    setInvoiceList({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      hostel_Name: "",
-      hostel_Id: "",
-      FloorNo: "",
-      RoomNo: "",
-      amount: "",
-      balanceDue: "",
-      dueDate: "",
-      // total_amount:'',
-      paymentType: "",
-    });
-    setShowMenu(false);
-    setUserClicked(false);
-    setShowForm(false);
-  };
-
-  const handleShow = (item) => {
-    setInvoiceValue(item);
-    if (item.id !== undefined) {
-      setEditOption("Edit");
-      const dateObject = new Date(item.Date);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-
-      const lastDayOfMonth = new Date(year, month, 0);
-      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
-        lastDayOfMonth.getMonth() + 1
-      ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
-
-      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-      const EditCheck = state.InvoiceList.Invoice.find((view) => {
-        const viewDate = new Date(view.Date);
-        return (
-          view.User_Id === item.User_Id &&
-          view.BalanceDue === 0 &&
-          viewDate.getFullYear() === year &&
-          viewDate.getMonth() === month - 1
-        );
-      });
-
-      setShowMenu(true);
-      setShowForm(true);
-      let value = item.Name.split(" ");
-      setSelectedUserId(item.User_Id);
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day
-      ).padStart(2, "0")}`;
-      setInvoiceList({
-        id: item.id,
-        firstName: value[0],
-        lastName: value[1],
-        phone: item.phoneNo,
-        email: item.EmailID,
-        hostel_Name: item.Hostel_Name,
-        hostel_Id: item.Hostel_Id,
-        FloorNo: item.Floor_Id,
-        RoomNo: item.Room_No,
-        date: formattedDate,
-        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
-        amount: item.Amount,
-        paidAmount: item.PaidAmount,
-        balanceDue: item.BalanceDue == 0 ? "00" : item.BalanceDue,
-        dueDate: formattedDueDate,
-        InvoiceId: item.Invoices,
-        invoice_type: item.invoice_type,
-      });
-      // }
-    } else {
-      setEditOption("Add");
-      setSelectedUserId("");
-      setShowForm(true);
-      setUserClicked(true);
-      setShowMenu(true);
-    }
-  };
-
-  const generatePageNumbers = () => {
-    const pageNumbers = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      pageNumbers.push(page);
-    }
-
-    return pageNumbers;
-  };
-
-  const handlePageSelect = (eventKey) => {
-    const selectedPage = parseInt(eventKey, 10);
-    setCurrentPage(selectedPage);
-  };
-
-  const invoicerowsPerPage = 15;
-
-  const handleHostelId = (e) => {
-    const hostelName = state.UsersList?.hostelList.filter((item) => {
-      return item.id == e.target.value;
-    });
-    const hosName = hostelName[0].Name;
-    setInvoiceList({
-      ...invoiceList,
-      hostel_Name: hosName,
-      hostel_Id: e.target.value,
-      RoomNo: "",
-      FloorNo: "",
-    });
-  };
-
-  const handleFloor = (e) => {
-    setInvoiceList({ ...invoiceList, FloorNo: e.target.value });
-  };
-
-  const handleFiltershow = () => {
-    setFiltericon(!filtericon);
-    setSearchicon(false);
-  };
 
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
@@ -570,9 +286,6 @@ const InvoicePage = () => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
 
-    console.log("Selected Filter:", searchTerm);
-    console.log("Original Bills:", originalBillsFilter);
-
     if (searchTerm === "All") {
       setBills(originalBillsFilter);
     } else {
@@ -581,7 +294,7 @@ const InvoicePage = () => {
           user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
 
-      console.log("Filtered Bills:", filteredItems);
+    
       setBills(filteredItems);
     }
 
@@ -608,20 +321,9 @@ const InvoicePage = () => {
       setOriginalBillsFilterReceipt(receiptdata);
     }
   }, [receiptdata]);
-  const randomNumberInRange = (hostelName, min, max) => {
-    const prefix = hostelName.slice(0, 4);
-    const invoice =
-      prefix + (Math.floor(Math.random() * (max - min + 1)) + min);
-    return invoice;
-  };
+ 
 
-  const handleRooms = (e) => {
-    setInvoiceList({ ...invoiceList, RoomNo: e.target.value });
-  };
 
-  const handleUserIdChange = (e) => {
-    setSelectedUserId(e.target.value);
-  };
 
   const formatDateForPayload = (date) => {
     if (!date) return null;
@@ -630,17 +332,7 @@ const InvoicePage = () => {
     return date.toISOString().split("T")[0];
   };
 
-  const handledatepaidDate = (dates) => {
-    const date = dates;
-    if (!dates) {
-      setPaidDateErrmsg("Please Select Date");
-    } else {
-      setPaidDateErrmsg("");
-    }
-
-    const formatpaiddate = formatDateForPayload(date);
-    setPaidDate(formatpaiddate);
-  };
+  
 
   const customDateInput = (props) => {
     return (
@@ -694,23 +386,15 @@ const InvoicePage = () => {
     }
     const AmountValue =
       e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-    const selectedDate = new Date(invoiceList.date);
-    const selectedMonth = selectedDate.getMonth();
-    const roomRent = filteredUserDetails[0]?.RoomRent;
+    
 
-    const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter((item) => {
-      const itemDate = new Date(item.Date);
-      const itemMonth = itemDate.getMonth();
-      return itemMonth === selectedMonth && item.User_Id === selectedUserId;
-    });
+    // let totalPaidAmount = 0;
+    // AlreadyPaidRoomRent.forEach((item) => {
+    //   const paidAmount = parseFloat(item.Amount) || 0;
+    //   totalPaidAmount += paidAmount;
+    // });
 
-    let totalPaidAmount = 0;
-    AlreadyPaidRoomRent.forEach((item) => {
-      const paidAmount = parseFloat(item.Amount) || 0;
-      totalPaidAmount += paidAmount;
-    });
-
-    setTotalPaidAmount(totalPaidAmount);
+    // setTotalPaidAmount(totalPaidAmount);
 
     if (
       !isNaN(AmountValue) &&
@@ -721,7 +405,7 @@ const InvoicePage = () => {
       var total_amount = invoiceList.amount;
       var paid_amount = invoiceList.paidAmount;
       var payablAmount = AmountValue;
-      var balance_due = invoiceList.balanceDue;
+      // var balance_due = invoiceList.balanceDue;
 
       var cal1 = paid_amount + payablAmount;
 
@@ -738,14 +422,11 @@ const InvoicePage = () => {
     }
   };
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
+ 
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
   const [invoiceDetails, setInvoiceDetails] = useState(false);
-  const [originalInvoiceDetails, setOriginalInvoiceDetails] = useState(null);
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
@@ -755,7 +436,6 @@ const InvoicePage = () => {
   };
 
   const handleEdit = (props) => {
-    console.log("propsbill", props);
 
     setShowManualInvoice(true);
     setShowAllBill(false);
@@ -765,12 +445,9 @@ const InvoicePage = () => {
     setTimeout(() => {
       setInvoiceDetails(props);
     }, 0);
-    if (props) {
-      setOriginalInvoiceDetails(JSON.parse(JSON.stringify(props)));
-    }
+   
   };
 
-  console.log("editdata", invoiceDetails);
 
   useEffect(() => {
     // if (invoiceDetails ) {
@@ -861,7 +538,7 @@ const InvoicePage = () => {
     // }
   }, [invoiceDetails]);
 
-  console.log("newRows", newRows);
+  
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
@@ -1083,7 +760,7 @@ const InvoicePage = () => {
       setInvoiceDueDate("");
 
       setTotalAmount("");
-      setBillAmounts([]);
+      // setBillAmounts([]);
       setNewRows([]);
 
       setCustomerErrmsg("");
@@ -1099,7 +776,7 @@ const InvoicePage = () => {
     setInvoiceValue(props.item);
 
     if (props.item.id !== undefined) {
-      setEditOption("Edit");
+      // setEditOption("Edit");
       const dateObject = new Date(props.item.Date);
       const year = dateObject.getFullYear();
       const month = dateObject.getMonth() + 1;
@@ -1110,16 +787,7 @@ const InvoicePage = () => {
         lastDayOfMonth.getMonth() + 1
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-      const EditCheck = state.InvoiceList.Invoice.find((view) => {
-        const viewDate = new Date(view.Date);
-        return (
-          view.User_Id === props.item.User_Id &&
-          view.BalanceDue === 0 &&
-          viewDate.getFullYear() === year &&
-          viewDate.getMonth() === month - 1
-        );
-      });
+     
 
       // setShowMenu(true);
       // setShowForm(true);
@@ -1149,10 +817,10 @@ const InvoicePage = () => {
       });
       // }
     } else {
-      setEditOption("Add");
+      // setEditOption("Add");
       setSelectedUserId("");
       // setShowForm(true);
-      setUserClicked(true);
+      // setUserClicked(true);
       // setShowMenu(true);
     }
   };
@@ -1182,10 +850,7 @@ const InvoicePage = () => {
     setSelectedDate(null);
   };
 
-  const handleCloseEditForm = () => {
-    setShowEditform(false);
-  };
-
+  
   const handleCloseDeleteform = () => {
     setShowDeleteform(false);
   };
@@ -1231,14 +896,7 @@ const InvoicePage = () => {
       return;
     }
 
-    const invoiceNo = randomNumberInRange(
-      invoiceList.hostel_Name,
-      1,
-      new Date()
-    );
-    const CheckInvoiceNo = state.InvoiceList?.Invoice.some(
-      (item) => item.User_Id === selectedUserId && item.Invoices !== undefined
-    );
+  
 
     if (
       invoiceList.InvoiceId &&
@@ -1276,29 +934,6 @@ const InvoicePage = () => {
     minDate: null,
   };
 
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates) {
-      setDateErrmsg("Please Select Date");
-    } else {
-      setDateErrmsg("");
-    }
-    const date = selectedDates[0];
-    setSelectedDate(date);
-
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const lastDayOfMonth = new Date(year, month, 0);
-    const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
-      lastDayOfMonth.getMonth() + 1
-    ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
-    const formattedDate = formatDateForPayload(date);
-    setFormattedDate(formattedDate);
-    setInvoiceList((prevState) => ({
-      ...prevState,
-      date: formattedDate,
-      dueDate: formattedDueDate,
-    }));
-  };
 
   const handleAddColumn = () => {
     const newRow = {
@@ -1320,9 +955,8 @@ const InvoicePage = () => {
       setCustomerErrmsg("");
     }
     setStartDate("");
-    setEndDate("");
-    setSelectedData("");
-    setBillAmounts("");
+    setEndDate("");;
+    // setBillAmounts("");
     setTotalAmount("");
   };
 
@@ -1339,9 +973,7 @@ const InvoicePage = () => {
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    setSelectedData("");
-    setAvailableOptions("");
-    setBillAmounts("");
+    // setBillAmounts("");
     setTotalAmount("");
     setCustomerErrmsg("");
     setStartdateErrmsg("");
@@ -1403,8 +1035,6 @@ const InvoicePage = () => {
       setStartdateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatStartDate(formattedDate);
   };
 
   const handleEndDate = (selectedDates) => {
@@ -1417,8 +1047,6 @@ const InvoicePage = () => {
       setEnddateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatEndDate(formattedDate);
   };
 
   const handleInvoiceDate = (selectedDates) => {
@@ -1701,7 +1329,6 @@ const InvoicePage = () => {
   //     setInvoiceDate("");
   //     setInvoiceDueDate("");
   //     setSelectedData("");
-  //     setAvailableOptions("");
   //     setTotalAmount("");
   //     setBillAmounts([]);
   //     setNewRows([]);
@@ -1795,8 +1422,6 @@ const InvoicePage = () => {
         start_date: formattedStartDate,
         end_date: formattedEndDate,
         invoice_id: invoicenumber,
-        room_rent: rentamount?.amount,
-        eb_amount: ebamount?.amount || 0,
         total_amount: totalAmount,
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
@@ -1814,41 +1439,34 @@ const InvoicePage = () => {
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    setSelectedData("");
-    setAvailableOptions("");
     setTotalAmount("");
-    setBillAmounts([]);
+    // setBillAmounts([]);
     setNewRows([]);
   };
 
-  const handleSelectChange = (e) => {
-    const selectedDescription = e.target.value;
-    const selectedOption = invoicetotalamounts.find(
-      (opt) => opt.description === selectedDescription
-    );
+  // const handleSelectChange = (e) => {
+  //   const selectedDescription = e.target.value;
+  //   const selectedOption = invoicetotalamounts.find(
+  //     (opt) => opt.description === selectedDescription
+  //   );
 
-    if (selectedOption) {
-      setBillAmounts([...billamounts, selectedOption]);
-      setAvailableOptions(
-        availableOptions.filter(
-          (opt) => opt.description !== selectedDescription
-        )
-      );
-    }
-  };
+  //   if (selectedOption) {
+  //     setBillAmounts([...billamounts, selectedOption]);
+  //     setAvailableOptions(
+  //       availableOptions.filter(
+  //         (opt) => opt.description !== selectedDescription
+  //       )
+  //     );
+  //   }
+  // };
 
-  const handleAmountChange = (index, value) => {
-    const updatedData = [...billamounts];
-    updatedData[index] = { ...updatedData[index], amount: value };
-    setBillAmounts(updatedData);
-  };
+  // const handleAmountChange = (index, value) => {
+  //   const updatedData = [...billamounts];
+  //   updatedData[index] = { ...updatedData[index], amount: value };
+  //   setBillAmounts(updatedData);
+  // };
 
-  const handleDelete = (item) => {
-    setBillAmounts(
-      billamounts.filter((bill) => bill.description !== item.description)
-    );
-    setAvailableOptions([...availableOptions, item]);
-  };
+
 
   //  const itemsPerPage = 5;
   // bills
@@ -2016,10 +1634,7 @@ const InvoicePage = () => {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  console.log(
-    "responseinvoiceupdate",
-    state.InvoiceList.UpdateInvoiceStatusCode
-  );
+ 
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
@@ -2189,40 +1804,12 @@ const InvoicePage = () => {
       // dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
         dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        newNotificationIDs = [];
+        // newNotificationIDs = [];
       }, 100);
     }
   }, [state.login.UpdateNotificationMessage]);
 
-  // useEffect(() => {
-  //   const pdfUrl = state.InvoiceList.invoicePDF;
-
-  //   if (pdfUrl) {
-
-  //     const pdfWindow = window.open(pdfUrl, "_blank");
-  //     if (pdfWindow) {
-  //       setShowLoader(false);
-  //     } else {
-  //       console.error("Failed to open the PDF.");
-  //     }
-  //   }
-  // }, [state.InvoiceList.invoicePDF]);
-  // useEffect(() => {
-  //   if (state.InvoiceList?.statusCodeForPDf === 200) {
-  //     const pdfUrl = state.InvoiceList.invoicePDF;
-
-  //     if (pdfUrl) {
-
-  //       const pdfWindow = window.open(pdfUrl, "_blank");
-  //       if (pdfWindow) {
-  //         setShowLoader(false);
-  //         dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-  //       } else {
-  //         console.error("Failed to open the PDF.");
-  //       }
-  //     }
-  //   }
-  // }, [state.InvoiceList?.statusCodeForPDf]);
+  
 
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
@@ -2237,12 +1824,7 @@ const InvoicePage = () => {
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
           // setTimeout(() => dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" }), 100);
-        } else {
-          console.error(
-            "Failed to open the PDF. Popup blocker might be enabled."
-          );
-          // alert("Popup blocked. Please allow popups for this site to view the PDF.");
-        }
+        } 
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
@@ -2259,12 +1841,8 @@ const InvoicePage = () => {
         if (pdfWindow) {
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-        } else {
-          console.error(
-            "Failed to open the PDF. Popup blocker might be enabled."
-          );
-          // alert("Popup blocked. Please allow popups for this site to view the PDF.");
         }
+        
       }
     }
   }, [state.InvoiceList?.statusCodeForReceiptPDf]);
@@ -2292,7 +1870,7 @@ const InvoicePage = () => {
         (item) => item.User_Id === selectedUserId
       );
       if (filteredDetails) {
-        setFilteredUserDetails([filteredDetails]);
+        // setFilteredUserDetails([filteredDetails]);
         setInvoiceList({
           ...invoiceList,
           firstName: filteredDetails.Name.split(" ")[0] || "",
@@ -2304,18 +1882,13 @@ const InvoicePage = () => {
           FloorNo: filteredDetails.Floor || "",
           RoomNo: filteredDetails.Rooms || "",
         });
-      } else {
-        setFilteredUserDetails([]);
-      }
-    } else {
-      setFilteredUserDetails([]);
-    }
+      } 
+      
+    } 
+    
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
-  useEffect(() => {
-    setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details);
-  }, [state.UsersList.customerdetails.invoice_details]);
-
+ 
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -2523,11 +2096,11 @@ const InvoicePage = () => {
   //   }
   // }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
 
-  useEffect(() => {
-    if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-      setBillAmounts(invoicetotalamounts);
-    }
-  }, [invoicetotalamounts]);
+  // useEffect(() => {
+  //   if (invoicetotalamounts && invoicetotalamounts.length > 0) {
+  //     setBillAmounts(invoicetotalamounts);
+  //   }
+  // }, [invoicetotalamounts]);
 
   useEffect(() => {
     //future purpose commenting this lines ==>

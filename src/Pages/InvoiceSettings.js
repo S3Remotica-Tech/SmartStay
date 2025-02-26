@@ -6,14 +6,11 @@ import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
-import dottt from "../Assets/Images/dot_round.png";
 import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import InvoiceSettingsList from './InvoicesettingsList';
 import Modal from 'react-bootstrap/Modal';
 import { MdError } from "react-icons/md"; 
-import { IoReturnDownForward } from 'react-icons/io5';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 
@@ -25,13 +22,11 @@ function InvoiceSettings() {
 
 
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
-    const [showTable, setShowTable] = useState(false)
 
     const [billrolePermission, setBillRolePermission] = useState("");
 
     const [billpermissionError, setBillPermissionError] = useState("");
     const [billAddPermission,setBillAddPermission]= useState("")
-    const [billDeletePermission,setBillDeletePermission]=useState("")
     const [billEditPermission,setBillEditPermission]=useState("")
 
     useEffect(() => {
@@ -81,7 +76,7 @@ function InvoiceSettings() {
 
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
-        setShowTable(true)
+        // setShowTable(true)
         setTotalErrmsg('')
         setSelectedHostel({
             id: e.target.value,
@@ -186,15 +181,7 @@ function InvoiceSettings() {
                     suffix: editstartnumber
                 }
             });
-            // Swal.fire({
-            //     text: "Prefix, Suffix Update successfully",
-            //     icon: "success",
-            //     confirmButtonText: 'Ok'
-
-            // }).then(() => {
-              
-            // });
-            // dispatch({ type: 'HOSTELLIST' })
+          
             handleClose();
             setEditHostel({ id: '', name: '' });
             setEditPrefix('');
@@ -251,7 +238,7 @@ function InvoiceSettings() {
                 }
             });
                dispatch({ type: 'HOSTELLIST' })
-                setShowTable(false);
+                // setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
@@ -271,7 +258,7 @@ function InvoiceSettings() {
                 }
             });
             dispatch({ type: 'HOSTELLIST' })
-                setShowTable(false);
+                // setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
@@ -291,7 +278,7 @@ function InvoiceSettings() {
                 }
             });
             dispatch({ type: 'HOSTELLIST' })
-                setShowTable(false);
+                // setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
@@ -300,19 +287,6 @@ function InvoiceSettings() {
     
     };
 
-
-
-
-
-
-
-
-
-
-    const loginId = localStorage.getItem('loginId');
-
-
-  
 
 
     useEffect(() => {
@@ -356,16 +330,18 @@ function InvoiceSettings() {
 
     const rowsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
-
+    
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-
-    if (state.UsersList.hostelList.length != 0) {
-        var currentRows = state?.UsersList?.hostelList.slice(indexOfFirstRow, indexOfLastRow);
-        var totalPages = Math.ceil(state?.UsersList?.hostelList.length / rowsPerPage);
+    
+    let currentRows, totalPages; 
+    
+    if (state.UsersList.hostelList.length !== 0) {
+      currentRows = state?.UsersList?.hostelList.slice(indexOfFirstRow, indexOfLastRow);
+      totalPages = Math.ceil(state?.UsersList?.hostelList.length / rowsPerPage);
     } else {
-        var currentRows = 0;
-        var totalPages = 0;
+      currentRows = []; 
+      totalPages = 0;
     }
 
 
@@ -484,7 +460,7 @@ function InvoiceSettings() {
                         <Form.Select aria-label="Default select example"
                             className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
-                            <option style={{ fontSize: 14, fontWeight: 600, fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }} >Select PG</option>
+                            <option style={{ fontSize: 14,  color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }} >Select PG</option>
                             {state.UsersList.hostelList && state.UsersList.hostelList
                             .map((item) => (
                                 <>
@@ -561,7 +537,7 @@ function InvoiceSettings() {
                                     Suffix
                                 </Form.Label>
                                 <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 14, fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                                    style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                                     type="text"
                                     placeholder="suffix"
                                     value={startNumber}
@@ -590,7 +566,7 @@ function InvoiceSettings() {
                                 Preview
                             </Form.Label>
                             <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 14, backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                                style={{ padding: '10px', marginTop: '10px', fontSize: 14, backgroundColor: "#E7F1FF",  color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                                 type="text"
                                 placeholder="preview"
                                 readOnly
@@ -656,7 +632,7 @@ function InvoiceSettings() {
                         {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
                                
 
-                               <InvoiceSettingsList item={item} modalEditInvoice={handleEdit} billEditPermission={billEditPermission}/>
+                               <InvoiceSettingsList key={item.id} item={item} modalEditInvoice={handleEdit} billEditPermission={billEditPermission}/>
                             //    <tr style={{ lineHeight: "40px" }} key={invoice.id}> 
                             //         <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
                             //             {invoice.Name}
@@ -806,7 +782,7 @@ function InvoiceSettings() {
             show={show}
              onHide={handleClose}
             centered>
-            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
              
 
               <Modal.Body>

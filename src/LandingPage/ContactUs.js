@@ -59,33 +59,46 @@ function ContactUs() {
 
         return newErrors;
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
             return;
         }
-
-        if (formData.user_name  && formData.user_phone && formData.user_city && formData.message) {
+    
+        const dataToSend = {
+            ...formData, 
+            site_name: formData.site_name || 'smartstay' 
+        };
+    
+      
+    
+        if (dataToSend.user_name && dataToSend.user_phone && dataToSend.user_city && dataToSend.message && dataToSend.site_name) {
             try {
-                const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
+                const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', dataToSend);
                 console.log('API response:', response.data);
-
-                await send('service_ael05nx', 'template_3dnr1i6', formData, 'xM8OCsWJd_Fz844uW');
+    
+                await send('service_ael05nx', 'template_3dnr1i6', {
+                    name: dataToSend.user_name,
+                    email: dataToSend.email,
+                    phone: dataToSend.user_phone,
+                    city: dataToSend.user_city,
+                    message: dataToSend.message
+                }, 'xM8OCsWJd_Fz844uW');
+                
                 console.log('Email successfully sent');
-
+    
                 setStatus('Message sent successfully!');
                 setFormData({
                     user_name: '',
                     user_city: '',
                     user_phone: '',
-                    message: '' , 
-                    // site_name:'',
+                    message: '',
+                    site_name: 'smartstay', 
                 });
-
+    
                 setTimeout(() => {
                     setStatus('');
                 }, 1000);
@@ -95,6 +108,43 @@ function ContactUs() {
             }
         }
     };
+
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const formErrors = validateForm();
+    //     if (Object.keys(formErrors).length > 0) {
+    //         setErrors(formErrors);
+    //         return;
+    //     }
+
+    //     if (formData.user_name  && formData.user_phone && formData.user_city && formData.message) {
+    //         try {
+    //             const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
+    //             console.log('API response:', response.data);
+
+    //             await send('service_ael05nx', 'template_3dnr1i6', formData, 'xM8OCsWJd_Fz844uW');
+    //             console.log('Email successfully sent');
+
+    //             setStatus('Message sent successfully!');
+    //             setFormData({
+    //                 user_name: '',
+    //                 user_city: '',
+    //                 user_phone: '',
+    //                 message: '' , 
+    //                 // site_name:'',
+    //             });
+
+    //             setTimeout(() => {
+    //                 setStatus('');
+    //             }, 1000);
+    //         } catch (error) {
+    //             console.error('Error:', error);
+    //             setStatus('Failed to send message. Please try again later.');
+    //         }
+    //     }
+    // };
     
     return (
         <div>
