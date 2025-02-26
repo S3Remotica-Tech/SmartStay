@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
 
@@ -14,18 +13,18 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const [numberOfBeds, setNumberOfBeds] = useState([])
+  
 
-  useEffect(() => {
-    if (state.PgList.roomCount && deleteRoomDetails) {
-      const filteredBeds = state.PgList.roomCount.filter(item =>
-        item.Hostel_Id === deleteRoomDetails.Hostel_Id &&
-        item.Floor_Id === deleteRoomDetails.Floor_Id &&
-        Number(item.Room_Id) === Number(deleteRoomDetails.Room_Id)
-      );
-      setNumberOfBeds(filteredBeds);
-    }
-  }, [state.PgList.roomCount, deleteRoomDetails]);
+  // useEffect(() => {
+  //   if (state.PgList.roomCount && deleteRoomDetails) {
+  //     const filteredBeds = state.PgList.roomCount.filter(item =>
+  //       item.Hostel_Id === deleteRoomDetails.Hostel_Id &&
+  //       item.Floor_Id === deleteRoomDetails.Floor_Id &&
+  //       Number(item.Room_Id) === Number(deleteRoomDetails.Room_Id)
+  //     );
+  //     setNumberOfBeds(filteredBeds);
+  //   }
+  // }, [state.PgList.roomCount, deleteRoomDetails]);
 
 
 
@@ -112,5 +111,9 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
     </div>
   )
 }
-
+DeleteRoom.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  deleteRoomDetails: PropTypes.func.isRequired,
+}
 export default DeleteRoom;

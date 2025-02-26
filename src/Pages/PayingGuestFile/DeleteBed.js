@@ -1,11 +1,11 @@
 import React,{ useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import AddCustomer from './AddCustomerPG';
 import { MdError } from "react-icons/md";
+import PropTypes from "prop-types";
 
 
 function DeleteBed({ show, handleClose,deleteBedDetails}) {
@@ -157,5 +157,9 @@ const handleDeleteBed = () =>{
   </div>
   )
 }
-
+DeleteBed.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  deleteBedDetails: PropTypes.func.isRequired
+}
 export default DeleteBed;

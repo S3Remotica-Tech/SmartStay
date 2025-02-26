@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2";
-import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle,} from "iconsax-react";
+import PropTypes from "prop-types";
 
 function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [room, setRoom] = useState("");
-  const [alreadyRoom, setAlreadyRoom] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [roomError, setRoomError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [floorError, setFloorError] = useState("");
@@ -52,40 +38,32 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     setIsChangedError("");
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
 
-    if (!/^\d*$/.test(Room_Id)) {
-      setErrorMessage("Please enter a valid  number.");
-    } else {
-      setErrorMessage("");
-    }
+    // if (!/^\d*$/.test(Room_Id)) {
+    //   setErrorMessage("Please enter a valid  number.");
+    // } else {
+    //   setErrorMessage("");
+    // }
 
     setRoom(Room_Id);
     // const floorId = hostelDetails.floor_Id.toString();
     //     const hostel_Id = hostelDetails.hostel_Id.toString();
-    const floorId = hostelDetails?.floor_Id
-      ? hostelDetails.floor_Id.toString()
-      : "";
-    const hostel_Id = hostelDetails?.hostel_Id
-      ? hostelDetails.hostel_Id.toString()
-      : "";
+    // const floorId = hostelDetails?.floor_Id
+    //   ? hostelDetails.floor_Id.toString()
+    //   : "";
+    // const hostel_Id = hostelDetails?.hostel_Id
+    //   ? hostelDetails.hostel_Id.toString()
+    //   : "";
 
-    setAlreadyRoom(
-      state.PgList.roomCount.some((item) => {
-        return (
-          item.Room_Id == Room_Id &&
-          item.Floor_Id == floorId &&
-          item.Hostel_Id == hostel_Id
-        );
-      })
-    );
+  
   };
   const handleCreateRoom = () => {
-    let floorId, hostel_Id, room_Id, room_Name;
+    let floorId, hostel_Id, room_Id;
 
     if (isEditing) {
       floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : "";
       hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : "";
       room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString() : "";
-      room_Name = editRoom?.Room_Name ? editRoom?.Room_Name.toString() : "";
+      // room_Name = editRoom?.Room_Name ? editRoom?.Room_Name.toString() : "";
     } else {
       floorId = hostelDetails?.floor_Id
         ? hostelDetails.floor_Id.toString()
@@ -327,5 +305,11 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     </div>
   );
 }
+AddRoom.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  hostelDetails: PropTypes.func.isRequired,
+  editRoom: PropTypes.func.isRequired,
+};
 
 export default AddRoom;

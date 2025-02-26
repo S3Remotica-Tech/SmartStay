@@ -1,17 +1,16 @@
-import { Email } from '@material-ui/icons';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
-import CryptoJS from "crypto-js";
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import { CloseCircle} from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
 import Cookies from 'universal-cookie';
 
 
-const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
+const OtpVerificationModal = ({ show, handleClose , Email_Id}) => {
   
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -70,44 +69,28 @@ useEffect(()=>{
           dispatch({ type: 'CLEAR_OTP_VERIFIED'})
           },1000)
 
-      } else {
-}
+      } 
  },[state.login.OtpVerifyStatusCode])
 
-  const otpResponse = state.NewPass?.OTP?.response;
-  const otp = otpResponse?.otp
 
 
   const[ otpErrors, setOtpErrors] = useState('')
 
   const handleOtpVerify = () => {
-    if(!otpValue){
-      setOtpErrors('Please enter valid otp')
+    if (!otpValue) {
+      setOtpErrors('Please enter a valid OTP');
+      return; 
     }
-
-
-    if(otpValue){
-      dispatch({ type: 'OTPVERIFY', payload: {Email_Id:  Email_Id, OTP: otpValue} })
-    } else {
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Error',
-      //   text: 'Enter Valid Otp',
-      // })
+  
+    dispatch({ type: 'OTPVERIFY', payload: { Email_Id: Email_Id, OTP: otpValue } });
+  
+    if (inputRefs) {
+      inputRefs.forEach(ref => {
+        if (ref.current) ref.current.value = null;
+      });
     }
-    inputRefs && inputRefs.forEach(ref => {
-      ref.current.value = null;
-    });
-    // if (otp == otpValue) {
-    //     dispatch({ type: 'LOGIN-SUCCESS' })
-    //   }
-    //  
-      
-      // }
-
-  //  dispatch({type:'CLEAR_OTP_STATUS_CODE'})
   };
-
+  
   return (
     <Modal show={show} onHide={handleClose} backdrop="static">
       <Modal.Header >
@@ -160,5 +143,10 @@ useEffect(()=>{
     </Modal>
   );
 };
-
+OtpVerificationModal.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  Email_Id: PropTypes.func.isRequired,
+  
+};
 export default OtpVerificationModal;

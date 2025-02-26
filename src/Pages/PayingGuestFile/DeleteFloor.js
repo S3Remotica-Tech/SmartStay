@@ -1,42 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
-function getFloorName(floor_Id) {
 
-
-  const adjustedFloorNumber = floor_Id - 1;
-
-
-  if (adjustedFloorNumber === 0) {
-    return 'Ground Floor';
-  } else {
-
-    const lastDigit = adjustedFloorNumber % 10;
-    let suffix = 'th';
-
-
-    if (adjustedFloorNumber % 100 < 11 || adjustedFloorNumber % 100 > 13) {
-      switch (lastDigit) {
-        case 1:
-          suffix = 'st';
-          break;
-        case 2:
-          suffix = 'nd';
-          break;
-        case 3:
-          suffix = 'rd';
-          break;
-      }
-    }
-
-    return `${adjustedFloorNumber}${suffix} Floor`;
-  }
-}
 
 
 
@@ -177,5 +147,9 @@ function DeleteFloor({ show, handleClose, currentItem }) {
     </div>
   )
 }
-
+DeleteFloor.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+}
 export default DeleteFloor

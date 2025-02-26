@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2";
-import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle} from "iconsax-react";
+import PropTypes from "prop-types";
 
 function AddBed({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -331,5 +319,10 @@ function AddBed({ show, handleClose, currentItem }) {
     </div>
   );
 }
-
+AddBed.propTypes = {
+  currentItem: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  
+};
 export default AddBed;
