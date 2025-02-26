@@ -247,7 +247,8 @@ function SettingCompliance({ hostelid }) {
 
 
     return (
-        <div className="container" style={{ position: "relative" }}>
+        <div className="container" style={{ position: "relative", maxHeight: "500px",
+            overflowY: "auto", }}>
 
 
             {loading &&
@@ -494,7 +495,7 @@ function SettingCompliance({ hostelid }) {
                 )}
             </div>
 
-            {complianceFilterddata.length > compliancerowsPerPage && (
+            {complianceFilterddata.length >=2  && (
                 <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
                     {/* Dropdown for Items Per Page */}
                     <div>
