@@ -1,16 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import User from '../Assets/Images/New_images/profile-picture.png';
-import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-import InvoiceCard from "./BillPdfModal";
-import RecuringBillPDF from "./RecuringBillModalPDF";
+import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 const RecurringBillList = (props) => {
 
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
-  const [recurringBillEditPermission, setRecurringBillEditPermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
 
 
@@ -33,23 +29,23 @@ const RecurringBillList = (props) => {
       setRecurringBillDeletePermission("Permission Denied");
     }
   }, [props.billrolePermission]);
-  useEffect(() => {
-    if (
-      props.billrolePermission[0]?.is_owner == 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
-    ) {
-      setRecurringBillEditPermission("");
-    } else {
-      setRecurringBillEditPermission("Permission Denied");
-    }
-  }, [props.billrolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     props.billrolePermission[0]?.is_owner == 1 ||
+  //     props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
+  //   ) {
+  //     setRecurringBillEditPermission("");
+  //   } else {
+  //     setRecurringBillEditPermission("Permission Denied");
+  //   }
+  // }, [props.billrolePermission]);
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
    
   const handleShowDots = (event) => {
     setShowDots(!showDots)
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -64,14 +60,7 @@ const RecurringBillList = (props) => {
   }
 
 
-  const handleShowform = (props) => {
-    props.OnHandleshowform(props)
-  }
 
-
-  const handleInvoicepdf = (item) => {
-    props.OnHandleshowInvoicePdf(item)
-  }
 
 
   let Dated = new Date(props.item.invoice_date);
@@ -357,4 +346,9 @@ const RecurringBillList = (props) => {
     </>
   )
 }
+RecurringBillList.propTypes = {
+  item: PropTypes.func.isRequired,
+  billrolePermission: PropTypes.func.isRequired,
+  handleDeleteRecurringbills: PropTypes.func.isRequired,
+};
 export default RecurringBillList;

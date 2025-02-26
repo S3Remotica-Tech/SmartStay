@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import Loginimage from '../Assets/Images/New_images/KYC.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
@@ -15,11 +13,6 @@ import { Eye, EyeSlash } from 'iconsax-react';
 const MyComponent = () => {
 
     const dispatch = useDispatch()
-    const state = useSelector(state => state)
-    let navigate = useNavigate();
-
-
-
     const [showPassword, setShowpassword] = useState(false)
     const [aadhaarNo, setAadhaarNo] = useState('');
     const [otp, setOtp] = useState('')

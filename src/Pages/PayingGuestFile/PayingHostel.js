@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../../Assets/Images/New_images/trash.png';
-import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
 import Vendors from '../../Assets/Images/New_images/profile-picture.png';
-import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
-import Swal from 'sweetalert2';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+import { Edit, Trash } from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
 
@@ -24,16 +19,8 @@ function PayingHostel(props) {
 
     const [showDots, setShowDots] = useState(null);
 
-    const [activeHostel, setActiveHostel] = useState(null);
     const [hoverPgCard, setHoverPgCard] = useState(false)
     const popupRef = useRef(null);
-
-    const [selectedHostel, setSelectedHostel] = useState(null);
-    const [selectedHostelHover, setSelectedHostelHover] = useState(false)
-    const [SaveHostel, setSaveHostel] = useState([])
-
-
-
 
 
     const handleEdit = (item) => {
@@ -84,7 +71,7 @@ function PayingHostel(props) {
             threshold: 0.5
         };
         const faders = document.querySelectorAll('.fade-in');
-        const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+        const appearOnScro1l = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) {
                     return;
@@ -142,30 +129,7 @@ function PayingHostel(props) {
     }
 
 
-    const handleSelectCard = (hostel) => {
-
-
-
-        setSelectedHostel(hostel);
-
-
-        setSaveHostel((prevHostel) => {
-
-            const isHostelAlreadyAdded = prevHostel.some((h) => h.id === props.filteredData[0]?.id);
-
-
-            if (!isHostelAlreadyAdded) {
-                return [...prevHostel, props.filteredData[0]];
-            }
-
-
-            return prevHostel;
-        });
-
-
-        setSelectedHostelHover(true);
-    };
-
+  
 
 
 
@@ -185,9 +149,9 @@ function PayingHostel(props) {
         {
             props.filteredData[0] && (
                 <Card className="animated-text ms-0 h-100 " style={{
-                    borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #e6e6e6" : "1px solid #E6E6E6", transition: "border 0.3s ease, box-shadow 0.3s ease",
+                    borderRadius: 16, border: hoverPgCard ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #e6e6e6" : "1px solid #E6E6E6", transition: "border 0.3s ease, box-shadow 0.3s ease",
                     height: "auto",
-                    boxShadow: selectedHostelHover 
+                    boxShadow: hoverPgCard 
                     ? "0px 4px 10px rgba(30, 69, 225, 0.4)"  
                     : hoverPgCard 
                       ? "0px 4px 10px rgba(156, 156, 156, 0.3)"  
@@ -485,5 +449,11 @@ function PayingHostel(props) {
     </>
     )
 }
-
+PayingHostel.propTypes = {
+    OnEditHostel: PropTypes.func.isRequired,
+    OnSelectHostel: PropTypes.func.isRequired,
+    onRowVisiblity: PropTypes.func.isRequired,
+    filteredData: PropTypes.func.isRequired,
+    editPermissionError: PropTypes.func.isRequired,
+  };
 export default PayingHostel;

@@ -1,46 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import React, {  useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import Edit from "../Assets/Images/New_images/edit.png";
-import Hostel from "../Assets/Images/Logo-Icon.png";
-import Image from "react-bootstrap/Image";
 import Card from "react-bootstrap/Card";
-import User from "../Assets/Images/Profile-complaint.png";
-import Tickicon from "../Assets/Images/tick-circle.png";
-import Profile_add from "../Assets/Images/profile-add.png";
-import moment from "moment";
-// import Delete from "../Assets/Images/New_images/trash.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 
 const InvoiceSettingsList = (props) => {
- console.log(props,"props");
 
   const dispatch = useDispatch();
-   const state = useSelector((state) => state);
 
-   
-  //  const [isChecked, setIsChecked] = useState(null);
-  // const [isChecked, setIsChecked] = useState(props.item.recure === 1);
-   const [invoiceDetails, setInvoiceDetails] = useState('')
-   const [switchStates, setSwitchStates] = useState({});
-   const [showDots, setShowDots] = useState(false);
-   const [active, setActive] = useState(false);
-
-  const handleShowDots = () => {
-    setShowDots(!showDots);
-  };
-
-  // const handleEditInvoice = (item) => {
-  //   props.OnEditInvoice(item);
-  // };
-
-  useEffect(()=>{
-
-  },[])
-
- 
-
+  
   const handleToggle = () => {
     const newChecked = !props.isChecked;
     props.setIsChecked(newChecked);
@@ -76,8 +45,7 @@ useEffect(() => {
     };
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-      appearOnScrool
+      entries
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -96,75 +64,11 @@ useEffect(() => {
 
   
 
-  const handleEdit = (item) => {
-    props.OnEditInvoice(item)
-  }
+  
 
   return (
     <>
-      {/* <tr style={{ lineHeight: "40px" }}>
-            <td className='ps-1 ps-lg-3' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
-            <Image
-            src={props.item.profile ? props.item.profile : Hostel}
-            roundedCircle
-            style={{
-              height: 30,
-              width: 30,
-              borderRadius: '50%',
-            }}
-
-          
-          />
-            </td>
-                <td className='ps-1 ps-lg-2' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{props.item.Name}</td>
-                <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{props.item.prefix ? props.item.prefix :'-'}</td>
-                <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{props.item.suffix ? props.item.suffix :'-'}</td>
-
-                <td>   <div>
-                    <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                        {showDots && <>
-                            <div
-  style={{
-    backgroundColor: "rgb(235, 235, 235)",
-    position: "absolute",
-    right: 45,
-    top: 5,
-    width: 100,
-    height: 42,
-    border: "1px solid #EBEBEB",
-    borderRadius: 10,
-    display: "flex",
-    justifyContent: "start",
-    paddingLeft: "10px",
-    cursor: props.billEditPermission ? "not-allowed" : "pointer",
-    opacity: props.billEditPermission ? 0.7 : 1,
-  }}
->
-  <div onClick={!props.billEditPermission ? () => handleEditInvoice(props.item) : undefined}>
-    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        color: "#222222",
-        cursor: props.billEditPermission ? "not-allowed" : "pointer",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-</div>
-
-
-
-                        </>}
-
-                    </div>
-                </div></td>
-            </tr> */}
+     
 
       <Card
         className="h-100  fade-in mb-4"
@@ -190,108 +94,7 @@ useEffect(() => {
               </label>
             </div>
 
-            {/* <div>
-              <div
-                style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  border: "1px solid #EFEFEF",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-                onClick={handleShowDots}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20, cursor: "pointer" }}
-                />
-
-                {showDots && (
-                  <>
-                    <div
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        position: "absolute",
-                        right: 20,
-                        top: 50,
-                        width: 113,
-                        height: 42,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        display: "flex",
-                        justifyContent: "start",
-                        padding: 15,
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
-                         onClick={()=>handleEditInvoice(props.item)}
-                          className={"mb-2"}
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Edit}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Edit"
-                           
-
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#222222",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
-
-                        <div
-                          className={"mb-2"}
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Delete}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
-
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div> */}
+           
           </div>
           <hr style={{ border: "1px solid #E7E7E7" }} />
 
@@ -469,4 +272,15 @@ useEffect(() => {
     </>
   );
 };
+
+InvoiceSettingsList.propTypes = {
+  item: PropTypes.func.isRequired,
+  isChecked: PropTypes.func.isRequired,
+  OnEditInvoice: PropTypes.func.isRequired,
+  recurringform: PropTypes.func.isRequired,
+  setIsChecked: PropTypes.func.isRequired,
+  formFilled: PropTypes.func.isRequired,
+  handleRecurringFormShow: PropTypes.func.isRequired,
+};
+
 export default InvoiceSettingsList;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap'; 
+import PropTypes from "prop-types";
 
 const MessageModal = ({ show, handleClose }) => {
   return (
@@ -17,6 +18,11 @@ const MessageModal = ({ show, handleClose }) => {
       </Modal.Footer>
     </Modal>
   );
+};
+MessageModal.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  
 };
 
 export default MessageModal;

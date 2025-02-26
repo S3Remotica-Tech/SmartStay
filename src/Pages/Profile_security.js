@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import Button from 'react-bootstrap/Button';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import { MdError } from "react-icons/md";
+import PropTypes from "prop-types";
 
 
  const Profile_Security = (props) => {
@@ -14,37 +15,36 @@ import { MdError } from "react-icons/md";
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [id, setId] = useState("")
 
 
     const LoginId = localStorage.getItem("loginId")
-    const Loginname = localStorage.getItem("NameId")
+    // const Loginname = localStorage.getItem("NameId")
     const Loginemail = localStorage.getItem("emilidd")
-    const Loginphone = localStorage.getItem("phoneId")
-    const LoginIsEnable = localStorage.getItem("IsEnable")
-    const LoginPassword = localStorage.getItem("Password")
+    // const Loginphone = localStorage.getItem("phoneId")
+    // const LoginIsEnable = localStorage.getItem("IsEnable")
+    // const LoginPassword = localStorage.getItem("Password")
 
   
   
     const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState('')
-    const [isEnableCheck, setIsEnableCheck] = useState('')
+    // const [isEnableCheck, setIsEnableCheck] = useState('')
 
     useEffect(() => {
         if (LoginId) {
           try {
-            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-            const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-            const parsedData = decryptedString;
-            setId(parsedData)
+            // const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+            // const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+            // const parsedData = decryptedString;
+            // setId(parsedData)
     
-            const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
-            const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
-            const parsedDataname = decryptedStringname;
+            // const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
+            // const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
+            // const parsedDataname = decryptedStringname;
             // setName(parsedDataname)
     
-            const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
-            const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
-            const parsedDatphone = decryptedStringphone;
+            // const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
+            // const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
+            // const parsedDatphone = decryptedStringphone;
             // setPhone(parsedDatphone)
     
             const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
@@ -53,9 +53,9 @@ import { MdError } from "react-icons/md";
             setEmail_IdForLoginUser(decryptedStringemail)
     
     
-            const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
-            const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
-            setIsEnableCheck(decryptedStringIsEnable)
+            // const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
+            // const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
+            // setIsEnableCheck(decryptedStringIsEnable)
     
           
     
@@ -70,7 +70,7 @@ import { MdError } from "react-icons/md";
   const [isChanged, setIsChanged] = useState(false);
   const [initialIsEnable, setInitialIsEnable] = useState(null);
 
-  const [isCheckedvalue, setIsCheckedvalue] = useState(false);
+  // const [isCheckedvalue, setIsCheckedvalue] = useState(false);
 
   const handleChange = (event) => {
     const newValue = event.target.checked;
@@ -186,7 +186,7 @@ import { MdError } from "react-icons/md";
    </div>
    <div className='col-2'>
      <Form.Check type="switch" id="custom-switch" 
-     checked={isCheckedvalue}
+    //  checked={isCheckedvalue}
      onChange={handleSwitchChange}  />
 
    </div>
@@ -200,7 +200,7 @@ import { MdError } from "react-icons/md";
    </div>
    <div className='col-2'>
      <Form.Check type="switch" id="custom-switch" 
-       checked={isCheckedvalue}
+      //  checked={isCheckedvalue}
        onChange={handleSwitchChange}/>
    </div>
  </div>
@@ -216,4 +216,7 @@ import { MdError } from "react-icons/md";
     
     )
  }
+ Profile_Security.propTypes = {
+  profilepermissionError: PropTypes.func.isRequired,
+};
  export default Profile_Security;

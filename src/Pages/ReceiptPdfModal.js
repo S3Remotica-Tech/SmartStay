@@ -1,33 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Card, Table, Row, Col, Button } from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
-import Share from '../Assets/Images/New_images/share.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/Logo-Icon.png'
-import { ImportCurve, CloseCircle, Call, Location, ArrowCircleLeft2, ArrowLeft } from 'iconsax-react';
+import {  Call, Location, ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import PropTypes from "prop-types";
 
 
 
 
 
-const ReceiptPdfCard = ({ rowData, handleClosed ,selectedItem}) => {
-    const invoiceData = {
-        payment: {
-            bank: 'Rimberio Bank',
-            accountName: 'Alfredo Torres',
-            accountNo: '0123 4567 8901',
-            dueDate: '23 June 2023',
-        },
-    };
-
-    console.log("receiptdata", rowData);
-    
-
+const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
     const [isVisible, setIsVisible] = useState(true);
     const cardRef = useRef(null);
@@ -89,9 +77,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed ,selectedItem}) => {
     //     }
     // };
 
-    const handleClose = () => {
-        setIsVisible(false);
-    };
+   
 
     const handleBackInvoice = () => {
         handleClosed()
@@ -447,5 +433,9 @@ console.log("Bill Row Data:",rowData);
         </div>
     );
 };
-
+ReceiptPdfCard.propTypes = {
+    rowData: PropTypes.func.isRequired,
+    handleClosed: PropTypes.func.isRequired,
+ 
+  };
 export default ReceiptPdfCard;

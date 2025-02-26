@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import User from '../Assets/Images/New_images/profile-picture.png';
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Download from '../Assets/Images/New_images/download.png';
+import PropTypes from "prop-types";
 
 const Receipt = (props) => {
 
@@ -20,13 +20,13 @@ const Receipt = (props) => {
   const [deleteShow, setDeleteShow] = useState(false)
   const [deleteitem, setDeleteItem] = useState('')
 
-   const [hostelId, setHostelId] = useState("");
+  //  const [hostelId, setHostelId] = useState("");
 
-   useEffect(() => {
-      if (state.login.selectedHostel_Id) {
-        setHostelId(state.login.selectedHostel_Id);
-      }
-    }, [state.login.selectedHostel_Id]);
+  //  useEffect(() => {
+  //     if (state.login.selectedHostel_Id) {
+  //       setHostelId(state.login.selectedHostel_Id);
+  //     }
+  //   }, [state.login.selectedHostel_Id]);
 
   const handleDeleteForm = (item) => {
     setDeleteShow(true)
@@ -65,7 +65,7 @@ const Receipt = (props) => {
    
   const handleShowDots = (event) => {
     setShowDots(!showDots)
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -91,9 +91,7 @@ const Receipt = (props) => {
     
   }
 
-  const handleShowform = (props) => {
-    props.OnHandleshowform(props)
-  }
+  
 
 
   const handleInvoicepdf = (item) => {
@@ -109,23 +107,13 @@ const Receipt = (props) => {
 
   let formattedDate = `${day}/${month}/${year}`;
 
+  // let nextinvoiceDated = new Date(props.item.next_invoice_date);
 
+  // let nextinvoiceday = nextinvoiceDated.getDate();
+  // let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
+  // let nextinvoiceyear = nextinvoiceDated.getFullYear();
 
-  let dueDated = new Date(props.item.DueDate);
-
-  let daydue = dueDated.getDate();
-  let monthdue = dueDated.getMonth() + 1; // Months are zero-based
-  let yeardue = dueDated.getFullYear();
-
-  let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-
-  let nextinvoiceDated = new Date(props.item.next_invoice_date);
-
-  let nextinvoiceday = nextinvoiceDated.getDate();
-  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
-  let nextinvoiceyear = nextinvoiceDated.getFullYear();
-
-  let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
+  // let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
 
 
   const popupRef = useRef(null);
@@ -142,13 +130,12 @@ const Receipt = (props) => {
     };
   }, []);
 
-  const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
 
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
 
-    setDownloadInvoiceTable(true)
+    // setDownloadInvoiceTable(true)
 
   }
 
@@ -459,4 +446,11 @@ const Receipt = (props) => {
     </>
   )
 }
+Receipt.propTypes = {
+  billrolePermission: PropTypes.func.isRequired,
+  onhandleEdit: PropTypes.func.isRequired,
+  DisplayInvoice: PropTypes.func.isRequired,
+    item: PropTypes.func.isRequired,
+    OnHandleshowInvoicePdf: PropTypes.func.isRequired,
+  };
 export default Receipt;

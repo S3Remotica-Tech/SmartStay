@@ -1,29 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
-import moment from "moment";
-import Swal from "sweetalert2";
+import { Button, Form, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { FaPlusCircle } from "react-icons/fa";
-import { InputGroup, Pagination } from "react-bootstrap";
+import { InputGroup} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import DatePicker from 'react-datepicker';
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
-import Flatpickr from "react-flatpickr";
+import {CloseCircle} from "iconsax-react";
 import "flatpickr/dist/themes/material_blue.css";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
-
+import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 
 function AddCustomer({ show, handleClosing, currentItem }) {
@@ -38,8 +26,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [file, setFile] = useState(null);
   const [RoomRent, setRoomRent] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
-  const [errors, setErrors] = useState({});
-  const [generalError, setGeneralError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [countryCodeError, setCountryCodeError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -47,7 +33,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [roomRentError, setRoomRentError] = useState("");
   const [addressError, setAddressError] = useState("");
   const [dateError, setDateError] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
+  const countryCode = "91"
   const [emailError, setEmailError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -89,46 +75,36 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleFirstName = (e) => {
     const value = e.target.value;
-    setGeneralError("");
     setFirstNameError("");
     // Allow empty value (e.g., when clearing the field)
     if (value === "") {
       setFirstname(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        first_Name: "First name cannot be empty or spaces only",
-      }));
+     
       return;
     }
 
     // If not empty and contains text, update the value and clear errors
     if (value.trim() !== "") {
       setFirstname(value);
-      setErrors((prevErrors) => ({ ...prevErrors, first_Name: "" }));
+     
     }
   };
 
   const handleLastName = (e) => {
     const value = e.target.value;
-    setGeneralError("");
 
     if (value === "") {
       setLastname(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        last_Name: "Last name cannot be empty or spaces only",
-      }));
+     
       return;
     }
 
     if (value.trim() !== "") {
       setLastname(value);
-      setErrors((prevErrors) => ({ ...prevErrors, last_Name: "" }));
     }
   };
 
   const handlePhone = (e) => {
-    setGeneralError("");
     setPhoneError("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     const value = e.target.value;
@@ -146,7 +122,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
-    setGeneralError("");
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(email);
@@ -178,19 +153,13 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleAddress = (e) => {
     const value = e.target.value;
-    setGeneralError("");
     setAddressError("");
     if (value === "") {
       setAddress(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        last_Name: "Last name cannot be empty or spaces only",
-      }));
       return;
     }
     if (value.trim() !== "") {
       setAddress(value);
-      setErrors((prevErrors) => ({ ...prevErrors, last_Name: "" }));
     }
   };
 
@@ -206,7 +175,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
         .then((compressedFile) => {
           setFile(compressedFile);
         })
-        .catch((error) => {});
+       .catch(() => {});
     }
   };
 
@@ -332,15 +301,13 @@ function AddCustomer({ show, handleClosing, currentItem }) {
           joining_date: formattedSelectedDate,
         },
       });
-    } else {
-    }
+    } 
   };
 
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     // handleInputChange()
     setRoomRent(roomRentValue);
-    setGeneralError("");
     setRoomRentError("");
   };
 
@@ -349,7 +316,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
-    setGeneralError("");
   };
 
 
@@ -390,7 +356,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
         <Modal.Dialog
           style={{
             maxWidth: 950,
-            paddingRight: "10px",
             paddingRight: "10px",
             borderRadius: "30px",
           }}
@@ -994,4 +959,13 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     </div>
   );
 }
+
+AddCustomer.propTypes = {
+  currentItem: PropTypes.func.isRequired,
+  handleClosing: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  
+};
 export default AddCustomer;

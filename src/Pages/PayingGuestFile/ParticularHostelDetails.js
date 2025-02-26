@@ -1,31 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Filter from '../../Assets/Images/New_images/Group 13.png';
-import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import Green from '../../Assets/Images/New_images/Frame.png'
 import White from '../../Assets/Images/New_images/empty_bed.png'
-import AddBed from '../../Assets/Images/New_images/add.png';
 import AddRoom from './AddRoom';
 import AddBedUI from './AddBed';
-import AddFloor from './AddFloor';
 import { FaSquarePlus } from "react-icons/fa6";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from '../../Assets/Images/New_images/trash.png';
-import Alert from 'react-bootstrap/Alert';
-import Spinner from 'react-bootstrap/Spinner';
-import { FormControl, InputGroup, Pagination, Dropdown } from 'react-bootstrap';
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2,Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 
 
@@ -41,15 +31,9 @@ function ParticularHostelDetails(props) {
 
   // const [showRoom, setShowRoom] = useState(false)
   const [showBed, setShowBed] = useState(false)
-  const [showFloor, setShowFloor] = useState(false)
   const [details, setDetails] = useState('')
 
-  const toastStyle = {
-    background: '#28a745',
-    color: '#fff',
-    fontSize: '14px'
-  };
-
+ 
 
 
   useEffect(() => {
@@ -58,9 +42,7 @@ function ParticularHostelDetails(props) {
 
 
 
-  const handleClose = () => {
-    setShowRoom(false)
-  }
+  
 
 
   const handleAddBed = (item, Room_Id) => {
@@ -73,13 +55,7 @@ function ParticularHostelDetails(props) {
 
   }
 
-  const handleAddFloor = () => {
-    setShowFloor(true)
-  }
-
-  const handleCloseFloor = () => {
-    setShowFloor(false)
-  }
+ 
 
 
 
@@ -106,11 +82,9 @@ function ParticularHostelDetails(props) {
     }
   }, [props.hostel_Id, props.floorID])
 
-  console.log("hostel-hostel, floor", props.hostel_Id, props.floorID)
+ 
 
-  const getRooms = (count) => {
-    return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
-  }
+  
 
 
 
@@ -131,8 +105,7 @@ function ParticularHostelDetails(props) {
     }
   }, [state.PgList?.roomCountStatusCode])
 
-  console.log("state.PgList.roomCountStatusCode", state.PgList.roomCountStatusCode, "state.PgList?.noRoomsInFloorStatusCode", state.PgList?.noRoomsInFloorStatusCode)
-  console.log("loader", loader)
+
 
 
   useEffect(() => {
@@ -221,13 +194,11 @@ function ParticularHostelDetails(props) {
   }, [props.floorID])
 
 
-  console.log("currentPage", currentPage)
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
-
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
@@ -238,49 +209,9 @@ function ParticularHostelDetails(props) {
   };
 
 
-console.log("itemsPerPage",itemsPerPage)
 
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  }
+ 
 
-  const renderPagination = () => {
-    const pageNumbers = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
-
-    if (startPage > 1) {
-      pageNumbers.push(
-        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
-          1
-        </Pagination.Item>
-      );
-      if (startPage > 2) {
-        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
-          {i}
-        </Pagination.Item>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-      }
-      pageNumbers.push(
-        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
-
-    return pageNumbers;
-  };
 
   const [showRoom, setShowRoom] = useState(false)
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
@@ -345,7 +276,6 @@ console.log("itemsPerPage",itemsPerPage)
 
   const handleDeleteBedConfirmation = (bed, room) => {
 
-    console.log("bed",bed)
 
     if (bed.isfilled === 0) {
       setShowDeleteBed(true)
@@ -377,7 +307,7 @@ console.log("itemsPerPage",itemsPerPage)
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -459,7 +389,7 @@ console.log("itemsPerPage",itemsPerPage)
         <div className='container'
           style={{ maxHeight: "500px", overflowY: "auto" }}>
           <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
-            {currentItems.length > 0 && currentItems.map((room, index) => (
+            {currentItems.length > 0 && currentItems.map((room) => (
               <>
 
                 <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
@@ -560,8 +490,8 @@ console.log("itemsPerPage",itemsPerPage)
                     </Card.Header>
                     <Card.Body className=''>
                       <div className='row row-gap-3 g-0'>
-                        {room.bed_details && room.bed_details.map((bed, index) => (
-                          <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
+                        {room.bed_details && room.bed_details.map((bed) => (
+                          <div key={bed.id} className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                             <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
                               <OverlayTrigger variant="secondary"
@@ -819,6 +749,7 @@ ParticularHostelDetails.propTypes = {
   hostel_Id: PropTypes.func.isRequired,
   deletePermissionError: PropTypes.func.isRequired,
   addPermissionError: PropTypes.func.isRequired,
+  editPermissionError: PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 

@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import User from '../Assets/Images/New_images/profile-picture.png';
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
-import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
-import moment from 'moment';
-import squre from '../Assets/Images/New_images/minus-square.png';
+import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png';
 import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
 
@@ -14,27 +11,7 @@ import PropTypes from "prop-types"
 const InvoiceTable = (props) => {
 
 
-  const Tablebodystyle = {
 
-    fontFamily: 'Gilroy',
-    color: "#000",
-    fontSize: "14px",
-    fontWeight: 500,
-    fontStyle: 'normal',
-    lineHeight: 'normal'
-  }
-
-
-  const customCheckboxStyle = {
-    appearance: 'none',
-    width: '20px',
-    height: '20px',
-    backgroundColor: '#fff',
-    border: '2px solid #DCDCDC',
-    borderRadius: '4px',
-    display: 'inline-block',
-    position: 'relative',
-  };
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -44,7 +21,7 @@ const InvoiceTable = (props) => {
   const handleShowDots = (event) => {
     setShowDots(!showDots)
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left } = event.target.getBoundingClientRect();
     const popupTop = top -14;
     const popupLeft = left - 200;
 
@@ -56,7 +33,6 @@ const InvoiceTable = (props) => {
   }
   const handleEdit = (props) => {
 
-console.log("propsEDit",props)
 
     props.OnHandleshowEditform(props.item)
   }
@@ -102,13 +78,13 @@ console.log("propsEDit",props)
     };
   }, []);
 
-  const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+ 
 
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
 
-    setDownloadInvoiceTable(true)
+    // setDownloadInvoiceTable(true)
 
   }
 
@@ -359,5 +335,11 @@ InvoiceTable.propTypes = {
   item: PropTypes.func.isRequired,
   billEditPermission: PropTypes.func.isRequired,
   billAddPermission: PropTypes.func.isRequired,
+  OnHandleshowform: PropTypes.func.isRequired,
+  billDeletePermission: PropTypes.func.isRequired,
+  OnHandleshowEditform: PropTypes.func.isRequired,
+  OnHandleshowDeleteform: PropTypes.func.isRequired,
+  OnHandleshowInvoicePdf: PropTypes.func.isRequired,
+  DisplayInvoice: PropTypes.func.isRequired,
 };
 export default InvoiceTable;

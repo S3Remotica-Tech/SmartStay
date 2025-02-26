@@ -1,49 +1,31 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SettingAllPages from "../../Pages/SettingAllPages"
-import Plus from "../../Assets/Images/Create-button.png";
-import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import "../../Pages/Dashboard.css";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import Filter from "../../Assets/Images/New_images/Group 13.png";
 import PayingHostel from "./PayingHostel";
-import Alert from "react-bootstrap/Alert";
 import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "./AddPg";
 import AddFloor from "./AddFloor";
 import "./PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "./AddRoom";
-import { IoIosArrowDropleft } from "react-icons/io";
-import { ArrowLeft, Pointer } from "iconsax-react";
-import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
-import Notify from "../../Assets/Images/New_images/notify.png";
-import Profile from "../../Assets/Images/New_images/profile.png";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { ArrowLeft} from "iconsax-react";
+import { FormControl, InputGroup } from "react-bootstrap";
+import PropTypes from "prop-types";
 import {
   ArrowUp2,
   ArrowDown2,
   CloseCircle,
-  SearchNormal1,
-  Sort,
   Edit,
   Trash,
 } from "iconsax-react";
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
-import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
-import Spinner from "react-bootstrap/Spinner";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import SettingManage from "../../Pages/SettingManage";
 
 
 function PgList(props) {
@@ -57,9 +39,6 @@ function PgList(props) {
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
 
-  const [customerPermission, setCustomerPermission] = useState("")
-  const [customerAddPermission, setCustomerAddPermission] = useState("")
-  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
   const [key, setKey] = useState("1");
 
@@ -69,32 +48,23 @@ function PgList(props) {
 
   console.log("showHostelDetails", showHostelDetails)
 
-  let navigate = useNavigate();
   const [hidePgList, setHidePgList] = useState(true);
-
-  const [hostelIndex, setHostelIndex] = useState(0);
-  const [roomDetails, setRoomDetails] = useState("");
-
   const [floorClick, setFloorClick] = useState("");
-  const [addhostelForm, setAddhostelForm] = useState(false);
   const [floorName, setFloorName] = useState("");
-  const [show, setShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(null);
   const [trigger, setTrigger] = useState(true)
-  const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
 
-  const [settingsshow, setSettingsShow] = useState(false)
-  const stateAccount = useSelector((state) => state.createAccount);
+  // const stateAccount = useSelector((state) => state.createAccount);
 
-  const [profile, setProfile] = useState(
-    stateAccount.accountList[0]?.user_details.profile
-  );
+  // const [profile, setProfile] = useState(
+  //   stateAccount.accountList[0]?.user_details.profile
+  // );
 
   // const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -109,10 +79,11 @@ function PgList(props) {
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
-  const [hostelDetails, setHostelDetails] = useState({
+  const hostelDetails = {
     room: null,
     selectedFloor: null,
-  });
+  };
+  
   const [editFloor, setEditFloor] = useState({
     hostel_Id: null,
     floor_Id: null,
@@ -361,13 +332,13 @@ useEffect(()=>{
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList === 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile;
+  // useEffect(() => {
+  //   if (stateAccount.statusCodeForAccountList === 200) {
+  //     const loginProfile = stateAccount.accountList[0].user_details.profile;
 
-      setProfile(loginProfile);
-    }
-  }, [stateAccount.statusCodeForAccountList]);
+  //     setProfile(loginProfile);
+  //   }
+  // }, [stateAccount.statusCodeForAccountList]);
 
 
   useEffect(() => {
@@ -462,7 +433,6 @@ useEffect(()=>{
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
       entries,
-      appearOnScrool
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -581,8 +551,7 @@ useEffect(()=>{
   };
 
   const handleSelectedHostel = (selectedHostelId) => {
-    const selected = state.UsersList.hotelDetailsinPg?.find((item, index) => {
-      setHostelIndex(index);
+    const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
       return item.id == selectedHostelId;
     });
     setSelectedHostel(true);
@@ -600,11 +569,7 @@ useEffect(()=>{
 
   };
 
-  const handleShowAddPg = () => {
-    setShowAddPg(true);
-    setEditHostelDetails("");
-  };
-
+  
 
 
 
@@ -645,10 +610,7 @@ useEffect(()=>{
     dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
   };
 
-  const handleShowAddRoom = (room, selectedFloor) => {
-    setShowRoom(true);
-    setHostelDetails({ room, selectedFloor });
-  };
+ 
 
   const handlecloseRoom = () => {
     setShowRoom(false);
@@ -662,7 +624,7 @@ useEffect(()=>{
     setVisibleRange([0,2])
   };
 
-  const handleDIsplayFloorClick = (floorNo) => {
+  const handleDIsplayFloorClick = () => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   };
 
@@ -714,8 +676,6 @@ useEffect(()=>{
 
 
 
-  const handleMoreClick = () => setShowMore(!showMore);
-
 
 
   const handleEditHostel = (hostelDetails) => {
@@ -727,7 +687,7 @@ useEffect(()=>{
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
-  const floorsPerPage = 5;
+  // const floorsPerPage = 5;
 
 
   const handlePrev = () => {
@@ -791,7 +751,7 @@ useEffect(()=>{
 
 
 
-  const handleShowDots = (id) => {
+  const handleShowDots = () => {
     setShowDots(!showDots);
   };
 
@@ -969,7 +929,6 @@ useEffect(()=>{
                                 width: 260,
                                 backgroundColor: "#fff",
                                 // border: '1px solid #D9D9D9',
-                                borderRadius: "4px",
                                 maxHeight: 174,
                                 minHeight: 100,
                                 overflowY: "auto",
@@ -1072,7 +1031,7 @@ useEffect(()=>{
                           color: "rgba(34, 34, 34, 1)",
                         }}
                       >
-                        "{searchQuery}"
+                       &quot;${searchQuery}&quot;
                       </span>
                     </span>
                   ) : (
@@ -1095,7 +1054,7 @@ useEffect(()=>{
                           color: "rgba(34, 34, 34, 1)",
                         }}
                       >
-                        "{searchQuery}"
+                       &quot;${searchQuery}&quot;
                       </span>
                     </span>
                   )}
@@ -1758,5 +1717,7 @@ useEffect(()=>{
     </>
   );
 }
-
+PgList.propTypes = {
+  displaysettings: PropTypes.func.isRequired,
+};
 export default PgList;

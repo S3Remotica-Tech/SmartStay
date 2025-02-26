@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../../Assets/Images/New_images/trash.png';
-import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
 import Vendors from '../../Assets/Images/New_images/profile-picture.png';
-import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
-import Swal from 'sweetalert2';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {  Edit, Trash } from 'iconsax-react';
+import PropTypes from "prop-types"
 
 
 
@@ -23,14 +19,10 @@ function PayingGuestMap(props) {
 
     const [showDots, setShowDots] = useState(false);
 
-    const [activeHostel, setActiveHostel] = useState(null);
     const [hoverPgCard, setHoverPgCard] = useState(false)
     const popupRef = useRef(null);
 
-    const [selectedHostel, setSelectedHostel] = useState(null);
-    const [selectedHostelHover, setSelectedHostelHover] = useState(false)
-    const [SaveHostel, setSaveHostel] = useState([])
-
+    
 
 
 
@@ -79,7 +71,7 @@ function PayingGuestMap(props) {
             threshold: 0.5
         };
         const faders = document.querySelectorAll('.fade-in');
-        const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+        const appearOnScro1l = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) {
                     return;
@@ -137,30 +129,7 @@ function PayingGuestMap(props) {
     }
 
 
-    const handleSelectCard = (hostel) => {
-
-
-
-        setSelectedHostel(hostel);
-
-
-        setSaveHostel((prevHostel) => {
-
-            const isHostelAlreadyAdded = prevHostel.some((h) => h.id === hostel.id);
-
-
-            if (!isHostelAlreadyAdded) {
-                return [...prevHostel, hostel];
-            }
-
-
-            return prevHostel;
-        });
-
-
-        setSelectedHostelHover(true);
-    };
-
+    
 
 
 
@@ -181,7 +150,7 @@ function PayingGuestMap(props) {
 
 
         <Card className="animated-text ms-0 h-100 " key={props.hostel && props.hostel.id} style={{
-            borderRadius: 16, border: selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C" : "1px solid #E6E6E6", transition: "border 0.3s ease",
+            borderRadius: 16, border: hoverPgCard ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C" : "1px solid #E6E6E6", transition: "border 0.3s ease",
             height: "auto",
         }}
 
@@ -214,7 +183,7 @@ function PayingGuestMap(props) {
                     <div
 
                     >
-                        <div style={{backgroundColor: showDots ? "#E7F1FF" : '#fff', cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto',backgroundColor: showDots ? "#E7F1FF" : '#fff' }}
+                        <div style={{backgroundColor: showDots ? "#E7F1FF" : '#fff', cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
                             onClick={handleDotsClick}
                         // onClick={() => handleDotsClick(props.hostel.id)}
                         >
@@ -457,5 +426,11 @@ function PayingGuestMap(props) {
     </>
     )
 }
-
+PayingGuestMap.propTypes = {
+    hostel: PropTypes.func.isRequired,
+    OnEditHostel: PropTypes.func.isRequired,
+    OnSelectHostel: PropTypes.func.isRequired,
+    onRowVisiblity: PropTypes.func.isRequired,
+    editPermissionError: PropTypes.func.isRequired,
+  };
 export default PayingGuestMap

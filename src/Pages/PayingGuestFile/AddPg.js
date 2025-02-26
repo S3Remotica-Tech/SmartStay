@@ -4,24 +4,13 @@ import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, Card } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-  AddCircle,
-  Gallery,
-} from "iconsax-react";
-import { ImagesearchRollerOutlined } from "@mui/icons-material";
+import {CloseCircle,Trash,AddCircle,Gallery,} from "iconsax-react";
+import PropTypes from "prop-types";
 
 function AddPg({ show, handleClose, currentItem }) {
 
@@ -32,10 +21,8 @@ function AddPg({ show, handleClose, currentItem }) {
   const [pgName, setPgName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [floors, setFloors] = useState("");
   const [location, setLocation] = useState("");
   const [errors, setErrors] = useState({});
-  const [errorsPG, setErrorsPG] = useState({});
   const [initialState, setInitialState] = useState({});
   const [displayLayer, setDisplayLayer] = useState(null);
   const [pgNameError, setPgNameError] = useState("");
@@ -73,7 +60,6 @@ function AddPg({ show, handleClose, currentItem }) {
       }
     }
   };
-  console.log('ADDList',state)
   const handleMobileChange = (e) => {
     const value = e.target.value;
 
@@ -131,9 +117,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-  const handleFloorsChange = (e) => {
-    setFloors(e.target.value);
-  };
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
@@ -275,8 +258,7 @@ function AddPg({ show, handleClose, currentItem }) {
       setEmail("");
 
       setLocation("");
-    } else {
-    }
+    } 
   };
   const [hostel_Id,setHostel_Id] = useState("")
    useEffect(() => {
@@ -353,32 +335,7 @@ useEffect(() => {
 
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
-  // const handleFileChange = (index) => (e) => {
-  //   const selectedFiles = Array.from(e.target.files);
-
-  //   if (selectedFiles.length > 0) {
-  //     setImages((prevImages) => {
-  //       const updatedImages = [...prevImages];
-
-  //       selectedFiles.forEach((file, i) => {
-  //         const currentIndex = index + i;
-
-  //         if (!updatedImages[currentIndex]) {
-  //           updatedImages[currentIndex] = {};
-  //         }
-
-  //         updatedImages[currentIndex] = {
-  //           name: `image${currentIndex + 1}`,
-  //           image: file,
-  //           isChanged: true
-  //         };
-  //       });
-
-  //       return updatedImages;
-  //     });
-  //   }
-  // };
-
+ 
   const handleFileChange = (index) => async (e) => {
     const selectedFiles = Array.from(e.target.files);
 
@@ -1022,5 +979,9 @@ useEffect(() => {
     </div>
   );
 }
-
+AddPg.propTypes = {
+  currentItem: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+};
 export default AddPg;

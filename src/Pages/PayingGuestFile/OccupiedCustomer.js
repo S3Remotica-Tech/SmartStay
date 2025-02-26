@@ -2,15 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Profile2 from '../../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
-import Plus from '../../Assets/Images/New_images/add-circle.png'
-import Form from 'react-bootstrap/Form';
-import Swal from 'sweetalert2';
-import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 import moment from 'moment';
-import { maxWidth } from '@mui/system';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import { CloseCircle} from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
 
@@ -120,5 +115,9 @@ console.log("called")
         </div>
     )
 }
-
+OccupiedCustomer.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+}
 export default OccupiedCustomer

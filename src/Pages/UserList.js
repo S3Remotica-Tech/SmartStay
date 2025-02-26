@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
 import { Table, Button, Form, FormControl } from "react-bootstrap";
@@ -9,8 +8,6 @@ import Swal from "sweetalert2";
 import Image from "react-bootstrap/Image";
 import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
-import Filters from "../Assets/Images/Filters.svg";
-import squre from "../Assets/Images/New_images/minus-square.png";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
@@ -18,7 +15,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, MoreCircle } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2} from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -34,29 +31,21 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
-import { SearchNormal1 } from "iconsax-react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
-import leftarrow from "../Assets/Images/arrow-left.png";
-
 import DatePicker from "react-datepicker";
 import Closebtn from "../Assets/Images/CloseCircle.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import { setDate } from "date-fns";
+import PropTypes from "prop-types";
 
 function UserList(props) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
-  const selectRef = useRef("select");
   const popupRef = useRef(null);
-  const rowRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [BookingLoading,setBookingLoading] = useState(true)
-  const [WalkingLoading,setWalkingLoading] = useState(true)
-  const [checkoutLoading,setCheckoutLoading] = useState(true)
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
@@ -85,13 +74,6 @@ function UserList(props) {
   const [reAssignDetail, setReasignDetail] = useState("");
   const [uniqueostel_Id, setUniqostel_Id] = useState("");
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
-  const [selectAmneties, setselectAmneties] = useState("");
-  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
-  const [addamenityShow, setaddamenityShow] = useState(false);
-  const [active, setActive] = useState(false);
-  const [status, setStatus] = useState("");
-  const [createby, setcreateby] = useState("");
-  const [amnityEdit, setamnityEdit] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
 
   const [customername, setCustomerName] = useState("");
@@ -100,15 +82,9 @@ function UserList(props) {
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
-  const [formatstartdate, setFormatStartDate] = useState(null);
-  const [formatenddate, setFormatEndDate] = useState(null);
-  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
-  const [formatduedate, setFormatDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
-  const [billamounts, setBillAmounts] = useState([]);
 
   const [totalAmount, setTotalAmount] = useState("");
-  const [selectedData, setSelectedData] = useState([]);
   const [tableErrmsg, setTableErrmsg] = useState("");
   const [newRows, setNewRows] = useState([
     { "S.NO": 1, am_name: "", amount: "0" },
@@ -449,7 +425,6 @@ function UserList(props) {
       setInvoiceDueDate("");
 
       setTotalAmount("");
-      setBillAmounts([]);
       setNewRows([]);
 
       setCustomerErrmsg("");
@@ -502,9 +477,7 @@ function UserList(props) {
       setCustomerErrmsg("");
     }
     setStartDate("");
-    setEndDate("");
-    setSelectedData("");
-    setBillAmounts("");
+    setEndDate("")
     setTotalAmount("");
   };
 
@@ -520,8 +493,7 @@ function UserList(props) {
       setEnddateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatStartDate(formattedDate);
+   
   };
 
   const handleEndDate = (selectedDates) => {
@@ -535,8 +507,7 @@ function UserList(props) {
       setStartdateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatEndDate(formattedDate);
+    
   };
 
   const handleInvoiceDate = (selectedDates) => {
@@ -551,8 +522,6 @@ function UserList(props) {
       setStartdateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatInvoiceDate(formattedDate);
   };
 
   const handleDueDate = (selectedDates) => {
@@ -565,8 +534,6 @@ function UserList(props) {
       setInvoiceDueDateErrmsg("");
     }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatDueDate(formattedDate);
   };
 
  
@@ -603,9 +570,7 @@ function UserList(props) {
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    setSelectedData("");
 
-    setBillAmounts("");
     setTotalAmount("");
     setCustomerErrmsg("");
     setStartdateErrmsg("");
@@ -1640,19 +1605,19 @@ function UserList(props) {
     setIsDeleting(false);
   };
 
-  useEffect(() => {
-    if (
-      state.UsersList.customerdetails.all_amenities &&
-      state.UsersList.customerdetails.all_amenities.length > 0 &&
-      selectAmneties
-    ) {
-      const AmnitiesNamelist =
-        state.UsersList.customerdetails.all_amenities?.filter((item) => {
-          return item.Amnities_Id == selectAmneties;
-        });
-      setcreateby(AmnitiesNamelist);
-    }
-  }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
+  // useEffect(() => {
+  //   if (
+  //     state.UsersList.customerdetails.all_amenities &&
+  //     state.UsersList.customerdetails.all_amenities.length > 0 &&
+  //     selectAmneties
+  //   ) {
+  //     const AmnitiesNamelist =
+  //       state.UsersList.customerdetails.all_amenities?.filter((item) => {
+  //         return item.Amnities_Id == selectAmneties;
+  //       });
+  //     setcreateby(AmnitiesNamelist);
+  //   }
+  // }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
 
   const uniqueAmenities = [];
   const seenNames = new Set();
@@ -1666,12 +1631,7 @@ function UserList(props) {
     });
   }
 
-  const handleSetAsDefault = (e) => {
-    setActive(e.target.checked);
-  };
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-  };
+ 
 
   useEffect(() => {
     dispatch({ type: "AMENITESNAMES" });
@@ -1687,13 +1647,11 @@ function UserList(props) {
       }
     });
   }
-  const handleCloseModal = () => {
-    setaddamenityShow(false);
-  };
+ 
 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
-      setaddamenityShow(false);
+      // setaddamenityShow(false);
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
@@ -1718,7 +1676,7 @@ function UserList(props) {
     setAdhaarNo(e.target.value);
   };
 
-  const handleValidateAadhaar = (customer_Id) => {
+  const handleValidateAadhaar = () => {
     if (!aadhaarNo || !/^\d+$/.test(aadhaarNo)) {
       Swal.fire({
         icon: "warning",
@@ -1734,13 +1692,12 @@ function UserList(props) {
     }
   };
 
-  const [ref_id, setRef_Id] = useState("");
-
+  
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
       setShowOtpValidation(true);
       setShowValidate(false);
-      setRef_Id(state.UsersList && state.UsersList.Kyc_Ref_Id);
+      // setRef_Id(state.UsersList && state.UsersList.Kyc_Ref_Id);
       setTimeout(() => {
         dispatch({ type: "CLEAR_KYC_VALIDATE_SATUS_CODE" });
       }, 2000);
@@ -2338,7 +2295,6 @@ function UserList(props) {
                           className="show-scroll p-0"
                           style={{
                             backgroundColor: "#fff",
-                            borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
                               filteredUsers?.length > 1 ? "174px" : "auto",
@@ -3835,7 +3791,7 @@ function UserList(props) {
           // selectAmneties={selectAmneties}
           // handleselect={handleselect}
           hostelName={hostelName}
-          createby={createby}
+          // createby={createby}
           // statusShow={statusShow}
           customerUser_Id={customerUser_Id}
           hostelIds={hostelIds}
@@ -5102,11 +5058,7 @@ function UserList(props) {
             >
               Save Changes
             </Button>
-            {tableErrmsg && (
-              <div style={{ color: "red", marginTop: "10px" }}>
-                {tableErrmsg}
-              </div>
-            )}
+           
 
             <div className="mb-3"></div>
           </div>
@@ -5234,4 +5186,9 @@ function UserList(props) {
   );
 }
 
+UserList.propTypes = {
+  id: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 export default UserList;

@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import "../../Pages/AssetFile/addAsset.css";
-import moment from "moment";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle} from "iconsax-react";
+import PropTypes from "prop-types";
 
 function StaticExample({
   show,
   handleClose,
   hostelFloor,
-  openFloor,
   editFloor,
   updateFloor,
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [floorNo, setFloorNo] = useState("");
-  const [floorName, setFloorName] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [floorError, setFloorError] = useState("");
   const [floorId, setFloorId] = useState("");
@@ -83,9 +69,7 @@ function StaticExample({
     setIsChangedError("");
   };
 
-  const handleFloorNameChange = (e) => {
-    setFloorName(e.target.value);
-  };
+  
 
   const handleCreateFloor = () => {
     setFloorId("");
@@ -303,5 +287,11 @@ function StaticExample({
     </div>
   );
 }
-
+StaticExample.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  editFloor: PropTypes.func.isRequired,
+  updateFloor: PropTypes.func.isRequired,
+  hostelFloor: PropTypes.func.isRequired,
+};
 export default StaticExample;
