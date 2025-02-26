@@ -2,25 +2,21 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-import squre from "../Assets/Images/New_images/minus-square.png";
-import Image from "react-bootstrap/Image";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import addcircle from "../Assets/Images/New_images/add-circle.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
-import { Room } from "@material-ui/icons";
 import { MdError } from "react-icons/md";
-import { setISODay } from "date-fns";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -44,10 +40,7 @@ function EBRoomReading(props) {
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [unitAmount, setUnitAmount] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
-  const [ebErrorunit, setEbErrorunit] = useState("");
   const [deleteId, setDeleteId] = useState("");
-  const [loading, setLoading] = useState(false)
   const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   // const handleShowDots = (eb_Id) => {
@@ -65,7 +58,7 @@ function EBRoomReading(props) {
   const handleShowDots = (eb_Id,event) => {
     setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -98,7 +91,6 @@ function EBRoomReading(props) {
     setReading(e.target.value);
     setReadingError('')
     setFormError('')
-    setEbErrorunit("");
     setDateError('');
     setDateErrorMesg("")
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
@@ -142,20 +134,17 @@ function EBRoomReading(props) {
     setRooms(e.target.value);
     setRoomError("");
     setFormError("");
-    setEbErrorunit("");
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
     setRooms("");
     setfloorError("");
     setFormError("");
-    setRoomId("")
-    setEbErrorunit("");
+    // setRoomId("")
   };
   const handleClose = () => {
     setebEditShow(false);
     setFormError("");
-    setEbErrorunit("");
     setDateError("")
     setDateErrorMesg("")
     setReadingError('')
@@ -165,7 +154,6 @@ function EBRoomReading(props) {
     setSelectedDate(date);
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
     setDateError('');
-    setEbErrorunit('');
     setFormError("")
     setDateErrorMesg("")
   };
@@ -226,7 +214,7 @@ function EBRoomReading(props) {
             item.date ? moment(item.date).toDate("") : null
           );
     setId(item.eb_Id)
-    setRoomId(item.Room_Id)
+    // setRoomId(item.Room_Id)
     setHostelId(item.hostel_Id)
 
 
@@ -364,7 +352,6 @@ function EBRoomReading(props) {
   // const electricityrowsPerPage = 5;
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
-  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
@@ -741,13 +728,7 @@ function EBRoomReading(props) {
                     <tbody style={{ fontSize: "12px" }}>
                       {currentRowelectricity &&
                         currentRowelectricity.map((v) => {
-                          const imageUrl = v.profile || Profile;
-                          // let Dated = new Date(v.date);
-                          // let Dated = v.date ? new Date(v.date) : new Date(v.initial_date); 
-                          // let day = Dated.getDate();
-                          // let month = Dated.getMonth() + 1;
-                          // let year = Dated.getFullYear();
-                          // let formattedDate = `${day}/${month}/${year}`;
+                          
 
                           let formattedDate;
 
@@ -1564,4 +1545,13 @@ function EBRoomReading(props) {
     </>
   );
 }
+
+EBRoomReading.propTypes = {
+  electricityFilterd: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  ebEditPermission: PropTypes.func.isRequired,
+  ebpermissionError: PropTypes.func.isRequired,
+  loading: PropTypes.func.isRequired,
+};
 export default EBRoomReading;

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Button,Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
-import { InputGroup, Pagination } from "react-bootstrap";
+import { InputGroup} from "react-bootstrap";
 import { MdError } from "react-icons/md";
+import PropTypes from "prop-types";
 
 function UserAdditionalContact(props) {
   const state = useSelector((state) => state);
@@ -16,9 +17,6 @@ function UserAdditionalContact(props) {
   const [address, setAddress] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  const [userId, setUserId] = useState("");
-  const [contactEditForm, setContactEditForm] = useState(false);
   const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
   const [addressError, setAddressError] = useState("");
@@ -42,7 +40,7 @@ function UserAdditionalContact(props) {
       setGuardian(props.contactEdit.guardian);
       setPhone(mobileNumber);
       setAddress(props.contactEdit.address);
-      setUserId(props.contactEdit.user_id);
+      // setUserId(props.contactEdit.user_id);
       setContactId(props.contactEdit.id);
       setCountryCode(countryCode);
 
@@ -193,7 +191,6 @@ function UserAdditionalContact(props) {
     } else {
       setPhoneError("Invalid mobile number *");
     }
-    setPhoneErrorMessage("");
     setFormError("");
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
@@ -596,4 +593,12 @@ function UserAdditionalContact(props) {
     </div>
   );
 }
+
+UserAdditionalContact.propTypes = {
+  contactEdit: PropTypes.func.isRequired,
+  id: PropTypes.func.isRequired,
+  setAdditionalForm: PropTypes.func.isRequired,
+  additionalForm: PropTypes.func.isRequired,
+};
+
 export default UserAdditionalContact;
