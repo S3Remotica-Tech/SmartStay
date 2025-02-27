@@ -1,19 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
-import { InputGroup, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import Card from 'react-bootstrap/Card';
 import { MdError } from "react-icons/md";
-import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {  CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
+import PropTypes from "prop-types";
 
 
 
-function AddRole({ showRole, hostelid,setShowRole, editRoleDetails,addRole }) {
+function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
 
 
     const state = useSelector(state => state)
@@ -483,5 +481,10 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
         </div>
     )
 }
-
+AddRole.propTypes = {
+    editRoleDetails: PropTypes.func.isRequired,
+    setShowRole: PropTypes.func.isRequired,
+    addRole: PropTypes.func.isRequired,
+    showRole: PropTypes.func.isRequired,
+  };
 export default AddRole

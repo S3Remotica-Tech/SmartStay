@@ -2,15 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import message from "../Assets/Images/New_images/messages_gray.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import round from "../Assets/Images/dot_round.png"
 import { Button, Col, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import close from '../Assets/Images/close.svg';
 import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import PropTypes from "prop-types";
 
 function SettingCompliance({ hostelid }) {
 
@@ -23,7 +22,6 @@ function SettingCompliance({ hostelid }) {
     const [originalComplaintTypeName, setOriginalComplaintTypeName] = useState('');
     const [complaintError, setComplaintError] = useState('')
     const [isChangedError, setIsChangedError] = useState("");
-    const [edit, setEdit] = useState(false);
     const [id, setId] = useState('');
     const [rowDetails, setRowDetails] = useState('');
     const [showPopup, setShowPopup] = useState(false);
@@ -87,7 +85,7 @@ function SettingCompliance({ hostelid }) {
     };
     const handleEdit = () => {
         setShowEditForm(true)
-        setEdit(true)
+        // setEdit(true)
         setId(rowDetails.id)
         setComplaintTypeName(rowDetails.complaint_name)
         setOriginalComplaintTypeName(rowDetails.complaint_name);
@@ -954,4 +952,9 @@ function SettingCompliance({ hostelid }) {
         </div>
     )
 }
+
+SettingCompliance.propTypes = {
+    hostelid: PropTypes.func.isRequired
+  };
+  
 export default SettingCompliance;

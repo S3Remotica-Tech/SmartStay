@@ -106,8 +106,8 @@ function RolePage() {
                           <span
                             style={{
                               marginLeft: 20,
-                              fontSize: 16,
-                              fontWeight: 600,
+                              fontSize: 14,
+                              fontWeight: 500,
                               fontFamily: "Gilroy",
                               color: "#222222",
                             }}
@@ -116,7 +116,7 @@ function RolePage() {
                           </span>
                         </div>
                         <button className="btn p-0" style={{cursor:"pointer"}} >
-                          <img src={round} width={34} height={34} alt="Menu Icon" onClick={(e) => handleShowDots(u.id, e)}
+                          <img src={round} width={30} height={30} alt="Menu Icon" onClick={(e) => handleShowDots(u.id, e)}
                             style={{ cursor: "pointer" }} />
                         </button>
                       </div>
@@ -130,7 +130,7 @@ function RolePage() {
                             backgroundColor: "#fff",
                             top: popupPosition.top,
                             left: popupPosition.left,
-                            width: 163,
+                            width: 143,
                             border: "1px solid #EBEBEB",
                             borderRadius: 10,
                             display: "flex",
@@ -142,16 +142,16 @@ function RolePage() {
                         >
                           <div>
                             <div
-                              className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
                               onClick={() => handleEditUserRole(u)}
                             >
                               <img src={Edit} style={{ height: 16, width: 16 }} />
                               <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
-                                Edit
+                                Edittttt
                               </label>
                             </div>
                             <div
-                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                              className="mb-1 d-flex justify-content-start align-items-center gap-2"
                               style={{ backgroundColor: "#fff" }}
                               onClick={() => handleDeleteUserRole(u)} >
                               <img

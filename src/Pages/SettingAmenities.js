@@ -11,9 +11,8 @@ import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
-import close from '../Assets/Images/close.svg';
-import { FaBullseye } from 'react-icons/fa';
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+import PropTypes from "prop-types";
 
 
 function SettingAmenities({ hostelid }) {
@@ -25,10 +24,8 @@ function SettingAmenities({ hostelid }) {
     const [showDots, setShowDots] = useState(false);
     const [openAmenitiesForm, setOpenAmenitiesForm] = useState(false)
     const [IsDisplayAssignAmenities, setIsDisplayAssignAmenities] = useState(false)
-    const [amenitiesList, setAmenitiesList] = useState([])
     const popupRef = useRef(null);
     const [editDetails, setEditDetails] = useState('')
-    const [active, setActive] = useState(false)
     const [isChecked, setIsChecked] = useState(null);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
     const [amenityDetails, setAmenityDetails] = useState('')
@@ -40,7 +37,6 @@ function SettingAmenities({ hostelid }) {
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
-     const [formFilled, setFormFilled] = useState(false);
      const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 
@@ -151,22 +147,6 @@ function SettingAmenities({ hostelid }) {
     const handleCloseAmenities = () => {
         setOpenAmenitiesForm(false)
     }
-
-
-
-    const resetSwitchStates = () => {
-        setSwitchStates((prevSwitchStates) => {
-            const resetStates = {};
-            Object.keys(prevSwitchStates).forEach((key) => {
-                resetStates[key] = false;
-            });
-            return resetStates;
-        });
-    };
-
-
-
-
 
 
     const handleCloseRecurringPopUp = () => {
@@ -421,7 +401,7 @@ function SettingAmenities({ hostelid }) {
                     {currentRowAmenities && currentRowAmenities.length > 0 ? (
                         currentRowAmenities.map((amenity, index) => (
 
-                            <div className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
+                            <div key={index} className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                                     <Card.Body>
                                         <div className='d-flex justify-content-between align-items-center'>
@@ -865,4 +845,7 @@ function SettingAmenities({ hostelid }) {
         </div>
     )
 }
+SettingAmenities.propTypes = {
+    hostelid: PropTypes.func.isRequired,
+  };
 export default SettingAmenities;
