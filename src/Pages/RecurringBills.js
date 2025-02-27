@@ -1,30 +1,13 @@
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
-import { Container, Row, Col } from 'react-bootstrap';
-import { Modal, Button ,FormControl} from 'react-bootstrap';
-import Image from 'react-bootstrap/Image';
+import {Button} from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
-import { BsSearch } from "react-icons/bs";
-import { Offcanvas, Form, Dropdown } from 'react-bootstrap';
-import moment from 'moment';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import squre from '../Assets/Images/New_images/minus-square.png';
-import Calendars from '../Assets/Images/New_images/calendar.png'
-import Flatpickr from 'react-flatpickr';
+import {Form} from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import Emptystate from '../Assets/Images/Empty-State.jpg'
-import BillPdfModal from '../Pages/BillPdfModal'
-import Closebtn from '../Assets/Images/CloseCircle.png';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from "prop-types";
 
 
 const RecurringBills = (props) => {
@@ -33,81 +16,29 @@ const RecurringBills = (props) => {
       const state = useSelector(state => state)
       const dispatch = useDispatch()
 
-      console.log("recurrprops", props);
-      
-
-   
-      const [selectedHostel, setSelectedHostel] = useState('');
+    
       const [customername , setCustomerName] =  useState ('');
       const [customernamefilter , setCustomerFilter] = useState([])
       const [invoicenumber , setInvoiceNumber] =  useState ('')
       const [invoicedate , setInvoiceDate] =  useState (null);
       const [invoiceduedate , setInvoiceDueDate] =  useState (null);
-      const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-      const [formatduedate, setFormatDueDate] = useState(null)
       const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
       const [billamounts, setBillAmounts] = useState([])
-      const [deleteShow,setDeleteShow] = useState(false)
-      const [hostelerrormsg, setHostelErrmsg] = useState('');
       const [customererrmsg , setCustomerErrmsg] = useState('')
-      const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-      const [startdateerrmsg , setStartdateErrmsg] = useState('')
-      const [enddateerrmsg , setEnddateErrmsg] = useState('')
-      const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
-      const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
       const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-      const [ebamount, setEBAmount] = useState('')
-      const [rentamount , setRentAmount] = useState('')
-      const [advanceAmount,setAdvanceAmount] = useState('')
-      const [amenityDetail , setAmenityDetails] = useState([])
       const [totalAmount , setTotalAmount] = useState('')
-      const [recurringbills , setRecurringBills] = useState([])
-      const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
       const [newRows, setNewRows] = useState([]);
-      const [dataFetched, setDataFetched] = useState(false);
-      const [amenityArray,setamenityArray] = useState([])
       const [allFieldErrmsg] = useState('');
       const [recurdisable, setRecurDisable] = useState('')
 
-      let serialNumber = 1;
+     
     
-    
-      const startRef = useRef(null);
-      const endRef = useRef(null);
       const invoiceRef = useRef(null);
       const dueRef = useRef(null);
     
     
-    
-    
-    const handleAddColumn = () => {
-      const newRow = {
-        description: '',
-        // used_unit: '',
-        // per_unit_amount: '',
-        // total_amount: '',
-        amount: ''
-      };
-      setNewRows([...newRows, newRow]);
-    };
-    
-    
-    const handleHostelChange = (e) => {
-      
-      setSelectedHostel(e.target.value)
-      setAllFieldErrmsg('')
- 
-      const HostelBasedCustomerNameFilter = state?.UsersList?.Users && state?.UsersList?.Users.length > 0 && 
-      state.UsersList?.Users.filter((u)=> u.Hostel_Id == e.target.value)
-      // setCustomerFilter(HostelBasedCustomerNameFilter)
 
-      if (!e.target.value) {
-        setHostelErrmsg("Please Select Hostel");
-      } else {
-        setHostelErrmsg("");
-      }
-    };
-    
+
     
       const handleCustomerName = (e) => {
         setCustomerName(e.target.value)
@@ -129,113 +60,31 @@ const RecurringBills = (props) => {
         setAllFieldErrmsg('')
    }
  
-   const formatDateForPayloadmanualinvoice = (date) => {
-     if (!date) return null;
-     const offset = date.getTimezoneOffset();
-     date.setMinutes(date.getMinutes() - offset);
-     return date.toISOString().split('T')[0]; 
-   };
+
  
- 
-   
- 
-   const handleInvoiceDate = (selectedDates) => {
-  
-        const date = selectedDates;
-
-        setInvoiceDate(date);
-        setAllFieldErrmsg('')
-        if(!selectedDates){
-         setInvoiceDateErrmsg("Please Select Date")
-        }
-        else{
-         setInvoiceDateErrmsg('')
-        }
- 
-        const formattedDate = formatDateForPayloadmanualinvoice(date);
-        setFormatInvoiceDate(formattedDate)
-   }
- 
- 
-   const handleDueDate = (selectedDates) => {
-         const date = selectedDates;
-         setInvoiceDueDate(date);
-         setAllFieldErrmsg('')
-         if(!selectedDates){
-           setInvoiceDueDateErrmsg("Please Select Date")
-          }
-          else{
-           setInvoiceDueDateErrmsg('')
-          }
- 
-         const formattedDate = formatDateForPayloadmanualinvoice(date);
-         setFormatDueDate(formattedDate)
-   }
-
-
-   const handleSelectChange = (e) => {
-    const selectedDescription = e.target.value;  
-    const selectedOption = invoicetotalamounts.find(opt => opt.name === selectedDescription);
-
-    if (selectedOption) {
-      setBillAmounts([...billamounts, selectedOption]);
-      setAvailableOptions(availableOptions.filter(opt => opt.name !== selectedDescription));
-        }
-   };
-
-
-
-
-const handleAmountChange = (index, value) => {
-   const updatedData = [...billamounts];
-   updatedData[index] = { ...updatedData[index], amount: value }; 
-   setBillAmounts(updatedData);                                  
-   };
-
-
-
-const handleDelete = (item) => {
-  setBillAmounts(billamounts.filter(bill => bill.name !== item.name));
-  setAvailableOptions([...availableOptions, item]);
-   };
-
-
-   const handleNewRowChange = (index, field, value) => {
-    const updatedRows = [...newRows];
-    updatedRows[index][field] = value;
-     setNewRows(updatedRows);
-    };
-
-
-const handleDeleteNewRow = (index) => {
-      const updatedRows = newRows.filter((_, i) => i !== index);
-      setNewRows(updatedRows);
-     };
 
 
 
      const handleCreateBill = () => {
     
-      const allRows = [...billamounts, ...newRows];
-      const incompleteRow = allRows.find(row => !row.description || !row.amount);
+      // const allRows = [...billamounts, ...newRows];
+      // const incompleteRow = allRows.find(row => !row.description || !row.amount);
 
-      const amenityArray = amenityDetail.map(detail => ({
-         am_name: detail.am_name,
-         amount: detail.amount
-          })).filter(detail => detail.am_name && detail.amount);
+      // const amenityArray = amenityDetail.map(detail => ({
+      //    am_name: detail.am_name,
+      //    amount: detail.amount
+      //     })).filter(detail => detail.am_name && detail.amount);
 
 
           if(!customername){
            setCustomerErrmsg('Please Select  Customer')
+           return;
           }
         
         
         
 
-          if(!customername && !invoicenumber ){
-           setAllFieldErrmsg('Please Enter All Field')
-           return;
-          }
+        
          
           if(customername && invoicenumber   ){
            dispatch({
@@ -251,7 +100,7 @@ const handleDeleteNewRow = (index) => {
              setInvoiceNumber('');
              setInvoiceDate('')
              setInvoiceDueDate('')
-             setAvailableOptions('');
+            //  setAvailableOptions('');
              setTotalAmount('')
              setBillAmounts([]);
              setNewRows([]);
@@ -263,68 +112,9 @@ const handleDeleteNewRow = (index) => {
 
 
   
-     const customDateInputInvoiceDate = (props) => {
-      return (
-          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-              <FormControl
-                  type="text"
-                  className='date_input'
-                  value={props.value || 'DD/MM/YYYY'}
-                  readOnly
-                                      style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 9,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: props.value ? 600 : 500,
-                                             width: "100%", 
-                                             height: 50,
-                      boxSizing: "border-box",
-                      boxShadow:"none" 
-                  }}
-              />
-              <img 
-                  src={Calendars} 
-              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                  alt="Calendar" 
-                  onClick={props.onClick} 
-              />
-          </div>
-      );
-  };
+   
 
 
-  const customDateInputDueDate = (props) => {
-    return (
-        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-            <FormControl
-                type="text"
-                className='date_input'
-                value={props.value || 'DD/MM/YYYY'}
-                readOnly
-                                    style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 9,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: props.value ? 600 : 500,
-                                           width: "100%", 
-                                           height: 50,
-                    boxSizing: "border-box",
-                    boxShadow:"none" 
-                }}
-            />
-            <img 
-                src={Calendars} 
-            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                alt="Calendar" 
-                onClick={props.onClick} 
-            />
-        </div>
-    );
-};
 
 
 
@@ -340,7 +130,7 @@ const handleDeleteNewRow = (index) => {
     
     useEffect(() => {
         if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
-          setRecurringBills(state.InvoiceList.RecurringBills);
+          // setRecurringBills(state.InvoiceList.RecurringBills);
       
           setTimeout(() => {
             dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
@@ -352,7 +142,7 @@ const handleDeleteNewRow = (index) => {
       useEffect(() => {
         if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
           dispatch({ type: 'RECURRING-BILLS-LIST' });
-          setRecurringBills(state.InvoiceList.RecurringBills);
+          // setRecurringBills(state.InvoiceList.RecurringBills);
       
           setTimeout(() => {
             dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
@@ -461,32 +251,32 @@ const handleDeleteNewRow = (index) => {
                
                 
         
-              const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 1); // Room Rent with id 1
-              const  AdvanceAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 2); // Adavance amount with id 2
-              const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 3); // EB Amount with id 3 
+              // const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 1); // Room Rent with id 1
+              // const  AdvanceAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 2); // Adavance amount with id 2
+              // const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 3); // EB Amount with id 3 
 
-              setRentAmount(RoomRentItem)
-              setAdvanceAmount(AdvanceAmount)
-              setEBAmount(EbAmount)
+              // setRentAmount(RoomRentItem)
+              // setAdvanceAmount(AdvanceAmount)
+              // setEBAmount(EbAmount)
     
-              var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 1 && item.id != 2 && item.id != 3);
+              // var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 1 && item.id != 2 && item.id != 3);
     
-              const AmenityDetails = amenities.map(item => ({
-                am_name: item.name,   
-                amount : item.amount
-                }));
-                setAmenityDetails(AmenityDetails)
+              // const AmenityDetails = amenities.map(item => ({
+              //   am_name: item.name,   
+              //   amount : item.amount
+              //   }));
+                // setAmenityDetails(AmenityDetails)
       
     
-                const allRows = newRows.map(detail => ({
-                  am_name: detail.description, 
-                  amount: Number(detail.amount)
-                })).filter(detail => detail.am_name && detail.amount); 
+                // const allRows = newRows.map(detail => ({
+                //   am_name: detail.description, 
+                //   amount: Number(detail.amount)
+                // })).filter(detail => detail.am_name && detail.amount); 
                 
-                const amenityArray = AmenityDetails.map(detail => ({
-                  am_name: detail.am_name, 
-                  amount: detail.amount
-                })).filter(detail => detail.am_name && detail.amount); 
+                // const amenityArray = AmenityDetails.map(detail => ({
+                //   am_name: detail.am_name, 
+                //   amount: detail.amount
+                // })).filter(detail => detail.am_name && detail.amount); 
                 
                 
                 // const combinedRows = [...amenityArray, ...allRows];
@@ -512,7 +302,7 @@ const handleDeleteNewRow = (index) => {
             <div className='container ' style={{paddingLeft:25}}>
 
             <div style={{display:'flex',flexDirection:'row',marginTop:'40px'}} >
-  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px', cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
   <p className='mt-1'>Create Recurring Bill</p>
   </div>
 
@@ -575,13 +365,13 @@ const handleDeleteNewRow = (index) => {
           placeholder="Enter invoice number"
           value={invoicenumber || ''} 
         />
-                 {invoicenumbererrmsg.trim() !== "" && (
+                 {/* {invoicenumbererrmsg.trim() !== "" && (
 <div>
   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
     {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
   </p>
 </div>
-)}
+)} */}
   
       </Form.Group>
     </div>
@@ -807,4 +597,12 @@ const handleDeleteNewRow = (index) => {
         </>
     )
 }
+
+
+RecurringBills.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onhandleback: PropTypes.func.isRequired,
+};
+
 export default RecurringBills;

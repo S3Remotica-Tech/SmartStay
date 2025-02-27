@@ -1,30 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
-import Plus from "../Assets/Images/New_images/add-circle.png";
 import Button from "react-bootstrap/Button";
-import { Table } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
 import Logo from "../Assets/Images/Logo-Icon.png";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import imageCompression from "browser-image-compression";
-import dottt from "../Assets/Images/dot_round.png";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import InvoiceSettingsList from "./InvoicesettingsList";
 import Modal from "react-bootstrap/Modal";
 import { MdError } from "react-icons/md";
 import moment from 'moment';
-import { IoReturnDownForward } from "react-icons/io5";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
-import ComplianceList from "./ComplianceList";
-import { FormControl, InputGroup, Pagination } from "react-bootstrap";
+import { FormControl} from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import close from '../Assets/Images/close.svg';
 import Select from "react-select";
+import PropTypes from "prop-types";
 
 function SettingInvoice({ hostelid }) {
 
@@ -32,25 +22,11 @@ function SettingInvoice({ hostelid }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  const [invoice, setSetinvoice] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const [invoiceDate, setInvoiceDate] = useState('');
   const [invoicedueDate, setInvoiceDueDate] = useState('');
 
-  const [selectedHostel, setSelectedHostel] = useState({ id: "", name: "" });
-  const [showTable, setShowTable] = useState(false);
-
-  const [billrolePermission, setBillRolePermission] = useState("");
-
-  const [billpermissionError, setBillPermissionError] = useState("");
-  const [billAddPermission, setBillAddPermission] = useState("");
-  const [billDeletePermission, setBillDeletePermission] = useState("");
-  const [billEditPermission, setBillEditPermission] = useState("");
-
-  const [logo, setLogo] = useState("");
-  const [hostelerrormsg, setHostelErrmsg] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const [prefix, setPrefix] = useState("");
   const [startNumber, setStartNumber] = useState("");
@@ -82,44 +58,7 @@ function SettingInvoice({ hostelid }) {
   const [isChecked, setIsChecked] = useState(false); 
 
 
-
-  useEffect(() => {
-    setBillRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_view == 1
-    ) {
-      setBillPermissionError("");
-    } else {
-      setBillPermissionError("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_create == 1
-    ) {
-      setBillAddPermission("");
-    } else {
-      setBillAddPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
-    ) {
-      setBillEditPermission("");
-    } else {
-      setBillEditPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
+ 
   useEffect(() => {
     // if (state.login.selectedHostel_Id) {
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -133,8 +72,7 @@ function SettingInvoice({ hostelid }) {
     };
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-      appearOnScrool
+      entries
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -150,40 +88,6 @@ function SettingInvoice({ hostelid }) {
       appearOnScro1l.observe(fader);
     });
   });
-
-
-  const handleHostelChange = (e) => {
-    const selectedIndex = e.target.selectedIndex;
-    setShowTable(true);
-    setTotalErrmsg("");
-    setSelectedHostel({
-      id: e.target.value,
-      name: e.target.options[selectedIndex].text,
-    });
-
-    if (!e) {
-      setHostelErrmsg("");
-    } else {
-      setHostelErrmsg("");
-    }
-  };
-
-
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    setSuffixfixErrmsg("");
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-      useWebWorker: true,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      setSelectedImage(compressedFile);
-    } catch (error) {
-      console.error("Image compression error:", error);
-    }
-  };
 
 
 
@@ -260,7 +164,7 @@ function SettingInvoice({ hostelid }) {
   const handleInvoiceSettings = () => {
     const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
     const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== "";
-    const isSelectedImageValid = selectedImage !== null;
+    // const isSelectedImageValid = selectedImage !== null;
   
     if (!isPrefixValid || !isStartNumberValid || !invoiceDate || !invoicedueDate) {
       if (!isPrefixValid) {
@@ -351,11 +255,12 @@ function SettingInvoice({ hostelid }) {
       setIsChecked(recureEnable);
       console.log("recure", filteredHostels[0]?.recure);
   
-      const profileURL = filteredHostels[0]?.profile;
-      setLogo(profileURL);
-    } else {
-      setLogo(Logo);
-    }
+      // const profileURL = filteredHostels[0]?.profile;
+      // setLogo(profileURL);
+    } 
+    // else {
+    //   setLogo(Logo);
+    // }
   }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
 
   
@@ -371,10 +276,11 @@ function SettingInvoice({ hostelid }) {
 
       if (filteredHostels.length > 0) {
         setIsChecked(filteredHostels[0]?.recure === 1);
-        setLogo(filteredHostels[0]?.profile);
-      } else {
-        setLogo(Logo);
-      }
+        // setLogo(filteredHostels[0]?.profile);
+      } 
+      // else {
+      //   setLogo(Logo);
+      // }
     }, 500); 
   }
 }, [state.UsersList?.hotelDetailsinPg, hostelid]);
@@ -587,50 +493,6 @@ function SettingInvoice({ hostelid }) {
 
 
 
-
-  const customDateInput = React.forwardRef(({ value, onClick }, ref) => (
-    <div
-      className="date-input-container w-100"
-      onClick={onClick}
-      style={{ position: "relative" }}
-    >
-      <FormControl
-        type="text"
-        className="date_input"
-        value={value || "DD/MM/YYYY"} // Show placeholder if no value
-        readOnly
-        ref={ref}
-        style={{
-          border: "1px solid #D9D9D9",
-          borderRadius: 8,
-          padding: "9px 12px",
-          fontSize: 14,
-          fontFamily: "Gilroy",
-          fontWeight: value ? 600 : 500,
-          width: "100%",
-          height: 50,
-          boxSizing: "border-box",
-          boxShadow: "none",
-          cursor: "pointer",
-        }}
-        aria-label="Select date"
-      />
-      <img
-        src={Calendars}
-        style={{
-          height: 24,
-          width: 24,
-          cursor: "pointer",
-          position: "absolute",
-          right: 10,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-        alt="Open calendar"
-        onClick={onClick}
-      />
-    </div>
-  ));
 
   useEffect(() => {
     if (state?.UsersList?.statuscodeForhotelDetailsinPg == 200) {
@@ -904,7 +766,7 @@ function SettingInvoice({ hostelid }) {
         >
           <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
             <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }}
+              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
               className="m-0 p-0"
             >
               <Modal.Body>
@@ -991,7 +853,6 @@ function SettingInvoice({ hostelid }) {
                           style={{
                             padding: "10px",
                             marginTop: "10px",
-                            fontSize: 14,
                             fontSize: 16,
                             color: "#4B4B4B",
                             fontFamily: "Gilroy",
@@ -1053,7 +914,6 @@ function SettingInvoice({ hostelid }) {
                         style={{
                           padding: "10px",
                           marginTop: "10px",
-                          fontSize: 14,
                           backgroundColor: "#E7F1FF",
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -1306,7 +1166,6 @@ function SettingInvoice({ hostelid }) {
               style={{
                 maxWidth: 950,
                 paddingRight: "10px",
-                paddingRight: "10px",
                 borderRadius: "30px",
               }}
               className="m-0 p-0"
@@ -1545,5 +1404,10 @@ function SettingInvoice({ hostelid }) {
       )}
     </div>
   );
+}
+SettingInvoice.propTypes = {
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  hostelid: PropTypes.func.isRequired,
 }
 export default SettingInvoice;

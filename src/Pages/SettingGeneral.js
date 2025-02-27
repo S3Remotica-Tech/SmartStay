@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import {
   Button,
-  Offcanvas,
   Form,
   FormControl,
   InputGroup,
-  Pagination,
 } from "react-bootstrap";
-import img1 from "../Assets/Images/Profile-complaint.png";
 import img2 from "../Assets/Images/New_images/settingeye.png";
-import round from "../Assets/Images/dot_round.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
@@ -22,14 +18,7 @@ import eye from "../Assets/Images/login-password.png";
 import eyeClosed from "../Assets/Images/Show_password.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -57,7 +46,6 @@ function SettingGeneral() {
   const [emailAlready, setEmailAlready] = useState("");
   const [phoneAlready, setPhoneAlready] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [addressError, setAddressError] = useState("");
@@ -74,7 +62,6 @@ function SettingGeneral() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
-  const [CheckPasswordError, setCheckPasswordError] = useState("")
   const [newPassError, setNewPassError] = useState("")
   // const [conPassError,setConPassError]=useState("")
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
@@ -114,14 +101,14 @@ function SettingGeneral() {
     setChangePassword(false);
     setPassError("");
     setCheckPassword("")
-    setCheckPasswordError("")
+    // setCheckPasswordError("")
 
   };
 
   const handleCheckPassword = (e) => {
     setCheckPassword(e.target.value);
     setPassError("");
-    setCheckPasswordError("")
+    // setCheckPasswordError("")
     dispatch({ type: "CLEAR_PASSWORD_ERROR" });
   };
 
@@ -184,7 +171,7 @@ function SettingGeneral() {
     setPassword("");
     setPhone("");
     setFirstNameError("");
-    setLastNameError("");
+    // setLastNameError("");
     setEmailError("");
     setPhoneError("");
     setAddressError("");
@@ -222,7 +209,7 @@ function SettingGeneral() {
 
   const handlelastName = (e) => {
     setLastName(e.target.value);
-    setLastNameError("");
+    // setLastNameError("");
     setFormError("");
   };
 

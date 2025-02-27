@@ -24,12 +24,12 @@ import { MdError } from "react-icons/md";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
+import PropTypes from "prop-types";
 
 const Compliance = () => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-  const [data, setData] = useState(state.ComplianceList.Compliance);
 
   const initialValuesRef = useRef({});
 
@@ -47,7 +47,6 @@ const Compliance = () => {
   const [room_name, setRoomName] = useState('')
   const [beds, setBeds] = useState('');
   const [userid, setUser_Id] = useState('')
-  const [loading, setLoading] = useState(true);
   const [hosId, setHosId] = useState("")
   const [floorname, setFloorname] = useState('')
 
@@ -57,11 +56,7 @@ const Compliance = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [search, setSearch] = useState(false);
 
-  const [filterByDate, setFilterByDate] = useState("");
   const [filterStatus, setFilterStatus] = useState(false);
-  const [filterByStatus, setFilterByStatus] = useState("ALL");
-  const LoginId = localStorage.getItem("loginId")
-  const [login_Id, setLogin_Id] = useState('')
 
   const [compliancerolePermission, setComplianceRolePermission] = useState("");
 
@@ -267,13 +262,6 @@ const Compliance = () => {
       ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const [searchItem, setSearchItem] = useState('');
-  const [searchicon, setSearchicon] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [isUserClicked, setUserClicked] = useState(true);
-  const [showMenu, setShowMenu] = useState(false);
-  const [file, setFile] = useState(null)
-  const [filtericon, setFiltericon] = useState(false)
   const [statusfilter, setStatusfilter] = useState('')
 
 
@@ -289,9 +277,6 @@ const Compliance = () => {
 
   const [hostelname, setHostelName] = useState('')
 
-
-  const [assignerrormsg, setAssignErrmsg] = useState('');
-  const [statsuserrormsg, setStatusErrmsg] = useState('');
   const [dateerrmsg, setDateErrmsg] = useState('');
   const [usererrmsg, setUserErrmsg] = useState('');
   const [complaint_typeerrmsg, setComplaintTypeErrmsg] = useState('')
@@ -299,13 +284,7 @@ const Compliance = () => {
 
 
 
-  const handleImageChange = (event) => {
-    const fileimgage = event.target.files[0];
-    if (fileimgage) {
-      setFile(fileimgage);
-    }
-  };
-
+ 
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("")
@@ -341,14 +320,10 @@ const Compliance = () => {
   };
 
 
-  const handleFiltershow = () => {
-    setFiltericon(!filtericon)
-    setSearchicon(false)
-  }
+ 
 
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
-    console.log("searchTerm", searchTerm)
     setStatusfilter(searchTerm)
     if (searchTerm == "All") {
       setFilteredUsers(state.ComplianceList.Compliance)
@@ -360,85 +335,14 @@ const Compliance = () => {
 
     }
   }
-  console.log("data", data)
-
-  const handleMenuClick = () => {
-    setShowForm(true);
-    setUserClicked(true);
-  };
-
-
-
-
-
-
-
-  const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm)
-    if (searchTerm != '') {
-      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-      setData(filteredItems);
-    }
-    else {
-      setData(state.ComplianceList.Compliance)
-    }
-  }
-
-
-
-
-
-
-
-  const handleiconshow = () => {
-    setSearchicon(!searchicon)
-    setFiltericon(false)
-  }
-
-  const handleNextClick = () => {
-
-    setCurrentPage((prevPage) => prevPage === totalPages ? prevPage : prevPage + 1);
-  };
-
-  const handlePreviousClick = () => {
-    setCurrentPage((prevPage) => prevPage === 1 ? prevPage : prevPage - 1);
-  };
-
-  const generatePageNumbers = () => {
-    const pageNumbers = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      pageNumbers.push(page);
-    }
-
-    return pageNumbers;
-  };
-
-  const handlePageSelect = (eventKey) => {
-    const selectedPage = parseInt(eventKey, 10);
-    setCurrentPage(selectedPage);
-  };
-  const handleDatePicker = (e) => {
-    setDate(e.target.value)
-  }
-
-
-  const [usersId, setUsersId] = useState('')
-
-
-
-
+ 
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
-      const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
+      // const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
 
 
-      setUsersId(uniqueOptions);
+      // // setUsersId(uniqueOptions);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
       }, 1000)
@@ -452,8 +356,6 @@ const Compliance = () => {
 
 
   const [selectedUsername, setSelectedUserName] = useState('')
-  const [filteredUserDetails, setFilteredUserDetails] = useState([]);
-
 
 
   useEffect(() => {
@@ -463,9 +365,8 @@ const Compliance = () => {
       }
       )
       if (filteredDetails.length > 0) {
-        console.log('filteredDetails', filteredDetails);
 
-        setFilteredUserDetails(filteredDetails);
+        // setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
@@ -477,7 +378,7 @@ const Compliance = () => {
         setFloorname(firstFilteredDetail.floor_name || '')
 
       } else {
-        setFilteredUserDetails([]);
+        // setFilteredUserDetails([]);
         setHostelName('');
         setBeds('')
         setFloor('');
@@ -485,7 +386,7 @@ const Compliance = () => {
         setFloorname('');
       }
     } else {
-      setFilteredUserDetails([]);
+      // setFilteredUserDetails([]);
       setHostelName('');
       setBeds('')
       setFloor('');
@@ -494,7 +395,7 @@ const Compliance = () => {
     }
   }, [selectedUsername]);
 
-  const handleCheckoutChange = (event, newValue) => {
+  const handleCheckoutChange = (event) => {
     setSelectedUserName(event.target.value);
     if (!event.target.value) {
       setUserErrmsg("Please Select Name")
@@ -554,24 +455,7 @@ const Compliance = () => {
     }
   }
 
-  const handleAssign = (e) => {
-    setAssign(e.target.value)
-    if (!e.target.value) {
-      setAssignErrmsg("Please Enter Assign");
-    } else {
-      setAssignErrmsg("");
-    }
-  }
-
-  const handleStatus = (e) => {
-    setStatus(e.target.value)
-    if (!e.target.value) {
-      setStatusErrmsg("Please Enter Status");
-    } else {
-      setStatusErrmsg("");
-    }
-  }
-
+  
 
   const handleAddcomplaint = () => {
 
@@ -605,12 +489,6 @@ const Compliance = () => {
 
 
 
-
-    if (!Status) {
-      setStatusErrmsg('Please Select status')
-      // return;
-    }
-
     if (!selectedDate) {
       setDateErrmsg('Please Select date')
       // return;
@@ -622,7 +500,7 @@ const Compliance = () => {
     if (Complainttype && selectedDate && hostelname && beds && Rooms) {
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id, Description: description } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -638,7 +516,7 @@ const Compliance = () => {
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, Description: description } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status,} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -666,11 +544,7 @@ const Compliance = () => {
   }, [selectedUsername, Complainttype, Assign, description, selectedDate, beds, Rooms, hostelname, Floor, Status]);
 
 
-
-
-  const [editdata, setEditData] = useState('')
   const [editcomplainttype, setEditcomplainttype] = useState('')
-  const [floor_name, setFloorName] = useState('')
   // const [room_name, setRoomName] = useState('')
 
 
@@ -678,7 +552,7 @@ const Compliance = () => {
 
     setEdit(true)
     if (Complaintdata) {
-      setEditData(Complaintdata)
+      // setEditData(Complaintdata)
       setShow(true);
       // setCheck('EDIT')
       setId(Complaintdata.ID)
@@ -763,7 +637,7 @@ const Compliance = () => {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -812,24 +686,24 @@ const Compliance = () => {
     );
   };
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 0) {
+  //       setIsScrolled(true);
+  //     } else {
+  //       setIsScrolled(false);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    // Cleanup the event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   // Cleanup the event listener
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -996,8 +870,6 @@ const Compliance = () => {
                                 className="show-scroll p-0"
                                 style={{
                                   backgroundColor: "#fff",
-                                  borderRadius: "4px",
-                                  // maxHeight: 174,
                                   maxHeight:
                                     filteredUsers?.length > 1 ? "174px" : "auto",
                                   minHeight: 100,
@@ -1114,7 +986,7 @@ const Compliance = () => {
                         disabled={complianceAddPermission}
                         onClick={handleShow}
                         style={{
-                          fontSize: 13, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 8,
+                          fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
 
                           padding: "12px 31px",
                           paddingBottom: 11,
@@ -1132,8 +1004,8 @@ const Compliance = () => {
                     overflowY: "auto",
                   }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
-                    <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                      <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
+                    <div key={complaints.ID} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                      <ComplianceList  complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
                     </div>
                   ))
                   }
@@ -1340,7 +1212,7 @@ const Compliance = () => {
                                   typeof u.Rooms === 'string' &&
                                   u.Rooms.trim() !== '')
                                   .map(u => (
-                                    <option value={u.Name}>{u.Name}</option>
+                                    <option key={u.ID}  value={u.Name}>{u.Name}</option>
                                   ))
                                 }
 
@@ -1440,7 +1312,7 @@ const Compliance = () => {
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
                             <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
-                              Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
+                              Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
 
                           {/* 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -2063,4 +1935,8 @@ const Compliance = () => {
   );
 };
 
+Compliance.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+};
 export default Compliance;

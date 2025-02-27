@@ -1,10 +1,8 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import crown from "../Assets/Images/New_images/crown.png"
 import whatsapp from "../Assets/Images/New_images/newWhats.png"
 import avtar from "../Assets/Images/New_images/settinAvthar.png"
 import msg from "../Assets/Images/New_images/message.png"
-import { Button } from "react-bootstrap";
 
 function SettingIntergration(){
     return(

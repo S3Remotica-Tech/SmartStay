@@ -16,19 +16,13 @@ import SettingNewUser from "./SettingUserNew";
 import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import './SettingAll.css';
-import { Button, Offcanvas, Form, FormControl, FormSelect } from "react-bootstrap";
-import { useDispatch, useSelector } from 'react-redux';
-import { MdError } from "react-icons/md";
-import { SettingsStoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
-import { ArrowSwapHorizontal, ArrowRight2, ArrowLeft2 } from 'iconsax-react'
+import { useSelector } from 'react-redux';
+import {  ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 
 
-function SettingAllPages(props) {
+function SettingAllPages() {
 
-  console.log("props", props);
-
-
-  const dispatch = useDispatch();
+ 
   const state = useSelector(state => state);
   const [activeItem, setActiveItem] = useState("General");
   const [generalPageShow, setGeneralPageShow] = useState(true);
@@ -44,7 +38,6 @@ function SettingAllPages(props) {
   const [userPageShow, setUserPageShow] = useState(false);
   const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id, setHostel_Id] = useState('')
-  const [displayError, setDisplayError] = useState('')
 
 
   useEffect(() => {
@@ -54,12 +47,6 @@ function SettingAllPages(props) {
 
   }, [state?.login?.selectedHostel_Id]);
 
-
-  const handleHostelId = (e) => {
-    const selectedHostelId = e.target.value;
-    setHostel_Id(selectedHostelId);
-    setDisplayError('')
-  };
 
 
 

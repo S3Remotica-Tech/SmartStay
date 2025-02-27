@@ -1,18 +1,12 @@
-import { borderRadius } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import round from "../Assets/Images/dot_round.png"
-import { Container, Row, Col, Card, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, FormControl } from 'react-bootstrap';
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
-import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import close from '../Assets/Images/close.svg';
-import Delete from "../Assets/Images/New_images/trash.png";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Edit from "../Assets/Images/New_images/edit.png";
 import Select from "react-select";
 import './SettingAll.css'
+import PropTypes from "prop-types";
 
 
 const SettingElectricity = ({ hostelid }) => {
@@ -23,12 +17,9 @@ const SettingElectricity = ({ hostelid }) => {
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
   const [showFormElectricity, setShowFormElectricity] = useState(false);
-  const [unit, setUnit] = useState('1');
   const [amount, setAmount] = useState('');
-  const [unitErr, setUnitErr] = useState('');
   const [amountErr, setAmountErr] = useState('');
   const [totalErr, setTotalErr] = useState('');
-  const [tableShow, setTableShow] = useState(false);
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
@@ -37,21 +28,19 @@ const SettingElectricity = ({ hostelid }) => {
   const [every_recurr, setEvery_Recurr] = useState("");
 
   const [editHostel, setEditHostel] = useState({ id: '', name: '', editamount: '' })
-  const [showdeleteform, setShowDeleteform] = useState(false)
 
 
   const [EbList, setEbList] = useState([])
   const [loading, setLoading] = useState(true)
 
 
-  // useEffect(() => {
-  //   if (hostelid) {
-  //     dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
-  //   }
-  // }, [hostelid])
+  useEffect(() => {
+    if (hostelid) {
+      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+    }
+  }, [hostelid])
 
 
-  console.log("state.Settings.addEbbillingUnitStatuscode", state.Settings.addEbbillingUnitStatuscode)
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200 || state.Settings.deleteElectricityStatuscode === 200) {
 
@@ -70,7 +59,6 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleClose = () => {
     setShowFormElectricity(false)
-    setUnit('')
     setAmount('')
     setAmountErr('');
     setTotalErr('');
@@ -97,16 +85,10 @@ const SettingElectricity = ({ hostelid }) => {
   };
 
 
-
-
-
-  const [showDots, setShowDots] = useState(false);
   const [edit, setEdit] = useState(false)
-  const handleShowDots = () => {
-    setShowDots(!showDots);
-  };
+  
 
-  const handleEditElectricity = (item, v) => {
+  const handleEditElectricity = (item) => {
 
     if (!hostelid) {
       setShowPopup(true);
@@ -114,19 +96,12 @@ const SettingElectricity = ({ hostelid }) => {
     }
     setEdit(true)
     setShowFormElectricity(true);
-    // setUnit(item.unit)
     setAmount(item.amount)
     setEditHostel({ id: item.hostel_id, name: item.Name, editamount: item.amount })
 
   }
 
 
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value)
-    if (e.target.value !== '') {
-      setUnitErr('')
-    }
-  }
 
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
@@ -165,7 +140,6 @@ const SettingElectricity = ({ hostelid }) => {
       });
     } else if (!edit &&  amount !== '') {
 
-console.log("called")
 
       dispatch({
         type: 'EB-BILLING-UNIT-ADD',
@@ -175,7 +149,7 @@ console.log("called")
     }
   };
 
-  const [deleteItems, setDeleteItems] = useState('')
+  // const [deleteItems, setDeleteItems] = useState('')
 
   //  const handleDeleteElectricity = (item) => {
   //   setDeleteItems(item)
@@ -183,16 +157,16 @@ console.log("called")
 
   //  }
 
-  const handleConfirmDelete = () => {
-    if (deleteItems) {
-      dispatch({ type: 'DELETE-ELECTRICITY', payload: { hostel_id: deleteItems.hostel_id, settings_id: deleteItems.id } });
-      setShowDeleteform(false)
-    }
-  }
+  // const handleConfirmDelete = () => {
+  //   if (deleteItems) {
+  //     dispatch({ type: 'DELETE-ELECTRICITY', payload: { hostel_id: deleteItems.hostel_id, settings_id: deleteItems.id } });
+  //     setShowDeleteform(false)
+  //   }
+  // }
 
-  const handleCloseDeleteform = () => {
-    setShowDeleteform(false)
-  }
+  // const handleCloseDeleteform = () => {
+  //   setShowDeleteform(false)
+  // }
 
 
 
@@ -228,9 +202,7 @@ console.log("called")
 
   };
 
-  const handlestartDateChange = (e) => {
-    setCalculatedstartdate(e.target.value);
-  };
+ 
 
   // const handleEndDateChange = (e) => {
   //   setCalculatedEnddate(e.target.value);
@@ -334,7 +306,6 @@ console.log("called")
   }));
 
   const handleStartDateChange = (selectedOption) => {
-    console.log("Selected Start Date:", selectedOption?.value);
     setCalculatedstartdate(selectedOption?.value);
     setCalculatedstartdateErrmsg("")
       
@@ -473,16 +444,13 @@ console.log("called")
 
         )}
       </div>
-      {
-        tableShow ?
-          <SettingsElectricityTable hostelid={hostelid} />
-          :
+     
           <>
             {EbList && EbList.length > 0 ? (
-              EbList.map((v, i) => {
+              EbList.map((v,index) => {
                 return (
 
-                  <Row>
+                  <Row key={index}>
                     <Col lg={8} md={12} sm={12}>
                       <Card className="p-2 border" style={{ borderRadius: 16 }}>
                         <Card.Body>
@@ -611,7 +579,7 @@ console.log("called")
                               <Col>
                                 <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Per unit Amount</Form.Label>
                                 <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹ {v.amount}</h6>
-                                {unitErr && (
+                                {/* {unitErr && (
                 <p 
                   style={{
                     color: "red",
@@ -626,7 +594,7 @@ console.log("called")
                   </span>
                   {unitErr}
                 </p>
-              )}
+              )} */}
                               </Col>
 
                               <Col>
@@ -715,7 +683,7 @@ console.log("called")
             )
             }
           </>
-      }
+     
 
 
 
@@ -806,7 +774,7 @@ console.log("called")
                   }}
                 />
               </Form.Group>
-              {unitErr && <span style={{ color: "red", fontSize: 16 }}> {unitErr} </span>}
+              {/* {unitErr && <span style={{ color: "red", fontSize: 16 }}> {unitErr} </span>} */}
             </div>
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -900,7 +868,7 @@ console.log("called")
       </Modal>
 
 
-      {showdeleteform &&
+      {/* {showdeleteform &&
         <div>
           <Modal
             show={showdeleteform}
@@ -990,7 +958,7 @@ console.log("called")
             </Modal.Footer>
           </Modal>
         </div>
-      }
+      } */}
 
       {recurringform && (
         <div
@@ -1011,7 +979,6 @@ console.log("called")
             <Modal.Dialog
               style={{
                 maxWidth: 950,
-                paddingRight: "10px",
                 paddingRight: "10px",
                 borderRadius: "30px",
               }}
@@ -1301,6 +1268,10 @@ console.log("called")
 
     </Container>
   );
+};
+
+SettingElectricity.propTypes = {
+  hostelid: PropTypes.func.isRequired,
 };
 
 export default SettingElectricity;

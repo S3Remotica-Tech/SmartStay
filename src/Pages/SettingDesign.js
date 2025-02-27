@@ -9,6 +9,7 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { MdError } from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
+import PropTypes from "prop-types";
 
 function RolesDesign(props){
 
@@ -19,11 +20,7 @@ function RolesDesign(props){
     const [roleName,setRoleNme]=useState('')
     const[permissionRole,setPermissionRole]=useState([])
     const [activeRow, setActiveRow] = useState(null);
-    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [editRolePermission,setEditRolePermission] =useState("")
-    const [roleinEdit,setroleinEdit] = useState("")
-    const [initialRoleName, setInitialRoleName] = useState('');
-    const [initialPermissions, setInitialPermissions] = useState([]);
     const [edit,setEdit]=useState(false)
     const [errorForm,setErrorForm] =useState("")
     const [errorPermission,setErrorPermission] =useState("")
@@ -32,17 +29,11 @@ function RolesDesign(props){
 
     
 
-    const handleShowDots = (id, e) => {
+    const handleShowDots = (id) => {
       if (activeRow === id) {
         setActiveRow(null);
-      } else {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setPopupPosition({
-          top: rect.top + window.scrollY + 40, 
-          left: rect.left + window.scrollX + 10, 
-        });
-        setActiveRow(id);
-      }
+      } 
+      setActiveRow(id);
     };
 
 
@@ -236,12 +227,12 @@ const [checkboxValues, setCheckboxValues] = useState({
   //   // Send checkboxValues to your backend or API
   // };
   
-  useEffect(() => {
-    if (edit && RolePermission) {
-        setInitialRoleName(roleName);
-        setInitialPermissions([...permissionRole]); 
-    }
-}, [edit, RolePermission]);
+//   useEffect(() => {
+//     if (edit && RolePermission) {
+//         // setInitialRoleName(roleName);
+//         // setInitialPermissions([...permissionRole]); 
+//     }
+// }, [edit, RolePermission]);
 
   const handleSubmit = () => {
   
@@ -630,4 +621,9 @@ useEffect(()=>{
          
     )
 }
+
+RolesDesign.propTypes = {
+  setRolePage: PropTypes.func.isRequired,
+};
+
 export default RolesDesign;

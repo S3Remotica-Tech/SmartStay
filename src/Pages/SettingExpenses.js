@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Swal from 'sweetalert2';
 import Editbtn from '../Assets/Images/Edit-blue.png';
 import Closebtn from '../Assets/Images/Delete_red.png';
 import { MdError } from "react-icons/md";
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import close from '../Assets/Images/close.svg';
 import { Card } from 'react-bootstrap';
 import CreatableSelect from "react-select/creatable";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
-import './Settingexpense.css'
+import './Settingexpense.css';
+import PropTypes from "prop-types";
 
 
 function SettingExpenses({ hostelid }) {
@@ -23,29 +22,15 @@ function SettingExpenses({ hostelid }) {
 
   const [type, setType] = useState([]);
   const [subType, setSubType] = useState('');
-  const [typeerrmsg, setTypeErrmsg] = useState('')
-
-  const [typeidname, setTypeIdName] = useState('')
-  const [types, setTypes] = useState([]);
   const [isSubCategory, setIsSubCategory] = useState(false);
-  const [expences, setExpences] = useState([])
-  const [expencerolePermission, setExpenceRolePermission] = useState("");
-  const [expencepermissionError, setExpencePermissionError] = useState("");
-  const [expenceAddPermission, setExpenceAddPermission] = useState("")
-  const [expenceDeletePermission, setExpenceDeletePermission] = useState("")
-  const [expenceEditPermission, setExpenceEditPermission] = useState("")
   const [showform, setShowForm] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [namefilter, setNamefilter] = useState()
   const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
   const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
   const [totalErrormsg, setTotalErrmsg] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [deleteItem, setDeleteItem] = useState(null);
-  const [category_Id, setCategory_ID] = useState(null)
   const [subcategory_Id, setSubCategory_ID] = useState(null)
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
-  const [subCategory_Id, setSubCategory_Id] = useState('')
   const [loading, setLoading] = useState(true)
   const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(10);
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
@@ -54,57 +39,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  useEffect(() => {
-    setExpenceRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_view == 1
-    ) {
-      setExpencePermissionError("");
-    } else {
-      setExpencePermissionError("Permission Denied");
-    }
-  }, [expencerolePermission]);
-
-
-
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_create == 1
-    ) {
-      setExpenceAddPermission("");
-    } else {
-      setExpenceAddPermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
-
-
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
-    ) {
-      setExpenceDeletePermission("");
-    } else {
-      setExpenceDeletePermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
-
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
-    ) {
-      setExpenceEditPermission("");
-    } else {
-      setExpenceEditPermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
-
+  
 
 
   // const uniqueExpences = expences.filter((expence, index, self) =>
@@ -138,7 +73,6 @@ function SettingExpenses({ hostelid }) {
     setEditsubCat(null)
     setSelectedOptions([])
 
-    console.log("Opening the form...");
   };
 
 
@@ -158,22 +92,8 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  console.log("edititem", subType);
-
-
-
-  const handleUpdateCategory = () => {
-    dispatch({
-      type: 'EDIT_EXPENCES_CATEGORY', payload: { id: 1, hostel_id: hostelid, name: type, type: 1 }
-    })
-  }
-
-
-
   const handleDeleteExpensesCategory = (item) => {
     setDeleteCategoryId(item.category_Id)
-    const sub = item.subcategory[0]?.subcategory_Id
-    setSubCategory_Id(sub)
     setShowModal(true)
   };
 
@@ -367,38 +287,6 @@ function SettingExpenses({ hostelid }) {
 
 
 
-
-  const handleCategoryid = (e) => {
-
-    console.log("category change", e.target.value)
-
-    setType(e.target.value)
-    if (state.Settings.Expences.data && e.target.value !== undefined) {
-      const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-        return typename.category_Id == e.target.value;
-      });
-      setNamefilter(Typeidnamefilter[0].category_Name);
-    }
-    setTotalErrmsg('')
-    if (!e.target.value) {
-      setCategoryErrmsg("Please Enter a Category")
-    }
-    else {
-      setCategoryErrmsg("")
-    }
-  }
-
-  const handlecategoryAdd = (e) => {
-    setType(e.target.value)
-    setTotalErrmsg('')
-    if (!e.target.value) {
-      setCategoryErrmsg("Please Enter a Category")
-    }
-    else {
-      setCategoryErrmsg("")
-    }
-  }
-
   // useEffect(() => {
   //   dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
   // }, [])
@@ -514,7 +402,7 @@ function SettingExpenses({ hostelid }) {
     if (item.category_Id && item.category_Name) {
       setType({ value: item.category_Id, label: item.category_Name });
       setSelectedOptions({ value: item.category_Id, label: item.category_Name })
-      setCategory_ID(item.category_Id || '')
+      // setCategory_ID(item.category_Id || '')
       setEditsubCat(false)
       setIsSubCategory(false);
       setInitialCategory({ id: item.category_Id, name: item.category_Name });
@@ -1133,7 +1021,7 @@ function SettingExpenses({ hostelid }) {
             dialogClassName="custom-modal"
           >
             <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }}
+              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
               className="m-0 p-0"
             >
               <div>
@@ -1431,4 +1319,8 @@ function SettingExpenses({ hostelid }) {
     </div>
   )
 }
+
+SettingExpenses.propTypes = {
+  hostelid: PropTypes.func.isRequired
+};
 export default SettingExpenses;
