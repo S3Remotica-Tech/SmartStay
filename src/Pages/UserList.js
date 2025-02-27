@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -85,11 +85,9 @@ function UserList(props) {
   const [customererrmsg, setCustomerErrmsg] = useState("");
 
   const [totalAmount, setTotalAmount] = useState("");
-  const [tableErrmsg, setTableErrmsg] = useState("");
   const [newRows, setNewRows] = useState([
     { "S.NO": 1, am_name: "", amount: "0" },
   ]);
-  const [amenityArray, setamenityArray] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [startdateerrmsg, setStartdateErrmsg] = useState("");
   const [enddateerrmsg, setEnddateErrmsg] = useState("");
@@ -112,56 +110,43 @@ function UserList(props) {
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [ebErrorunit, setEbErrorunit] = useState("");
-  const [roomId, setRoomId] = useState("");
   const [unitAmount, setUnitAmount] = useState("");
   const [dateError, setDateError] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
   const [isreader, setIsReader] = useState("");
-  const [checkoutaddform , setAddCheckoutForm]= useState(true)
+  const [checkoutaddform, setAddCheckoutForm] = useState(true);
 
   const [hos_Name, setHos_Name] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
 
   const [hostelDelete, setHostelDelete] = useState(false);
   const [roomDelete, setRoomDelete] = useState(false);
 
-  const [deleteIdhostel, setdeleteIdhostel] = useState("");
-  const [deleteIdroom, setdeleteIdroom] = useState("");
 
   let serialNumber = 1;
 
- 
   const handleEditItem = (details) => {
-    setCurrentView(null); 
+    setCurrentView(null);
     setTimeout(() => {
-      setCurrentView(details); 
+      setCurrentView(details);
     }, 0);
   };
 
   const handleDeleteItem = (detail) => {
-   
     setDeleteId(detail);
   };
 
   const handleEditRoomReading = (value) => {
-   
-
     setIsReader(value);
   };
- 
 
   useEffect(() => {
     if (isreader) {
-   
-
       const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
         (item) => item.floor_name === isreader.floor_name
       );
 
       if (matchingFloor) {
         setFloor(matchingFloor.floor_id);
-       
       } else {
         console.warn("Floor not found for name:", isreader.floor_name);
       }
@@ -172,7 +157,6 @@ function UserList(props) {
 
       if (matchingRoom) {
         setRooms(matchingRoom.Room_Id);
-       
       } else {
         console.warn("Room not found for ID:", isreader.Room_Id);
       }
@@ -199,31 +183,19 @@ function UserList(props) {
     state?.UsersList?.roomdetails,
   ]);
 
-  
-
   const handleEditHostelReading = (users) => {
-   
-
     setIsReading(users);
   };
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
-      prevRows.map((row, i) =>
-        i === index ? { ...row, [field]: value } : row
-      )
+      prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
     );
     setAllFieldErrmsg("");
   };
-  
 
-  const handleDeleteHostelItem = (data) => {
-    setdeleteIdhostel(data);
-  };
+ 
 
-  const handleDeleteRoomItem = (data) => {
-    setdeleteIdroom(data);
-  };
-
+ 
   const handleDeleteBilling = () => {
     dispatch({
       type: "MANUAL-INVOICE-DELETE",
@@ -233,8 +205,6 @@ function UserList(props) {
     });
     setIsDeleting(false);
   };
-
-
 
   const handleEditBill = () => {
     let isValid = true;
@@ -294,7 +264,6 @@ function UserList(props) {
       isValid = false;
     }
 
-  
     const formatDateToStartdate = (startdate) => {
       if (!startdate) return "";
       const d = new Date(startdate);
@@ -344,18 +313,33 @@ function UserList(props) {
     };
 
     const isChanged = (() => {
-      const userChanged = Number(currentView.hos_user_id) !== Number(customername);
-      const startDateChanged = formatDateToStartdate(currentView.start_date) !== formatDateToStartdate(startdate);
-      const invoiceChanged = String(currentView.Invoices) !== String(invoicenumber);
-      const endDateChanged = formatDateTowenddate(currentView.end_date) !== formatDateTowenddate(enddate);
-      const invoiceDateChanged = formatDateToInvoicedate(currentView.Date) !== formatDateToInvoicedate(invoicedate);
-      const dueDateChanged = formatDateToSInvoiceDuedate(currentView.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
-      
-      const amenitiesChanged = newRows.length !== currentView.amenity.length || newRows.some((row, index) => {
-        const originalRow = currentView.amenity?.[index] || {};
-        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
-      });
-    
+      const userChanged =
+        Number(currentView.hos_user_id) !== Number(customername);
+      const startDateChanged =
+        formatDateToStartdate(currentView.start_date) !==
+        formatDateToStartdate(startdate);
+      const invoiceChanged =
+        String(currentView.Invoices) !== String(invoicenumber);
+      const endDateChanged =
+        formatDateTowenddate(currentView.end_date) !==
+        formatDateTowenddate(enddate);
+      const invoiceDateChanged =
+        formatDateToInvoicedate(currentView.Date) !==
+        formatDateToInvoicedate(invoicedate);
+      const dueDateChanged =
+        formatDateToSInvoiceDuedate(currentView.DueDate) !==
+        formatDateToSInvoiceDuedate(invoiceduedate);
+
+      const amenitiesChanged =
+        newRows.length !== currentView.amenity.length ||
+        newRows.some((row, index) => {
+          const originalRow = currentView.amenity?.[index] || {};
+          return (
+            row.am_name !== originalRow.am_name ||
+            row.amount !== originalRow.amount
+          );
+        });
+
       return (
         userChanged ||
         startDateChanged ||
@@ -366,8 +350,6 @@ function UserList(props) {
         amenitiesChanged
       );
     })();
-    
-    
 
     if (!isChanged) {
       setAllFieldErrmsg("No changes detected.");
@@ -414,7 +396,6 @@ function UserList(props) {
         },
       });
 
-     
       setIsEditing(false);
       setRoomDetail(true);
       setCustomerName("");
@@ -449,24 +430,24 @@ function UserList(props) {
     console.log("Updated Rows:", [...newRows, newRow]);
   };
 
-  useEffect(() => {
-    if (newRows) {
-      const allRows = newRows
-        .map((detail) => ({
-          am_name: detail.am_name,
-          amount: Number(detail.amount),
-        }))
-        .filter((detail) => detail.am_name && detail.amount);
+  // useEffect(() => {
+  //   if (newRows) {
+  //     const allRows = newRows
+  //       .map((detail) => ({
+  //         am_name: detail.am_name,
+  //         amount: Number(detail.amount),
+  //       }))
+  //       .filter((detail) => detail.am_name && detail.amount);
 
-      setamenityArray(allRows);
+  //     setamenityArray(allRows);
 
-      const Total_amout = allRows.reduce(
-        (sum, item) => sum + parseFloat(item.amount || 0),
-        0
-      );
-      setTotalAmount(Total_amout);
-    }
-  }, [newRows]);
+  //     const Total_amout = allRows.reduce(
+  //       (sum, item) => sum + parseFloat(item.amount || 0),
+  //       0
+  //     );
+  //     setTotalAmount(Total_amout);
+  //   }
+  // }, [newRows]);
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
@@ -477,7 +458,7 @@ function UserList(props) {
       setCustomerErrmsg("");
     }
     setStartDate("");
-    setEndDate("")
+    setEndDate("");
     setTotalAmount("");
   };
 
@@ -492,8 +473,6 @@ function UserList(props) {
       setStartdateErrmsg("");
       setEnddateErrmsg("");
     }
-
-   
   };
 
   const handleEndDate = (selectedDates) => {
@@ -506,8 +485,6 @@ function UserList(props) {
       setEnddateErrmsg("");
       setStartdateErrmsg("");
     }
-
-    
   };
 
   const handleInvoiceDate = (selectedDates) => {
@@ -521,7 +498,6 @@ function UserList(props) {
       setEnddateErrmsg("");
       setStartdateErrmsg("");
     }
-
   };
 
   const handleDueDate = (selectedDates) => {
@@ -533,17 +509,14 @@ function UserList(props) {
     } else {
       setInvoiceDueDateErrmsg("");
     }
-
   };
-
- 
 
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
       const updatedRows = prevRows.filter((_, i) => i !== index);
       return updatedRows;
     });
-  
+
     setAllFieldErrmsg("");
   };
 
@@ -582,9 +555,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-   
     if (currentView) {
-
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
@@ -627,7 +598,7 @@ function UserList(props) {
 
       setTotalAmount(currentView.Amount);
 
-      setNewRows(currentView.amenity);;
+      setNewRows(currentView.amenity);
     }
   }, [currentView]);
 
@@ -644,14 +615,13 @@ function UserList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if(uniqueostel_Id){
+    if (uniqueostel_Id) {
       setLoading(true);
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: uniqueostel_Id },
       });
     }
-   
   }, [uniqueostel_Id]);
 
   //  useEffect(() => {
@@ -664,7 +634,7 @@ function UserList(props) {
   //   }, [Floor]);
 
   const [userListDetail, setUserListDetail] = useState("");
-  const [trigger, setTrigger] = useState(true);
+ 
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
@@ -694,11 +664,8 @@ function UserList(props) {
     }
   }, [isEditing]);
 
-  
-
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
-     
       // setIsEditing(true);
       // props.setRoomDetail(false)
       setIsDeleting(true);
@@ -742,8 +709,6 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
-
- 
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -806,28 +771,23 @@ function UserList(props) {
     setIsRoomReading(false);
     setRoomDetail(true);
     setFormError("");
-    setEbErrorunit("");
   };
 
   const handleRoom = (e) => {
     setRooms(e.target.value);
     setRoomError("");
     setFormError("");
-    setEbErrorunit("");
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
     setRooms("");
     setfloorError("");
     setFormError("");
-    setRoomId("");
-    setEbErrorunit("");
   };
   const handleReadingChange = (e) => {
     setReading(e.target.value);
     setReadingError("");
     setFormError("");
-    setEbErrorunit("");
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
   };
 
@@ -835,7 +795,6 @@ function UserList(props) {
     setSelectedDate(date);
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
     setDateError("");
-    setEbErrorunit("");
     setFormError("");
   };
 
@@ -933,13 +892,10 @@ function UserList(props) {
   useEffect(() => {
     // setLoading(true)
     dispatch({
-      
       type: "WALKINCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, [state.login.selectedHostel_Id]);
-
-  
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode == 200) {
@@ -1012,7 +968,6 @@ function UserList(props) {
         type: "CHECKOUTCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-      
     } else if (value === "4") {
       dispatch({
         type: "WALKINCUSTOMERLIST",
@@ -1063,8 +1018,6 @@ function UserList(props) {
           })
         : [];
 
-     
-
       setFilteredUsers(FilterUsertwo);
     }
   }, [
@@ -1079,7 +1032,6 @@ function UserList(props) {
     state.UsersList.GetCheckOutCustomerStatusCode,
     state.UsersList.CheckOutCustomerList,
   ]);
-
 
   const handlefilterInput = (e) => {
     const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
@@ -1155,18 +1107,9 @@ function UserList(props) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [isUserClicked, setUserClicked] = useState(true);
-  const [searchItem, setSearchItem] = useState("");
-  const [searchicon, setSearchicon] = useState(false);
   const [edit, setEdit] = useState("");
-  const [filtericon, setFiltericon] = useState(false);
-  const [statusfilter, setStatusfilter] = useState("");
   const [EditObj, setEditObj] = useState("");
   const [addBasicDetail, setAddBasicDetail] = useState("");
-  const [filteredDatas, setFilteredDatas] = useState([]);
-  const [originalData, setOriginalData] = useState([]);
-  const [filteredDataPagination, setfilteredDataPagination] = useState([]);
-  const [showDots, setShowDots] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -1178,7 +1121,7 @@ function UserList(props) {
     }
     setSearch(false);
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height / 2;
     const popupLeft = left - 200;
 
@@ -1205,7 +1148,6 @@ function UserList(props) {
   };
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  // const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems =
@@ -1213,16 +1155,13 @@ function UserList(props) {
       ? filteredUsers
       : userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
 
-  // const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
-  // const totalPages = Math.ceil(state.UsersList.Users?.length / itemsPerPage);
-
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   // const renderPageNumbers = () => {
@@ -1251,7 +1190,6 @@ function UserList(props) {
 
   const handleMenuClick = () => {
     setShowForm(true);
-    setUserClicked(true);
   };
 
   const handleShow = (u) => {
@@ -1262,8 +1200,6 @@ function UserList(props) {
     setemail_id(u.Email);
   };
 
-  const [showInput, setShowInput] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -1278,15 +1214,14 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.NoUserListStatusCode === 201) {
-      setUserDetails([])
-      setFilteredUsers([])
+      setUserDetails([]);
+      setFilteredUsers([]);
       // setLoading(false)
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NO_USER_LIST' })
-      }, 2000)
+        dispatch({ type: "CLEAR_NO_USER_LIST" });
+      }, 2000);
     }
-
-  }, [state.UsersList?.NoUserListStatusCode])
+  }, [state.UsersList?.NoUserListStatusCode]);
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
@@ -1419,7 +1354,6 @@ function UserList(props) {
   //   dispatch({ type: "COUNTRYLIST" });
   // }, []);
 
-  
   const [isOpenTab, setIsOpenTab] = useState(true);
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites;
@@ -1437,14 +1371,6 @@ function UserList(props) {
           (item) => item.Status === filterByStatus
         );
       }
-
-      if (filterByInvoice) {
-        filteredData = filteredData?.filter((item) =>
-          item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase())
-        );
-      }
-
-      setFilteredDatas(filteredData);
     }
   }, [
     filterByStatus,
@@ -1526,11 +1452,9 @@ function UserList(props) {
   };
   const handleShowSearch = () => {
     setSearch(!search);
-    setFilterStatus(false);
   };
 
   const handleFliterByStatus = () => {
-    setFilterStatus(!filterStatus);
     setSearch(false);
   };
 
@@ -1631,8 +1555,6 @@ function UserList(props) {
     });
   }
 
- 
-
   useEffect(() => {
     dispatch({ type: "AMENITESNAMES" });
   }, []);
@@ -1647,7 +1569,6 @@ function UserList(props) {
       }
     });
   }
- 
 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
@@ -1692,7 +1613,6 @@ function UserList(props) {
     }
   };
 
-  
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
       setShowOtpValidation(true);
@@ -2174,8 +2094,8 @@ function UserList(props) {
         handleClose={checkoutcloseModal}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
-        setAddCheckoutForm = {setAddCheckoutForm}
-        checkoutaddform = {checkoutaddform}
+        setAddCheckoutForm={setAddCheckoutForm}
+        checkoutaddform={checkoutaddform}
       />
 
       <UserlistWalkinForm
@@ -2250,7 +2170,7 @@ function UserList(props) {
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
-                            style={{ height: 20, width: 20,cursor:"pointer"  }}
+                            style={{ height: 20, width: 20, cursor: "pointer" }}
                           />
                         </span>
                         <input
@@ -2271,7 +2191,7 @@ function UserList(props) {
                           <img
                             src={closecircle}
                             onClick={handleCloseSearch}
-                            style={{ height: 20, width: 20,cursor:"pointer" }}
+                            style={{ height: 20, width: 20, cursor: "pointer" }}
                           />
                         </span>
                       </div>
@@ -3422,178 +3342,166 @@ function UserList(props) {
                             </tbody>
                           </Table>
                         </div>
-                      ) }
-                    </div>        
+                      )}
+                    </div>
                   </div>
                 )}
 
+                {!loading && userListDetail?.length == 0 && (
+                  <div style={{ marginTop: 30 }}>
+                    <div style={{ textAlign: "center" }}>
+                      <img src={Emptystate} alt="emptystate" />
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 20,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Customers available
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        fontSize: 16,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      There are no Customer added.
+                    </div>
+                  </div>
+                )}
 
-{
-   !loading && userListDetail?.length == 0 && 
-
-   <div style={{ marginTop: 30 }}>
-   <div style={{ textAlign: "center" }}>
-     <img src={Emptystate} alt="emptystate" />
-   </div>
-   <div
-     className="pb-1"
-     style={{
-       textAlign: "center",
-       fontWeight: 600,
-       fontFamily: "Gilroy",
-       fontSize: 20,
-       color: "rgba(75, 75, 75, 1)",
-     }}
-   >
-     No Customers available
-   </div>
-   <div
-     className="pb-1"
-     style={{
-       textAlign: "center",
-       fontWeight: 500,
-       fontFamily: "Gilroy",
-       fontSize: 16,
-       color: "rgba(75, 75, 75, 1)",
-     }}
-   >
-     There are no Customer added.
-   </div>
- </div>
-}
-
-                    {
-                     (search ? filteredUsers?.length : userListDetail?.length) >= 5 && (
-                        <nav
+                {
+                  (search ? filteredUsers?.length : userListDetail?.length) >=
+                    5 && (
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff", // Optional: to give a background for better visibility
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+                        borderRadius: "5px", // Optional: to make edges rounded
+                      }}
+                    >
+                      {/* Dropdown for Items Per Page */}
+                      <div>
+                        <select
+                          value={itemsPerPage}
+                          onChange={handleItemsPerPageChange}
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "end",
-                            padding: "10px",
-                            position: "fixed",
-                            bottom: "10px",
-                            right: "10px",
-                            backgroundColor: "#fff", // Optional: to give a background for better visibility
-                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-                            borderRadius: "5px", // Optional: to make edges rounded
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
                           }}
                         >
-                          {/* Dropdown for Items Per Page */}
-                          <div>
-                            <select
-                              value={itemsPerPage}
-                              onChange={handleItemsPerPageChange}
-                              style={{
-                                padding: "5px",
-                                border: "1px solid #1E45E1",
-                                borderRadius: "5px",
-                                color: "#1E45E1",
-                                fontWeight: "bold",
-                                cursor: "pointer",
-                                outline: "none",
-                                boxShadow: "none",
-                              }}
-                            >
-                              <option value={5}>5</option>
-                              <option value={10}>10</option>
-                              <option value={50}>50</option>
-                              <option value={100}>100</option>
-                            </select>
-                          </div>
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
 
-                          {/* Pagination Controls */}
-                          <ul
+                      {/* Pagination Controls */}
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
                             style={{
-                              display: "flex",
-                              alignItems: "center",
-                              listStyleType: "none",
-                              margin: 0,
-                              padding: 0,
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
                             }}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
                           >
-                            {/* Previous Button */}
-                            <li style={{ margin: "0 10px" }}>
-                              <button
-                                style={{
-                                  padding: "5px",
-                                  textDecoration: "none",
-                                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                  cursor:
-                                    currentPage === 1
-                                      ? "not-allowed"
-                                      : "pointer",
-                                  borderRadius: "50%",
-                                  display: "inline-block",
-                                  minWidth: "30px",
-                                  textAlign: "center",
-                                  backgroundColor: "transparent",
-                                  border: "none",
-                                }}
-                                onClick={() =>
-                                  handlePageChange(currentPage - 1)
-                                }
-                                disabled={currentPage === 1}
-                              >
-                                <ArrowLeft2
-                                  size="16"
-                                  color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                                />
-                              </button>
-                            </li>
+                            <ArrowLeft2
+                              size="16"
+                              color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                            />
+                          </button>
+                        </li>
 
-                            {/* Current Page Indicator */}
-                            <li
-                              style={{
-                                margin: "0 10px",
-                                fontSize: "14px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {currentPage} of {totalPages}
-                            </li>
+                        {/* Current Page Indicator */}
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentPage} of {totalPages}
+                        </li>
 
-                            {/* Next Button */}
-                            <li style={{ margin: "0 10px" }}>
-                              <button
-                                style={{
-                                  padding: "5px",
-                                  textDecoration: "none",
-                                  color:
-                                    currentPage === totalPages
-                                      ? "#ccc"
-                                      : "#1E45E1",
-                                  cursor:
-                                    currentPage === totalPages
-                                      ? "not-allowed"
-                                      : "pointer",
-                                  borderRadius: "50%",
-                                  display: "inline-block",
-                                  minWidth: "30px",
-                                  textAlign: "center",
-                                  backgroundColor: "transparent",
-                                  border: "none",
-                                }}
-                                onClick={() =>
-                                  handlePageChange(currentPage + 1)
-                                }
-                                disabled={currentPage === totalPages}
-                              >
-                                <ArrowRight2
-                                  size="16"
-                                  color={
-                                    currentPage === totalPages
-                                      ? "#ccc"
-                                      : "#1E45E1"
-                                  }
-                                />
-                              </button>
-                            </li>
-                          </ul>
-                        </nav>
-                      )
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentPage === totalPages ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentPage === totalPages
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentPage === totalPages ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )
 
-                      // )
-                    }
+                  // )
+                }
 
                 {customerReassign == true ? (
                   <CustomerReAssign
@@ -3625,7 +3533,7 @@ function UserList(props) {
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
-                  search = {search}
+                  search={search}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3637,13 +3545,10 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
-
-                  setAddCheckoutForm = {setAddCheckoutForm}
-                  checkoutaddform = {checkoutaddform}
-
+                  setAddCheckoutForm={setAddCheckoutForm}
+                  checkoutaddform={checkoutaddform}
                   // loader={loading}
-                  search = {search}
-
+                  search={search}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3655,7 +3560,7 @@ function UserList(props) {
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
-                  search = {search}
+                  search={search}
                 />
               </TabPanel>
             </TabContext>
@@ -3752,8 +3657,6 @@ function UserList(props) {
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
           onEditHostelItem={handleEditHostelReading}
-          onDeleteHostelItem={handleDeleteHostelItem}
-          onDeleteRoomItem={handleDeleteRoomItem}
           AfterEditHostels={AfterEditHostel}
           AfterEditFloors={AfterEditFloor}
           AfterEditRoomses={AfterEditRooms}
@@ -3769,7 +3672,6 @@ function UserList(props) {
           handleMenuClick={handleMenuClick}
           setShowForm={setShowForm}
           showForm={showForm}
-          setUserClicked={setUserClicked}
           // handleEdit={handleEdit}
           handleShowAddBed={handleShowAddBed}
           roomDetail={roomDetail}
@@ -3875,8 +3777,8 @@ function UserList(props) {
                     aria-label="Default select example"
                     className="border"
                     disabled={
-                      unitAmount &&
-                      unitAmount?.length === 0 &&
+                      // unitAmount &&
+                      // unitAmount?.length === 0 &&
                       selectedHostel != ""
                     }
                     value={Floor}
@@ -3940,8 +3842,8 @@ function UserList(props) {
                     aria-label="Default select example"
                     className="border"
                     disabled={
-                      unitAmount &&
-                      unitAmount?.length === 0 &&
+                      // unitAmount &&
+                      // unitAmount?.length === 0 &&
                       selectedHostel != ""
                     }
                     value={Rooms}
@@ -4193,21 +4095,6 @@ function UserList(props) {
                       }}
                     />
                   </Form.Group>
-                  {hostelIdError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {hostelIdError}
-                      </span>
-                    </div>
-                  )}
 
                   {/* {readingError && (
                   <div style={{ color: "red" }}>
@@ -4532,7 +4419,7 @@ function UserList(props) {
       )}
 
       {isEditing && (
-        <div className="mt-4" style={{paddingLeft:25}} >
+        <div className="mt-4" style={{ paddingLeft: 25 }}>
           <div
             className="container justify-content-start  d-flex align-items-start"
             style={{
@@ -4836,7 +4723,14 @@ function UserList(props) {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoicedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {invoicedateerrmsg}
                   </p>
@@ -4887,14 +4781,20 @@ function UserList(props) {
                     style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red",marginRight:"3px", marginBottom: "3px" }} />
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
                     )}{" "}
                     {invoiceduedateerrmsg}
                   </p>
                 </div>
               )}
             </div>
-
           </div>
 
           {allfielderrmsg.trim() !== "" && (
@@ -5058,7 +4958,6 @@ function UserList(props) {
             >
               Save Changes
             </Button>
-           
 
             <div className="mb-3"></div>
           </div>
@@ -5170,7 +5069,6 @@ function UserList(props) {
           handleMenuClick={handleMenuClick}
           setShowForm={setShowForm}
           showForm={showForm}
-          setUserClicked={setUserClicked}
           // handleEdit={handleEdit}
           handleShowAddBed={handleShowAddBed}
           roomDetail={roomDetail}

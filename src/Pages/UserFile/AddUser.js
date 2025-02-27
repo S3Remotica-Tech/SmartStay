@@ -1,22 +1,19 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { InputGroup, FormControl } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import Card from 'react-bootstrap/Card';
 import { MdError } from "react-icons/md";
-import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import {  CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import eye from '../../Assets/Images/login-password.png'
 import eyeClosed from '../../Assets/Images/Show_password.png';
+import PropTypes from "prop-types";
 
 
 
-
-function User({ show, handleClose, editDetails, hostelid, setAddUserForm, setEdit, edit }) {
+function User({ show, editDetails, setAddUserForm, edit }) {
 
 
   const state = useSelector(state => state)
@@ -38,7 +35,6 @@ function User({ show, handleClose, editDetails, hostelid, setAddUserForm, setEdi
   const [roleError, setRoleError] = useState('');
   const [passwordError, setPasswordError] = useState("")
   const [initialState, setInitialState] = useState({});
-  const [isChanged, setIsChanged] = useState(false);
   const [error, setError] = useState("");
 
 
@@ -663,5 +659,11 @@ function User({ show, handleClose, editDetails, hostelid, setAddUserForm, setEdi
     </div>
   )
 }
+User.propTypes = {
+  editDetails: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  setAddUserForm: PropTypes.func.isRequired,
+};
 
 export default User

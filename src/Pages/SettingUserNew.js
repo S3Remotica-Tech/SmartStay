@@ -3,27 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import { Table } from "react-bootstrap";
 import {
     Button,
-    Offcanvas,
     Modal,
-    Form,
-    FormControl,
-    FormSelect, InputGroup
 } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
-import Profile from "../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
+import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
-import close from '../Assets/Images/close.svg';
 
-function SettingNewUser({ hostelid }) {
+function SettingNewUser() {
 
-    /////////////////////////// state
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
@@ -44,7 +35,7 @@ function SettingNewUser({ hostelid }) {
 
         event.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
-        const { top, left, width, height } = event.target.getBoundingClientRect();
+        const { top, left, height } = event.target.getBoundingClientRect();
 const popupTop = top + height / 4;
 const popupLeft = left - 170;
             
@@ -76,7 +67,6 @@ const popupLeft = left - 170;
         }
         setAddUserForm(true);
         setEdit(false)
-        console.log("Opening Add User Form...");
     };
 
 
@@ -378,9 +368,9 @@ const [currentPage, setCurrentPage] = useState(1);
                         <tbody>
                             {
                                 currentItems?.map((item, index) => {
-                                    const imageUrl = item.profile || Profile;
+                                    // const imageUrl = item.profile || Profile;
                                     return (
-                                        <tr style={{ overflowX: 'auto' }}>
+                                        <tr key={index} style={{ overflowX: 'auto' }}>
                                             <td title={item.first_name}
                                                 style={{
                                                     border: "none",
@@ -449,7 +439,7 @@ const [currentPage, setCurrentPage] = useState(1);
                                                     marginTop: 10,
                                                     whiteSpace: "nowrap",
                                                     overflow:"hidden",
-                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
+                                                    textOverflow:"ellipsis"
                                                 }}
                                             >
                                                 +
@@ -509,7 +499,7 @@ const [currentPage, setCurrentPage] = useState(1);
                                                                 cursor: "pointer",
                                                                 backgroundColor: "#F9F9F9",
                                                                 position: "absolute",
-                                                                position: "fixed",
+                                                                // position: "fixed",
                                                                 top: popupPosition.top,
                                                                 left: popupPosition.left,
                                                                 width: 160,

@@ -26,7 +26,7 @@ function RolesDesign(props){
     const [deleteRleForm,setDeleteRleForm] =useState(false)
     
 
-    const handleShowDots = (id, e) => {
+    const handleShowDots = (id) => {
       if (activeRow === id) {
         setActiveRow(null);
       } else {

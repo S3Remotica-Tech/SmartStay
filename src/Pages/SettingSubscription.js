@@ -1,43 +1,35 @@
-import{ React,useState} from "react";
+import{ React} from "react";
 import crown from "../Assets/Images/New_images/crown.png"
-import { Button, Offcanvas, Form, FormControl, FormSelect, Modal,Row,Col} from "react-bootstrap";
 import { Table } from "react-bootstrap";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import squre from "../Assets/Images/New_images/minus-square.png";
-import Image from "react-bootstrap/Image";
-import Edit from "../Assets/Images/Edit-blue.png";
-import Delete from "../Assets/Images/Delete_red.png";
-import { CloseCircle } from 'iconsax-react';
-import DatePicker from "react-datepicker";
 
 function SettingSubscription() {
- const [activeRow, setActiveRow] = useState(false);
+//  const [activeRow, setActiveRow] = useState(false);
  
- const toggleActiveRow = () => {
-  setActiveRow((prev) => !prev); 
-};
+//  const toggleActiveRow = () => {
+//   setActiveRow((prev) => !prev); 
+// };
 
 
-const [show, setShow] = useState(false);
+// const [show, setShow] = useState(false);
 
-const handleShow = () => {
-  setShow(true); 
-  setActiveRow(false);
-};
+// const handleShow = () => {
+//   setShow(true); 
+//   setActiveRow(false);
+// };
 
 
-const handleClose = () => {
-  setShow(false); 
-  setActiveRow(true); 
-  setIsConfirmDelete(false); 
-  }
+// const handleClose = () => {
+//   setShow(false); 
+//   setActiveRow(true); 
+//   setIsConfirmDelete(false); 
+  // }
 
-  const [isConfirmDelete, setIsConfirmDelete] = useState(false); 
-  const handleDelete = () => {
+  // const [isConfirmDelete, setIsConfirmDelete] = useState(false); 
+//   const handleDelete = () => {
     
-    console.log("User deleted");
-    setIsConfirmDelete(false); 
-};
+//     console.log("User deleted");
+//     setIsConfirmDelete(false); 
+// };
   return (
     <div className="container">
       <div style={{marginTop:26}}>

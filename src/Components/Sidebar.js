@@ -42,7 +42,7 @@ import Eb2 from "../Assets/Images/New_images/ele-active.png";
 import Compl2 from "../Assets/Images/New_images/messages-active.png";
 import Expense2 from "../Assets/Images/New_images/coin.png";
 import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
-import Profilesettings from "../Pages/AccountSettings";
+// import Profilesettings from "../Pages/AccountSettings";
 import Banking from "../Pages/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
 import bankblank from "../Assets/Images/New_images/blank_bank.png";
@@ -1337,12 +1337,12 @@ function Sidebar() {
                 setAllPageHostel_Id={setAllPageHostel_Id}
               />
             )}
-            {currentPage === "profile" && (
+            {/* {currentPage === "profile" && (
               <Profilesettings
                 allPageHostel_Id={allPageHostel_Id}
                 setAllPageHostel_Id={setAllPageHostel_Id}
               />
-            )}
+            )} */}
             {currentPage === "banking" && (
               <Banking
                 allPageHostel_Id={allPageHostel_Id}
