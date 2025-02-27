@@ -5,7 +5,6 @@ import {
   Button,
   Image,
   Modal,
-  Pagination,
   Form,
   Row,
   Col,
@@ -13,31 +12,27 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import "./Userlistbooking.css";
-import minus from "../Assets/Images/New_images/minus-square.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/New_images/edit.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import { CloseCircle } from "iconsax-react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BookingModal from "./Addbookingform";
 import AssignBooking from "./Assignbooking";
-import { FaCheckCircle } from "react-icons/fa";
 import check from "../Assets/Images/add-circle.png";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
-import { be } from "date-fns/locale";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import imageCompression from "browser-image-compression";
 import Plus from "../Assets/Images/New_images/addplus-circle.svg";
 import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -45,37 +40,19 @@ function Booking(props) {
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [modalType, setModalType] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [customers, setCustomers] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [joiningDate, setJoiningDate] = useState("");
   const [amount, setAmount] = useState("");
-  const [comments, setComments] = useState("");
-  const [paying, setPaying] = useState("");
-  const [floor, setFloor] = useState("");
-  const [room, setRoom] = useState("");
-  const [bed, setBed] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [endMeterError, setendMeterError] = useState("");
   const [firstNameError, setfirstNameError] = useState("");
   const [dateError, setDateError] = useState("");
   const [amountError, setamountError] = useState("");
   const [formError, setFormError] = useState("");
-  const [HostelName, setHostelName] = useState("");
-  const [validated, setValidated] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
   const [formEdit, setFormEdit] = useState(false);
-  const [roomId, setRoomId] = useState("");
   const [HostelIds, setHostelIds] = useState("");
-  const [FloorIds, setFloorIds] = useState("");
-  const [bedIds, setBedIds] = useState("");
   const [id, setId] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  const [editMode, seteditMode] = useState(false);
   const [assignBooking, setAssignBooking] = useState("");
   const [Phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -84,14 +61,8 @@ function Booking(props) {
   const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [countryCode, setCountryCode] = useState("");
-  const [phonenumError, setphonenumError] = useState("");
-  const [Editbed, seteditBed] = useState("");
-  const [Bednum, setBednum] = useState("");
-  const [validPhoneError, setvalidPhoneError] = useState("");
-  const [validEmailError, setvalidEmailError] = useState("");
   const [bookingPermissionError, setBookingPermissionError] = useState("");
   const [bookingEditPermissionError, setBookingEditPermissionError] =
     useState("");
@@ -210,7 +181,7 @@ function Booking(props) {
         file: item.profile || "",
       });
 
-      seteditMode(true);
+    
     }
   };
 
@@ -218,34 +189,8 @@ function Booking(props) {
   //   dispatch({ type: "HOSTELLIST" });
   // }, []);
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: HostelIds },
-    });
-  }, [HostelIds]);
-
-  useEffect(() => {
-    if (HostelIds && FloorIds) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: { hostel_Id: HostelIds, floor_Id: FloorIds },
-      });
-    }
-  }, [FloorIds]);
-  useEffect(() => {
-    dispatch({
-      type: "BOOKINGBEDDETAILS",
-      payload: {
-        hostel_id: HostelIds,
-        floor_id: FloorIds,
-        room_id: roomId,
-        joining_date: joiningDate,
-      },
-    });
-  }, [roomId]);
-
-  const calendarRef = useRef(null);
+ 
+ 
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
@@ -268,7 +213,6 @@ function Booking(props) {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
-      setvalidEmailError("");
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
@@ -277,101 +221,22 @@ function Booking(props) {
     setFormError("");
   };
 
-  const handleDate = (selectedDates) => {
-    if (selectedDates.length > 0) {
-      const localDate = new Date(
-        selectedDates[0].getTime() -
-        selectedDates[0].getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-
-      setJoiningDate(localDate);
-      setDateError("");
-      setFormError("");
-    }
-  };
+ 
   const handleAmount = (e) => {
     setAmount(e.target.value);
     setamountError("");
     setFormError("");
   };
 
-  const handlePayingguest = (e) => {
-    const selectedHostelId = e.target.value;
-
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-    setHostelIds(selectedHostelId);
-    setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    if (selectedHostelId === "Select a PG") {
-      setHostelIdError("Please select a valid PG");
-    } else {
-      setHostelIdError("");
-    }
-
-    setHostelIdError("");
-    setFormError("");
-    setFloorIds("");
-    setRoomId("");
-    setBedIds("");
-    setAmount(0);
-  };
-  const handleFloor = (e) => {
-    setFloorIds(e.target.value);
-    setfloorError("");
-    setAmount(0);
-    setFormError("");
-  };
-
-  const handleRoom = (e) => {
-    setRoomId(e.target.value);
-    setRoomError("");
-    setAmount(0);
-    setFormError("");
-  };
+  
+  
   useEffect(() => {
     if (state.Booking.bookingError) {
       setPhoneError(state.Booking.bookingError);
     }
   }, [state.Booking.bookingError]);
 
-  const handleBed = (e) => {
-    setBedIds(e.target.value);
-
-    const Bedfilter =
-      state?.UsersList?.roomdetails &&
-      state.UsersList.roomdetails.filter(
-        (u) =>
-          u.Hostel_Id == HostelIds &&
-          u.Floor_Id == FloorIds &&
-          u.Room_Id == roomId
-      );
-
-    const Roomamountfilter =
-      Bedfilter &&
-      Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
-
-    if (Roomamountfilter?.length != 0) {
-      const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
-
-      if (editMode && e.target.value == initialStateAssign.bed) {
-        setAmount(initialStateAssign.amount);
-      } else {
-        setAmount(selectedRoomRent);
-      }
-    }
-
-    if (e.target.value === "Selected a Bed" && e.target.value === "") {
-      setBedError("Please select a valid Bed");
-    } else {
-      setBedError("");
-    }
-    setBedError("");
-    setFormError("");
-  };
+  
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
   // };
@@ -388,13 +253,9 @@ function Booking(props) {
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     setFormError("");
-    setvalidPhoneError("");
   };
 
-  const handleComments = (e) => {
-    setComments(e.target.value);
-    setFormError("");
-  };
+ 
   const handleAddress = (e) => {
     setAddress(e.target.value);
     setAddressError("");
@@ -422,9 +283,7 @@ function Booking(props) {
         case "amount":
           setamountError("Amount is required");
           break;
-        case "paying":
-          setHostelIdError("Hostel ID is required");
-          break;
+        
         // case "floor":
         //   setfloorError("Floor is required");
         //   break;
@@ -456,9 +315,7 @@ function Booking(props) {
         case "amount":
           setamountError("");
           break;
-        case "paying":
-          setHostelIdError("");
-          break;
+        
         // case "floor":
         //   setfloorError("");
         //   break;
@@ -500,11 +357,7 @@ function Booking(props) {
       return;
     }
 
-    // Check for 'file' object and print details
-    if (file instanceof File || file instanceof Blob) {
-    } else {
-      console.log("ProfileImage Value:", JSON.stringify(file, null, 2));
-    }
+    
 
     // Check if any values have changed
     const isValidDate = (date) => !isNaN(Date.parse(date));
@@ -565,47 +418,27 @@ function Booking(props) {
   const handleDotsClick = (id, event) => {
     setActiveDotsId((prevId) => (prevId === id ? null : id));
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height / 2;
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed, so add 1
-    const day = String(date.getDate()).padStart(2, "0"); // Add leading zero for day if needed
-    return `${year}-${month}-${day}`;
-  };
 
   const handleCloseForm = () => {
     setFormEdit(false);
     setFormError("");
-    setBedError("");
     setPhone("");
     setPhoneError("");
     setAddress("");
     setAddressError("");
     setfirstNameError("");
-    setfloorError("");
-    setHostelIdError("");
     setDateError("");
-    setRoomError("");
     setamountError("");
-    setvalidPhoneError("");
-    setvalidEmailError("");
   };
 
-  const handleAdd = () => {
-    setSelectedCustomer(null);
-    setModalType("add");
-  };
-  const handleShowbook = () => {
-    setModalType("add");
+  
 
-    setSelectedCustomer(null);
-  };
 
   const handleDelete = (item) => {
     setDeleteId(item.id);
@@ -625,47 +458,18 @@ function Booking(props) {
     setAssignBooking(item);
   };
 
-  const handleSave = (updatedCustomer) => {
-    if (modalType === "edit" || modalType === "checkin") {
-      setCustomers((prevCustomers) =>
-        prevCustomers.map((c) =>
-          c.id === updatedCustomer.id ? updatedCustomer : c
-        )
-      );
-      const message =
-        modalType === "edit"
-          ? "Saved changes successfully!"
-          : "Check-in assigned successfully!";
-      showToast(message);
-    } else if (modalType === "add") {
-      setCustomers((prevCustomers) => [updatedCustomer, ...prevCustomers]);
-      showToast("Booking added successfully!");
-    }
-    handleModalClose();
-  };
 
-  const showToast = (successMessage) => {
-    toast.success(successMessage, {});
-  };
+
+
 
   const handleModalClose = () => {
     setModalType(null);
     setSelectedCustomer(null);
   };
 
-  const confirmDelete = () => {
-    if (selectedCustomer) {
-      setCustomers((prevCustomers) =>
-        prevCustomers.filter((c) => c.id !== selectedCustomer.id)
-      );
-      toast.success(` booking deleted successfully!`, {});
-    }
-    handleModalClose();
-  };
+  
 
-  useEffect(() => {
-    setCustomers(state.Booking.CustomerBookingList.bookings);
-  }, state.Booking.CustomerBookingList.bookings);
+ 
 
   useEffect(() => {
     if (state?.Booking?.bookingPhoneError) {
@@ -740,14 +544,14 @@ function Booking(props) {
       try {
         const compressedFile = await imageCompression(fileImage, options);
         setFile(compressedFile);
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Image compression error:", error);
       }
     }
   };
 
   const popupRef = useRef(null);
-  const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   // const itemsPerPage = 7;
@@ -777,29 +581,7 @@ function Booking(props) {
     (props.search ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
   );
 
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li key={i} style={{ margin: "0 5px" }}>
-          <button
-            style={{
-              padding: "5px 10px",
-              color: i === currentPage ? "#007bff" : "#000",
-              cursor: "pointer",
-              border: i === currentPage ? "1px solid #ddd" : "none",
-              backgroundColor:
-                i === currentPage ? "transparent" : "transparent",
-            }}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </button>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
+
 
   const customDateInput = (props) => {
     return (
@@ -1248,7 +1030,6 @@ function Booking(props) {
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",
-                                verticalAlign: "middle",
                               }}
                             >
                               <span
@@ -1637,7 +1418,6 @@ function Booking(props) {
         handleClose={handleModalClose}
         mode={modalType} // 'edit' or 'add'
         customer={selectedCustomer}
-        handleSave={handleSave}
         setFormEdit={setFormEdit}
         formEdit={formEdit}
         HostelID={props.uniqueostel_Id}
@@ -1649,7 +1429,6 @@ function Booking(props) {
         handleClose={handleModalClose}
         mode={modalType}
         customer={selectedCustomer}
-        handleSave={handleSave}
         setAssignBooking={setAssignBooking}
         assignBooking={assignBooking}
         HostelID={props.uniqueostel_Id}
@@ -1767,7 +1546,7 @@ function Booking(props) {
                     height: "50px",
                   }}
                   value={firstName}
-                  className={formErrors.firstName ? "is-invalid" : ""}
+                  // className={formErrors.firstName ? "is-invalid" : ""}
                   onChange={(e) => handleFirstName(e)}
                 />
               </Form.Group>
@@ -1803,7 +1582,7 @@ function Booking(props) {
                     marginTop: 6
                   }}
                   value={lastName}
-                  isInvalid={!!formErrors.lastName}
+                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleLastName(e)}
                 />
               </Form.Group>
@@ -1880,12 +1659,7 @@ function Booking(props) {
                   </div>
 
                 )}
-                {phonenumError && (
-                  <div style={{ color: "red", marginTop: "-10px" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                    <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{phonenumError}</span>
-                  </div>
-                )}
+               
                 {phoneErrorMessage && (
                   <div style={{ color: "red", marginTop: "-10px" }}>
                     <MdError style={{ marginRight: "5px", fontSize: 13 }} />
@@ -1933,7 +1707,7 @@ function Booking(props) {
                     marginTop: 6
                   }}
                   value={Email}
-                  isInvalid={!!formErrors.lastName}
+                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleEmail(e)}
                 />
               </Form.Group>
@@ -1952,22 +1726,7 @@ function Booking(props) {
                   </span>
                 </div>
               )}
-              {emailIdError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {" "}
-                    {emailIdError}
-                  </span>
-                </div>
-              )}
+            
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError />
@@ -2025,7 +1784,7 @@ function Booking(props) {
                   height: "50px",
                 }}
                 value={Address}
-                className={formErrors.firstName ? "is-invalid" : ""}
+                // className={formErrors.firstName ? "is-invalid" : ""}
                 onChange={(e) => handleAddress(e)}
               />
             </Form.Group>
@@ -2245,5 +2004,14 @@ function Booking(props) {
     </>
   );
 }
-
+Booking.propTypes = {
+  customerrolePermission: PropTypes.func.isRequired,
+  uniqueostel_Id: PropTypes.func.isRequired,
+  filterInput: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  customerBookingAddPermission: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  filteredUsers: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+};
 export default Booking;

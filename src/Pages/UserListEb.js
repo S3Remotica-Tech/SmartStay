@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Dropdown, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { PinDropSharp } from "@material-ui/icons";
-import { propsToClassKey } from "@mui/styles";
-import Edit from '../Assets/Images/Edit-blue.png';
-import Delete from '../Assets/Images/Delete_red.png';
+import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import PropTypes from "prop-types";
 
 function UserEb(props) {
   const state = useSelector(state => state)
-  console.log(state,"statuss");
-  console.log(props,'props');
   
   
  const dispatch = useDispatch();
@@ -25,14 +17,8 @@ function UserEb(props) {
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
-const [activeId, setActiveId] = useState(null);
- const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [showDots, setShowDots] = useState("");
   const [selectedHostel, setSelectedHostel] = useState("");
-    const [hostelBased, setHostelBased] = useState("");
-     const [hostelName, setHostelName] = useState("");
-     const [roomBased, setRoomBased] = useState(null);
-const popupRef = useRef(null);
+// const popupRef = useRef(null);
 
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
@@ -43,62 +29,12 @@ const popupRef = useRef(null);
       setEbCurrentPage(1)
     };
 
-    // const handleShowDots = (item) => {
-    //    console.log("ClickedID:", item); // Debugging
-    //    setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
-       
-    //  };
-    const handleShowDots = (eb_Id,event) => {
-      setActiveId((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
-  
-      const { top, left, width, height } = event.target.getBoundingClientRect();
-      const popupTop = top + (height / 2);
-      const popupLeft = left - 200;
-  
-      setPopupPosition({ top: popupTop, left: popupLeft });
-  
+   
+    
 
-    };
-     const handleClickOutside = (event) => {
-       if (popupRef.current && !popupRef.current.contains(event.target)) {
-         setActiveId(null);
-       }
-     };
-      useEffect(() => {
-         document.addEventListener('mousedown', handleClickOutside);
-         return () => {
-           document.removeEventListener('mousedown', handleClickOutside);
-         };
-       }, []); 
+    
 
-       const handleEditRoomReading = (item) => {
-        console.log(item,"items");
-        
-      props.handleEditRoomItem(item)
-        
-         dispatch({ type: 'USERREADINGTRUE' });
-       
-      };
-      const handleEditHostelReading = (item) => {
-        console.log(item,"items");
-        
-      props.handleEditHostelItem(item)
-        
-       dispatch({ type: 'USERHOSTELREADINGTRUE' });
-       
-      };
-
-      const handleDeleteHostelReading = (detail) => {
-         props.handleDeleteHostelItem(detail)
-
-         dispatch({type:'USERHOSTEL_READING_DELETETRUE'})
-      }
-
-     const handleDeleteRoomReading = (read) => {
-      props.handleDeleteRoomItem(read)
-
-      dispatch({type:'USERREADING_DELETETRUE'})
-     }
+    
   
       useEffect(() => {
          if(selectedHostel){
@@ -131,21 +67,20 @@ const popupRef = useRef(null);
         //    }
         //  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
-        useEffect(() => {
-          if (selectedHostel) {
-            console.log("selectedHostel", selectedHostel);
-            const FilterRoomBased = state.Settings.EBBillingUnitlist?.filter(
-              (item) => item.hostel_id == selectedHostel
-            );
+        // useEffect(() => {
+        //   if (selectedHostel) {
+        //     console.log("selectedHostel", selectedHostel);
+        //     const FilterRoomBased = state.Settings.EBBillingUnitlist?.filter(
+        //       (item) => item.hostel_id == selectedHostel
+        //     );
         
-            if (Array.isArray(FilterRoomBased) && FilterRoomBased.length > 0) {
-              const roomValue = Number(FilterRoomBased[0]?.room_based);
-              console.log("Setting roomBased to:", roomValue);
-              setRoomBased(roomValue);
-              setHostelName(FilterRoomBased[0]?.Name);
-            }
-          }
-        }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+        //     if (Array.isArray(FilterRoomBased) && FilterRoomBased.length > 0) {
+        //       const roomValue = Number(FilterRoomBased[0]?.room_based);
+        //       console.log("Setting roomBased to:", roomValue);
+        //       setRoomBased(roomValue);
+        //     }
+        //   }
+        // }, [selectedHostel, state.Settings.EBBillingUnitlist]);
         
 
         //  useEffect(() => {
@@ -165,40 +100,13 @@ const popupRef = useRef(null);
         
         useEffect(() => {
           setSelectedHostel(state.login.selectedHostel_Id);
+      
         
-          // Check if EBBillingUnitlist is available and is an array
-          if (Array.isArray(state.Settings.EBBillingUnitlist)) {
-            const selectedHostelData = state.Settings.EBBillingUnitlist.find(
-              (item) => item.hostel_id == state.login.selectedHostel_Id
-            );
-        
-            if (selectedHostelData) {
-              setHostelName(selectedHostelData.Name); 
-              console.log('names',selectedHostelData.Name);
-              
-            } else {
-              setHostelName(""); // Reset if no match is found
-            }
-          }
-        
-        }, [props, state.login.selectedHostel_Id, state.Settings.EBBillingUnitlist]);
-        
+      
+      }, [props, state.login.selectedHostel_Id]);
+      
 
-        // useEffect(() => {
-        //    setSelectedHostel(state.login.selectedHostel_Id);
-        //  }, [state.login.selectedHostel_Id]);
-
-        //    useEffect(() => {
-        //      setSelectedHostel(state.login.selectedHostel_Id);
-        //      setHostelName(state.Settings.EBBillingUnitlist.Name);
-             
-             
-        //    }, [props, state.login.selectedHostel_Id,state.Settings.EBBillingUnitlist.Name]);
-
-           useEffect(() => {
-            console.log("Forcing hostelBased update:", hostelBased);
-          }, [hostelBased]);
-          
+       
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
   // const renderPageNumbersEb = () => {
@@ -554,4 +462,12 @@ const popupRef = useRef(null);
     </>
   )
 }
+
+UserEb.propTypes = {
+  handleEditRoomItem: PropTypes.func.isRequired,
+  handleDeleteRoomItem: PropTypes.func.isRequired,
+  handleDeleteRoomReading: PropTypes.func.isRequired,
+  handleEditHostelItem: PropTypes.func.isRequired,
+  handleDeleteHostelItem: PropTypes.func.isRequired,
+};
 export default UserEb;

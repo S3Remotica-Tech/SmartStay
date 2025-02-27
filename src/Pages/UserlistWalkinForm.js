@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
-import Flatpickr from 'react-flatpickr';
+import React, { useState, useEffect } from 'react';
+import { Modal, Form, Button, InputGroup } from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_green.css';
 import Calendars from '../Assets/Images/New_images/calendar.png';
-import { toast, ToastContainer } from 'react-toastify';
 import { CloseCircle } from 'iconsax-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
@@ -15,8 +13,9 @@ import Plus from '../Assets/Images/New_images/addplus-circle.svg';
 import Image from 'react-bootstrap/Image';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import imageCompression from 'browser-image-compression';
+import PropTypes from "prop-types";
 
-function CustomerForm({ show, handleClose, initialData, modalType }) {
+function CustomerForm({ show, handleClose, initialData }) {
     const [name, setName] = useState('');
     const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -55,7 +54,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [isChangedError, setIsChangedError] = useState('')
     const [emailError, setEmailError] = useState('')
 
-    const datePickerRef = useRef(null);
+    // const datePickerRef = useRef(null);
 
     const handlePhone = (e) => {
         setGeneralError('');
@@ -111,45 +110,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     }, [initialData, show]);
 
 
-    const validateForm = () => {
-        const newErrors = {};
-
-        // Name Validation
-        if (name.trim() === '') {
-            newErrors.name = 'Name is required.';
-        }
-
-        // Email Validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email.trim() === '') {
-            newErrors.email = 'Email is required.';
-        } else if (!emailRegex.test(email)) {
-            newErrors.email = 'Invalid email format.';
-        }
-
-        // Mobile Validation
-        const mobileRegex = /^\d{10}$/;
-        if (mobile.trim() === '') {
-            newErrors.mobile = 'Mobile number is required.';
-        } else if (!mobileRegex.test(mobile)) {
-            newErrors.mobile = 'Mobile number must be 10 digits.';
-        }
-
-        // Walk-In Date Validation
-        if (!walkInDate) {
-            newErrors.walkInDate = 'Walk-In Date is required.';
-        }
-
-        // Comments Validation
-        if (comments.trim() === '') {
-            newErrors.comments = 'Comments are required.';
-        }
-
-        setErrors(newErrors);
-
-        // Return true if no errors
-        return Object.keys(newErrors).length === 0;
-    };
+   
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -317,17 +278,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
 
 
-    const handleMobileChange = (e) => {
-        const value = e.target.value;
-        setGeneralError('');
-        setMobile(value);
-        setIsChangedError('');
-        if (value.trim() !== '' && value.length === 10) {
-            setErrors(prev => ({ ...prev, mobile: '' }));
-        } else {
-            setErrors(prev => ({ ...prev, mobile: 'Invalid mobile number.' }));
-        }
-    };
+    
 
 
 
@@ -340,15 +291,6 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     // };
 
 
-    const handleWalkInDateChange = (selectedDates) => {
-        setGeneralError('');
-        setWalkInDateError('');
-        setIsChangedError('');
-        if (selectedDates.length > 0) {
-            setWalkInDate(selectedDates[0]);
-            setErrors(prev => ({ ...prev, walkInDate: '' }));
-        }
-    };
 
     const handleCommentsChange = (e) => {
         const value = e.target.value;
@@ -759,7 +701,14 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         </>
     );
 }
-
+CustomerForm.propTypes = {
+    show: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    initialData: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
+    value: PropTypes.func.isRequired,
+  };
+  
 export default CustomerForm;
 
 

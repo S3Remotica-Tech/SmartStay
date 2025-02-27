@@ -440,7 +440,6 @@ function UserlistForm(props) {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     props.setShowMenu(false);
-    props.setUserClicked(false);
     props.setShowForm(false);
     props.OnShowTable(true);
     if (props.edit === "Edit") {
@@ -547,10 +546,7 @@ function UserlistForm(props) {
       payload: payload,
     });
 
-    props.AfterEditHostels(hostel_Id);
-    props.AfterEditFloors(Floor);
-    props.AfterEditRoomses(Rooms);
-    props.AfterEditBeds(Bed);
+  
   };
 
   const handleSaveUserlistAddUser = () => {
@@ -622,10 +618,7 @@ function UserlistForm(props) {
           ID: props.edit === "Edit" ? id : "",
         },
       });
-      props.AfterEditHostels(hostel_Id);
-      props.AfterEditFloors(Floor);
-      props.AfterEditRoomses(Rooms);
-      props.AfterEditBeds(Bed);
+      
       handleClose();
     }
     dispatch({ type: "INVOICELIST" });
@@ -1597,7 +1590,6 @@ UserlistForm.propTypes = {
   OnShowTable: PropTypes.func.isRequired, 
   setEdit: PropTypes.func.isRequired,
   edit: PropTypes.func.isRequired,
-  AfterEditHostels: PropTypes.func.isRequired, 
   AfterEditFloors: PropTypes.func.isRequired,
   AfterEditRoomses: PropTypes.func.isRequired,
   AfterEditBeds: PropTypes.func.isRequired, 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Rent from "../Assets/Reports/buildings.png"
 import Revenue from "../Assets/Reports/chart.png";
@@ -19,33 +18,21 @@ import Aging from "../Assets/Reports/chart-2.png";
 import Image from 'react-bootstrap/Image';
 import CatoryActive from "../Assets/Images/New_images/category-active.png";
 import HostelRentProjection from '../Reports/HostelRentProjection';
-import { FormControl, InputGroup, Pagination, Row, Col } from 'react-bootstrap';
-import { CiSearch } from "react-icons/ci";
-import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import { MdError } from "react-icons/md";
+import { FormControl, InputGroup, Row, Col } from 'react-bootstrap';
+import { CloseCircle, SearchNormal1} from 'iconsax-react';
+
 
 function Reports() {
 
-  const dispatch = useDispatch()
-  const state = useSelector(state => state.createAccount)
+  // const dispatch = useDispatch()
+  // const state = useSelector(state => state.createAccount)
 
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [showReport, setShowReport] = useState(false)
-  const [profile, setProfile] = useState(state.accountList[0]?.user_details.profile)
   const [searchQuery, setSearchQuery] = useState("");
 
-
-  const [reportrolePermission, setReportRolePermission] = useState("");
-
-  const [reportpermissionError, setReportPermissionError] = useState("");
-  const [reportAddPermission,setReportAddPermission]= useState("")
-  const [reportDeletePermission,setReportDeletePermission]=useState("")
-  const [reportEditPermission,setReportEditPermission]=useState("")
 
 
 // useEffect(()=>{
@@ -154,23 +141,23 @@ function Reports() {
 
 
 
-  useEffect(() => {
-    if (state.statusCodeForAccountList == 200) {
+  // useEffect(() => {
+  //   if (state.statusCodeForAccountList == 200) {
 
-      const loginProfile = state.accountList[0].user_details.profile
-
-
-      setProfile(loginProfile)
+  //     const loginProfile = state.accountList[0].user_details.profile
 
 
-    }
-
-  }, [state.statusCodeForAccountList])
+  //     setProfile(loginProfile)
 
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  //   }
+
+  // }, [state.statusCodeForAccountList])
+
+
+  // const handleSearch = (e) => {
+  //   setSearchQuery(e.target.value);
+  // };
 
   const filteredReports = reports.filter(report =>
     report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -184,7 +171,7 @@ function Reports() {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -310,15 +297,12 @@ function Reports() {
                             // left: 0,
                             width: 260,
                             backgroundColor: '#fff',
-                            // border: '1px solid #D9D9D9',
-                            borderRadius: '4px',
                             maxHeight: 174,
                             minHeight: 100,
                             overflowY: 'auto',
                             padding: '5px 10px',
                             margin: '0',
                             listStyleType: 'none',
-
                             borderRadius: 8,
                             boxSizing: 'border-box'
                           }}>
@@ -367,10 +351,10 @@ function Reports() {
         <div  className='container mb-4'   style={{fontWeight: 600, fontSize: 16 }}>
           {reports.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {reports.length} result{reports.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+              {reports.length} result{reports.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span>
             </span>
           ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span></span>
           )}
         </div>
       )}

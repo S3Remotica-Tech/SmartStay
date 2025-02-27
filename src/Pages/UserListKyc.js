@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
-import { MdError } from "react-icons/md";
+import PropTypes from "prop-types";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -78,7 +78,7 @@ function UserListKyc(props) {
     }
   }, [state.UsersList.kycValidateOtpVerifySuccess])
 
-  const [checkoUtDateError, setCheckOutDateError] = useState('')
+ 
 
   
   return (
@@ -287,4 +287,9 @@ function UserListKyc(props) {
     </div>
   )
 }
+UserListKyc.propTypes = {
+  kycuserDetails: PropTypes.func.isRequired,
+  kycdetailsForm: PropTypes.func.isRequired,
+  setKycDetailForm: PropTypes.func.isRequired,
+};
 export default UserListKyc;
