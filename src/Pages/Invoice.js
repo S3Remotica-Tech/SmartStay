@@ -1167,29 +1167,32 @@ const InvoicePage = () => {
     );
   };
 
-  const customInvoiceDateInput = (props) => {
+  const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
       <div
         className="date-input-container w-100"
-        onClick={props.onClick}
+        onClick={onClick}
         style={{ position: "relative" }}
       >
         <FormControl
           type="text"
           className="date_input"
-          value={props.value || "DD/MM/YYYY"}
+          value={value || "DD/MM/YYYY"}
           readOnly
+          ref={ref}
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
             padding: 9,
             fontSize: 14,
             fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
+            fontWeight: value ? 600 : 500,
             width: "100%",
             height: 50,
             boxSizing: "border-box",
             boxShadow: "none",
+            backgroundColor: "#fff",
+            cursor: "pointer",
           }}
         />
         <img
@@ -1205,11 +1208,156 @@ const InvoicePage = () => {
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={props.onClick}
+          onClick={onClick} // Opens date picker when clicking the icon
         />
       </div>
     );
-  };
+  });
+  
+
+  const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    return (
+      <div
+        className="date-input-container w-100"
+        onClick={onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={value || "DD/MM/YYYY"}
+          readOnly
+          ref={ref}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+            backgroundColor: "#fff",
+            cursor: "pointer",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={onClick} // Opens date picker when clicking the icon
+        />
+      </div>
+    );
+  });
+  
+
+  const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    return (
+      <div
+        className="date-input-container w-100"
+        onClick={onClick}
+        style={{ position: "relative" }}
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={value || "DD/MM/YYYY"}
+          readOnly
+          ref={ref}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+            backgroundColor: "#fff",
+            cursor: "pointer",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={onClick} // Open date picker on icon click
+        />
+      </div>
+    );
+  });
+
+  const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    return (
+      <div
+        className="date-input-container w-100"
+        onClick={onClick}
+        style={{ position: "relative" }}  
+      >
+        <FormControl
+          type="text"
+          className="date_input"
+          value={value || "DD/MM/YYYY"}
+          readOnly
+          ref={ref}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none",
+            backgroundColor: "#fff",
+            cursor: "pointer",
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          alt="Calendar"
+          onClick={onClick} // Open date picker when clicking the icon
+        />
+      </div>
+    );
+  });
+  
+  
 
   const customInvoiceDueDateInput = (props) => {
     return (
@@ -5718,42 +5866,37 @@ const InvoicePage = () => {
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
+            <p className="mt-1 mb-1" style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                  }}
-                >
-                  Start Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={startdate}
-                    onChange={(date) => handlestartDate(date)}
-                    popperPlacement="bottom-start"
-                    popperModifiers={[
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -280],
-                        },
-                      },
-                    ]}
-                    dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
-
-                    customInput={customStartDateInput({
-                      value: startdate
-                        ? startdate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
+                  }}>Start Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+             <div style={{ position: "relative", width: "100%" }}>
+            <DatePicker
+  selected={startdate}
+  onChange={(date) => handlestartDate(date)}
+  dateFormat="dd/MM/yyyy"
+  showMonthDropdown
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={100} 
+  popperPlacement="bottom-start"
+  popperModifiers={[
+    {
+      name: "offset",
+      options: {
+        offset: [0, -300],
+      },
+    },
+  ]}
+  customInput={
+    <CustomStartDateInput
+      value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
+    />
+  }
+/>
+</div>
 
               {startdateerrmsg.trim() !== "" && (
                 <div>
@@ -5777,40 +5920,37 @@ const InvoicePage = () => {
             </div>
 
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
+            <p className="mt-1 mb-1" style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                  }}
-                >
-                  End Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={enddate}
-                    onChange={(date) => handleEndDate(date)}
-                    popperPlacement="bottom-start"
-                    popperModifiers={[
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -280],
-                        },
-                      },
-                    ]}
-                    dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
-
-                    customInput={customEndDateInput({
-                      value: enddate ? enddate.toLocaleDateString("en-GB") : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
+                  }}>End Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+               <div style={{ position: "relative", width: "100%" }}>
+            <DatePicker
+  selected={enddate}
+  onChange={(date) => handleEndDate(date)}
+  dateFormat="dd/MM/yyyy"
+  showMonthDropdown
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={100}
+  popperPlacement="bottom-start"
+  popperModifiers={[
+    {
+      name: "offset",
+      options: {
+        offset: [0, -300],
+      },
+    },
+  ]}
+  customInput={
+    <CustomEndDateInput
+      value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
+    />
+  }
+/>
+</div>
 
               {enddateerrmsg.trim() !== "" && (
                 <div>
@@ -5836,42 +5976,34 @@ const InvoicePage = () => {
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
+
+              <p className="mt-1 mb-1" style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                  }}
-                >
-                  Invoice Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={invoicedate}
-                    onChange={(date) => handleInvoiceDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
-
-                    popperPlacement="bottom-start"
-                    popperModifiers={[
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -300],
-                        },
-                      },
-                    ]}
-                    customInput={customInvoiceDateInput({
-                      value: invoicedate
-                        ? invoicedate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
+                  }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+                     <div style={{ position: "relative", width: "100%" }}>
+            <DatePicker
+  selected={invoicedate}
+  onChange={(date) => handleInvoiceDate(date)}
+  dateFormat="dd/MM/yyyy"
+  showMonthDropdown
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={100}
+  popperPlacement="bottom-start"
+  popperModifiers={[
+    {
+      name: "offset",
+      options: {
+        offset: [0, -300],
+      },
+    },
+  ]}
+  customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
+/>
+</div>
 
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
@@ -5895,24 +6027,22 @@ const InvoicePage = () => {
             </div>
 
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
+            <p className="mt-1 mb-1" style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                  }}
-                >
-                  Due Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={invoiceduedate}
-                    onChange={(date) => handleDueDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    popperPlacement="bottom-start"
+                  }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+                   <div style={{ position: "relative", width: "100%" }}>  
+            <DatePicker
+  selected={invoiceduedate}
+  onChange={(date) => handleDueDate(date)}
+  dateFormat="dd/MM/yyyy"
+  showMonthDropdown
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={100} 
+  popperPlacement="bottom-start"
                     popperModifiers={[
                       {
                         name: "offset",
@@ -5921,15 +6051,14 @@ const InvoicePage = () => {
                         },
                       },
                     ]}
-                    minDate={null}
-                    customInput={customInvoiceDueDateInput({
-                      value: invoiceduedate
-                        ? invoiceduedate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
+  customInput={
+    <CustomInvoiceDueDateInput
+      value={invoiceduedate ? invoiceduedate.toLocaleDateString("en-GB") : ""}
+    />
+  }
+/>
+</div>
+
 
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
