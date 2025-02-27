@@ -599,6 +599,7 @@ UserAdditionalContact.propTypes = {
   id: PropTypes.func.isRequired,
   setAdditionalForm: PropTypes.func.isRequired,
   additionalForm: PropTypes.func.isRequired,
+  editAdditional: PropTypes.func.isRequired,
 };
 
 export default UserAdditionalContact;
