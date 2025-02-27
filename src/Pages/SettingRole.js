@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from "react-bootstrap";
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import role from "../Assets/Images/New_images/security-user.png"
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import round from "../Assets/Images/dot_round.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png"
 import RolesDesign from "./SettingDesign";
@@ -96,7 +94,7 @@ function RolePage() {
               {
                 state.Settings?.getsettingRoleList?.response?.roles.map((u) => {
                   return (
-                    <div className="col-12 col-sm-6 col-md-12 col-lg-3 mb-3">
+                    <div key={u.id} className="col-12 col-sm-6 col-md-12 col-lg-3 mb-3">
                       <div
                         className="d-flex align-items-center justify-content-between p-3 border rounded"
                         style={{ height: 64, width: "100%" }}

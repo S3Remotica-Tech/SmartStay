@@ -3,17 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from "react-bootstrap";
 import AddRole from '../Pages/RoleFile/AddRole';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import role from "../Assets/Images/New_images/security-user.png"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import round from "../Assets/Images/dot_round.png"
-import rolecircle from "../Assets/Images/New_images/role_circle.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import close from '../Assets/Images/close.svg';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import PropTypes from "prop-types";
 
 
 function SettingNewRole({ hostelid }) {
@@ -568,4 +565,7 @@ function SettingNewRole({ hostelid }) {
     </div>
   )
 }
+SettingNewRole.propTypes = {
+  hostelid: PropTypes.func.isRequired,
+};
 export default SettingNewRole;

@@ -1,48 +1,32 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Plus from "../Assets/Images/Create-button.png";
-import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import "../Pages/Dashboard.css";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import Filter from "../Assets/Images/New_images/Group 13.png";
 import PayingGuest from "../Pages/PayingGuestFile/PayingGuestMap";
-import Alert from "react-bootstrap/Alert";
 import ParticularHostelDetails from "../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "../Pages/PayingGuestFile/AddPg";
 import AddFloor from "../Pages/PayingGuestFile/AddFloor";
 import "../Pages/PayingGuestFile/PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "../Pages/PayingGuestFile/AddRoom";
-import { IoIosArrowDropleft } from "react-icons/io";
 import { ArrowLeft } from "iconsax-react";
-import { FormControl, InputGroup, Pagination, Dropdown } from "react-bootstrap";
-import { CiSearch } from "react-icons/ci";
-import Notify from "../Assets/Images/New_images/notify.png";
-import Profile from "../Assets/Images/New_images/profile.png";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {
   ArrowUp2,
   ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
   Edit,
   Trash,
 } from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
-import Delete from "../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "../Pages/PayingGuestFile/DeleteFloor";
-import Spinner from "react-bootstrap/Spinner";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import Edit from '../Assets/Images/New_images/edit.png';
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
-import { ArrowLeft2, ArrowRight2, MoreCircle, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2} from "iconsax-react";
+import PropTypes from "prop-types";
 
 
 
@@ -56,9 +40,6 @@ function SettingManage(props) {
   const [editPermissionError, setEditPermissionError] = useState("");
   const [deletePermissionError, setDeletePermissionError] = useState("");
   const [loading, setLoading] = useState(true)
-  const [customerPermission, setCustomerPermission] = useState("")
-  const [customerAddPermission, setCustomerAddPermission] = useState("")
-  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
 
 
   const popupRef = useRef(null);
@@ -66,9 +47,6 @@ function SettingManage(props) {
   
 
   const [hidePgList, setHidePgList] = useState(true);
-
-  const [hostelIndex, setHostelIndex] = useState(0);
-  const [roomDetails, setRoomDetails] = useState("");
 
   const [floorClick, setFloorClick] = useState("");
 
@@ -138,10 +116,7 @@ function SettingManage(props) {
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
-  const [floorDetails, setFloorDetails] = useState([
-    { number_of_floor: "" },
-    // , { number_of_floor: '' }, { number_of_floor: '' }
-  ]);
+
 
   useEffect(() => {
     if (
@@ -306,46 +281,15 @@ function SettingManage(props) {
     }
   }, [state.UsersList.hostelList]);
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setFloorDetails([{ number_of_floor: "" }]);
-    setShow(false);
-  };
-  const handleShow = () => setShow(true);
+ 
+ 
+ 
 
-  const handleCancels = () => {
-    handlecloseHostelForm();
-  };
-  const [addhostelForm, setAddhostelForm] = useState(false);
-  const handleshowHostelForm = () => {
-    setAddhostelForm(true);
-  };
-  const handlecloseHostelForm = () => {
-   
-    setEmailError("");
-    setAddhostelForm(false);
-  };
-
-
-  const [emailError, setEmailError] = useState("");
-
-  const validateEmail = (email) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (pattern.test(email)) {
-      setEmailError("");
-      return true;
-    } else {
-      setEmailError("Please Enter a Valid Email");
-      return false;
-    }
-  };
-
-  //  new Ui changes
-
+  
 
   const handleSelectedHostel = (selectedHostelId) => {
-    const selected = state.UsersList.hostelList?.find((item, index) => {
-      setHostelIndex(index);
+    const selected = state.UsersList.hostelList?.find((item) => {
+      // setHostelIndex(index);
       return item.id == selectedHostelId;
     });
     setSelectedHostel(true);
@@ -391,7 +335,6 @@ function SettingManage(props) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItem, setCurrentItem] = useState("");
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -408,10 +351,10 @@ function SettingManage(props) {
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
-  const [hostelDetails, setHostelDetails] = useState({
+  const hostelDetails = {
     room: null,
-    selectedFloor: null,
-  });
+    selectedFloor: null
+};
   const [editFloor, setEditFloor] = useState({
     hostel_Id: null,
     floor_Id: null,
@@ -431,11 +374,7 @@ function SettingManage(props) {
     dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
   };
 
-  const handleShowAddRoom = (room, selectedFloor) => {
-    setShowRoom(true);
 
-    setHostelDetails({ room, selectedFloor });
-  };
 
   const handlecloseRoom = () => {
     setShowRoom(false);
@@ -449,79 +388,25 @@ function SettingManage(props) {
     setVisibleRange([0,2])
   };
 
-  const handleDIsplayFloorClick = (floorNo) => {
+  const handleDIsplayFloorClick = () => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   };
 
-  const stateAccount = useSelector((state) => state.createAccount);
 
-  const [profile, setProfile] = useState(
-    stateAccount.accountList[0]?.user_details.profile
-  );
+ 
 
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile;
+  // useEffect(() => {
+  //   if (stateAccount.statusCodeForAccountList == 200) {
+  //     const loginProfile = stateAccount.accountList[0].user_details.profile;
 
-      setProfile(loginProfile);
-    }
-  }, [stateAccount.statusCodeForAccountList]);
+  //     setProfile(loginProfile);
+  //   }
+  // }, [stateAccount.statusCodeForAccountList]);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [showDropDown, setShowDropDown] = useState(false);
-
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem != "") {
-      const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hostelList);
-    }
-    setCurrentPage(1);
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem != "") {
-      const filteredItems =
-        state.UsersList.hostelList &&
-        state.UsersList.hostelList.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hostelList);
-    }
-    setCurrentPage(1);
-    setShowDropDown(false);
-  };
-
-  const [showMore, setShowMore] = useState(false);
   const [editHostelDetails, setEditHostelDetails] = useState("");
 
-  const handleMoreClick = () => setShowMore(!showMore);
 
-  const visibleFloors =
-    showHostelDetails.number_Of_Floor > 5
-      ? 5
-      : showHostelDetails.number_Of_Floor;
-  const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
+  
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -535,7 +420,6 @@ function SettingManage(props) {
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
-  const floorsPerPage = 5;
 
 
   
@@ -635,7 +519,7 @@ function SettingManage(props) {
     }
   }, [state.PgList.statusCodeCreateRoom]);
 
-  const handleShowDots = (id) => {
+  const handleShowDots = () => {
     setShowDots(!showDots);
   };
 
@@ -645,18 +529,8 @@ function SettingManage(props) {
     hostel_Id: null,
     floor_Name: null,
   });
-  const [showFilter, setShowFilter] = useState(false);
 
-  const handleShowSearch = () => {
-    setShowFilter(!showFilter);
-  };
-
-  const handleCloseSearch = () => {
-    setShowFilter(false);
-    setFilteredData(state.UsersList.hostelList);
-    setSearchQuery("");
-  };
-
+ 
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
@@ -684,8 +558,7 @@ function SettingManage(props) {
     };
     const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-      appearOnScrool
+      entries
     ) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
@@ -1594,5 +1467,8 @@ function SettingManage(props) {
     </>
   );
 }
-
+SettingManage.propTypes = {
+  setPgshow: PropTypes.func.isRequired,
+  pgshow: PropTypes.func.isRequired,
+};
 export default SettingManage;

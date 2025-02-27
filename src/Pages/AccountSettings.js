@@ -21,7 +21,6 @@ import VISA from "../Assets/Images/visa.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Profile_Security from "./Profile_security";
 import Notify from "../Assets/Images/New_images/notify.png";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Modal from "react-bootstrap/Modal";
@@ -1809,7 +1808,7 @@ const Accountsettings = () => {
         </TabPanel>
 
         <TabPanel value="3">
-          <Profile_Security profilepermissionError={profilepermissionError} />
+          {/* <Profile_Security profilepermissionError={profilepermissionError} /> */}
         </TabPanel>
 
         <TabPanel value="4">
