@@ -2,14 +2,14 @@ import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import role from "../Assets/Images/New_images/security-user.png"
 import "./Settings.css";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import round from "../Assets/Images/dot_round.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png"
-import {Button, Offcanvas,Form,FormControl,FormSelect,} from "react-bootstrap";
+import {Button,Form,FormControl} from "react-bootstrap";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { MdError } from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
+import PropTypes from "prop-types";
 
 function RolesDesign(props){
     const state = useSelector(state => state)
@@ -18,10 +18,7 @@ function RolesDesign(props){
     const [roleName,setRoleNme]=useState('')
     const[permissionRole,setPermissionRole]=useState([])
     const [activeRow, setActiveRow] = useState(null);
-    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [editRolePermission,setEditRolePermission] =useState("")
-    const [roleinEdit,setroleinEdit] = useState("")
-    const [rolepermissionId,setEditRolePermissionId]=useState("")
     const [edit,setEdit]=useState(false)
     const [errorForm,setErrorForm] =useState("")
     const [errorPermission,setErrorPermission] =useState("")
@@ -33,11 +30,8 @@ function RolesDesign(props){
       if (activeRow === id) {
         setActiveRow(null);
       } else {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setPopupPosition({
-          top: rect.top + window.scrollY + 100, // Adjust this offset as needed
-          left: rect.left + window.scrollX + 10, // Adjust this offset as needed
-        });
+        // const rect = e.currentTarget.getBoundingClientRect();
+       
         setActiveRow(id);
       }
     };
@@ -714,4 +708,9 @@ useEffect(()=>{
       
     )
 }
+
+RolesDesign.propTypes = {
+  setRoleEdit: PropTypes.func.isRequired,
+  editPage: PropTypes.func.isRequired
+};
 export default RolesDesign;

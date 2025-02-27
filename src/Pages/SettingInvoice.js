@@ -1,16 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Logo from "../Assets/Images/Logo-Icon.png";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import imageCompression from "browser-image-compression";
 import InvoiceSettingsList from "./InvoicesettingsList";
 import Modal from "react-bootstrap/Modal";
 import { MdError } from "react-icons/md";
-import moment from 'moment';
-import { FormControl} from "react-bootstrap";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
@@ -34,7 +29,6 @@ function SettingInvoice({ hostelid }) {
   const [prefixerrormsg, setPrefixErrmsg] = useState("");
   const [suffixerrormsg, setSuffixfixErrmsg] = useState("");
   const [totalErrormsg, setTotalErrmsg] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const [showform, setShowForm] = useState(false);
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
@@ -44,10 +38,6 @@ function SettingInvoice({ hostelid }) {
   const [loading, setLoading] = useState(true)
   const initialValuesRef = useRef({});
 
-  const [editprefix, setEditPrefix] = useState("");
-  const [editstartnumber, setEditStartnumber] = useState("");
-  const [editHostel, setEditHostel] = useState({ id: "", name: "" });
-  const [show, setShow] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState("");
   const [calculatedenddate, setCalculatedEnddate] = useState("");
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
@@ -126,10 +116,6 @@ function SettingInvoice({ hostelid }) {
 
     setEdit(true);
     setShowForm(true);
-    setShow(true);
-    setEditPrefix(item.prefix);
-    setEditStartnumber(item.suffix);
-    setEditHostel({ id: item.id, name: item.Name });
 
     // Save initial values for editing
     initialValuesRef.current = {
@@ -142,24 +128,7 @@ function SettingInvoice({ hostelid }) {
 
 
 
-  let hasChanges =
-    editprefix !== initialValuesRef.current.editprefix ||
-    editstartnumber !== initialValuesRef.current.editstartnumber;
-
-  const handleClose = () => {
-    setShow(false);
-  };
-
-  const HandleupdateInvoice = () => {
-    if (editprefix && editstartnumber && editHostel) {
-      dispatch({ type: "INVOICESETTINGS", payload: { hostel_Id: editHostel.id, prefix: editprefix, suffix: editstartnumber } });
-      handleClose();
-      setEditHostel({ id: "", name: "" });
-      setEditPrefix("");
-      setEditStartnumber("");
-    }
-  };
-
+ 
 
   const handleInvoiceSettings = () => {
     const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
@@ -196,8 +165,6 @@ function SettingInvoice({ hostelid }) {
     }
   
     if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && invoiceDate && invoicedueDate) {
-      const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');
-      const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');
   
       dispatch({
         type: "INVOICESETTINGS",
@@ -285,90 +252,13 @@ function SettingInvoice({ hostelid }) {
   }
 }, [state.UsersList?.hotelDetailsinPg, hostelid]);
 
-  console.log("recure",isChecked);
+  
 
-  const rowsPerPage = 10;
-
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-
-  if (InvoiceList.length != 0) {
-    var currentRows = InvoiceList.slice(indexOfFirstRow, indexOfLastRow);
-    var totalPages = Math.ceil(InvoiceList.length / rowsPerPage);
-  } else {
-    var currentRows = 0;
-    var totalPages = 0;
-  }
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    let startPage = currentPage - 1;
-    let endPage = currentPage + 1;
-
-    if (currentPage === 1) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    if (currentPage === 2) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages - 1) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      if (i > 0 && i <= totalPages) {
-        pageNumbers.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === currentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === currentPage ? "transparent" : "transparent",
-                border: i === currentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handlePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbers;
-  };
+  
 
 
 
-  // const handlestartDateChange = (e) => {
-  //   setCalculatedstartdate(e.target.value);
-  // };
-
-  // const handleEndDateChange = (e) => {
-  //   setCalculatedEnddate(e.target.value);
-  // };
-
+ 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value)
   }
@@ -432,7 +322,7 @@ function SettingInvoice({ hostelid }) {
     setInvoiceDueDate('')
   };
 
-  const handleRecurringFormShow = (item) => {
+  const handleRecurringFormShow = () => {
     setRecurringForm(true);
 
   };
@@ -462,20 +352,6 @@ function SettingInvoice({ hostelid }) {
     setFormFilled(false);
 };
 
-
-  const handleEditInvoice = (editData) => {
-
-    setEdit(true);
-    setShowForm(true);
-    setPrefix(editData.prefix);
-    setStartNumber(editData.suffix);
-
-    const formattedInvDate = new Date(editData.inv_date);
-    const formattedDueDate = new Date(editData.due_date);
-
-    setSelectedDate(formattedInvDate);
-    setInvoiceDueDate(formattedDueDate);
-  };
 
 
 
