@@ -1,32 +1,27 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import dots from "../Assets/Images/New_images/Group 14.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
-import {Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
+import {Call,Sms,House,Buildings,} from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
 import Carousel from "react-bootstrap/Carousel";
 import {
   Button,
-  Offcanvas,
   Form,
   FormControl,
   InputGroup,
-  Pagination,
 } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Swal from "sweetalert2";
 // import Modal from 'react-bootstrap/Modal';
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
-import moment from "moment";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -34,13 +29,10 @@ import TabPanel from "@mui/lab/TabPanel";
 import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
-import UserListCompliants from "./UserListCompliants";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
-import { Room } from "@material-ui/icons";
-import { style } from "@mui/system";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import editliner from "../Assets/Images/Edit-blue.png";
@@ -49,7 +41,7 @@ import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
 import docDown from "../Assets/Images/New_images/doc_download.png";
-import axios from "axios";
+import PropTypes from "prop-types";
 
 function UserListRoomDetail(props) {
   console.log(props,"propssroom");
@@ -58,7 +50,6 @@ function UserListRoomDetail(props) {
   console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
-  const initialvalue = useRef();
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -69,7 +60,6 @@ function UserListRoomDetail(props) {
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [RoomId, setRoomId] = useState("");
-  const [Bed, setBed] = useState("");
   const [BedId, setBedId] = useState("");
   const [RoomRent, setRoomRent] = useState("");
   const [BalanceDue, setBalanceDue] = useState("");
@@ -79,14 +69,10 @@ function UserListRoomDetail(props) {
   const [paid_rent, setPaidrent] = useState("");
   const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
-  const [isActive, setIsActive] = useState("");
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  const [bedArray, setBedArray] = useState("");
-  const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
-  const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
   const [customerAsignBed, setcustomerAsignBed] = useState(false);
@@ -107,12 +93,9 @@ function UserListRoomDetail(props) {
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [kycuserDetails, setkycuserDetails] = useState("");
-  const [contactList, setContactList] = useState("");
-  const [contactDetails, setContactDetails] = useState("");
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
-  const [generateError,setGenerateError] = useState("")
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
@@ -211,21 +194,7 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
-  const handleDate = (selectedDates) => {
-    if (selectedDates.length > 0) {
-      const localDate = new Date(
-        selectedDates[0].getTime() -
-          selectedDates[0].getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-
-      setSelectedDate(localDate);
-      setDateError("");
-      setFormError("");
-    }
-  };
-
+ 
   const handleShowEditBed = (item) => {
     if (item[0].ID) {
       setBednum(item);
@@ -260,7 +229,6 @@ function UserListRoomDetail(props) {
       setHostel_Id(item[0].Hostel_Id || "");
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
-      setBed(item[0].Bed || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
 
@@ -323,7 +291,6 @@ function UserListRoomDetail(props) {
       setHostel_Id(item[0].Hostel_Id || "");
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
-      setBed(item[0].Bed || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
       setSelectedDate(item[0].user_join_date || "");
@@ -366,44 +333,39 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  useEffect(() => {
-    const currentDate = moment().format("YYYY-MM-DD");
-    const joinDate = moment(currentDate).format("YYYY-MM-DD");
-    const currentMonth = moment(currentDate).month() + 1;
-    const currentYear = moment(currentDate).year();
-    const createdAtMonth = moment(joinDate).month() + 1;
-    const createdAtYear = moment(joinDate).year();
+  // useEffect(() => {
+  //   const currentDate = moment().format("YYYY-MM-DD");
+  //   const joinDate = moment(currentDate).format("YYYY-MM-DD");
+  //   const currentMonth = moment(currentDate).month() + 1;
+  //   const currentYear = moment(currentDate).year();
+  //   const createdAtMonth = moment(joinDate).month() + 1;
+  //   const createdAtYear = moment(joinDate).year();
 
-    if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
-      var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
-      var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
-    } else {
-      var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
-      var invoiceDate = moment(currentDate)
-        .startOf("month")
-        .format("YYYY-MM-DD");
-    }
+  //   if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
+  //     var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
+  //     var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
+  //   } else {
+  //     var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
+  //     var invoiceDate = moment(currentDate)
+  //       .startOf("month")
+  //       .format("YYYY-MM-DD");
+  //   }
 
-    const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
-    const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
-    const numberOfDays =
-      moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
+  //   const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
+  //   const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
+  //   const numberOfDays =
+  //     moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
 
-    const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
+  //   const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
 
-    const oneday_amount = RoomRent / totalDaysInCurrentMonth;
+  //   const oneday_amount = RoomRent / totalDaysInCurrentMonth;
 
-    const payableamount = oneday_amount * numberOfDays;
-    const This_month_payableamount = Math.round(payableamount);
-    setPayableamount(This_month_payableamount);
-  }, [RoomRent]);
+  //   const payableamount = oneday_amount * numberOfDays;
+  //   const This_month_payableamount = Math.round(payableamount);
+  //   setPayableamount(This_month_payableamount);
+  // }, [RoomRent]);
 
-  const handlePaidrent = (e) => {
-    const value = e.target.value;
-    if (value <= payableamount) {
-      setPaidrent(e.target.value);
-    }
-  };
+ 
   const handlePhone = (e) => {
     setPhone(e.target.value);
     const pattern = /^\d{1,10}$/;
@@ -454,13 +416,9 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  const handleIsActiveUser = (e) => {
-    setIsActive(e.target.value);
-  };
+ 
   const aadharInputRef = useRef(null);
   const otherDocInputRef = useRef(null);
-  const [aadharFile, setAadharFile] = useState(null);
-  const [otherDocFile, setOtherDocFile] = useState(null);
   const handleImageChange = async (event) => {
     // handleInputChange()
 
@@ -535,7 +493,6 @@ function UserListRoomDetail(props) {
     }
     // handleInputChange()
     setRooms("");
-    setBed("");
     setfloorError("");
     setFormError("");
     setRoomId("");
@@ -570,7 +527,6 @@ function UserListRoomDetail(props) {
     } else {
       setRoomError("");
     }
-    setBed("");
     setRoomError("");
     setFormError("");
     setBedId("");
@@ -622,9 +578,7 @@ function UserListRoomDetail(props) {
     setRoomRentError("");
   };
 
-  const handlePaymentType = (e) => {
-    setPaymentType(e.target.value);
-  };
+  
 
   const handleAdvanceAmount = (e) => {
     // handleInputChange()
@@ -655,8 +609,6 @@ function UserListRoomDetail(props) {
   const [emailError, setEmailError] = useState("");
   const [addressError, setAddressError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
-  const [phonenumError, setphonenumError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
 
   const validateField = (value, fieldName) => {
     // Ensure value is a string before using trim
@@ -747,7 +699,6 @@ function UserListRoomDetail(props) {
       PaymentType: PaymentType,
       paid_advance: paid_advance,
       paid_rent: paid_rent,
-      payable_rent: payableamount,
       ID: id,
     };
     dispatch({
@@ -755,10 +706,7 @@ function UserListRoomDetail(props) {
       payload: payload,
     });
 
-    props.AfterEditHostels(hostel_Id);
-    props.AfterEditFloors(Floor);
-    props.AfterEditRoomses(Rooms);
-    props.AfterEditBeds(Bed);
+   
 
     setFormShow(false);
   };
@@ -774,12 +722,6 @@ const handleCloseGenerateFormShow =()=>{
 const handleGenerateAdvance=()=>{
   dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id } });
 }
-
-useEffect(()=>{
-if(state.UsersList.generateError){
-setGenerateError(state.UsersList.generateError)
-}
-},[state.UsersList.generateError])
 
 
   const [initialState, setInitialState] = useState({
@@ -917,10 +859,13 @@ setGenerateError(state.UsersList.generateError)
     let formattedDate = null;
     try {
       formattedDate = new Date(selectedDate).toISOString().split("T")[0];
-    } catch (error) {
+    } 
+    catch (errors) {  
+      console.log("errors",errors)
       setDateError("Invalid date format.");
       return;
-    }
+  }
+  
 
     // Detect any changes
     const isChangedBed =
@@ -967,15 +912,11 @@ setGenerateError(state.UsersList.generateError)
         PaymentType,
         paid_advance,
         paid_rent,
-        payable_rent: payableamount,
         ID: id,
       },
     });
     // Trigger post-edit actions
-    props.AfterEditHostels(hostel_Id);
-    props.AfterEditFloors(Floor);
-    props.AfterEditRoomses(Rooms);
-    props.AfterEditBeds(Bed);
+ 
 
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
@@ -1025,24 +966,7 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
   // };
   
   
-  const handleButtonClick = () => {
-    const pdfUrl = advanceDetail[0]?.doc1;
-  
-    if (pdfUrl && pdfUrl.startsWith("http")) {
-      console.log("Opening PDF URL:", pdfUrl);
-  
-      // Open PDF in a new tab
-      const newTab = window.open(pdfUrl, "_blank", "noopener,noreferrer");
-  
-      if (!newTab) {
-        alert("Please allow pop-ups to view the PDF.");
-      }
-    } else {
-      alert("Invalid PDF URL!");
-      console.error("Invalid or missing PDF URL:", pdfUrl);
-    }
-  };
-  
+
   
   
   
@@ -1091,39 +1015,17 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
     );
   };
 
- 
-  const handleAadharUploadClick = (e, type) => {
-    if (e.target.files && e.target.files[0]) {
-      setAadharFile(e.target.files[0].name); // Update state with file name
-      // Dispatch action to upload file
-      dispatch({
-        type: "UPLOADDOCUMENT",
-        payload: {
-          user_id: props.id,
-          type:'doc1',
-          file1: e.target.files[0],
-        },
-      });
-    }
-  };
-  // const handleUploadClick = (ref) => {
-  //   ref.current.click(); // Trigger the hidden file input
-  // };
 
-  // const otherDocInputRef = useRef();
-
-const [otherFile,setOtherFile] = useState(null)
 const [uploadError,setUploadError]= useState("")
 
-// useEffect(()=>{
-//   setUploadError(state.UsersList.adharuploadfileError)
-// },[state.UsersList.adharuploadfileError])
+useEffect(()=>{
+  setUploadError(state.UsersList.adharuploadfileError)
+},[state.UsersList.adharuploadfileError])
   
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
       if (type === "doc1") {
-        setAadharFile(file.name);
         dispatch({
           type: "UPLOADDOCUMENT",
           payload: {
@@ -1133,7 +1035,7 @@ const [uploadError,setUploadError]= useState("")
           },
         });
       } else if (type === "doc2") {
-        setOtherFile(file.name);
+        // setOtherFile(file.name);
         dispatch({
           type: "UPLOADOTHERDOCUMENT",
           payload: {
@@ -1228,7 +1130,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       {props.roomDetail && (
         <>
           {props.userDetails &&
-            props.userDetails.map((item, index) => {
+            props.userDetails.map((item) => {
               const imageUrl = item.profile || Profile;
               return (
                 <div
@@ -1898,17 +1800,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
   </a>
 )}
-   {/* {aadharFile && (
-        <div
-          style={{
-            marginTop: "10px",
-            fontSize: "14px",
-            color: "#555",
-          }}
-        >
-          {aadharFile}
-        </div>
-      )} */}
+  
      {uploadError && (
                                <div style={{ color: "red" }}>
                                  <MdError />
@@ -1971,17 +1863,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     onClick={() => window.open(advanceDetail[0]?.doc2, "_blank")}
   />
 )}
-                                  {/* {otherFile && (
-                                    <div
-                                      style={{
-                                        marginTop: "10px",
-                                        fontSize: "14px",
-                                        color: "#555",
-                                      }}
-                                    >
-                                      Selected File: {otherFile}
-                                    </div>
-                                  )} */}
+                                  
                                 </div>
                               </div>
                             </div>
@@ -2373,7 +2255,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                           <UserAdditionalContact
                             additionalForm={additionalForm}
                             setAdditionalForm={setAdditionalForm}
-                            contactList={contactList}
                             id={props.id}
                             contactEdit={contactEdit}
                             editAdditional={editAdditional}
@@ -2392,7 +2273,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       <Modal.Dialog
                         style={{
                           maxWidth: 666,
-                          paddingRight: "10px",
                           paddingRight: "10px",
                           borderRadius: "30px",
                         }}
@@ -2617,7 +2497,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                                   <div
                                     className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2"
-                                    controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Group>
                                       <Form.Label
@@ -2708,21 +2587,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                          
                                         </div>
                                       )}
-                                      {phonenumError && (
-                                        <div style={{ marginTop:"-15px",color: "red" }}>
-                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {phonenumError}
-                                          </span>
-                                        </div>
-                                      )}
+                                     
                                       {phoneErrorMessage && (
                                         <div style={{ marginTop:"-15px",color: "red" }}>
                                           <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
@@ -2788,21 +2653,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           </span>
                                         </div>
                                       )}
-                                      {emailIdError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {emailIdError}
-                                          </span>
-                                        </div>
-                                      )}
+                                      
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
                                           <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
@@ -3236,7 +3087,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group
                                       className="mb-2"
-                                      controlId="purchaseDate"
                                     >
                                       <Form.Label
                                         style={{
@@ -3643,4 +3493,30 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     </>
   );
 }
+
+
+UserListRoomDetail.propTypes = {
+  onEditItem: PropTypes.func.isRequired,
+  id: PropTypes.func.isRequired,
+  onDeleteItem: PropTypes.func.isRequired,
+  customerEditPermission: PropTypes.func.isRequired,
+  userDetails: PropTypes.func.isRequired,
+  hostelIds: PropTypes.func.isRequired,
+
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  setHostelIds: PropTypes.func.isRequired,
+  hostelName: PropTypes.func.isRequired,
+  sethosName: PropTypes.func.isRequired,
+  statusAmni: PropTypes.func.isRequired,
+  handleBack: PropTypes.func.isRequired,
+  roomDetail: PropTypes.func.isRequired,
+
+  onEditRoomItem: PropTypes.func.isRequired,
+  onEditHostelItem: PropTypes.func.isRequired,
+  onDeleteHostelItem: PropTypes.func.isRequired,
+  onDeleteRoomItem: PropTypes.func.isRequired,
+  setcustomerUser_Id: PropTypes.func.isRequired,
+  customerUser_Id: PropTypes.func.isRequired,
+};
 export default UserListRoomDetail;

@@ -1,25 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Dropdown, Table } from "react-bootstrap";
+import {  Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import { PinDropSharp } from "@material-ui/icons";
-import { propsToClassKey } from "@mui/styles";
+import {ArrowLeft2, ArrowRight2,} from "iconsax-react";
 import Modal from "react-bootstrap/Modal";
-import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
+import { Button, Form, } from "react-bootstrap";
 import cross from "../Assets/Images/cross.png";
+import PropTypes from "prop-types";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -32,21 +20,13 @@ function UserListAmenities(props) {
   }, [props.id]);
   const [selectAmneties, setselectAmneties] = useState("");
 
-  const [selectedAmenityName, setSelectedAmenityName] = useState([]);
   const [addamenityShow, setaddamenityShow] = useState(false);
-  const [active, setActive] = useState(false);
-  const [status, setStatus] = useState("");
   const [createby, setcreateby] = useState("");
-  const [amnityEdit, setamnityEdit] = useState("");
-  const [filtshow, setFiltshow] = useState(false);
-  const [amnitytableshow, setamnitytableshow] = useState(false);
   const [amnityError, setamnityError] = useState("");
 
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
-    setamnitytableshow(true);
-    setEdit(false)
 
     if (value === "" || value === "Select an Amenities") {
       setamnityError("Please select a valid amenity Id");
@@ -67,7 +47,6 @@ function UserListAmenities(props) {
     } else {
       setaddamenityShow(true);
       setstatusShow(false);
-      setSelectedAmenityName([]);
     }
   };
 
@@ -107,15 +86,12 @@ function UserListAmenities(props) {
       }
     });
   }
-  const handleCloseModal = () => {
-    setaddamenityShow(false);
-  };
+  
 
   const [statusAmni, setStatusAmni] = useState(false);
   const [statusShow, setstatusShow] = useState(false);
-  const [amnitynotshow, setamnitynotshow] = useState([]);
   const[selectError,setSelectError] = useState("")
-  const [edit,setEdit] = useState(false)
+
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value);
     setSelectError("")
@@ -191,8 +167,6 @@ const handleAmnitiesSelect = ()=>{
   }, [state.UsersList.statusCustomerAddUser]);
 
   const handleEdit = (v) => {
-    setEdit(true)
-    setamnityEdit(v);
     setaddamenityShow(true);
     setstatusShow(true);
     setselectAmneties(v.amenity_Id);
@@ -219,60 +193,7 @@ const handleAmnitiesSelect = ()=>{
     amnitiesFilterddata?.length / amentiesrowsPerPage
   );
 
-  const renderPageNumbersAmnities = () => {
-    const pageNumbersAmnities = [];
-    let startPageAmnities = amnitiescurrentPage - 1;
-    let endPageAmnities = amnitiescurrentPage + 1;
-
-    if (amnitiescurrentPage === 1) {
-      startPageAmnities = 1;
-      endPageAmnities = 3;
-    }
-
-    if (amnitiescurrentPage === totalPagesAmnities) {
-      startPageAmnities = totalPagesAmnities - 2;
-      endPageAmnities = totalPagesAmnities;
-    }
-
-    if (amnitiescurrentPage === 2) {
-      startPageAmnities = 1;
-      endPageAmnities = 3;
-    }
-
-    if (amnitiescurrentPage === totalPagesAmnities - 1) {
-      startPageAmnities = totalPagesAmnities - 2;
-      endPageAmnities = totalPagesAmnities;
-    }
-
-    for (let i = startPageAmnities; i <= endPageAmnities; i++) {
-      if (i > 0 && i <= totalPagesAmnities) {
-        pageNumbersAmnities.push(
-          <li key={i} style={{ margin: "0 5px" }}>
-            <button
-              style={{
-                padding: "5px 10px",
-                textDecoration: "none",
-                color: i === amnitiescurrentPage ? "#007bff" : "#000000",
-                cursor: "pointer",
-                borderRadius: "5px",
-                display: "inline-block",
-                minWidth: "30px",
-                textAlign: "center",
-                backgroundColor:
-                  i === amnitiescurrentPage ? "transparent" : "transparent",
-                border: i === amnitiescurrentPage ? "1px solid #ddd" : "none",
-              }}
-              onClick={() => handleAmnitiesPageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbersAmnities;
-  };
+ 
 
   useEffect(() => {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
@@ -292,7 +213,7 @@ const handleAmnitiesSelect = ()=>{
               }}
             >
               {" "}
-              Please add a 'Amenities' option in Settings, accessible after
+              Please add a &apos;Amenities&apos; option in Settings, accessible after
               assign an amenities.
             </label>
           </>
@@ -915,4 +836,10 @@ const handleAmnitiesSelect = ()=>{
     </div>
   );
 }
+UserListAmenities.propTypes = {
+  hostelIds: PropTypes.func.isRequired,
+  customerUser_Id: PropTypes.func.isRequired,
+  hostelName: PropTypes.func.isRequired,
+  id: PropTypes.func.isRequired,
+};
 export default UserListAmenities;

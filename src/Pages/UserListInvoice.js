@@ -1,39 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Dropdown, Table } from "react-bootstrap";
-import { MdError } from "react-icons/md";
-import DatePicker from 'react-datepicker';
-import Closebtn from '../Assets/Images/CloseCircle.png';
+import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Calendars from '../Assets/Images/New_images/calendar.png';
-import UserList from "./UserList";
+import PropTypes from "prop-types";
 import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
   ArrowLeft2,
   ArrowRight2,
-  MoreCircle,
 } from "iconsax-react";
-import {
-  Modal,
-  Form,
-  Row,
-  Col,
-  Button,
-  FormControl,
-  InputGroup,
-} from "react-bootstrap";
-import { CloseCircle } from "iconsax-react";
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import { PinDropSharp } from "@material-ui/icons";
-import { propsToClassKey } from "@mui/styles";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
@@ -46,8 +21,6 @@ console.log("propss",props);
   const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [showDots, setShowDots] = useState("");
   const [activeId, setActiveId] = useState(null);
  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
  
@@ -71,12 +44,7 @@ console.log("propss",props);
     invoiceFilterddata?.length / invoicerowsPerPage
   );
 
-  const formatDateForPayloadmanualinvoice = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split('T')[0]; 
-  };
+  
 
   // const renderPageNumbersInvoice = () => {
   //   const pageNumbersInvoice = [];
@@ -142,7 +110,7 @@ console.log("propss",props);
   const handleShowDots = (item,event) => {
     console.log("ClickedID:", item); // Debugging
     setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
     setPopupPosition({ top: popupTop, left: popupLeft });
@@ -222,9 +190,7 @@ console.log("propss",props);
   //   }
   // }, [currentView]);
 
-  useEffect(() => {
-    console.log("After", isEditing);
-  }, [isEditing]);
+ 
 
   console.log("props",props)
 
@@ -510,7 +476,7 @@ const handleDeleteBill = (user) => {
                                           justifyContent: "start",
                                           padding: 10,
                                           alignItems: "center",
-                                          zIndex: showDots ? 1000 : "auto",
+                                          zIndex:  1000 ,
 
                 }}
               >
@@ -724,4 +690,11 @@ const handleDeleteBill = (user) => {
     </>
   );
 }
+UserListInvoice.propTypes = {
+  handleEditItem: PropTypes.func.isRequired,
+  handleDeleteItem: PropTypes.func.isRequired,
+  billEditPermission: PropTypes.func.isRequired,
+  billDeletePermission: PropTypes.func.isRequired,
+};
+
 export default UserListInvoice;

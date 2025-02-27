@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { ArrowLeft } from 'iconsax-react';
 import 'react-datepicker/dist/react-datepicker.css';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import moment from 'moment';
-import Image from 'react-bootstrap/Image';
-import Filter from '../Assets/Images/New_images/Group 13.png';
 import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table';
+import PropTypes from "prop-types";
 
 function HostelRentProjection(props) {
 
@@ -177,5 +175,7 @@ function HostelRentProjection(props) {
         </div>
     )
 }
-
+HostelRentProjection.propTypes = {
+    isVisible: PropTypes.func.isRequired,
+  };
 export default HostelRentProjection
