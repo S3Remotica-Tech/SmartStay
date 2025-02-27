@@ -1,7 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { forgetpage, otpSend ,otpVerify,OTPverificationForForgotPassword} from "../Action/ForgetAction";
-import Swal from 'sweetalert2'
-import Cookies from 'universal-cookie';
+import { forgetpage, otpSend ,OTPverificationForForgotPassword} from "../Action/ForgetAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -66,6 +64,8 @@ function* handleforgetpage(rpsd) {
     }
     catch (error) {
         yield put({ type: 'ERROR', payload: 'Email Id Is Inorrect' })
+        console.log(error);
+        
         // Swal.fire({
         //     icon: "error",
         //     title: "Oops...",
@@ -129,19 +129,19 @@ function* handleOtpVerifyforForgotPassword(action) {
     }
 }
 
-function refreshToken(response){
-    if(response.data.refresh_token){
-       const refreshTokenGet = response.data.refresh_token
-       const cookies = new Cookies()
-       cookies.set('token', refreshTokenGet, { path: '/' });
-    }else if (response.status === 206) {
-        const message = response.status
-        const cookies = new Cookies()
-        cookies.set('access-denied', message, { path: '/' });
+// function refreshToken(response){
+//     if(response.data.refresh_token){
+//        const refreshTokenGet = response.data.refresh_token
+//        const cookies = new Cookies()
+//        cookies.set('token', refreshTokenGet, { path: '/' });
+//     }else if (response.status === 206) {
+//         const message = response.status
+//         const cookies = new Cookies()
+//         cookies.set('access-denied', message, { path: '/' });
       
-     }
+//      }
     
-    }
+//     }
 
 
 

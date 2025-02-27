@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import Closecircle from "../Assets/Images/close-circle.svg";
 import Calender from "../Assets/Images/calendar.svg";
-import Flatpickr from "react-flatpickr";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import moment from "moment";
@@ -13,10 +12,11 @@ import People from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { InputGroup, FormControl } from "react-bootstrap";
+import {  FormControl } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const CheckOutForm = ({
-  item,
+  // item,
   uniqueostel_Id,
   show,
   handleClose,
@@ -29,21 +29,14 @@ const CheckOutForm = ({
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const initialDate = new Date();
-  const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+
 
   const [checkOutDate, setCheckOutDate] = useState("");
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
-  const [currentFloor, setCurrentFloor] = useState("");
-  const [currentBed, setCurrentBed] = useState("");
-  const [selectedHostel, setSelectedHostel] = useState("");
+  // const [currentFloor, setCurrentFloor] = useState("");
+  // const [currentBed, setCurrentBed] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
-  const [noticeDays, setNoticeDays] = useState("");
+  // const [noticeDays, setNoticeDays] = useState("");
   const [comments, setComments] = useState("");
   const [advanceamount, setAdvanceAmount] = useState("");
   const [dueamount, SetDueAmount] = useState('');
@@ -51,21 +44,20 @@ const CheckOutForm = ({
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
 
-  const calendarRef = useRef(null);
 
   const handlecloseform = () => {
     handleClose();
     setSelectedCustomer("");
-    setCurrentBed("");
-    setCurrentFloor("");
-    setNoticeDays("");
+    // setCurrentBed("");
+    // setCurrentFloor("");
+    // setNoticeDays("");
     setComments("");
     setCheckOutDate("");
     setCheckOutRequestDate("");
     setBedname("");
     setFloorname("");
     setCheckOutDateError("");
-    setGeneralError("");
+    // setGeneralError("");
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
@@ -75,41 +67,34 @@ const CheckOutForm = ({
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleHostelChange = (event) => {
-    setSelectedHostel(event.target.value);
-    setGeneralError("");
-    setHostelError("");
-    dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-  };
+  
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption ? selectedOption.value : "");
-    setGeneralError("");
+    // setGeneralError("");
     setCustomerError("");
   };
 
-  const handleNoticeDaysChange = (event) => {
-    setNoticeDays(event.target.value);
-  };
+  
 
   const handleCommentsChange = (event) => {
-    setGeneralError("");
+    // setGeneralError("");
     setComments(event.target.value);
   };
 
-  const handleDateChange = (date) => {
-    setCheckOutDateError("");
-    setGeneralError("");
-    const formattedDate = moment(date[0]).format("DD-MM-YYYY");
-    setCheckOutDate(formattedDate);
-    calendarRef.current.flatpickr.close();
+  // const handleDateChange = (date) => {
+  //   setCheckOutDateError("");
+  //   setGeneralError("");
+  //   const formattedDate = moment(date[0]).format("DD-MM-YYYY");
+  //   setCheckOutDate(formattedDate);
+  //   calendarRef.current.flatpickr.close();
 
-    const current_date = new Date();
-    const notice_period = Math.ceil(
-      (new Date(date[0]) - current_date) / (1000 * 60 * 60 * 24)
-    );
-    setNoticeDays(notice_period);
-  };
+  //   const current_date = new Date();
+  //   const notice_period = Math.ceil(
+  //     (new Date(date[0]) - current_date) / (1000 * 60 * 60 * 24)
+  //   );
+  //   setNoticeDays(notice_period);
+  // };
 
   const [dateDifference, setDateDifference] = useState(null);
 
@@ -124,7 +109,6 @@ const CheckOutForm = ({
     }
   };
 
-  console.log("currentItem", currentItem);
 
   useEffect(() => {
     if (currentItem) {
@@ -134,22 +118,20 @@ const CheckOutForm = ({
       setCheckOutRequestDate(
         currentItem.req_date ? new Date(currentItem.req_date) : null
       );
-      // setSelectedHostel(currentItem.Hostel_Id);
       setSelectedCustomer(currentItem.ID);
-      setCurrentBed(currentItem.Bed);
-      setCurrentFloor(currentItem.Floor);
-      setNoticeDays(currentItem.notice_period);
+      // setCurrentBed(currentItem.Bed);
+      // setCurrentFloor(currentItem.Floor);
+      // setNoticeDays(currentItem.notice_period);
       setComments(currentItem.checkout_comment);
       setBedname(currentItem.bed_name);
       setFloorname(currentItem.floor_name);
     } else {
       setCheckOutDate("");
       setCheckOutRequestDate("");
-      // setSelectedHostel('');
       setSelectedCustomer("");
-      setCurrentBed("");
-      setCurrentFloor("");
-      setNoticeDays("");
+      // setCurrentBed("");
+      // setCurrentFloor("");
+      // setNoticeDays("");
       setComments("");
       setBedname("");
       setFloorname("");
@@ -161,22 +143,20 @@ const CheckOutForm = ({
     if (data) {
       setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
       setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
-      // setSelectedHostel(currentItem.Hostel_Id);
       setSelectedCustomer(data.ID);
-      setCurrentBed(data.Bed);
-      setCurrentFloor(data.Floor);
-      setNoticeDays(data.notice_period);
+      // setCurrentBed(data.Bed);
+      // setCurrentFloor(data.Floor);
+      // setNoticeDays(data.notice_period);
       setComments(data.checkout_comment);
       setBedname(data.bed_name);
       setFloorname(data.floor_name);
     } else {
       setCheckOutDate("");
       setCheckOutRequestDate("");
-      // setSelectedHostel('');
       setSelectedCustomer("");
-      setCurrentBed("");
-      setCurrentFloor("");
-      setNoticeDays("");
+      // setCurrentBed("");
+      // setCurrentFloor("");
+      // setNoticeDays("");
       setComments("");
       setBedname("");
       setFloorname("");
@@ -203,21 +183,18 @@ const CheckOutForm = ({
   // }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
 
   useEffect(() => {
-    console.log("SelectedCustomer:", selectedCustomer);
 
     if (selectedCustomer && !data && !currentItem) {
       const filteruserlist = state.UsersList.Users?.filter(
         (u) => u.ID === selectedCustomer
       );
-      console.log("state.UsersList.Users", state.UsersList.Users);
 
-      console.log("Filtered User List:", filteruserlist);
 
       if (filteruserlist && filteruserlist.length > 0) {
         const user = filteruserlist[0];
 
         if (user.Bed !== undefined && user.Bed !== null) {
-          setCurrentBed(user.Bed);
+          // setCurrentBed(user.Bed);
           setBedname(user.Bed);
         }
 
@@ -244,9 +221,8 @@ const CheckOutForm = ({
     }
   }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
 
-  const [generalError, setGeneralError] = useState("");
+  // const [generalError, setGeneralError] = useState("");
   const [customerWError, setCustomerError] = useState("");
-  const [hostelError, setHostelError] = useState("");
   const [checkoUtDateError, setCheckOutDateError] = useState("");
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
@@ -322,11 +298,11 @@ const CheckOutForm = ({
       "DD-MM-YYYY"
     ).format("YYYY-MM-DD");
 
-    let isValid = true;
+    // let isValid = true;
 
     if (!selectedCustomer) {
       setCustomerError("Please select a customer.");
-      isValid = false;
+      // isValid = false;
     }
 
     // if (!uniqueostel_Id) {
@@ -336,26 +312,21 @@ const CheckOutForm = ({
 
     if (!checkOutDate) {
       setCheckOutDateError("Please select a checkout date.");
-      isValid = false;
+      // isValid = false;
     }
 
     if (!checkOutrequestDate) {
       setCheckOutRequestDateError("Please select a request date.");
-      isValid = false;
+      // isValid = false;
     }
 
     if (!selectedCustomer || !checkOutDate || !checkOutrequestDate) {
-      setGeneralError("Please select all mandatory fields.");
+      // setGeneralError("Please select all mandatory fields.");
       return;
     }
 
-    const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY").format(
-      "YYYY-MM-DD"
-    );
-    const formattedCheckOutRequestDate = moment(
-      checkOutrequestDate,
-      "DD-MM-YYYY"
-    ).format("YYYY-MM-DD");
+    
+  
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -422,23 +393,23 @@ const CheckOutForm = ({
       });
     }
     setSelectedCustomer("");
-    setCurrentBed("");
-    setCurrentFloor("");
-    setNoticeDays("");
+    // setCurrentBed("");
+    // setCurrentFloor("");
+    // setNoticeDays("");
     setComments("");
     setCheckOutDate("");
     setCheckOutRequestDate("");
     setBedname("");
     setFloorname("");
     setCheckOutDateError("");
-    setGeneralError("");
+    // setGeneralError("");
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
   };
 
   const customStyles = {
-    control: (base, state) => ({
+    control: (base) => ({
       ...base,
       height: 50,
       fontSize: 16,
@@ -591,7 +562,7 @@ const CheckOutForm = ({
   const handleConfirmCheckout = () => {
     console.log("handleConfirmCheckout",handleConfirmCheckout)
     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
-      setGeneralError("Please select all mandatory fields");
+      // setGeneralError("Please select all mandatory fields");
       return;
     }
     if (!selectedCustomer) {
@@ -599,10 +570,7 @@ const CheckOutForm = ({
       // return;
     }
 
-    if (!uniqueostel_Id) {
-      setHostelError("Please select a hostel.");
-      // return;
-    }
+    
 
     if (!checkOutDate) {
       setCheckOutDateError("Please select a checkout date.");
@@ -617,16 +585,7 @@ const CheckOutForm = ({
       "YYYY-MM-DD"
     );
 
-    const hasChanges =
-      formattedDate !== data?.CheckoutDate ||
-      selectedCustomer !== data?.ID ||
-      noticeDays !== data?.notice_period ||
-      comments !== data?.checkout_comment;
-
-    // if (!hasChanges) {
-    //   setIsChangedError('No Changes detected');
-    //   return;
-    // }
+   
 
     if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
       dispatch({
@@ -695,7 +654,7 @@ const CheckOutForm = ({
       const notice_period = Math.ceil(
         (new Date(checkOutDate) - current_date) / (1000 * 60 * 60 * 24)
       );
-      setNoticeDays(notice_period || 0);
+      // setNoticeDays(notice_period || 0);
     }
   }, [checkOutDate]);
 
@@ -871,7 +830,7 @@ const CheckOutForm = ({
                       setCheckOutDate(date);
                       calculateDateDifference(date, checkOutrequestDate);
                       setIsChangedError("");
-                      setGeneralError("");
+                      // setGeneralError("");
                     }}
                     dateFormat="dd/MM/yyyy"
                     maxDate={null}
@@ -939,7 +898,7 @@ const CheckOutForm = ({
                         setCheckOutRequestDate(date);
                         calculateDateDifference(checkOutDate, date);
                         setIsChangedError("");
-                        setGeneralError("");
+                        // setGeneralError("");
                       }}
                       dateFormat="dd/MM/yyyy"
                       maxDate={null}
@@ -1259,6 +1218,19 @@ const CheckOutForm = ({
       </Modal>
     </>
   );
+};
+
+CheckOutForm.propTypes = {
+  uniqueostel_Id: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+  checkoutaction: PropTypes.func.isRequired,
+  data: PropTypes.func.isRequired,
+  checkouteditaction: PropTypes.func.isRequired,
+  checkoutaddform: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default CheckOutForm;

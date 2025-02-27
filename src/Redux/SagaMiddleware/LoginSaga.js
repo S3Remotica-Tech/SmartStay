@@ -1,11 +1,8 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { login, OTPverification } from '../Action/smartStayAction';
-import Swal from 'sweetalert2';
-import Cookies from 'universal-cookie';
 
 
 
-// let cookies = new Cookies();
 
 
 function* Login(args) {
@@ -36,6 +33,8 @@ function* Login(args) {
       yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status || response.statusCode} });
          }
   } catch (error) {
+    console.log(error);
+    
     // yield put({ type: 'ERROR', payload: 'An error occurred.' });
   }
 }
@@ -57,6 +56,7 @@ function* handleOTPVerified(args) {
 
     } 
   } catch (error) {
+    console.log(error);
      }
 }
 

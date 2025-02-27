@@ -727,15 +727,15 @@ function* handleManualInvoiceDelete (params) {
    }
    else if (response.status === 201 || response.data.statusCode === 201) {
       yield put({ type: 'DELETE_MANUAL_ERROR', payload: response.data.message })
-      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center", 
-         padding: "10px",
+      // var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
+      //    fontWeight: 600,
+      //    fontSize: 14,
+      //    textAlign: "start",
+      //    display: "flex",
+      //    alignItems: "center", 
+      //    padding: "10px",
         
-       };
+      //  };
       toast.error(response.data.message, {
          position: "top-center",
          autoClose: 2000,

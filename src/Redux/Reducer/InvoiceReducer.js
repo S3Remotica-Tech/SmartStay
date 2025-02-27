@@ -1,4 +1,4 @@
-import { ManualInvoice } from "../Action/InvoiceAction";
+// import { ManualInvoice } from "../Action/InvoiceAction";
 
 const initialState = {
     Invoice: [],
@@ -201,8 +201,8 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ManualInvoicesgetstatuscode: 0 }
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
-        case 'DELETE_MANUAL_ERROR':
-            return { ...state, deletemanualError: '' }
+        // case 'DELETE_MANUAL_ERROR':
+        //     return { ...state, deletemanualError: '' }
         case 'RECURRING_BILLS_LIST':
             return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':
