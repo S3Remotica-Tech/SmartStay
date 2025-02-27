@@ -1,11 +1,10 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, deleteBed, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId } from "../Action/UserListAction"
+import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { RepeatOneSharp } from "@mui/icons-material";
 
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
@@ -474,36 +473,30 @@ function* handleamenityhistory(amnityDetails) {
 
 }
 
-
 function* handleuserAddAmnitiesName(amnity) {
-   const response = yield call(amenitieAddUser, amnity.payload)
-   if (response.status == 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
+   const response = yield call(amenitieAddUser, amnity.payload);
 
-      };
-      //  toast.success(response.data.message, {
-      //    position: 'top-center',
-      //    autoClose: 2000, 
-      //    hideProgressBar: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      //    style: toastStyle
-      //  })
+
+   let toastStyle = {
+      width: "100%",
+      color: "black",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+   };
+
+   if (response.status == 200 || response.statusCode === 200) {
+      yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } });
+
+      toastStyle.backgroundColor = "#E6F6E6"; 
+      toastStyle.color = "black"; 
+
       toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -516,17 +509,12 @@ function* handleuserAddAmnitiesName(amnity) {
          style: toastStyle,
       });
 
-   }
-   else if (response.status === 201 || response.statusCode === 201) {
-
-      var toastStyle = {
-         backgroundColor: 'red',
-         color: 'white',
-         width: "100%"
-      };
+   } else if (response.status === 201 || response.statusCode === 201) {
+      toastStyle.backgroundColor = "red"; 
+      toastStyle.color = "white";
 
       toast.error(response.data.message, {
-         position: 'top-center',
+         position: "top-center",
          autoClose: 2000,
          hideProgressBar: false,
          closeOnClick: true,
@@ -534,16 +522,16 @@ function* handleuserAddAmnitiesName(amnity) {
          draggable: true,
          progress: undefined,
          style: toastStyle,
-      })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+      });
+   } else {
+      yield put({ type: 'ERROR', payload: response.data.message });
    }
 
+   if (response) {
+      refreshToken(response);
+   }
 }
+
 
 function* handlebedNumberDetails(bedDetails) {
    const response = yield call(beddetailsNumber, bedDetails.payload)

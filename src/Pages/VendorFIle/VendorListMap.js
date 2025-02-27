@@ -338,6 +338,7 @@ VendorListMap.propTypes = {
   onDeleteVendor: PropTypes.func.isRequired,
   vendor: PropTypes.func.isRequired,
   vendorEditPermission: PropTypes.func.isRequired,
+  vendorDeletePermission: PropTypes.func.isRequired,
 };
 
 export default VendorListMap;

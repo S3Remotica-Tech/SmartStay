@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { FormControl, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import VendorListMap from './VendorListMap';
 import Button from 'react-bootstrap/Button';
@@ -7,10 +7,9 @@ import Modal from 'react-bootstrap/Modal';
 import Profile2 from '../../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
 import AddVendor from './AddVendor';
-import Spinner from 'react-bootstrap/Spinner';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 
 
@@ -18,7 +17,6 @@ function Vendor() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-  const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
@@ -116,25 +114,6 @@ function Vendor() {
   }, [state.ComplianceList.noVendorStatusCode])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const toastStyle = {
-
-    backgroundColor: 'green',
-    color: 'white',
-    width: "100%"
-  };
 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
@@ -392,20 +371,10 @@ function Vendor() {
     }
   }
 
-  const stateAccount = useSelector(state => state.createAccount)
+ 
 
 
-  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
-
-
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
-      const loginProfile = stateAccount.accountList[0].user_details.profile
-
-      setProfile(loginProfile)
-    }
-
-  }, [stateAccount.statusCodeForAccountList])
+  
 
 
 
@@ -415,7 +384,7 @@ function Vendor() {
       threshold: 0.5
     };
     const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach(entry => {
         if (!entry.isIntersecting) {
           return;
@@ -556,16 +525,13 @@ function Vendor() {
                               // top: '50px',
                               // left: 0,
                               width: 260,
-                              backgroundColor: '#fff',
-                              // border: '1px solid #D9D9D9',
-                              borderRadius: '4px',
+                              backgroundColor: '#fff',              
                               maxHeight: 174,
                               minHeight: 100,
                               overflowY: 'auto',
                               padding: '5px 10px',
                               margin: '0',
                               listStyleType: 'none',
-
                               borderRadius: 8,
                               boxSizing: 'border-box'
                             }}>
@@ -643,10 +609,10 @@ function Vendor() {
               <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {filteredData.length > 0 ? (
                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                    {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+                    {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span>
                   </span>
                 ) : (
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span></span>
                 )}
               </div>
             )}

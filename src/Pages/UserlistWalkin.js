@@ -1,10 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Container, Modal, Button, Pagination } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
+import { Table, Modal, Button } from "react-bootstrap";
 import "./UserlistWalkin.css";
-import minus from "../Assets/Images/New_images/minus-square.png";
-import Ellipse1 from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/Edit-blue.png";
@@ -15,7 +12,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
-import LoaderComponent from "./LoaderComponent";
+import PropTypes from "prop-types";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
@@ -25,20 +22,12 @@ function UserlistWalkin(props) {
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
   const [showForm, setShowForm] = useState(false);
-  const [modalType, setModalType] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
   const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
-  const [hostel_Id, setHostelId] = useState("")
-  // const [loader, setLoader] = useState(true);
-  
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostelId(state.login.selectedHostel_Id)
-    }
-  }, [state.login.selectedHostel_Id])
+ 
 
   useEffect(() => {
     if (
@@ -167,7 +156,7 @@ function UserlistWalkin(props) {
   const handleDotsClick = (id, event) => {
     setDotsButton((prevId) => (prevId === id ? null : id));
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -199,34 +188,14 @@ function UserlistWalkin(props) {
     setSelectedCustomer(customer);
     setShowForm(true);
     setDotsButton(null);
-    setModalType("edit");
   };
 
   const handleFormClose = () => {
     setShowForm(false);
     setSelectedCustomer(null);
-    setModalType(null);
   };
 
-  const handleFormSubmit = (data) => {
-    // if (modalType === "edit") {
-    //     setCustomers(customers.map((customer) =>
-    //         customer.id === data.id ? { ...customer, ...data } : customer
-    //     ));
-    //     toast.success('Changes saved successfully!');
-    // } else {
-    //     const newCustomer = {
-    //         ...data,
-    //         id: customers.length + 1,
-    //         avatar: Ellipse1
-    //     };
-    //     setCustomers([...customers, newCustomer]);
-    //     // toast.success);
-    //     toast.success('Walk-in added successfully!!');
-    // }
-    // handleFormClose();
-    // setDotsButton(null);
-  };
+ 
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -266,12 +235,7 @@ function UserlistWalkin(props) {
   //     }
   // }, [walkInCustomer, currentPage, totalPages]);
 
-  const handleShowWalk = () => {
-    setModalType("add");
-    setShowForm(true);
-    setSelectedCustomer(null);
-  };
-  const safeWalkInCustomer = Array.isArray(walkInCustomer) ? walkInCustomer : [];
+ 
 
   return (
     <>
@@ -519,7 +483,6 @@ function UserlistWalkin(props) {
 
                           <td
                             style={{
-                              padding: "8px",
                               border: "none",
 
                               textAlign: "start",
@@ -539,7 +502,6 @@ function UserlistWalkin(props) {
                                 fontSize: "16px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                padding: "2px",
                                 verticalAlign: "middle"
                               }}
                             >
@@ -964,4 +926,11 @@ function UserlistWalkin(props) {
     </>
   );
 }
+UserlistWalkin.propTypes = {
+  customerrolePermission: PropTypes.func.isRequired,
+  filterInput: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  filteredUsers: PropTypes.func.isRequired,
+};
+
 export default UserlistWalkin;

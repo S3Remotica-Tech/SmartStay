@@ -145,9 +145,8 @@ function UserList(props) {
 
       if (matchingFloor) {
         setFloor(matchingFloor.floor_id);
-      } else {
-        console.warn("Floor not found for name:", isreader.floor_name);
-      }
+      } 
+     
 
       const matchingRoom = state?.UsersList?.roomdetails?.find(
         (item) => String(item.Room_Id) === String(isreader.Room_Id)
@@ -155,9 +154,8 @@ function UserList(props) {
 
       if (matchingRoom) {
         setRooms(matchingRoom.Room_Id);
-      } else {
-        console.warn("Room not found for ID:", isreader.Room_Id);
-      }
+      } 
+      
 
       // setRooms(isreader.Room_Id)
       // setSelectedHostel(isreader.HostelName)
@@ -168,12 +166,10 @@ function UserList(props) {
         const parsedDate = new Date(isreader.reading_date);
         if (!isNaN(parsedDate.getTime())) {
           setSelectedDate(parsedDate);
-        } else {
-          console.error("Invalid reading_date format:", isreader.reading_date);
-        }
-      } else {
-        console.warn("reading_date is missing:", isreader);
-      }
+        } 
+       
+      } 
+    
     }
   }, [
     isreader,
@@ -425,7 +421,6 @@ function UserList(props) {
     };
     setNewRows([...newRows, newRow]);
     setAllFieldErrmsg("");
-    console.log("Updated Rows:", [...newRows, newRow]);
   };
 
   // useEffect(() => {
@@ -556,9 +551,8 @@ function UserList(props) {
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
           setInvoiceDueDate(parsedDate); // Set the date object in state
-        } else {
-          console.error("Invalid DueDate:", currentView.DueDate);
         }
+        
       }
 
       if (currentView.Date) {
@@ -566,27 +560,24 @@ function UserList(props) {
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
           setInvoiceDate(parsedDate); // Set the date object in state
-        } else {
-          console.error("Invalid DueDate:", currentView.Date);
-        }
+        } 
+       
       }
       if (currentView.start_date) {
         const parsedDate = new Date(currentView.start_date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
           setStartDate(parsedDate); // Set the date object in state
-        } else {
-          console.error("Invalid startDate:", currentView.start_date);
-        }
+        } 
+       
       }
       if (currentView.end_date) {
         const parsedDate = new Date(currentView.end_date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
           // Check if it's a valid date
           setEndDate(parsedDate); // Set the date object in state
-        } else {
-          console.error("Invalid endDate:", currentView.end_date);
-        }
+        } 
+      
       }
 
       setTotalAmount(currentView.Amount);
@@ -1190,7 +1181,6 @@ function UserList(props) {
     setShowMenu(true);
     setAddBasicDetail(true);
     setEditObj(u);
-    setemail_id(u.Email);
   };
 
 
@@ -1218,31 +1208,17 @@ function UserList(props) {
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
-  const [filterByDate, setFilterByDate] = useState("");
-  const [filterByStatus, setFilterByStatus] = useState("ALL");
-
-  const [hostel, sethostel] = useState("");
-  const [floors_Id, setFloors_Id] = useState("");
-  const [rooms_id, setRoomsId] = useState("");
-  const [beds_id, setBed_Id] = useState("");
-  const [emaill_id, setemaill_id] = useState("");
   const [id, setId] = useState("");
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
-  const [createbyamni, setcreatebyamni] = useState("");
-  const [amnitytableshow, setamnitytableshow] = useState(false);
+  
 
   const handleRoomDetailsPage = (userData) => {
-    const clickedUserDataArray = Array.isArray(userData)
-      ? userData
-      : [userData];
+   
     setHostelIds(userData.Hostel_Id);
-    setBedIds(userData.Bed);
-    setFloorIds(userData.Floor);
-    setRoomsIds(userData.Rooms);
-    setemail_id(userData.Email);
+   
     setId(userData.ID);
-    setcreatebyamni(userData.created_By);
+    // setcreatebyamni(userData.created_By);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
@@ -1254,42 +1230,15 @@ function UserList(props) {
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false);
-    setEditObj(u);
-    setemail_id(u.Email);
+    setEditObj(u);;
   };
 
-  const [propsHostel, setPropsHostel] = useState("");
-  const [propsFloor, setPropsFloor] = useState("");
-  const [propsRooms, setPropsRooms] = useState("");
-  const [propsBeds, setPropsBeds] = useState("");
-  const [propsEmil, setPropsemail] = useState("");
+  
+ 
+ 
 
-  const AfterEditHostel = (hostel_id) => {
-    setPropsHostel(hostel_id);
-  };
+  const [hostelIds, setHostelIds] = useState("");
 
-  const AfterEditFloor = (Floor_ID) => {
-    setPropsFloor(Floor_ID);
-  };
-
-  const AfterEditRooms = (room) => {
-    setPropsRooms(room);
-  };
-
-  const AfterEditBed = (bedsId) => {
-    setPropsBeds(bedsId);
-  };
-  const AfterEditEmail = (emmail) => {
-    setPropsemail(emmail);
-  };
-
-  const [hostelIds, setHostelIds] = useState(hostel);
-  const [bedIds, setBedIds] = useState(beds_id);
-  const [floorIds, setFloorIds] = useState(floors_Id);
-  const [roomsIds, setRoomsIds] = useState(rooms_id);
-  const [email_id, setemail_id] = useState("");
-
-  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   useEffect(() => {
     const users = Array.isArray(userListDetail) ? userListDetail : [];
@@ -1301,19 +1250,7 @@ function UserList(props) {
 
     setUserDetails(ParticularUserDetails);
 
-    if (ParticularUserDetails.length > 0) {
-      const User_Id = ParticularUserDetails[0]?.User_Id;
-
-      const invoices = Array.isArray(state.InvoiceList?.Invoice)
-        ? state.InvoiceList.Invoice
-        : [];
-
-      const filteredData = invoices.filter((user) => user.User_Id == User_Id);
-
-      setFilteredDataForUser(filteredData);
-    } else {
-      setFilteredDataForUser([]);
-    }
+   
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
@@ -1323,135 +1260,26 @@ function UserList(props) {
         payload: { hostel_id: uniqueostel_Id },
       });
 
-      setHostelIds(propsHostel);
-      setBedIds(propsBeds);
-      setFloorIds(propsFloor);
-      setRoomsIds(propsRooms);
-      setemail_id(propsEmil);
+    
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 2000);
     }
   }, [
     state.UsersList?.statusCodeForAddUser,
-    propsHostel,
-    propsBeds,
-    propsFloor,
-    propsRooms,
-    propsEmil,
+    
   ]);
-  // useEffect(() => {
-  //   dispatch({ type: "COUNTRYLIST" });
-  // }, []);
-
-  const [isOpenTab, setIsOpenTab] = useState(true);
-
-  const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites;
-
-  const billPaymentHistory = state.UsersList.billPaymentHistory;
-  const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
-  const [filterByInvoice, setFilterByInvoice] = useState("");
-
-  useEffect(() => {
-    if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
-      let filteredData = [...filteredDataForUser];
-
-      if (filterByStatus !== "ALL") {
-        filteredData = filteredData?.filter(
-          (item) => item.Status === filterByStatus
-        );
-      }
-    }
-  }, [
-    filterByStatus,
-    filterByInvoice,
-    filteredDataForUser,
-    state.InvoiceList?.Invoice,
-  ]);
-
-  const getFloorName = (Floor) => {
-    if (Floor === 1) {
-      return "Ground Floor";
-    } else if (Floor === 2) {
-      return "1st Floor";
-    } else if (Floor === 3) {
-      return "2nd Floor";
-    } else {
-      const adjustedFloor = Floor - 1;
-      const lastDigit = adjustedFloor % 10;
-      let suffix = "th";
-
-      switch (lastDigit) {
-        case 1:
-          suffix = "st";
-          break;
-        case 2:
-          suffix = "nd";
-          break;
-        case 3:
-          suffix = "rd";
-          break;
-      }
-
-      return `${adjustedFloor}${suffix} Floor`;
-    }
-  };
-
-  const getFormattedRoomId = (Floor, Rooms) => {
-    const floor = parseInt(Floor);
-    const roomIdString = String(Rooms);
-    switch (floor) {
-      case 1:
-        return `G${roomIdString.padStart(3, "0")}`;
-      case 2:
-        return `F${roomIdString.padStart(3, "0")}`;
-      case 3:
-        return `S${roomIdString.padStart(3, "0")}`;
-      case 4:
-        return `T${roomIdString.padStart(3, "0")}`;
-      default:
-        const floorAbbreviation = getFloorAbbreviation(floor);
-        return `${floorAbbreviation}${roomIdString.padStart(3, "0")}`;
-    }
-  };
-
-  const getFloorAbbreviation = (floor) => {
-    switch (floor) {
-      case 5:
-        return "F";
-      case 6:
-        return "S";
-      case 8:
-        return "E";
-      case 9:
-        return "N";
-      case 10:
-        return "T";
-      default:
-        return `${floor}`;
-    }
-  };
-
-  const handleBack = () => {
+  
+const handleBack = () => {
     setUserList(true);
     setRoomDetail(false);
   };
-  const handleFilterByDate = (e) => {
-    const searchDate = e.target.value;
-    setFilterByDate(searchDate);
-  };
+ 
   const handleShowSearch = () => {
     setSearch(!search);
   };
 
-  const handleFliterByStatus = () => {
-    setSearch(false);
-  };
 
-  const handleStatusFilterChange = (e) => {
-    const selectedStatus = e.target.value;
-    setFilterByStatus(selectedStatus);
-  };
 
   useEffect(() => {
     if (id) {
@@ -2471,7 +2299,7 @@ function UserList(props) {
                       color: "rgba(34, 34, 34, 1)",
                     }}
                   >
-                    "{filterInput}"
+                    &quot;{filterInput}&quot;
                   </span>
                 </span>
               ) : (
@@ -2494,7 +2322,7 @@ function UserList(props) {
                       color: "rgba(34, 34, 34, 1)",
                     }}
                   >
-                    "{filterInput}"
+                    &quot;{filterInput}&quot;
                   </span>
                 </span>
               )}
@@ -2822,7 +2650,6 @@ function UserList(props) {
                                 // :
 
                                 currentItems.map((user) => {
-                                  const imageUrl = user.profile || Profile;
                                   return (
                                     <tr
                                       key={user.ID}
@@ -2855,20 +2682,7 @@ function UserList(props) {
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {/* <Image
-                                            src={imageUrl}
-                                            alt={user.Name || "Default Profile"}
-                                            roundedCircle
-                                            style={{
-                                              height: "40px",
-                                              width: "40px",
-                                              marginRight: "10px",
-                                            }}
-                                            onError={(e) => {
-                                              e.target.onerror = null;
-                                              e.target.src = Profile;
-                                            }}
-                                          /> */}
+                                       
                                         <span
                                           className="Customer_Name_Hover"
                                           style={{
@@ -3647,10 +3461,6 @@ function UserList(props) {
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
           onEditHostelItem={handleEditHostelReading}
-          AfterEditHostels={AfterEditHostel}
-          AfterEditFloors={AfterEditFloor}
-          AfterEditRoomses={AfterEditRooms}
-          AfterEditBeds={AfterEditBed}
           showMenu={showMenu}
           displayDetail={addBasicDetail}
           setShowMenu={setShowMenu}
@@ -3671,8 +3481,6 @@ function UserList(props) {
           OnShowTable={OnShowTableForCustomer}
           userDetails={userDetails}
           handleBack={handleBack}
-          getFormattedRoomId={getFormattedRoomId}
-          getFloorName={getFloorName}
           id={id}
           aadhaarNo={aadhaarNo}
           handleValidateAadhaar={handleValidateAadhaar}
@@ -5044,10 +4852,6 @@ function UserList(props) {
 
       {showMenu == true ? (
         <UserlistForm
-          AfterEditHostels={AfterEditHostel}
-          AfterEditFloors={AfterEditFloor}
-          AfterEditRoomses={AfterEditRooms}
-          AfterEditBeds={AfterEditBed}
           showMenu={showMenu}
           displayDetail={addBasicDetail}
           setShowMenu={setShowMenu}
