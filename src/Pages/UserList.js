@@ -110,9 +110,7 @@ function UserList(props) {
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [unitAmount, setUnitAmount] = useState("");
   const [dateError, setDateError] = useState("");
-  const [selectedHostel, setSelectedHostel] = useState("");
   const [isreader, setIsReader] = useState("");
   const [checkoutaddform, setAddCheckoutForm] = useState(true);
 
@@ -520,12 +518,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
   };
 
-  const formatDateForPayloadmanualinvoice = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split("T")[0];
-  };
+ 
   const handleCloseDeleteroom = () => {
     setRoomDelete(false);
   };
@@ -1225,9 +1218,7 @@ function UserList(props) {
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
-  const [clickedUserData, setClickedUserData] = useState([]);
   const [filterByDate, setFilterByDate] = useState("");
-  const [filterStatus, setFilterStatus] = useState(false);
   const [filterByStatus, setFilterByStatus] = useState("ALL");
 
   const [hostel, sethostel] = useState("");
@@ -1256,7 +1247,6 @@ function UserList(props) {
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
     setUserList(false);
-    setClickedUserData(clickedUserDataArray);
     dispatch({ type: "UPDATE_USERSLIST_FALSE" }); // Reset to 1st tab
   };
   const handleShowAddBed = (u) => {
@@ -3776,11 +3766,11 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    disabled={
-                      // unitAmount &&
-                      // unitAmount?.length === 0 &&
-                      selectedHostel != ""
-                    }
+                    // disabled={
+                    //   // unitAmount &&
+                    //   // unitAmount?.length === 0 &&
+                    //   selectedHostel != ""
+                    // }
                     value={Floor}
                     onChange={(e) => handleFloor(e)}
                     style={{
@@ -3841,11 +3831,11 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    disabled={
-                      // unitAmount &&
-                      // unitAmount?.length === 0 &&
-                      selectedHostel != ""
-                    }
+                    // disabled={
+                    //   // unitAmount &&
+                    //   // unitAmount?.length === 0 &&
+                    //   selectedHostel != ""
+                    // }
                     value={Rooms}
                     onChange={(e) => handleRoom(e)}
                     style={{
