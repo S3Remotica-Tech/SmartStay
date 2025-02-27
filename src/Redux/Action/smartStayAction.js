@@ -30,7 +30,8 @@ export async function CreateAccountAction(params) {
       },
       timeout: 100000000,
            onUploadProgress: (event) => {
-       
+             console.log(event);
+             
               }
     });
     return response.data;
@@ -66,7 +67,7 @@ export async function UpdateProfile (params) {
       },
       timeout: 100000000,
            onUploadProgress: (event) => {
-       
+            console.log(event);
               }
     });
     return response.data;

@@ -542,7 +542,7 @@ function CheckOut(props) {
                         //  let year = Dated.getFullYear();
                         // let formattedDate = `${year}/${month}/${day}`;
 
-                        let Dated = new Date(checkout.CheckoutDate);
+                        // let Dated = new Date(checkout.CheckoutDate);
 
                         // let day = Dated.getDate();
                         // let month = Dated.getMonth(); 
@@ -572,7 +572,7 @@ function CheckOut(props) {
                         // let formattedDate = `${year} ${formattedMonth} ${day}`;
 
 
-                        let createDated = new Date(checkout.createdat);
+                        // let createDated = new Date(checkout.createdat);
 
                         // let day1 = createDated.getDate();
                         // let month1 = createDated.getMonth() + 1;

@@ -648,15 +648,15 @@ const CheckOutForm = ({
     );
   };
 
-  useEffect(() => {
-    if (checkOutDate) {
-      const current_date = new Date();
-      const notice_period = Math.ceil(
-        (new Date(checkOutDate) - current_date) / (1000 * 60 * 60 * 24)
-      );
-      // setNoticeDays(notice_period || 0);
-    }
-  }, [checkOutDate]);
+  // useEffect(() => {
+  //   if (checkOutDate) {
+  //     const current_date = new Date();
+  //     // const notice_period = Math.ceil(
+  //     //   (new Date(checkOutDate) - current_date) / (1000 * 60 * 60 * 24)
+  //     // );
+  //     // setNoticeDays(notice_period || 0);
+  //   }
+  // }, [checkOutDate]);
 
   return (
     <>
