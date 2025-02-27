@@ -2,36 +2,28 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import More from "../Assets/Images/more.svg";
-import People from "../Assets/Images/New_images/profile-picture.png";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/edit_blue.svg";
-import Calender from "../Assets/Images/calendar.svg";
 // import { Modal, Pagination, Form, Card } from "react-bootstrap";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import Closecircle from "../Assets/Images/close-circle.svg";
-import Flatpickr from "react-flatpickr";
+// import Flatpickr from "react-flatpickr";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 // import Image from "react-bootstrap/Image";
 import { MdError } from "react-icons/md";
-import minus from "../Assets/Images/New_images/minus-square.png";
+// import minus from "../Assets/Images/New_images/minus-square.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
   Table,
   Button,
-  Image,
   Modal,
-  Pagination,
-  Form,
-  Row,
-  Col,
-  FormControl,
-  InputGroup,
+  
 } from "react-bootstrap";
+import PropTypes from "prop-types";
+
 
 function CheckOut(props) {
 
@@ -43,15 +35,10 @@ function CheckOut(props) {
 
 
   const [activeDotsId, setActiveDotsId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [checkOutDate, setCheckOutDate] = useState(new Date());
-  const [selectedCustomer, setSelectedCustomer] = useState("Customer 1");
   const [modalType, setModalType] = useState(null);
-  const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 10;
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const datePickerRef = useRef(null);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
@@ -220,7 +207,7 @@ function CheckOut(props) {
     setCheckoutAction(false)
   };
 
-  const handleConfirmCheckout = (checkout) => {
+  const handleConfirmCheckout = () => {
     setActiveDotsId(null);
     setcheckoutForm(true);
     // setCheckOutConfirm(checkout)
@@ -249,7 +236,6 @@ function CheckOut(props) {
 
 
 
-  const [activeRow, setActiveRow] = useState(null)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
    
   const toggleMoreOptions = (id, checkout, event) => {
@@ -262,7 +248,7 @@ function CheckOut(props) {
 
 
 
-    const { top, left, width, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height  / 2 - 15;
     const popupLeft = left - 200;
 
@@ -275,72 +261,59 @@ function CheckOut(props) {
 
   };
 
-  const handleDotsClick = (id, checkout) => {
-    setActiveDotsId((prevId) => (prevId === id ? null : id));
-    setCheckOutConfirm(checkout)
-  };
+  // const handleDotsClick = (id, checkout) => {
+  //   setActiveDotsId((prevId) => (prevId === id ? null : id));
+  //   setCheckOutConfirm(checkout)
+  // };
 
-  const handleCalendarClick = () => {
-    if (datePickerRef.current) {
-      datePickerRef.current.setFocus();
-    }
-  };
+  // const handleCalendarClick = () => {
+  //   if (datePickerRef.current) {
+  //     datePickerRef.current.setFocus();
+  //   }
+  // };
 
-  const handleCustomerChange = (event) => {
-    setSelectedCustomer(event.target.getAttribute("data-value"));
-  };
+  // const handleCustomerChange = (event) => {
+  //   setSelectedCustomer(event.target.getAttribute("data-value"));
+  // };
 
-  const handleClose = () => setShowForm(false);
 
   //edit form
-  const initialDate = new Date();
-  const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+  // const initialDate = new Date();
+  // const formatDate = (date) => {
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const year = date.getFullYear();
+  //   return `${day}-${month}-${year}`;
+  // };
 
-  const [checkOutDates, setCheckOutDates] = useState(formatDate(initialDate));
-  const [selectedCustomers, setSelectedCustomers] = useState("Customer 1");
-  const [noticeDays, setNoticeDays] = useState("");
-  const calendarRef = useRef(null);
 
-  const handleCustomerChanges = (event) => {
-    setSelectedCustomers(event.target.value);
-  };
+ 
+  
 
-  const handleNoticeDaysChange = (event) => {
-    setNoticeDays(event.target.value);
-  };
 
-  const handleDateChange = (date) => {
-    setCheckOutDates(formatDate(date[0]));
-    calendarRef.current.flatpickr.close();
-  };
 
   const [checkoutForm, setcheckoutForm] = useState(false);
-  const [checkoutconfirmForm, setcheckoutConfirmForm] = useState(false);
+  // const [checkoutconfirmForm, setcheckoutConfirmForm] = useState(false);
 
-  const checkOutForm = () => {
-    setcheckoutForm(!checkoutForm);
-  };
+  // const checkOutForm = () => {
+  //   setcheckoutForm(!checkoutForm);
+  // };
 
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
-  const checkOutConfirmForm = () => {
-    setcheckoutConfirmForm(!checkoutconfirmForm);
-  };
+  // const checkOutConfirmForm = () => {
+  //   setcheckoutConfirmForm(!checkoutconfirmForm);
+  // };
 
-  const checkoutConfirmcloseModal = () => {
-    setcheckoutConfirmForm(false);
-  };
+  // const checkoutConfirmcloseModal = () => {
+  //   setcheckoutConfirmForm(false);
+  // };
 
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const paginate = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   
   return (
@@ -561,7 +534,7 @@ function CheckOut(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentCustomers && currentCustomers.length > 0 && currentCustomers.map((checkout, index) => {
+                      {currentCustomers && currentCustomers.length > 0 && currentCustomers.map((checkout) => {
                         //  let Dated = new Date(customer.joining_date);
 
                         //  let day = Dated.getDate();
@@ -571,55 +544,56 @@ function CheckOut(props) {
 
                         let Dated = new Date(checkout.CheckoutDate);
 
-                        let day = Dated.getDate();
-                        let month = Dated.getMonth(); // Get the zero-indexed month
-                        let year = Dated.getFullYear();
+                        // let day = Dated.getDate();
+                        // let month = Dated.getMonth(); 
+                        // Get the zero-indexed month
+                        // let year = Dated.getFullYear();
 
                         // Array of month names abbreviated to the first 3 letters
-                        const monthNames = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
+                        // const monthNames = [
+                        //   "Jan",
+                        //   "Feb",
+                        //   "Mar",
+                        //   "Apr",
+                        //   "May",
+                        //   "Jun",
+                        //   "Jul",
+                        //   "Aug",
+                        //   "Sep",
+                        //   "Oct",
+                        //   "Nov",
+                        //   "Dec",
+                        // ];
 
                         // Get the month abbreviation
-                        let formattedMonth = monthNames[month];
+                        // let formattedMonth = monthNames[month];
 
                         // Format the date as YYYY Mon DD
-                        let formattedDate = `${year} ${formattedMonth} ${day}`;
+                        // let formattedDate = `${year} ${formattedMonth} ${day}`;
 
 
                         let createDated = new Date(checkout.createdat);
 
-                        let day1 = createDated.getDate();
-                        let month1 = createDated.getMonth() + 1;
-                        let year1 = createDated.getFullYear();
+                        // let day1 = createDated.getDate();
+                        // let month1 = createDated.getMonth() + 1;
+                        // let year1 = createDated.getFullYear();
 
-                        const monthNamesformate = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
-                        let formattedMonthjj = monthNamesformate[month1];
-                        let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
+                        // const monthNamesformate = [
+                        //   "Jan",
+                        //   "Feb",
+                        //   "Mar",
+                        //   "Apr",
+                        //   "May",
+                        //   "Jun",
+                        //   "Jul",
+                        //   "Aug",
+                        //   "Sep",
+                        //   "Oct",
+                        //   "Nov",
+                        //   "Dec",
+                        // ];
+                        // let formattedMonthjj = monthNamesformate[month1];
+                        // let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
 
                         return (
                           <tr key={checkout.ID} className="customer-row">
@@ -1819,5 +1793,15 @@ function CheckOut(props) {
     </>
   );
 }
+
+CheckOut.propTypes = {
+  customerrolePermission: PropTypes.func.isRequired,
+  setShow: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+  filterInput: PropTypes.func.isRequired,
+  filteredUsers: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+
+};
 
 export default CheckOut;

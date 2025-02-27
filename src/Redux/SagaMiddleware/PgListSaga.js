@@ -1,20 +1,19 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {add_sub_comments,get_comments,add_comments,delete_announcement,deleteHostelImages,UpdateFloor,DeletePG,DeleteBed,createBed,createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist,CreateEbbill,EB_Customerlist,EB_startmeterlist,createAllPGDetails,OccupiedCustomer,EB_CustomerListTable,editElectricity,deleteElectricity,dashboardFilter,ebAddHostelReading,ebHostelBasedRead,ebAddHostelEdit,ebAddHostelDelete,announcement_list,add_announcement} from "../Action/PgListAction";
-import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaCheckCircle } from "react-icons/fa";
-import {
-  borderRadius,
-  fontFamily,
-  fontSize,
-  fontWeight,
-  height,
-  padding,
-  textAlign,
-  width,
-} from "@mui/system";
+// import { FaCheckCircle } from "react-icons/fa";
+// import {
+//   borderRadius,
+//   fontFamily,
+//   fontSize,
+//   fontWeight,
+//   height,
+//   padding,
+//   textAlign,
+//   width,
+// } from "@mui/system";
 
 function* handlePgList(datum) {
   const response = yield call(createPgList, datum.payload);

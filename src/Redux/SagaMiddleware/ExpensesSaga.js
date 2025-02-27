@@ -1,7 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {GetExpenseCatogory,AddExpense, GetExpense, DeleteExpense,transactionHistory, AddExpenseTag} from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
-import Swal from 'sweetalert2';
 
 import { toast } from 'react-toastify';
 

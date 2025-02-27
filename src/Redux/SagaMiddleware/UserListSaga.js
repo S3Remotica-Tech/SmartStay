@@ -509,9 +509,11 @@ function* handleuserAddAmnitiesName(amnity) {
          style: toastStyle,
       });
 
+
    } else if (response.status === 201 || response.statusCode === 201) {
       toastStyle.backgroundColor = "red"; 
       toastStyle.color = "white";
+
 
       toast.error(response.data.message, {
          position: "top-center",
@@ -521,10 +523,12 @@ function* handleuserAddAmnitiesName(amnity) {
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
+
          style: toastStyle,
       });
    } else {
       yield put({ type: 'ERROR', payload: response.data.message });
+
    }
 
    if (response) {

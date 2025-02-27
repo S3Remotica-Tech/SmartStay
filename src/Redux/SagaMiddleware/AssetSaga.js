@@ -1,7 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
-import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 
 
@@ -22,7 +21,6 @@ function* handleGetAsset(action) {
 
 function* handleAddAsset(action) {
    const response = yield call(AddAsset, action.payload);
-console.log("handleAddAsset",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",

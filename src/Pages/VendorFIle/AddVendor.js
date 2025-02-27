@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-// import Profile2 from '../Assets/Images/New_images/Empty_profile.svg'
 import Image from "react-bootstrap/Image";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  CloseCircle,
-  SearchNormal1,
-  Sort,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import {CloseCircle} from "iconsax-react";
+import PropTypes from "prop-types";
+
 
 function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -33,7 +25,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [errors, setErrors] = useState({});
   const [business_Name, setBusiness_Name] = useState("");
   const [id, setId] = useState("");
-  const [vendor_Id, setVendor_Id] = useState("");
+  // const [vendor_Id, setVendor_Id] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
 
@@ -390,10 +382,11 @@ const handleClose =()=>{
       // setAddress('')
       // setEmail_Id('')
       // setBusiness_Name('')
-    } else {
-    }
+    } 
+   
   };
 
+ 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200) {
       setFile("");
@@ -405,11 +398,12 @@ const handleClose =()=>{
       setBusiness_Name("");
     }
   }, [state.ComplianceList.addVendorSuccessStatusCode]);
+  
 
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
-    );
+);
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
       closeButton.style.borderRadius = "50%";
@@ -453,7 +447,7 @@ const handleClose =()=>{
       // setEmail_Id(currentItem.Vendor_Email ? currentItem.Vendor_Email : '');
       setBusiness_Name(currentItem.Business_Name);
       setId(currentItem.id);
-      setVendor_Id(currentItem.Vendor_Id);
+      // setVendor_Id(currentItem.Vendor_Id);
       setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
       setCountry(currentItem.Country);
       setPinCode(currentItem.Pincode);
@@ -1194,5 +1188,14 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
     </div>
   );
 }
+
+AddVendor.propTypes = {
+  show: PropTypes.func.isRequired,
+  setShow: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+
+  // value: PropTypes.func.isRequired,
+  // onClick: PropTypes.func.isRequired,
+};
 
 export default AddVendor;

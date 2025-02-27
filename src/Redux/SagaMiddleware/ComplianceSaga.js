@@ -1,7 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {ComplianceChangeStatus,compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange,complianceDelete,getComplianceComment,addComplianceComment} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
-import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -114,15 +113,6 @@ function* handleAddVendor(action) {
    else if(response.statusCode === 202 || response.status === 202) {
       
       yield put ({type:'ALREADY_VENDOR_ERROR', payload:response.message})
-
-   //    Swal.fire({
-   //       text: response.message,
-   //       icon: "warning",
-   //       // timer: 2000,
-   //       // showConfirmButton: false,
-   //   });
-
-
 
    }
    else if(response.statusCode === 203 || response.status === 203) {

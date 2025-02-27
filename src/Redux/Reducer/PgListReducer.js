@@ -1,4 +1,3 @@
-import { dashboardFilter, deleteElectricity, editElectricity, OccupiedCustomer } from "../Action/PgListAction";
 
 const initialState = {
     Name: '',
@@ -10,8 +9,6 @@ const initialState = {
     number_Of_Bed: '',
     message: '',
     floor_Id: '',
-    room_Id: '',
-    number_Of_Bed: '',
     checkRoomList: [],
     checkEBList: [],
     createEBList: [],
