@@ -55,11 +55,22 @@ function SettingNewRole({ hostelid }) {
     setEditRoleDetails('');
       };
 
-
-
-  const handleShowDots = (index) => {
+const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+   
+  const handleShowDots = (event, index) => {
     setShowDots((prev) => (prev === index ? null : index));
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 150;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
+
   }
+
+  // const handleShowDots = (index) => {
+  //   setShowDots((prev) => (prev === index ? null : index));
+  // }
 
 
   const handleDeleteForm = (view) => {
@@ -274,7 +285,7 @@ function SettingNewRole({ hostelid }) {
               backgroundColor: showDots === index ? "#E7F1FF" : "white",
               position: "relative",
             }}
-            onClick={() => handleShowDots(index)}
+            onClick={(e) => handleShowDots(e,index)}
           >
             <PiDotsThreeOutlineVerticalFill 
               style={{ height: "20px", width: "20px" }} 
@@ -282,10 +293,11 @@ function SettingNewRole({ hostelid }) {
             {showDots === index && (
               <div
                 ref={popupRef}
-                className="position-absolute bg-light border rounded p-2"
+                className=" bg-light border rounded p-2"
                 style={{
-                  // top: 30,
-                  right: 40,
+                  position: "fixed",
+                  top: popupPosition.top,
+                  left: popupPosition.left,
                   width: 120,
                   height: 70,
                   zIndex: 1000,

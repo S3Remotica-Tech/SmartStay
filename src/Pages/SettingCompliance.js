@@ -66,14 +66,21 @@ function SettingCompliance({ hostelid }) {
         e.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
         setRowDetails(row)
-        const rect = e.currentTarget.getBoundingClientRect();
-        // rect.top
-        setPopupPosition({
-            // top: rect.top + window.scrollY + 30,
-            // left: rect.left + window.scrollX - 120,
-            top: rect.top + window.scrollY + 30,
-            left: rect.left + window.scrollX - 675,
-        });
+        const { top, left, height } = e.target.getBoundingClientRect();
+        const popupTop = top + (height / 2);
+        const popupLeft = left - 150;
+    
+        setPopupPosition({ top: popupTop, left: popupLeft });
+        // const rect = e.currentTarget.getBoundingClientRect();
+        // // rect.top
+        // setPopupPosition({
+        //     // top: rect.top + window.scrollY + 30,
+        //     // left: rect.left + window.scrollX - 120,
+        //     top: rect.top + window.scrollY + 30,
+        //     left: rect.left + window.scrollX - 675,
+        // });
+
+
 
         setMenuLoaded(true);
     };
@@ -408,10 +415,11 @@ function SettingCompliance({ hostelid }) {
                                                 {showDots === i && menuLoaded && (
                                                     <div
                                                         ref={popupRef}
-                                                        className="position-absolute"
+                                                        className=""
                                                         style={{
                                                             cursor: "pointer",
                                                             backgroundColor: "#F9F9F9",
+                                                            position:"fixed",
                                                             top: popupPosition.top,
                                                             left: popupPosition.left,
                                                             // width: 163,
