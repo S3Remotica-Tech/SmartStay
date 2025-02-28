@@ -82,16 +82,16 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setGuardianError("gurardian is required");
+          setGuardianError("Gurardian is required");
           break;
         case "userName":
-          setUserNameError("userName is required");
+          setUserNameError("Username is required");
           break;
         case "Phone":
-          setPhoneError("phone number is required");
+          setPhoneError("Phone number is required");
           break;
         case "address":
-          setAddressError("address is required");
+          setAddressError("Address is required");
           break;
 
         default:
