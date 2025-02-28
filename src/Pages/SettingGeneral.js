@@ -116,7 +116,7 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("current Password is required");
+          setPassError("Current Password is required");
           break;
 
 
@@ -305,10 +305,10 @@ function SettingGeneral() {
           setFirstNameError("FirstName is required");
           break;
         case "emilId":
-          setEmailError("EmilId is required");
+          setEmailError("EmailId is required");
           break;
         case "Phone":
-          setPhoneError("Phone num is required");
+          setPhoneError("Phone number is required");
           break;
         case "address":
           setAddressError("Address is required");
@@ -500,6 +500,7 @@ function SettingGeneral() {
 
   useEffect(() => {
     setLoading(true)
+    console.log("load",loading);
    
      dispatch({ type: "GETALLGENERAL" });
      const timeout = setTimeout(() => {
@@ -644,7 +645,7 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral == 200 ) {
+    if (state.Settings?.StatusCodeforGetGeneral == 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData);
       setLoading(false)
 
@@ -787,35 +788,30 @@ function SettingGeneral() {
                   overflowY: "auto",}}>
 
         {loading &&
-        
-
-<div
-                        style={{
-                            position: 'fixed',
-                   right: "30%",
-                            display: 'flex',
-                            height: "50vh",
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                            }}
-                        ></div>
-                    </div>
-
-
-
+           <div
+           style={{
+               position: 'fixed',
+               right: "30%",
+               display: 'flex',
+               height: "50vh",
+               alignItems: 'center',
+               justifyContent: 'center',
+               backgroundColor: 'transparent',
+               opacity: 0.75,
+               zIndex: 10,
+           }}
+       >
+           <div
+               style={{
+                   borderTop: '4px solid #1E45E1',
+                   borderRight: '4px solid transparent',
+                   borderRadius: '50%',
+                   width: '40px',
+                   height: '40px',
+                   animation: 'spin 1s linear infinite',
+               }}
+           ></div>
+       </div>
         }
 
 
@@ -1860,7 +1856,7 @@ function SettingGeneral() {
             {/* )} */}
           </div>
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
             className="col-12"
             style={{
@@ -1870,7 +1866,7 @@ function SettingGeneral() {
               borderRadius: "12px",
               fontSize: "1rem",
               fontFamily: "Montserrat, sans-serif",
-              marginTop: "5px",
+              marginTop: "-5px",
             }}
             onClick={handleCheckPasswordChange}
           >
