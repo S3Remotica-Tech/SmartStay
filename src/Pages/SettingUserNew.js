@@ -38,7 +38,7 @@ function SettingNewUser() {
         setShowDots((prev) => (prev === index ? null : index));
         const { top, left, height } = event.target.getBoundingClientRect();
         const popupTop = top + (height / 2);
-        const popupLeft = left - 180;
+        const popupLeft = left - 150;
 
         setPopupPosition({ top: popupTop, left: popupLeft });
 
@@ -310,9 +310,9 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             borderTopLeftRadius: "24px",
-                                            textAlign: "center",
-                                            padding: "10px"
-
+                                            textAlign: "start",
+                                            padding: "10px",
+                                            paddingLeft:"25px"
                                         }}
                                     >
                                         Users
@@ -324,7 +324,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Email
@@ -336,7 +336,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Mobile
@@ -348,7 +348,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Role
@@ -361,7 +361,7 @@ function SettingNewUser() {
                                             fontFamily: "Gilroy",
                                             padding: "10px",
                                             borderTopRightRadius: "24px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >Action</th>
                                 </tr>
@@ -377,12 +377,12 @@ function SettingNewUser() {
                                                         border: "none",
                                                         // display: "flex",
                                                         padding: "10px",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 18,
                                                         whiteSpace: "nowrap",
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis",
-
+                                                        paddingLeft:"25px"
                                                     }}
                                                 >
                                                     {/* <Image
@@ -419,7 +419,7 @@ function SettingNewUser() {
                                                         fontWeight: 500,
                                                         fontSize: "16px",
                                                         fontFamily: "Gilroy",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis", whiteSpace: "nowrap"
@@ -433,7 +433,7 @@ function SettingNewUser() {
                                                     style={{
                                                         paddingTop: 17,
                                                         border: "none",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         fontSize: "16px",
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy",
@@ -456,7 +456,7 @@ function SettingNewUser() {
                                                         fontWeight: 500,
                                                         fontSize: "16px",
                                                         fontFamily: "Gilroy",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis", whiteSpace: "nowrap"
@@ -505,7 +505,7 @@ function SettingNewUser() {
                                                                     position: "fixed",
                                                                     top: popupPosition.top,
                                                                     left: popupPosition.left,
-                                                                    width: 160,
+                                                                    width: 120,
                                                                     height: 70,
                                                                     border: "1px solid #EBEBEB",
                                                                     borderRadius: 10,

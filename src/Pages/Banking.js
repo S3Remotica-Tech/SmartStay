@@ -491,16 +491,18 @@ function Banking() {
               }}>Banking</label>
             </div>
 
-            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center ">
+            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
               {search ? (
                 <>
                   <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      marginRight: 20,
-
-                    }}
+                   style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    // width: "100%",
+                    marginTop: "0px",
+                    marginBottom: "5px",
+                  }}
                   >
                     <div
                       style={{
@@ -525,7 +527,7 @@ function Banking() {
                       />
                       <div
                         className="input-group"
-                        style={{ marginRight: 20 }}
+                        // style={{ marginRight: 20 }}
                       >
                         <span className="input-group-text bg-white border-end-0">
                           <Image
@@ -542,8 +544,8 @@ function Banking() {
                             boxShadow: "none",
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
-                            borderRight: "none"
-
+                            borderRight: "none",
+                            width:"250px"
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
@@ -641,8 +643,8 @@ function Banking() {
 
               {
                 filterStatus &&
-
-                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "250px" : "140px" }}>
+ 
+                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}

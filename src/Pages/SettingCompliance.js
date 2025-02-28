@@ -68,7 +68,7 @@ function SettingCompliance({ hostelid }) {
         setRowDetails(row)
         const { top, left, height } = e.target.getBoundingClientRect();
         const popupTop = top + (height / 2);
-        const popupLeft = left - 150;
+        const popupLeft = left - 130;
     
         setPopupPosition({ top: popupTop, left: popupLeft });
         // const rect = e.currentTarget.getBoundingClientRect();
@@ -423,7 +423,7 @@ function SettingCompliance({ hostelid }) {
                                                             top: popupPosition.top,
                                                             left: popupPosition.left,
                                                             // width: 163,
-                                                            width: 140,
+                                                            width: 120,
                                                             border: "1px solid #EBEBEB",
                                                             borderRadius: 10,
                                                             display: "flex",
