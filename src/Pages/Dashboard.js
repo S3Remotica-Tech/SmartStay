@@ -26,6 +26,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Table } from "react-bootstrap";
 import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
+import Marquee from "react-fast-marquee";
 
 function Dashboard(props) {
   
@@ -439,7 +440,14 @@ function Dashboard(props) {
 
   return (
     <>
+       {/* <div style={{position:"relative", width:'100%', backgroundColor:'blue' , color:'white'}}>
+        <Marquee>
+    Hii your Smartstay Hostel  plan expiry in 4 days🚀
+    </Marquee>
+        </div> */}
       <div className="cotainer">
+     
+    
         <TabContext value={value}>
 
           <div
