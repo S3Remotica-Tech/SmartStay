@@ -376,7 +376,7 @@ function UserlistWalkin(props) {
                             border: "none",
                           }}
                         >
-                          Mobile no
+                          Mobile No
                         </th>
 
                         <th
@@ -391,7 +391,7 @@ function UserlistWalkin(props) {
                             border: "none",
                           }}
                         >
-                          Walkin date
+                          Walkin Date
                         </th>
 
                         <th

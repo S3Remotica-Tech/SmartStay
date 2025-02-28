@@ -268,12 +268,12 @@ const handleClose =()=>{
     }
 
     if (!countryCode) {
-      setCountryCodeError("Please select a country code");
+      setCountryCodeError("Please select  country code");
       isValid = false;
     }
 
     if (!vendor_Mobile) {
-      setMobileError("Please enter a mobile number");
+      setMobileError("Please enter  mobile number");
       isValid = false;
     }
 
@@ -282,22 +282,22 @@ const handleClose =()=>{
     // }
 
     if (!business_Name) {
-      setBusinessNameError("Please enter a business name");
+      setBusinessNameError("Please enter  business name");
       isValid = false;
     }
 
     if (!address) {
-      setAddressError("Please enter an address");
+      setAddressError("Please enter address");
       isValid = false;
     }
 
     if (!country) {
-      setCountryError("Please enter a country");
+      setCountryError("Please enter  country");
       isValid = false;
     }
 
     if (!pinCode) {
-      setPinCodeError("Please enter a pin code");
+      setPinCodeError("Please enter  pin code");
       isValid = false;
     } else if (!/^\d+$/.test(pinCode)) {
       setPinCodeError("Pin code must be numeric");
@@ -308,11 +308,11 @@ const handleClose =()=>{
 
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
-        setEmailError("Enter a valid Email ID");
+        setEmailError("Enter  valid Email ID");
         isValid = false;
       }
       if (mobileInvalid) {
-        setMobileError("Enter a valid 10 digit  mobile number");
+        setMobileError("Enter  valid 10 digit  mobile number");
         isValid = false;
       }
       return;
