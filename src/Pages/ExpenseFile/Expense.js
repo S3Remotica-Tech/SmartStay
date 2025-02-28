@@ -620,6 +620,8 @@ function Expenses({ allPageHostel_Id }) {
     setSelectedValue(null)
     setModeValue(e.target.getAttribute('value'));
     setShowFilter(false)
+    setShowPaymentMode(false)
+
   }
   const handleExpenseAll = (event) => {
     const value = event.target.getAttribute('value');
