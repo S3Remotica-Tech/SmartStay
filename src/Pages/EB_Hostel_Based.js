@@ -48,7 +48,7 @@ function EBHostelReading(props) {
 
     const { top, left,height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
 
@@ -781,7 +781,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                                 // position: "absolute",
                                 // right: 50,
                                 // top: 20,
-                                width: 163,
+                                width: 120,
                                 height: "auto",
                                 border: "1px solid #EBEBEB",
                                 borderRadius: 10,

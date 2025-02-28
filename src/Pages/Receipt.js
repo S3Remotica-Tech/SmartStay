@@ -67,7 +67,7 @@ const Receipt = (props) => {
     setShowDots(!showDots)
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -239,7 +239,7 @@ const Receipt = (props) => {
 
               {showDots && <>
                 <div ref={popupRef} style={{ cursor: "pointer", 
-                  backgroundColor: "#fff", 
+                  backgroundColor: "#F9F9F9", 
 
                   position: "fixed",
                   top: popupPosition.top,
@@ -248,7 +248,7 @@ const Receipt = (props) => {
                   // position: "absolute", right: 50, top: 20, 
                   
                   width: 123, height: "90px", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
-                  <div style={{ backgroundColor: "#fff" }} className=''>
+                  <div style={{ }} className=''>
 
                     {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 style={{ backgroundColor: "#fff" }}>
@@ -257,7 +257,7 @@ const Receipt = (props) => {
                     <div
                       className={"mb-2 mt-2 d-flex justify-content-start align-items-center gap-2 "}
                       style={{
-                        backgroundColor: receiptEditPermission ? "#f9f9f9" : "#fff",
+                        // backgroundColor: receiptEditPermission ? "#f9f9f9" : "#fff",
                         cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
@@ -291,7 +291,7 @@ const Receipt = (props) => {
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${receiptdeletePermission ? 'disabled' : ''}`}
                       style={{
-                        backgroundColor: receiptdeletePermission ? "#f9f9f9" : "#fff",
+                        // backgroundColor: receiptdeletePermission ? "#f9f9f9" : "#fff",
                         cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
@@ -325,7 +325,7 @@ const Receipt = (props) => {
                     <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                       onClick={() => handleInvoicepdf(props.item)}
 
-                      style={{ backgroundColor: "#fff" }}
+                      // style={{ backgroundColor: "#fff" }}
                     >
                       <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                     </div>
