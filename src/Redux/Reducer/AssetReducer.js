@@ -1,5 +1,5 @@
 
-const initialState = {
+export const initialState = {
     assetList: [],
     getAssetStatusCode: 0,
     addAssetStatusCode: 0,
