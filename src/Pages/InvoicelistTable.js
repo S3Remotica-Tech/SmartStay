@@ -194,7 +194,7 @@ const InvoiceTable = (props) => {
 
               {showDots && <>
                 <div ref={popupRef} style={{
-                  cursor: "pointer", backgroundColor: "#fff",
+                  cursor: "pointer", backgroundColor: "#F9F9F9",
                   // position: "absolute", right: 50, top: 20, 
 
                   position: "fixed",
@@ -204,7 +204,7 @@ const InvoiceTable = (props) => {
 
                   width: 143, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 5, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
                 }}>
-                  <div style={{ backgroundColor: "#fff" }} className=''>
+                  <div style={{ }} className=''>
 
                     <div
                       className={`mb-3 d-flex justify-content-start align-items-center gap-1 ${props.billEditPermission ? 'disabled' : ''}`}
@@ -243,7 +243,7 @@ const InvoiceTable = (props) => {
                     <div className='mb-3 d-flex justify-content-start align-items-center gap-1'
                       onClick={() => handleInvoicepdf(props.item)}
 
-                      style={{ backgroundColor: "#fff",marginTop:"-5px" }}
+                      style={{ marginTop:"-5px" }}
                     >
                       <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                     </div>

@@ -140,7 +140,7 @@ function VendorListMap(props) {
                       position: "absolute",
                       right: 0,
                       top: 50,
-                      width: 143,
+                      width: 120,
                       height: 92,
                       border: "1px solid #EBEBEB",
                       borderRadius: 10,

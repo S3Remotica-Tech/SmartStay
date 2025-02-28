@@ -835,13 +835,13 @@ function CheckOut(props) {
                                     ref={popupRef}
                                     style={{
                                       cursor: "pointer",
-                                      backgroundColor: "#EBEBEB",
+                                      backgroundColor: "#F9F9F9",
                                       position: "fixed",
                                       top:   popupPosition.top,
                                       left:  popupPosition.left,
                                       
                                       width: 200,
-                                      border: "1px solid #EBEBEB",
+                                      border: "1px solid #F9F9F9",
                                       borderRadius: 12,
                                       display: "flex",
                                       flexDirection: "column",
