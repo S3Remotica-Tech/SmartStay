@@ -497,8 +497,8 @@ function Banking() {
                   <div
                     style={{
                       position: "relative",
-                      width: "100%",
-                      marginRight: 20,
+                      width: "65%",
+                      marginRight: -80,
 
                     }}
                   >
@@ -507,8 +507,12 @@ function Banking() {
                         position: "relative",
                         display: "flex",
                         alignItems: "center",
-                        // width: "100%",
-                         cursor:"pointer"
+                        width: "60%",
+                         cursor:"pointer",
+                        //  paddingRight: "0px"
+                        
+                         
+                         
 
                       }}
                     >
@@ -517,7 +521,7 @@ function Banking() {
                         alt="Search"
                         style={{
                           position: "absolute",
-
+                          
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
@@ -525,7 +529,7 @@ function Banking() {
                       />
                       <div
                         className="input-group"
-                        style={{ marginRight: 20 }}
+                        // style={{ marginRight: 20}}
                       >
                         <span className="input-group-text bg-white border-end-0">
                           <Image
@@ -642,7 +646,7 @@ function Banking() {
               {
                 filterStatus &&
 
-                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "250px" : "140px" }}>
+                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "140px" : "85px" }}>
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
@@ -652,6 +656,7 @@ function Banking() {
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
+                      // width: "50%"
                     }}
                   >
                     <option value="All">All</option>

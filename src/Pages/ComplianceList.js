@@ -603,7 +603,8 @@ const ComplianceList = (props) => {
                         <div
                           ref={popupRef}
                           style={{
-                            backgroundColor: "#EBEBEB",
+                            // backgroundColor: "#EBEBEB",
+                            backgroundColor: "#F9F9F9",
                             position: "absolute",
                             right: 0,
                             top: 50,

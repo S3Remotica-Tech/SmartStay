@@ -3028,7 +3028,8 @@ function UserList(props) {
                                                 // right: 70,
 
                                                 width: "163px",
-                                                backgroundColor: "#fff",
+                                                // backgroundColor: "#fff",
+                                                backgroundColor: "#F9F9F9",
                                                 border: "1px solid #EBEBEB",
                                                 borderRadius: "10px",
                                                 zIndex: 1000,

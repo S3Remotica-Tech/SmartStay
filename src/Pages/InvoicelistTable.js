@@ -194,7 +194,9 @@ const InvoiceTable = (props) => {
 
               {showDots && <>
                 <div ref={popupRef} style={{
-                  cursor: "pointer", backgroundColor: "#fff",
+                  cursor: "pointer", 
+                  // backgroundColor: "#fff",
+                  backgroundColor: "#F9F9F9",
                   // position: "absolute", right: 50, top: 20, 
 
                   position: "fixed",

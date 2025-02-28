@@ -861,7 +861,7 @@ function CheckOut(props) {
                                     ref={popupRef}
                                     style={{
                                       cursor: "pointer",
-                                      backgroundColor: "#EBEBEB",
+                                      backgroundColor: "#F9F9F9",
                                       position: "fixed",
                                       top:   popupPosition.top,
                                       left:  popupPosition.left,
