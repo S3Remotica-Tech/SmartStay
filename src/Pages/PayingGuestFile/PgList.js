@@ -187,7 +187,7 @@ function PgList(props) {
     ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
 
 
       setShowFloor(false);
