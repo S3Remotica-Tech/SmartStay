@@ -495,6 +495,7 @@ function Banking() {
               {search ? (
                 <>
                   <div
+
                    style={{
                     position: "relative",
                     display: "flex",
@@ -503,15 +504,16 @@ function Banking() {
                     marginTop: "0px",
                     marginBottom: "5px",
                   }}
+
                   >
                     <div
                       style={{
                         position: "relative",
                         display: "flex",
                         alignItems: "center",
-                        // width: "100%",
-                         cursor:"pointer"
-
+                        width: "100%",
+                         cursor:"pointer",
+                        
                       }}
                     >
                       <Image
@@ -519,7 +521,7 @@ function Banking() {
                         alt="Search"
                         style={{
                           position: "absolute",
-
+                          
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
@@ -527,7 +529,9 @@ function Banking() {
                       />
                       <div
                         className="input-group"
+
                         // style={{ marginRight: 20 }}
+
                       >
                         <span className="input-group-text bg-white border-end-0">
                           <Image
@@ -643,8 +647,10 @@ function Banking() {
 
               {
                 filterStatus &&
+
  
                 <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
+
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
