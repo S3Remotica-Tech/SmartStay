@@ -8,7 +8,7 @@ import {
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
@@ -26,21 +26,21 @@ function SettingNewUser() {
     const [isConfirmDelete, setIsConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(true)
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const [edit,setEdit] =useState(false)
+    const [edit, setEdit] = useState(false)
 
 
     // Function Declare//////////////////////////////////////////////////////////
 
-    const handleDotsClick = (index,event) => {
+
+    const handleDotsClick = (index, event) => {
 
         event.stopPropagation();
         setShowDots((prev) => (prev === index ? null : index));
         const { top, left, height } = event.target.getBoundingClientRect();
-const popupTop = top + height / 4;
-const popupLeft = left - 170;
-            
+        const popupTop = top + (height / 2);
+        const popupLeft = left - 180;
 
-    setPopupPosition({ top: popupTop, left: popupLeft });
+        setPopupPosition({ top: popupTop, left: popupLeft });
 
     };
 
@@ -87,7 +87,7 @@ const popupLeft = left - 170;
 
     const handleClose = () => {
         setIsConfirmDelete(false)
-        
+
     }
 
 
@@ -110,7 +110,7 @@ const popupLeft = left - 170;
     useEffect(() => {
         if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
             setIsConfirmDelete(false)
-            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id:state.login.selectedHostel_Id } });
+            dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE' })
             }, 2000)
@@ -146,34 +146,34 @@ const popupLeft = left - 170;
         }
     }, [state.Settings?.StatusForaddSettingStaffList])
 
-useEffect(()=>{
-    if(state.Settings?.errorUser){
-        setLoading(false)
-        setTimeout(() => {
-            dispatch({ type: "REMOVE_ERROR_USER" });
-        }, 100)
+    useEffect(() => {
+        if (state.Settings?.errorUser) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_ERROR_USER" });
+            }, 100)
 
-    }
+        }
 
-},[state.Settings?.errorUser])
-    
-const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10)
- const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = usersFilterddata?.slice(indexOfFirstItem, indexOfLastItem);
+    }, [state.Settings?.errorUser])
 
-
-  const totalPages = usersFilterddata?.length && Math.ceil(usersFilterddata.length / itemsPerPage) ;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = usersFilterddata?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
+    const totalPages = usersFilterddata?.length && Math.ceil(usersFilterddata.length / itemsPerPage);
+
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const handleItemsPerPageChange = (event) => {
+        setItemsPerPage(Number(event.target.value));
+        setCurrentPage(1);
+    };
 
 
 
@@ -227,7 +227,7 @@ const [currentPage, setCurrentPage] = useState(1);
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}  >
-                <div style={{marinTop:-4}}>
+                <div style={{ marinTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
                 <div>
@@ -248,9 +248,9 @@ const [currentPage, setCurrentPage] = useState(1);
                             // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
-                            marginTop:5
+                            marginTop: 5
 
-                          }}
+                        }}
                         disabled={showPopup}
                     >
 
@@ -262,7 +262,7 @@ const [currentPage, setCurrentPage] = useState(1);
             </div>
             {showPopup && (
                 <div className="d-flex flex-wrap">
-                    <p style={{ color: "red", fontFamily:"Gilroy", fontSize:14}} className="col-12 col-sm-6 col-md-6 col-lg-9">
+                    <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
                         Please add a hostel before adding User information.
                     </p>
 
@@ -279,112 +279,113 @@ const [currentPage, setCurrentPage] = useState(1);
             <div className="mt-4">
                 {currentItems?.length > 0 ? (
 
-<div style={{ 
-   height: currentItems.length >= 6 ? "400px" : "auto",
-   overflowY:
-     currentItems.length >= 6 ? "auto" : "visible",
-   borderRadius: "24px",
-   border: "1px solid #DCDCDC", }}> 
-                    <Table
-                        responsive="md"
-                        className='Table_Design'
-                        style={{
-                            border: "1px solid #DCDCDC",
-                              borderBottom: "1px solid transparent",
-                              borderEndStartRadius: 0,
-                              borderEndEndRadius: 0,
-                        }}
-                    >
-                        <thead style={{
-                            backgroundColor: "#E7F1FF",
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                        }}>
-                            <tr>
-                                <th
-                                    style={{
-                                        color: "rgb(147, 147, 147)",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        borderTopLeftRadius: "24px",
-                                        textAlign: "center",
-                                        padding: "10px"
-                                       
-                                    }}
-                                >
-                                    Users
-                                </th>
-                                <th
-                                    style={{
-                                        color: "rgb(147, 147, 147)",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        padding: "10px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Email
-                                </th>
-                                <th
-                                    style={{
-                                        color: "rgb(147, 147, 147)",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        padding: "10px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Mobile
-                                </th>
-                                <th
-                                    style={{
-                                        color: "rgb(147, 147, 147)",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        padding: "10px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Role
-                                </th>
-                                <th
-                                    style={{
-                                        color: "rgb(147, 147, 147)",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        padding: "10px",
-                                        borderTopRightRadius: "24px",
-                                        textAlign: "center",
-                                    }}
-                                >Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                currentItems?.map((item, index) => {
-                                    // const imageUrl = item.profile || Profile;
-                                    return (
-                                        <tr key={index} style={{ overflowX: 'auto' }}>
-                                            <td title={item.first_name}
-                                                style={{
-                                                    border: "none",
-                                                    // display: "flex",
-                                                    padding: "10px",
-                                                  textAlign:"center",
-                                                    paddingTop:18,
-                                                    whiteSpace: "nowrap",
-                                                    overflow:"hidden",
-                                                    textOverflow:"ellipsis",
+                    <div style={{
+                        height: currentItems.length >= 6 ? "400px" : "auto",
+                        overflowY:
+                            currentItems.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                    }}>
+                        <Table
+                            responsive="md"
+                            className='Table_Design'
+                            style={{
+                                border: "1px solid #DCDCDC",
+                                borderBottom: "1px solid transparent",
+                                borderEndStartRadius: 0,
+                                borderEndEndRadius: 0,
+                            }}
+                        >
+                            <thead style={{
+                                backgroundColor: "#E7F1FF",
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 1,
+                            }}>
+                                <tr>
+                                    <th
+                                        style={{
+                                            color: "rgb(147, 147, 147)",
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            fontFamily: "Gilroy",
+                                            borderTopLeftRadius: "24px",
+                                            textAlign: "center",
+                                            padding: "10px"
 
-                                                }}
-                                            >
-                                                {/* <Image
+                                        }}
+                                    >
+                                        Users
+                                    </th>
+                                    <th
+                                        style={{
+                                            color: "rgb(147, 147, 147)",
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            fontFamily: "Gilroy",
+                                            padding: "10px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Email
+                                    </th>
+                                    <th
+                                        style={{
+                                            color: "rgb(147, 147, 147)",
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            fontFamily: "Gilroy",
+                                            padding: "10px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Mobile
+                                    </th>
+                                    <th
+                                        style={{
+                                            color: "rgb(147, 147, 147)",
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            fontFamily: "Gilroy",
+                                            padding: "10px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Role
+                                    </th>
+                                    <th
+                                        style={{
+                                            color: "rgb(147, 147, 147)",
+                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            fontFamily: "Gilroy",
+                                            padding: "10px",
+                                            borderTopRightRadius: "24px",
+                                            textAlign: "center",
+                                        }}
+                                    >Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    currentItems?.map((item, index) => {
+                                        // const imageUrl = item.profile || Profile;
+                                        return (
+                                            <tr key={index} style={{ overflowX: 'auto' }}>
+                                                <td title={item.first_name}
+                                                    style={{
+                                                        border: "none",
+                                                        // display: "flex",
+                                                        padding: "10px",
+                                                        textAlign: "center",
+                                                        paddingTop: 18,
+                                                        whiteSpace: "nowrap",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+
+                                                    }}
+                                                >
+                                                    {/* <Image
                                                     src={imageUrl}
                                                     alt={item.first_name || "Default Profile"}
                                                     roundedCircle
@@ -398,175 +399,177 @@ const [currentPage, setCurrentPage] = useState(1);
                                                         e.target.src = Profile;
                                                     }}
                                                 /> */}
-                                                <span
-                                                    className="Customer_Name_Hover"
+                                                    <span
+                                                        className="Customer_Name_Hover"
+                                                        style={{
+                                                            fontSize: "16px",
+                                                            fontWeight: 500,
+                                                            fontFamily: "Gilroy",
+                                                            cursor: "pointer",
+                                                            marginTop: 10
+
+                                                        }}
+
+                                                    >
+                                                        {item.first_name}
+                                                    </span>
+                                                </td>
+                                                <td title={item.email_Id}
                                                     style={{
+                                                        fontWeight: 500,
+                                                        fontSize: "16px",
+                                                        fontFamily: "Gilroy",
+                                                        textAlign: "center",
+                                                        paddingTop: 17,
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis", whiteSpace: "nowrap"
+
+                                                    }}
+                                                >
+                                                    {item.email_Id}
+                                                </td>
+
+                                                <td title={item.mobileNo}
+                                                    style={{
+                                                        paddingTop: 17,
+                                                        border: "none",
+                                                        textAlign: "center",
                                                         fontSize: "16px",
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy",
-                                                        cursor: "pointer",
-                                                        marginTop: 10
-
+                                                        marginTop: 10,
+                                                        whiteSpace: "nowrap",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis"
                                                     }}
-
                                                 >
-                                                    {item.first_name}
-                                                </span>
-                                            </td>
-                                            <td title={item.email_Id}
-                                                style={{
-                                                    fontWeight: 500,
-                                                    fontSize: "16px",
-                                                    fontFamily: "Gilroy",
-                                                    textAlign: "center",
-                                                    paddingTop: 17,
-                                                    overflow:"hidden",
-                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
-
-                                                }}
-                                            >
-                                                {item.email_Id}
-                                            </td>
-
-                                            <td  title={item.mobileNo}
-                                                style={{
-                                                    paddingTop: 17,
-                                                    border: "none",
-                                                    textAlign: "center",
-                                                    fontSize: "16px",
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy",
-                                                    marginTop: 10,
-                                                    whiteSpace: "nowrap",
-                                                    overflow:"hidden",
-                                                    textOverflow:"ellipsis"
-                                                }}
-                                            >
-                                                +
-                                                {item &&
-                                                    String(item.mobileNo).slice(
-                                                        0,
-                                                        String(item.mobileNo).length - 10
-                                                    )}{" "}
-                                                {item && String(item.mobileNo).slice(-10)}
-                                            </td>
-                                            <td title={item.role_name}
-                                                style={{
-                                                    fontWeight: 500,
-                                                    fontSize: "16px",
-                                                    fontFamily: "Gilroy",
-                                                    textAlign: "center",
-                                                    paddingTop: 17,
-                                                    overflow:"hidden",
-                                                    textOverflow:"ellipsis",whiteSpace: "nowrap"
-                                                }}
-                                            >
-                                                {item.role_name}
-                                            </td>
-                                            <td style={{ textAlign: "center", display: "flex",
-                                                        justifyContent: "center",
-                                                        alignItems: "center", }}>
-                                                <div
+                                                    +
+                                                    {item &&
+                                                        String(item.mobileNo).slice(
+                                                            0,
+                                                            String(item.mobileNo).length - 10
+                                                        )}{" "}
+                                                    {item && String(item.mobileNo).slice(-10)}
+                                                </td>
+                                                <td title={item.role_name}
                                                     style={{
-                                                        height: "35px",
-                                                        width: "35px",
-                                                        borderRadius: "50%",
-                                                        border: "1px solid #EFEFEF",
-                                                        display: "flex",
-                                                        justifyContent: "center",
-                                                        alignItems: "center",
-                                                        zIndex: showDots ? 1000 : "auto",
-                                                        position: "relative",
-                                                        cursor: "pointer",
-                                                        // backgroundColor: showDots  ? "#E7F1FF" : "white",
-                                                        backgroundColor: showDots === index ?"#E7F1FF" : "white",
-                                                      
-                                                        
+                                                        fontWeight: 500,
+                                                        fontSize: "16px",
+                                                        fontFamily: "Gilroy",
+                                                        textAlign: "center",
+                                                        paddingTop: 17,
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis", whiteSpace: "nowrap"
                                                     }}
-
-                                                    onClick={(e) => handleDotsClick(index,e)}
                                                 >
-                                                    <PiDotsThreeOutlineVerticalFill
-                                                        style={{ height: "18px", width: "18px",
+                                                    {item.role_name}
+                                                </td>
+                                                <td style={{
+                                                    textAlign: "center", display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                }}>
+                                                    <div
+                                                        style={{
+                                                            height: "35px",
+                                                            width: "35px",
+                                                            borderRadius: "50%",
+                                                            border: "1px solid #EFEFEF",
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                            // zIndex: showDots ? 1000 : "auto",
+                                                            position: "relative",
                                                             cursor: "pointer",
-                                                         }}
-                                                    />
+                                                            // backgroundColor: showDots  ? "#E7F1FF" : "white",
+                                                            backgroundColor: showDots === index ? "#E7F1FF" : "white",
 
-                                                    {showDots === index && (
-                                                        <div
-                                                            ref={popupRef}
+
+                                                        }}
+
+                                                        onClick={(e) => handleDotsClick(index, e)}
+                                                    >
+                                                        <PiDotsThreeOutlineVerticalFill
                                                             style={{
+                                                                height: "18px", width: "18px",
                                                                 cursor: "pointer",
-                                                                backgroundColor: "#F9F9F9",
-                                                                position: "absolute",
-                                                                // position: "fixed",
-                                                                top: popupPosition.top,
-                                                                left: popupPosition.left,
-                                                                width: 160,
-                                                                height: 70,
-                                                                border: "1px solid #EBEBEB",
-                                                                borderRadius: 10,
-                                                                display: "flex",
-                                                                flexDirection: "column",
-                                                                padding: 10,
-                                                                alignItems: "start",
                                                             }}
-                                                        >
+                                                        />
+
+                                                        {showDots === index && (
                                                             <div
-                                                                className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                                onClick={() => handleEditForm(item)}
+                                                                ref={popupRef}
+                                                                style={{
+                                                                    cursor: "pointer",
+                                                                    backgroundColor: "#F9F9F9",
+                                                                    position: "fixed",
+                                                                    top: popupPosition.top,
+                                                                    left: popupPosition.left,
+                                                                    width: 160,
+                                                                    height: 70,
+                                                                    border: "1px solid #EBEBEB",
+                                                                    borderRadius: 10,
+                                                                    display: "flex",
+                                                                    flexDirection: "column",
+                                                                    padding: 10,
+                                                                    alignItems: "start",
+                                                                }}
                                                             >
-                                                                <img
-                                                                    src={Edit}
-                                                                    style={{ height: 16, width: 16 }}
-                                                                    alt="Edit"
-                                                                />
-                                                                <label
-                                                                    style={{
-                                                                        fontSize: 14,
-                                                                        fontWeight: 500,
-                                                                        fontFamily: "Gilroy, sans-serif",
-                                                                        color: "#000000",
-                                                                        cursor: "pointer",
-                                                                    }}
+                                                                <div
+                                                                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                                    onClick={() => handleEditForm(item)}
                                                                 >
-                                                                    Edit
-                                                                </label>
-                                                            </div>
-                                                            <div className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                                onClick={() => handleDeleteForm(item)}
-                                                            >
-                                                                <img
-                                                                    src={Delete}
-                                                                    style={{ height: 16, width: 16 }}
-                                                                    alt="Delete"
-                                                                />
-                                                                <label
-                                                                    style={{
-                                                                        fontSize: 14,
-                                                                        fontWeight: 500,
-                                                                        fontFamily: "Gilroy, sans-serif",
-                                                                        color: "#FF0000",
-                                                                        cursor: "pointer",
-                                                                    }}
+                                                                    <img
+                                                                        src={Edit}
+                                                                        style={{ height: 16, width: 16 }}
+                                                                        alt="Edit"
+                                                                    />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 500,
+                                                                            fontFamily: "Gilroy, sans-serif",
+                                                                            color: "#000000",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                    >
+                                                                        Edit
+                                                                    </label>
+                                                                </div>
+                                                                <div className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                                    onClick={() => handleDeleteForm(item)}
                                                                 >
-                                                                    Delete
-                                                                </label>
+                                                                    <img
+                                                                        src={Delete}
+                                                                        style={{ height: 16, width: 16 }}
+                                                                        alt="Delete"
+                                                                    />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 500,
+                                                                            fontFamily: "Gilroy, sans-serif",
+                                                                            color: "#FF0000",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
 
-                            }
+                                }
 
-                        </tbody>
-                    </Table></div>
+                            </tbody>
+                        </Table></div>
 
-                ) : !loading  && (
+                ) : !loading && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
                         <div style={{ textAlign: "center" }}>
                             <img
@@ -610,97 +613,97 @@ const [currentPage, setCurrentPage] = useState(1);
 
 
 
-    {
-        usersFilterddata?.length >= 5 &&
-        <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-        >
-          <div>
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
+            {
+                usersFilterddata?.length >= 5 &&
+                <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+                >
+                    <div>
+                        <select
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            style={{
+                                padding: "5px",
+                                border: "1px solid #1E45E1",
+                                borderRadius: "5px",
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                outline: "none",
+                                boxShadow: "none",
 
-              }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
+                            }}
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
 
-          {/* Pagination Controls */}
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            {/* Previous Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-              </button>
-            </li>
+                    {/* Pagination Controls */}
+                    <ul
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            listStyleType: "none",
+                            margin: 0,
+                            padding: 0,
+                        }}
+                    >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
+                                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                            </button>
+                        </li>
 
-            {/* Current Page Indicator */}
-            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-              {currentPage} of {totalPages}
-            </li>
+                        {/* Current Page Indicator */}
+                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                            {currentPage} of {totalPages}
+                        </li>
 
-            {/* Next Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      }
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                            <button
+                                style={{
+                                    padding: "5px",
+                                    textDecoration: "none",
+                                    color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                                    cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    minWidth: "30px",
+                                    textAlign: "center",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                }}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            >
+                                <ArrowRight2
+                                    size="16"
+                                    color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                                />
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            }
 
 
 
@@ -734,8 +737,8 @@ const [currentPage, setCurrentPage] = useState(1);
             {
                 isConfirmDelete &&
 
-                <Modal show={isConfirmDelete} onHide={handleClose} 
-                centered
+                <Modal show={isConfirmDelete} onHide={handleClose}
+                    centered
                     backdrop="static"
                     style={{
                         width: 388,
@@ -745,65 +748,65 @@ const [currentPage, setCurrentPage] = useState(1);
                     }}>
                     <Modal.Header style={{ borderBottom: "none" }} >
                         <Modal.Title style={{
-                                fontSize: "18px",
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                fontWeight: 600,
-                                color: "#222222",
-                                flex: 1,
-                            }}
+                            fontSize: "18px",
+                            fontFamily: "Gilroy",
+                            textAlign: "center",
+                            fontWeight: 600,
+                            color: "#222222",
+                            flex: 1,
+                        }}
                         >Delete User ?</Modal.Title>
                     </Modal.Header>
 
 
 
                     <Modal.Body style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#646464",
-                            textAlign: "center",
-                            marginTop: "-20px",
-                        }}>
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: "#646464",
+                        textAlign: "center",
+                        marginTop: "-20px",
+                    }}>
                         Are you sure you want to delete the User ?    </Modal.Body>
-                    <Modal.Footer 
-                    style={{
-                        justifyContent: "center",
-                        borderTop: "none",
-                        marginTop: "-10px",
-                    }}
+                    <Modal.Footer
+                        style={{
+                            justifyContent: "center",
+                            borderTop: "none",
+                            marginTop: "-10px",
+                        }}
                     >
                         <Button
-                           style={{
-                            width: 160,
-                            height: 52,
-                            borderRadius: 8,
-                            padding: "12px 20px",
-                            background: "#fff",
-                            color: "#1E45E1",
-                            border: "1px solid #1E45E1",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            marginRight: 10,
-                        }}
-                        onClick={handleClose}
-                             >
+                            style={{
+                                width: 160,
+                                height: 52,
+                                borderRadius: 8,
+                                padding: "12px 20px",
+                                background: "#fff",
+                                color: "#1E45E1",
+                                border: "1px solid #1E45E1",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: "14px",
+                                marginRight: 10,
+                            }}
+                            onClick={handleClose}
+                        >
                             Cancel
                         </Button>
 
-                        <Button 
-                        style={{
-                            width: 160,
-                            height: 52,
-                            borderRadius: 8,
-                            padding: "12px 20px",
-                            background: "#1E45E1",
-                            color: "#FFFFFF",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                        }}
+                        <Button
+                            style={{
+                                width: 160,
+                                height: 52,
+                                borderRadius: 8,
+                                padding: "12px 20px",
+                                background: "#1E45E1",
+                                color: "#FFFFFF",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: "14px",
+                            }}
                             onClick={handleDelete}
                         >
                             Delete
@@ -823,7 +826,7 @@ const [currentPage, setCurrentPage] = useState(1);
 
 
 
-            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={state.login.selectedHostel_Id} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit}/>}
+            {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={state.login.selectedHostel_Id} setAddUserForm={setAddUserForm} edit={edit} setEdit={setEdit} />}
 
 
 
