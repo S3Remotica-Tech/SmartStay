@@ -1165,6 +1165,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         fontSize: "18px",
                         // marginLeft: 15,
                         fontFamily: "Gilroy",
+                        paddingLeft:"10px"
                       }}
                     >
                       Customer Profile
