@@ -1,17 +1,17 @@
-const initialState = {
-  addBanking: [],
+export const initialState = {
+  // addBanking: [],
   statusCodeForAddBanking: 0,
   bankingList: [],
   statusCodeForGetBanking: 0,
-  defaultAccount: [],
+  // defaultAccount: [],
   statusCodeForDefaultAccount: 0,
-  addBankingAmount: [],
+  // addBankingAmount: [],
   statusCodeForAddBankingAmount: 0,
   editTransaction: [],
   statusEditTrasactionCode: 0,
-  deleteBank: [],
+  // deleteBank: [],
   statusCodeDeleteBank: 0,
-  deleteBankTransaction: [],
+  // deleteBankTransaction: [],
   statusCodeForDeleteTrans: 0,
   bankingError: ''
 };
@@ -21,7 +21,7 @@ const BankingReducer = (state = initialState, action) => {
     case "ADD_USER_BANKING":
       return {
         ...state,
-        addBanking: action.payload,
+        // addBanking: action.payload,
         statusCodeForAddBanking: action.payload.statusCode,
       };
     case "CLEAR_ADD_USER_BANKING":
@@ -45,7 +45,7 @@ const BankingReducer = (state = initialState, action) => {
     case "ADD_BANK_AMOUNT":
       return {
         ...state,
-        addBankingAmount: action.payload,
+        // addBankingAmount: action.payload,
         statusCodeForAddBankingAmount: action.payload.statusCode,
       };
     case "CLEAR_ADD_BANK_AMOUNT":
@@ -63,7 +63,7 @@ const BankingReducer = (state = initialState, action) => {
     case "DEFAULT_ACCOUNT":
       return {
         ...state,
-        defaultAccount: action.payload,
+        // defaultAccount: action.payload,
         statusCodeForDefaultAccount: action.payload.statusCode,
       };
     case "CLEAR_DEFAULT_ACCOUNT":
@@ -73,7 +73,7 @@ const BankingReducer = (state = initialState, action) => {
     case "DELETE_BANKING":
       return {
         ...state,
-        deleteBank: action.payload,
+        // deleteBank: action.payload,
         statusCodeDeleteBank: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BANKING":
@@ -81,7 +81,7 @@ const BankingReducer = (state = initialState, action) => {
     case "DELETE_BANKING_TRANSACTION":
       return {
         ...state,
-        deleteBankTransaction: action.payload,
+        // deleteBankTransaction: action.payload,
         statusCodeForDeleteTrans: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BANKING_TRANSACTION":

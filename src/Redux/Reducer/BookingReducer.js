@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   addBookind: [],
   statusCodeForAddBooking: 0,
   CustomerBookingList: [],
@@ -20,7 +20,7 @@ const BookingReducer = (state = initialState, action) => {
     case "ADD_USER_BOOKING":
       return {
         ...state,
-        addBookind: action.payload,
+        // addBookind: action.payload,
         statusCodeForAddBooking: action.payload.statusCode,
       };
 
