@@ -2842,7 +2842,7 @@ const handleBack = () => {
                                                 // right: 70,
 
                                                 width: "163px",
-                                                backgroundColor: "#fff",
+                                                backgroundColor: "#F9F9F9",
                                                 border: "1px solid #EBEBEB",
                                                 borderRadius: "10px",
                                                 zIndex: 1000,
@@ -2854,7 +2854,7 @@ const handleBack = () => {
                                             >
                                               <div
                                                 style={{
-                                                  backgroundColor: "#fff",
+                                                  // backgroundColor: "#fff",
                                                 }}
                                                 className=""
                                               >
@@ -2869,7 +2869,7 @@ const handleBack = () => {
                                                       }
                                                     }}
                                                     style={{
-                                                      backgroundColor: "#fff",
+                                                      // backgroundColor: "#fff",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -2926,7 +2926,7 @@ const handleBack = () => {
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor: "#fff",
+                                                      backgroundColor: "#F9F9F9",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -2982,7 +2982,7 @@ const handleBack = () => {
                                                       )
                                                     }
                                                     style={{
-                                                      backgroundColor: "#fff",
+                                                      backgroundColor: "#F9F9F9",
                                                       cursor:
                                                         customerAddPermission
                                                           ? "not-allowed"
@@ -3028,7 +3028,7 @@ const handleBack = () => {
                                                 <div
                                                   className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                                   style={{
-                                                    backgroundColor: "#fff",
+                                                    backgroundColor: "#F9F9F9",
                                                     cursor:
                                                       customerEditPermission
                                                         ? "not-allowed"
@@ -3092,7 +3092,7 @@ const handleBack = () => {
                                                     "mb-2 d-flex justify-content-start align-items-center gap-2"
                                                   }
                                                   style={{
-                                                    backgroundColor: "#fff",
+                                                    backgroundColor: "#F9F9F9",
                                                     cursor:
                                                       customerDeletePermission
                                                         ? "not-allowed"
@@ -3195,7 +3195,7 @@ const handleBack = () => {
                         position: "fixed",
                         bottom: "10px",
                         right: "10px",
-                        backgroundColor: "#fff", // Optional: to give a background for better visibility
+                        // backgroundColor: "#fff", // Optional: to give a background for better visibility
                         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
                         borderRadius: "5px", // Optional: to make edges rounded
                       }}

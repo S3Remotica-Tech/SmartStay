@@ -158,7 +158,7 @@ function UserlistWalkin(props) {
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
 
     setPopupPosition({ top: popupTop, left: popupLeft });
@@ -558,14 +558,14 @@ function UserlistWalkin(props) {
                                     left: popupPosition.left,
                                     overflow: "visible ! important",
                                     marginButtom: "30px",
-                                    width: 163,
+                                    width: 120,
                                     height: 92,
                                     border: "1px solid #EBEBEB",
                                     borderRadius: 10,
                                     display: "flex",
                                     flexDirection: "column",
                                     justifyContent: "center",
-                                    padding: 15,
+                                    padding: '8px',
                                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                   }}
                                 >

@@ -252,7 +252,7 @@ function Banking() {
 
     const { top, left} = event.target.getBoundingClientRect();
     const popupTop = top - 20;
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
@@ -1366,7 +1366,7 @@ function Banking() {
                                   position: "fixed",
                                   top: popupPosition.top,
                                   left: popupPosition.left,
-                                  width: 160,
+                                  width: 120,
                                   height: 70,
                                   border: "1px solid #EBEBEB",
                                   borderRadius: 10,

@@ -47,7 +47,7 @@ const RecurringBillList = (props) => {
     setShowDots(!showDots)
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -172,7 +172,7 @@ const RecurringBillList = (props) => {
 
               {showDots && <>
                 <div ref={popupRef} style={{ cursor: "pointer", 
-                  backgroundColor: "#fff", 
+                  backgroundColor: "#F9F9F9", 
 
                   position: "fixed",
                   top: popupPosition.top,
@@ -180,8 +180,8 @@ const RecurringBillList = (props) => {
 
                   // position: "absolute", right: 50, top: 20, 
                   
-                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
-                  <div style={{ backgroundColor: "#fff" }} className=''>
+                  width: 120, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                  <div style={{  }} className=''>
 
                     {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 style={{ backgroundColor: "#fff" }}>
