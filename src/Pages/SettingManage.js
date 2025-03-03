@@ -70,7 +70,7 @@ function SettingManage(props) {
 
 
   useEffect(() => {
-    if (state.UsersList?.hosteListStatusCode == 200) {
+    if (state.UsersList?.hosteListStatusCode === 200) {
       setLoading(false);
       setFilteredData(state.UsersList.hostelList);
       setTimeout(() => {
@@ -80,7 +80,7 @@ function SettingManage(props) {
   }, [state.UsersList?.hosteListStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList?.noHosteListStatusCode == 201) {
+    if (state.UsersList?.noHosteListStatusCode === 201) {
       setLoading(false);
       setFilteredData([]);
       setTimeout(() => {
@@ -90,7 +90,7 @@ function SettingManage(props) {
   }, [state.UsersList?.noHosteListStatusCode]);
 
   useEffect(() => {
-    if (showHostelDetails?.floorDetails?.length == 1) {
+    if (showHostelDetails?.floorDetails?.length === 1) {
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
     }
   }, [filteredData]);
@@ -109,7 +109,7 @@ function SettingManage(props) {
   }, []);
 
   useEffect(() => {
-    if (state.UsersList?.noHosteListStatusCode == 201) {
+    if (state.UsersList?.noHosteListStatusCode === 201) {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
@@ -121,8 +121,8 @@ function SettingManage(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.createFloorSuccessStatusCode == 200 ||
-      state.PgList.updateFloorSuccessStatusCode == 200
+      state.UsersList.createFloorSuccessStatusCode === 200 ||
+      state.PgList.updateFloorSuccessStatusCode === 200
     ) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
@@ -145,7 +145,7 @@ function SettingManage(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode == 200 && showHostelDetails?.floorDetails.length > 0) {
+    if (state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails.length > 0) {
       const updatedFloors = showHostelDetails?.floorDetails || [];
   
       if (updatedFloors.length > 0) {
@@ -192,7 +192,7 @@ function SettingManage(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
+    if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
@@ -235,8 +235,8 @@ function SettingManage(props) {
 
   useEffect(() => {
     if (
-      state.PgList.deletePgSuccessStatusCode == 200 ||
-      state.PgList.dleteHostelImagesStatusCode == 200
+      state.PgList.deletePgSuccessStatusCode === 200 ||
+      state.PgList.dleteHostelImagesStatusCode === 200
     ) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
@@ -255,7 +255,7 @@ function SettingManage(props) {
   ]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode == 200) {
+    if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
 
@@ -291,7 +291,7 @@ function SettingManage(props) {
   const handleSelectedHostel = (selectedHostelId) => {
     const selected = state.UsersList.hostelList?.find((item) => {
       // setHostelIndex(index);
-      return item.id == selectedHostelId;
+      return item.id === selectedHostelId;
     });
     setSelectedHostel(true);
     setShowHostelDetails(selected);
@@ -488,7 +488,7 @@ function SettingManage(props) {
   useEffect(() => {
     if (floorClick) {
       const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
+        return item.floor_id === floorClick;
       });
 
       setFloorName(FloorNameData[0]?.floor_name);
@@ -497,7 +497,7 @@ function SettingManage(props) {
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeForDeleteRoom == 200) {
+    if (state.PgList.statusCodeForDeleteRoom === 200) {
       dispatch({
         type: "ROOMCOUNT",
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
@@ -582,8 +582,8 @@ function SettingManage(props) {
 
   useEffect(() => {
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_view == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_view === 1
     ) {
       setPermissionError("");
     } else {
@@ -593,8 +593,8 @@ function SettingManage(props) {
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_create == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_create === 1
     ) {
       setAddPermissionError("");
     } else {
@@ -604,8 +604,8 @@ function SettingManage(props) {
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_edit == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_edit === 1
     ) {
       setEditPermissionError("");
     } else {
@@ -615,8 +615,8 @@ function SettingManage(props) {
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_delete == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_delete === 1
     ) {
       setDeletePermissionError("");
     } else {
@@ -1104,7 +1104,7 @@ function SettingManage(props) {
                                       )
                                     }
                                     className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${Number(floorClick) == Number(floor.floor_id)
+                              lign-items-center  ${Number(floorClick) === Number(floor.floor_id)
                                         ? "active-floor"
                                         : "Navs-Item"
                                       }`}
@@ -1122,7 +1122,7 @@ function SettingManage(props) {
                                     >
                                       <div
                                         className={
-                                          Number(floorClick) ==
+                                          Number(floorClick) ===
                                             Number(floor.floor_id)
                                             ? "ActiveNumberFloor"
                                             : "UnActiveNumberFloor"
@@ -1144,7 +1144,7 @@ function SettingManage(props) {
                                       </div>
                                       <div
                                         className={
-                                          Number(floorClick) ==
+                                          Number(floorClick) ===
                                             Number(floor.floor_id)
                                             ? "ActiveFloortext"
                                             : "UnActiveFloortext"

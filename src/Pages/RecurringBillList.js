@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/Delete_red.png';
@@ -21,8 +22,8 @@ const RecurringBillList = (props) => {
 
   useEffect(() => {
     if (
-      props.billrolePermission[0]?.is_owner == 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_delete == 1
+      props.billrolePermission[0]?.is_owner === 1 ||
+      props.billrolePermission[0]?.role_permissions[11]?.per_delete === 1
     ) {
       setRecurringBillDeletePermission("");
     } else {

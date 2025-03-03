@@ -113,8 +113,8 @@ function Booking(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_view == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_view === 1
     ) {
       setBookingPermissionError("");
     } else {
@@ -124,8 +124,8 @@ function Booking(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_edit == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_edit === 1
     ) {
       setBookingEditPermissionError("");
     } else {
@@ -135,8 +135,8 @@ function Booking(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_delete == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_delete === 1
     ) {
       setBookingDeletePermissionError("");
     } else {

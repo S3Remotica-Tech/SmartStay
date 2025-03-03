@@ -646,7 +646,7 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral == 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
+    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData);
       setLoading(false)
 
@@ -1248,7 +1248,7 @@ function SettingGeneral() {
             <Image
               src={
                 file
-                  ? typeof file == "string"
+                  ? typeof file === "string"
                     ? file
                     : URL.createObjectURL(file)
                   : Profile

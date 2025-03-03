@@ -113,7 +113,7 @@ const SettingElectricity = ({ hostelid }) => {
       setTotalErr('')
     }
 
-    if (editHostel && editHostel.editamount == newAmount) {
+    if (editHostel && editHostel.editamount === newAmount) {
       setTotalErr('No changes Deducted');
     }
   };
@@ -124,7 +124,7 @@ const SettingElectricity = ({ hostelid }) => {
       return;
     }
 
-    if (edit && editHostel && editHostel.editamount == amount) {
+    if (edit && editHostel && editHostel.editamount === amount) {
       setTotalErr('No changes Deducted');
       return;
     }
@@ -279,7 +279,7 @@ const SettingElectricity = ({ hostelid }) => {
 
 
   useEffect(() => {
-    if (state.Settings?.getebStatuscode == 200) {
+    if (state.Settings?.getebStatuscode === 200) {
       setLoading(false)
       setEbList(state.Settings.EBBillingUnitlist)
       setTimeout(() => {

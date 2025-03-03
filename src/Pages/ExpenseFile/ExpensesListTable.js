@@ -194,7 +194,7 @@ function ExpensesListTable(props) {
                     }}
                     onClick={handleShowTagAsset}>
                     <div>
-                      <img src={TagAsset} />
+                      <img src={TagAsset} alt='tagg' />
                     </div>
                     <div>
                       <label

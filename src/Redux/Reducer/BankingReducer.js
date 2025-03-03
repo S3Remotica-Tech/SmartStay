@@ -86,7 +86,10 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_DELETE_BANKING_TRANSACTION":
       return { ...state, statusCodeForDeleteTrans: 0 };
+
+      default:
+        return state;
   }
-  return state;
+ 
 };
 export default BankingReducer;

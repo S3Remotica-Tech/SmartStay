@@ -56,11 +56,13 @@ case 'OTP_INVALID_ERROR':
     return {...state, otpInvalidError:action.payload}
     case 'CLEAR_OTP_INVALID_ERROR':
         return {...state, otpInvalidError:''}
-
+        
+        default:
+            return state;
 
     }
 
-    return state;
+    
 }
 
 

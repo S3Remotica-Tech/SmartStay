@@ -121,8 +121,8 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_view == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_view === 1
     ) {
       setExpencePermissionError("");
     } else {
@@ -134,8 +134,8 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_create == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_create === 1
     ) {
       setExpenceAddPermission("");
     } else {
@@ -146,8 +146,8 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_delete === 1
     ) {
       setExpenceDeletePermission("");
     } else {
@@ -156,8 +156,8 @@ function Expenses({ allPageHostel_Id }) {
   }, [expencerolePermission]);
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_edit === 1
     ) {
       setExpenceEditPermission("");
     } else {
@@ -398,7 +398,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
   useEffect(() => {
-    if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode == 200) {
+    if (state.ExpenseList.StatusCodeForAddExpenseSuccess === 200 || state.ExpenseList.deleteExpenseStatusCode === 200) {
       dispatch({ type: 'EXPENSELIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setShowModal(false);
       setShowExpenseDelete(false)
@@ -670,7 +670,7 @@ function Expenses({ allPageHostel_Id }) {
   const handleInputChange = (e) => {
     const searchItem = e.target.value
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
         user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
       );
@@ -689,7 +689,7 @@ function Expenses({ allPageHostel_Id }) {
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
         user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
       );
@@ -788,7 +788,7 @@ function Expenses({ allPageHostel_Id }) {
                     // onClick={() => document.getElementById('date-input')._flatpickr.open()}
                     onClick={() => flatpickrInstance && flatpickrInstance.open()}
                   >
-                    <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} />
+                    <img src={Calendars} alt='calendor' style={{ height: 24, width: 24, marginRight: 10 }} />
                     Week {formattedDates}
                   </label>
                   <Flatpickr
@@ -1079,7 +1079,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
                 <div style={{ paddingRight: "21px", cursor: 'pointer', marginTop: 11 }}>
-                  <img src={excelimg} width={38} height={38}
+                  <img src={excelimg} alt='excel' width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>

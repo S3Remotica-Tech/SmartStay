@@ -55,7 +55,10 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, alreadyAssetNameHere: action.payload }
         case 'CLEAR_ASSET_NAME_ERROR':
             return { ...state, alreadyAssetNameHere: '' }
+
+            default:
+        return state;
     }
-    return state;
+    
 }
 export default AssetReducer;

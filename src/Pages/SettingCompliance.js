@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect, useRef, useState } from "react";
 import message from "../Assets/Images/New_images/messages_gray.png";
 import Edit from "../Assets/Images/Edit-blue.png";
@@ -438,7 +439,7 @@ function SettingCompliance({ hostelid }) {
                                                                 className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                                                 onClick={() => handleEdit(u)}
                                                             >
-                                                                <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                                <img src={Edit} alt="edit" style={{ height: 16, width: 16 }} />
                                                                 <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222", cursor: "pointer" }}>
                                                                     Edit
                                                                 </label>
@@ -450,6 +451,7 @@ function SettingCompliance({ hostelid }) {
                                                             >
                                                                 <img
                                                                     src={Delete}
+                                                                    alt="delete"
                                                                     style={{ height: 16, width: 16 }}
                                                                 />{" "}
                                                                 <label

@@ -113,7 +113,10 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, AddComplianceComment: action.payload.response, statusCodeForAddComplianceComment:action.payload.statusCode}
             case 'CLEAR_COMPLIANCE_ADD_COMMENT':
                 return { ...state, statusCodeForAddComplianceComment:0}
+
+                default:
+        return state;
     }
-    return state;
+   
 }
 export default ComplianceReducer;

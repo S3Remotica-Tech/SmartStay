@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React,{ useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -29,8 +30,8 @@ useEffect(() => {
 
 useEffect(() => {
   if (
-    rolePermission[0]?.is_owner == 1 ||
-    rolePermission[0]?.role_permissions[4]?.per_create == 1
+    rolePermission[0]?.is_owner === 1 ||
+    rolePermission[0]?.role_permissions[4]?.per_create === 1
   ) {
     setCustomerAddPermission("");
   } else {
@@ -40,8 +41,8 @@ useEffect(() => {
 
 useEffect(() => {
   if (
-    rolePermission[0]?.is_owner == 1 ||
-    rolePermission[0]?.role_permissions[4]?.per_delete == 1
+    rolePermission[0]?.is_owner === 1 ||
+    rolePermission[0]?.role_permissions[4]?.per_delete === 1
   ) {
     setCustomerDeletePermission("");
   } else {
@@ -92,7 +93,7 @@ const handleDeleteBed = () =>{
   
 
     useEffect(() => {
-      if (state.PgList.statusCodeDeleteBed == 200) {
+      if (state.PgList.statusCodeDeleteBed === 200) {
         handleClose()
     
       }

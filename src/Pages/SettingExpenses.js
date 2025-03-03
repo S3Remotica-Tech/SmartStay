@@ -311,7 +311,7 @@ function SettingExpenses({ hostelid }) {
    
 
     if (subcategory_Id && subType) {
-      if (subType == initialSubCategory.name) {
+      if (subType === initialSubCategory.name) {
         setFormError("No changes detected.");
         return;
       } else {
@@ -328,7 +328,7 @@ function SettingExpenses({ hostelid }) {
 
     else {
 
-      if (type.label == initialCategory.name) {
+      if (type.label === initialCategory.name) {
         setFormCategoryError("No changes detected.");
         return;
       } else {
@@ -380,7 +380,7 @@ function SettingExpenses({ hostelid }) {
 
 
   useEffect(() => {
-    if (state.Settings?.AddCategoryType == 2) {
+    if (state.Settings?.AddCategoryType === 2) {
       setShowForm(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_TYPE' })

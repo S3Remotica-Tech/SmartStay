@@ -227,9 +227,9 @@ const InvoicePage = () => {
       const newDate = `${year}-${month}-${day}`;
 
       if (
-        (item.EbAmount == 0 || item.EbAmount == undefined) &&
-        item.invoice_type == 1 &&
-        item.AmnitiesAmount == 0
+        (item.EbAmount === 0 || item.EbAmount === undefined) &&
+        item.invoice_type === 1 &&
+        item.AmnitiesAmount === 0
       ) {
         dispatch({
           type: "INVOICEPDF",
@@ -825,7 +825,7 @@ const InvoicePage = () => {
         // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
         amount: props.item.Amount,
         paidAmount: props.item.PaidAmount,
-        balanceDue: props.item.BalanceDue == 0 ? "00" : props.item.BalanceDue,
+        balanceDue: props.item.BalanceDue === 0 ? "00" : props.item.BalanceDue,
         dueDate: formattedDueDate,
         InvoiceId: props.item.Invoices,
         invoice_type: props.item.invoice_type,
@@ -894,7 +894,7 @@ const InvoicePage = () => {
       return;
     }
     
-    if (invoiceList.transaction == "Net Banking" && !account) {
+    if (invoiceList.transaction === "Net Banking" && !account) {
       setAccountError("Please Choose Bank Account");
       return;
     }
@@ -1726,8 +1726,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_view === 1
     ) {
       setBillPermissionError("");
     } else {
@@ -1738,8 +1738,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create === 1
     ) {
       setRecuringBillAddPermission("");
     } else {
@@ -1750,8 +1750,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view === 1
     ) {
       setRecurringPermission("");
     } else {
@@ -1762,8 +1762,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view === 1
     ) {
       setReceiptPermission("");
     } else {
@@ -1774,8 +1774,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create === 1
     ) {
       setReceiptAddPermission("");
     } else {
@@ -1802,8 +1802,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_create === 1
     ) {
       setBillAddPermission("");
     } else {
@@ -1813,8 +1813,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_delete === 1
     ) {
       setBillDeletePermission("");
     } else {
@@ -1824,8 +1824,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_edit === 1
     ) {
       setBillEditPermission("");
     } else {
@@ -1864,8 +1864,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      state.login.UpdateNotificationMessage != null &&
-      state.login.UpdateNotificationMessage != ""
+      state.login.UpdateNotificationMessage !== null &&
+      state.login.UpdateNotificationMessage !== ""
     ) {
       // dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
@@ -2061,7 +2061,7 @@ const InvoicePage = () => {
   ]);
 
   useEffect(() => {
-    if (state.InvoiceList?.InvoiceListStatusCode == 200) {
+    if (state.InvoiceList?.InvoiceListStatusCode === 200) {
       setLoading(false);
       // dispatch({
       //   type: "MANUALINVOICESLIST",
@@ -2075,7 +2075,7 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
   useEffect(() => {
-    if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
+    if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2294,7 +2294,7 @@ const InvoicePage = () => {
       setRecurringBills(FilterUsertwo);
     }
 
-    if (value == 3) {
+    if (value === "3") {
       const FilterUserReceipt = Array.isArray(receiptdata)
         ? receiptdata.filter((item) =>
             item.Name?.toLowerCase().includes(filterInput.toLowerCase())
@@ -2537,6 +2537,7 @@ const InvoicePage = () => {
                           <span className="input-group-text bg-white border-start-0">
                             <img
                               src={closecircle}
+                              alt="close"
                               onClick={handleCloseSearch}
                               style={{ height: 20, width: 20,cursor:"pointer" }}
                             />
@@ -2847,7 +2848,7 @@ const InvoicePage = () => {
 </div> */}
 
                 <div>
-                  {value == 1 && (
+                  {value === "1" && (
                     <Button
                       disabled={billAddPermission}
                       onClick={handleManualShow}
@@ -3843,7 +3844,7 @@ const InvoicePage = () => {
                                                 fontWeight: 600,
                                               }}
                                             >
-                                              {item.Invoices == null ||
+                                              {item.Invoices === null ||
                                               item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
@@ -4090,7 +4091,11 @@ const InvoicePage = () => {
                                   </Table>
                                 </div>
                               ) : (
-                                !loading  && (
+
+                                !loading &&
+                                currentItems &&
+                                currentItems?.length === 0 && (
+
                                   <div>
                                     <div style={{ textAlign: "center" }}>
                                       {" "}
@@ -5174,7 +5179,7 @@ const InvoicePage = () => {
                                               fontWeight: 600,
                                             }}
                                           >
-                                            {item.Invoices == null ||
+                                            {item.Invoices === null ||
                                             item.Invoices === ""
                                               ? "0.00"
                                               : item.Invoices}

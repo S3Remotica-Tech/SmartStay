@@ -109,7 +109,7 @@ function SettingNewUser() {
 
 
     useEffect(() => {
-        if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
+        if (state.InvoiceList?.deleteUserSuccessStatusCode === 200) {
             setIsConfirmDelete(false)
             dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
             setTimeout(() => {
@@ -138,7 +138,7 @@ function SettingNewUser() {
     }, []);
 
     useEffect(() => {
-        if (state.Settings?.StatusForaddSettingStaffList == 200) {
+        if (state.Settings?.StatusForaddSettingStaffList === 200) {
             setUsersFilterddata(state.Settings?.addSettingStaffList)
             setLoading(false)
             setTimeout(() => {

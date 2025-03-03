@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useState, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {  Table } from "react-bootstrap";
@@ -36,11 +37,11 @@ function UserListAmenities(props) {
       setamnityError("");
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
-      return item.amenity_Id == value;
+      return item.amenity_Id === value;
     });
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory[0].status == 0) {
+      if (amenitiesHistory[0].status === 0) {
         setaddamenityShow(true);
         setstatusShow(false);
       }
@@ -58,7 +59,7 @@ function UserListAmenities(props) {
     ) {
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities.filter((item) => {
-          return item.Amnities_Id == selectAmneties;
+          return item.Amnities_Id === selectAmneties;
         });
       setcreateby(AmnitiesNamelist);
     }
@@ -729,7 +730,7 @@ const handleAmnitiesSelect = ()=>{
                           borderRadius: "5px",
                         }}
                       >
-                        {v.status == 1 ? "Active" : "Inactive"}
+                        {v.status === 1 ? "Active" : "Inactive"}
                       </span>
                     </td>
                     <td>
