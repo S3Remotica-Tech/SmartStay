@@ -195,9 +195,19 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
+   const [activeRow, setActiveRow] = useState(null);
+
  
   const handleShowEditBed = (item) => {
+
+    console.log("item", item);
+    
     if (item[0].ID) {
+      if (activeRow == item[0].ID) {
+        setActiveRow(null);
+      } else {
+        setActiveRow(item[0].ID);
+      }
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -603,6 +613,7 @@ function UserListRoomDetail(props) {
     setAddressError("");
     setPhoneError("");
     setDateError("");
+    setActiveRow(null)
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -1262,7 +1273,44 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       {/* <div  onClick={() => handleShowEditBed(props.userDetails)}>
                         <img src={dots} width={40} height={40} />
                       </div> */}
-                      <div
+
+
+{/* 
+ cursor: props.customerEditPermission
+ opacity: props.customerEditPermission ? 0.6 : 1, */}
+
+              <div
+                                                     style={{
+                                                       cursor: "pointer",
+                                                       height: 40,
+                                                       width: 40,
+                                                       borderRadius: 100,
+                                                       border: "1px solid #EFEFEF",
+                                                       display: "flex",
+                                                       justifyContent: "center",
+                                                       alignItems: "center",
+                                                       position: "relative",
+                                                       zIndex:
+                                                         activeRow === item.ID
+                                                           ? 1000
+                                                           : "auto",
+                                                       backgroundColor:
+                                                         activeRow === item.ID
+                                                           ? "#E7F1FF"
+                                                           : "white",
+                                                     }}
+                                                     onClick={() => {
+                                                      if (!props.customerEditPermission) {
+                                                        handleShowEditBed(props.userDetails);
+                                                      }
+                                                    }}
+                                                   >
+                                                     <PiDotsThreeOutlineVerticalFill
+                                                       style={{ height: 20, width: 20 }}
+                                                     />
+                                                       </div>
+
+                      {/* <div
                         onClick={() => {
                           if (!props.customerEditPermission) {
                             handleShowEditBed(props.userDetails);
@@ -1273,6 +1321,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             ? "not-allowed"
                             : "pointer",
                           opacity: props.customerEditPermission ? 0.6 : 1,
+                          zIndex:
+                                              activeRow === item.ID
+                                                ? 1000
+                                                : "auto",
+                          backgroundColor:
+                                  activeRow === item.ID
+                                                ? "#E7F1FF"
+                                                : "white",
                         }}
                       >
                         <img
@@ -1285,7 +1341,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                               : "none",
                           }}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 

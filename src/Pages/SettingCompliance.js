@@ -252,7 +252,7 @@ function SettingCompliance({ hostelid }) {
 
 
     return (
-        <div className="container" style={{ position: "relative", maxHeight: "500px",
+        <div className="container" style={{ position: "relative", maxHeight: "570px",
             overflowY: "auto", }}>
 
 

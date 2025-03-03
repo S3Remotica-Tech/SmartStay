@@ -34,7 +34,7 @@ function AssetListTable(props) {
     const popupHeight = 100;
     const viewportHeight = window.innerHeight;
 
-    let popupTop = top + (height / 2);
+    let popupTop = top + (height / 12);
     let popupLeft = left - 200;
 
 
@@ -214,7 +214,8 @@ function AssetListTable(props) {
               borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
                position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
               <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, }} />
-              {showDots && <>
+              {showDots && 
+              <>
                 <div
                  ref={popupRef}
                   style={{

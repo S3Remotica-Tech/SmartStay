@@ -108,11 +108,16 @@ console.log("propss",props);
  
 
   const handleShowDots = (item,event) => {
+    if (activeId == item.id) {
+      setActiveId(null);
+    } else {
+      setActiveId(item.id);
+    }
     console.log("ClickedID:", item); // Debugging
-    setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
+    // setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
   const handleClickOutside = (event) => {
@@ -447,7 +452,15 @@ const handleDeleteBill = (user) => {
                         justifyContent: "center",
                         alignItems: "center",
                         position: "relative",
-                        zIndex: 1000,
+                        // zIndex: 1000,
+                        zIndex:
+                        activeId === view.id
+                          ? 1000
+                          : "auto",
+                      backgroundColor:
+                      activeId === view.id
+                          ? "#E7F1FF"
+                          : "white",
                       }}
                       onClick={(e) =>
                         handleShowDots(view,e)
@@ -461,14 +474,14 @@ const handleDeleteBill = (user) => {
                 ref={popupRef}
                 style={{
                   cursor: "pointer",
-                                          backgroundColor: "#fff",
+                                          backgroundColor: "#F9F9F9",
                                           position: "fixed",
                                           top: popupPosition.top,
                                           left: popupPosition.left,
                                           // position: "absolute",
                                           // right: 50,
                                           // top: 20,
-                                          width: 163,
+                                          width: 120,
                                           height: "auto",
                                           border: "1px solid #EBEBEB",
                                           borderRadius: 10,
