@@ -474,8 +474,8 @@ const ComplianceList = (props) => {
         <div
           style={{
             position: 'fixed',
-            top: '50%',
-            left: '50%',
+            top: '53%',
+            left: '57%',
             transform: 'translate(-50%, -50%)',
             width: '100vw',
             height: '100vh',
@@ -1659,6 +1659,10 @@ const ComplianceList = (props) => {
 
         </div>
       )}
+
+      
+
+
       <Modal
         show={deleteForm}
         onHide={handleCloseDeleteForm}
