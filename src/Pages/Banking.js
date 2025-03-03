@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Filters from "../Assets/Images/Filters.svg";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
@@ -68,8 +69,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_view == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
     ) {
       setBankingPermissionError("");
     } else {
@@ -79,8 +80,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_create == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_create === 1
     ) {
       setBankingAddPermission("");
     } else {
@@ -90,8 +91,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_delete == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_delete === 1
     ) {
       setBankingDeletePermission("");
     } else {
@@ -100,8 +101,8 @@ function Banking() {
   }, [bankingrolePermission]);
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_edit == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_edit === 1
     ) {
       setBankingEditPermission("");
     } else {
@@ -555,7 +556,7 @@ function Banking() {
                           onChange={(e) => handlefilterInput(e)}
                         />
                         <span className="input-group-text bg-white border-start-0">
-                          <img src={closecircle} onClick={handleCloseSearch}
+                          <img src={closecircle} alt="close" onClick={handleCloseSearch}
                             style={{ height: 20, width: 20 }}
                           />
                         </span>
@@ -924,7 +925,7 @@ function Banking() {
                           )}
                         </div>
 
-                        <a
+                        <span
                           href={bankingAddPermission ? "#" : undefined}
                           onClick={(e) => {
                             if (bankingAddPermission) {
@@ -948,7 +949,7 @@ function Banking() {
                           }}
                         >
                           Change
-                        </a>
+                        </span>
                       </div>
                       {showAccountTypeOptions === item.id && (
                         <div
@@ -972,7 +973,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={1}
-                              checked={selectedAccountType == 1}
+                              checked={selectedAccountType === 1}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Credit A/C
@@ -984,7 +985,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={2}
-                              checked={selectedAccountType == 2}
+                              checked={selectedAccountType === 2}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Debit A/C
@@ -996,7 +997,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={3}
-                              checked={selectedAccountType == 3}
+                              checked={selectedAccountType === 3}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Both A/C
@@ -1019,6 +1020,7 @@ function Banking() {
                       >
                         <img
                           src={money}
+                          alt="money"
                           width={18}
                           height={18}
                           style={{ marginTop: "-5px" }}
@@ -1028,7 +1030,7 @@ function Banking() {
                       {item.balance === 0 ||
                         item.balance === "" ||
                         item.balance === null ? (
-                        <a
+                        <span
                           href={bankingAddPermission ? "#" : undefined}
                           className={
                             bankingAddPermission ? "text-muted" : "text-primary"
@@ -1052,7 +1054,7 @@ function Banking() {
                           }}
                         >
                           +Add Amount
-                        </a>
+                        </span>
                       ) : (
                         <span
                           style={{
@@ -1470,7 +1472,7 @@ function Banking() {
             ) : (
 
               <div>
-                {!loader && currentRowTransaction.length == 0 &&
+                {!loader && currentRowTransaction.length === 0 &&
 
                   <div>
 
@@ -1983,7 +1985,7 @@ function Banking() {
             </Modal.Footer>
           </Modal>
 
-          {EditTransactionForm == true ? (
+          {EditTransactionForm === true ? (
             <BankingEditTransaction
               setEditTransactionForm={setEditTransactionForm}
               EditTransactionForm={EditTransactionForm}
@@ -1994,7 +1996,7 @@ function Banking() {
             />
           ) : null}
 
-          {showForm == true ? (
+          {showForm === true ? (
             <BankingAddForm
               handleShowForm={handleShowForm}
               showForm={showForm}

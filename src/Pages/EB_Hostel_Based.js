@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
@@ -635,7 +636,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                   let formattedDate;
 
                   // Check if v.date exists and is not "00-00-00"
-                  if (v.date && v.date != '0000-00-00') {
+                  if (v.date && v.date !== '0000-00-00') {
                     let Dated = new Date(v.date);
                     let day = Dated.getDate();
                     let month = Dated.getMonth() + 1;

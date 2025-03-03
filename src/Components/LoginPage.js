@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -66,7 +67,7 @@ const MyComponent = () => {
 
 
   useEffect(() => {
-    if (state.login?.otpSuccessStatusCode == 203) {
+    if (state.login?.otpSuccessStatusCode === 203) {
       setShowOtpVerification(true)
     }
     setTimeout(() => {
@@ -201,7 +202,7 @@ const MyComponent = () => {
         <div className='col-lg-6 col-md-6 col-sm-12'>
           <div className="d-flex gap-1 mb-1" >
 
-            <img src={Logo} style={{ height: 25, width: 25 ,cursor:"pointer"}}  onClick={handleLogoClicks}  />
+            <img src={Logo} alt='logo' style={{ height: 25, width: 25 ,cursor:"pointer"}}  onClick={handleLogoClicks}  />
             <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy",cursor:"pointer" }}  onClick={handleLogoClicks} >
               Smartstay</label></div>
           </div>

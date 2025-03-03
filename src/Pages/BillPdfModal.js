@@ -96,7 +96,7 @@ console.log("Bill Row Data:",rowData);
                                 style={{ fontSize: '10px', cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
                         </div>
                         <div className="mb-2 mt-2">
-                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData?.Invoices == null || rowData?.Invoices == '' ? '0.00' : rowData?.Invoices}</label>
+                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}</label>
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@ console.log("Bill Row Data:",rowData);
                             <div className="d-flex justify-content-between ps-4 pe-4 " >
                                 <div className="d-flex gap-2">
                                     <div>
-                                        <img src={rowData?.hostel_profile ? rowData?.hostel_profile : Logo} style={{ height: 40, width: 40, }} />
+                                        <img src={rowData?.hostel_profile ? rowData?.hostel_profile : Logo} alt="logo" style={{ height: 40, width: 40, }} />
                                     </div>
                                     <div>
 
@@ -217,7 +217,7 @@ console.log("Bill Row Data:",rowData);
                             </div>
 
 
-{rowData.action == "recuring" && (
+{rowData.action === "recuring" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
       <div className="d-flex align-items-center mb-2">
@@ -303,7 +303,7 @@ console.log("Bill Row Data:",rowData);
   </div>
 )}
 
-{rowData.action == "manual" && (
+{rowData.action === "manual" && (
   <div className="d-flex justify-content-between pt-5 ps-4 pe-4">
     <div>
       <div className="d-flex align-items-center mb-2">

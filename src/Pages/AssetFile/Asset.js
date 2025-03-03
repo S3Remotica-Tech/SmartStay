@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { FormControl, InputGroup, Table, Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -85,8 +86,8 @@ function Asset() {
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner == 1 ||
-      assetrolePermission[0]?.role_permissions[8]?.per_view == 1
+      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.role_permissions[8]?.per_view === 1
     ) {
       setAssetPermissionError("");
     } else {
@@ -98,8 +99,8 @@ function Asset() {
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner == 1 ||
-      assetrolePermission[0]?.role_permissions[8]?.per_create == 1
+      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.role_permissions[8]?.per_create === 1
     ) {
       setAssetAddPermission("");
     } else {
@@ -110,8 +111,8 @@ function Asset() {
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner == 1 ||
-      assetrolePermission[0]?.role_permissions[8]?.per_delete == 1
+      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.role_permissions[8]?.per_delete === 1
     ) {
       setAssetDeletePermission("");
     } else {
@@ -120,8 +121,8 @@ function Asset() {
   }, [assetrolePermission]);
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner == 1 ||
-      assetrolePermission[0]?.role_permissions[8]?.per_edit == 1
+      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.role_permissions[8]?.per_edit === 1
     ) {
       setAssetEditPermission("");
     } else {
@@ -147,7 +148,7 @@ function Asset() {
 
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode == 200 || state.AssetList.deleteAssetStatusCode == 200 || state.AssetList.addAssignAssetStatusCode == 200) {
+    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
       setTimeout(() => {
         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       }, 100)
@@ -330,7 +331,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const handleInputChange = (e) => {
     const searchItem = e.target.value
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
         user.asset_name && user.asset_name.toLowerCase().includes(searchItem.toLowerCase())
       );
@@ -349,7 +350,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
         user.asset_name && user.asset_name.toLowerCase().includes(searchItem.toLowerCase())
       );
@@ -369,7 +370,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
   useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
+    if (stateAccount.statusCodeForAccountList === 200) {
       // const loginProfile = stateAccount.accountList[0].user_details.profile
 
       // setProfile(loginProfile)
@@ -594,7 +595,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     </div>
                   }
                   <div style={{ paddingRight: "29px",marginTop:10,cursor:"pointer"}}>
-                    <img src={excelimg} width={38} height={38} 
+                    <img src={excelimg} alt='excel' width={38} height={38} 
                       onClick={handleAssetsExcel}
                     />
                   </div>

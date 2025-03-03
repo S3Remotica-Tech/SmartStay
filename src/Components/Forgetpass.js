@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Forgetpass.css";
@@ -217,7 +218,7 @@ function ForgetPasswordPage() {
 
 
   useEffect(() => {
-    if (state.NewPass?.statusCode == 200) {
+    if (state.NewPass?.statusCode === 200) {
       setShowLoader(false)
       setShowOtpVerification(true);
       // setDisabledButton(true)
@@ -236,7 +237,7 @@ function ForgetPasswordPage() {
   }, [state.NewPass?.statusCode])
 
   useEffect(() => {
-    if (state.NewPass.statusCodeForgotOtp == 200) {
+    if (state.NewPass.statusCodeForgotOtp === 200) {
       setNewPassword(true)
       setShowEmailSend(false)
       setShowOtpVerification(false)
@@ -264,7 +265,7 @@ function ForgetPasswordPage() {
   }, [state.NewPass.statusCodeForgotOtp])
 
   useEffect(() => {
-    if (state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201) {
+    if (state.NewPass?.sendEmailStatusCode === 203 || state.NewPass?.EmailErrorStatusCode === 201) {
       setShowLoader(false)
 
       setTimeout(() => {
@@ -280,7 +281,7 @@ function ForgetPasswordPage() {
   const [sendEmailError, setSendMailError] = useState('')
 
   useEffect(() => {
-    if (state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201) {
+    if (state.NewPass?.sendEmailStatusCode === 203 || state.NewPass?.EmailErrorStatusCode === 201) {
 
       setEmailError(state.NewPass?.emailError)
       setSendMailError(state.NewPass?.sendEmailError)
@@ -467,7 +468,7 @@ function ForgetPasswordPage() {
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
                 <div className="d-flex gap-1 mb-1" style={{curser:"pointer"}} onClick={hanldeBackToLogin}>
 
-                  <img src={Logo} style={{ height: 25, width: 25, cursor:"pointer" }}  />
+                  <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor:"pointer" }}  />
                   {/* <img src={Icon} style={{width:"100%"}} /> */}
                   <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor:"pointer" }}>Smartstay</label></div>
                 </div>
@@ -537,7 +538,7 @@ function ForgetPasswordPage() {
 
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
                 <div>
-                  <img src={Forgot} style={{ height: 460, width: 460 }} />
+                  <img src={Forgot} alt='forget' style={{ height: 460, width: 460 }} />
                 </div>
 
               </div>
@@ -568,7 +569,7 @@ function ForgetPasswordPage() {
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
               <div className="d-flex gap-1 mb-1" onClick={hanldeBackToLoginPassword}>
 
-                <img src={Logo} style={{ height: 25, width: 25, cursor: "pointer" }} />
+                <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} />
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" , cursor:"pointer"}}>Smartstay</label></div>
               </div>
@@ -841,7 +842,7 @@ function ForgetPasswordPage() {
             </div>
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
               <div>
-                <img src={Forgot} style={{ height: 460, width: 460 }} />
+                <img src={Forgot} alt='forget' style={{ height: 460, width: 460 }} />
               </div>
 
             </div>

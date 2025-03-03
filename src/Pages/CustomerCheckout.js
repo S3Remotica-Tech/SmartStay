@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
@@ -35,7 +36,7 @@ function CustomerCheckout(props){
     };
 
       useEffect(() => {
-          if ( state.UsersList.addCheckoutCustomerStatusCode == 200 ) {
+          if ( state.UsersList.addCheckoutCustomerStatusCode === 200 ) {
             props.setCustomerCheckoutpage(false)
             setTimeout(() => {
               dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
