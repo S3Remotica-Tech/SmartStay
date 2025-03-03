@@ -271,8 +271,8 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             <img src={role} width={24} height={24} alt="Role Icon" />
             <span 
               title={view.role_name}
-              className="ms-3 fw-bold text-dark text-truncate d-inline-block"
-              style={{ fontSize: 16, maxWidth: 100 }}
+              className="ms-3  text-truncate d-inline-block"
+              style={{ fontSize: 16, maxWidth: 100 , fontWeight:500}}
             >
               {view.role_name}
             </span>
@@ -280,8 +280,8 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           <div
             className="d-flex justify-content-center align-items-center border rounded-circle"
             style={{
-              height: "40px",
-              width: "40px",
+              height: "35px",
+              width: "35px",
               cursor: "pointer",
               backgroundColor: showDots === index ? "#E7F1FF" : "white",
               position: "relative",

@@ -50,7 +50,7 @@ const Compliance = () => {
   const [userid, setUser_Id] = useState('')
   const [hosId, setHosId] = useState("")
   const [floorname, setFloorname] = useState('')
-
+  const [loading, setLoading] = useState(false);
 
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -118,6 +118,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
+      setLoading(false)
       setFilteredUsers(state.ComplianceList.Compliance);
 
       setTimeout(() => {
@@ -188,6 +189,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
+      setLoading(true)
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
       dispatch({
         type: "USERLIST",
@@ -748,6 +750,36 @@ const Compliance = () => {
           <>
             <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
               <div >
+                   
+              {loading  &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '53%',
+            left: '57%',
+            transform: 'translate(-50%, -50%)',
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            zIndex: 1050,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+}
+
                 {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
           <div>
@@ -1012,7 +1044,7 @@ const Compliance = () => {
                   }
 
 
-                  {currentItems && currentItems.length === 0 &&
+                  { !loading  && currentItems.length == 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
