@@ -108,7 +108,7 @@ console.log("propss",props);
  
 
   const handleShowDots = (item,event) => {
-    if (activeId == item.id) {
+    if (activeId === item.id) {
       setActiveId(null);
     } else {
       setActiveId(item.id);

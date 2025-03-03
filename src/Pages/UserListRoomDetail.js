@@ -4,7 +4,6 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import dots from "../Assets/Images/New_images/Group 14.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
@@ -203,7 +202,7 @@ function UserListRoomDetail(props) {
     console.log("item", item);
     
     if (item[0].ID) {
-      if (activeRow == item[0].ID) {
+      if (activeRow === item[0].ID) {
         setActiveRow(null);
       } else {
         setActiveRow(item[0].ID);
