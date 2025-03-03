@@ -579,8 +579,10 @@ function SettingAmenities({ hostelid }) {
                     ) : !loading &&
 
                     <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
-                        <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                        <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
+                        <div className='d-flex  justify-content-center'>
+                            <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                        <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", 
+                            fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
 
                     </div>
 

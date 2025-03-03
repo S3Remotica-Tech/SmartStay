@@ -610,32 +610,31 @@ function SettingExpenses({ hostelid }) {
 
 {loading && (
   <div
+  style={{
+    position: 'fixed',
+    top: '48%',
+    left: '68%',
+    transform: 'translate(-50%, -50%)',
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 1050,
+  }}
+>
+  <div
     style={{
-      position: 'fixed',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: '200px',
-      display: 'flex',
-      height: "50vh",
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'transparent', // Transparent background
-      zIndex: 10,
-      opacity: 0.75,
+      borderTop: '4px solid #1E45E1',
+      borderRight: '4px solid transparent',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px',
+      animation: 'spin 1s linear infinite',
     }}
-  >
-    <div
-      style={{
-        borderTop: '4px solid #1E45E1', // Blue color for loader
-        borderRight: '4px solid transparent',
-        borderRadius: '50%',
-        width: '40px',
-        height: '40px',
-        animation: 'spin 1s linear infinite',
-      }}
-    ></div>
-  </div>
+  ></div>
+</div>
 )}
 
 

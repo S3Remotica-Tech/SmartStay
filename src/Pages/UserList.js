@@ -36,7 +36,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
+// import DatePicker from "react-datepicker";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import Closebtn from "../Assets/Images/CloseCircle.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
@@ -4400,12 +4403,27 @@ const handleBack = () => {
                   <DatePicker
                     selected={startdate}
                     onChange={(date) => handlestartDate(date)}
-                    popperPlacement="bottom-start"
+                    popperPlacement="top-start"
+                     popperClassName="custom-datepicker"
+                     appendTo= {document.body} 
                     popperModifiers={[
+                      {
+                        name: "preventOverflow",
+                        options: {
+                          boundary: "window",
+                          
+                        },
+                      },
+                      {
+                        name: "flip",
+                        options: {
+                          fallbackPlacements: [], 
+                        },
+                      },
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -13],
                         },
                       },
                     ]}
@@ -4452,12 +4470,27 @@ const handleBack = () => {
                   <DatePicker
                     selected={enddate}
                     onChange={(date) => handleEndDate(date)}
-                    popperPlacement="bottom-start"
+                    popperPlacement="top-start"
+                     popperClassName="custom-datepicker"
+                     appendTo= {document.body} 
                     popperModifiers={[
+                      {
+                        name: "preventOverflow",
+                        options: {
+                          boundary: "window",
+                          
+                        },
+                      },
+                      {
+                        name: "flip",
+                        options: {
+                          fallbackPlacements: [], 
+                        },
+                      },
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -200],
+                          offset: [0, -13],
                         },
                       },
                     ]}
@@ -4507,12 +4540,27 @@ const handleBack = () => {
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
-                    popperPlacement="bottom-start"
+                    popperPlacement="top-start"
+                     popperClassName="custom-datepicker"
+                     appendTo= {document.body} 
                     popperModifiers={[
+                      {
+                        name: "preventOverflow",
+                        options: {
+                          boundary: "window",
+                          
+                        },
+                      },
+                      {
+                        name: "flip",
+                        options: {
+                          fallbackPlacements: [], 
+                        },
+                      },
                       {
                         name: "offset",
                         options: {
-                          offset: [0, -300],
+                          offset: [0, -13],
                         },
                       },
                     ]}
@@ -4564,15 +4612,30 @@ const handleBack = () => {
                     selected={invoiceduedate}
                     onChange={(date) => handleDueDate(date)}
                     dateFormat="dd/MM/yyyy"
-                    popperPlacement="bottom-start"
-                    popperModifiers={[
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -300],
-                        },
-                      },
-                    ]}
+                    popperPlacement="top-start"
+                    popperClassName="custom-datepicker"
+                    appendTo= {document.body} 
+                   popperModifiers={[
+                     {
+                       name: "preventOverflow",
+                       options: {
+                         boundary: "window",
+                         
+                       },
+                     },
+                     {
+                       name: "flip",
+                       options: {
+                         fallbackPlacements: [], 
+                       },
+                     },
+                     {
+                       name: "offset",
+                       options: {
+                         offset: [0, -13],
+                       },
+                     },
+                   ]}
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate
