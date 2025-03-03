@@ -52,8 +52,8 @@ function CheckOut(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_view == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[6]?.per_view === 1
     ) {
       setcheckOutPermissionError("");
     } else {
@@ -64,8 +64,8 @@ function CheckOut(props) {
   useEffect(() => {
 
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_edit == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[6]?.per_edit === 1
     ) {
       setcheckOutEditPermissionError("");
     } else {
@@ -76,8 +76,8 @@ function CheckOut(props) {
   useEffect(() => {
 
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_delete == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[6]?.per_delete === 1
     ) {
       setcheckOutDeletePermissionError("");
     } else {
@@ -97,7 +97,7 @@ function CheckOut(props) {
    }, [state.login.selectedHostel_Id])
 
     useEffect(() => {
-        if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+        if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
           setCheckOutLoader(false)
          setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
           setTimeout(() => {
@@ -126,7 +126,7 @@ function CheckOut(props) {
 
 
    useEffect(() => {
-      if (state.UsersList?.checkoutcustomeEmpty == 201) {
+      if (state.UsersList?.checkoutcustomeEmpty === 201) {
         setCheckOutLoader(false)
         setCheckOutCustomer([])
        

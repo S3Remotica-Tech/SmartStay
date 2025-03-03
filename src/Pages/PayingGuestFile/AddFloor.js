@@ -57,7 +57,7 @@ function StaticExample({
   }, []);
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode == 200) {
+    if (state.UsersList.createFloorSuccessStatusCode === 200) {
       setFloorNo("");
     }
   }, [state.UsersList.createFloorSuccessStatusCode]);

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -222,7 +223,7 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        if (state.InvoiceList.alreadyAssignAmenitiesStatusCode == 201) {
+        if (state.InvoiceList.alreadyAssignAmenitiesStatusCode === 201) {
             setDeleteAmenities(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_ALREADY_ASSIGN_ERROR' })
@@ -258,7 +259,7 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
+        if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode === 200) {
 
             setOpenAmenitiesForm(false)
             dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -282,7 +283,7 @@ function SettingAmenities({ hostelid }) {
 
     useEffect(() => {
 
-        if (state.Settings?.addRecurringRole == 200) {
+        if (state.Settings?.addRecurringRole === 200) {
             setIsDisplayRecurring(false)
             dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
@@ -294,7 +295,7 @@ function SettingAmenities({ hostelid }) {
     }, [state.Settings?.addRecurringRole])
 
     useEffect(() => {
-        if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200) {
+        if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode === 200) {
 
             dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 

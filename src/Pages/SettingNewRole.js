@@ -84,7 +84,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   }
 
   useEffect(() => {
-    if (state.Settings?.assignedUserRoleStatusCode == 202) {
+    if (state.Settings?.assignedUserRoleStatusCode === 202) {
       setDeleteRole(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGNED_ERROR' })
@@ -112,7 +112,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForRoleList == 200) {
+    if (state.Settings.statusCodeForRoleList === 200) {
       setRoleList(state.Settings.getsettingRoleList)
       setLoading(false)
       setTimeout(() => {
@@ -176,7 +176,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForAddRole == 200)
+    if (state.Settings.statusCodeForAddRole === 200)
 
       setShowRole(false)
     dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -188,7 +188,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.StatusForDeletePermission == 200) {
+    if (state.Settings.StatusForDeletePermission === 200) {
       setDeleteRole(false)
       dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {

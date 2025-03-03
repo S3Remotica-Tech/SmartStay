@@ -376,7 +376,7 @@ useEffect(()=>{
                     className="mb-3 d-flex justify-content-start align-items-center gap-2"
                     onClick={() => handleEditUserRole(u)}
                   >
-                    <img src={Edit} style={{ height: 16, width: 16 }} />
+                    <img src={Edit} alt='edit' style={{ height: 16, width: 16 }} />
                     <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
                       Edit
                     </label>
@@ -387,6 +387,7 @@ useEffect(()=>{
             onClick={()=> handleDeleteUserRole(u)} >
                <img
                  src={Delete}
+                 alt='delete'
                  style={{ height: 16, width: 16 }}
                />{" "}
                <label

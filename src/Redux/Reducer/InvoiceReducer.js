@@ -253,9 +253,12 @@ const InvoiceReducer = (state = initialState, action) => {
                 return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
                 return { ...state, statusCodeForReceiptPDf: 0 }
+
+                default:
+        return state;
             
     }
 
-    return state;
+   
 }
 export default InvoiceReducer;

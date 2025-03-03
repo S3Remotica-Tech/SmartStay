@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,8 +42,8 @@ function Vendor() {
 
   useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner == 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_view == 1
+      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.role_permissions[9]?.per_view === 1
     ) {
       setVendorPermissionError("");
     } else {
@@ -54,8 +55,8 @@ function Vendor() {
 
   useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner == 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_create == 1
+      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.role_permissions[9]?.per_create === 1
     ) {
       setVendorAddPermission("");
     } else {
@@ -66,8 +67,8 @@ function Vendor() {
 
   useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner == 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_delete == 1
+      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.role_permissions[9]?.per_delete === 1
     ) {
       setVendorDeletePermission("");
     } else {
@@ -76,8 +77,8 @@ function Vendor() {
   }, [vendorrolePermission]);
   useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner == 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_edit == 1
+      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.role_permissions[9]?.per_edit === 1
     ) {
       setVendorEditPermission("");
     } else {
@@ -160,7 +161,7 @@ function Vendor() {
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.ComplianceList.VendorList && state.ComplianceList.VendorList.filter((user) =>
         user.Vendor_Name && user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase())
       );
@@ -177,7 +178,7 @@ function Vendor() {
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredItems = state.ComplianceList.VendorList && state.ComplianceList.VendorList.filter((user) =>
         user.Vendor_Name && user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase())
       );

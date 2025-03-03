@@ -533,8 +533,11 @@ const UserListReducer = (state = initialState, action) => {
                 return { ...state, statusCodeForhostelListNewDetails: 0 }
                 case 'CLEAR_HOSTEL_LIST':
                     return { ...state, hostelList: [],hostelListNewDetails:[] }
+
+                    default:
+        return state;
                         
     }
-    return state;
+    
 }
 export default UserListReducer;

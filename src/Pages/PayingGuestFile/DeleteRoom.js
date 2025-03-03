@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -54,7 +55,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeForDeleteRoom == 200) {
+    if (state.PgList.statusCodeForDeleteRoom === 200) {
       handleClose()
     }
   }, [state.PgList.statusCodeForDeleteRoom])

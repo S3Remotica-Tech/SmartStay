@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useRef, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import {  Table } from 'react-bootstrap';
@@ -35,8 +36,8 @@ function InvoiceSettings() {
     
       useEffect(() => {
         if (
-          billrolePermission[0]?.is_owner == 1 ||
-          billrolePermission[0]?.role_permissions[10]?.per_view == 1
+          billrolePermission[0]?.is_owner === 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_view === 1
         ) {
           setBillPermissionError("");
         } else {
@@ -45,8 +46,8 @@ function InvoiceSettings() {
       }, [billrolePermission]);
       useEffect(() => {
         if (
-          billrolePermission[0]?.is_owner == 1 ||
-          billrolePermission[0]?.role_permissions[10]?.per_create == 1
+          billrolePermission[0]?.is_owner === 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_create === 1
         ) {
           setBillAddPermission("");
         } else {
@@ -55,8 +56,8 @@ function InvoiceSettings() {
       }, [billrolePermission]);
       useEffect(() => {
         if (
-          billrolePermission[0]?.is_owner == 1 ||
-          billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+          billrolePermission[0]?.is_owner === 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_edit === 1
         ) {
           setBillEditPermission("");
         } else {
@@ -290,7 +291,7 @@ function InvoiceSettings() {
 
 
     useEffect(() => {
-        if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
+        if (state.InvoiceList?.invoiceSettingsStatusCode === 200) {
 
             dispatch({ type: 'HOSTELLIST' })
 
@@ -491,7 +492,7 @@ function InvoiceSettings() {
 
 
                             <Image
-                                src={selectedImage ? URL.createObjectURL(selectedImage) : logo == null ? Logo : logo}
+                                src={selectedImage ? URL.createObjectURL(selectedImage) : logo === null ? Logo : logo}
                                 roundedCircle
                                 style={{
                                     height: 50,

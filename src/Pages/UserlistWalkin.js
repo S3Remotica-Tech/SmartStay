@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Table, Modal, Button } from "react-bootstrap";
@@ -31,8 +32,8 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_view == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_view === 1
     ) {
       setWalkInPermissionError("");
     } else {
@@ -42,8 +43,8 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_edit == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_edit === 1
     ) {
       setWalkInEditPermissionError("");
     } else {
@@ -53,8 +54,8 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (
-      props.customerrolePermission[0]?.is_owner == 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_delete == 1
+      props.customerrolePermission[0]?.is_owner === 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_delete === 1
     ) {
       setWalkInDeletePermissionError("");
     } else {
@@ -105,7 +106,7 @@ function UserlistWalkin(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.getWalkInStatusCode == 200) {
+    if (state.UsersList.getWalkInStatusCode === 200) {
       setWalkingLoader(false)
       setWalkInCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
@@ -127,8 +128,8 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.addWalkInCustomerStatusCode == 200 ||
-      state.UsersList.deleteWalkInCustomerStatusCode == 200
+      state.UsersList.addWalkInCustomerStatusCode === 200 ||
+      state.UsersList.deleteWalkInCustomerStatusCode === 200
     ) {
       dispatch({
         type: "WALKINCUSTOMERLIST",
@@ -664,7 +665,7 @@ function UserlistWalkin(props) {
 )}
 
 {
-   !walkinLoader && currentCustomers?.length == 0 && 
+   !walkinLoader && currentCustomers?.length === 0 && 
 
    <div style={{ marginTop: 30 }}>
    <div style={{ textAlign: "center" }}>

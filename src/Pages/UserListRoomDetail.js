@@ -457,7 +457,7 @@ function UserListRoomDetail(props) {
     const selectedHostel =
     state.UsersList.hostelListNewDetails.data &&
     state.UsersList.hostelListNewDetails.data.filter(
-        (item) => item.id == state.login.selectedHostel_Id
+        (item) => item.id === state.login.selectedHostel_Id
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
@@ -551,15 +551,15 @@ function UserListRoomDetail(props) {
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          u.Hostel_Id == hostel_Id && u.Floor_Id == Floor && u.Room_Id == RoomId
+          u.Hostel_Id === hostel_Id && u.Floor_Id === Floor && u.Room_Id === RoomId
       );
 
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+      Bedfilter[0].bed_details.filter((amount) => amount.id === e.target.value);
 
-    if (Roomamountfilter.length != 0) {
+    if (Roomamountfilter.length !== 0) {
       const selectedRoomRent = Roomamountfilter[0].bed_amount;
 
       if (editMode && e.target.value === initialStateAssign.Bed) {
@@ -1068,7 +1068,7 @@ useEffect(()=>{
   };
   console.log("state.UsersList.statusCodeForUploadDocument",state.UsersList.statusCodeForUploadDocument)
   useEffect(()=>{
-    if(state.UsersList.statusCodeForUploadDocument == 200){
+    if(state.UsersList.statusCodeForUploadDocument === 200){
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
@@ -1080,7 +1080,7 @@ useEffect(()=>{
 
 
       useEffect(()=>{
-        if(state.UsersList.statusCodeForOtherDocu == 200){
+        if(state.UsersList.statusCodeForOtherDocu === 200){
           dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
           setTimeout(() => {
             dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
@@ -1155,6 +1155,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                     <div style={{position:"fixed"}}>
                     <img
                       src={leftarrow}
+                      alt="leftarrow"
                       width={20}
                       height={20}
                       onClick={props.handleBack}
@@ -1251,6 +1252,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             KYC Verified
                             <img
                               src={verify}
+                              alt="verify"
                               width={17}
                               height={17}
                               style={{ marginTop: "-3px" }}
@@ -1277,6 +1279,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       >
                         <img
                           src={dots}
+                          alt="dots"
                           width={40}
                           height={40}
                           style={{
@@ -1506,6 +1509,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       >
                                         <img
                                           src={Group}
+                                          alt="group"
                                           style={{
                                             cursor: props.customerEditPermission
                                               ? "not-allowed"
@@ -1564,6 +1568,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       >
                                         <img
                                           src={Group}
+                                          alt="group"
                                           style={{
                                             cursor: props.customerEditPermission
                                               ? "not-allowed"
@@ -1667,6 +1672,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         {/* <Call size="16" color="#1E45E1" /> */}
                                         <img
                                           src={Money}
+                                          alt="money"
                                           width={16}
                                           height={16}
                                         />
@@ -1780,6 +1786,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       >
         <img
           src={upload}
+          alt="upload"
           width={20}
           height={20}
           style={{ marginRight: "8px" }}
@@ -1799,7 +1806,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 )} */}
 {advanceDetail[0]?.doc1 && (
   <a href={advanceDetail[0]?.doc1} target="_blank" rel="noopener noreferrer">
-    <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+    <img src={docDown} alt="docdown" style={{ width: 20, height: 20, marginLeft: "10px" }} />
   </a>
 )}
   
@@ -1836,6 +1843,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   >
                                     <img
                                       src={upload}
+                                      alt="upload"
                                       width={20}
                                       height={20}
                                       style={{ marginRight: "8px" }}
@@ -2246,14 +2254,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                           </div>
                         </div>
 
-                        {kycdetailsForm == true ? (
+                        {kycdetailsForm === true ? (
                           <UserListKyc
                             kycdetailsForm={kycdetailsForm}
                             setKycDetailForm={setKycDetailForm}
                             kycuserDetails={kycuserDetails}
                           />
                         ) : null}
-                        {additionalForm == true ? (
+                        {additionalForm === true ? (
                           <UserAdditionalContact
                             additionalForm={additionalForm}
                             setAdditionalForm={setAdditionalForm}
@@ -2346,11 +2354,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     <Image
                                       src={
                                         file
-                                          ? typeof file == "string"
+                                          ? typeof file === "string"
                                             ? file
                                             : URL.createObjectURL(file)
                                           : Profile
                                       }
+                                      alt="filee"
                                       roundedCircle
                                       style={{ height: 100, width: 100 }}
                                     />
@@ -3039,7 +3048,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       <option>Select a Bed</option>
 
-                                      {Editbed == "editbeddet" &&
+                                      {Editbed === "editbeddet" &&
                                         Bednum &&
                                         Bednum[0]?.Bed && (
                                           <option

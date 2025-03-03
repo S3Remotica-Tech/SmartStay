@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";

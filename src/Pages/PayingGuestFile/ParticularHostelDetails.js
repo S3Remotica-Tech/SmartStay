@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -70,7 +71,7 @@ function ParticularHostelDetails(props) {
 
   const handleShowDots = (roomId) => {
     setShowDots(!showDots)
-    setActiveRoomId(activeRoomId == roomId ? null : roomId);
+    setActiveRoomId(activeRoomId === roomId ? null : roomId);
   }
 
   useEffect(() => {
@@ -93,7 +94,7 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    if (state.PgList.roomCountStatusCode == 200) {
+    if (state.PgList.roomCountStatusCode === 200) {
       setLoader(false)
       setTimeout(() => {
         setLoaderTrigger(false)
@@ -109,7 +110,7 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode == 201) {
+    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
       setLoader(false)
       setTimeout(() => {
         setLoaderTrigger(false)
@@ -159,7 +160,7 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode == 200) {
+    if (state.PgList.createBedStatusCode === 200) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
@@ -290,7 +291,7 @@ function ParticularHostelDetails(props) {
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed == 200) {
+    if (state.PgList.statusCodeDeleteBed === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
@@ -402,7 +403,7 @@ function ParticularHostelDetails(props) {
                       </div>
                       <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        {activeRoomId == room.Room_Id && (
+                        {activeRoomId === room.Room_Id && (
                           <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                             <div>
                               {/* <div className='d-flex gap-2 mb-2 align-items-center'
@@ -504,7 +505,7 @@ function ParticularHostelDetails(props) {
                                   </Tooltip>
                                 }
                               >
-                                <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34, cursor: "pointer" }}
+                                <img src={bed.isfilled ? Green : White} alt='bedd' style={{ height: 41, width: 34, cursor: "pointer" }}
 
                                   onClick={() => handleDeleteBedConfirmation(bed, room)}
                                 // onClick={()=>handleDeleteBed(bed, room)}

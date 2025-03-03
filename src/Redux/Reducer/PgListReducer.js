@@ -462,7 +462,10 @@ const PgListReducer = (state = initialState, action) => {
         //                 return { ...state, roomCount: temp, errMessage: '' , roomCountStatusCode:action.payload.statusCode}
         //             }
 
+        default:
+        return state;
+
     }
-    return state;
+    
 }
 export default PgListReducer;

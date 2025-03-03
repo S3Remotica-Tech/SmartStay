@@ -622,7 +622,7 @@ function UserList(props) {
  
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode == 200) {
+    if (state.UsersList?.UserListStatusCode === 200) {
       setLoading(false);
       setUserListDetail(state.UsersList.Users);
       // setFilteredUsers(state.UsersList.Users);
@@ -798,8 +798,8 @@ function UserList(props) {
 
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_view == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[4]?.per_view === 1
     ) {
       setCustomerPermissionError("");
     } else {
@@ -809,8 +809,8 @@ function UserList(props) {
 
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_create == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[4]?.per_create === 1
     ) {
       setCustomerAddPermission("");
     } else {
@@ -819,8 +819,8 @@ function UserList(props) {
   }, [customerrolePermission]);
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_edit == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[4]?.per_edit === 1
     ) {
       setCustomerEditPermission("");
     } else {
@@ -829,8 +829,8 @@ function UserList(props) {
   }, [customerrolePermission]);
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_delete == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[4]?.per_delete === 1
     ) {
       setCustomerDeletePermission(false);
     } else {
@@ -840,8 +840,8 @@ function UserList(props) {
 
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[5]?.per_create == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[5]?.per_create === 1
     ) {
       setCustomerBookingAddPermission("");
     } else {
@@ -851,8 +851,8 @@ function UserList(props) {
 
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[7]?.per_create == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[7]?.per_create === 1
     ) {
       setCustomerWalkInAddPermission("");
     } else {
@@ -861,8 +861,8 @@ function UserList(props) {
   }, [customerrolePermission]);
   useEffect(() => {
     if (
-      customerrolePermission[0]?.is_owner == 1 ||
-      customerrolePermission[0]?.role_permissions[6]?.per_create == 1
+      customerrolePermission[0]?.is_owner === 1 ||
+      customerrolePermission[0]?.role_permissions[6]?.per_create === 1
     ) {
       setCustomerCheckoutAddPermission("");
     } else {
@@ -883,7 +883,7 @@ function UserList(props) {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList?.getWalkInStatusCode == 200) {
+    if (state.UsersList?.getWalkInStatusCode === 200) {
       // setLoading(false)
       setWalkingCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
@@ -893,7 +893,7 @@ function UserList(props) {
   }, [state.UsersList?.getWalkInStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList?.NoDataWalkInCustomerStatusCode == 201) {
+    if (state.UsersList?.NoDataWalkInCustomerStatusCode === 201) {
       setWalkingCustomer([]);
       // setLoading(false)
       setTimeout(() => {
@@ -911,7 +911,7 @@ function UserList(props) {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+    if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
       // setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
@@ -1099,7 +1099,7 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-    if (activeRow == id) {
+    if (activeRow === id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
@@ -1246,7 +1246,7 @@ function UserList(props) {
 
     // Filter Particular User Details
     const ParticularUserDetails = users.filter((item) => {
-      return item.User_Id == customerUser_Id;
+      return item.User_Id === customerUser_Id;
     });
 
     setUserDetails(ParticularUserDetails);
@@ -1323,7 +1323,7 @@ const handleBack = () => {
   };
 
   useEffect(() => {
-    if (state.UsersList?.deleteCustomerSuccessStatusCode == 200) {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode === 200) {
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
@@ -1390,7 +1390,7 @@ const handleBack = () => {
   }
 
   useEffect(() => {
-    if (state.UsersList.statusCustomerAddUser == 200) {
+    if (state.UsersList.statusCustomerAddUser === 200) {
       // setaddamenityShow(false);
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
@@ -1433,7 +1433,7 @@ const handleBack = () => {
   };
 
   useEffect(() => {
-    if (state.UsersList.kycValidateSendOtpSuccess == 200) {
+    if (state.UsersList.kycValidateSendOtpSuccess === 200) {
       setShowOtpValidation(true);
       setShowValidate(false);
       // setRef_Id(state.UsersList && state.UsersList.Kyc_Ref_Id);
@@ -1474,13 +1474,13 @@ const handleBack = () => {
   };
 
   useEffect(() => {
-    if (state.UsersList.addWalkInCustomerStatusCode == 200) {
+    if (state.UsersList.addWalkInCustomerStatusCode === 200) {
       setWalkinForm(false);
     }
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode == 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       setcheckoutForm(false);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
@@ -2009,6 +2009,7 @@ const handleBack = () => {
                         <span className="input-group-text bg-white border-start-0">
                           <img
                             src={closecircle}
+                          alt="close"
                             onClick={handleCloseSearch}
                             style={{ height: 20, width: 20, cursor: "pointer" }}
                           />
@@ -2134,6 +2135,7 @@ const handleBack = () => {
                 {value === "1" && (
                   <img
                     src={excelimg}
+                    alt="excel"
                     width={38}
                     height={38}
                     style={{
@@ -2147,6 +2149,7 @@ const handleBack = () => {
                 {value === "2" && (
                   <img
                     src={excelimg}
+                    alt="excel"
                     width={38}
                     height={38}
                     style={{
@@ -2160,6 +2163,7 @@ const handleBack = () => {
                 {value === "3" && (
                   <img
                     src={excelimg}
+                    alt="excel"
                     width={38}
                     height={38}
                     style={{
@@ -2173,6 +2177,7 @@ const handleBack = () => {
                 {value === "4" && (
                   <img
                     src={excelimg}
+                    alt="excel"
                     width={38}
                     height={38}
                     style={{
@@ -2883,6 +2888,7 @@ const handleBack = () => {
                                                   >
                                                     <img
                                                       src={addcircle}
+                                                      alt="addcircle"
                                                       style={{
                                                         height: 16,
                                                         width: 16,
@@ -2940,6 +2946,7 @@ const handleBack = () => {
                                                   >
                                                     <img
                                                       src={addcircle}
+                                                      alt="addcircle"
                                                       style={{
                                                         height: 16,
                                                         width: 16,
@@ -2996,6 +3003,7 @@ const handleBack = () => {
                                                   >
                                                     <img
                                                       src={addcircle}
+                                                      alt="addcircle"
                                                       style={{
                                                         height: 16,
                                                         width: 16,
@@ -3051,6 +3059,7 @@ const handleBack = () => {
                                                 >
                                                   <img
                                                     src={Edit}
+                                                    alt="edit"
                                                     style={{
                                                       height: 16,
                                                       width: 16,
@@ -3152,7 +3161,7 @@ const handleBack = () => {
                   </div>
                 )}
 
-                {!loading && userListDetail?.length == 0 && (
+                {!loading && userListDetail?.length === 0 && (
                   <div style={{ marginTop: 30 }}>
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
@@ -3308,7 +3317,7 @@ const handleBack = () => {
                   // )
                 }
 
-                {customerReassign == true ? (
+                {customerReassign === true ? (
                   <CustomerReAssign
                     customerReassign={customerReassign}
                     setCustomerReAssign={setCustomerReAssign}
@@ -3316,7 +3325,7 @@ const handleBack = () => {
                   />
                 ) : null}
 
-                {customerCheckoutpage == true ? (
+                {customerCheckoutpage === true ? (
                   <CustomerCheckout
                     customerCheckoutpage={customerCheckoutpage}
                     setCustomerCheckoutpage={setCustomerCheckoutpage}
@@ -3456,7 +3465,7 @@ const handleBack = () => {
         </Modal.Footer>
       </Modal>
 
-      {roomDetail == true ? (
+      {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
           onDeleteItem={handleDeleteItem}
@@ -4851,7 +4860,7 @@ const handleBack = () => {
         </>
       )}
 
-      {showMenu == true ? (
+      {showMenu === true ? (
         <UserlistForm
           showMenu={showMenu}
           displayDetail={addBasicDetail}

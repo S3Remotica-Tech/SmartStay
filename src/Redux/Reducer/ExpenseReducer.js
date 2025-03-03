@@ -48,9 +48,14 @@ case 'NOEXPENSEDATA':
             case 'EXPENCE_NETBANKIG':
                 return { ...state, expenceNetBanking: action.payload }
                 case 'CLEAR_EXPENCE_NETBANKIG':
-                    return { ...state, expenceNetBanking: ''}
+              
+                return { ...state, expenceNetBanking: ''}
+
+                default:
+        return state;
 
     }
-    return state;
+
+    
 }
 export default ExpenseReducer;

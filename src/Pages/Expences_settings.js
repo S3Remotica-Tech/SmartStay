@@ -33,8 +33,8 @@ const ExpencesSettings = () => {
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_view == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_view === 1
     ) {
       setExpencePermissionError("");
     } else {
@@ -46,8 +46,8 @@ const ExpencesSettings = () => {
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner == 1 ||
-      expencerolePermission[0]?.role_permissions[14]?.per_create == 1
+      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_create === 1
     ) {
       setExpenceAddPermission("");
     } else {
@@ -203,7 +203,7 @@ const ExpencesSettings = () => {
 
         if (state.Settings.Expences.data && e.target.value !== undefined) {
             const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-                return typename.category_Id == e.target.value;
+                return typename.category_Id === e.target.value;
             });
             setNamefilter(Typeidnamefilter[0].category_Name);
 

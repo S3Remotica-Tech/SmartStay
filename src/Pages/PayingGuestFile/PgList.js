@@ -129,7 +129,7 @@ function PgList(props) {
 
   useEffect(() => {
 
-    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
       setLoader(false);
 
       setTimeout(() => {
@@ -157,7 +157,7 @@ function PgList(props) {
   }, [state.UsersList?.noAllHosteListStatusCode]);
 
   useEffect(() => {
-    if (showHostelDetails?.floorDetails?.length == 1) {
+    if (showHostelDetails?.floorDetails?.length === 1) {
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
     }
   }, [filteredData[0]]);
@@ -206,7 +206,7 @@ console.log("visible range", visibleRange)
 
 
 useEffect(()=>{
-  if(state.UsersList.createFloorSuccessStatusCode == 200 && showHostelDetails?.floorDetails.length > 0){
+  if(state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails.length > 0){
   const updatedFloors = showHostelDetails?.floorDetails || [];
    if (updatedFloors.length > 0) {
            const lastFloor = updatedFloors[updatedFloors.length - 1];
@@ -324,7 +324,7 @@ useEffect(()=>{
       setShowHostelDetails(selected);
 
       const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
+        return item.floor_id === floorClick;
       }) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
@@ -345,7 +345,7 @@ useEffect(()=>{
   useEffect(() => {
     if (floorClick) {
       const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
+        return item.floor_id === floorClick;
       }) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
@@ -367,9 +367,9 @@ useEffect(()=>{
   }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
   useEffect(() => {
-    if (state.UsersList.hosteListStatusCode == 200) {
+    if (state.UsersList.hosteListStatusCode === 200) {
       const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
+        return item.floor_id === floorClick;
       }) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
@@ -386,9 +386,9 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    if (state.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
       const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id == floorClick;
+        return item.floor_id === floorClick;
       }) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
@@ -456,8 +456,8 @@ useEffect(()=>{
 
   useEffect(() => {
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_view == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_view === 1
     ) {
       setPermissionError("");
     } else {
@@ -467,8 +467,8 @@ useEffect(()=>{
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_create == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_create === 1
     ) {
       setAddPermissionError("");
     } else {
@@ -478,8 +478,8 @@ useEffect(()=>{
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_edit == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_edit === 1
     ) {
       setEditPermissionError("");
     } else {
@@ -489,8 +489,8 @@ useEffect(()=>{
   useEffect(() => {
 
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_delete == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[3]?.per_delete === 1
     ) {
       setDeletePermissionError("");
     } else {
@@ -553,7 +553,7 @@ useEffect(()=>{
 
   const handleSelectedHostel = (selectedHostelId) => {
     const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
-      return item.id == selectedHostelId;
+      return item.id === selectedHostelId;
     });
     setSelectedHostel(true);
     console.log("selected", selected)
@@ -637,7 +637,7 @@ useEffect(()=>{
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem != "") {
+    if (searchItem !== "") {
       const filteredItems =
         state.UsersList.hotelDetailsinPg &&
         state.UsersList.hotelDetailsinPg.filter(
@@ -657,7 +657,7 @@ useEffect(()=>{
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem != "") {
+    if (searchItem !== "") {
       const filteredItems =
         state.UsersList.hotelDetailsinPg &&
         state.UsersList.hotelDetailsinPg.filter(
@@ -1346,7 +1346,7 @@ useEffect(()=>{
                                       )
                                     }
                                     className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${Number(floorClick) == Number(floor.floor_id)
+                              lign-items-center  ${Number(floorClick) === Number(floor.floor_id)
                                         ? "active-floor"
                                         : "Navs-Item"
                                       }`}
@@ -1364,7 +1364,7 @@ useEffect(()=>{
                                     >
                                       <div
                                         className={
-                                          Number(floorClick) ==
+                                          Number(floorClick) ===
                                             Number(floor.floor_id)
                                             ? "ActiveNumberFloor"
                                             : "UnActiveNumberFloor"
@@ -1386,7 +1386,7 @@ useEffect(()=>{
                                       </div>
                                       <div
                                         className={
-                                          Number(floorClick) ==
+                                          Number(floorClick) ===
                                             Number(floor.floor_id)
                                             ? "ActiveFloortext"
                                             : "UnActiveFloortext"

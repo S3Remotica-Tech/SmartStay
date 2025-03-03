@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { FormControl } from "react-bootstrap";
@@ -124,7 +125,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
 
 
     useEffect(() => {
-        if (state.Settings.editStatusCosePermission == 200) {
+        if (state.Settings.editStatusCosePermission === 200) {
             setEditPermissionDetails(state.Settings?.editRolePermission?.role_details)
         }
 
@@ -141,7 +142,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
 
             editPermissionDetails.forEach((permission) => {
                 const permissionName = Object.keys(permissionMapping).find(
-                    (key) => permissionMapping[key] == permission.permission_id
+                    (key) => permissionMapping[key] === permission.permission_id
                 );
 
                 if (permissionName) {

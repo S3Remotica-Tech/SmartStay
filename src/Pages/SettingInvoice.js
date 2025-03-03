@@ -196,7 +196,7 @@ function SettingInvoice({ hostelid }) {
 
 
   useEffect(() => {
-    if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
+    if (state.InvoiceList?.invoiceSettingsStatusCode === 200) {
 
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setSelectedDate('')
@@ -372,7 +372,7 @@ function SettingInvoice({ hostelid }) {
 
 
   useEffect(() => {
-    if (state?.UsersList?.statuscodeForhotelDetailsinPg == 200) {
+    if (state?.UsersList?.statuscodeForhotelDetailsinPg === 200) {
       setInvoiceList(state?.UsersList?.hotelDetailsinPg)
       setLoading(false)
       setTimeout(() => {
@@ -385,7 +385,7 @@ function SettingInvoice({ hostelid }) {
 
 
   useEffect(() => {
-    if (InvoiceList.length == 0) {
+    if (InvoiceList.length === 0) {
       setLoading(true)
     }
     else if (InvoiceList && InvoiceList?.every(

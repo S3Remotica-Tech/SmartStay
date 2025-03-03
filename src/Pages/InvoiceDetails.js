@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect,useRef } from "react";
 import { BsPrinter } from "react-icons/bs";
 import Logo from "../Assets/Images/Logo-Icon-White.png"
@@ -100,7 +101,7 @@ function InvoiceDetail(props) {
                 <div className="card-header bg-primary text-white">
                     <div className="row  m-0" style={{ backgroundColor: "#2E75EA", padding: 3, color: "white" }}>
                         <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <h4 className="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} style={{ marginRight: 10 }} /> INVOICE</h4>
+                            <h4 className="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} alt="logo" style={{ marginRight: 10 }} /> INVOICE</h4>
                         </div>
                         <div className="col-lg-6 d-flex align-items-center justify-content-center">
                             <div>
@@ -192,8 +193,8 @@ function InvoiceDetail(props) {
     </div>
      <div className="d-print-none mt-4">
      <div style={{ display: "flex", justifyContent: "center" }}>
-         <a onClick={() => { handlePrint(null, () => contentToPrint.current); }} className="btn btn-success  me-1"><BsPrinter /> Print</a>
-         <a onClick={() => generatePDF(targetRef, { filename: 'page.pdf' })} className="btn btn-primary w-md"><MdDownload />Download</a>
+         <span onClick={() => { handlePrint(null, () => contentToPrint.current); }} className="btn btn-success  me-1"><BsPrinter /> Print</span>
+         <span onClick={() => generatePDF(targetRef, { filename: 'page.pdf' })} className="btn btn-primary w-md"><MdDownload />Download</span>
      </div>
  </div>
  </div> :
@@ -201,7 +202,7 @@ function InvoiceDetail(props) {
   {/* <h4 style={{ color: "#333" }}>Select Date Range</h4> */}
   <div className="card" style={{ backgroundColor: "#F6F7FB" }}>
     <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", paddingBottom: 50 }}>
-      <img src={calen} height={50} width={50} style={{ marginTop: 5 }} />
+      <img src={calen} alt="calen" height={50} width={50} style={{ marginTop: 5 }} />
  
       <div className="mt-5" style={{ marginLeft: "10px", paddingLeft: 15, paddingRight: 15 }}>
         <label htmlFor="start-date" style={{ fontSize: "16px", color: "#333", marginBottom: "5px" ,paddingLeft:5}}>Start Date:</label>

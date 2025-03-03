@@ -21,7 +21,7 @@ function Payment() {
           <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <Card >
               <Card.Body>
-                <img src={Razorpay} width={100} height={35} className="mb-3"/>
+                <img src={Razorpay} alt='razor' width={100} height={35} className="mb-3"/>
                 <Card.Text style={{ fontSize: "13px" }}>
                   Razorpay is an indian payment gateway which allows your customer to pay via cards netbanking and wallets.
                 </Card.Text>
@@ -39,7 +39,7 @@ function Payment() {
           <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <Card >
               <Card.Body>
-                <img src={Paytm} width={100} height={28} className="mb-3"/>
+                <img src={Paytm} alt='paytm' width={100} height={28} className="mb-3"/>
                 <Card.Text style={{ fontSize: "13px" }}>
                   Paypal is faster,safer way to send money, make an online payment, rechive moneyor set up a marchant account.
                 </Card.Text>
@@ -59,7 +59,7 @@ function Payment() {
           <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <Card >
               <Card.Body>
-                <img src={Easypay} width={100} height={40} className="mb-3"/>
+                <img src={Easypay} alt='easypay' width={100} height={40} className="mb-3"/>
                 <Card.Text style={{ fontSize: "13px" }}>
                   Enable your customers to pay you using a variety of online and offline payment modes supported curency:INR
                 </Card.Text>
