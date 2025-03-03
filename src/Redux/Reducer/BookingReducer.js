@@ -48,7 +48,7 @@ const BookingReducer = (state = initialState, action) => {
     case "DELETE_BOOKING":
       return {
         ...state,
-        deleteBooking: action.payload,
+        // deleteBooking: action.payload,
         statusCodeForDeleteBooking: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BOOKING":
@@ -56,7 +56,7 @@ const BookingReducer = (state = initialState, action) => {
     case "ASSIGN_USER_BOOKING":
       return {
         ...state,
-        assignBookingUser: action.payload,
+        // assignBookingUser: action.payload,
         statusCodeForAssignBooking: action.payload.statusCode,
       };
     case "CLEAR_ASSIGN_USER_BOOKING":
@@ -71,7 +71,7 @@ const BookingReducer = (state = initialState, action) => {
     case "BOOKING_BED_DETAILS":
       return {
         ...state,
-        availableBedBooking: action.payload,
+        // availableBedBooking: action.payload,
         statusCodeForBedBooking: action.payload.statusCode,
       };
   }

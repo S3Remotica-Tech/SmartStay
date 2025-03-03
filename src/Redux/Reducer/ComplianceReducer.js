@@ -1,6 +1,6 @@
 
 
-const initialState = {
+export const initialState = {
     Compliance: [],
     message: [],
     statusCodeForAddCompliance: 0,
@@ -11,21 +11,21 @@ const initialState = {
     getVendorStatusCode: 0,
     deleteVendorStatusCode: 0,
     alreadyVendorHere: '',
-    alreadyVendorEmailError:'',
+    alreadyVendorEmailError: '',
     complianceChangeRes: "",
     complianceChangeStatus: 0,
     complianceChangeError: '',
     noVendorStatusCode: 0,
-    deleteCompliance:[],
-    statusCodeForDeleteCompliance:0,
-    statusCodeCompliance:0,
-    complianceAssignChangeRes:"",
-    complianceAssignChangeError:"",
-    complianceAssignChangeStatus:0,
-    getComplianceComments:[],
-    statusCodeForGetComplianceComment:0,
-    AddComplianceComment:[],
-    statusCodeForAddComplianceComment:0
+    deleteCompliance: [],
+    statusCodeForDeleteCompliance: 0,
+    statusCodeCompliance: 0,
+    complianceAssignChangeRes: "",
+    complianceAssignChangeError: "",
+    complianceAssignChangeStatus: 0,
+    getComplianceComments: [],
+    statusCodeForGetComplianceComment: 0,
+    AddComplianceComment: [],
+    statusCodeForAddComplianceComment: 0
 
 
 }
@@ -34,9 +34,9 @@ const ComplianceReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'COMPLIANCE_LIST':
-            return { ...state, Compliance: action.payload.response, statusCodeCompliance:action.payload.statusCode}
-            case 'CLEAR_COMPLIANCE_LIST':
-                return { ...state, statusCodeCompliance:0}
+            return { ...state, Compliance: action.payload.response, statusCodeCompliance: action.payload.statusCode }
+        case 'CLEAR_COMPLIANCE_LIST':
+            return { ...state, statusCodeCompliance: 0 }
 
         case 'COMPLIANCE_ADD':
             return { ...state, messageShow: true, statusCodeForAddCompliance: action.payload.statusCode }
@@ -69,7 +69,7 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, alreadyVendorHere: '' }
 
 
-            case 'ALREADY_VENDOR_EMAIL_ERROR':
+        case 'ALREADY_VENDOR_EMAIL_ERROR':
             return { ...state, alreadyVendorEmailError: action.payload }
         case 'CLEAR_ALREADY_VENDOR_EMAIL_ERROR':
             return { ...state, alreadyVendorEmailError: '' }
@@ -80,7 +80,7 @@ const ComplianceReducer = (state = initialState, action) => {
         case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
             return { ...state, complianceChangeStatus: 0 }
 
-            case 'COMPLIANCE_CHANGE_ASSIGN':
+        case 'COMPLIANCE_CHANGE_ASSIGN':
             return { ...state, complianceAssignChangeRes: action.payload.response, complianceAssignChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
             return { ...state, complianceAssignChangeError: action.payload }
@@ -90,29 +90,29 @@ const ComplianceReducer = (state = initialState, action) => {
 
 
 
-            case "DELETE_COMPLIANCE":
-        return {
-          ...state,
-          deleteCompliance: action.payload.response,
-          statusCodeForDeleteCompliance: action.payload.statusCode,
-        };
-      case "CLEAR_DELETE_COMPLIANCE":
-        return { ...state, statusCodeForDeleteCompliance: 0 };
+        case "DELETE_COMPLIANCE":
+            return {
+                ...state,
+                deleteCompliance: action.payload.response,
+                statusCodeForDeleteCompliance: action.payload.statusCode,
+            };
+        case "CLEAR_DELETE_COMPLIANCE":
+            return { ...state, statusCodeForDeleteCompliance: 0 };
 
 
 
         // commentApi
         case 'COMPLIANCE_COMENET_LIST':
-            return { ...state, getComplianceComments: action.payload.response, statusCodeForGetComplianceComment:action.payload.statusCode}
-            case 'CLEAR_COMPLIANCE_COMENET_LIST':
-                return { ...state, statusCodeForGetComplianceComment:0}
+            return { ...state, getComplianceComments: action.payload.response, statusCodeForGetComplianceComment: action.payload.statusCode }
+        case 'CLEAR_COMPLIANCE_COMENET_LIST':
+            return { ...state, statusCodeForGetComplianceComment: 0 }
 
 
 
-                case 'COMPLIANCE_ADD_COMMENT':
-            return { ...state, AddComplianceComment: action.payload.response, statusCodeForAddComplianceComment:action.payload.statusCode}
-            case 'CLEAR_COMPLIANCE_ADD_COMMENT':
-                return { ...state, statusCodeForAddComplianceComment:0}
+        case 'COMPLIANCE_ADD_COMMENT':
+            return { ...state, AddComplianceComment: action.payload.response, statusCodeForAddComplianceComment: action.payload.statusCode }
+        case 'CLEAR_COMPLIANCE_ADD_COMMENT':
+            return { ...state, statusCodeForAddComplianceComment: 0 }
     }
     return state;
 }
