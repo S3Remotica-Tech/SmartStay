@@ -87,7 +87,7 @@ export default function VerticalLinearStepper() {
          </div>
 </div>
 <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12'>
-<img src={Image}  className='img-fluid'/>
+<img src={Image} alt='imagee'  className='img-fluid'/>
 </div>
     </div>
     

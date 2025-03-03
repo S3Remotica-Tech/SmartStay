@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
@@ -102,7 +103,7 @@ const AddReceiptForm = (props) => {
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
-                (u) => u.hos_user_id == e.target.value && u.BalanceDue > 0
+                (u) => u.hos_user_id === e.target.value && u.BalanceDue > 0
               )
             : [];
       
@@ -138,7 +139,7 @@ const AddReceiptForm = (props) => {
       
         const DueAmountFilter =
           customerinvoicefilter && !edit &&
-          customerinvoicefilter.filter((u) => u.Invoices == selectedValue);
+          customerinvoicefilter.filter((u) => u.Invoices === selectedValue);
           setInitial_DueAmount(DueAmountFilter[0]?.BalanceDue)
         setDueAmount(DueAmountFilter[0]?.BalanceDue);
 
@@ -313,7 +314,7 @@ const AddReceiptForm = (props) => {
 
           
 
-          if (modeOfPayment == "Net Banking" && !account) {
+          if (modeOfPayment === "Net Banking" && !account) {
             setAccountError("Please Choose Bank Account");
             return;
           }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
 import React, { useEffect, useState} from "react";

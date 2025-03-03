@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, FormControl } from 'react-bootstrap';
 import Modal from "react-bootstrap/Modal";

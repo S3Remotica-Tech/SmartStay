@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
@@ -149,8 +150,8 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[0]?.per_view == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[0]?.per_view === 1
     ) {
       setPermissionError("");
     } else {
@@ -168,8 +169,8 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[1]?.per_view == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[1]?.per_view === 1
     ) {
       setAnnouncePermissionError("");
     } else {
@@ -179,8 +180,8 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (
-      rolePermission[0]?.is_owner == 1 ||
-      rolePermission[0]?.role_permissions[2]?.per_view == 1
+      rolePermission[0]?.is_owner === 1 ||
+      rolePermission[0]?.role_permissions[2]?.per_view === 1
     ) {
       setupdatePermissionError("");
     } else {
@@ -584,7 +585,7 @@ function Dashboard(props) {
                                 : 0}
                             </h4>
                           </div>
-                          <img src={clock} width={30} height={30} />
+                          <img src={clock} alt="clock" width={30} height={30} />
                         </div>
 
                         <div className="border rounded-4 p-3 text-start bg-white shadow-sm thirdcard">
@@ -661,7 +662,7 @@ function Dashboard(props) {
                           style={{ flex: 1 }}
                         >
                           <div className="border rounded-4 p-3 text-start bg-white shadow-sm eighthcard">
-                            <img src={vector} width={32} height={32} />
+                            <img src={vector} alt="vector" width={32} height={32} />
                             <p
                               className="text-muted"
                               style={{
@@ -1303,7 +1304,7 @@ function Dashboard(props) {
                           >
                             Active Complaints
                           </p>
-                          <a
+                          <span
                             className=" text-end"
                             style={{
                               cursor: "pointer",
@@ -1316,7 +1317,7 @@ function Dashboard(props) {
                             onClick={() => handlecompliance()}
                           >
                             View all
-                          </a>
+                          </span>
                         </div>
                         <div style={{ marginTop: 10 }}>
                           {activecommpliance?.map((complaint, index) => {

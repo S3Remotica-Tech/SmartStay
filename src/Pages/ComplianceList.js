@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Edit from "../Assets/Images/edit-Complaints.svg";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -75,7 +76,7 @@ const ComplianceList = (props) => {
   //   setShowDots(!showDots)
   // }
   const handleShowDots = (id) => {
-    if (showDots == id) {
+    if (showDots === id) {
       setShowDots(null);
     } else {
       setShowDots(id);
@@ -288,7 +289,7 @@ const ComplianceList = (props) => {
   const handleAssignComplaintClick = () => {
 
 
-    if (alreadyAssigned == compliant && compliant !== "") {
+    if (alreadyAssigned === compliant && compliant !== "") {
       setStatusErrorType("No changes detected");
       return;
     }
@@ -866,7 +867,7 @@ const ComplianceList = (props) => {
                       }}
                     >
                       {props.complaints.assigner_name === "" ||
-                        props.complaints.assigner_name == null ? (
+                        props.complaints.assigner_name === null ? (
                         <p
                           style={{
                             color: "#1E45E1",
@@ -986,7 +987,7 @@ const ComplianceList = (props) => {
                   }}
                 >
                   {props.complaints.Assign === "" ||
-                    props.complaints.Assign == null ? (
+                    props.complaints.Assign === null ? (
                     <p
                       style={{
                         fontSize: "14px",
