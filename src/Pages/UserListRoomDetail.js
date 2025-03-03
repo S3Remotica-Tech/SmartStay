@@ -568,13 +568,13 @@ function UserListRoomDetail(props) {
       Bedfilter.length > 0 &&
       Bedfilter[0].bed_details.filter((amount) => amount.id === e.target.value);
 
-    if (Roomamountfilter.length !== 0) {
-      const selectedRoomRent = Roomamountfilter[0].bed_amount;
+    if (Roomamountfilter?.length !== 0) {
+      const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
 
       if (editMode && e.target.value === initialStateAssign.Bed) {
-        setRoomRent(initialStateAssign.RoomRent); // Set the initial RoomRent
+        setRoomRent(initialStateAssign.RoomRent); 
       } else {
-        setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
+        setRoomRent(selectedRoomRent); 
       }
     }
 

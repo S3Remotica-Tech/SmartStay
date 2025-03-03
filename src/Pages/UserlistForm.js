@@ -372,7 +372,7 @@ function UserlistForm(props) {
       Bedfilter[0].bed_details.filter((amount) => amount.id === e.target.value);
 
     if (Roomamountfilter.length !== 0) {
-      setRoomRent(Roomamountfilter[0].bed_amount);
+      setRoomRent(Roomamountfilter[0]?.bed_amount);
     }
 
     setBedError("");
