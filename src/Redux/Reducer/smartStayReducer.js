@@ -1,4 +1,4 @@
-const initialState = {
+ export const initialState = {
 
    id: 0,
    email_Id: '',
@@ -37,10 +37,10 @@ console.log("action",action)
       case "PRIVACY_POLICY":
          return { ...state, IsVisible: 2 }
       case "CONTACT_US":
-         console.log("IsVisible updated to 3");
+        
          return { ...state, IsVisible: 3 }
       case "COOKIES_FOOTER":
-         console.log("IsVisible updated to 4");
+        
          return { ...state, IsVisible: 4 }
       case "CLOSE_TERMS_PRIVACY":
          return { ...state, IsVisible: null }
