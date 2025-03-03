@@ -44,10 +44,8 @@ import docDown from "../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 
 function UserListRoomDetail(props) {
-  console.log(props,"propssroom");
   
   const state = useSelector((state) => state);
-  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -109,16 +107,7 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
 
-  // useEffect(() => {
-  //   console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
-  //   if (state.UsersList.isUsersListTrue === 3) {
-  //     setValue("3");
-  //   } else {
-  //     setValue("1");
-  //   }
-  // }, [state.UsersList.isUsersListTrue]);
   useEffect(() => {
-    console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
     
     if (state.UsersList.isUsersListTrue === 3 && value !== "3") {
       setValue("3");
@@ -130,7 +119,6 @@ function UserListRoomDetail(props) {
 
 
   const handleEditItem = (item) =>{
-    console.log("itemmm",item);
     
     props.onEditItem(item)
   }
@@ -145,7 +133,6 @@ function UserListRoomDetail(props) {
   }
 
  const handleDeleteHostelItem = (user) => {
-  console.log("user",user);
   
   props.onDeleteHostelItem(user)
  }
@@ -198,8 +185,6 @@ function UserListRoomDetail(props) {
 
  
   const handleShowEditBed = (item) => {
-
-    console.log("item", item);
     
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
@@ -560,18 +545,19 @@ function UserListRoomDetail(props) {
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          u.Hostel_Id === hostel_Id && u.Floor_Id === Floor && u.Room_Id === RoomId
+          String(u.Hostel_Id) === String(hostel_Id) &&
+        String (u.Floor_Id) === String(Floor) && String(u.Room_Id) === String(RoomId)
       );
 
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id === e.target.value);
+      Bedfilter[0].bed_details.filter((amount) => String(amount.id) === String(e.target.value));
 
     if (Roomamountfilter?.length !== 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
 
-      if (editMode && e.target.value === initialStateAssign.Bed) {
+      if (editMode && String(e.target.value) === String(initialStateAssign.Bed)) {
         setRoomRent(initialStateAssign.RoomRent); 
       } else {
         setRoomRent(selectedRoomRent); 
@@ -957,7 +943,7 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  console.log("advanceDetail[0]?.doc1",advanceDetail[0]?.doc1)
+  
   
   
   // const handleButtonClick = async () => {
@@ -1076,7 +1062,7 @@ useEffect(()=>{
   const handleOtherUploadClick = (ref) => {
     ref.current.click(); 
   };
-  console.log("state.UsersList.statusCodeForUploadDocument",state.UsersList.statusCodeForUploadDocument)
+
   useEffect(()=>{
     if(state.UsersList.statusCodeForUploadDocument === 200){
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
@@ -1086,7 +1072,7 @@ useEffect(()=>{
     }
       },[state.UsersList.statusCodeForUploadDocument])
 
-      console.log("state.UsersList.statusCodeForOtherDocu",state.UsersList.statusCodeForOtherDocu)
+    
 
 
       useEffect(()=>{
@@ -1124,7 +1110,6 @@ useEffect(()=>{
       }, 100);
     }
   }, [state.UsersList.statusCodeDeleteContact]);
-console.log("props.userDetails",state.UsersList.statusCodeForGenerateAdvance)
 
 useEffect (()=>{
 if(state.UsersList.statusCodeForGenerateAdvance === 200){

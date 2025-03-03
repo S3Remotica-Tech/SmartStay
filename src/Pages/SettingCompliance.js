@@ -487,7 +487,7 @@ function SettingCompliance({ hostelid }) {
                
             </div>
 
-             { !loading && complianceFilterddata.length == 0 && 
+             { !loading && complianceFilterddata.length === 0 && 
                     <div style={{ marginTop: 100 }}>
                         <div className="d-flex justify-content-center">
                             <img

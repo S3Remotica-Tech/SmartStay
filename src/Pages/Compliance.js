@@ -1044,7 +1044,7 @@ const Compliance = () => {
                   }
 
 
-                  { !loading  && currentItems.length == 0 &&
+                  { !loading  && currentItems.length === 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
