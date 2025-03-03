@@ -278,10 +278,11 @@ const handleAmnitiesSelect = ()=>{
         onHide={() => setaddamenityShow(false)}
         backdrop="static"
         centered
+        
       >
-        <Modal.Header
+        {/* <Modal.Header
           closeButton
-          style={{ backgroundColor: "#F5F5FF" }}
+          style={{}}
           className="text-center"
         >
           <Modal.Title
@@ -289,8 +290,62 @@ const handleAmnitiesSelect = ()=>{
             className="text-center"
           >
             Add Amenities
+            
           </Modal.Title>
-        </Modal.Header>
+          <style>
+    {`
+      .btn-close {
+       width: 20px !important;
+        height: 20px !important;
+        border-radius: 50% !important;
+        background-color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        border: 2px solid black !important;
+      }
+     
+    `}
+  </style>
+        </Modal.Header> */}
+        <Modal.Header
+  closeButton
+  style={{ position: "relative"}}
+  className="text-center"
+>
+  <Modal.Title
+    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+    className="text-center"
+  >
+    Add Amenities
+  </Modal.Title>
+
+  <style>
+    {`
+      .btn-close {
+        width: 12px !important; /* Smaller size */
+        height: 12px !important; /* Smaller size */
+        border-radius: 50% !important;
+        background-color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 1px 1px rgba(241, 235, 235, 0.1) !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        top: 22px !important;
+        right: 22px !important;
+        border: 2px solid black !important;
+      }
+    `}
+  </style>
+</Modal.Header>
+
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
             <label
@@ -594,7 +649,7 @@ const handleAmnitiesSelect = ()=>{
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                }}>Action</th>
+                }}></th>
             </tr>
           </thead>
 
@@ -692,6 +747,7 @@ const handleAmnitiesSelect = ()=>{
                           alignItems: "center",
                           position: "relative",
                           // zIndex: 1000,
+                          
                         }}
                       >
                         <PiDotsThreeOutlineVerticalFill

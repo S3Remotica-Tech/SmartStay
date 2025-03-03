@@ -52,7 +52,7 @@ const InvoicePage = () => {
   const dispatch = useDispatch();
 
   const [recurLoader, setRecurLoader] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
   // const d = new Date();
@@ -153,20 +153,34 @@ const InvoicePage = () => {
   const [receiptLoader, setReceiptLoader] = useState(false);
 
   useEffect(() => {
+    // setLoading(true); 
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
+  console.log("loaderhostelid", loading);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
+    // setLoading(true);
+    if (hostelId) {
+      setLoading(true)
       dispatch({
         type: "MANUALINVOICESLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id: hostelId},
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelId]);
+  console.log("loaderbills", loading);
+
+  useEffect(() => {
+    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
+      setBills(state.InvoiceList.ManualInvoices);
+      setTimeout(() => {
+        setLoading(false); 
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
 
   const handleManualShow = () => {
     setShowAllBill(false);
@@ -1615,6 +1629,34 @@ const InvoicePage = () => {
   };
 
   const handleChanges = (event, newValue) => {
+
+    console.log("newValue", newValue);
+
+    if (newValue === "1"){
+      setLoading(true);
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+
+    if (newValue === "2"){
+      setRecurLoader(true);
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+
+    if (newValue === "3"){
+      setReceiptLoader(true);
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+   
+
     setValue(newValue);
     setSearch(false);
   };
@@ -1641,13 +1683,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    if (state.login.selectedHostel_Id) {
+    if (hostelId) {
       dispatch({
         type: "BANKINGLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id: hostelId },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -1957,15 +1999,7 @@ const InvoicePage = () => {
     }
   }, [hostelId]);
 
-  useEffect(() => {
-    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
-      setBills(state.InvoiceList.ManualInvoices);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
-      }, 1000);
-    }
-  }, [state.InvoiceList.ManualInvoices]);
+ 
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
@@ -2191,8 +2225,9 @@ const InvoicePage = () => {
   }, [newRows]);
 
   useEffect(() => {
-    setRecurLoader(true);
+  
     if (hostelId) {
+      setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
         payload: { hostel_id: hostelId },
@@ -2355,10 +2390,11 @@ const InvoicePage = () => {
     setFilterStatus(!filterStatus);
   };
 
-  //Receipt
+  //Receipt  
   useEffect(() => {
-    setReceiptLoader(true);
+    
     if (hostelId) {
+      setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2383,7 +2419,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode  === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       // setReceiptLoader(true);
@@ -2409,6 +2445,10 @@ const InvoicePage = () => {
     state.InvoiceList.ReceiptDeletesuccessStatuscode,
     state.InvoiceList.ReceiptEditsuccessStatuscode,
   ]);
+
+
+   console.log("loading",loading);
+   
 
   return (
     <div>
@@ -4020,72 +4060,7 @@ const InvoicePage = () => {
                                         position: "relative",
                                       }}
                                     >
-                                      {loading
-                                        ? // Display skeleton placeholders when loading is true
-                                          Array.from({ length: 5 }).map(
-                                            (_, index) => (
-                                              <tr key={index}>
-                                                <td>
-                                                  <div className="d-flex">
-                                                    <span className="i-circle">
-                                                      <Skeleton
-                                                        circle
-                                                        width={24}
-                                                        height={24}
-                                                      />
-                                                    </span>
-                                                    <div>
-                                                      <Skeleton width={80} />
-                                                    </div>
-                                                  </div>
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                              </tr>
-                                            )
-                                          )
-                                        : //   <div
-                                          //   style={{
-                                          //     position: 'absolute',
-                                          //     inset: 0,
-                                          //     display: 'flex',
-                                          //     height: "50vh",
-                                          //     alignItems: 'center',
-                                          //     justifyContent: 'center',
-                                          //     backgroundColor: 'transparent',
-                                          //     opacity: 0.75,
-                                          //     zIndex: 10,
-                                          //   }}
-                                          // >
-                                          //   <div
-                                          //     style={{
-                                          //       borderTop: '4px solid #1E45E1',
-                                          //       borderRight: '4px solid transparent',
-                                          //       borderRadius: '50%',
-                                          //       width: '40px',
-                                          //       height: '40px',
-                                          //       animation: 'spin 1s linear infinite',
-                                          //     }}
-                                          //   ></div>
-                                          // </div>
-
-                                          // Display table rows with actual data when loading is false
+                                      { 
                                           currentItems.map((item) => (
                                             <InvoiceTable
                                               key={item.id}
@@ -4116,9 +4091,11 @@ const InvoicePage = () => {
                                   </Table>
                                 </div>
                               ) : (
+
                                 !loading &&
                                 currentItems &&
                                 currentItems?.length === 0 && (
+
                                   <div>
                                     <div style={{ textAlign: "center" }}>
                                       {" "}
@@ -4390,7 +4367,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  { !recurLoader && currentItem && currentItem.length === 0 && (
+                  { !recurLoader  && currentItem.length === 0 && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4425,9 +4402,36 @@ const InvoicePage = () => {
 
                 
 
-
+{!loading && recurLoader && 
+                                       <div
+                                       style={{
+                                         position: 'absolute',
+                                           top: 200,
+                                           right: 0,
+                                           bottom: 0,
+                                           left: 200,
+                                         display: 'flex',
+                                         height: "50vh",
+                                         alignItems: 'center',
+                                         justifyContent: 'center',
+                                         backgroundColor: 'transparent',
+                                         opacity: 0.75,
+                                         zIndex: 10,
+                                       }}
+                                     >
+                                       <div
+                                         style={{
+                                           borderTop: '4px solid #1E45E1',
+                                           borderRight: '4px solid transparent',
+                                           borderRadius: '50%',
+                                           width: '40px',
+                                           height: '40px',
+                                           animation: 'spin 1s linear infinite',
+                                         }}
+                                       ></div>
+                                     </div>
                     
-
+}
 
                     {currentItem && currentItem.length > 0 && (
                       <div
@@ -4537,10 +4541,9 @@ const InvoicePage = () => {
                           </thead>
                           <tbody style={{ fontSize: "10px" }}>
 
-                          {!loading && receiptLoader ? (
-                                        <LoaderComponent />
+                          
                                 
-                                      ) : (
+                                      {
                               currentItem &&
                               currentItem.length > 0 &&
                               currentItem.map((item) => (
@@ -4560,8 +4563,8 @@ const InvoicePage = () => {
                                   // RecuringInvoice={handleDisplayInvoiceDownload}
                                 />
                               ))
-                            )
-  }
+}
+  
                           </tbody>
                         </Table>
                       </div>
@@ -5056,6 +5059,37 @@ const InvoicePage = () => {
                     </nav>
                   )} */}
 
+{!loading && receiptLoader &&
+                                       <div
+                                       style={{
+                                         position: 'absolute',
+                                           top: 200,
+                                           right: 0,
+                                           bottom: 0,
+                                           left: 200,
+                                         display: 'flex',
+                                         height: "50vh",
+                                         alignItems: 'center',
+                                         justifyContent: 'center',
+                                         backgroundColor: 'transparent',
+                                         opacity: 0.75,
+                                         zIndex: 10,
+                                       }}
+                                     >
+                                       <div
+                                         style={{
+                                           borderTop: '4px solid #1E45E1',
+                                           borderRight: '4px solid transparent',
+                                           borderRadius: '50%',
+                                           width: '40px',
+                                           height: '40px',
+                                           animation: 'spin 1s linear infinite',
+                                         }}
+                                       ></div>
+                                     </div>
+                                
+                                        }
+
                   <Container fluid className="p-0">
                     <Row
                       className={` ${
@@ -5337,10 +5371,7 @@ const InvoicePage = () => {
                                       </tr>
                                     </thead>
                                     <tbody style={{ fontSize: "10px" }}>
-                                      {!loading && receiptLoader ? (
-                                        <LoaderComponent />
-                                
-                                      ) : (
+                                       {
                                         currentReceiptData &&
                                         currentReceiptData.length > 0 &&
                                         currentReceiptData.map((item) => (
@@ -5363,7 +5394,7 @@ const InvoicePage = () => {
                                             }
                                           />
                                         ))
-                                      )}
+                                      }
                                     </tbody>
                                   </Table>
                                 </div>

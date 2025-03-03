@@ -201,6 +201,7 @@ function Expenses({ allPageHostel_Id }) {
     const [minAmount, maxAmount] = amountRange.split('-').map(Number);
     setMinAmount(minAmount);
     setMaxAmount(maxAmount);
+    setShowAmount(false)
   };
 
 

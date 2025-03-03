@@ -649,6 +649,7 @@ function Vendor() {
               <div style={{
                 maxHeight: "450px",
                 overflowY: "auto",
+                overflowX:"hidden",
                 position: "relative"
 
               }}>

@@ -2539,7 +2539,7 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Mobile no
+                                  Mobile No
                                 </th>
 
                                 <th
