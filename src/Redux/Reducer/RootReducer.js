@@ -11,6 +11,7 @@ import SettingsReducer from "./SettingsReducer";
 import ExpenseReducer from './ExpenseReducer';
 import BookingReducer from "./BookingReducer";
 import BankingReducer from "./BankingReducer";
+import SubscriptionReducer from "./SubscriptionReducer";
 
 
 
@@ -26,7 +27,8 @@ AssetList:AssetReducer,
 Settings : SettingsReducer,
 ExpenseList:ExpenseReducer,
 Booking:BookingReducer,
-bankingDetails:BankingReducer
+bankingDetails:BankingReducer,
+subscription:SubscriptionReducer,
 
 })
 export default RootReducer;

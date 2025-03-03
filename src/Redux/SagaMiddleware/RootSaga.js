@@ -11,6 +11,7 @@ import SettingsSaga from './SettingsSaga'
 import ExpenseSaga from './ExpensesSaga'
 import CreateBookinSaga from './BookingSaga';
 import CreateBankingSaga from './BankingSaga';
+import SubscriptionSaga from './SubscriptionSaga';
 
 
 
@@ -29,7 +30,8 @@ yield all([
     SettingsSaga(),
     ExpenseSaga(),
     CreateBookinSaga(),
-    CreateBankingSaga()
+    CreateBankingSaga(),
+    SubscriptionSaga()
 
 ])
 }
