@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
@@ -132,7 +133,7 @@ function Sidebar() {
   
 
   useEffect(() => {
-    if (stateData.statusCodeForAccountList == 200) {
+    if (stateData.statusCodeForAccountList === 200) {
       const loginInfo = stateData.accountList[0].user_details;
 
       if (loginInfo) {
@@ -172,7 +173,7 @@ function Sidebar() {
         localStorage.setItem("IsEnable", encryptIsEnable);
         localStorage.setItem("Password", encryptPassword);
 
-        if (Is_Enable == 0) {
+        if (Is_Enable === 0) {
           const encryptData = CryptoJS.AES.encrypt(
             JSON.stringify(true),
             "abcd"
@@ -318,7 +319,7 @@ function Sidebar() {
   // }, []);
 
   useEffect(() => {
-    if (stateAccount.statusCodeForAccountList == 200) {
+    if (stateAccount.statusCodeForAccountList === 200) {
       // const loginProfile = stateAccount.accountList[0].user_details.profile;
       // setProfile(loginProfile);
     }
@@ -490,6 +491,7 @@ function Sidebar() {
               >
                 <img
                   src={Smartstay}
+                  alt="smartstay"
                   style={{ height: 25.06, width: 134 }}
                   className="Title"
                   onClick={() => handlePageClick("dashboard")}
@@ -519,6 +521,7 @@ function Sidebar() {
                           ? selectedProfileImage
                           : hostelimage
                       }
+                      
                       style={{
                         height: 25,
                         width: 25,
@@ -705,7 +708,7 @@ function Sidebar() {
                     position: "relative",
                   }}
                 >
-                  <img src={Manage} style={{ height: 20, width: 20 }} />
+                  <img src={Manage} style={{ height: 20, width: 20 }} alt="manage"/>
                   <span
                     className="Title"
                     style={{
@@ -739,7 +742,7 @@ function Sidebar() {
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
-                        src={currentPage === "pg-list" ? Paying2 : Paying}
+                        src={currentPage === "pg-list" ? Paying2 : Paying} alt="pg"
                         style={{ height: 20, width: 20 }}
                       />
                       <span
@@ -762,7 +765,7 @@ function Sidebar() {
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
-                        src={currentPage === "user-list" ? Custom2 : Custom}
+                        src={currentPage === "user-list" ? Custom2 : Custom} alt="user"
                         style={{ height: 20, width: 20 }}
                       />
                       <span
@@ -785,7 +788,7 @@ function Sidebar() {
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
-                        src={currentPage === "asset" ? Asset2 : Asset}
+                        src={currentPage === "asset" ? Asset2 : Asset} alt="asset"
                         style={{ height: 20, width: 20 }}
                       />
                       <span
@@ -808,7 +811,7 @@ function Sidebar() {
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
-                        src={currentPage === "vendor" ? Vendor2 : Vendor}
+                        src={currentPage === "vendor" ? Vendor2 : Vendor} alt="vendor"
                         style={{ height: 20, width: 20 }}
                       />
                       <span
@@ -834,7 +837,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "banking" ? bank : bankblank}
+                    src={currentPage === "banking" ? bank : bankblank} alt="banking"
                     style={{ height: 20, width: 20 }}
                   />
 
@@ -875,7 +878,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "invoice" ? Invoice2 : Invo}
+                    src={currentPage === "invoice" ? Invoice2 : Invo} alt="invoice"
                     style={{ height: 20, width: 20 }}
                   />
 
@@ -904,7 +907,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "eb" ? Eb2 : Eb}
+                    src={currentPage === "eb" ? Eb2 : Eb} alt="eb"
                     style={{ height: 20, width: 20 }}
                   />
                   <span
@@ -928,7 +931,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "compliance" ? Compl2 : Compl}
+                    src={currentPage === "compliance" ? Compl2 : Compl} alt="compliance"
                     style={{ height: 20, width: 20 }}
                   />
                   <span
@@ -951,7 +954,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "expenses" ? Expense2 : Expense}
+                    src={currentPage === "expenses" ? Expense2 : Expense} alt="expence"
                     style={{ height: 20, width: 20 }}
                   />
                   <span
@@ -975,7 +978,7 @@ function Sidebar() {
                   style={{ listStyleType: "none", display: "flex" }}
                 >
                   <img
-                    src={currentPage === "reports" ? Repo2 : Repo}
+                    src={currentPage === "reports" ? Repo2 : Repo} alt="report"
                     style={{ height: 20, width: 20 }}
                   />
                   <span
@@ -1021,13 +1024,13 @@ function Sidebar() {
                   <div className="mr-3" style={{ cursor: "pointer" }}>
                     <Image
                       src={
-                        profiles == "null" ||
-                        profiles == null ||
-                        profiles == undefined ||
-                        profiles == "undefined" ||
-                        profiles == "" ||
-                        profiles == 0 ||
-                        profiles == "0"
+                        profiles === "null" ||
+                        profiles === null ||
+                        profiles === undefined ||
+                        profiles === "undefined" ||
+                        profiles === "" ||
+                        profiles === 0 ||
+                        profiles === "0"
                           ? Profileimage
                           : profiles
                       }
@@ -1361,7 +1364,7 @@ function Sidebar() {
           </Col>
         </Row>
       </Container>
-      {pgshow == true ? (
+      {pgshow === true ? (
         <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
       ) : null}
 

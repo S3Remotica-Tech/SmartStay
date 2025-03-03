@@ -104,8 +104,8 @@ function FirstPage() {
 
       </div>
       <div className='row d-flex justify-content-center mt-4' style={{ position: "relative", backgroundColor: "" }}>
-        <img src={Desktop} className='img-fluid' style={{ height: 776, width: 1000 }} />
-        <img src={Spring1}
+        <img src={Desktop} alt='desk' className='img-fluid' style={{ height: 776, width: 1000 }} />
+        <img src={Spring1} alt='spring'
           style={{
             position: "absolute",
             left: 0,
@@ -117,7 +117,7 @@ function FirstPage() {
           }}
         />
         <img
-          src={Spring2}
+          src={Spring2} alt='spring3'
           style={{
             position: "absolute",
             top: "-5%",

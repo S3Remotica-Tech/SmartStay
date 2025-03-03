@@ -133,7 +133,7 @@ function GetAnswer() {
 
 <div className='d-flex justify-content-center gap-2 mb-2' >
 <div>
-  <img src={Smart} />
+  <img src={Smart} alt='smart'/>
 </div>
 <div>
   <label style={{fontFamily:"Gilroy", fontWeight:700, fontSize:20 , color:"rgba(255, 255, 255, 1)"}}>Smartstay</label>

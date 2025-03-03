@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -140,7 +141,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [selectedDate]);
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode == 200) {
+    if (state.AssetList.addAssetStatusCode === 200) {
       setAssetName("");
       setVendorName("");
       setBrandName("");
@@ -319,7 +320,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
       // return;
     }
-    if (modeOfPayment == "Net Banking" && !account) {
+    if (modeOfPayment === "Net Banking" && !account) {
       setAccountError("Please Choose Bank Account");
       return;
     }

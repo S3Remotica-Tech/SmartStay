@@ -70,7 +70,7 @@ const Footer = (props) => {
         <div className="container mt-5 pb-2 pt-5" >
           <div className="d-flex row pt-3 pb-2">
             <div className="col-lg-6 col-md-6 col-sm-10 col-xs-10 fade-in">
-              <img className="m-1 mb-3" src={SmartstayLogo} />
+              <img className="m-1 mb-3" src={SmartstayLogo} alt="smart"/>
               <p style={{ color: '#FFF', fontFamily: 'Montserrat', fontSize: 14, fontWeight: 200, fontStyle: 'normal', lineHeight: '25px' }}>Revolutionized way of <br></br>
                 managing your Paying Guest</p>
             </div>
@@ -130,10 +130,10 @@ const Footer = (props) => {
               <h5 style={{ color: '#FFF', fontFamily: 'Outfit', fontSize: '16px', fontWeight: 200, fontStyle: 'normal', lineHeight: '25.6px' }}>&copy; 2025 S3 Remotica Technologies. All rights reserved</h5>
             </div>
             <div>
-              <img className="m-1 me-2" src={Facebook} style={{ height: 24, width: 24 }} />
-              <img className="mt-1 me-2" src={Twitter} style={{ height: 24, width: 24 }} />
-              <img className="m-1 me-2" src={Linkedin} style={{ height: 24, width: 24 }} />
-              <img className="m-1" src={Instagram} style={{ height: 24, width: 24 }} />
+              <img className="m-1 me-2" src={Facebook} alt="facebook" style={{ height: 24, width: 24 }} />
+              <img className="mt-1 me-2" src={Twitter} alt="twitter" style={{ height: 24, width: 24 }} />
+              <img className="m-1 me-2" src={Linkedin} alt="linkedin" style={{ height: 24, width: 24 }} />
+              <img className="m-1" src={Instagram} alt="insta" style={{ height: 24, width: 24 }} />
             </div>
           </div>
         </div>

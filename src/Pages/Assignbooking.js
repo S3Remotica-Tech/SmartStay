@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button, Row, Col, FormControl } from "react-bootstrap";
 import { MdError } from "react-icons/md";
@@ -233,15 +234,15 @@ function AssignBooking(props) {
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          u.Hostel_Id == hostalId && u.Floor_Id == floor && u.Room_Id == room
+          u.Hostel_Id === hostalId && u.Floor_Id === floor && u.Room_Id === room
       );
 
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => amount.id == e.target.value);
+      Bedfilter[0]?.bed_details.filter((amount) => amount.id === e.target.value);
 
-    if (Roomamountfilter.length != 0) {
+    if (Roomamountfilter.length !== 0) {
       setRentAmount(Roomamountfilter[0]?.bed_amount);
     }
 

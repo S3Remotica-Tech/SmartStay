@@ -81,32 +81,32 @@ function Pricing() {
     <div className='pt-2 pb-3'>
 
         <div className=' pb-3 gap-2 d-flex'>
-            <img src={Guest} />
+            <img src={Guest} alt='guest'/>
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Paying Guest</label>
             </div>
      
      <div className=' pb-3 gap-2 d-flex'>
-     <img src={Custom} />
+     <img src={Custom}  alt='custom'/>
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Manage customers</label>
      </div>
      <div className=' pb-3 gap-2 d-flex' >   
-     <img src={Vendor} />     
+     <img src={Vendor} alt='vendor'/>     
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Manage Vendors</label>
      </div>
      <div className=' pb-3 gap-2 d-flex'>
-     <img src={Asset} />       
+     <img src={Asset} alt='asset'/>       
          <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Asset Management</label>
      </div>
      <div className=' pb-3 gap-2 d-flex'>  
-     <img src={Invoice} />      
+     <img src={Invoice} alt='invoice'/>      
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}> Invoice Management</label>
      </div>
      <div className=' pb-3 gap-2 d-flex'>
-     <img src={Expense} />        
+     <img src={Expense} alt='expence'/>        
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Expenses Management</label>
      </div>
      <div className=' pb-3 gap-2 d-flex'> 
-     <img src={Report} />       
+     <img src={Report} alt='report'/>       
         <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:600, fontSize:17 }}>Reports Management</label>
      </div>
         </div>

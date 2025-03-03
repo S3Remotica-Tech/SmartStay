@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
@@ -61,7 +62,7 @@ function App() {
 
 
   useEffect(() => {
-    if (tokenAccessDenied == 206) {
+    if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOG_OUT' });
       setData(false);
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
@@ -23,7 +24,7 @@ const EB_Billings = (props) => {
 
   useEffect(()=>{
 
-    const UserIsEnable = state.UsersList.hostelList.filter(item=> item.id == props.Item.id)
+    const UserIsEnable = state.UsersList.hostelList.filter(item=> item.id === props.Item.id)
    const IsEnableOn = UserIsEnable[0]?.isHostelBased
     
   if(IsEnableOn === 1){
@@ -51,7 +52,7 @@ const EB_Billings = (props) => {
               onChange={(e)=>{handleChange(e,props.Item.id)}} />
           </div>
           <div style={{ color: "black", fontSize: '14px', fontWeight: 600, flex: 0.5 }}>
-            {isChecked == true ? ' Hostel_based': ' Room_based'}
+            {isChecked === true ? ' Hostel_based': ' Room_based'}
           </div>
         </div>
 

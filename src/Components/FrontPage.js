@@ -52,7 +52,7 @@ function FrontPage() {
 
 
               <Nav.Link  className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
-                <img src={Lock} style={{ height: "15px", width: "15px" }} alt='Lock'/> <label className="ms-1" style={{cursor:"pointer",fontSize:14}}>Sign-In</label>
+                <img src={Lock}  style={{ height: "15px", width: "15px" }} alt='Lock'/> <label className="ms-1" style={{cursor:"pointer",fontSize:14}}>Sign-In</label>
               </Nav.Link>
               <Nav.Link >
                 <button type="button"
@@ -95,7 +95,7 @@ function FrontPage() {
 
           <div className="col-lg-3 offset-lg-5" >
             <div>
-              <p style={{ fontSize: "11px", fontWeight: "500", color: "gray" }}>Brought to you with <span><img src={Heart} style={{ height: 10, width: 10 }} /></span> by the Smartstay Team</p>
+              <p style={{ fontSize: "11px", fontWeight: "500", color: "gray" }}>Brought to you with <span><img src={Heart} alt="heart" style={{ height: 10, width: 10 }} /></span> by the Smartstay Team</p>
             </div>
           </div>
         </div>

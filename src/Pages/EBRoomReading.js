@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
@@ -94,7 +95,7 @@ function EBRoomReading(props) {
   };
   useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
-      (item) => item.hostel_id == hostelId
+      (item) => item.hostel_id === hostelId
     );
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
@@ -728,7 +729,7 @@ function EBRoomReading(props) {
                           let formattedDate;
 
                           // Check if v.date exists and is not "00-00-00"
-                          if (v.date && v.date != '0000-00-00') {
+                          if (v.date && v.date !== '0000-00-00') {
                             let Dated = new Date(v.date);
                             let day = Dated.getDate();
                             let month = Dated.getMonth() + 1;
@@ -1259,7 +1260,7 @@ function EBRoomReading(props) {
                 disabled={
                   unitAmount &&
                   unitAmount?.length === 0 &&
-                  selectedHostel != ""
+                  selectedHostel !== ""
                 }
                 value={Floor}
                 onChange={(e) => handleFloor(e)}
@@ -1315,7 +1316,7 @@ function EBRoomReading(props) {
                 disabled={
                   unitAmount &&
                   unitAmount?.length === 0 &&
-                  selectedHostel != ""
+                  selectedHostel !== ""
                 }
                 value={Rooms}
                 onChange={(e) => handleRoom(e)}

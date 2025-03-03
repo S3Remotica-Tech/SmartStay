@@ -59,7 +59,7 @@ function KeyFeature() {
               <Card.Body>
 
                 <div className='ps-2 mb-2'>
-                  <img src={item.KeyImage} style={{height:60, width:60}} />
+                  <img src={item.KeyImage} alt='imgg' style={{height:60, width:60}} />
                 </div>
 
                 <div className='ps-2 pe-5 mb-2 w-100'>
