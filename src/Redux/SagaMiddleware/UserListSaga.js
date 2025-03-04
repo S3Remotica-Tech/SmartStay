@@ -283,7 +283,7 @@ function* handleAddUser(datum) {
 function* handleRoomCheck(action) {
    const response = yield call(roomFullCheck, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200 && response.data.length > 0) {
+   if ((response.status === 200 || response.statusCode === 200) && response.data.length > 0) {
       yield put({ type: 'ROOM_FULL', payload: response.data.data, statusCode: response.status || response.statusCode })
    }
    else {

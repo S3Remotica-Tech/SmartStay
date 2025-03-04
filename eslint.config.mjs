@@ -41,7 +41,16 @@ export default [
       "react-hooks/exhaustive-deps": "error",
       "jsx-a11y/anchor-is-valid": "error",
       "default-case": "error",
-      "jsx-a11y/alt-text": 'error'
+      "jsx-a11y/alt-text": 'error',
+      "no-mixed-operators": ["error", {
+      "groups": [
+        ["&", "|", "^", "~", "<<", ">>", ">>>"],  
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<="], 
+        ["&&", "||"],
+      ],
+      "allowSamePrecedence": true // Allows operators with the same precedence
+    }],
+    "array-callback-return": 'error'
     }
   },
   {
