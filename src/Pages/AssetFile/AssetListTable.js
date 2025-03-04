@@ -39,7 +39,7 @@ function AssetListTable(props) {
 
 
     if (popupTop + popupHeight > viewportHeight) {
-      popupTop = top - popupHeight;
+      popupTop = top - 50;
     }
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -221,7 +221,7 @@ function AssetListTable(props) {
                   style={{
                     cursor: "pointer", backgroundColor: "#F9F9F9",
                     position: "fixed",
-                    top: popupPosition.top,
+                    top: popupPosition.top -30,
                     left: popupPosition.left,
 // marginBottom:"40px",
                     width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", 
