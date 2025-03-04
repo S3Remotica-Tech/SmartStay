@@ -912,7 +912,7 @@ function EBRoomReading(props) {
                                           cursor: "pointer",
                                           backgroundColor: "#F9F9F9",
                                           position: "fixed",
-                                          top: popupPosition.top,
+                                          top: popupPosition.top -20,
                                           left: popupPosition.left,
                                           // position: "absolute",
                                           // right: 50,
