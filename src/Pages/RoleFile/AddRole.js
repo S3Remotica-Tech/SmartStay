@@ -450,7 +450,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
                     </Modal.Body>
                     {errorIsChanged && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
+                            <div className="" style={{textAlign:"center"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {errorIsChanged}
