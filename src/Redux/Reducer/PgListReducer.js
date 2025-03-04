@@ -1,5 +1,5 @@
 
-const initialState = {
+export const initialState = {
     Name: '',
     phoneNumber: '',
     email_Id: '',
@@ -136,7 +136,9 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'DELETE_ROOM':
-            return { ...state, deleteRoom: action.payload, statusCodeForDeleteRoom: action.payload.statusCode }
+            return { ...state, 
+                // deleteRoom: action.payload, 
+                statusCodeForDeleteRoom: action.payload.statusCode }
         case 'CLEAR_DELETE_ROOM':
             return { ...state, statusCodeForDeleteRoom: 0 }
         // case 'DELETE_BED':
@@ -178,10 +180,10 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_EB_CUSTOMER_EBLIST':
             return { ...state, statusCodeforEbCustomer: 0 }
 
-        case 'NO_HOSTEL':
-            return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
-        case 'CLEAR_NOHOSTEL':
-            return { ...state, nostatusCodeforEbCustomer: 0 }
+        // case 'NO_HOSTEL':
+        //     return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
+        // case 'CLEAR_NOHOSTEL':
+        //     return { ...state, nostatusCodeforEbCustomer: 0 }
 
 
         case 'EB_ERROR':
@@ -210,10 +212,14 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, createRoomMessage: action.message }
 
         case 'BED_DETAILS':
-            return { ...state, bedDetailsForUser: action.payload, statusCode: action.payload.statusCode }
+            return { ...state,
+                //  bedDetailsForUser: action.payload, 
+                statusCode: action.payload.statusCode }
 
         case 'NO_USER_BED':
-            return { ...state, errorForBed: action.payload, errorStatusCode: action.payload.statusCode }
+            return { ...state, 
+                // errorForBed: action.payload, 
+                errorStatusCode: action.payload.statusCode }
 
         case 'CLEAR_STATUS_CODE':
             return { ...state, errorStatusCode: ' ' }
@@ -245,7 +251,7 @@ const PgListReducer = (state = initialState, action) => {
         case 'ALREADY_BED':
             return { ...state, alreadyBedAvailable: action.payload.response }
         case 'CLEAR_ALREADY_BED':
-            return { ...state, alreadyBedAvailable: '' }
+            return { ...state, alreadyBedAvailable: 0 }
 
         case 'DELETE_PG_ERROR':
             return { ...state, deletePgError: action.payload }
