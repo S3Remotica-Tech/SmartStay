@@ -41,7 +41,16 @@ export default [
       "react-hooks/exhaustive-deps": "error",
       "jsx-a11y/anchor-is-valid": "error",
       "default-case": "error",
-      "jsx-a11y/alt-text": 'error'
+      "jsx-a11y/alt-text": 'error',
+      "no-mixed-operators": ["error", {
+      "groups": [
+        ["&", "|", "^", "~", "<<", ">>", ">>>"],  
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<="], 
+        ["&&", "||"],
+      ],
+      "allowSamePrecedence": true // Allows operators with the same precedence
+    }],
+    "array-callback-return": 'error'
     }
   },
   {
@@ -53,8 +62,7 @@ export default [
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
-       "react/react-in-jsx-scope": "off",
-       "no-mixed-operators": "off"
+       "react/react-in-jsx-scope": "off"
     }
   }
 ];
