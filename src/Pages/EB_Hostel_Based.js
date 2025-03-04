@@ -37,8 +37,39 @@ function EBHostelReading(props) {
   const [deleteForm, setDeleteForm] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [dateErrorMesg,setDateErrorMesg] = useState("")
+const [hosLoader,setHostelLoader] = useState("")
+ const [electricityHostel, setelectricityHostel] = useState([]);
+
+ useEffect(() => {
+  setSelectedHostel(state.login.selectedHostel_Id);
+  setHos_Name(props.hostelName);
+}, [props, state.login.selectedHostel_Id]);
+
+useEffect(() => {
+  if(selectedHostel && props.value === "3"){
+    setHostelLoader(true)
+    dispatch({
+      type: "HOSTELBASEDEBLIST",
+      payload: { hostel_id: selectedHostel },
+    });
+  }
+ 
+    
+  }, [selectedHostel]);
 
 
+  useEffect(() => {
+        if (state.PgList.getStatusCodeForHostelBased === 200) {
+          setHostelLoader(false)
+          setelectricityHostel(
+            state?.PgList?.getHostelBasedRead?.hostel_readings
+          );
+          
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
+          }, 200);
+        }
+      }, [state.PgList.getStatusCodeForHostelBased]);
 
   const handleShowActive = (eb_Id, event) => {
     if (activeRow === eb_Id) {
@@ -146,10 +177,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     }
   }, [state.PgList.editDateAlready]);
 
-  useEffect(() => {
-    setSelectedHostel(state.login.selectedHostel_Id);
-    setHos_Name(props.hostelName);
-  }, [props, state.login.selectedHostel_Id]);
+ 
 
 
 
@@ -397,7 +425,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = props.electricityHostel?.slice(
+  const currentRowelectricity = electricityHostel?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -414,7 +442,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
   };
 
   const totalPagesinvoice = Math.ceil(
-    props.electricityHostel?.length / electricityrowsPerPage
+    electricityHostel?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -863,7 +891,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
             </Table>
           </div>
         ) :
-         props.value === "3"  && !props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
+         props.value === "3"  && !hosLoader&& currentRowelectricity  && currentRowelectricity?.length === 0 ? (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -897,7 +925,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
         ) : null}
       </div>
 
-      {props.loading &&
+      {hosLoader &&
                   <div
                     style={{
                       position: 'absolute',
@@ -927,7 +955,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                 }
 
 
-      {props.value === "3" && props.electricityHostel?.length >= 5 && (
+      {props.value === "3" && electricityHostel?.length >= 5 && (
         <nav
           style={{
             display: "flex",
@@ -1568,10 +1596,8 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
 
 
 EBHostelReading.propTypes = {
-  electricityHostel: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
-  loading: PropTypes.func.isRequired,
   editeb: PropTypes.func.isRequired,
   setEditEb: PropTypes.func.isRequired,
   ebEditPermission: PropTypes.func.isRequired,

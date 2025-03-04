@@ -603,14 +603,14 @@ function UserList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if (uniqueostel_Id) {
+    if (state.login.selectedHostel_Id) {
       setLoading(true);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: uniqueostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [uniqueostel_Id]);
+  }, [state.login.selectedHostel_Id]);
 
   //  useEffect(() => {
   //     if (uniqueostel_Id && Floor) {

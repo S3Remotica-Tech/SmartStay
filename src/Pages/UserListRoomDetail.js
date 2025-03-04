@@ -551,8 +551,8 @@ function UserListRoomDetail(props) {
 
     const Roomamountfilter =
       Bedfilter &&
-      Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => String(amount.id) === String(e.target.value));
+      Bedfilter?.length > 0 &&
+      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(e.target.value));
 
     if (Roomamountfilter?.length !== 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
@@ -1045,12 +1045,19 @@ useEffect(()=>{
     }
   };
 
-  const handleUploadClick = (ref) => {
-    ref.current.click(); 
-    setUploadError("")
-    dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
+  // const handleUploadClick = (ref) => {
+  //   ref.current.click(); 
+  //   setUploadError("")
+  //   dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
     
-  };
+  // };
+  const handleUploadClick = (ref) => {
+    if (ref?.current) {
+      ref.current.click();
+    }
+    setUploadError(""); 
+    dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
+  }
   useEffect(()=>{
     if(state.UsersList.statuscodeForAdharFileError === 201){
       setUploadError(state.UsersList.adharuploadfileError)
@@ -1068,6 +1075,8 @@ useEffect(()=>{
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
       }, 500);
     }
       },[state.UsersList.statusCodeForUploadDocument])
