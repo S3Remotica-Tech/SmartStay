@@ -6190,8 +6190,8 @@ describe('it should check Pg list reducers', () => {
         const action = {
             type: 'CLEAR_EDIT_ELECTRICITY',
             payload: {
-                response : [],
-                statusCode : 0
+                response: [],
+                statusCode: 0
             }
         }
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
@@ -6280,489 +6280,1906 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
         })
     }
-  )
+    )
 
 
 
-  it('it should check for ERROR_EDIT_ELECTRICITY', () => {
-    const action = {
-        type: 'ERROR_EDIT_ELECTRICITY',
-        payload: "eb edit error"
-    }
-    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        room_Id: '',
-        number_Of_Bed: '',
-        message: '',
-        floor_Id: '',
-        checkRoomList: [],
-        checkEBList: [],
-        createEBList: [],
-        EB_Customerlist: [],
-        EB_startmeterlist: [],
-        statusCodeForEbRoomList: 0,
-        createRoomMessage: '',
-        errMessage: "",
-        roomCount: [],
-        roomCreationSuccess: false,
-        createPGMessage: '',
-        bedDetailsForUser: [],
-        statusCode: '',
-        errorForBed: "",
-        errorStatusCode: 0,
-        statusCodeCreateRoom: 0,
-        dashboardDetails: [],
-        deleteFloor: '',
-        deleteRoom: '',
-        deleteBed: '',
-        roomCountStatusCode: 0,
-        noRoomsInFloorStatusCode: 0,
-        createPgStatusCode: 0,
-        createBedStatusCode: 0,
-        alreadyBedAvailable: 0,
-        statusCodeForDeleteRoom: 0,
-        statusCodeDeleteBed: 0,
-        AddEBstatusCode: 0,
-        ebError: '',
-        deletePgSuccessStatusCode: 0,
-        alreadyRoomHere: ' ',
-        deletePgError: '',
-        deleteBedError: '',
-        updateFloorSuccessStatusCode: 0,
-        alreadyfloorNameHere: '',
-        OccupiedCustomer: [],
-        OccupiedCustomerGetStatusCode: 0,
-        EB_customerTable: [],
-        statusCodeforEbCustomer: 0,
-        dleteHostelImagesStatusCode: 0,
-        statusCodeForEditElectricity: 0,
-        editElectricity: [],
-        statusCodeForDeleteElectricity: 0,
-        deleteElectricity: [],
-        ebEditError: 'eb edit error',
-        dashboardFilter: [],
-        statusCodeForDashboardFilter: 0,
-        dashboardFilterCashback: [],
-        statusCodeForDashboardFilterCashBack: 0,
-        dashboardFilterRevenu: [],
-        statusCodeForDashboardFilterRevenue: 0,
-        addHostelBasedReading: [],
-        statusCodeForAddHostelBased: 0,
-        editHostelBasedReading: [],
-        statusCodeForEditHostelBased: 0,
-        getHostelBasedRead: [],
-        getStatusCodeForHostelBased: 0,
-        deleteHostelBasedReading: [],
-        statusCodeForDeleteHostelBased: 0,
-        dateAlready: '',
-        editDateAlready: '',
-        isManageEnable: null,
-        announcementList: [],
-        statuscodeForAnnounceMentList: 0,
-        statuscodeForAddAnnouncement: 0,
-        addAnnounceMent: [],
-        TitleAlready: '',
-        statuscodeForDashboard: 0,
-        TittleUnique: '',
-        deleteAnnounmentSuccessStatus: 0,
-        getCommentsSuccessStatus: 0,
-        addCommentsSuccessStatus: 0,
-        CommentsList: [],
-        addSubCommentsSuccessStatus: 0,
-    })
-}
-)
-
-
-it('it should check for CLEAR_ERROR_EDIT_ELECTRICITY', () => {
-    const action = {
-        type: 'CLEAR_ERROR_EDIT_ELECTRICITY',
-        payload: ""
-    }
-    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        room_Id: '',
-        number_Of_Bed: '',
-        message: '',
-        floor_Id: '',
-        checkRoomList: [],
-        checkEBList: [],
-        createEBList: [],
-        EB_Customerlist: [],
-        EB_startmeterlist: [],
-        statusCodeForEbRoomList: 0,
-        createRoomMessage: '',
-        errMessage: "",
-        roomCount: [],
-        roomCreationSuccess: false,
-        createPGMessage: '',
-        bedDetailsForUser: [],
-        statusCode: '',
-        errorForBed: "",
-        errorStatusCode: 0,
-        statusCodeCreateRoom: 0,
-        dashboardDetails: [],
-        deleteFloor: '',
-        deleteRoom: '',
-        deleteBed: '',
-        roomCountStatusCode: 0,
-        noRoomsInFloorStatusCode: 0,
-        createPgStatusCode: 0,
-        createBedStatusCode: 0,
-        alreadyBedAvailable: 0,
-        statusCodeForDeleteRoom: 0,
-        statusCodeDeleteBed: 0,
-        AddEBstatusCode: 0,
-        ebError: '',
-        deletePgSuccessStatusCode: 0,
-        alreadyRoomHere: ' ',
-        deletePgError: '',
-        deleteBedError: '',
-        updateFloorSuccessStatusCode: 0,
-        alreadyfloorNameHere: '',
-        OccupiedCustomer: [],
-        OccupiedCustomerGetStatusCode: 0,
-        EB_customerTable: [],
-        statusCodeforEbCustomer: 0,
-        dleteHostelImagesStatusCode: 0,
-        statusCodeForEditElectricity: 0,
-        editElectricity: [],
-        statusCodeForDeleteElectricity: 0,
-        deleteElectricity: [],
-        ebEditError: '',
-        dashboardFilter: [],
-        statusCodeForDashboardFilter: 0,
-        dashboardFilterCashback: [],
-        statusCodeForDashboardFilterCashBack: 0,
-        dashboardFilterRevenu: [],
-        statusCodeForDashboardFilterRevenue: 0,
-        addHostelBasedReading: [],
-        statusCodeForAddHostelBased: 0,
-        editHostelBasedReading: [],
-        statusCodeForEditHostelBased: 0,
-        getHostelBasedRead: [],
-        getStatusCodeForHostelBased: 0,
-        deleteHostelBasedReading: [],
-        statusCodeForDeleteHostelBased: 0,
-        dateAlready: '',
-        editDateAlready: '',
-        isManageEnable: null,
-        announcementList: [],
-        statuscodeForAnnounceMentList: 0,
-        statuscodeForAddAnnouncement: 0,
-        addAnnounceMent: [],
-        TitleAlready: '',
-        statuscodeForDashboard: 0,
-        TittleUnique: '',
-        deleteAnnounmentSuccessStatus: 0,
-        getCommentsSuccessStatus: 0,
-        addCommentsSuccessStatus: 0,
-        CommentsList: [],
-        addSubCommentsSuccessStatus: 0,
-    })
-}
-)
-
-
-it('it should check for DELETE_ELECTRICITY', () => {
-    const action = {
-        type: 'DELETE_ELECTRICITY',
-        payload: {
-            response : [],
-            statusCode : 200
+    it('it should check for ERROR_EDIT_ELECTRICITY', () => {
+        const action = {
+            type: 'ERROR_EDIT_ELECTRICITY',
+            payload: "eb edit error"
         }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: 'eb edit error',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
     }
-    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        room_Id: '',
-        number_Of_Bed: '',
-        message: '',
-        floor_Id: '',
-        checkRoomList: [],
-        checkEBList: [],
-        createEBList: [],
-        EB_Customerlist: [],
-        EB_startmeterlist: [],
-        statusCodeForEbRoomList: 0,
-        createRoomMessage: '',
-        errMessage: "",
-        roomCount: [],
-        roomCreationSuccess: false,
-        createPGMessage: '',
-        bedDetailsForUser: [],
-        statusCode: '',
-        errorForBed: "",
-        errorStatusCode: 0,
-        statusCodeCreateRoom: 0,
-        dashboardDetails: [],
-        deleteFloor: '',
-        deleteRoom: '',
-        deleteBed: '',
-        roomCountStatusCode: 0,
-        noRoomsInFloorStatusCode: 0,
-        createPgStatusCode: 0,
-        createBedStatusCode: 0,
-        alreadyBedAvailable: 0,
-        statusCodeForDeleteRoom: 0,
-        statusCodeDeleteBed: 0,
-        AddEBstatusCode: 0,
-        ebError: '',
-        deletePgSuccessStatusCode: 0,
-        alreadyRoomHere: ' ',
-        deletePgError: '',
-        deleteBedError: '',
-        updateFloorSuccessStatusCode: 0,
-        alreadyfloorNameHere: '',
-        OccupiedCustomer: [],
-        OccupiedCustomerGetStatusCode: 0,
-        EB_customerTable: [],
-        statusCodeforEbCustomer: 0,
-        dleteHostelImagesStatusCode: 0,
-        statusCodeForEditElectricity: 0,
-        editElectricity: [],
-        statusCodeForDeleteElectricity: 200,
-        deleteElectricity: [],
-        ebEditError: '',
-        dashboardFilter: [],
-        statusCodeForDashboardFilter: 0,
-        dashboardFilterCashback: [],
-        statusCodeForDashboardFilterCashBack: 0,
-        dashboardFilterRevenu: [],
-        statusCodeForDashboardFilterRevenue: 0,
-        addHostelBasedReading: [],
-        statusCodeForAddHostelBased: 0,
-        editHostelBasedReading: [],
-        statusCodeForEditHostelBased: 0,
-        getHostelBasedRead: [],
-        getStatusCodeForHostelBased: 0,
-        deleteHostelBasedReading: [],
-        statusCodeForDeleteHostelBased: 0,
-        dateAlready: '',
-        editDateAlready: '',
-        isManageEnable: null,
-        announcementList: [],
-        statuscodeForAnnounceMentList: 0,
-        statuscodeForAddAnnouncement: 0,
-        addAnnounceMent: [],
-        TitleAlready: '',
-        statuscodeForDashboard: 0,
-        TittleUnique: '',
-        deleteAnnounmentSuccessStatus: 0,
-        getCommentsSuccessStatus: 0,
-        addCommentsSuccessStatus: 0,
-        CommentsList: [],
-        addSubCommentsSuccessStatus: 0,
-    })
-}
-)
+    )
 
 
-
-it('it should check for CLEAR_DELETE_ELECTRICITY', () => {
-    const action = {
-        type: 'CLEAR_DELETE_ELECTRICITY',
-        payload: {
-            response : [],
-            statusCode : 0
+    it('it should check for CLEAR_ERROR_EDIT_ELECTRICITY', () => {
+        const action = {
+            type: 'CLEAR_ERROR_EDIT_ELECTRICITY',
+            payload: ""
         }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
     }
-    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        room_Id: '',
-        number_Of_Bed: '',
-        message: '',
-        floor_Id: '',
-        checkRoomList: [],
-        checkEBList: [],
-        createEBList: [],
-        EB_Customerlist: [],
-        EB_startmeterlist: [],
-        statusCodeForEbRoomList: 0,
-        createRoomMessage: '',
-        errMessage: "",
-        roomCount: [],
-        roomCreationSuccess: false,
-        createPGMessage: '',
-        bedDetailsForUser: [],
-        statusCode: '',
-        errorForBed: "",
-        errorStatusCode: 0,
-        statusCodeCreateRoom: 0,
-        dashboardDetails: [],
-        deleteFloor: '',
-        deleteRoom: '',
-        deleteBed: '',
-        roomCountStatusCode: 0,
-        noRoomsInFloorStatusCode: 0,
-        createPgStatusCode: 0,
-        createBedStatusCode: 0,
-        alreadyBedAvailable: 0,
-        statusCodeForDeleteRoom: 0,
-        statusCodeDeleteBed: 0,
-        AddEBstatusCode: 0,
-        ebError: '',
-        deletePgSuccessStatusCode: 0,
-        alreadyRoomHere: ' ',
-        deletePgError: '',
-        deleteBedError: '',
-        updateFloorSuccessStatusCode: 0,
-        alreadyfloorNameHere: '',
-        OccupiedCustomer: [],
-        OccupiedCustomerGetStatusCode: 0,
-        EB_customerTable: [],
-        statusCodeforEbCustomer: 0,
-        dleteHostelImagesStatusCode: 0,
-        statusCodeForEditElectricity: 0,
-        editElectricity: [],
-        statusCodeForDeleteElectricity: 0,
-        deleteElectricity: [],
-        ebEditError: '',
-        dashboardFilter: [],
-        statusCodeForDashboardFilter: 0,
-        dashboardFilterCashback: [],
-        statusCodeForDashboardFilterCashBack: 0,
-        dashboardFilterRevenu: [],
-        statusCodeForDashboardFilterRevenue: 0,
-        addHostelBasedReading: [],
-        statusCodeForAddHostelBased: 0,
-        editHostelBasedReading: [],
-        statusCodeForEditHostelBased: 0,
-        getHostelBasedRead: [],
-        getStatusCodeForHostelBased: 0,
-        deleteHostelBasedReading: [],
-        statusCodeForDeleteHostelBased: 0,
-        dateAlready: '',
-        editDateAlready: '',
-        isManageEnable: null,
-        announcementList: [],
-        statuscodeForAnnounceMentList: 0,
-        statuscodeForAddAnnouncement: 0,
-        addAnnounceMent: [],
-        TitleAlready: '',
-        statuscodeForDashboard: 0,
-        TittleUnique: '',
-        deleteAnnounmentSuccessStatus: 0,
-        getCommentsSuccessStatus: 0,
-        addCommentsSuccessStatus: 0,
-        CommentsList: [],
-        addSubCommentsSuccessStatus: 0,
-    })
-}
-)
+    )
 
 
-
-it('it should check for CLEAR_DELETE_ELECTRICITY', () => {
-    const action = {
-        type: 'CLEAR_DELETE_ELECTRICITY',
-        payload: {
-            response : [],
-            statusCode : 0
+    it('it should check for DELETE_ELECTRICITY', () => {
+        const action = {
+            type: 'DELETE_ELECTRICITY',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
         }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 200,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
     }
-    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        room_Id: '',
-        number_Of_Bed: '',
-        message: '',
-        floor_Id: '',
-        checkRoomList: [],
-        checkEBList: [],
-        createEBList: [],
-        EB_Customerlist: [],
-        EB_startmeterlist: [],
-        statusCodeForEbRoomList: 0,
-        createRoomMessage: '',
-        errMessage: "",
-        roomCount: [],
-        roomCreationSuccess: false,
-        createPGMessage: '',
-        bedDetailsForUser: [],
-        statusCode: '',
-        errorForBed: "",
-        errorStatusCode: 0,
-        statusCodeCreateRoom: 0,
-        dashboardDetails: [],
-        deleteFloor: '',
-        deleteRoom: '',
-        deleteBed: '',
-        roomCountStatusCode: 0,
-        noRoomsInFloorStatusCode: 0,
-        createPgStatusCode: 0,
-        createBedStatusCode: 0,
-        alreadyBedAvailable: 0,
-        statusCodeForDeleteRoom: 0,
-        statusCodeDeleteBed: 0,
-        AddEBstatusCode: 0,
-        ebError: '',
-        deletePgSuccessStatusCode: 0,
-        alreadyRoomHere: ' ',
-        deletePgError: '',
-        deleteBedError: '',
-        updateFloorSuccessStatusCode: 0,
-        alreadyfloorNameHere: '',
-        OccupiedCustomer: [],
-        OccupiedCustomerGetStatusCode: 0,
-        EB_customerTable: [],
-        statusCodeforEbCustomer: 0,
-        dleteHostelImagesStatusCode: 0,
-        statusCodeForEditElectricity: 0,
-        editElectricity: [],
-        statusCodeForDeleteElectricity: 0,
-        deleteElectricity: [],
-        ebEditError: '',
-        dashboardFilter: [],
-        statusCodeForDashboardFilter: 0,
-        dashboardFilterCashback: [],
-        statusCodeForDashboardFilterCashBack: 0,
-        dashboardFilterRevenu: [],
-        statusCodeForDashboardFilterRevenue: 0,
-        addHostelBasedReading: [],
-        statusCodeForAddHostelBased: 0,
-        editHostelBasedReading: [],
-        statusCodeForEditHostelBased: 0,
-        getHostelBasedRead: [],
-        getStatusCodeForHostelBased: 0,
-        deleteHostelBasedReading: [],
-        statusCodeForDeleteHostelBased: 0,
-        dateAlready: '',
-        editDateAlready: '',
-        isManageEnable: null,
-        announcementList: [],
-        statuscodeForAnnounceMentList: 0,
-        statuscodeForAddAnnouncement: 0,
-        addAnnounceMent: [],
-        TitleAlready: '',
-        statuscodeForDashboard: 0,
-        TittleUnique: '',
-        deleteAnnounmentSuccessStatus: 0,
-        getCommentsSuccessStatus: 0,
-        addCommentsSuccessStatus: 0,
-        CommentsList: [],
-        addSubCommentsSuccessStatus: 0,
-    })
-}
-)
+    )
+
+
+
+    it('it should check for CLEAR_DELETE_ELECTRICITY', () => {
+        const action = {
+            type: 'CLEAR_DELETE_ELECTRICITY',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+
+    it('it should check for DASHBOARD_FILTER_DETAILS', () => {
+        const action = {
+            type: 'DASHBOARD_FILTER_DETAILS',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 200,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+    it('it should check for CLEAR_DASHBOARD_FILTER_DETAILS', () => {
+        const action = {
+            type: 'CLEAR_DASHBOARD_FILTER_DETAILS',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+    it('it should check for DASHBOARD_FILTER_CASHBACK', () => {
+        const action = {
+            type: 'DASHBOARD_FILTER_CASHBACK',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 200,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+    it('it should check for CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK', () => {
+        const action = {
+            type: 'CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+    it('it should check for DASHBOARD_FILTER_REVENUE', () => {
+        const action = {
+            type: 'DASHBOARD_FILTER_REVENUE',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 200,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+    it('it should check for  CLEAR_DASHBOARD_FILTER_REVENUE', () => {
+        const action = {
+            type: 'CLEAR_DASHBOARD_FILTER_REVENUE',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+
+    it('it should check for  CLEAR_DASHBOARD', () => {
+        const action = {
+            type: 'CLEAR_DASHBOARD',
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+    it('it should check for  ADD_HOSTEL_BASED', () => {
+        const action = {
+            type: 'ADD_HOSTEL_BASED',
+            payload: {
+                statusCode: 200
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 200,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+    it('it should check for  CLEAR_ADD_HOSTEL_BASED', () => {
+        const action = {
+            type: 'CLEAR_ADD_HOSTEL_BASED',
+            payload: {
+                statusCode: 0
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+   
+
+    it('it should check for   EDIT_HOSTEL_BASED', () => {
+        const action = {
+            type: 'EDIT_HOSTEL_BASED',
+            payload: {
+                statusCode: 200
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 200,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+    it('it should check for   CLEAR_EDIT_HOSTEL_BASED', () => {
+        const action = {
+            type: 'CLEAR_EDIT_HOSTEL_BASED',
+            payload: {
+                statusCode: 0
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+
+    it('it should check for   DELETE_HOSTEL_BASED', () => {
+        const action = {
+            type: 'DELETE_HOSTEL_BASED',
+            payload: {
+                statusCode: 200
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 200,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+
+    it('it should check for   CLEAR_DELETE_HOSTEL_BASED', () => {
+        const action = {
+            type: 'CLEAR_DELETE_HOSTEL_BASED',
+            payload: {
+                statusCode: 0
+            }
+
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+        })
+    }
+    )
+
+
+   
+
+    it('It should check  EB_CUSTOMER_HOSTEL_EBLIST', () => {
+        const action = {
+            type: 'EB_CUSTOMER_HOSTEL_EBLIST',
+            payload: {
+                statusCode: 200,
+                data: [{ id: 1, name: "Test Hostel" }]
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            getHostelBasedRead: action.payload,
+            getStatusCodeForHostelBased: 200
+        });
+    });
+    
+
+
+    it('it should check CLEAR_EB_CUSTOMER_HOSTEL_EBLIST', () => {
+        const action = {
+            type: 'CLEAR_EB_CUSTOMER_HOSTEL_EBLIST',
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            getStatusCodeForHostelBased: 0
+        });
+    });
+    
+
+    it('It should check  EB_CUSTOMER_HOSTEL_EBLIST', () => {
+        const action = {
+            type: 'EB_CUSTOMER_HOSTEL_EBLIST',
+            payload: {
+                statusCode: 200,
+                data: [{ id: 1, name: "Test Hostel" }]
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            getHostelBasedRead: action.payload,
+            getStatusCodeForHostelBased: 200
+        });
+    });
+
+
+
+
+    it('it should check SAME_DATE_ALREADY', () => {
+        const action = {
+            type: 'SAME_DATE_ALREADY',
+            payload: {
+                response: 'date already exist'
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            dateAlready: 'date already exist'
+        });
+    });
+    
+
+    it('it should check CLEAR_SAME_DATE_ALREADY', () => {
+        const action = {
+            type: 'CLEAR_SAME_DATE_ALREADY',
+            payload: {
+                response: ''
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            dateAlready: ''
+        });
+    });
+    
+
+
+
+    it('it should check EDIT_SAME_DATE_ALREADY', () => {
+        const action = {
+            type: 'EDIT_SAME_DATE_ALREADY',
+            payload: {
+                response: 'date already exist'
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            editDateAlready: 'date already exist'
+        });
+    });
+    
+
+    it('it should check CLEAR_EDIT_SAME_DATE_ALREADY', () => {
+        const action = {
+            type: 'CLEAR_EDIT_SAME_DATE_ALREADY',
+            payload: {
+                response: ''
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            editDateAlready: ''
+        });
+    });
+    
+
+
+    it('it should check ANNOUNCEMENT_LIST', () => {
+        const action = {
+            type: 'ANNOUNCEMENT_LIST',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            announcementList : [],
+            statuscodeForAnnounceMentList: 200
+
+        });
+    });
+
+
+
+    it('it should check CLEAR_ANNOUNCEMENT_LIST', () => {
+        const action = {
+            type: 'CLEAR_ANNOUNCEMENT_LIST',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            announcementList : [],
+            statuscodeForAnnounceMentList: 0
+
+        });
+    });
+
+
+
+// ///////////////////////////////
+
+
+    it('it should check for ADD_ANNOUNCEMENT', () => {
+        const action = {
+            type: 'ADD_ANNOUNCEMENT',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            addAnnounceMent: [],
+            statuscodeForAddAnnouncement: 200
+        });
+    });
+    
+    it('should handle CLEAR_ADD_ANNOUNCEMENT', () => {
+        const action = {
+            type: 'CLEAR_ADD_ANNOUNCEMENT',
+            payload: {
+                response: [],
+                statusCode: 0
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            statuscodeForAddAnnouncement: 0
+        });
+    });
+    
+
+    it('it should check for  SAME_TITLE', () => {
+        const action = {
+            type: 'SAME_TITLE',
+            payload: {
+                response: 'title already exist'
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            TitleAlready: 'title already exist'
+        });
+    });
+    
+
+    it('it should check CLEAR_SAME_TITLE', () => {
+        const action = {
+            type: 'CLEAR_SAME_TITLE',
+            payload: {
+                response: ''
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            TitleAlready: ''
+        });
+    });
+    
+
+    it('it should handle TITTLE_UNIQUE', () => {
+        const action = {
+            type: 'TITTLE_UNIQUE',
+            payload: {
+                response: 'Title is unique'
+            }
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            TittleUnique: 'Title is unique'
+        });
+    });
+    
+
+
+
+    it('should handle CLEAR_TITTLE_UNIQUE', () => {
+        const action = {
+            type: 'CLEAR_TITTLE_UNIQUE'
+        };
+    
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            TittleUnique: ''
+        });
+    });
+    
+
+
+
+
+
+
+
+
+
 
 
 

@@ -105,9 +105,9 @@ function Dashboard(props) {
   }, [selectRevenu, hostel_id]);
   useEffect(() => {
     const cashBackDataRevenu =
-      state.PgList?.dashboardFilterRevenu?.response?.cash_back_data;
+      state.PgList?.dashboardFilterRevenu?.cash_back_data;
     setData(cashBackDataRevenu);
-  }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
+  }, [state.PgList?.dashboardFilterRevenu?.cash_back_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilterRevenue === 200) {
@@ -212,16 +212,16 @@ function Dashboard(props) {
   });
 
   useEffect(() => {
-    setTotalAmount(state.PgList?.dashboardFilter?.response?.total_amount);
-  }, [state.PgList?.dashboardFilter?.response?.total_amount]);
+    setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
+  }, [state.PgList?.dashboardFilter?.total_amount]);
 
   const handlecompliance = (compliance) => {
     props.displayCompliance(compliance);
   };
 
   useEffect(() => {
-    setLables(state.PgList?.dashboardFilter?.response?.exp_data || []);
-  }, [state.PgList?.dashboardFilter?.response?.exp_data]);
+    setLables(state.PgList?.dashboardFilter?.exp_data || []);
+  }, [state.PgList?.dashboardFilter?.exp_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilter === 200) {
@@ -264,9 +264,9 @@ function Dashboard(props) {
 
   useEffect(() => {
     setCashBackData(
-      state.PgList?.dashboardFilterCashback?.response?.cash_back_data
+      state.PgList?.dashboardFilterCashback?.cash_back_data
     );
-  }, [state.PgList?.dashboardFilterCashback?.response?.cash_back_data]);
+  }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
 
   const currentvalue =
     (Number(cashBackData?.[0]?.Revenue) || 0) + (Number(cashBackData?.[0]?.overdue) || 0);

@@ -307,11 +307,10 @@ const PgListReducer = (state = initialState, action) => {
         case "CLEAR_DELETE_ELECTRICITY":
             return { ...state, statusCodeForDeleteElectricity: 0 };
 
-
         case "DASHBOARD_FILTER_DETAILS":
             return {
                 ...state,
-                dashboardFilter: action.payload,
+                dashboardFilter: action.payload.response,
                 statusCodeForDashboardFilter: action.payload.statusCode,
             };
         case "CLEAR_DASHBOARD_FILTER_DETAILS":
@@ -321,7 +320,7 @@ const PgListReducer = (state = initialState, action) => {
         case "DASHBOARD_FILTER_CASHBACK":
             return {
                 ...state,
-                dashboardFilterCashback: action.payload,
+                dashboardFilterCashback: action.payload.response,
                 statusCodeForDashboardFilterCashBack: action.payload.statusCode,
             };
         case "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK":
@@ -330,7 +329,7 @@ const PgListReducer = (state = initialState, action) => {
         case "DASHBOARD_FILTER_REVENUE":
             return {
                 ...state,
-                dashboardFilterRevenu: action.payload,
+                dashboardFilterRevenu: action.payload.response,
                 statusCodeForDashboardFilterRevenue: action.payload.statusCode,
             };
         case "CLEAR_DASHBOARD_FILTER_REVENUE":
@@ -343,7 +342,7 @@ const PgListReducer = (state = initialState, action) => {
         case "ADD_HOSTEL_BASED":
             return {
                 ...state,
-                addHostelBasedReading: action.payload,
+                // addHostelBasedReading: action.payload,
                 statusCodeForAddHostelBased: action.payload.statusCode,
             };
         case "CLEAR_ADD_HOSTEL_BASED":
@@ -354,7 +353,7 @@ const PgListReducer = (state = initialState, action) => {
         case "EDIT_HOSTEL_BASED":
             return {
                 ...state,
-                editHostelBasedReading: action.payload,
+                // editHostelBasedReading: action.payload,
                 statusCodeForEditHostelBased: action.payload.statusCode,
             };
         case "CLEAR_EDIT_HOSTEL_BASED":
@@ -365,7 +364,7 @@ const PgListReducer = (state = initialState, action) => {
         case "DELETE_HOSTEL_BASED":
             return {
                 ...state,
-                deleteHostelBasedReading: action.payload,
+                // deleteHostelBasedReading: action.payload,
                 statusCodeForDeleteHostelBased: action.payload.statusCode,
             };
         case "CLEAR_DELETE_HOSTEL_BASED":
@@ -426,7 +425,6 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'SAME_TITLE':
-
             return { ...state, TitleAlready: action.payload.response }
 
         case 'CLEAR_SAME_TITLE':
@@ -439,35 +437,7 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_TITTLE_UNIQUE':
             return { ...state, TittleUnique: '' }
 
-        //         case 'ROOM_COUNT':
-        //             if (state.roomCount.length > 0) {
-        //                 if (action.payload.response.length > 0) {
-        //                     let floor = action.payload.response[0].Floor_Id
-        //                     let index = state.roomCount.findIndex((item) => {
-        //                         return item[0]?.Floor_Id === floor
-        //                     })
-        //                     if (index < 0) {
-        //                         const temp = state.roomCount
-        //                         temp.push(action.payload.response)
-        //                         return { ...state, roomCount: temp,  roomCountStatusCode:action.payload.statusCode }
-        //                     }
-        //                     else {
-        //                         state.roomCount[index] = action.payload.response
-        //                         return { ...state , roomCountStatusCode:action.payload.statusCode}
-        //                     }
-
-
-        //                 }
-        //                 else {
-        //                     return state
-        //                 }
-        //             }
-        //             else {
-        //                 const temp = state.roomCount
-        //                 temp.push(action.payload.response)
-        //                 return { ...state, roomCount: temp, errMessage: '' , roomCountStatusCode:action.payload.statusCode}
-        //             }
-
+        
     }
     return state;
 }
