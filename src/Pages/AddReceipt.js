@@ -308,8 +308,9 @@ const AddReceiptForm = (props) => {
             setReceivedAmountErrmsg("Please Enter Amount")
           }
 
-          if(!modeOfPayment){
+          if(!modeOfPayment || modeOfPayment === "select"){
             setPaymentError("Please Select payment method")
+            return;
           }
 
           
