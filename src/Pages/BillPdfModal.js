@@ -121,16 +121,16 @@ console.log("Bill Row Data:",rowData);
             </div>
             <hr />
 
-            <div style={{ maxHeight: 500, overflowY: "auto" }} className="show-scroll">
+            <div style={{ maxHeight: 400, overflowY: "auto" }} className="show-scroll">
 
                 {isVisible &&
-                    <Card ref={cardRef} className="m-2 " style={{ maxWidth: "100%", backgroundColor: "", borderRadius: 24, border: "1px solid rgba(225, 225, 225, 1)" }}>
+                    <Card ref={cardRef} className="m-2 " style={{  backgroundColor: "", borderRadius: 24, border: "1px solid rgba(225, 225, 225, 1)" }}>
                         <Card.Body className="my-4 p-3"
-                            style={{
-                                // maxHeight: 500, overflowY: "auto",
-                                padding: "20px"
+                            // style={{
+                            //     maxHeight: 500, overflowY: "auto",
+                            //     padding: "20px"
 
-                            }}
+                            // }}
                         >
                             <div className="d-flex justify-content-between ps-4 pe-4 " >
                                 <div className="d-flex gap-2">
@@ -348,9 +348,10 @@ console.log("Bill Row Data:",rowData);
 
                             <Table className="mt-5 mb-1 ps-3 pe-3">
   <thead 
-  style={{ position:"sticky",
-                top:0,
-                zIndex:1,}}>
+  // style={{ position:"sticky",
+  //               top:0,
+  //               zIndex:1,}}
+                >
     <tr>
     <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>S.No</th>
       <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Description</th>

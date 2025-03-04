@@ -2957,7 +2957,15 @@ const InvoicePage = () => {
 
           <TabContext value={value} className="container ">
             <div
-            
+            style={{
+              position: "sticky",
+              top: 69,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: 60,
+            }}
             >
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
@@ -5106,7 +5114,7 @@ const InvoicePage = () => {
                         {DownloadReceipt ? (
                           <div
                             className="show-scroll p-2"
-                            style={{ maxHeight: 700, overflowY: "auto" }}
+                            style={{ maxHeight: "500px", overflowY: "auto" }}
                           >
                             {receiptdata &&
                               receiptdata.map((item) => (

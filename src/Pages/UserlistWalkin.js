@@ -466,7 +466,7 @@ function UserlistWalkin(props) {
                               verticalAlign: "middle"
                             }}
                           >
-                            {customer.email_Id || "-"}
+                            {customer.email_Id || "N/A"}
                           </td>
                           <td
                             style={{
@@ -555,7 +555,7 @@ function UserlistWalkin(props) {
                                     cursor: "pointer",
                                     backgroundColor: "#F9F9F9",
                                     position: "fixed",
-                                    top: popupPosition.top,
+                                    top: popupPosition.top -15,
                                     left: popupPosition.left,
                                     overflow: "visible ! important",
                                     marginButtom: "30px",

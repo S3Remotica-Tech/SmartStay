@@ -400,7 +400,7 @@ function SettingCompliance({ hostelid }) {
                                                         display: "flex",
                                                         justifyContent: "center",
                                                         alignItems: "center",
-                                                        zIndex: showDots ? 1000 : "auto",
+                                                        // zIndex: showDots ? 1000 : "auto",
                                                         position: "relative",
                                                         cursor: "pointer",
                                                         backgroundColor: showDots === i ?"#E7F1FF" : "white",

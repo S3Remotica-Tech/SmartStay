@@ -2848,7 +2848,7 @@ const handleBack = () => {
                                               ref={popupRef}
                                               style={{
                                                 position: "fixed",
-                                                top: popupPosition.top,
+                                                top: popupPosition.top -25,
                                                 left: popupPosition.left,
                                                 // right: 70,
 
