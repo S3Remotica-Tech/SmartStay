@@ -103,7 +103,7 @@ const AddReceiptForm = (props) => {
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
-                (u) => u.hos_user_id === e.target.value && u.BalanceDue > 0
+              (u) => String(u.hos_user_id) === String(e.target.value) && u.BalanceDue > 0
               )
             : [];
       
