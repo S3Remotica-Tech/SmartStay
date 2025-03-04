@@ -528,6 +528,7 @@ function SettingExpenses({ hostelid }) {
         value: view.category_Id
       }
       optionArray.push(optionObj)
+      return view
     })
     setOptions(optionArray)
 
