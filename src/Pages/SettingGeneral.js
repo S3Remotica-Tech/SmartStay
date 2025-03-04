@@ -1200,7 +1200,7 @@ function SettingGeneral() {
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1312,7 +1312,7 @@ function SettingGeneral() {
         </div>
         <Modal.Body>
           <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group>
                 <Form.Label
                   style={{
@@ -1351,8 +1351,8 @@ function SettingGeneral() {
               )}
              </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1390,7 +1390,7 @@ function SettingGeneral() {
                 )} */}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -1455,8 +1455,8 @@ function SettingGeneral() {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1511,7 +1511,7 @@ function SettingGeneral() {
 
 
             {!edit && (
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1 mt-0">
                 <Form.Group className="">
                   <Form.Label
                     style={{
@@ -1586,8 +1586,8 @@ function SettingGeneral() {
               </div>
             )}
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1643,7 +1643,7 @@ function SettingGeneral() {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginTop: 5,
             }}
             onClick={handleSave}
           >
