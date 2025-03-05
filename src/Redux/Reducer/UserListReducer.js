@@ -1,6 +1,6 @@
 // import { generateAdvance } from "../Action/UserListAction";
 
-const initialState = {
+export const initialState = {
     Users: [],
     addUser: [],
     errorMessage: {},
@@ -95,19 +95,19 @@ const initialState = {
     adharuploadfileError: '',
     statuscodeForAdharFileError: 0,
     NoUserListStatusCode: 0,
-   userRoomfor :null,
-   userProfilebill:null,
-   deleteCustomerSuccessStatusCode:0,
-   userReading: null,
-   userHostelRead: null,
-   userReadingdelete:null,
-   userHosteldelete:null,
-   isUsersListTrue: 1,
-   hostelListNewDetails:[],
-   statusCodeForhostelListNewDetails:0,
-   generateError:'',
-   contactError:'',
-   checkoutcustomeEmpty:0
+    userRoomfor: null,
+    userProfilebill: null,
+    deleteCustomerSuccessStatusCode: 0,
+    userReading: null,
+    userHostelRead: null,
+    userReadingdelete: null,
+    userHosteldelete: null,
+    isUsersListTrue: 1,
+    hostelListNewDetails: [],
+    statusCodeForhostelListNewDetails: 0,
+    generateError: '',
+    contactError: '',
+    checkoutcustomeEmpty: 0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -115,11 +115,11 @@ const UserListReducer = (state = initialState, action) => {
     switch (action.type) {
 
 
-        case 'DELETE_CUSTOMER' : 
-        return {...state, deleteCustomerSuccessStatusCode:action.payload.statusCode}
+        case 'DELETE_CUSTOMER':
+            return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }
 
-        case 'REMOVE_DELETE_CUSTOMER' : 
-        return {...state, deleteCustomerSuccessStatusCode:0}
+        case 'REMOVE_DELETE_CUSTOMER':
+            return { ...state, deleteCustomerSuccessStatusCode: 0 }
 
 
 
@@ -189,7 +189,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'NO_USER_LIST':
             return { ...state, NoUserListStatusCode: action.payload.statusCode }
         case 'CLEAR_NO_USER_LIST':
-            return { ...state, NoUserListStatusCode:0 }
+            return { ...state, NoUserListStatusCode: 0 }
         case 'ADD_USER':
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
@@ -200,7 +200,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
-        
+
         case 'NO_HOSTEL':
             return { ...state, noHosteListStatusCode: action.payload.statusCode }
 
@@ -228,10 +228,10 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_CODE_CHECK_OUT':
             return { ...state, checkOutStatusCode: 0 }
 
-            case 'CHECKOUT_CUSTOMER_LIST_ERROR':
-                return { ...state,checkoutcustomeEmpty: action.payload.statusCode }
-            case 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR':
-                return { ...state, checkoutcustomeEmpty: 0 }
+        case 'CHECKOUT_CUSTOMER_LIST_ERROR':
+            return { ...state, checkoutcustomeEmpty: action.payload.statusCode }
+        case 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR':
+            return { ...state, checkoutcustomeEmpty: 0 }
 
 
 
@@ -457,22 +457,22 @@ const UserListReducer = (state = initialState, action) => {
         case "CLEAR_DELETE_CONTACT":
             return { ...state, statusCodeDeleteContact: 0 };
 
-            case 'CONTACT_ERROR':
-                return { ...state, contactError: action.payload.response }
-    
-            case 'CLEAR_CONTACT_ERROR':
-                return { ...state, contactError: ''}
+        case 'CONTACT_ERROR':
+            return { ...state, contactError: action.payload.response }
+
+        case 'CLEAR_CONTACT_ERROR':
+            return { ...state, contactError: '' }
 
         case 'GENERATE_ADVANCE':
             return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
         case 'REMOVE_GENERATE_ADVANCE':
             return { ...state, statusCodeForGenerateAdvance: 0 }
 
-            case 'GENERATE_ERROR':
-                return { ...state, generateError: action.payload }
-    
-            case 'CLEAR_GENERATE_ERROR':
-                return { ...state, generateError: '' }
+        case 'GENERATE_ERROR':
+            return { ...state, generateError: action.payload }
+
+        case 'CLEAR_GENERATE_ERROR':
+            return { ...state, generateError: '' }
 
         case 'UPLOAD_DOCUMENT':
             return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
@@ -483,15 +483,15 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
             return { ...state, statusCodeForOtherDocu: 0 }
 
-                        case 'USERROOMAVAILABLETRUE':
-                            return {...state,userRoomfor:true}
-                        case 'USERROOMAVAILABLEFALSE':
-                            return {...state,userRoomfor:false}
+        case 'USERROOMAVAILABLETRUE':
+            return { ...state, userRoomfor: true }
+        case 'USERROOMAVAILABLEFALSE':
+            return { ...state, userRoomfor: false }
 
-                            case 'USERPROFILEBILLTRUE':
-                                return {...state,userProfilebill:true}
-                            case 'USERPROFILEBILLFALSE':
-                                return {...state,userProfilebill:false}
+        case 'USERPROFILEBILLTRUE':
+            return { ...state, userProfilebill: true }
+        case 'USERPROFILEBILLFALSE':
+            return { ...state, userProfilebill: false }
 
         case 'ADHAR_UPLOAD_ERROR':
             return { ...state, adharuploadfileError: action.payload.response, statuscodeForAdharFileError: action.payload.statusCode }
@@ -500,43 +500,40 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE':
             return { ...state, statuscodeForAdharFileError: 0 }
 
-            case 'USERREADINGTRUE':
-                return {...state,userReading:true}
-                case 'USERREADINGFALSE':
-                return {...state,userReading:false}
+        case 'USERREADINGTRUE':
+            return { ...state, userReading: true }
+        case 'USERREADINGFALSE':
+            return { ...state, userReading: false }
 
-                case 'USERHOSTELREADINGTRUE':
-                    return {...state,userHostelRead:true}
-                    case 'USERHOSTELREADINGFALSE':
-                    return {...state,userHostelRead:false}
+        case 'USERHOSTELREADINGTRUE':
+            return { ...state, userHostelRead: true }
+        case 'USERHOSTELREADINGFALSE':
+            return { ...state, userHostelRead: false }
 
-                    case 'USERREADING_DELETETRUE':
-                        return {...state,userReadingdelete:true}
-                        case 'USERREADING_DELETEFALSE':
-                        return {...state,userReadingdelete:false}  
-                    
-                        case 'USERHOSTEL_READING_DELETETRUE':
-                            return {...state,userHosteldelete:true}
-                            case 'USERHOSTEL_READING_DELETEFALSE':
-                            return {...state,userHosteldelete:false}  
-                            
-                           
-           case 'UPDATE_USERSLIST_TRUE':
-            return {...state,isUsersListTrue:3}  
-            case 'UPDATE_USERSLIST_FALSE':
-            return {...state,isUsersListTrue:1}    
-            
-            
-            case 'HOSTEL_ID_LIST':
-                return { ...state,hostelListNewDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
-            case 'CLEAR_HOSTEL_ID_LIST':
-                return { ...state, statusCodeForhostelListNewDetails: 0 }
-                case 'CLEAR_HOSTEL_LIST':
-                    return { ...state, hostelList: [],hostelListNewDetails:[] }
+        case 'USERREADING_DELETETRUE':
+            return { ...state, userReadingdelete: true }
+        case 'USERREADING_DELETEFALSE':
+            return { ...state, userReadingdelete: false }
 
-                    default:
-        return state;
-                        
+        case 'USERHOSTEL_READING_DELETETRUE':
+            return { ...state, userHosteldelete: true }
+        case 'USERHOSTEL_READING_DELETEFALSE':
+            return { ...state, userHosteldelete: false }
+
+
+        case 'UPDATE_USERSLIST_TRUE':
+            return { ...state, isUsersListTrue: 3 }
+        case 'UPDATE_USERSLIST_FALSE':
+            return { ...state, isUsersListTrue: 1 }
+
+
+        case 'HOSTEL_ID_LIST':
+            return { ...state, hostelListNewDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
+        case 'CLEAR_HOSTEL_ID_LIST':
+            return { ...state, statusCodeForhostelListNewDetails: 0 }
+        case 'CLEAR_HOSTEL_LIST':
+            return { ...state, hostelList: [], hostelListNewDetails: [] }
+
     }
     
 }
