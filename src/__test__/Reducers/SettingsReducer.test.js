@@ -467,13 +467,13 @@ describe('it should check settings reducers', () => {
         const action = {
             type: 'ERROR_EB_BILLING_UNIT_LIST',
             payload: {
-                statusCode: 400,
+                statusCode: 200,
             },
         };
 
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
-            errorEbUnitStatusCode: 400,
+            errorEbUnitStatusCode: 200,
         });
     });
 
