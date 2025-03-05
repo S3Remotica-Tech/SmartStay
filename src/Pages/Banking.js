@@ -126,6 +126,16 @@ function Banking() {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
+
+   useEffect(() => {
+      if (state.bankingDetails.statusCodeForBankingNoData === 201) {
+        setLoader(false)
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_NO_BANKING" });
+        }, 200);
+      }
+    }, [state.bankingDetails.statusCodeForBankingNoData]);
+
   const handleShowDots = (id) => {
     if (openMenuId === id) {
       setOpenMenuId(null);

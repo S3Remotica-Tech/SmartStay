@@ -40,7 +40,6 @@ function UserlistForm(props) {
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  const [Bednum, setBednum] = useState(null);
   // const [romnum, setRoomnum] = useState("");
   const [payableamount, setPayableamount] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -487,7 +486,7 @@ console.log("roomrent",RoomRent)
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit("Edit");
-      setBednum(props.EditObj);
+      // setBednum(props.EditObj);
       setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {

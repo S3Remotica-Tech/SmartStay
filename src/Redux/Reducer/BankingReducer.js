@@ -2,6 +2,7 @@ export const initialState = {
   // addBanking: [],
   statusCodeForAddBanking: 0,
   bankingList: [],
+  statusCodeForBankingNoData:0,
   statusCodeForGetBanking: 0,
   // defaultAccount: [],
   statusCodeForDefaultAccount: 0,
@@ -59,6 +60,18 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_BANKING_LIST":
       return { ...state, statusCodeForGetBanking: 0 };
+
+      case "NO_BANKING":
+        return {
+          ...state,
+          // defaultAccount: action.payload,
+          statusCodeForBankingNoData: action.payload.statusCode,
+        };
+      case "CLEAR_NO_BANKING":
+        return { ...state, statusCodeForBankingNoData: 0 };
+
+
+
 
     case "DEFAULT_ACCOUNT":
       return {

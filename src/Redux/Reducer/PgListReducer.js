@@ -48,6 +48,7 @@ export const initialState = {
     OccupiedCustomer: [],
     OccupiedCustomerGetStatusCode: 0,
     EB_customerTable: [],
+    nostatusCodeforEbCustomer:0,
     statusCodeforEbCustomer: 0,
     dleteHostelImagesStatusCode: 0,
     statusCodeForEditElectricity: 0,
@@ -194,10 +195,10 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_EB_CUSTOMER_EBLIST':
             return { ...state, statusCodeforEbCustomer: 0 }
 
-        // case 'NO_HOSTEL':
-        //     return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
-        // case 'CLEAR_NOHOSTEL':
-        //     return { ...state, nostatusCodeforEbCustomer: 0 }
+        case 'NO_HOSTEL':
+            return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
+        case 'CLEAR_NOHOSTEL':
+            return { ...state, nostatusCodeforEbCustomer: 0 }
 
 
             case 'NO_EB_HOSTEL_BASED':
