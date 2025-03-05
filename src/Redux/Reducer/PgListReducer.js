@@ -437,7 +437,8 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_TITTLE_UNIQUE':
             return { ...state, TittleUnique: '' }
 
-        
+            default:
+                return state;
     }
     
 }

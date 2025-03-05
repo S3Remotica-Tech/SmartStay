@@ -63,7 +63,8 @@ const ForgetReducer = (state = initialState, action) => {
         case 'CLEAR_OTP_INVALID_ERROR':
             return { ...state, otpInvalidError: '' }
 
-
+            default:
+                return state;
     }
 
     
