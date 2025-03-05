@@ -96,7 +96,7 @@ function App() {
   }
 
 
-console.log("app",state)
+
 
 
   return (
