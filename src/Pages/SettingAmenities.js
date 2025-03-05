@@ -426,7 +426,7 @@ function SettingAmenities({ hostelid }) {
 
                                                     {showDots === index && <>
 
-                                                        <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width: 170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                                        <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 40, top:0, width: 170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                                             <div >
                                                                 <div
                                                                     // onClick={()=>handleDisplayAssignAmenities(amenity)}

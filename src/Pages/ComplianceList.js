@@ -606,8 +606,8 @@ const ComplianceList = (props) => {
                           style={{
                             backgroundColor: "#F9F9F9",
                             position: "absolute",
-                            right: 0,
-                            top: 50,
+                            right: 40,
+                            top: '2px',
                             width: 175,
                             height: 159,
                             border: "1px solid #F9F9F9",
