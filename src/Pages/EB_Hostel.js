@@ -350,7 +350,6 @@ function EB_Hostel() {
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
-console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
   useEffect(() => {
     if (state.PgList.nostatusCodeforEbCustomer === 201) {

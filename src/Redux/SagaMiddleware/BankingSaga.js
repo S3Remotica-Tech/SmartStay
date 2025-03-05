@@ -48,7 +48,6 @@ function* handleAddBanking(action) {
 
 function* handleGetBanking(action) {
    const response = yield call(GetAddBanking,action.payload)
-   console.log("handleGetBanking",response)
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'BANKING_LIST', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
    }

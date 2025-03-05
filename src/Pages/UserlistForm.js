@@ -409,7 +409,6 @@ if (Roomamountfilter.length > 0) {
     setBedError("");
     setRoomRentError("");
   };
-console.log("roomrent",RoomRent)
 
   //  useEffect (()=>{
 

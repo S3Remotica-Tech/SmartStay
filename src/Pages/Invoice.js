@@ -157,8 +157,6 @@ const InvoicePage = () => {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
-  console.log("loaderhostelid", loading);
-
   useEffect(() => {
     // setLoading(true);
     if (hostelId) {
@@ -169,7 +167,6 @@ const InvoicePage = () => {
       });
     }
   }, [hostelId]);
-  console.log("loaderbills", loading);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
@@ -1629,7 +1626,7 @@ const InvoicePage = () => {
 
   const handleChanges = (event, newValue) => {
 
-    console.log("newValue", newValue);
+  
 
     if (newValue === "1"){
       setLoading(true);
@@ -2446,8 +2443,6 @@ const InvoicePage = () => {
   ]);
 
 
-   console.log("loading",loading);
-   
 
   return (
     <div>

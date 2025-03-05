@@ -260,9 +260,7 @@ function* handleInvoiceList(action) {
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
 
-       console.log("responseinvoiceupdate", response);
-       
-   
+ 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'UPDATEINVOICE_DETAILS', payload: {response:response.data ,statusCode:response.status || response.statusCode}  })
    
@@ -353,7 +351,6 @@ function* handleInvoiceSettings(param){
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
-   console.log("responses",response);
    
      if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'INVOICE_PDF', payload: {response:response.data.pdf_url,statusCode:response.status || response.statusCode
@@ -643,13 +640,8 @@ function* handleManualInvoiceAdd (params) {
 
 
 function* handleManualInvoiceEdit (params) {
-   console.log("paramss",params);
    
    const response = yield call (EditManualInvoiceBill,params.payload);
- 
-console.log("API response",response);
-
-
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_EDIT' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
@@ -760,9 +752,6 @@ function* handleManualInvoiceDelete (params) {
 
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
- console.log("handleRecurrBillsAdd",response)
-
-
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'RECURRING_BILLS_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
@@ -924,8 +913,6 @@ function* handleAddInvoiceRecurringSettings (param){
 
 function* handleGetReceipts(action) {
    const response = yield call(GetReceiptData, action.payload)
-   
-    console.log("responseforreceipt", response);
     
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'RECEIPTS_LIST', payload:{response: response.data.all_receipts, statusCode:response.status || response.statusCode}})
@@ -980,10 +967,6 @@ function* handleAddReceipt (action) {
 
 function* handleEditReceipt (action) {
    const response = yield call (EditReceipt,action.payload);
- 
-   console.log("responsereceiptedit",response);
-   
-
    if (response.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'RECEIPTS_EDIT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode }})
       // Define the style
@@ -1066,9 +1049,6 @@ function* handleDeleteReceipt(action) {
 function* handleReference_Id() {
    const response = yield call(ReferenceIdGet )
 
-   console.log("response", response);
-   
-   
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'REFERENCEID_GET' , payload:{response:response.data.reference_id, statusCode:response.status || response.statusCode }})      
       // Define the style
@@ -1111,7 +1091,6 @@ function* handleReference_Id() {
 
 function* handleReceiptPdf(action) {
    const response = yield call(ReceiptPDf, action.payload)
-   console.log("response",response);
    
      if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'RECEIPT_PDF', payload: {response:response.data.pdf_url , statusCode:response.status || response.statusCode
@@ -1127,10 +1106,7 @@ function* handleReceiptPdf(action) {
 
 function* handleFilterRecurrCustomer(action) {
    const response = yield call(AddRecurrBillsUsers, action.payload)
-  
-   console.log("response", response);
-   
-  
+
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: {response:response.data.user_data, statusCode:response.status || response.statusCode} }) 
    
