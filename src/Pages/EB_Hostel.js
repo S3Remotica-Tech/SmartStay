@@ -29,7 +29,6 @@ import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
-import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
 function EB_Hostel() {
   const dispatch = useDispatch();
