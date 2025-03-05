@@ -15,6 +15,7 @@ export const initialState = {
     EB_Customerlist: [],
     EB_startmeterlist: [],
     statusCodeForEbRoomList: 0,
+    statusCodeForEBRoombasednodata:0,
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -83,10 +84,16 @@ export const initialState = {
     addCommentsSuccessStatus: 0,
     CommentsList: [],
     addSubCommentsSuccessStatus: 0,
+    NoDashboardStatusCode:0,
+    nostatusCodeforEbHostelBased:0,
+   
 
 }
 
 const PgListReducer = (state = initialState, action) => {
+
+    console.log("action", action);
+    
 
     switch (action.type) {
         case 'MANAGE_PG':
@@ -175,6 +182,13 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, statusCodeForEbRoomList: 0 }
 
 
+
+            case 'NO_ROOM_BASED':
+                return { ...state, statusCodeForEBRoombasednodata: action.payload.statusCode}
+            case 'CLEAR_NO_ROOM_BASED':
+                return { ...state, statusCodeForEBRoombasednodata: 0 }
+
+
         case 'EB_CUSTOMER_EBLIST':
             return { ...state, EB_customerTable: action.payload.response, statusCodeforEbCustomer: action.payload.statusCode }
         case 'CLEAR_EB_CUSTOMER_EBLIST':
@@ -184,6 +198,12 @@ const PgListReducer = (state = initialState, action) => {
         //     return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
         // case 'CLEAR_NOHOSTEL':
         //     return { ...state, nostatusCodeforEbCustomer: 0 }
+
+
+            case 'NO_EB_HOSTEL_BASED':
+                return { ...state, nostatusCodeforEbHostelBased: action.payload.statusCode }
+            case 'CLEAR_NO_EB_HOSTEL_BASED':
+                return { ...state, nostatusCodeforEbHostelBased: 0 }
 
 
         case 'EB_ERROR':
@@ -339,6 +359,12 @@ const PgListReducer = (state = initialState, action) => {
 
 
         // HostelBased
+
+        case 'NO_DASHBOARD_LIST':
+            return { ...state, NoDashboardStatusCode: action.payload.statusCode}
+        case 'CLEAR_NO_DASHBOARD_LIST':
+            return { ...state, NoDashboardStatusCode:0 }
+
         case "ADD_HOSTEL_BASED":
             return {
                 ...state,

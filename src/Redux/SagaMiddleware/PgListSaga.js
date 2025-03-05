@@ -149,11 +149,15 @@ function* handleCheckEblist() {
 
 function* handleCheckEbStartmeterlist(action) {
   const response = yield call(EB_startmeterlist,action.payload);
-console.log("response",response);
+console.log("handleCheckEbStartmeterlist",response);
 
   if (response.status === 200 || response.data.statusCode === 200) {
     yield put({ type: "EB_STARTMETER_LIST", payload:{response :response.data.data , statusCode:response.status || response.data.statusCode }  });
   }
+  else if (response.status === 201 || response.data.statusCode === 201){
+    yield put ({type:'NO_ROOM_BASED', payload: {statusCode:response.data.statusCode || response.status}})
+ }
+
    else {
     yield put({ type: "ERROR", payload: response.data.message});
   }
@@ -163,7 +167,7 @@ console.log("response",response);
 }
 function* handleCustomerEblist(action) {
   const response = yield call(EB_CustomerListTable,action.payload);
-  console.log("....responsecus", response);
+  console.log("responsecus", response);
   if (response.status === 200 || response.data.statusCode === 200) {
     
     yield put({ type: "EB_CUSTOMER_EBLIST", payload: {response :response.data.eb_details,statusCode:response.status || response.data.statusCode } });
@@ -324,7 +328,10 @@ function* handleCreatePGDashboard(action) {
         statusCode: response.status || response.statusCode,
       },
     });
-  } else {
+  }
+  
+ 
+  else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
   if (response) {
@@ -727,11 +734,16 @@ function* handleDropFilter(action) {
 }
 function* handleDropFilterCashBack(action) {
   const response = yield call (dashboardFilter, action.payload);
-
+console.log("handleDropFilterCashBack",response)
   if (response.data.status === 200 || response.data.statusCode === 200){
      yield put ({type : 'DASHBOARD_FILTER_CASHBACK' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
  
   }
+
+  else if(response.status === 201 || response.data.statusCode === 201){
+    yield put({ type: 'NO_DASHBOARD_LIST', payload: {statusCode: response.status || response.data.statusCode} })
+
+ }
 
   else {
      yield put ({type:'ERROR', payload:response.data.message})
@@ -889,9 +901,16 @@ function* handleHostelDeleteElectricity(action) {
 
 function* handleHostelBasedEblist(action) {
   const response = yield call(ebHostelBasedRead,action.payload);
+  console.log("handleHostelBasedEblist",response)
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
-  } else {
+  }
+  else if(response.status === 201 || response.data.statusCode === 201){
+    yield put({ type: 'NO_EB_HOSTEL_BASED', payload: {statusCode: response.status || response.data.statusCode} })
+
+ }
+  
+  else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
   if (response) {
