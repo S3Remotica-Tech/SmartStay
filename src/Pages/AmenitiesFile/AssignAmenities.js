@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -76,7 +77,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 
   useEffect(() => {
 
-    if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200) {
+    if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
           hostel_id: state.login.selectedHostel_Id,

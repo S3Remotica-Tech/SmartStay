@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,16 +83,16 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setGuardianError("gurardian is required");
+          setGuardianError("Gurardian is required");
           break;
         case "userName":
-          setUserNameError("userName is required");
+          setUserNameError("Username is required");
           break;
         case "Phone":
-          setPhoneError("phone number is required");
+          setPhoneError("Phone number is required");
           break;
         case "address":
-          setAddressError("address is required");
+          setAddressError("Address is required");
           break;
 
         default:
@@ -235,7 +236,7 @@ function UserAdditionalContact(props) {
           <Modal.Body>
             <div className="d-flex align-items-center">
               <div className="container">
-                <div className="row mb-3"></div>
+                {/* <div className="row mb-3"></div> */}
 
                 <Modal.Header
                   style={{ marginBottom: "30px", position: "relative" }}
@@ -265,8 +266,8 @@ function UserAdditionalContact(props) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "32px",
-                      height: "32px",
+                      width: "26px",
+                      height: "26px",
                       borderRadius: "50%",
                     }}
                   >
@@ -563,7 +564,7 @@ function UserAdditionalContact(props) {
                   </div>
                 </div>
                   {formError && (
-                          <div className="d-flex justify-content-center align-items-center" style={{ color: "red",marginTop:"-10px" }}>
+                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-25px"}}>
                             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
@@ -577,6 +578,7 @@ function UserAdditionalContact(props) {
                     borderRadius: 12,
                     fontSize: 16,
                     fontFamily: "Montserrat",
+                    marginTop:"8px"
                   }}
                   onClick={handleSubmitContact}
                 >

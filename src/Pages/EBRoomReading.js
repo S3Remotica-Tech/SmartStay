@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
@@ -39,6 +40,33 @@ function EBRoomReading(props) {
   const [unitAmount, setUnitAmount] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [dateErrorMesg,setDateErrorMesg] = useState("")
+  const [electricityFilterd, setelectricityFilterd] = useState([]);
+   const [elecLoader,setElecLoader] =useState(false)
+
+
+   useEffect(() => {
+    if(state.login.selectedHostel_Id && props.value === "2"){
+      setElecLoader(true)
+      dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+    
+    
+  }, [state.login.selectedHostel_Id]);
+
+
+ useEffect(() => {
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+      setElecLoader(false)
+      setelectricityFilterd(state.PgList?.EB_startmeterlist);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForEbRoomList])
 
   // const handleShowDots = (eb_Id) => {
   //   if (activeRow === eb_Id) {
@@ -49,7 +77,7 @@ function EBRoomReading(props) {
   // };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
+  
 
 
   const handleShowDots = (eb_Id,event) => {
@@ -57,7 +85,7 @@ function EBRoomReading(props) {
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+    const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
 
@@ -94,7 +122,7 @@ function EBRoomReading(props) {
   };
   useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
-      (item) => item.hostel_id == hostelId
+      (item) => item.hostel_id === hostelId
     );
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
@@ -344,6 +372,7 @@ function EBRoomReading(props) {
 
   };
 
+   
   // const electricityrowsPerPage = 5;
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
@@ -351,7 +380,7 @@ function EBRoomReading(props) {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = props.electricityFilterd?.slice(
+  const currentRowelectricity = electricityFilterd?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -375,7 +404,7 @@ function EBRoomReading(props) {
   };
 
   const totalPagesinvoice = Math.ceil(
-    props.electricityFilterd?.length / electricityrowsPerPage
+    electricityFilterd?.length / electricityrowsPerPage
   );
 
   // const renderPageNumberselectricity = () => {
@@ -728,7 +757,7 @@ function EBRoomReading(props) {
                           let formattedDate;
 
                           // Check if v.date exists and is not "00-00-00"
-                          if (v.date && v.date != '0000-00-00') {
+                          if (v.date && v.date !== '0000-00-00') {
                             let Dated = new Date(v.date);
                             let day = Dated.getDate();
                             let month = Dated.getMonth() + 1;
@@ -911,12 +940,12 @@ function EBRoomReading(props) {
                                           cursor: "pointer",
                                           backgroundColor: "#F9F9F9",
                                           position: "fixed",
-                                          top: popupPosition.top,
+                                          top: popupPosition.top -20,
                                           left: popupPosition.left,
                                           // position: "absolute",
                                           // right: 50,
                                           // top: 20,
-                                          width: 163,
+                                          width: 120,
                                           height: "auto",
                                           border: "1px solid #EBEBEB",
                                           borderRadius: 10,
@@ -1018,7 +1047,7 @@ function EBRoomReading(props) {
               )}
              
 
-              {!props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 && (
+              {!elecLoader && currentRowelectricity  && currentRowelectricity?.length === 0 && (
                 <div style={{ marginTop: 40 }}>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -1052,7 +1081,7 @@ function EBRoomReading(props) {
                 </div>
               )}
             </div>
-            {props.loading &&
+            {elecLoader &&
                   <div
                     style={{
                       position: 'absolute',
@@ -1080,7 +1109,7 @@ function EBRoomReading(props) {
                     ></div>
                   </div>
                 }
-            {props.electricityFilterd?.length >= 5 && (
+            {electricityFilterd?.length >= 5 && (
               <nav
                 style={{
                   display: "flex",
@@ -1259,7 +1288,7 @@ function EBRoomReading(props) {
                 disabled={
                   unitAmount &&
                   unitAmount?.length === 0 &&
-                  selectedHostel != ""
+                  selectedHostel !== ""
                 }
                 value={Floor}
                 onChange={(e) => handleFloor(e)}
@@ -1315,7 +1344,7 @@ function EBRoomReading(props) {
                 disabled={
                   unitAmount &&
                   unitAmount?.length === 0 &&
-                  selectedHostel != ""
+                  selectedHostel !== ""
                 }
                 value={Rooms}
                 onChange={(e) => handleRoom(e)}
@@ -1542,12 +1571,10 @@ function EBRoomReading(props) {
 }
 
 EBRoomReading.propTypes = {
-  electricityFilterd: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   ebEditPermission: PropTypes.func.isRequired,
   ebpermissionError: PropTypes.func.isRequired,
-  loading: PropTypes.func.isRequired,
   ebDeletePermission: PropTypes.func.isRequired,
 };
 export default EBRoomReading;

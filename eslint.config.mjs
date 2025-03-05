@@ -3,6 +3,8 @@ import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginJest from "eslint-plugin-jest";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 
 
 /** @type {import('eslint').Linter.Config[]} */
@@ -26,6 +28,29 @@ export default [
         version: "detect",
         "jsx-runtime": "automatic"
       }
+    }
+  },
+  {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+      "jsx-a11y": pluginJsxA11y,
+    },
+    rules: {
+      "eqeqeq": "error", 
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "error",
+      "jsx-a11y/anchor-is-valid": "error",
+      "default-case": "error",
+      "jsx-a11y/alt-text": 'error',
+      "no-mixed-operators": ["error", {
+      "groups": [
+        ["&", "|", "^", "~", "<<", ">>", ">>>"],  
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<="], 
+        ["&&", "||"],
+      ],
+      "allowSamePrecedence": true // Allows operators with the same precedence
+    }],
+    "array-callback-return": 'error'
     }
   },
   {

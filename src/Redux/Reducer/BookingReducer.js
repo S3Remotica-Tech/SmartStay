@@ -74,7 +74,9 @@ const BookingReducer = (state = initialState, action) => {
         // availableBedBooking: action.payload,
         statusCodeForBedBooking: action.payload.statusCode,
       };
+      default:
+        return state;
   }
-  return state;
+ 
 };
 export default BookingReducer;

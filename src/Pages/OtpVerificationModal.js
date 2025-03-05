@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ dispatch({ type: 'CLEAR_ERROR_OTP_CODE'})
   // },[])
 
 useEffect(()=>{
-  if(state.login.OtpVerifyStatusCode == 200){
+  if(state.login.OtpVerifyStatusCode === 200){
 
 
 

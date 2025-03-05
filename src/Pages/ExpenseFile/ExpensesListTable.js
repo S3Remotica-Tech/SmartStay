@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
@@ -193,7 +194,7 @@ function ExpensesListTable(props) {
                     }}
                     onClick={handleShowTagAsset}>
                     <div>
-                      <img src={TagAsset} />
+                      <img src={TagAsset} alt='tagg' />
                     </div>
                     <div>
                       <label

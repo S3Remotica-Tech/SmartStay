@@ -400,11 +400,15 @@ case 'ERROR_COMPLIANTS':
     
         case "CLEAR_ROLE_EDIT_ERROR":
           return { ...state, roleEditError: "" };
+
+
+          default:
+        return state;
   }
 
 
 
   
-  return state;
+  
 };
 export default SettingsReducer;

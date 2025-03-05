@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
@@ -49,7 +50,7 @@ const Compliance = () => {
   const [userid, setUser_Id] = useState('')
   const [hosId, setHosId] = useState("")
   const [floorname, setFloorname] = useState('')
-
+  const [loading, setLoading] = useState(false);
 
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -117,6 +118,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
+      setLoading(false)
       setFilteredUsers(state.ComplianceList.Compliance);
 
       setTimeout(() => {
@@ -131,8 +133,8 @@ const Compliance = () => {
 
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner == 1 ||
-      compliancerolePermission[0]?.role_permissions[13]?.per_view == 1
+      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_view === 1
     ) {
       setCompliancePermissionError("");
     } else {
@@ -144,8 +146,8 @@ const Compliance = () => {
 
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner == 1 ||
-      compliancerolePermission[0]?.role_permissions[13]?.per_create == 1
+      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_create === 1
     ) {
       setComplianceAddPermission("");
     } else {
@@ -156,8 +158,8 @@ const Compliance = () => {
 
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner == 1 ||
-      compliancerolePermission[0]?.role_permissions[13]?.per_delete == 1
+      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_delete === 1
     ) {
       setComplianceDeletePermission("");
     } else {
@@ -166,8 +168,8 @@ const Compliance = () => {
   }, [compliancerolePermission]);
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner == 1 ||
-      compliancerolePermission[0]?.role_permissions[13]?.per_edit == 1
+      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_edit === 1
     ) {
       setComplianceEditPermission("");
     } else {
@@ -187,6 +189,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
+      setLoading(true)
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
       dispatch({
         type: "USERLIST",
@@ -325,7 +328,7 @@ const Compliance = () => {
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm)
-    if (searchTerm == "All") {
+    if (searchTerm === "All") {
       setFilteredUsers(state.ComplianceList.Compliance)
     }
     else {
@@ -338,7 +341,7 @@ const Compliance = () => {
  
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode == 200) {
+    if (state.UsersList?.UserListStatusCode === 200) {
       // const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
 
 
@@ -361,7 +364,7 @@ const Compliance = () => {
   useEffect(() => {
     if (selectedUsername) {
       const filteredDetails = state.UsersList.Users.filter(item => {
-        return item.Name == selectedUsername
+        return item.Name === selectedUsername
       }
       )
       if (filteredDetails.length > 0) {
@@ -747,6 +750,36 @@ const Compliance = () => {
           <>
             <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
               <div >
+                   
+              {loading  &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '53%',
+            left: '57%',
+            transform: 'translate(-50%, -50%)',
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            zIndex: 1050,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+}
+
                 {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
           <div>
@@ -845,7 +878,7 @@ const Compliance = () => {
                                 onChange={(e) => handlefilterInput(e)}
                               />
                               <span className="input-group-text bg-white border-start-0">
-                                <img src={closecircle} onClick={handleCloseSearch}
+                                <img src={closecircle} alt='close' onClick={handleCloseSearch}
                                   style={{ height: 20, width: 20 }}
                                 />
                               </span>
@@ -975,7 +1008,7 @@ const Compliance = () => {
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
                     <div style={{ paddingRight: "21px", marginTop: 9 ,cursor:"pointer"}}>
-                      <img src={excelimg} width={38} height={38}
+                      <img src={excelimg} alt='excel' width={38} height={38}
                         onClick={handleComplianceeExcel}
 
                       />
@@ -1011,7 +1044,7 @@ const Compliance = () => {
                   }
 
 
-                  {currentItems && currentItems.length == 0 &&
+                  { !loading  && currentItems.length === 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
@@ -1310,7 +1343,7 @@ const Compliance = () => {
                               )}
 
 
-                          {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
+                          {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && <>
                             <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
                               Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
 

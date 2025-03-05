@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
@@ -102,7 +103,7 @@ const AddReceiptForm = (props) => {
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
-                (u) => u.hos_user_id == e.target.value && u.BalanceDue > 0
+              (u) => String(u.hos_user_id) === String(e.target.value) && u.BalanceDue > 0
               )
             : [];
       
@@ -138,7 +139,7 @@ const AddReceiptForm = (props) => {
       
         const DueAmountFilter =
           customerinvoicefilter && !edit &&
-          customerinvoicefilter.filter((u) => u.Invoices == selectedValue);
+          customerinvoicefilter.filter((u) => u.Invoices === selectedValue);
           setInitial_DueAmount(DueAmountFilter[0]?.BalanceDue)
         setDueAmount(DueAmountFilter[0]?.BalanceDue);
 
@@ -307,13 +308,14 @@ const AddReceiptForm = (props) => {
             setReceivedAmountErrmsg("Please Enter Amount")
           }
 
-          if(!modeOfPayment){
+          if(!modeOfPayment || modeOfPayment === "select"){
             setPaymentError("Please Select payment method")
+            return;
           }
 
           
 
-          if (modeOfPayment == "Net Banking" && !account) {
+          if (modeOfPayment === "Net Banking" && !account) {
             setAccountError("Please Choose Bank Account");
             return;
           }
@@ -499,7 +501,7 @@ const AddReceiptForm = (props) => {
 
     return(
         <>
-            <div className='container ms-5 me-5'>
+            <div className='container px-5'>
 
             <div style={{display:'flex',flexDirection:'row',marginTop:'20px'}} >
   <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px', cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>

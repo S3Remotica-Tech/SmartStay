@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
@@ -28,7 +29,6 @@ import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
-import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
 function EB_Hostel() {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ function EB_Hostel() {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   useEffect(() => {
@@ -80,6 +80,16 @@ function EB_Hostel() {
   //   }
   // }, [selectedHostel]);
 
+
+  useEffect(() => {
+    if(selectedHostel && value === "1"){
+      setLoader(true)
+      dispatch({
+       type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel},
+      });
+    }   
+  }, [selectedHostel]);
   const [editeb, setEditEb] = useState(false);
 
   const handleHostelForm = () => {
@@ -126,8 +136,8 @@ function EB_Hostel() {
 
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_view == 1
+      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_view === 1
     ) {
       setEbPermissionError("");
     } else {
@@ -137,8 +147,8 @@ function EB_Hostel() {
 
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_create == 1
+      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_create === 1
     ) {
       setEbAddPermission("");
     } else {
@@ -148,8 +158,8 @@ function EB_Hostel() {
 
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_delete == 1
+      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_delete === 1
     ) {
       setEbDeletePermission("");
     } else {
@@ -158,8 +168,8 @@ function EB_Hostel() {
   }, [ebrolePermission]);
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner == 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_edit == 1
+      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_edit === 1
     ) {
       setEbEditPermission("");
     } else {
@@ -181,57 +191,10 @@ function EB_Hostel() {
   useEffect(() => {
     dispatch({ type: "EBLIST" });
   }, []);
-  const [electricityFilterd, setelectricityFilterd] = useState([]);
-  const [electricityHostel, setelectricityHostel] = useState([]);
-  useEffect(() => {
-    setLoader(true)
-    dispatch({
-     type: "CUSTOMEREBLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-
-    
-  }, [state.login.selectedHostel_Id]);
-  useEffect(() => {
-    if (state.PgList?.statusCodeForEbRoomList === 200) {
-      setLoader(false)
-      setelectricityFilterd(state.PgList?.EB_startmeterlist);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-      }, 1000);
-    }
-  }, [state.PgList.statusCodeForEbRoomList])
-  useEffect(() => {
-    setLoader(true)
-    dispatch({
-      type: "EBSTARTMETERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    
-  }, [state.login.selectedHostel_Id]);
-  useEffect(() => {
-    setLoader(true)
-      dispatch({
-        type: "HOSTELBASEDEBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
-    
-  }, [selectedHostel]);
-
-
-   useEffect(() => {
-      if (state.PgList.getStatusCodeForHostelBased === 200) {
-        setLoader(false)
-        setelectricityHostel(
-          state?.PgList?.getHostelBasedRead?.hostel_readings
-        );
-        
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
-        }, 200);
-      }
-    }, [state.PgList.getStatusCodeForHostelBased]);
+ 
+ 
+ 
+   
   const options = {
     dateFormat: "Y/m/d",
     maxDate: new Date(),
@@ -323,7 +286,7 @@ function EB_Hostel() {
 
   useEffect(() => {
     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
-      (item) => item.hostel_id == selectedHostel
+      (item) => item.hostel_id === selectedHostel
     );
 
     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
@@ -337,9 +300,9 @@ function EB_Hostel() {
   useEffect(() => {
     
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      
-      setelectricityFilterddata(state.PgList?.EB_customerTable);
       setLoader(false)
+      setelectricityFilterddata(state.PgList?.EB_customerTable);
+     
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
@@ -348,7 +311,7 @@ function EB_Hostel() {
 console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
   useEffect(() => {
-    if (state.PgList.nostatusCodeforEbCustomer == 201) {
+    if (state.PgList.nostatusCodeforEbCustomer === 201) {
       setelectricityFilterddata([]);
       setLoader(false)
       setTimeout(() => {
@@ -488,15 +451,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
       });
     }
   };
-  useEffect(() => {
-    if (state.PgList?.AddEBstatusCode === 200) {
-      handleClose();
-      dispatch({
-        type: "CUSTOMEREBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [state.PgList?.AddEBstatusCode]);
+ 
 
   // const electricityrowsPerPage = 5;
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
@@ -512,6 +467,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     filterInput.length > 0
       ? electricityFilterddata
       : electricityFilterddata?.slice(indexOfFirstRowelectricity, indexOfLastRowelectricity);
+      console.log("currentRoomelectricity",currentRoomelectricity)
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -776,6 +732,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
                     <span className="input-group-text bg-white border-start-0">
                       <img
                         src={closecircle}
+                        alt="close"
                         onClick={handleCloseSearch}
                         style={{ height: 20, width: 20,cursor: "pointer" }}
                       />
@@ -881,6 +838,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
             {value === "1" && (
               <img
                 src={excelimg}
+                alt="excel"
                 width={38}
                 height={38}
                 onClick={handleEbExcel}
@@ -890,7 +848,7 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
 
           </div>
 
-          {hostelBased == 1 ? (
+          {hostelBased === 1 ? (
             <div className="me-4">
               <Button
 
@@ -995,7 +953,7 @@ cursor:"pointer"
                 }}
               />
 
-              {hostelBased == 1 ? (
+              {hostelBased === 1 ? (
                 <Tab
                   label="Hostel Reading"
                   value="3"
@@ -1039,7 +997,6 @@ cursor:"pointer"
               hostelBased={hostelBased}
               editeb={editeb}
               setEditEb={setEditEb}
-              electricityHostel = {electricityHostel}
             />
 
             {ebpermissionError ? (
@@ -1086,7 +1043,9 @@ cursor:"pointer"
                   )}
                 </div>
               </>
-            ) : (
+            ) : 
+            
+            (
               <>
                
 
@@ -1471,44 +1430,41 @@ cursor:"pointer"
                     </div>
                         }
 
+                
+              </>
+            )}
 
-
-
-  
-{loader && <LoaderComponent/>
-
-// <div
-              //   style={{
-              //     position: 'absolute',
-              //     top: 0,
-              //     right: 0,
-              //     bottom: 0,
-              //     left: '200px',
-              //     display: 'flex',
-              //     alignItems: 'center',
-              //     justifyContent: 'center',
-              //     backgroundColor: 'transparent',
-              //     opacity: 0.75,
-              //     zIndex: 10,
-              //   }}
-              // >
-              //   <div
-              //     style={{
-              //       borderTop: '4px solid #1E45E1',
-              //       borderRight: '4px solid transparent',
-              //       borderRadius: '50%',
-              //       width: '40px',
-              //       height: '40px',
-              //       animation: 'spin 1s linear infinite',
-              //     }}
-              //   ></div>
-              // </div>
-             
-            }
-
+{loader && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: "4px solid #1E45E1",
+              borderRight: "4px solid transparent",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
+        </div>
+      )}
 
 {
-                   !loader && currentRoomelectricity && currentRoomelectricity?.length == 0 &&
+                   !loader && currentRoomelectricity && currentRoomelectricity?.length === 0 &&
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1744,12 +1700,6 @@ cursor:"pointer"
                 )}
 
 
-
-
-
-                
-              </>
-            )}
           </>
 
 
@@ -2054,9 +2004,7 @@ cursor:"pointer"
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
             selectedHostel={selectedHostel}
-            
-            electricityFilterd={electricityFilterd}
-            loading = {loader}
+         
           />
         </TabPanel>
 
@@ -2072,8 +2020,6 @@ cursor:"pointer"
             hostelBased={hostelBased}
             editeb={editeb}
             setEditEb={setEditEb}
-            electricityHostel = {electricityHostel}
-            loading = {loader}
           />
         </TabPanel>
       </TabContext>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -151,7 +152,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     useEffect(() => {
-        if (state.AssetList.getRoomStatusCode == 200) {
+        if (state.AssetList.getRoomStatusCode === 200) {
             setRoomList(state.AssetList?.GetRoomList)
 
             setTimeout(() => {
@@ -249,7 +250,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
     useEffect(() => {
-        if (state.AssetList.addAssignAssetStatusCode == 200) {
+        if (state.AssetList.addAssignAssetStatusCode === 200) {
             setPgList('')
             setRoom('')
             setSelectedDate('')

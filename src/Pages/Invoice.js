@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl} from "react-bootstrap";
 import Image from "react-bootstrap/Image";
@@ -51,7 +51,7 @@ const InvoicePage = () => {
   const dispatch = useDispatch();
 
   const [recurLoader, setRecurLoader] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
   // const d = new Date();
@@ -152,20 +152,34 @@ const InvoicePage = () => {
   const [receiptLoader, setReceiptLoader] = useState(false);
 
   useEffect(() => {
+    // setLoading(true); 
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
+  console.log("loaderhostelid", loading);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
+    // setLoading(true);
+    if (hostelId) {
+      setLoading(true)
       dispatch({
         type: "MANUALINVOICESLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id: hostelId},
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelId]);
+  console.log("loaderbills", loading);
+
+  useEffect(() => {
+    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
+      setBills(state.InvoiceList.ManualInvoices);
+      setTimeout(() => {
+        setLoading(false); 
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
 
   const handleManualShow = () => {
     setShowAllBill(false);
@@ -212,9 +226,9 @@ const InvoicePage = () => {
       const newDate = `${year}-${month}-${day}`;
 
       if (
-        (item.EbAmount == 0 || item.EbAmount == undefined) &&
-        item.invoice_type == 1 &&
-        item.AmnitiesAmount == 0
+        (item.EbAmount === 0 || item.EbAmount === undefined) &&
+        item.invoice_type === 1 &&
+        item.AmnitiesAmount === 0
       ) {
         dispatch({
           type: "INVOICEPDF",
@@ -810,7 +824,7 @@ const InvoicePage = () => {
         // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
         amount: props.item.Amount,
         paidAmount: props.item.PaidAmount,
-        balanceDue: props.item.BalanceDue == 0 ? "00" : props.item.BalanceDue,
+        balanceDue: props.item.BalanceDue === 0 ? "00" : props.item.BalanceDue,
         dueDate: formattedDueDate,
         InvoiceId: props.item.Invoices,
         invoice_type: props.item.invoice_type,
@@ -879,7 +893,7 @@ const InvoicePage = () => {
       return;
     }
     
-    if (invoiceList.transaction == "Net Banking" && !account) {
+    if (invoiceList.transaction === "Net Banking" && !account) {
       setAccountError("Please Choose Bank Account");
       return;
     }
@@ -1614,6 +1628,34 @@ const InvoicePage = () => {
   };
 
   const handleChanges = (event, newValue) => {
+
+    console.log("newValue", newValue);
+
+    if (newValue === "1"){
+      setLoading(true);
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+
+    if (newValue === "2"){
+      setRecurLoader(true);
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+
+    if (newValue === "3"){
+      setReceiptLoader(true);
+      dispatch({
+        type: "RECEIPTSLIST",
+        payload: { hostel_id: hostelId },
+      });
+    }
+   
+
     setValue(newValue);
     setSearch(false);
   };
@@ -1640,13 +1682,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     // setLoading(true);
-    if (state.login.selectedHostel_Id) {
+    if (hostelId) {
       dispatch({
         type: "BANKINGLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id: hostelId },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelId]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -1683,8 +1725,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_view === 1
     ) {
       setBillPermissionError("");
     } else {
@@ -1695,8 +1737,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create === 1
     ) {
       setRecuringBillAddPermission("");
     } else {
@@ -1707,8 +1749,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view === 1
     ) {
       setRecurringPermission("");
     } else {
@@ -1719,8 +1761,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view === 1
     ) {
       setReceiptPermission("");
     } else {
@@ -1731,8 +1773,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create === 1
     ) {
       setReceiptAddPermission("");
     } else {
@@ -1759,8 +1801,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_create == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_create === 1
     ) {
       setBillAddPermission("");
     } else {
@@ -1770,8 +1812,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_delete === 1
     ) {
       setBillDeletePermission("");
     } else {
@@ -1781,8 +1823,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      billrolePermission[0]?.is_owner == 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+      billrolePermission[0]?.is_owner === 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_edit === 1
     ) {
       setBillEditPermission("");
     } else {
@@ -1821,8 +1863,8 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (
-      state.login.UpdateNotificationMessage != null &&
-      state.login.UpdateNotificationMessage != ""
+      state.login.UpdateNotificationMessage !== null &&
+      state.login.UpdateNotificationMessage !== ""
     ) {
       // dispatch({ type: "ALL-NOTIFICATION-LIST" });
       setTimeout(() => {
@@ -1956,15 +1998,7 @@ const InvoicePage = () => {
     }
   }, [hostelId]);
 
-  useEffect(() => {
-    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
-      setBills(state.InvoiceList.ManualInvoices);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
-      }, 1000);
-    }
-  }, [state.InvoiceList.ManualInvoices]);
+ 
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
@@ -2026,7 +2060,7 @@ const InvoicePage = () => {
   ]);
 
   useEffect(() => {
-    if (state.InvoiceList?.InvoiceListStatusCode == 200) {
+    if (state.InvoiceList?.InvoiceListStatusCode === 200) {
       setLoading(false);
       // dispatch({
       //   type: "MANUALINVOICESLIST",
@@ -2040,7 +2074,7 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
   useEffect(() => {
-    if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
+    if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2190,8 +2224,9 @@ const InvoicePage = () => {
   }, [newRows]);
 
   useEffect(() => {
-    setRecurLoader(true);
+  
     if (hostelId) {
+      setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
         payload: { hostel_id: hostelId },
@@ -2258,7 +2293,7 @@ const InvoicePage = () => {
       setRecurringBills(FilterUsertwo);
     }
 
-    if (value == 3) {
+    if (value === "3") {
       const FilterUserReceipt = Array.isArray(receiptdata)
         ? receiptdata.filter((item) =>
             item.Name?.toLowerCase().includes(filterInput.toLowerCase())
@@ -2354,10 +2389,11 @@ const InvoicePage = () => {
     setFilterStatus(!filterStatus);
   };
 
-  //Receipt
+  //Receipt  
   useEffect(() => {
-    setReceiptLoader(true);
+    
     if (hostelId) {
+      setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2382,7 +2418,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode  === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       // setReceiptLoader(true);
@@ -2408,6 +2444,10 @@ const InvoicePage = () => {
     state.InvoiceList.ReceiptDeletesuccessStatuscode,
     state.InvoiceList.ReceiptEditsuccessStatuscode,
   ]);
+
+
+   console.log("loading",loading);
+   
 
   return (
     <div>
@@ -2496,6 +2536,7 @@ const InvoicePage = () => {
                           <span className="input-group-text bg-white border-start-0">
                             <img
                               src={closecircle}
+                              alt="close"
                               onClick={handleCloseSearch}
                               style={{ height: 20, width: 20,cursor:"pointer" }}
                             />
@@ -2806,7 +2847,7 @@ const InvoicePage = () => {
 </div> */}
 
                 <div>
-                  {value == 1 && (
+                  {value === "1" && (
                     <Button
                       disabled={billAddPermission}
                       onClick={handleManualShow}
@@ -2916,7 +2957,15 @@ const InvoicePage = () => {
 
           <TabContext value={value} className="container ">
             <div
-            
+            style={{
+              position: "sticky",
+              top: 69,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: 60,
+            }}
             >
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
@@ -3802,7 +3851,7 @@ const InvoicePage = () => {
                                                 fontWeight: 600,
                                               }}
                                             >
-                                              {item.Invoices == null ||
+                                              {item.Invoices === null ||
                                               item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
@@ -4018,72 +4067,7 @@ const InvoicePage = () => {
                                         position: "relative",
                                       }}
                                     >
-                                      {loading
-                                        ? // Display skeleton placeholders when loading is true
-                                          Array.from({ length: 5 }).map(
-                                            (_, index) => (
-                                              <tr key={index}>
-                                                <td>
-                                                  <div className="d-flex">
-                                                    <span className="i-circle">
-                                                      <Skeleton
-                                                        circle
-                                                        width={24}
-                                                        height={24}
-                                                      />
-                                                    </span>
-                                                    <div>
-                                                      <Skeleton width={80} />
-                                                    </div>
-                                                  </div>
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={50} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                                <td>
-                                                  <Skeleton width={100} />
-                                                </td>
-                                              </tr>
-                                            )
-                                          )
-                                        : //   <div
-                                          //   style={{
-                                          //     position: 'absolute',
-                                          //     inset: 0,
-                                          //     display: 'flex',
-                                          //     height: "50vh",
-                                          //     alignItems: 'center',
-                                          //     justifyContent: 'center',
-                                          //     backgroundColor: 'transparent',
-                                          //     opacity: 0.75,
-                                          //     zIndex: 10,
-                                          //   }}
-                                          // >
-                                          //   <div
-                                          //     style={{
-                                          //       borderTop: '4px solid #1E45E1',
-                                          //       borderRight: '4px solid transparent',
-                                          //       borderRadius: '50%',
-                                          //       width: '40px',
-                                          //       height: '40px',
-                                          //       animation: 'spin 1s linear infinite',
-                                          //     }}
-                                          //   ></div>
-                                          // </div>
-
-                                          // Display table rows with actual data when loading is false
+                                      { 
                                           currentItems.map((item) => (
                                             <InvoiceTable
                                               key={item.id}
@@ -4114,9 +4098,11 @@ const InvoicePage = () => {
                                   </Table>
                                 </div>
                               ) : (
+
                                 !loading &&
                                 currentItems &&
-                                currentItems?.length == 0 && (
+                                currentItems?.length === 0 && (
+
                                   <div>
                                     <div style={{ textAlign: "center" }}>
                                       {" "}
@@ -4388,7 +4374,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  { !recurLoader && currentItem && currentItem.length === 0 && (
+                  { !recurLoader  && currentItem.length === 0 && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4423,9 +4409,36 @@ const InvoicePage = () => {
 
                 
 
-
+{!loading && recurLoader && 
+                                       <div
+                                       style={{
+                                         position: 'absolute',
+                                           top: 200,
+                                           right: 0,
+                                           bottom: 0,
+                                           left: 200,
+                                         display: 'flex',
+                                         height: "50vh",
+                                         alignItems: 'center',
+                                         justifyContent: 'center',
+                                         backgroundColor: 'transparent',
+                                         opacity: 0.75,
+                                         zIndex: 10,
+                                       }}
+                                     >
+                                       <div
+                                         style={{
+                                           borderTop: '4px solid #1E45E1',
+                                           borderRight: '4px solid transparent',
+                                           borderRadius: '50%',
+                                           width: '40px',
+                                           height: '40px',
+                                           animation: 'spin 1s linear infinite',
+                                         }}
+                                       ></div>
+                                     </div>
                     
-
+}
 
                     {currentItem && currentItem.length > 0 && (
                       <div
@@ -4535,10 +4548,9 @@ const InvoicePage = () => {
                           </thead>
                           <tbody style={{ fontSize: "10px" }}>
 
-                          {!loading && receiptLoader ? (
-                                        <LoaderComponent />
+                          
                                 
-                                      ) : (
+                                      {
                               currentItem &&
                               currentItem.length > 0 &&
                               currentItem.map((item) => (
@@ -4558,8 +4570,8 @@ const InvoicePage = () => {
                                   // RecuringInvoice={handleDisplayInvoiceDownload}
                                 />
                               ))
-                            )
-  }
+}
+  
                           </tbody>
                         </Table>
                       </div>
@@ -5054,6 +5066,37 @@ const InvoicePage = () => {
                     </nav>
                   )} */}
 
+{!loading && receiptLoader &&
+                                       <div
+                                       style={{
+                                         position: 'absolute',
+                                           top: 200,
+                                           right: 0,
+                                           bottom: 0,
+                                           left: 200,
+                                         display: 'flex',
+                                         height: "50vh",
+                                         alignItems: 'center',
+                                         justifyContent: 'center',
+                                         backgroundColor: 'transparent',
+                                         opacity: 0.75,
+                                         zIndex: 10,
+                                       }}
+                                     >
+                                       <div
+                                         style={{
+                                           borderTop: '4px solid #1E45E1',
+                                           borderRight: '4px solid transparent',
+                                           borderRadius: '50%',
+                                           width: '40px',
+                                           height: '40px',
+                                           animation: 'spin 1s linear infinite',
+                                         }}
+                                       ></div>
+                                     </div>
+                                
+                                        }
+
                   <Container fluid className="p-0">
                     <Row
                       className={` ${
@@ -5071,7 +5114,7 @@ const InvoicePage = () => {
                         {DownloadReceipt ? (
                           <div
                             className="show-scroll p-2"
-                            style={{ maxHeight: 700, overflowY: "auto" }}
+                            style={{ maxHeight: "500px", overflowY: "auto" }}
                           >
                             {receiptdata &&
                               receiptdata.map((item) => (
@@ -5143,7 +5186,7 @@ const InvoicePage = () => {
                                               fontWeight: 600,
                                             }}
                                           >
-                                            {item.Invoices == null ||
+                                            {item.Invoices === null ||
                                             item.Invoices === ""
                                               ? "0.00"
                                               : item.Invoices}
@@ -5335,10 +5378,7 @@ const InvoicePage = () => {
                                       </tr>
                                     </thead>
                                     <tbody style={{ fontSize: "10px" }}>
-                                      {!loading && receiptLoader ? (
-                                        <LoaderComponent />
-                                
-                                      ) : (
+                                       {
                                         currentReceiptData &&
                                         currentReceiptData.length > 0 &&
                                         currentReceiptData.map((item) => (
@@ -5361,7 +5401,7 @@ const InvoicePage = () => {
                                             }
                                           />
                                         ))
-                                      )}
+                                      }
                                     </tbody>
                                   </Table>
                                 </div>

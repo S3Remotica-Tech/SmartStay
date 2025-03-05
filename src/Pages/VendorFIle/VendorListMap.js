@@ -61,7 +61,7 @@ function VendorListMap(props) {
   return (
     <>
       <Card
-        className="h-100 animated-text ms-0"
+        className="h-100 animated-text "
         key={props.vendor && props.vendor.id}
         style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}
       >

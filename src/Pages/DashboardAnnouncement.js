@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -224,7 +225,7 @@ function DashboardAnnouncement() {
 
 
   useEffect(() => {
-    if (state.PgList?.getCommentsSuccessStatus == 200) {
+    if (state.PgList?.getCommentsSuccessStatus === 200) {
       setCommentsList(state.PgList?.CommentsList)
 
       setTimeout(() => {
@@ -311,7 +312,7 @@ function DashboardAnnouncement() {
   };
 
   useEffect(() => {
-    if (state.PgList.statuscodeForAddAnnouncement === 200 || state.PgList?.deleteAnnounmentSuccessStatus == 200) {
+    if (state.PgList.statuscodeForAddAnnouncement === 200 || state.PgList?.deleteAnnounmentSuccessStatus === 200) {
       handleCloseAnnouncement();
       setDisplayDeletePopUP(false)
       dispatch({
@@ -674,9 +675,9 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               cursor: "pointer",
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
-                              right: 0,
+                              right: 20,
                               top: 10,marginRight:30,
-                              width: 163,
+                              width: 120,
                               height: 92,
                               border: "1px solid #EBEBEB",
                               borderRadius: 10,

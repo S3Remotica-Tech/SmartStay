@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Filters from "../Assets/Images/Filters.svg";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
@@ -68,8 +69,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_view == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
     ) {
       setBankingPermissionError("");
     } else {
@@ -79,8 +80,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_create == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_create === 1
     ) {
       setBankingAddPermission("");
     } else {
@@ -90,8 +91,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_delete == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_delete === 1
     ) {
       setBankingDeletePermission("");
     } else {
@@ -100,8 +101,8 @@ function Banking() {
   }, [bankingrolePermission]);
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner == 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_edit == 1
+      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_edit === 1
     ) {
       setBankingEditPermission("");
     } else {
@@ -491,25 +492,29 @@ function Banking() {
               }}>Banking</label>
             </div>
 
-            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center ">
+            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
               {search ? (
                 <>
                   <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      marginRight: 20,
 
-                    }}
+                   style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    // width: "100%",
+                    marginTop: "0px",
+                    marginBottom: "5px",
+                  }}
+
                   >
                     <div
                       style={{
                         position: "relative",
                         display: "flex",
                         alignItems: "center",
-                        // width: "100%",
-                         cursor:"pointer"
-
+                        width: "100%",
+                         cursor:"pointer",
+                        
                       }}
                     >
                       <Image
@@ -517,7 +522,7 @@ function Banking() {
                         alt="Search"
                         style={{
                           position: "absolute",
-
+                          
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
@@ -525,7 +530,9 @@ function Banking() {
                       />
                       <div
                         className="input-group"
-                        style={{ marginRight: 20 }}
+
+                        // style={{ marginRight: 20 }}
+
                       >
                         <span className="input-group-text bg-white border-end-0">
                           <Image
@@ -542,14 +549,14 @@ function Banking() {
                             boxShadow: "none",
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
-                            borderRight: "none"
-
+                            borderRight: "none",
+                            width:"250px"
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
                         />
                         <span className="input-group-text bg-white border-start-0">
-                          <img src={closecircle} onClick={handleCloseSearch}
+                          <img src={closecircle} alt="close" onClick={handleCloseSearch}
                             style={{ height: 20, width: 20 }}
                           />
                         </span>
@@ -642,7 +649,9 @@ function Banking() {
               {
                 filterStatus &&
 
-                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "250px" : "140px" }}>
+ 
+                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
+
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
@@ -916,7 +925,7 @@ function Banking() {
                           )}
                         </div>
 
-                        <a
+                        <span
                           href={bankingAddPermission ? "#" : undefined}
                           onClick={(e) => {
                             if (bankingAddPermission) {
@@ -940,7 +949,7 @@ function Banking() {
                           }}
                         >
                           Change
-                        </a>
+                        </span>
                       </div>
                       {showAccountTypeOptions === item.id && (
                         <div
@@ -964,7 +973,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={1}
-                              checked={selectedAccountType == 1}
+                              checked={selectedAccountType === 1}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Credit A/C
@@ -976,7 +985,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={2}
-                              checked={selectedAccountType == 2}
+                              checked={selectedAccountType === 2}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Debit A/C
@@ -988,7 +997,7 @@ function Banking() {
                               type="radio"
                               name={`accountType-${item.id}`}
                               value={3}
-                              checked={selectedAccountType == 3}
+                              checked={selectedAccountType === 3}
                               onChange={handleAccountTypeSelection}
                             />{" "}
                             Both A/C
@@ -1011,6 +1020,7 @@ function Banking() {
                       >
                         <img
                           src={money}
+                          alt="money"
                           width={18}
                           height={18}
                           style={{ marginTop: "-5px" }}
@@ -1020,7 +1030,7 @@ function Banking() {
                       {item.balance === 0 ||
                         item.balance === "" ||
                         item.balance === null ? (
-                        <a
+                        <span
                           href={bankingAddPermission ? "#" : undefined}
                           className={
                             bankingAddPermission ? "text-muted" : "text-primary"
@@ -1044,7 +1054,7 @@ function Banking() {
                           }}
                         >
                           +Add Amount
-                        </a>
+                        </span>
                       ) : (
                         <span
                           style={{
@@ -1462,7 +1472,7 @@ function Banking() {
             ) : (
 
               <div>
-                {!loader && currentRowTransaction.length == 0 &&
+                {!loader && currentRowTransaction.length === 0 &&
 
                   <div>
 
@@ -1975,7 +1985,7 @@ function Banking() {
             </Modal.Footer>
           </Modal>
 
-          {EditTransactionForm == true ? (
+          {EditTransactionForm === true ? (
             <BankingEditTransaction
               setEditTransactionForm={setEditTransactionForm}
               EditTransactionForm={EditTransactionForm}
@@ -1986,7 +1996,7 @@ function Banking() {
             />
           ) : null}
 
-          {showForm == true ? (
+          {showForm === true ? (
             <BankingAddForm
               handleShowForm={handleShowForm}
               showForm={showForm}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -37,7 +38,7 @@ function AddBed({ show, handleClose, currentItem }) {
   }, []);
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode == 200) {
+    if (state.PgList.createBedStatusCode === 200) {
       setBedNo("");
       setAmount("");
     }

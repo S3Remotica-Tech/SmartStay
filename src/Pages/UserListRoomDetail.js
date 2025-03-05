@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import dots from "../Assets/Images/New_images/Group 14.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
@@ -44,10 +44,8 @@ import docDown from "../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 
 function UserListRoomDetail(props) {
-  console.log(props,"propssroom");
   
   const state = useSelector((state) => state);
-  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -109,16 +107,7 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
 
-  // useEffect(() => {
-  //   console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
-  //   if (state.UsersList.isUsersListTrue === 3) {
-  //     setValue("3");
-  //   } else {
-  //     setValue("1");
-  //   }
-  // }, [state.UsersList.isUsersListTrue]);
   useEffect(() => {
-    console.log('isUsersListTrue:', state.UsersList.isUsersListTrue);
     
     if (state.UsersList.isUsersListTrue === 3 && value !== "3") {
       setValue("3");
@@ -130,7 +119,6 @@ function UserListRoomDetail(props) {
 
 
   const handleEditItem = (item) =>{
-    console.log("itemmm",item);
     
     props.onEditItem(item)
   }
@@ -145,7 +133,6 @@ function UserListRoomDetail(props) {
   }
 
  const handleDeleteHostelItem = (user) => {
-  console.log("user",user);
   
   props.onDeleteHostelItem(user)
  }
@@ -194,9 +181,17 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
+   const [activeRow, setActiveRow] = useState(null);
+
  
   const handleShowEditBed = (item) => {
+    
     if (item[0].ID) {
+      if (activeRow === item[0].ID) {
+        setActiveRow(null);
+      } else {
+        setActiveRow(item[0].ID);
+      }
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -456,7 +451,7 @@ function UserListRoomDetail(props) {
     const selectedHostel =
     state.UsersList.hostelListNewDetails.data &&
     state.UsersList.hostelListNewDetails.data.filter(
-        (item) => item.id == state.login.selectedHostel_Id
+        (item) => item.id === state.login.selectedHostel_Id
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
@@ -550,21 +545,22 @@ function UserListRoomDetail(props) {
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          u.Hostel_Id == hostel_Id && u.Floor_Id == Floor && u.Room_Id == RoomId
+          String(u.Hostel_Id) === String(hostel_Id) &&
+        String (u.Floor_Id) === String(Floor) && String(u.Room_Id) === String(RoomId)
       );
 
     const Roomamountfilter =
       Bedfilter &&
-      Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+      Bedfilter?.length > 0 &&
+      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(e.target.value));
 
-    if (Roomamountfilter.length != 0) {
-      const selectedRoomRent = Roomamountfilter[0].bed_amount;
+    if (Roomamountfilter?.length !== 0) {
+      const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
 
-      if (editMode && e.target.value === initialStateAssign.Bed) {
-        setRoomRent(initialStateAssign.RoomRent); // Set the initial RoomRent
+      if (editMode && String(e.target.value) === String(initialStateAssign.Bed)) {
+        setRoomRent(initialStateAssign.RoomRent); 
       } else {
-        setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
+        setRoomRent(selectedRoomRent); 
       }
     }
 
@@ -602,6 +598,7 @@ function UserListRoomDetail(props) {
     setAddressError("");
     setPhoneError("");
     setDateError("");
+    setActiveRow(null)
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -946,7 +943,7 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  console.log("advanceDetail[0]?.doc1",advanceDetail[0]?.doc1)
+  
   
   
   // const handleButtonClick = async () => {
@@ -1048,12 +1045,19 @@ useEffect(()=>{
     }
   };
 
-  const handleUploadClick = (ref) => {
-    ref.current.click(); 
-    setUploadError("")
-    dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
+  // const handleUploadClick = (ref) => {
+  //   ref.current.click(); 
+  //   setUploadError("")
+  //   dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
     
-  };
+  // };
+  const handleUploadClick = (ref) => {
+    if (ref?.current) {
+      ref.current.click();
+    }
+    setUploadError(""); 
+    dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
+  }
   useEffect(()=>{
     if(state.UsersList.statuscodeForAdharFileError === 201){
       setUploadError(state.UsersList.adharuploadfileError)
@@ -1065,21 +1069,23 @@ useEffect(()=>{
   const handleOtherUploadClick = (ref) => {
     ref.current.click(); 
   };
-  console.log("state.UsersList.statusCodeForUploadDocument",state.UsersList.statusCodeForUploadDocument)
+
   useEffect(()=>{
-    if(state.UsersList.statusCodeForUploadDocument == 200){
+    if(state.UsersList.statusCodeForUploadDocument === 200){
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
       }, 500);
     }
       },[state.UsersList.statusCodeForUploadDocument])
 
-      console.log("state.UsersList.statusCodeForOtherDocu",state.UsersList.statusCodeForOtherDocu)
+    
 
 
       useEffect(()=>{
-        if(state.UsersList.statusCodeForOtherDocu == 200){
+        if(state.UsersList.statusCodeForOtherDocu === 200){
           dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
           setTimeout(() => {
             dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
@@ -1113,7 +1119,6 @@ useEffect(()=>{
       }, 100);
     }
   }, [state.UsersList.statusCodeDeleteContact]);
-console.log("props.userDetails",state.UsersList.statusCodeForGenerateAdvance)
 
 useEffect (()=>{
 if(state.UsersList.statusCodeForGenerateAdvance === 200){
@@ -1154,6 +1159,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                     <div style={{position:"fixed"}}>
                     <img
                       src={leftarrow}
+                      alt="leftarrow"
                       width={20}
                       height={20}
                       onClick={props.handleBack}
@@ -1165,6 +1171,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         fontSize: "18px",
                         // marginLeft: 15,
                         fontFamily: "Gilroy",
+                        paddingLeft:"10px"
                       }}
                     >
                       Customer Profile
@@ -1249,6 +1256,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             KYC Verified
                             <img
                               src={verify}
+                              alt="verify"
                               width={17}
                               height={17}
                               style={{ marginTop: "-3px" }}
@@ -1260,7 +1268,44 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       {/* <div  onClick={() => handleShowEditBed(props.userDetails)}>
                         <img src={dots} width={40} height={40} />
                       </div> */}
-                      <div
+
+
+{/* 
+ cursor: props.customerEditPermission
+ opacity: props.customerEditPermission ? 0.6 : 1, */}
+
+              <div
+                                                     style={{
+                                                       cursor: "pointer",
+                                                       height: 40,
+                                                       width: 40,
+                                                       borderRadius: 100,
+                                                       border: "1px solid #EFEFEF",
+                                                       display: "flex",
+                                                       justifyContent: "center",
+                                                       alignItems: "center",
+                                                       position: "relative",
+                                                       zIndex:
+                                                         activeRow === item.ID
+                                                           ? 1000
+                                                           : "auto",
+                                                       backgroundColor:
+                                                         activeRow === item.ID
+                                                           ? "#E7F1FF"
+                                                           : "white",
+                                                     }}
+                                                     onClick={() => {
+                                                      if (!props.customerEditPermission) {
+                                                        handleShowEditBed(props.userDetails);
+                                                      }
+                                                    }}
+                                                   >
+                                                     <PiDotsThreeOutlineVerticalFill
+                                                       style={{ height: 20, width: 20 }}
+                                                     />
+                                                       </div>
+
+                      {/* <div
                         onClick={() => {
                           if (!props.customerEditPermission) {
                             handleShowEditBed(props.userDetails);
@@ -1271,10 +1316,19 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             ? "not-allowed"
                             : "pointer",
                           opacity: props.customerEditPermission ? 0.6 : 1,
+                          zIndex:
+                                              activeRow === item.ID
+                                                ? 1000
+                                                : "auto",
+                          backgroundColor:
+                                  activeRow === item.ID
+                                                ? "#E7F1FF"
+                                                : "white",
                         }}
                       >
                         <img
                           src={dots}
+                          alt="dots"
                           width={40}
                           height={40}
                           style={{
@@ -1283,7 +1337,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                               : "none",
                           }}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
@@ -1504,6 +1558,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       >
                                         <img
                                           src={Group}
+                                          alt="group"
                                           style={{
                                             cursor: props.customerEditPermission
                                               ? "not-allowed"
@@ -1562,6 +1617,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       >
                                         <img
                                           src={Group}
+                                          alt="group"
                                           style={{
                                             cursor: props.customerEditPermission
                                               ? "not-allowed"
@@ -1665,6 +1721,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         {/* <Call size="16" color="#1E45E1" /> */}
                                         <img
                                           src={Money}
+                                          alt="money"
                                           width={16}
                                           height={16}
                                         />
@@ -1778,6 +1835,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       >
         <img
           src={upload}
+          alt="upload"
           width={20}
           height={20}
           style={{ marginRight: "8px" }}
@@ -1797,7 +1855,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 )} */}
 {advanceDetail[0]?.doc1 && (
   <a href={advanceDetail[0]?.doc1} target="_blank" rel="noopener noreferrer">
-    <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
+    <img src={docDown} alt="docdown" style={{ width: 20, height: 20, marginLeft: "10px" }} />
   </a>
 )}
   
@@ -1834,6 +1892,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   >
                                     <img
                                       src={upload}
+                                      alt="upload"
                                       width={20}
                                       height={20}
                                       style={{ marginRight: "8px" }}
@@ -2244,14 +2303,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                           </div>
                         </div>
 
-                        {kycdetailsForm == true ? (
+                        {kycdetailsForm === true ? (
                           <UserListKyc
                             kycdetailsForm={kycdetailsForm}
                             setKycDetailForm={setKycDetailForm}
                             kycuserDetails={kycuserDetails}
                           />
                         ) : null}
-                        {additionalForm == true ? (
+                        {additionalForm === true ? (
                           <UserAdditionalContact
                             additionalForm={additionalForm}
                             setAdditionalForm={setAdditionalForm}
@@ -2344,11 +2403,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     <Image
                                       src={
                                         file
-                                          ? typeof file == "string"
+                                          ? typeof file === "string"
                                             ? file
                                             : URL.createObjectURL(file)
                                           : Profile
                                       }
+                                      alt="filee"
                                       roundedCircle
                                       style={{ height: 100, width: 100 }}
                                     />
@@ -3037,7 +3097,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       <option>Select a Bed</option>
 
-                                      {Editbed == "editbeddet" &&
+                                      {Editbed === "editbeddet" &&
                                         Bednum &&
                                         Bednum[0]?.Bed && (
                                           <option

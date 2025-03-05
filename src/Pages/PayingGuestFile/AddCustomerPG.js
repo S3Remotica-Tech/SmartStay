@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -186,7 +187,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     const Bed_Id = currentItem.bed.id;
 
     const filterData_Hostel_Name = state.UsersList.hostelList.filter((view) => {
-      return view.id == Hostel_Id;
+      return view.id === Hostel_Id;
     });
 
     // if (
@@ -387,7 +388,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     <Image
                       src={
                         file
-                          ? typeof file == "string"
+                          ? typeof file === "string"
                             ? file
                             : URL.createObjectURL(file)
                           : Profile

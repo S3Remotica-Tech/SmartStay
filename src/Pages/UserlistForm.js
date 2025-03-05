@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Button, Form,FormControl,} from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "../Pages/UserList.css";
@@ -252,7 +253,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     const selectedHostel = state.UsersList.hostelListNewDetails.data &&
-      state.UsersList.hostelListNewDetails.data?.filter((item) => item.id == state.login.selectedHostel_Id);
+      state.UsersList.hostelListNewDetails.data?.filter((item) => item.id === state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   }, [])
@@ -357,27 +358,36 @@ function UserlistForm(props) {
 
   const handleBed = (e) => {
     setBed(e.target.value);
-
     const Bedfilter =
-      state?.UsersList?.roomdetails &&
-      state.UsersList.roomdetails.filter(
-        (u) =>
-          u.Hostel_Id == hostel_Id && u.Floor_Id == Floor && u.Room_Id == Rooms
-      );
+    state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(hostel_Id) &&
+        String(u.Floor_Id) === String(Floor) &&
+        String(u.Room_Id) === String(Rooms)
+    );
+ 
+    // const Roomamountfilter =
+    //   Bedfilter &&
+    //   Bedfilter.length > 0 &&
+    //   Bedfilter[0]?.bed_details.filter((amount) => amount.id === e.target.value);
 
+    // if (Roomamountfilter.length !== 0) {
+    //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+    // }
     const Roomamountfilter =
-      Bedfilter &&
-      Bedfilter.length > 0 &&
-      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+  Bedfilter?.[0]?.bed_details?.filter(
+    (amount) => String(amount.id) === String(e.target.value)
+  ) ?? []; // Ensure it doesn't throw an error
 
-    if (Roomamountfilter.length != 0) {
-      setRoomRent(Roomamountfilter[0].bed_amount);
-    }
+if (Roomamountfilter.length > 0) {
+  setRoomRent(Roomamountfilter[0]?.bed_amount);
+}
+
 
     setBedError("");
     setRoomRentError("");
   };
-
+console.log("roomrent",RoomRent)
 
   //  useEffect (()=>{
 
@@ -456,7 +466,7 @@ function UserlistForm(props) {
       props.setEdit("Edit");
       setBednum(props.EditObj);
       setId(props.EditObj.ID);
-      if (props.EditObj.profile == 0) setFile(null);
+      if (props.EditObj.profile === 0) setFile(null);
       else {
         setFile(props.EditObj.profile);
       }
@@ -747,7 +757,7 @@ function UserlistForm(props) {
                       <Image
                         src={
                           file
-                            ? typeof file == "string"
+                            ? typeof file === "string"
                               ? file
                               : URL.createObjectURL(file)
                             : Profile

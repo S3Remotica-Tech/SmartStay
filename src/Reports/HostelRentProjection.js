@@ -70,7 +70,7 @@ function HostelRentProjection(props) {
                             }}
                             onClick={() => document.getElementById('date-input')._flatpickr.open()}
                         >
-                            <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} />
+                            <img src={Calendars} alt='calendar' style={{ height: 24, width: 24, marginRight: 10 }} />
                             Week {formattedDates}
                         </label>
                         <Flatpickr

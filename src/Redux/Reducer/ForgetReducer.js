@@ -66,7 +66,7 @@ const ForgetReducer = (state = initialState, action) => {
 
     }
 
-    return state;
+    
 }
 
 

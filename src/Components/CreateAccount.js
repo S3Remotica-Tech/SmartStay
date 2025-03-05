@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -380,7 +381,7 @@ function CreateAccountPage() {
 
 
 
-    if (password == !confirmpassword) {
+    if (password === !confirmpassword) {
 
       setBothPasswordError('Please Enter Confirm Password Same as Password')
 
@@ -438,7 +439,7 @@ function CreateAccountPage() {
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4">
               <div className="d-flex gap-1 mb-1" style={{ curser: "pointer" }}>
 
-                <img src={Logo} style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClick} />
+                <img src={Logo} alt="Company Logo" style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClick} />
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
                   Smartstay</label></div>
@@ -797,7 +798,7 @@ function CreateAccountPage() {
             </div>
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "" }}>
               <div>
-                <img src={CreateAccount} style={{ height: 460, width: 460 }} />
+                <img src={CreateAccount} alt="create" style={{ height: 460, width: 460 }} />
               </div>
 
             </div>

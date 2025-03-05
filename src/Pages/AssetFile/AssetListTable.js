@@ -34,12 +34,12 @@ function AssetListTable(props) {
     const popupHeight = 100;
     const viewportHeight = window.innerHeight;
 
-    let popupTop = top + (height / 2);
+    let popupTop = top + (height / 12);
     let popupLeft = left - 200;
 
 
     if (popupTop + popupHeight > viewportHeight) {
-      popupTop = top - popupHeight;
+      popupTop = top - 50;
     }
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -214,13 +214,14 @@ function AssetListTable(props) {
               borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
                position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
               <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, }} />
-              {showDots && <>
+              {showDots && 
+              <>
                 <div
                  ref={popupRef}
                   style={{
                     cursor: "pointer", backgroundColor: "#F9F9F9",
                     position: "fixed",
-                    top: popupPosition.top,
+                    top: popupPosition.top -30,
                     left: popupPosition.left,
 // marginBottom:"40px",
                     width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", 

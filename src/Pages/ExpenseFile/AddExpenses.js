@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -403,7 +404,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
             <div className="row mt-1">
              
               {state.Settings.Expences.data &&
-                state.Settings.Expences.data.length == 0 && (
+                state.Settings.Expences.data.length === 0 && (
                   <label
                   className="pb-1"
                   style={{

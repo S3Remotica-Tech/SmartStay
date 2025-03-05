@@ -439,6 +439,6 @@ const PgListReducer = (state = initialState, action) => {
 
         
     }
-    return state;
+    
 }
 export default PgListReducer;

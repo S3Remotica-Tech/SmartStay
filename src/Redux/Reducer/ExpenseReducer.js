@@ -50,7 +50,11 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'CLEAR_EXPENCE_NETBANKIG':
             return { ...state, expenceNetBanking: '' }
 
+                default:
+        return state;
+
     }
-    return state;
+
+    
 }
 export default ExpenseReducer;

@@ -207,7 +207,7 @@ function Reports() {
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredReports = reports.filter(report =>
         report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -224,7 +224,7 @@ function Reports() {
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem != '') {
+    if (searchItem !== '') {
       const filteredReports = reports.filter(report =>
         report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
       );

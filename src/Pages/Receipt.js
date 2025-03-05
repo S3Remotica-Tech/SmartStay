@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../Assets/Images/Edit-blue.png';
@@ -40,8 +41,8 @@ const Receipt = (props) => {
 
   useEffect(() => {
     if (
-      props.billrolePermission[0]?.is_owner == 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_delete == 1
+      props.billrolePermission[0]?.is_owner === 1 ||
+      props.billrolePermission[0]?.role_permissions[11]?.per_delete === 1
     ) {
         setReceiptDeletePermission("");
     } else {
@@ -51,8 +52,8 @@ const Receipt = (props) => {
 
   useEffect(() => {
     if (
-      props.billrolePermission[0]?.is_owner == 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
+      props.billrolePermission[0]?.is_owner === 1 ||
+      props.billrolePermission[0]?.role_permissions[11]?.per_edit === 1
     ) {
         setReceiptEditPermission("");
     } else {
@@ -327,7 +328,7 @@ const Receipt = (props) => {
 
                       // style={{ backgroundColor: "#fff" }}
                     >
-                      <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
+                      <img src={Download} alt="download" style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                     </div>
 
 

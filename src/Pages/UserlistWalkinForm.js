@@ -165,8 +165,8 @@ function CustomerForm({ show, handleClose, initialData }) {
             name.trim() !== (initialData.first_name || '').trim() ||
             lastname.trim() !== (initialData.last_name || '').trim() ||
             email.trim() !== (initialData.email_Id || '').trim() ||
-            `${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim() ||
-            (walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD') ||
+            (`${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim()) ||
+            ((walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD')) ||
             comments.trim() !== (initialData.comments || '').trim()
         );
 
@@ -389,7 +389,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
                         <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-                            <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
+                            <Image src={file ? (typeof file === 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
 
                             <label htmlFor="imageInput" className='' >
                                 <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />

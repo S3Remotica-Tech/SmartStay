@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Table } from "react-bootstrap";
@@ -38,7 +39,7 @@ function SettingNewUser() {
         setShowDots((prev) => (prev === index ? null : index));
         const { top, left, height } = event.target.getBoundingClientRect();
         const popupTop = top + (height / 2);
-        const popupLeft = left - 180;
+        const popupLeft = left - 150;
 
         setPopupPosition({ top: popupTop, left: popupLeft });
 
@@ -108,7 +109,7 @@ function SettingNewUser() {
 
 
     useEffect(() => {
-        if (state.InvoiceList?.deleteUserSuccessStatusCode == 200) {
+        if (state.InvoiceList?.deleteUserSuccessStatusCode === 200) {
             setIsConfirmDelete(false)
             dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: state.login.selectedHostel_Id } });
             setTimeout(() => {
@@ -137,7 +138,7 @@ function SettingNewUser() {
     }, []);
 
     useEffect(() => {
-        if (state.Settings?.StatusForaddSettingStaffList == 200) {
+        if (state.Settings?.StatusForaddSettingStaffList === 200) {
             setUsersFilterddata(state.Settings?.addSettingStaffList)
             setLoading(false)
             setTimeout(() => {
@@ -186,32 +187,31 @@ function SettingNewUser() {
 
             {loading &&
                 <div
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: '200px',
-                        height: "60vh",
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>
+                style={{
+                  position: 'fixed',
+                  top: '48%',
+                  left: '68%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '100vw',
+                  height: '100vh',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  zIndex: 1050,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
             }
 
 
@@ -310,9 +310,9 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             borderTopLeftRadius: "24px",
-                                            textAlign: "center",
-                                            padding: "10px"
-
+                                            textAlign: "start",
+                                            padding: "10px",
+                                            paddingLeft:"25px"
                                         }}
                                     >
                                         Users
@@ -324,7 +324,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Email
@@ -336,7 +336,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Mobile
@@ -348,7 +348,7 @@ function SettingNewUser() {
                                             fontSize: "14px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >
                                         Role
@@ -361,7 +361,7 @@ function SettingNewUser() {
                                             fontFamily: "Gilroy",
                                             padding: "10px",
                                             borderTopRightRadius: "24px",
-                                            textAlign: "center",
+                                            textAlign: "start",
                                         }}
                                     >Action</th>
                                 </tr>
@@ -377,12 +377,12 @@ function SettingNewUser() {
                                                         border: "none",
                                                         // display: "flex",
                                                         padding: "10px",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 18,
                                                         whiteSpace: "nowrap",
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis",
-
+                                                        paddingLeft:"25px"
                                                     }}
                                                 >
                                                     {/* <Image
@@ -419,7 +419,7 @@ function SettingNewUser() {
                                                         fontWeight: 500,
                                                         fontSize: "16px",
                                                         fontFamily: "Gilroy",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis", whiteSpace: "nowrap"
@@ -433,7 +433,7 @@ function SettingNewUser() {
                                                     style={{
                                                         paddingTop: 17,
                                                         border: "none",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         fontSize: "16px",
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy",
@@ -456,7 +456,7 @@ function SettingNewUser() {
                                                         fontWeight: 500,
                                                         fontSize: "16px",
                                                         fontFamily: "Gilroy",
-                                                        textAlign: "center",
+                                                        textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis", whiteSpace: "nowrap"
@@ -505,7 +505,7 @@ function SettingNewUser() {
                                                                     position: "fixed",
                                                                     top: popupPosition.top,
                                                                     left: popupPosition.left,
-                                                                    width: 160,
+                                                                    width: 120,
                                                                     height: 70,
                                                                     border: "1px solid #EBEBEB",
                                                                     borderRadius: 10,

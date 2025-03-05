@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -83,7 +84,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   }
 
   useEffect(() => {
-    if (state.Settings?.assignedUserRoleStatusCode == 202) {
+    if (state.Settings?.assignedUserRoleStatusCode === 202) {
       setDeleteRole(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGNED_ERROR' })
@@ -111,7 +112,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForRoleList == 200) {
+    if (state.Settings.statusCodeForRoleList === 200) {
       setRoleList(state.Settings.getsettingRoleList)
       setLoading(false)
       setTimeout(() => {
@@ -175,7 +176,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForAddRole == 200)
+    if (state.Settings.statusCodeForAddRole === 200)
 
       setShowRole(false)
     dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -187,7 +188,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
-    if (state.Settings.StatusForDeletePermission == 200) {
+    if (state.Settings.StatusForDeletePermission === 200) {
       setDeleteRole(false)
       dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
@@ -270,8 +271,8 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             <img src={role} width={24} height={24} alt="Role Icon" />
             <span 
               title={view.role_name}
-              className="ms-3 fw-bold text-dark text-truncate d-inline-block"
-              style={{ fontSize: 16, maxWidth: 100 }}
+              className="ms-3  text-truncate d-inline-block"
+              style={{ fontSize: 16, maxWidth: 100 , fontWeight:500}}
             >
               {view.role_name}
             </span>
@@ -279,8 +280,8 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           <div
             className="d-flex justify-content-center align-items-center border rounded-circle"
             style={{
-              height: "40px",
-              width: "40px",
+              height: "35px",
+              width: "35px",
               cursor: "pointer",
               backgroundColor: showDots === index ? "#E7F1FF" : "white",
               position: "relative",

@@ -76,6 +76,6 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, passwordDoesnotMatchError: '' }
    }
 
-   return state
+ 
 }
 export default CreateAccountReducer;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect, useRef, useState } from "react";
 import message from "../Assets/Images/New_images/messages_gray.png";
 import Edit from "../Assets/Images/Edit-blue.png";
@@ -26,7 +27,7 @@ function SettingCompliance({ hostelid }) {
     const [rowDetails, setRowDetails] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [showDots, setShowDots] = useState(null);
     const [menuLoaded, setMenuLoaded] = useState(false);
     const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
@@ -52,7 +53,10 @@ function SettingCompliance({ hostelid }) {
     };
 
     useEffect(() => {
-        dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
+        if(hostelid){
+            setLoading(true)
+            dispatch({ type: 'COMPLAINT-TYPE-LIST', payload: { hostel_id: hostelid } })
+        }   
     }, [hostelid])
 
     useEffect(() => {
@@ -68,7 +72,7 @@ function SettingCompliance({ hostelid }) {
         setRowDetails(row)
         const { top, left, height } = e.target.getBoundingClientRect();
         const popupTop = top + (height / 2);
-        const popupLeft = left - 150;
+        const popupLeft = left - 130;
     
         setPopupPosition({ top: popupTop, left: popupLeft });
         // const rect = e.currentTarget.getBoundingClientRect();
@@ -171,10 +175,11 @@ function SettingCompliance({ hostelid }) {
     useEffect(() => {
         if (state.Settings.getcomplainttypeStatuscode === 200) {
             setComplianceFilterddata(state.Settings.Complainttypelist);
-            setLoading(false)
+            
             setTimeout(() => {
+                setLoading(false)
                 dispatch({ type: 'CLEAR_GET_COMPLAINTTYPE_STATUS_CODE' })
-            }, 1000);
+            }, 300);
         }
     }, [state.Settings.getcomplainttypeStatuscode])
 
@@ -249,41 +254,42 @@ function SettingCompliance({ hostelid }) {
         complianceFilterddata?.length / compliancerowsPerPage
     );
 
-
+ console.log("typeloader", loading);
+ 
 
     return (
-        <div className="container" style={{ position: "relative", maxHeight: "500px",
+        <div className="container" style={{ position: "relative", maxHeight: "570px",
             overflowY: "auto", }}>
 
 
-            {loading &&
+            {loading   &&
                 <div
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: '200px',
-                        display: 'flex',
-                        height: "50vh",
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>
+                                       style={{
+                                         position: 'absolute',
+                                           top: 130,
+                                           right: 0,
+                                           bottom: 0,
+                                           left: 40,
+                                         display: 'flex',
+                                         height: "50vh",
+                                         alignItems: 'center',
+                                         justifyContent: 'center',
+                                         backgroundColor: 'transparent',
+                                         opacity: 0.75,
+                                         zIndex: 10,
+                                       }}
+                                     >
+                                       <div
+                                         style={{
+                                           borderTop: '4px solid #1E45E1',
+                                           borderRight: '4px solid transparent',
+                                           borderRadius: '50%',
+                                           width: '40px',
+                                           height: '40px',
+                                           animation: 'spin 1s linear infinite',
+                                         }}
+                                       ></div>
+                                     </div>
             }
 
 
@@ -349,7 +355,7 @@ function SettingCompliance({ hostelid }) {
 
             <div>
                 {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
-                {currentRowCompliance && currentRowCompliance.length > 0 ? (
+                {currentRowCompliance && currentRowCompliance.length > 0 && 
                     //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}
 
                     <div className="container">
@@ -394,7 +400,7 @@ function SettingCompliance({ hostelid }) {
                                                         display: "flex",
                                                         justifyContent: "center",
                                                         alignItems: "center",
-                                                        zIndex: showDots ? 1000 : "auto",
+                                                        // zIndex: showDots ? 1000 : "auto",
                                                         position: "relative",
                                                         cursor: "pointer",
                                                         backgroundColor: showDots === i ?"#E7F1FF" : "white",
@@ -423,7 +429,7 @@ function SettingCompliance({ hostelid }) {
                                                             top: popupPosition.top,
                                                             left: popupPosition.left,
                                                             // width: 163,
-                                                            width: 140,
+                                                            width: 120,
                                                             border: "1px solid #EBEBEB",
                                                             borderRadius: 10,
                                                             display: "flex",
@@ -438,7 +444,7 @@ function SettingCompliance({ hostelid }) {
                                                                 className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                                                 onClick={() => handleEdit(u)}
                                                             >
-                                                                <img src={Edit} style={{ height: 16, width: 16 }} />
+                                                                <img src={Edit} alt="edit" style={{ height: 16, width: 16 }} />
                                                                 <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222", cursor: "pointer" }}>
                                                                     Edit
                                                                 </label>
@@ -450,6 +456,7 @@ function SettingCompliance({ hostelid }) {
                                                             >
                                                                 <img
                                                                     src={Delete}
+                                                                    alt="delete"
                                                                     style={{ height: 16, width: 16 }}
                                                                 />{" "}
                                                                 <label
@@ -476,7 +483,11 @@ function SettingCompliance({ hostelid }) {
                             }
                         </div>
                     </div>
-                ) : !loading && (
+}
+               
+            </div>
+
+             { !loading && complianceFilterddata.length === 0 && 
                     <div style={{ marginTop: 100 }}>
                         <div className="d-flex justify-content-center">
                             <img
@@ -495,11 +506,10 @@ function SettingCompliance({ hostelid }) {
                                 color: "rgba(75, 75, 75, 1)",
                             }}
                         >
-                            No Complaints available
+                            No Complaint Types available
                         </div>
                     </div>
-                )}
-            </div>
+                }
 
             {complianceFilterddata.length >=2  && (
                 <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">

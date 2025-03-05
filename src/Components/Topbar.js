@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React ,{useState,useEffect}from 'react';
 import {useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
@@ -31,7 +32,7 @@ function NavScrollExample() {
         const parsedData = decryptedString;
         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
          
-        return view.created_By == parsedData;
+        return view.created_By === parsedData;
       
         
         });

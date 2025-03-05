@@ -69,7 +69,7 @@ function FrontPage() {
                 <Navbar collapseOnSelect expand="lg" fixed="top" className="" style={{ backgroundColor: "#FFFFFF", }} transparent>
 
                     <Container fluid className="ms-5 me-5">
-                        <Navbar.Brand onClick={handleBrandClick}><img src={Logo} style={{ width: 176.45, height: 33 , cursor:"pointer"}} />
+                        <Navbar.Brand onClick={handleBrandClick}><img src={Logo} alt='logo' style={{ width: 176.45, height: 33 , cursor:"pointer"}} />
                             {/* <img src={Smart} style={{ height: 20, width: 133 }} /> */}
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

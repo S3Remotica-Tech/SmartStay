@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button, Row, Col, FormControl } from "react-bootstrap";
 import { MdError } from "react-icons/md";
@@ -10,7 +11,6 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 function AssignBooking(props) {
   const state = useSelector((state) => state);
-
   const dispatch = useDispatch();
 
   const [floor, setFloor] = useState("");
@@ -197,10 +197,24 @@ function AssignBooking(props) {
     setFloor(floorId);
     setfloorError("");
     dispatch({
-      type: "ROOMCOUNT",
+      type: "ROOMDETAILS",
       payload: { floor_Id: floorId, hostel_Id: hostalId },
     });
   };
+  // const handleFloor = (e) => {
+  //   setFloor(e.target.value);
+  //   setRoom("");
+  //   setBed("");
+  //   setfloorError("");
+  // };
+  useEffect(() => {
+      if (state.login.selectedHostel_Id && floor) {
+        dispatch({
+          type: "ROOMDETAILS",
+          payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: floor },
+        });
+      }
+    }, [floor]);
 
   const handleRoom = (selectedOption) => {
     const selectedRoomId = selectedOption?.value;
@@ -233,22 +247,20 @@ function AssignBooking(props) {
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          u.Hostel_Id == hostalId && u.Floor_Id == floor && u.Room_Id == room
+          String(u.Hostel_Id) === String(hostalId) && String(u.Floor_Id) === String(floor) && String(u.Room_Id) === String(room)
       );
-
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => amount.id == e.target.value);
+      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(e.target.value));
 
-    if (Roomamountfilter.length != 0) {
+    if (Roomamountfilter.length !== 0) {
       setRentAmount(Roomamountfilter[0]?.bed_amount);
     }
 
     setBedError("");
     setRentError("");
   };
-
   const handleRentAmount = (e) => {
     setRentAmount(e.target.value);
     setRentError("");
@@ -504,14 +516,14 @@ function AssignBooking(props) {
 
                 <Select
                   options={
-                    state?.PgList?.roomCount?.map((item) => ({
+                    state.UsersList?.roomdetails?.map((item) => ({
                       value: item.Room_Id,
                       label: item.Room_Name,
                     })) || []
                   }
                   onChange={handleRoom}
                   value={
-                    state?.PgList?.roomCount
+                    state.UsersList?.roomdetails
                       ?.map((item) => ({
                         value: item.Room_Id,
                         label: item.Room_Name,

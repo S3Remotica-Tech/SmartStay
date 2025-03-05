@@ -535,6 +535,6 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: [], hostelListNewDetails: [] }
 
     }
-    return state;
+    
 }
 export default UserListReducer;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
@@ -116,7 +117,7 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("current Password is required");
+          setPassError("Current Password is required");
           break;
 
 
@@ -305,10 +306,10 @@ function SettingGeneral() {
           setFirstNameError("FirstName is required");
           break;
         case "emilId":
-          setEmailError("EmilId is required");
+          setEmailError("EmailId is required");
           break;
         case "Phone":
-          setPhoneError("Phone num is required");
+          setPhoneError("Phone number is required");
           break;
         case "address":
           setAddressError("Address is required");
@@ -500,6 +501,7 @@ function SettingGeneral() {
 
   useEffect(() => {
     setLoading(true)
+    console.log("load",loading);
    
      dispatch({ type: "GETALLGENERAL" });
      const timeout = setTimeout(() => {
@@ -644,7 +646,7 @@ function SettingGeneral() {
   // };
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral == 200 ) {
+    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData);
       setLoading(false)
 
@@ -787,35 +789,32 @@ function SettingGeneral() {
                   overflowY: "auto",}}>
 
         {loading &&
-        
-
-<div
-                        style={{
-                            position: 'fixed',
-                   right: "30%",
-                            display: 'flex',
-                            height: "50vh",
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                            }}
-                        ></div>
-                    </div>
-
-
-
+           <div
+           style={{
+             position: 'fixed',
+             top: '48%',
+             left: '68%',
+             transform: 'translate(-50%, -50%)',
+             width: '100vw',
+             height: '100vh',
+             display: 'flex',
+             alignItems: 'center',
+             justifyContent: 'center',
+             backgroundColor: 'transparent',
+             zIndex: 1050,
+           }}
+         >
+           <div
+             style={{
+               borderTop: '4px solid #1E45E1',
+               borderRight: '4px solid transparent',
+               borderRadius: '50%',
+               width: '40px',
+               height: '40px',
+               animation: 'spin 1s linear infinite',
+             }}
+           ></div>
+         </div>
         }
 
 
@@ -1201,7 +1200,7 @@ function SettingGeneral() {
             </Modal.Title>
           </Modal.Header> */}
 
-        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1251,7 +1250,7 @@ function SettingGeneral() {
             <Image
               src={
                 file
-                  ? typeof file == "string"
+                  ? typeof file === "string"
                     ? file
                     : URL.createObjectURL(file)
                   : Profile
@@ -1313,7 +1312,7 @@ function SettingGeneral() {
         </div>
         <Modal.Body>
           <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group>
                 <Form.Label
                   style={{
@@ -1352,8 +1351,8 @@ function SettingGeneral() {
               )}
              </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1391,7 +1390,7 @@ function SettingGeneral() {
                 )} */}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -1456,8 +1455,8 @@ function SettingGeneral() {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1512,7 +1511,7 @@ function SettingGeneral() {
 
 
             {!edit && (
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1 mt-0">
                 <Form.Group className="">
                   <Form.Label
                     style={{
@@ -1587,8 +1586,8 @@ function SettingGeneral() {
               </div>
             )}
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-1">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+              <Form.Group className="">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1644,7 +1643,7 @@ function SettingGeneral() {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
+              marginTop: 5,
             }}
             onClick={handleSave}
           >
@@ -1860,7 +1859,7 @@ function SettingGeneral() {
             {/* )} */}
           </div>
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
             className="col-12"
             style={{
@@ -1870,7 +1869,7 @@ function SettingGeneral() {
               borderRadius: "12px",
               fontSize: "1rem",
               fontFamily: "Montserrat, sans-serif",
-              marginTop: "5px",
+              marginTop: "-5px",
             }}
             onClick={handleCheckPasswordChange}
           >

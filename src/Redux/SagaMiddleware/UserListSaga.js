@@ -283,7 +283,7 @@ function* handleAddUser(datum) {
 function* handleRoomCheck(action) {
    const response = yield call(roomFullCheck, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200 && response.data.length > 0) {
+   if ((response.status === 200 || response.statusCode === 200) && response.data.length > 0) {
       yield put({ type: 'ROOM_FULL', payload: response.data.data, statusCode: response.status || response.statusCode })
    }
    else {
@@ -491,7 +491,7 @@ function* handleuserAddAmnitiesName(amnity) {
       padding: "10px",
    };
 
-   if (response.status == 200 || response.statusCode === 200) {
+   if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } });
 
       toastStyle.backgroundColor = "#E6F6E6"; 

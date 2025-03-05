@@ -82,9 +82,10 @@ console.log("action",action)
       case 'CLEAR_ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: '' }
 
-
+         default:
+            return state;
    }
 
-   return state
+   
 }
 export default SmartStayReducer;
