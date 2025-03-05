@@ -1,4 +1,4 @@
-import UserListReducer, { initialState } from "../../Redux/Reducer/AAAUserListReducer";
+import UserListReducer, { initialState } from "../../Redux/Reducer/UserListReducer";
 
 describe('it should check userList reducers', () => {
 
