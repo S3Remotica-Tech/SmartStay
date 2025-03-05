@@ -1,6 +1,6 @@
 // import { generateAdvance } from "../Action/UserListAction";
 
-const initialState = {
+export const initialState = {
     Users: [],
     addUser: [],
     errorMessage: {},
