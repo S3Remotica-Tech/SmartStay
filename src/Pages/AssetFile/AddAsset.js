@@ -15,6 +15,7 @@ import { MdError } from "react-icons/md";
 import {CloseCircle,} from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -198,8 +199,8 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   };
 
-  const handleVendorNameChange = (e) => {
-    setVendorName(e.target.value);
+  const handleVendorNameChange = (selectedOption) => {
+    setVendorName((selectedOption?.value || ''));
     setIsChangedError("");
     setGeneralError("");
   };
@@ -639,7 +640,7 @@ function StaticExample({ show, setShow, currentItem }) {
                   >
                     Vendor Name
                   </Form.Label>
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     value={vendorName}
                     onChange={handleVendorNameChange}
@@ -658,7 +659,71 @@ function StaticExample({ show, setShow, currentItem }) {
                         No vendors available
                       </option>
                     )}
-                  </Form.Select>
+                  </Form.Select> */}
+
+  <Select
+    options={
+      state.ComplianceList?.VendorList?.length > 0
+        ? state.ComplianceList.VendorList.map((view) => ({
+            value: view.id,
+            label: view.Vendor_Name,
+          }))
+        : []
+    }
+    onChange={handleVendorNameChange}
+    value={
+      state.ComplianceList?.VendorList?.find((vendor) => vendor.id === vendorName)
+        ? {
+            value: vendorName,
+            label: state.ComplianceList.VendorList.find(
+              (vendor) => vendor.id === vendorName
+            )?.Vendor_Name,
+          }
+        : null
+    }
+    placeholder="Select a Vendor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No vendors available"} 
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: vendorName ? 600 : 500, 
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", 
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
                 </Form.Group>
               </div>

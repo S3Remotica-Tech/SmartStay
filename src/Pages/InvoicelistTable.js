@@ -23,7 +23,7 @@ const InvoiceTable = (props) => {
 
     const { top, left } = event.target.getBoundingClientRect();
     const popupTop = top -14;
-    const popupLeft = left - 200;
+    const popupLeft = left - 180;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   }

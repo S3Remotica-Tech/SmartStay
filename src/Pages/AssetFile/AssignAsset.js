@@ -15,7 +15,7 @@ import {CloseCircle } from 'iconsax-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
-
+import Select from "react-select";
 
 
 
@@ -118,8 +118,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     //     setNoChangeError('');
     // }
 
-    const handleRoomChange = (e) => {
-        setRoom(e.target.value)
+    const handleRoomChange = (selectedOption) => {
+        setRoom(selectedOption?.value || '')
         setGeneralError('')
         setRoomError('')
         setNoChangeError('');
@@ -132,8 +132,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     //     setNoChangeError('');
     // }
 
-    const handleFloor = (e) => {
-        setFloor(e.target.value)
+    const handleFloor = (selectedOption) => {
+        setFloor(selectedOption?.value || '')
         setGeneralError('')
         setFloorError('')
         setNoChangeError('');
@@ -351,7 +351,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     
                             <div className='col-lg-12 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                <Form.Select
+                                {/* <Form.Select
                                     aria-label="Default select example"
                                     placeholder="Select no. of floor"
                                     style={{
@@ -381,7 +381,71 @@ function StaticExample({ show, handleClose, currentItem }) {
                                             No floors available
                                         </option>
                                     )}
-                                </Form.Select>
+                                </Form.Select> */}
+
+  <Select
+    options={
+      state.UsersList?.hosteldetailslist?.length > 0
+        ? state.UsersList.hosteldetailslist.map((u) => ({
+            value: u.floor_id,
+            label: u.floor_name,
+          }))
+        : []
+    }
+    onChange={handleFloor}
+    value={
+      state.UsersList?.hosteldetailslist?.find((f) => f.floor_id === Floor)
+        ? {
+            value: Floor,
+            label: state.UsersList.hosteldetailslist.find(
+              (f) => f.floor_id === Floor
+            )?.floor_name,
+          }
+        : null
+    }
+    placeholder="Select a Floor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No floors available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: Floor ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", // Enables scrolling
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
                                 {floorError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
@@ -396,7 +460,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2'>
                                 <Form.Group  controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                    <Form.Select
+                                    {/* <Form.Select
                                         aria-label="Select a room"
                                         id="vendor-select"
                                         value={room}
@@ -420,7 +484,69 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         ) : (
                                             <option disabled>No Rooms Available</option>
                                         )}
-                                    </Form.Select>
+                                    </Form.Select> */}
+
+  <Select
+    options={
+      roomList?.length > 0
+        ? roomList.map((item) => ({
+            value: item.id,
+            label: item.Room_Id,
+          }))
+        : []
+    }
+    onChange={handleRoomChange}
+    value={
+      roomList?.find((r) => r.id === room)
+        ? {
+            value: room,
+            label: roomList.find((r) => r.id === room)?.Room_Id,
+          }
+        : null
+    }
+    placeholder="Select a Room"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No Rooms Available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: room ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", // Enables scrolling
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
                                 </Form.Group>
                                 {roomError && (
