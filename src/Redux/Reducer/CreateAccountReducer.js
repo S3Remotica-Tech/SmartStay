@@ -74,6 +74,9 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, passwordDoesnotMatchError: action.payload }
       case 'CLEAR_PASSWORD_DOESNT_ERROR':
          return { ...state, passwordDoesnotMatchError: '' }
+
+         default:
+            return state;
    }
 
  
