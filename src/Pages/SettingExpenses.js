@@ -1095,27 +1095,35 @@ function SettingExpenses({ hostelid }) {
                           onCreateOption={handleCreate}
                           placeholder="Select / Create Category"
                           styles={{
-                            option: (provided) => ({
-                              ...provided,
-                              padding: '4px 10px', // Adjust padding for height
-                            }),
                             menu: (provided) => ({
                               ...provided,
-                              maxHeight: '200px', // Control max height
-                              overflowY: 'auto',  // Enable scrolling
-                              zIndex: 9999,      // Ensure it's above other elements
+                              maxHeight: '100px',  // Limit dropdown height
+                              overflowY: 'auto',  // Enable scrolling when needed
+                              zIndex: 9999,
                             }),
-                            menuPortal: (base) => ({
-                              ...base,
-                              zIndex: 9999
+                           
+                            menuList: (provided) => ({
+                              ...provided,
+                              maxHeight: '100px', // Forces height limit
+      minHeight: '80px', // Ensures dropdown doesn't collapse
+      overflowY: 'scroll', // Forces scrollbar even with few options
+      scrollbarWidth: 'thin', // Thin scrollbar (for better UI)
+      scrollbarColor: '#888 #f0f0f0', // Custom scrollbar colors
                             }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              padding: '6px 10px',
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#222",
+                              cursor: "pointer",
+                            }),
+                            
                             control: (provided) => ({
                               ...provided,
-                              minHeight: '35px',
+                              minHeight: '40px',
                             }),
                           }}
-                          menuPortalTarget={document.body}  // Render dropdown within modal boundaries
-                          className=""
+                          menuPlacement="bottom" // Ensures dropdown opens properly
                         />
 
 
