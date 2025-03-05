@@ -8143,7 +8143,7 @@ describe('it should check Pg list reducers', () => {
     });
     
 
-    it('it should handle TITTLE_UNIQUE', () => {
+    it('it should check TITTLE_UNIQUE', () => {
         const action = {
             type: 'TITTLE_UNIQUE',
             payload: {
@@ -8160,7 +8160,7 @@ describe('it should check Pg list reducers', () => {
 
 
 
-    it('should handle CLEAR_TITTLE_UNIQUE', () => {
+    it('it should check CLEAR_TITTLE_UNIQUE', () => {
         const action = {
             type: 'CLEAR_TITTLE_UNIQUE'
         };
