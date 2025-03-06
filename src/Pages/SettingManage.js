@@ -125,7 +125,7 @@ function SettingManage(props) {
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
       // setTimeout(()=>{
       //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
       // },3000)
@@ -194,7 +194,7 @@ function SettingManage(props) {
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
 
      
@@ -239,7 +239,7 @@ function SettingManage(props) {
       state.PgList.dleteHostelImagesStatusCode === 200
     ) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -257,7 +257,7 @@ function SettingManage(props) {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -504,7 +504,7 @@ function SettingManage(props) {
       });
 
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
