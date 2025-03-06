@@ -1292,7 +1292,7 @@ useEffect(()=>{
                 </div>
               </div>
 
-              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto",overflowX:"hidden"}}>
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1307,7 +1307,7 @@ useEffect(()=>{
                         lg={2}
                         className="d-flex justify-content-start"
                       >
-                        <div>
+                        <div style={{position:"fixed"}}>
                           <div className="d-flex justify-content-center">
                             <div
                               onClick={handlePrev}

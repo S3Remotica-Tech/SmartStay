@@ -8,7 +8,7 @@ import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
 import PropTypes from "prop-types";
 
-function AddBed({ show, handleClose, currentItem }) {
+function AddBed({ show,setShowBed, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -17,12 +17,17 @@ function AddBed({ show, handleClose, currentItem }) {
   const [bedError, setBedError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [generalError, setGeneralError] = useState("");
+  const [bedAlreadyBooked,setBedAlreadyBooked] = useState("")
 
 
-  useEffect(() => {
-    dispatch({ type: "CLEAR_ALREADY_BED" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "CLEAR_ALREADY_BED" });
+  // }, []);
+useEffect(()=>{
+  if(state.PgList?.alreadyBedAvailable)
+    setBedAlreadyBooked(state.PgList?.alreadyBedAvailable)
 
+},[state.PgList?.alreadyBedAvailable])
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
@@ -44,6 +49,8 @@ function AddBed({ show, handleClose, currentItem }) {
     }
   }, [state.PgList.createBedStatusCode]);
 
+
+
   // useEffect(() => {
 
   //   if (state.PgList.statusCodeCreateRoom == 200) {
@@ -62,16 +69,22 @@ function AddBed({ show, handleClose, currentItem }) {
     setBedNo(e.target.value);
     setGeneralError("");
     setBedError("");
+    setBedAlreadyBooked("")
     dispatch({ type: "CLEAR_ALREADY_BED" });
   };
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
     setGeneralError("");
+    setBedAlreadyBooked("")
     setAmountError("");
   };
 
- 
+  const handleClose =()=>{
+    setShowBed(false)
+    dispatch({ type: "CLEAR_ALREADY_BED" });
+  }
+  
 
   const handleSubmit = () => {
     // if (!bedNo && !amount) {
@@ -278,7 +291,7 @@ function AddBed({ show, handleClose, currentItem }) {
             </div>
           )}
 
-          {state.PgList && state.PgList?.alreadyBedAvailable && (
+          {bedAlreadyBooked && bedAlreadyBooked && (
             // <div className="d-flex align-items-center p-1 mb-2">
             <div className="d-flex align-items-center p-0">
               <MdError style={{ color: "red", marginRight: "5px"}} />
@@ -291,7 +304,7 @@ function AddBed({ show, handleClose, currentItem }) {
                   fontWeight: 500,
                 }}
               >
-                {state.PgList?.alreadyBedAvailable}
+                {bedAlreadyBooked}
               </label>
             </div>
           )}
@@ -322,7 +335,7 @@ function AddBed({ show, handleClose, currentItem }) {
 }
 AddBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
+  setShowBed: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
   
 };
