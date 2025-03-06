@@ -1358,6 +1358,7 @@ const InvoicePage = () => {
     updatedRows[index][field] = value;
 
     setNewRows(updatedRows);
+    setTableErrmsg("")
   };
 
   const handleDeleteNewRow = (index) => {
