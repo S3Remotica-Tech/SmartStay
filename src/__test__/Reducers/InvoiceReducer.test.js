@@ -747,7 +747,7 @@ describe('it should check invoice reducers', () => {
         });
     });
 
-    it('it should check MANUAL_INVOICES_LIST', () => {
+    it('it should check MANUAL_INVOICES_LIST NULL CHECK', () => {
         const action = {
             type: 'MANUAL_INVOICES_LIST',
             payload: {
