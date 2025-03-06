@@ -42,7 +42,7 @@ const RecurringBills = (props) => {
 
     
       const handleCustomerName = (selectedOption) => {
-        setCustomerName(selectedOption)
+        setCustomerName(selectedOption?.value || '')
         setAllFieldErrmsg('')
         if(!selectedOption){
           setCustomerErrmsg("Please Select Name")
@@ -355,7 +355,7 @@ const RecurringBills = (props) => {
           }))
         : []
     }
-    onChange={(selectedOption) => handleCustomerName(selectedOption?.value)}
+    onChange={ handleCustomerName}
     value={
       customername
         ? {

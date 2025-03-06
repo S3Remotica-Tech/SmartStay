@@ -392,7 +392,7 @@ function UserlistWalkin(props) {
                             border: "none",
                           }}
                         >
-                          Walkin Date
+                          Walk-in Date
                         </th>
 
                         <th

@@ -94,7 +94,7 @@ const AddReceiptForm = (props) => {
     
     
       const handleCustomerName = (selectedOption) => {
-        const Value = selectedOption;
+        const Value = (selectedOption?.value || '');
         setCustomerName(Value);
         setAllFieldErrmsg("");
         setDueAmount(0)
@@ -131,7 +131,7 @@ const AddReceiptForm = (props) => {
       // const [dropdownClicked, setDropdownClicked] = useState(false);
 
       const handleInvoiceNumber = (selectedOption) => {
-        const selectedValue =selectedOption;
+        const selectedValue =(selectedOption?.value || '');
       
         setInvoiceNumber(selectedValue);
         // setDropdownClicked(true);
@@ -558,7 +558,7 @@ const AddReceiptForm = (props) => {
           }))
         : []
     }
-    onChange={(selectedOption) => handleCustomerName(selectedOption?.value)}
+    onChange={ handleCustomerName}
     value={
       customername
         ? {
@@ -738,7 +738,7 @@ const AddReceiptForm = (props) => {
           }))
         : []
     }
-    onChange={(selectedOption) => handleInvoiceNumber(selectedOption?.value)}
+    onChange={ handleInvoiceNumber}
     value={
       invoicenumber
         ? {

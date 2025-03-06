@@ -845,7 +845,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     }}
                   >
                     Email ID{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    {/* <span style={{ color: "red", fontSize: "20px" }}>*</span> */}
                   </Form.Label>
                   <Form.Control
                     value={email_Id}

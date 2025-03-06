@@ -241,7 +241,7 @@ function AssignBooking(props) {
   };
 
   const handleBed = (selectedOption) => {
-    setBed(selectedOption);
+    setBed(selectedOption?.value || '');
 
     const Bedfilter =
       state?.UsersList?.roomdetails &&
@@ -676,7 +676,7 @@ function AssignBooking(props) {
             }))
         : []
     }
-    onChange={(selectedOption) => handleBed(selectedOption?.value)}
+    onChange={handleBed}
     value={
       bed
         ? {

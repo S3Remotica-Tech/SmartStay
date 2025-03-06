@@ -400,7 +400,7 @@ const Compliance = () => {
   }, [selectedUsername]);
 
   const handleCheckoutChange = (selectedOption) => {
-    setSelectedUserName(selectedOption);
+    setSelectedUserName(selectedOption?.value || '');
     if (!selectedOption) {
       setUserErrmsg("Please Select Name")
     }
@@ -451,7 +451,7 @@ const Compliance = () => {
 
 
   const handleComplaintType = (selectedOption) => {
-    setComplainttype(selectedOption)
+    setComplainttype(selectedOption?.value || '')
     if (!selectedOption) {
       setComplaintTypeErrmsg("Please Select ComplaintType");
     } else {
@@ -1275,7 +1275,7 @@ const Compliance = () => {
         label: u.Name,
       })) || []
     }
-    onChange={(selectedOption) => handleCheckoutChange(selectedOption?.value)}
+    onChange={handleCheckoutChange}
     value={
       selectedUsername
         ? state?.UsersList?.Users?.find((u) => u.Name === selectedUsername) && {
@@ -1417,9 +1417,7 @@ const Compliance = () => {
           }))
         : []
     }
-    onChange={(selectedOption) =>
-      handleComplaintType({ target: { value: selectedOption?.value } })
-    }
+    onChange={handleComplaintType}
     value={
       edit && editcomplainttype
         ? { value: editcomplainttype, label: editcomplainttype }

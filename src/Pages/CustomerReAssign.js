@@ -76,13 +76,13 @@ function CustomerReAssign(props){
         setfloorError("");
       };
       const handleBed = (selectedOption) => {
-        setNewBed(selectedOption);
+        setNewBed(selectedOption?.value || '');
         // setRooms("");
         // setBed("");
         setBedError("");
       };
       const handleRooms = (selectedOption) => {
-        setNewRoom(selectedOption);
+        setNewRoom(selectedOption?.value || '');
         dispatch({
           type: "BEDNUMBERDETAILS",
           payload: {
@@ -666,7 +666,7 @@ setTimeout(() => {
           }))
         : []
     }
-    onChange={(selectedOption) => handleRooms(selectedOption?.value)}
+    onChange={handleRooms}
     value={
       newRoom
         ? {
@@ -803,7 +803,7 @@ setTimeout(() => {
             }))
         : []
     }
-    onChange={(selectedOption) => handleBed(selectedOption?.value)}
+    onChange={handleBed}
     value={
       newBed
         ? {

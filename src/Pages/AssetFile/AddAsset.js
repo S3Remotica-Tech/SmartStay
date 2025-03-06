@@ -200,7 +200,7 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handleVendorNameChange = (selectedOption) => {
-    setVendorName((selectedOption?.value || ''));
+    setVendorName(selectedOption?.value || '');
     setIsChangedError("");
     setGeneralError("");
   };

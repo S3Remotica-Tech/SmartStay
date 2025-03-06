@@ -147,7 +147,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
  
 
   const handleCategoryChange = (selectedOption) => {
-    setCategory(selectedOption);
+    setCategory(selectedOption?.value || '');
     setGeneralError("");
     setCategoryError("");
     setIsChangedError("");
@@ -481,9 +481,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
           }))
         : []
     }
-    onChange={(selectedOption) =>
-      handleCategoryChange({ target: { value: selectedOption?.value } })
-    }
+    onChange={handleCategoryChange }
     value={
       category
         ? {

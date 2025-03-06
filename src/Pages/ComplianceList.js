@@ -391,7 +391,7 @@ const ComplianceList = (props) => {
   };
 
   const handleCompliant = (selectedOption) => {
-    setCompliant(selectedOption);
+    setCompliant(selectedOption?.value || '');
     if (selectedOption === "") {
       setStatusErrorType("Please Select Compliant");
     } else {
@@ -408,7 +408,7 @@ const ComplianceList = (props) => {
   // };
 
   const handleStatus = (selectedOption) => {
-    setStatus(selectedOption);
+    setStatus(selectedOption?.value || '');
     setStatusError("");
   };
 
@@ -1461,9 +1461,8 @@ const ComplianceList = (props) => {
       { value: "in-progress", label: "In Progress" },
       { value: "resolved", label: "Resolved" },
     ]}
-    onChange={(selectedOption) =>
-      handleStatus({ target: { value: selectedOption?.value } })
-    }
+    onChange={handleStatus}
+    
     value={
       status
         ? { value: status, label: status.replace("-", " ").toUpperCase() }
@@ -1671,9 +1670,7 @@ const ComplianceList = (props) => {
           }))
         : []
     }
-    onChange={(selectedOption) =>
-      handleCompliant({ target: { value: selectedOption?.value } })
-    }
+    onChange={ handleCompliant}
     value={
       compliant
         ? {

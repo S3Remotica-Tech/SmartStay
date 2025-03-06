@@ -37,7 +37,7 @@ function BankingEditTransaction(props) {
   }, []);
 
   const handleAccount = (selectedOption) => {
-    setAccount(selectedOption);
+    setAccount(selectedOption?.value || '');
     setAccountError("");
     setError("");
   };
@@ -353,7 +353,7 @@ function BankingEditTransaction(props) {
           }))
         : []
     }
-    onChange={(selectedOption) => handleAccount(selectedOption?.value)}
+    onChange={ handleAccount}
     value={
       account
         ? {

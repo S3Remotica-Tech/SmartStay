@@ -1365,8 +1365,8 @@ function Banking() {
                                 EditTransaction === user.id
                                   ? "#E7F1FF"
                                   : "white",
-                              zIndex:
-                                EditTransaction === user.id ? 1000 : "auto",
+                              //zIndex:
+                                //EditTransaction === user.id ? 1000 : "auto",
                             }}
                             onClick={(e) => handleEditTrans(user.id, e)}
                           >

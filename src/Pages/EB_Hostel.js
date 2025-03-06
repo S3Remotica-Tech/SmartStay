@@ -259,14 +259,14 @@ function EB_Hostel() {
   // }, [state.login.selectedHostel_Id]);
 
   const handleFloor = (selectedOption) => {
-    setFloor(selectedOption);
+    setFloor(selectedOption?.value || '');
     setRooms("");
     setfloorError("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
   const handleRoom = (selectedOption) => {
-    setRooms(selectedOption);
+    setRooms(selectedOption?.value || '');
     setRoomError("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
@@ -1795,7 +1795,7 @@ cursor:"pointer"
         label: item.floor_name,
       })) || []
     }
-    onChange={(selectedOption) => handleFloor(selectedOption?.value)}
+    onChange={handleFloor}
     value={
       Floor
         ? state?.UsersList?.hosteldetailslist?.find(
@@ -1915,7 +1915,7 @@ cursor:"pointer"
         label: item.Room_Name,
       })) || []
     }
-    onChange={(selectedOption) => handleRoom(selectedOption?.value)}
+    onChange={ handleRoom}
     value={
       Rooms
         ? state?.UsersList?.roomdetails?.find(
