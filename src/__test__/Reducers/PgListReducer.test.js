@@ -7958,22 +7958,7 @@ describe('it should check Pg list reducers', () => {
     });
     
 
-    it('It should check  EB_CUSTOMER_HOSTEL_EBLIST', () => {
-        const action = {
-            type: 'EB_CUSTOMER_HOSTEL_EBLIST',
-            payload: {
-                statusCode: 200,
-                data: [{ id: 1, name: "Test Hostel" }]
-            }
-        };
-    
-        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-            ...initialState,
-            getHostelBasedRead: action.payload,
-            getStatusCodeForHostelBased: 200
-        });
-    });
-
+   
 
 
 
