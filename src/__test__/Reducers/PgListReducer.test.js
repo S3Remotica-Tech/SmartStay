@@ -277,6 +277,7 @@ describe('it should check Pg list reducers', () => {
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             message: 'some text message',
+            createPgStatusCode: 200
         })
     })
 
@@ -452,9 +453,9 @@ describe('it should check Pg list reducers', () => {
 
         }
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-           ...initialState,
+            ...initialState,
             EB_Customerlist: [],
-           
+
         })
     })
 
@@ -473,7 +474,7 @@ describe('it should check Pg list reducers', () => {
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             statusCodeForEbRoomList: 200,
-           
+
         })
     })
 
@@ -488,9 +489,9 @@ describe('it should check Pg list reducers', () => {
 
         }
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-           ...initialState,
+            ...initialState,
             statusCodeForEbRoomList: 0,
-           
+
         })
     })
 
@@ -589,6 +590,11 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
+
         })
     })
 
@@ -685,6 +691,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -778,6 +788,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -872,6 +886,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -966,6 +984,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1059,104 +1081,15 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
 
-    it('it should check for ERROR', () => {
-        const action = {
-            type: 'ERROR',
-            payload: {
-                response: 'some error occur'
-            }
-
-        }
-        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
-            Name: '',
-            phoneNumber: '',
-            email_Id: '',
-            location: '',
-            number_Of_Floor: '',
-            room_Id: '',
-            number_Of_Bed: '',
-            message: '',
-            floor_Id: '',
-            checkRoomList: [],
-            checkEBList: [],
-            createEBList: [],
-            EB_Customerlist: [],
-            EB_startmeterlist: [],
-            statusCodeForEbRoomList: 0,
-            createRoomMessage: '',
-            errMessage: "some error occur",
-            roomCount: [],
-            roomCreationSuccess: false,
-            createPGMessage: '',
-            bedDetailsForUser: [],
-            statusCode: '',
-            errorForBed: "",
-            errorStatusCode: 0,
-            statusCodeCreateRoom: 0,
-            dashboardDetails: [],
-            deleteFloor: '',
-            deleteRoom: '',
-            deleteBed: '',
-            roomCountStatusCode: 0,
-            noRoomsInFloorStatusCode: 0,
-            createPgStatusCode: 0,
-            createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
-            statusCodeForDeleteRoom: 0,
-            statusCodeDeleteBed: 0,
-            AddEBstatusCode: 0,
-            ebError: '',
-            deletePgSuccessStatusCode: 0,
-            alreadyRoomHere: ' ',
-            deletePgError: '',
-            deleteBedError: '',
-            updateFloorSuccessStatusCode: 0,
-            alreadyfloorNameHere: '',
-            OccupiedCustomer: [],
-            OccupiedCustomerGetStatusCode: 0,
-            EB_customerTable: [],
-            statusCodeforEbCustomer: 0,
-            dleteHostelImagesStatusCode: 0,
-            statusCodeForEditElectricity: 0,
-            editElectricity: [],
-            statusCodeForDeleteElectricity: 0,
-            deleteElectricity: [],
-            ebEditError: '',
-            dashboardFilter: [],
-            statusCodeForDashboardFilter: 0,
-            dashboardFilterCashback: [],
-            statusCodeForDashboardFilterCashBack: 0,
-            dashboardFilterRevenu: [],
-            statusCodeForDashboardFilterRevenue: 0,
-            addHostelBasedReading: [],
-            statusCodeForAddHostelBased: 0,
-            editHostelBasedReading: [],
-            statusCodeForEditHostelBased: 0,
-            getHostelBasedRead: [],
-            getStatusCodeForHostelBased: 0,
-            deleteHostelBasedReading: [],
-            statusCodeForDeleteHostelBased: 0,
-            dateAlready: '',
-            editDateAlready: '',
-            isManageEnable: null,
-            announcementList: [],
-            statuscodeForAnnounceMentList: 0,
-            statuscodeForAddAnnouncement: 0,
-            addAnnounceMent: [],
-            TitleAlready: '',
-            statuscodeForDashboard: 0,
-            TittleUnique: '',
-            deleteAnnounmentSuccessStatus: 0,
-            getCommentsSuccessStatus: 0,
-            addCommentsSuccessStatus: 0,
-            CommentsList: [],
-            addSubCommentsSuccessStatus: 0,
-        })
-    })
+ 
 
 
     it('it should check for UPDATE_MESSAGE_AFTER_CREATION', () => {
@@ -1248,6 +1181,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1343,6 +1280,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1438,6 +1379,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1532,6 +1477,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1627,6 +1576,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1724,6 +1677,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1821,6 +1778,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -1917,6 +1878,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2013,6 +1978,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2108,6 +2077,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2203,6 +2176,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2297,6 +2274,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2391,6 +2372,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2485,6 +2470,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2581,6 +2570,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2675,6 +2668,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2769,6 +2766,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2861,6 +2862,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -2954,6 +2959,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3047,6 +3056,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3139,6 +3152,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3234,6 +3251,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3328,6 +3349,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3422,6 +3447,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     })
 
@@ -3516,6 +3545,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -3612,6 +3645,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -3710,6 +3747,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -3805,6 +3846,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -3899,6 +3944,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -3996,6 +4045,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4094,6 +4147,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4192,6 +4249,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4288,6 +4349,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4385,6 +4450,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4481,6 +4550,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4577,6 +4650,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4674,6 +4751,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4769,6 +4850,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4866,6 +4951,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -4962,6 +5051,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -5060,6 +5153,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -5157,6 +5254,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -5255,6 +5356,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -5353,6 +5458,10 @@ describe('it should check Pg list reducers', () => {
             addCommentsSuccessStatus: 0,
             CommentsList: [],
             addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbCustomer: 0,
+            nostatusCodeforEbHostelBased: 0,
+            statusCodeForEBRoombasednodata: 0
         })
     }
     )
@@ -5590,6 +5699,107 @@ describe('it should check Pg list reducers', () => {
 
 
 
+    it('it should check for NO_ROOM_BASED', () => {
+
+        const action = {
+            type: 'NO_ROOM_BASED',
+            payload: {
+                statusCode: 200
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 200,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
 
 
 
@@ -5598,6 +5808,109 @@ describe('it should check Pg list reducers', () => {
 
 
 
+    })
+
+
+
+    it('it should check for CLEAR_NO_ROOM_BASED', () => {
+
+        const action = {
+            type: 'CLEAR_NO_ROOM_BASED',
+
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
 
 
 
@@ -5606,7 +5919,677 @@ describe('it should check Pg list reducers', () => {
 
 
 
+    })
 
+
+    it('it should check for  NO_HOSTEL', () => {
+
+        const action = {
+            type: 'NO_HOSTEL',
+            payload: {
+                statusCode: 200
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 200,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+    it('it should check for CLEAR_NOHOSTEL', () => {
+
+        const action = {
+            type: 'CLEAR_NOHOSTEL',
+            payload: {
+                statusCode: 0
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+
+    it('it should check for NO_EB_HOSTEL_BASED', () => {
+
+        const action = {
+            type: 'NO_EB_HOSTEL_BASED',
+            payload: {
+                statusCode: 200
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 200,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+    it('it should check for CLEAR_NO_EB_HOSTEL_BASED', () => {
+
+        const action = {
+            type: 'CLEAR_NO_EB_HOSTEL_BASED',
+            payload: {
+                statusCode: 0
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+   
+    it('it should check for  NO_DASHBOARD_LIST', () => {
+
+        const action = {
+            type: 'NO_DASHBOARD_LIST',
+            payload: {
+                statusCode: 200
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 200,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+
+    it('it should check for CLEAR_NO_DASHBOARD_LIST', () => {
+
+        const action = {
+            type: 'CLEAR_NO_DASHBOARD_LIST',
+            payload: {
+                statusCode: 0
+            }
+        }
+
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            room_Id: '',
+            number_Of_Bed: '',
+            message: '',
+            floor_Id: '',
+            checkRoomList: [],
+            checkEBList: [],
+            createEBList: [],
+            EB_Customerlist: [],
+            EB_startmeterlist: [],
+            statusCodeForEbRoomList: 0,
+            statusCodeForEBRoombasednodata: 0,
+            createRoomMessage: '',
+            errMessage: "",
+            roomCount: [],
+            roomCreationSuccess: false,
+            createPGMessage: '',
+            bedDetailsForUser: [],
+            statusCode: '',
+            errorForBed: "",
+            errorStatusCode: 0,
+            statusCodeCreateRoom: 0,
+            dashboardDetails: [],
+            deleteFloor: '',
+            deleteRoom: '',
+            deleteBed: '',
+            roomCountStatusCode: 0,
+            noRoomsInFloorStatusCode: 0,
+            createPgStatusCode: 0,
+            createBedStatusCode: 0,
+            alreadyBedAvailable: 0,
+            statusCodeForDeleteRoom: 0,
+            statusCodeDeleteBed: 0,
+            AddEBstatusCode: 0,
+            ebError: '',
+            deletePgSuccessStatusCode: 0,
+            alreadyRoomHere: ' ',
+            deletePgError: '',
+            deleteBedError: '',
+            updateFloorSuccessStatusCode: 0,
+            alreadyfloorNameHere: '',
+            OccupiedCustomer: [],
+            OccupiedCustomerGetStatusCode: 0,
+            EB_customerTable: [],
+            nostatusCodeforEbCustomer: 0,
+            statusCodeforEbCustomer: 0,
+            dleteHostelImagesStatusCode: 0,
+            statusCodeForEditElectricity: 0,
+            editElectricity: [],
+            statusCodeForDeleteElectricity: 0,
+            deleteElectricity: [],
+            ebEditError: '',
+            dashboardFilter: [],
+            statusCodeForDashboardFilter: 0,
+            dashboardFilterCashback: [],
+            statusCodeForDashboardFilterCashBack: 0,
+            dashboardFilterRevenu: [],
+            statusCodeForDashboardFilterRevenue: 0,
+            addHostelBasedReading: [],
+            statusCodeForAddHostelBased: 0,
+            editHostelBasedReading: [],
+            statusCodeForEditHostelBased: 0,
+            getHostelBasedRead: [],
+            getStatusCodeForHostelBased: 0,
+            deleteHostelBasedReading: [],
+            statusCodeForDeleteHostelBased: 0,
+            dateAlready: '',
+            editDateAlready: '',
+            isManageEnable: null,
+            announcementList: [],
+            statuscodeForAnnounceMentList: 0,
+            statuscodeForAddAnnouncement: 0,
+            addAnnounceMent: [],
+            TitleAlready: '',
+            statuscodeForDashboard: 0,
+            TittleUnique: '',
+            deleteAnnounmentSuccessStatus: 0,
+            getCommentsSuccessStatus: 0,
+            addCommentsSuccessStatus: 0,
+            CommentsList: [],
+            addSubCommentsSuccessStatus: 0,
+            NoDashboardStatusCode: 0,
+            nostatusCodeforEbHostelBased: 0,
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
 
 
 
