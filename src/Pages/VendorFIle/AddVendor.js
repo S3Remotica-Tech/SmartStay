@@ -1089,6 +1089,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={pinCode}
                     onChange={(e) => handlePinCodeChange(e)}
                     type="text"
+                    maxLength={6}
                     placeholder="Enter Pin code"
                     style={{
                       fontSize: 16,

@@ -51,10 +51,10 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  const handleCloseBed = () => {
-    setShowBed(false)
+  // const handleCloseBed = () => {
+  //   setShowBed(false)
 
-  }
+  // }
 
  
 
@@ -724,7 +724,7 @@ console.log("currentItems",currentItems)
           </nav>
         }
 
-        {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details} />}
+        {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
         {showRoom && <AddRoom show={showRoom}
           handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
         />}
