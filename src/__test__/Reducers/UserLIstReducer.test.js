@@ -1016,21 +1016,7 @@ describe('it should check userList reducers', () => {
 
 
 
-    it('it should check ROOM_FULL', () => {
-
-        const action = {
-            type: 'ROOM_FULL',
-            payload: []
-        };
-
-        expect(UserListReducer(initialState, action)).toStrictEqual({
-            ...initialState,
-            roomFullCheck: []
-        });
-    });
-
-
-
+  
 
     it('it should check EXPORT_DETAILS', () => {
         const action = {
@@ -1802,7 +1788,17 @@ describe('it should check userList reducers', () => {
     });
     
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(UserListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 
 })

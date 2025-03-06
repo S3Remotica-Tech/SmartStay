@@ -9,25 +9,8 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
+            ...initialState,
             selectedHostel_Id: 1,
-            Settings_Hostel_Id: '',
-            IsVisible: null,
         })
     })
 
@@ -40,25 +23,8 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
+            ...initialState,
             selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
         })
     })
 
@@ -70,25 +36,8 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
+            ...initialState,
             Settings_Hostel_Id: 1,
-            IsVisible: null,
         })
     })
 
@@ -100,24 +49,7 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
+            ...initialState,
             IsVisible: 1,
         })
     })
@@ -129,24 +61,7 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
+            ...initialState,
             IsVisible: 2,
         })
     })
@@ -159,24 +74,7 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
+            ...initialState,
             IsVisible: 3,
         })
     })
@@ -191,24 +89,7 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
+            ...initialState,
             IsVisible: 4,
         })
     })
@@ -224,24 +105,7 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
+            ...initialState,
             IsVisible: null,
         })
     })
@@ -254,25 +118,8 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
+            ...initialState,
             errorMessage: 'error message displayed',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
         })
     })
 
@@ -293,25 +140,11 @@ describe('it should check login reducers', () => {
             }
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
+            ...initialState,
             email_Id: 'test@gmail.com',
             password: '@123',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
             statusCode: 200,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
             JWTtoken: 'huhuhbbhdbh',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
         })
     })
 
@@ -322,26 +155,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
+            ...initialState,
             statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -353,26 +169,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
+           ...initialState,
             errorEmail: 'enter valid email',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                  })
     })
 
 
@@ -383,26 +182,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
+          ...initialState,
             errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -413,26 +195,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
+           ...initialState,
             errorPassword: 'enter valid password',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                 })
     })
 
     it('it should check for CLEAR_PASSWORD_ERROR', () => {
@@ -442,26 +207,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
+            ...initialState,
             errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -472,25 +220,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
+            ...initialState,
             isLoggedIn: true,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: "",
-            Settings_Hostel_Id: '',
-            IsVisible: null,
+           
         })
     })
 
@@ -502,26 +234,10 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
+            ...initialState,
             isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: null,
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+            selectedHostel_Id: null
+                   })
     })
 
 
@@ -540,25 +256,10 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
+            ...initialState,
             loginInformation: [],
             otpSuccessStatusCode: 200,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
+            
         })
     })
 
@@ -570,26 +271,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer({ ...initialState, otpSuccessStatusCode: 200 }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
+            ...initialState,
             otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -609,26 +293,11 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
+            ...initialState,
             sendOtpValue: [],
             OtpVerifyStatusCode: 200,
             JWTtoken: 'token',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -639,26 +308,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer({ ...initialState, OtpVerifyStatusCode: 200 }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
+            ...initialState,
             OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -671,26 +323,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
+            ...initialState,
             Notification: [],
-            UpdateNotificationMessage: '',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -706,26 +341,9 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
+            ...initialState,
             UpdateNotificationMessage: 'some notification',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                   })
     })
 
 
@@ -735,54 +353,20 @@ describe('it should check login reducers', () => {
             message: 'some notification'
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
+            ...initialState,
             UpdateNotificationMessage: 'some notification',
-            twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
         })
     })
 
-it('it should check for ERROR_OTP_CODE', () => {
+    it('it should check for ERROR_OTP_CODE', () => {
         const action = {
             type: 'ERROR_OTP_CODE',
             payload: 'error for otp code'
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
+            ...initialState,
             twoStepOtpError: 'error for otp code',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                    })
     })
 
 
@@ -792,30 +376,20 @@ it('it should check for ERROR_OTP_CODE', () => {
             payload: ''
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
-            id: 0,
-            email_Id: '',
-            password: '',
-            isLoggedIn: false,
-            errorEmail: '',
-            errorPassword: '',
-            errorMessage: '',
-            statusCode: 0,
-            loginInformation: [],
-            otpSuccessStatusCode: 0,
-            sendOtpValue: [],
-            OtpVerifyStatusCode: 0,
-            JWTtoken: '',
-            Notification: [],
-            UpdateNotificationMessage: '',
+            ...initialState,
             twoStepOtpError: '',
-            selectedHostel_Id: '',
-            Settings_Hostel_Id: '',
-            IsVisible: null,
-        })
+                    })
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
 
-
-
+    })
 })

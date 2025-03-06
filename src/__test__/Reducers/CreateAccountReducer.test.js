@@ -8,26 +8,8 @@ describe('It should check create account reducer', () => {
             payload: "error message"
         }
         expect(CreateAccountReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
+            ...initialState,
             errorMessage: 'error message',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount: 0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -37,35 +19,21 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'CREATEACCOUNTPAGE',
             payload: {
-            mobileNo : "9999999999",
-            emailId: "test@gmail.com",
-             password:"Password", 
-             name: "Test", 
-             response: {},
-             statusCode : 200
+                mobileNo: "9999999999",
+                emailId: "test@gmail.com",
+                password: "Password",
+                name: "Test",
+                response: {},
+                statusCode: 200
             }
         }
         expect(CreateAccountReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
+            ...initialState,
             EmailId: 'test@gmail.com',
             Password: 'Password',
             MobileNo: '9999999999',
             Name: 'Test',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:200,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
+            statusCodeCreateAccount: 200,
 
         })
     })
@@ -73,29 +41,11 @@ describe('It should check create account reducer', () => {
     it('it should check for CLEAR_STATUS_CODE_CREATE_ACCOUNT', () => {
         const action = {
             type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT',
-            
+
         }
         expect(CreateAccountReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
+            ...initialState,
             statusCodeCreateAccount: 0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -104,35 +54,21 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'CREATEACCOUNT',
             payload: {
-            mobileNo : "9999999999",
-            emailId: "test@gmail.com",
-             password:"Password", 
-             name: "Test", 
-             response: {},
-             statusCode : 200
+                mobileNo: "9999999999",
+                emailId: "test@gmail.com",
+                password: "Password",
+                name: "Test",
+                response: {},
+                statusCode: 200
             }
         }
         expect(CreateAccountReducer(initialState, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
+            ...initialState,
             EmailId: 'test@gmail.com',
             Password: 'Password',
             MobileNo: '9999999999',
             Name: 'Test',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
             statusCodeForAccount: 200,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -140,65 +76,30 @@ describe('It should check create account reducer', () => {
     it('it should check for CLEAR_STATUS_CODE_ACCOUNT', () => {
         const action = {
             type: 'CLEAR_STATUS_CODE_ACCOUNT',
-           
+
         }
-        expect(CreateAccountReducer({...initialState, statusCodeForAccount: 200}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
+        expect(CreateAccountReducer({ ...initialState, statusCodeForAccount: 200 }, action)).toStrictEqual({
+            ...initialState,
             statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: true,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
+            toTriggerProfile: true
 
         })
     })
 
 
-    
+
 
     it('it should check for PROFILEUPDATE', () => {
         const action = {
             type: 'PROFILEUPDATE',
-            payload:{
+            payload: {
                 statusCode: 200
             }
-           
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             statuscodeforUpdateprofile: 200,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -206,65 +107,29 @@ describe('It should check create account reducer', () => {
     it('it should check for CLEAR_UPDATE_STATUS_CODE_ACCOUNT', () => {
         const action = {
             type: 'CLEAR_UPDATE_STATUS_CODE_ACCOUNT',
-           
-           
+
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
 
-    
+
 
     it('it should check for PASSWORD-UPDATE', () => {
         const action = {
             type: 'PASSWORD-UPDATE',
-            payload:{
+            payload: {
                 message: "some text message"
             }
-           
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             message: 'some text message',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -272,134 +137,64 @@ describe('It should check create account reducer', () => {
     it('it should check for TWO_STEP_VERIFY', () => {
         const action = {
             type: 'TWO_STEP_VERIFY',
-            payload:{
+            payload: {
                 emailId: "test@gmail.com",
                 isEnable: 1,
-                statusCode:200
+                statusCode: 200
 
             }
-           
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             statusCodeTwo: 200,
             EmailId: 'test@gmail.com',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
             IsEnable: 1,
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
 
-   
+
 
     it('it should check for  CLEAR_STATUS_CODE_TWO_STEP', () => {
         const action = {
             type: 'CLEAR_STATUS_CODE_TWO_STEP',
-                      
+
         }
-        expect(CreateAccountReducer({...initialState, statusCodeTwo : 200}, action)).toStrictEqual({
-            id: 0,
+        expect(CreateAccountReducer({ ...initialState, statusCodeTwo: 200 }, action)).toStrictEqual({
+            ...initialState,
             statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
 
-   
+
     it('it should check for  ACCOUNT_DETAILS', () => {
         const action = {
             type: 'ACCOUNT_DETAILS',
-            payload:{
-               response: [],
-                statusCode:200
+            payload: {
+                response: [],
+                statusCode: 200
 
             }
-           
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             accountList: [[]],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
             statusCodeForAccountList: 200,
             statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
-
         })
     })
 
     it('it should check for  CLEAR_ACCOUNT_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_ACCOUNT_STATUS_CODE',
-                      
-        }
-        expect(CreateAccountReducer({...initialState,  statusCodeForAccountList: 200}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
+        }
+        expect(CreateAccountReducer({ ...initialState, statusCodeForAccountList: 200 }, action)).toStrictEqual({
+            ...initialState,
+            statusCodeForAccountList: 0,
         })
     })
 
@@ -407,29 +202,11 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'EMAIL_ERROR',
             payload: "already email error"
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             emailError: 'already email error',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -438,29 +215,11 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'CLEAR_EMAIL_ERROR',
             payload: ""
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -470,129 +229,56 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'MOBILE_ERROR',
             payload: "already mobile error"
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             mobileError: 'already mobile error',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
 
-   
+
     it('it should check for  CLEAR_MOBILE_ERROR', () => {
         const action = {
             type: 'CLEAR_MOBILE_ERROR',
             payload: ""
-                      
-        }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
+        }
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            mobileError: '',
         })
     })
 
 
-   
+
 
     it('it should check for  EMAIL_MOBILE_ERROR', () => {
         const action = {
             type: 'EMAIL_MOBILE_ERROR',
             payload: "already mobile & email error"
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             email_mobile_Error: 'already mobile & email error',
-            passwordDoesnotMatchError: '',
 
         })
     })
 
-   
+
 
 
     it('it should check for   CLEAR_EMAIL_MOBILE_ERROR', () => {
         const action = {
             type: 'CLEAR_EMAIL_MOBILE_ERROR',
             payload: ""
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
 
         })
     })
@@ -602,33 +288,40 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'PASSWORD_DOESNT_ERROR',
             payload: "password doesnt match"
-                      
+
         }
-        expect(CreateAccountReducer({...initialState}, action)).toStrictEqual({
-            id: 0,
-            statusCodeTwo: 0,
-            EmailId: '',
-            Password: '',
-            MobileNo: '',
-            Name: '',
-            errorMessage: '',
-            accountMgs: {},
-            IsEnable: '',
-            accountList: [],
-            statusCodeForAccount: 0,
-            statusCodeCreateAccount:0,
-            toTriggerProfile: false,
-            statusCodeForAccountList: 0,
-            statuscodeforUpdateprofile: 0,
-            message: '',
-            emailError: '',
-            mobileError: '',
-            email_mobile_Error: '',
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             passwordDoesnotMatchError: 'password doesnt match',
 
         })
     })
 
+   
+    it('it should check for   CLEAR_PASSWORD_DOESNT_ERROR', () => {
+        const action = {
+            type: 'CLEAR_PASSWORD_DOESNT_ERROR',
+            payload: ""
 
+        }
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            passwordDoesnotMatchError: '',
+
+        })
+    })
+
+
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
+
+        }
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 })

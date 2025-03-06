@@ -19,6 +19,7 @@ export const initialState = {
     StatusCodeAmenitiesGet: 0,
     AmenitiesUpdateStatusCode: 0,
     ManualInvoice: [],
+    BillsErrorstatusCode:0,
     manualInvoiceStatusCode: 0,
     UpdateInvoiceStatusCode: 0,
     ManualInvoiceNUmber: [],
@@ -33,6 +34,7 @@ export const initialState = {
     RecurringBillAddStatusCode: 0,
     RecurringBills: [],
     RecurringbillsgetStatuscode: 0,
+    NodataRecurringStatusCode:0,
     deleterecurringbillsStatuscode: 0,
     settingsaddRecurringStatusCode: 0,
     deleteUserSuccessStatusCode: 0,
@@ -45,6 +47,7 @@ export const initialState = {
     deletemanualError: '',
     ReceiptList: [],
     ReceiptlistgetStatuscode: 0,
+    NodataReceiptStatusCode:0,
     ReceiptAddsuccessStatuscode: 0,
     ReceiptEditsuccessStatuscode: 0,
     ReceiptDeletesuccessStatuscode: 0,
@@ -201,6 +204,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ManualInvoices: action.payload.response ? action.payload.response : [], ManualInvoicesgetstatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
             return { ...state, ManualInvoicesgetstatuscode: 0 }
+        case 'NODATA_BILL_LIST':
+                return { ...state, BillsErrorstatusCode: action.payload.statusCode }
+        case 'REMOVE_NODATA_BILL_LIST':
+                return { ...state, BillsErrorstatusCode: 0}
+
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
         // case 'DELETE_MANUAL_ERROR':
@@ -209,6 +217,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':
             return { ...state, RecurringbillsgetStatuscode: 0 }
+
+        case 'NODATA_RECURRINGBILLS_LIST':
+             return { ...state, NodataRecurringStatusCode: action.payload.statusCode }
+        case 'CLEAR_NODATA_RECURRINGBILLS_LIST':
+             return { ...state, NodataRecurringStatusCode: 0}    
 
         case 'FILTER_RECURR_CUSTOMERS':
                 return { ...state, FilterRecurrCustomers: action.payload.response,  getstatusCodeForfilterrecurrcustomers: action.payload.statusCode,  }
@@ -230,6 +243,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptList: action.payload.response ? action.payload.response : [], ReceiptlistgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECEIPTS_LIST':
             return { ...state, ReceiptlistgetStatuscode: 0 }
+
+        case 'NODATA_RECEIPTS_LIST':
+                return { ...state, NodataReceiptStatusCode: action.payload.statusCode }
+        case 'CLEAR_NODATA_RECEIPTS_LIST':
+                return { ...state, NodataReceiptStatusCode: 0} 
 
         case 'RECEIPTS_ADD':
             return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } //Receipt Add

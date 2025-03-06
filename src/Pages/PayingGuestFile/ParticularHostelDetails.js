@@ -204,7 +204,7 @@ function ParticularHostelDetails(props) {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-
+console.log("currentItems",currentItems)
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -403,7 +403,7 @@ function ParticularHostelDetails(props) {
                       </div>
                       <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        {activeRoomId === room.Room_Id && (
+                        {String(activeRoomId) === String(room.Room_Id) && (
                           <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                             <div>
                               {/* <div className='d-flex gap-2 mb-2 align-items-center'
@@ -491,7 +491,7 @@ function ParticularHostelDetails(props) {
                     </Card.Header>
                     <Card.Body className=''>
                       <div className='row row-gap-3 g-0'>
-                        {room.bed_details && room.bed_details.map((bed) => (
+                        { Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details && room.bed_details.map((bed) => (
                           <div key={bed.id} className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                             <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 

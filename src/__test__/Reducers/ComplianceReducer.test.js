@@ -11,31 +11,10 @@ describe('It should check compliance reducer', () => {
             }
         }
         expect(ComplianceReducer(initialState, action)).toStrictEqual({
+            ...initialState,
             Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
             statusCodeCompliance: 200,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
+
 
 
         })
@@ -48,31 +27,8 @@ describe('It should check compliance reducer', () => {
 
         }
         expect(ComplianceReducer({ ...initialState, statusCodeCompliance: 200 }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
+            ...initialState,
             statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -84,35 +40,14 @@ describe('It should check compliance reducer', () => {
             type: 'COMPLIANCE_ADD',
             payload: {
                 statusCode: 200
-                          }
+            }
 
         }
         expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
+            ...initialState,
             statusCodeForAddCompliance: 200,
             messageShow: true,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
+
 
 
         })
@@ -121,35 +56,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_COMPLIANCE_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_COMPLIANCE_STATUS_CODE',
-           
+
         }
         expect(ComplianceReducer({ ...initialState, statusCodeForAddCompliance: 200 }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
+            ...initialState,
             statusCodeForAddCompliance: 0,
             messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
 
         })
     })
@@ -158,35 +70,11 @@ describe('It should check compliance reducer', () => {
         const action = {
             type: 'ERROR',
             payload: 'error message exist'
-           
+
         }
         expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
+            ...initialState,
             errorMessage: 'error message exist',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
 
         })
     })
@@ -197,36 +85,11 @@ describe('It should check compliance reducer', () => {
         const action = {
             type: 'CLEAR_ERROR',
             payload: ''
-           
+
         }
         expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
+            ...initialState,
             errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -234,37 +97,15 @@ describe('It should check compliance reducer', () => {
         const action = {
             type: 'VENDOR_LIST',
             payload: {
-                response:[],
+                response: [],
                 statusCode: 200
             }
-           
+
         }
         expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
+            ...initialState,
             VendorList: [],
-            addVendorSuccessStatusCode: 0,
             getVendorStatusCode: 200,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -274,36 +115,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_GET_VENDOR_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_GET_VENDOR_STATUS_CODE',
-          
-           
-        }
-        expect(ComplianceReducer({ ...initialState ,getVendorStatusCode: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
+
+        }
+        expect(ComplianceReducer({ ...initialState, getVendorStatusCode: 200 }, action)).toStrictEqual({
+            ...initialState,
+            getVendorStatusCode: 0,
 
         })
     })
@@ -312,37 +129,14 @@ describe('It should check compliance reducer', () => {
     it('it should check for ERROR_VENDOR_LIST', () => {
         const action = {
             type: 'ERROR_VENDOR_LIST',
-            payload:{
+            payload: {
                 statusCode: 201
             }
-                     
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             noVendorStatusCode: 201,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -353,34 +147,11 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_ERROR_VENDOR_LIST', () => {
         const action = {
             type: 'CLEAR_ERROR_VENDOR_LIST',
-                                 
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -390,37 +161,14 @@ describe('It should check compliance reducer', () => {
     it('it should check for ADD_VENDOR', () => {
         const action = {
             type: 'ADD_VENDOR',
-            payload:{
+            payload: {
                 statusCode: 200
             }
-                                 
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             addVendorSuccessStatusCode: 200,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -430,35 +178,11 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_ADD_VENDOR_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_ADD_VENDOR_STATUS_CODE',
-                                            
-        }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            addVendorSuccessStatusCode: 0,
 
         })
     })
@@ -466,38 +190,14 @@ describe('It should check compliance reducer', () => {
     it('it should check for DELETE_VENDOR', () => {
         const action = {
             type: 'DELETE_VENDOR',
-            payload:{
+            payload: {
                 statusCode: 200
             }
-                                            
-        }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 200,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            deleteVendorStatusCode: 200,
 
         })
     })
@@ -506,34 +206,11 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_DELETE_VENDOR_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_DELETE_VENDOR_STATUS_CODE',
-                                        
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -543,37 +220,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for ALREADY_VENDOR_ERROR', () => {
         const action = {
             type: 'ALREADY_VENDOR_ERROR',
-            payload:'already vendor exist'
-                                        
+            payload: 'already vendor exist'
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             alreadyVendorHere: 'already vendor exist',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -581,77 +233,28 @@ describe('It should check compliance reducer', () => {
     it('it should check for CLEAR_ALREADY_VENDOR_ERROR', () => {
         const action = {
             type: 'CLEAR_ALREADY_VENDOR_ERROR',
-            payload:''
-                                        
-        }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
+            payload: ''
 
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            alreadyVendorHere: '',
 
         })
     })
 
 
-   
+
 
     it('it should check for  ALREADY_VENDOR_EMAIL_ERROR', () => {
         const action = {
             type: 'ALREADY_VENDOR_EMAIL_ERROR',
-            payload:'already vendor email exist'
-                                        
+            payload: 'already vendor email exist'
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             alreadyVendorEmailError: 'already vendor email exist',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -659,37 +262,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_ALREADY_VENDOR_EMAIL_ERROR', () => {
         const action = {
             type: 'CLEAR_ALREADY_VENDOR_EMAIL_ERROR',
-            payload:''
-                                        
+            payload: ''
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -698,40 +276,16 @@ describe('It should check compliance reducer', () => {
     it('it should check for  COMPLIANCE_CHANGE_STATUS', () => {
         const action = {
             type: 'COMPLIANCE_CHANGE_STATUS',
-            payload:{
+            payload: {
                 response: "",
                 statusCode: 200
             }
-                                        
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             complianceChangeRes: "",
             complianceChangeStatus: 200,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -739,37 +293,13 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_COMPLIANCE_CHANGE_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE',
-            
-                                        
+
+
         }
-        expect(ComplianceReducer({ ...initialState,complianceChangeStatus: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
+        expect(ComplianceReducer({ ...initialState, complianceChangeStatus: 200 }, action)).toStrictEqual({
+            ...initialState,
             complianceChangeRes: "",
             complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -778,37 +308,12 @@ describe('It should check compliance reducer', () => {
         const action = {
             type: 'COMPLIANCE_CHANGE_STATUS_ERROR',
             payload: 'change status error'
-            
-                                        
+
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             complianceChangeError: 'change status error',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -819,36 +324,13 @@ describe('It should check compliance reducer', () => {
                 response: "",
                 statusCode: 200
             }
-            
-                                        
-        }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 200,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
+
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            complianceAssignChangeRes: "",
+            complianceAssignChangeStatus: 200,
 
         })
     })
@@ -856,37 +338,14 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_COMPLIANCE_CHANGE_ASSIGN', () => {
         const action = {
             type: 'CLEAR_COMPLIANCE_CHANGE_ASSIGN',
-           
-            
-                                        
-        }
-        expect(ComplianceReducer({ ...initialState,complianceAssignChangeStatus: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
+
+
+        }
+        expect(ComplianceReducer({ ...initialState, complianceAssignChangeStatus: 200 }, action)).toStrictEqual({
+            ...initialState,
+            complianceAssignChangeRes: "",
+            complianceAssignChangeStatus: 0,
 
         })
     })
@@ -894,37 +353,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for  COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', () => {
         const action = {
             type: 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR',
-            payload: "change status error"  
-                                        
+            payload: "change status error"
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             complianceAssignChangeError: "change status error",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -934,36 +368,13 @@ describe('It should check compliance reducer', () => {
             payload: {
                 response: [],
                 statusCode: 200
-            } 
-                                        
+            }
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             deleteCompliance: [],
             statusCodeForDeleteCompliance: 200,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
 
         })
     })
@@ -971,35 +382,13 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_DELETE_COMPLIANCE', () => {
         const action = {
             type: 'CLEAR_DELETE_COMPLIANCE',
-           
-                                        
+
+
         }
-        expect(ComplianceReducer({ ...initialState,statusCodeForDeleteCompliance: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
+        expect(ComplianceReducer({ ...initialState, statusCodeForDeleteCompliance: 200 }, action)).toStrictEqual({
+            ...initialState,
             deleteCompliance: [],
             statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -1009,38 +398,16 @@ describe('It should check compliance reducer', () => {
     it('it should check for  COMPLIANCE_COMENET_LIST', () => {
         const action = {
             type: 'COMPLIANCE_COMENET_LIST',
-            payload:{
+            payload: {
                 response: [],
                 statusCode: 200
             }
-                                                 
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             getComplianceComments: [],
             statusCodeForGetComplianceComment: 200,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
 
 
         })
@@ -1050,36 +417,12 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_COMPLIANCE_COMENET_LIST', () => {
         const action = {
             type: 'CLEAR_COMPLIANCE_COMENET_LIST',
-                                                            
+
         }
-        expect(ComplianceReducer({ ...initialState,statusCodeForGetComplianceComment: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
+        expect(ComplianceReducer({ ...initialState, statusCodeForGetComplianceComment: 200 }, action)).toStrictEqual({
+            ...initialState,
             getComplianceComments: [],
             statusCodeForGetComplianceComment: 0,
-            AddComplianceComment: [],
-            statusCodeForAddComplianceComment: 0
-
-
         })
     })
 
@@ -1087,36 +430,14 @@ describe('It should check compliance reducer', () => {
     it('it should check for  COMPLIANCE_ADD_COMMENT', () => {
         const action = {
             type: 'COMPLIANCE_ADD_COMMENT',
-            payload:{
+            payload: {
                 response: [],
                 statusCode: 200
             }
-                                                 
+
         }
-        expect(ComplianceReducer({ ...initialState}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             AddComplianceComment: [],
             statusCodeForAddComplianceComment: 200
 
@@ -1127,32 +448,10 @@ describe('It should check compliance reducer', () => {
     it('it should check for  CLEAR_COMPLIANCE_ADD_COMMENT', () => {
         const action = {
             type: 'CLEAR_COMPLIANCE_ADD_COMMENT',
-                                                           
+
         }
-        expect(ComplianceReducer({ ...initialState, statusCodeForAddComplianceComment: 200}, action)).toStrictEqual({
-            Compliance: [],
-            message: [],
-            statusCodeForAddCompliance: 0,
-            messageShow: false,
-            errorMessage: '',
-            VendorList: [],
-            addVendorSuccessStatusCode: 0,
-            getVendorStatusCode: 0,
-            deleteVendorStatusCode: 0,
-            alreadyVendorHere: '',
-            alreadyVendorEmailError: '',
-            complianceChangeRes: "",
-            complianceChangeStatus: 0,
-            complianceChangeError: '',
-            noVendorStatusCode: 0,
-            deleteCompliance: [],
-            statusCodeForDeleteCompliance: 0,
-            statusCodeCompliance: 0,
-            complianceAssignChangeRes: "",
-            complianceAssignChangeError: "",
-            complianceAssignChangeStatus: 0,
-            getComplianceComments: [],
-            statusCodeForGetComplianceComment: 0,
+        expect(ComplianceReducer({ ...initialState, statusCodeForAddComplianceComment: 200 }, action)).toStrictEqual({
+            ...initialState,
             AddComplianceComment: [],
             statusCodeForAddComplianceComment: 0
 
@@ -1160,5 +459,15 @@ describe('It should check compliance reducer', () => {
         })
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 })

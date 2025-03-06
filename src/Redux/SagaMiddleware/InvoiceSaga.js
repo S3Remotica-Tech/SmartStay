@@ -798,6 +798,9 @@ function* handleGetManualInvoice(action) {
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.data.statusCode}})
    }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
@@ -812,6 +815,9 @@ function* handleGetRecurrbills(action) {
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'RECURRING_BILLS_LIST', payload:{response: response.data.data, statusCode:response.status || response.statusCode}})
+   }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'NODATA_RECURRINGBILLS_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -916,6 +922,9 @@ function* handleGetReceipts(action) {
     
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'RECEIPTS_LIST', payload:{response: response.data.all_receipts, statusCode:response.status || response.statusCode}})
+   }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

@@ -178,6 +178,39 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
 
+  useEffect(() => {
+    if (state.InvoiceList.BillsErrorstatusCode === 201) {
+   
+      setTimeout(() => {
+        setLoading(false); 
+        dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.BillsErrorstatusCode]);
+
+  useEffect(() => {
+    if (state.InvoiceList.NodataRecurringStatusCode === 201) {
+   
+      setTimeout(() => {
+        setRecurLoader(false); 
+        dispatch({ type: "CLEAR_NODATA_RECURRINGBILLS_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.NodataRecurringStatusCode]);
+
+   console.log("statuscode", state.InvoiceList.NodataReceiptStatusCode);
+   
+
+  useEffect(() => {
+    if (state.InvoiceList.NodataReceiptStatusCode === 201) {
+   
+      setTimeout(() => {
+        setReceiptLoader(false); 
+        dispatch({ type: "CLEAR_NODATA_RECEIPTS_LIST" });
+      }, 100);
+    }
+  }, [state.InvoiceList.NodataReceiptStatusCode]);
+
   const handleManualShow = () => {
     setShowAllBill(false);
     setShowManualInvoice(true);
@@ -389,24 +422,54 @@ const InvoicePage = () => {
     );
   };
 
+  // const handleAmount = (e) => {
+  //   if (!e.target.value) {
+  //     setAmountErrmsg("Please Enter Amount");
+  //   } else {
+  //     setAmountErrmsg("");
+  //   }
+  //   const AmountValue =
+  //     e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
+    
+
+
+  //   if (
+  //     !isNaN(AmountValue) &&
+  //     !isNaN(invoiceList.amount) &&
+  //     !isNaN(invoiceList.paidAmount) &&
+  //     !isNaN(invoiceList.balanceDue)
+  //   ) {
+  //     var total_amount = invoiceList.amount;
+  //     var paid_amount = invoiceList.paidAmount;
+  //     var payablAmount = AmountValue;
+  //     // var balance_due = invoiceList.balanceDue;
+
+  //     var cal1 = paid_amount + payablAmount;
+
+  //     var new_balance_due = total_amount - cal1;
+  //     if (total_amount < cal1) {
+  //       console.log("This is Not crt value");
+  //     } else {
+  //       setInvoiceList((prevState) => ({
+  //         ...prevState,
+  //         payableAmount: payablAmount,
+  //         balanceDue: new_balance_due,
+  //       }));
+  //     }
+  //   }
+  // };
+
   const handleAmount = (e) => {
-    if (!e.target.value) {
+    const inputValue = e.target.value.trim();
+    
+    if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
     } else {
       setAmountErrmsg("");
     }
-    const AmountValue =
-      e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-    
-
-    // let totalPaidAmount = 0;
-    // AlreadyPaidRoomRent.forEach((item) => {
-    //   const paidAmount = parseFloat(item.Amount) || 0;
-    //   totalPaidAmount += paidAmount;
-    // });
-
-    // setTotalPaidAmount(totalPaidAmount);
-
+  
+    const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0; 
+  
     if (
       !isNaN(AmountValue) &&
       !isNaN(invoiceList.amount) &&
@@ -416,22 +479,22 @@ const InvoicePage = () => {
       var total_amount = invoiceList.amount;
       var paid_amount = invoiceList.paidAmount;
       var payablAmount = AmountValue;
-      // var balance_due = invoiceList.balanceDue;
-
+  
       var cal1 = paid_amount + payablAmount;
-
       var new_balance_due = total_amount - cal1;
+  
       if (total_amount < cal1) {
         console.log("This is Not crt value");
       } else {
         setInvoiceList((prevState) => ({
           ...prevState,
           payableAmount: payablAmount,
-          balanceDue: new_balance_due,
+          balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue, 
         }));
       }
     }
   };
+  
 
  
 

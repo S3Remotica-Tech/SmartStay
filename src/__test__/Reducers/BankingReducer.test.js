@@ -10,16 +10,9 @@ describe('it should check banking reducers', () => {
             }
         }
         expect(BankingReducer(initialState, action)).toStrictEqual({
+            ...initialState,
             statusCodeForAddBanking: 200,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
     })
 
@@ -32,16 +25,8 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState, statusCodeForAddBanking: 200 }, action)).toStrictEqual({
+            ...initialState,
             statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
     })
 
@@ -54,16 +39,7 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
+            ...initialState,
             bankingError: 'error booking'
         })
     })
@@ -76,15 +52,7 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
+            ...initialState,
             bankingError: ''
         })
 
@@ -103,16 +71,10 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
+            ...initialState,
             editTransaction: [],
             statusEditTrasactionCode: 200,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
 
 
@@ -125,16 +87,9 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState, statusEditTrasactionCode: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
+            ...initialState,
             statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
 
 
@@ -150,16 +105,8 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
+            ...initialState,
             statusCodeForAddBankingAmount: 200,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
 
 
@@ -172,16 +119,9 @@ describe('it should check banking reducers', () => {
             type: 'CLEAR_ADD_BANK_AMOUNT',
         }
         expect(BankingReducer({ ...initialState, statusCodeForAddBankingAmount: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
+            ...initialState,
             statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
 
 
@@ -199,16 +139,9 @@ describe('it should check banking reducers', () => {
             }
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
+            ...initialState,
             bankingList: [],
             statusCodeForGetBanking: 200,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
 
 
@@ -221,16 +154,8 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState, statusCodeForGetBanking: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
+            ...initialState,
             statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
 
 
@@ -246,16 +171,9 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
+            ...initialState,
             statusCodeForDefaultAccount: 200,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
     })
 
@@ -265,16 +183,8 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState, statusCodeForDefaultAccount: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
+            ...initialState,
             statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
     })
 
@@ -288,16 +198,9 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
+            ...initialState,
             statusCodeDeleteBank: 200,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
     })
 
@@ -308,16 +211,8 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState, statusCodeDeleteBank: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
+            ...initialState,
             statusCodeDeleteBank: 0,
-            statusCodeForDeleteTrans: 0,
-            bankingError: ''
         })
     })
 
@@ -330,16 +225,9 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
+            ...initialState,
             statusCodeForDeleteTrans: 200,
-            bankingError: ''
+
         })
     })
 
@@ -347,20 +235,61 @@ describe('it should check banking reducers', () => {
     it('it should check for  CLEAR_DELETE_BANKING_TRANSACTION', () => {
         const action = {
             type: 'CLEAR_DELETE_BANKING_TRANSACTION',
-           
+
         }
-        expect(BankingReducer({ ...initialState,statusCodeForDeleteTrans: 200 }, action)).toStrictEqual({
-            statusCodeForAddBanking: 0,
-            bankingList: [],
-            statusCodeForGetBanking: 0,
-            statusCodeForDefaultAccount: 0,
-            statusCodeForAddBankingAmount: 0,
-            editTransaction: [],
-            statusEditTrasactionCode: 0,
-            statusCodeDeleteBank: 0,
+        expect(BankingReducer({ ...initialState, statusCodeForDeleteTrans: 200 }, action)).toStrictEqual({
+            ...initialState,
             statusCodeForDeleteTrans: 0,
-            bankingError: ''
+
         })
     })
+
+
+    
+    it('it should check for  NO_BANKING', () => {
+        const action = {
+            type: 'NO_BANKING',
+            payload: {
+                statusCode: 200
+            }
+
+        }
+        expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            statusCodeForBankingNoData: 200,
+
+        })
+    })
+
+
+    it('it should check for  CLEAR_NO_BANKING', () => {
+        const action = {
+            type: 'CLEAR_NO_BANKING',
+           
+        }
+        expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            statusCodeForBankingNoData: 0,
+
+        })
+    })
+
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
+
+        }
+        expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
+
+
+
+
+
+
 })
 
