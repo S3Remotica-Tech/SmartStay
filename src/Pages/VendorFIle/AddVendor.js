@@ -52,7 +52,11 @@ function AddVendor({ show, setShow, currentItem }) {
   };
 
   const handlePinCodeChange = (e) => {
-    setPinCode(e.target.value);
+    const value = e.target.value;
+    if (!/^\d{0,6}$/.test(value)) {
+      return; // Stop input if it's not a number or exceeds 6 digits
+    }
+    setPinCode(value);
     setGeneralError("");
     setIsChangedError("");
     setPinCodeError("");
@@ -1088,8 +1092,10 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                   <Form.Control
                     value={pinCode}
                     onChange={(e) => handlePinCodeChange(e)}
-                    type="text"
+                    type="tel"
                     maxLength={6}
+                    inputMode="numeric" 
+  pattern="[0-9]*" 
                     placeholder="Enter Pin code"
                     style={{
                       fontSize: 16,
