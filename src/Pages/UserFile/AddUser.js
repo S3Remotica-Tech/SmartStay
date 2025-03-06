@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import eye from '../../Assets/Images/login-password.png'
 import eyeClosed from '../../Assets/Images/Show_password.png';
 import PropTypes from "prop-types";
-
+import Select from "react-select";
 
 
 function User({ show, editDetails, setAddUserForm, edit }) {
@@ -129,11 +129,18 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   //   setError('')
   //   setCountryCode(e.target.value)
   // }
-  const handleRoleChange = (e) => {
-    setRoleError('')
-    setError('')
-    setRole(e.target.value)
-  }
+  // const handleRoleChange = (e) => {
+  //   setRoleError('')
+  //   setError('')
+  //   setRole(e.target.value)
+  // }
+  const handleRoleChange = (selectedOption) => {
+    setRoleError('');
+    setError('');
+    setRole(selectedOption?.value || ''); 
+  };
+  
+  
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value)
@@ -572,7 +579,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                {/* <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Role <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Select
                     aria-label="Default select example"
@@ -582,11 +589,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     onChange={handleRoleChange}
                   >
                     <option value="">Select a Role</option>
-                    {/* {state.Settings?.getsettingRoleList?.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.role_name}
-                      </option>
-                    ))} */}
+                   
                     {state.Settings?.getsettingRoleList?.length > 0 ? (
                       state.Settings.getsettingRoleList.map((u) => (
                         <option key={u.id} value={u.id}>
@@ -599,7 +602,68 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       </option>
                     )}
                   </Form.Select>
-                </Form.Group>
+                </Form.Group> */}
+              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+    Role <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+  </Form.Label>
+
+  <Select
+    options={state.Settings?.getsettingRoleList?.map((u) => ({
+      value: u.id,
+      label: u.role_name,
+    })) || []}
+    onChange={handleRoleChange}
+    value={state.Settings?.getsettingRoleList?.find((option) => option.id === role) 
+      ? { value: role, label: state.Settings.getsettingRoleList.find((option) => option.id === role)?.role_name } 
+      : null}
+    placeholder="Select a Role"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+        display: "inline-block",
+        fill: "currentColor",
+        lineHeight: 1,
+        stroke: "currentColor",
+        strokeWidth: 0,
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+</Form.Group>
+
                 {/* {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{roleError}</p>} */}
                 {roleError && (
                   <p

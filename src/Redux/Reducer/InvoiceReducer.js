@@ -1,6 +1,6 @@
 // import { ManualInvoice } from "../Action/InvoiceAction";
 
-const initialState = {
+export const initialState = {
     Invoice: [],
     message: '',
     invoiceSettings: [],
@@ -129,7 +129,9 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
         case 'UPDATEINVOICE_DETAILS':
-            return { ...state,  UpdateInvoiceStatusCode: action.payload.response.statusCode || action.payload.statusCode }
+            return { ...state,  UpdateInvoiceStatusCode: 
+                action.payload.response.statusCode ||
+                 action.payload.statusCode }
         case 'CLEAR_INVOICE_UPDATE_LIST':
             return { ...state, UpdateInvoiceStatusCode: 0, message: null }
         case 'INVOICE_SETTINGS':
@@ -139,9 +141,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
             return { ...state, statusCode: 0 }
         case 'INVOICE_PDF':
-            console.log("Payload:", action.payload);
-            console.log("Response:", action.payload.response);
-            return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
+                        return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_INVOICE_PDF_STATUS_CODE':
             return { ...state, statusCodeForPDf: 0 }
         case 'AMENITIES_SETTINGS':
@@ -172,7 +172,9 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, recurrbillamountgetStatuscode: 0 }
 
         case 'FAIL_ADD_RECURRING_BILL': 
-            return { ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode , Errmessage : action.payload.message }
+            return { ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode , 
+                // Errmessage : action.payload.message 
+            }
         case 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL':
             return { ...state, RecurenotenableStatusCode: 0 }
             

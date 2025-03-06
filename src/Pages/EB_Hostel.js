@@ -30,6 +30,7 @@ import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import PropTypes from "prop-types";
+import Select from "react-select";
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -63,7 +64,8 @@ function EB_Hostel() {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [customerLoader,setCustomerLoader] = useState(true)
   const [dateErrorMesg,setDateErrorMesg] = useState("")
 
   useEffect(() => {
@@ -80,16 +82,6 @@ function EB_Hostel() {
   //   }
   // }, [selectedHostel]);
 
-
-  useEffect(() => {
-    if(selectedHostel && value === "1"){
-      setLoader(true)
-      dispatch({
-       type: "CUSTOMEREBLIST",
-        payload: { hostel_id: selectedHostel},
-      });
-    }   
-  }, [selectedHostel]);
   const [editeb, setEditEb] = useState(false);
 
   const handleHostelForm = () => {
@@ -188,13 +180,64 @@ function EB_Hostel() {
   };
 
   const calendarRef = useRef(null);
+  // useEffect(() => {
+  //   dispatch({ type: "EBLIST" });
+  // }, []);
+  const [electricityFilterd, setelectricityFilterd] = useState([]);
+  const [electricityHostel, setelectricityHostel] = useState([]);
   useEffect(() => {
-    dispatch({ type: "EBLIST" });
+  //  if(state.login.selectedHostel_Id){
+    setCustomerLoader(true)
+    dispatch({
+     type: "CUSTOMEREBLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  //  }
+    
   }, []);
- 
- 
- 
-   
+  useEffect(() => {
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+      setLoader(false)
+      setelectricityFilterd(state.PgList?.EB_startmeterlist);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForEbRoomList])
+
+  useEffect(() => {
+    if(state.login.selectedHostel_Id && value === "2"){
+    setLoader(true)
+    dispatch({
+      type: "EBSTARTMETERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  } 
+  }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if(selectedHostel && value === "3"){
+    setLoader(true)
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+  }, [selectedHostel]);
+
+
+   useEffect(() => {
+      if (state.PgList.getStatusCodeForHostelBased === 200) {
+        setLoader(false)
+        setelectricityHostel(
+          state?.PgList?.getHostelBasedRead?.hostel_readings
+        );
+        
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
+        }, 200);
+      }
+    }, [state.PgList.getStatusCodeForHostelBased]);
   const options = {
     dateFormat: "Y/m/d",
     maxDate: new Date(),
@@ -215,15 +258,15 @@ function EB_Hostel() {
   //   setSelectedHostel(state.login.selectedHostel_Id);
   // }, [state.login.selectedHostel_Id]);
 
-  const handleFloor = (e) => {
-    setFloor(e.target.value);
+  const handleFloor = (selectedOption) => {
+    setFloor(selectedOption);
     setRooms("");
     setfloorError("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  const handleRoom = (e) => {
-    setRooms(e.target.value);
+  const handleRoom = (selectedOption) => {
+    setRooms(selectedOption);
     setRoomError("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
@@ -257,9 +300,9 @@ function EB_Hostel() {
       });
     }
   }, [selectedHostel]);
-  useEffect(() => {
-    dispatch({ type: "TRANSACTIONHISTORY" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "TRANSACTIONHISTORY" });
+  // }, []);
 
   const handleAddEbDetails = () => {
     setaddEbDetail(true);
@@ -300,20 +343,18 @@ function EB_Hostel() {
   useEffect(() => {
     
     if (state.PgList.statusCodeforEbCustomer === 200) {
-      setLoader(false)
+      
       setelectricityFilterddata(state.PgList?.EB_customerTable);
-     
+      setCustomerLoader(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
     }
   }, [state.PgList.statusCodeforEbCustomer]);
-console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodeforEbCustomer)
 
   useEffect(() => {
     if (state.PgList.nostatusCodeforEbCustomer === 201) {
-      setelectricityFilterddata([]);
-      setLoader(false)
+      setCustomerLoader(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NOHOSTEL" });
       }, 200);
@@ -451,7 +492,15 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
       });
     }
   };
- 
+  useEffect(() => {
+    if (state.PgList?.AddEBstatusCode === 200) {
+      handleClose();
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+  }, [state.PgList?.AddEBstatusCode]);
 
   // const electricityrowsPerPage = 5;
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
@@ -467,7 +516,6 @@ console.log("state.PgList.nostatusCodeforEbCustomer",state.PgList.nostatusCodefo
     filterInput.length > 0
       ? electricityFilterddata
       : electricityFilterddata?.slice(indexOfFirstRowelectricity, indexOfLastRowelectricity);
-      console.log("currentRoomelectricity",currentRoomelectricity)
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -997,6 +1045,9 @@ cursor:"pointer"
               hostelBased={hostelBased}
               editeb={editeb}
               setEditEb={setEditEb}
+              electricityHostel = {electricityHostel}
+              setLoader = {setLoader}
+              loading = {loader}
             />
 
             {ebpermissionError ? (
@@ -1043,9 +1094,7 @@ cursor:"pointer"
                   )}
                 </div>
               </>
-            ) : 
-            
-            (
+            ) : (
               <>
                
 
@@ -1430,137 +1479,70 @@ cursor:"pointer"
                     </div>
                         }
 
-                
-              </>
-            )}
 
-{loader && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: "200px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "transparent",
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: "4px solid #1E45E1",
-              borderRight: "4px solid transparent",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              animation: "spin 1s linear infinite",
-            }}
-          ></div>
-        </div>
-      )}
 
-{
-                   !loader && currentRoomelectricity && currentRoomelectricity?.length === 0 &&
-                    <div style={{ marginTop: 40 }}>
-                      <div style={{ textAlign: "center" }}>
-                        <img
-                          src={emptyimg}
-                          width={240}
-                          height={240}
-                          alt="emptystate"
-                        />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 20,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No customer readings{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no customer readings available.{" "}
-                      </div>
 
-                      {/* <div style={{ textAlign: "center" }}>
-                        <Button
-                          disabled={ebAddPermission}
-                          onClick={handleAddEbDetails}
-                          style={{
-                            fontSize: 16,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            height: 59,
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            width: 185,
-                            padding: "18px, 20px, 18px, 20px",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          + Add Reading
-                        </Button>
-                      </div> */}
-                      {/* {hostelBased == 1 ? (
-                        <div style={{ textAlign: "center" }}>
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              height: 59,
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              width: 185,
-                              padding: "18px, 20px, 18px, 20px",
-                              fontFamily: "Gilroy",
-                            }}
-                            disabled={ebAddPermission}
-                            onClick={handleHostelForm}
-                          >
-                            + Add Hostel Reading
-                          </Button>
-                        </div>
-                      ) : (
-                        <div style={{ textAlign: "center" }}>
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              height: 59,
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              width: 185,
-                              padding: "18px, 20px, 18px, 20px",
-                              fontFamily: "Gilroy",
-                            }}
-                            disabled={ebAddPermission}
-                            onClick={handleAddEbDetails}
-                          >
-                            + Add Room Reading
-                          </Button>
-                        </div>
-                      )} */}
-                    </div>
-}
+  
+{customerLoader && (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: '200px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+      opacity: 0.75,
+      zIndex: 10,
+    }}
+  >
+    <div
+      style={{
+        borderTop: '4px solid #1E45E1',
+        borderRight: '4px solid transparent',
+        borderRadius: '50%',
+        width: '40px',
+        height: '40px',
+        animation: 'spin 1s linear infinite',
+      }}
+    ></div>
+  </div>
+)}
+
+{!customerLoader && !loader &&  currentRoomelectricity.length === 0 && (
+  <div style={{ marginTop: 40 }}>
+    <div style={{ textAlign: "center" }}>
+      <img src={emptyimg} width={240} height={240} alt="emptystate" />
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No customer readings
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 16,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no customer readings available.
+    </div>
+  </div>
+)}
 
                 {electricityFilterddata?.length >= 5 && (
                   
@@ -1700,6 +1682,12 @@ cursor:"pointer"
                 )}
 
 
+
+
+
+                
+              </>
+            )}
           </>
 
 
@@ -1767,7 +1755,7 @@ cursor:"pointer"
                   Floor{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <Form.Select
+                {/* <Form.Select
                   aria-label="Default select example"
                   className="border"
                   value={Floor}
@@ -1798,7 +1786,72 @@ cursor:"pointer"
                         </option>
                       </>
                     ))}
-                </Form.Select>
+                </Form.Select> */}
+                
+  <Select
+    options={
+      state?.UsersList?.hosteldetailslist?.map((item) => ({
+        value: item.floor_id,
+        label: item.floor_name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleFloor(selectedOption?.value)}
+    value={
+      Floor
+        ? state?.UsersList?.hosteldetailslist?.find(
+            (item) => item.floor_id === Floor
+          ) && {
+            value: Floor,
+            label: state?.UsersList?.hosteldetailslist?.find(
+              (item) => item.floor_id === Floor
+            )?.floor_name,
+          }
+        : null
+    }
+    placeholder="Select Floor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No floors available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                 {floorError && (
                   <div >
                     <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
@@ -1828,7 +1881,7 @@ cursor:"pointer"
                   Room{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <Form.Select
+                {/* <Form.Select
                   aria-label="Default select example"
                   className="border"
                   value={Rooms}
@@ -1853,7 +1906,72 @@ cursor:"pointer"
                         </option>
                       </>
                     ))}
-                </Form.Select>
+                </Form.Select> */}
+              
+  <Select
+    options={
+      state?.UsersList?.roomdetails?.map((item) => ({
+        value: item.Room_Id,
+        label: item.Room_Name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleRoom(selectedOption?.value)}
+    value={
+      Rooms
+        ? state?.UsersList?.roomdetails?.find(
+            (item) => item.Room_Id === Rooms
+          ) && {
+            value: Rooms,
+            label: state?.UsersList?.roomdetails?.find(
+              (item) => item.Room_Id === Rooms
+            )?.Room_Name,
+          }
+        : null
+    }
+    placeholder="Select a Room"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No rooms available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                 {roomError && (
                   <div >
                     <MdError style={{ color: "red", fontSize: "13px",marginBottom:"2px" }} />
@@ -2004,7 +2122,10 @@ cursor:"pointer"
             uniqueostel_Id={uniqueostel_Id}
             setUniqostel_Id={setUniqostel_Id}
             selectedHostel={selectedHostel}
-         
+            setLoader = {setLoader}
+            electricityFilterd={electricityFilterd}
+            loading = {loader}
+            value ={value}
           />
         </TabPanel>
 
@@ -2020,6 +2141,9 @@ cursor:"pointer"
             hostelBased={hostelBased}
             editeb={editeb}
             setEditEb={setEditEb}
+            electricityHostel = {electricityHostel}
+            loading = {loader}
+            setLoader = {setLoader}
           />
         </TabPanel>
       </TabContext>

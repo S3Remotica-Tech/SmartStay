@@ -48,10 +48,13 @@ function* handleAddBanking(action) {
 
 function* handleGetBanking(action) {
    const response = yield call(GetAddBanking,action.payload)
-   
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'BANKING_LIST', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
    }
+
+   else if (response.status === 201 || response.data.statusCode === 201){
+    yield put ({type:'NO_BANKING', payload: {statusCode:response.data.statusCode}})
+ }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }

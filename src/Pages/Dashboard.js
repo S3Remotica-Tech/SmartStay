@@ -61,7 +61,13 @@ function Dashboard(props) {
 
   console.log("state",state.login.selectedHostel_Id);
   
-
+  useEffect(() => {
+  
+    if(hostel_id){
+      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    }    
+  }, [hostel_id]);
+  
   const handleSelectedReceived = (e) => {
     setSelectCashback(e.target.value);
   };
@@ -69,16 +75,11 @@ function Dashboard(props) {
     setSelectRevenu(e.target.value);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    if(hostel_id){
-      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
-    }
-    
-  }, [hostel_id]);
+
 
   useEffect(() => {
-    if(hostel_id){
+    // if(hostel_id){
+      setLoading(true)
       dispatch({
         type: "DASHBOARDFILTERCASHBACK",
         payload: {
@@ -87,28 +88,31 @@ function Dashboard(props) {
           hostel_id: hostel_id,
         },
       });
-    }
+    // }
+    
+    
   
   }, [selectCashback, hostel_id]);
   useEffect(() => {
-
-    if(hostel_id){
-      dispatch({
-        type: "DASHBOARDFILTERREVENUE",
-        payload: {
-          type: "exp_vs_rev",
-          range: selectRevenu,
-          hostel_id: hostel_id,
-        },
-      });
-    }
+if(hostel_id){
+  dispatch({
+    type: "DASHBOARDFILTERREVENUE",
+    payload: {
+      type: "exp_vs_rev",
+      range: selectRevenu,
+      hostel_id: hostel_id,
+    },
+  });
+}
+      
+    
    
   }, [selectRevenu, hostel_id]);
   useEffect(() => {
     const cashBackDataRevenu =
-      state.PgList?.dashboardFilterRevenu?.response?.cash_back_data;
+      state.PgList?.dashboardFilterRevenu?.cash_back_data;
     setData(cashBackDataRevenu);
-  }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
+  }, [state.PgList?.dashboardFilterRevenu?.cash_back_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilterRevenue === 200) {
@@ -127,17 +131,29 @@ function Dashboard(props) {
     }
   }, [state.PgList?.statusCodeForDashboardFilterCashBack]);
 
+console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatusCode)
+  useEffect(() => {
+    if (state.PgList?.NoDashboardStatusCode === 201) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_DASHBOARD_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList?.NoDashboardStatusCode]);
+
   const handleSelectedExpenses = (e) => {
     setSelectExpence(e.target.value);
     // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
   };
   useEffect(() => {
-   if(hostel_id){
-    dispatch({
-      type: "DASHBOARDFILTER",
-      payload: { type: "expenses", range: selectExpence, hostel_id: hostel_id },
-    });
-   }
+    if(hostel_id){
+      dispatch({
+        type: "DASHBOARDFILTER",
+        payload: { type: "expenses", range: selectExpence, hostel_id: hostel_id },
+      });
+    }
+   
+   
   }, [selectExpence, hostel_id]);
 
   const handleChanges = (event, newValue) => {
@@ -213,16 +229,16 @@ function Dashboard(props) {
   });
 
   useEffect(() => {
-    setTotalAmount(state.PgList?.dashboardFilter?.response?.total_amount);
-  }, [state.PgList?.dashboardFilter?.response?.total_amount]);
+    setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
+  }, [state.PgList?.dashboardFilter?.total_amount]);
 
   const handlecompliance = (compliance) => {
     props.displayCompliance(compliance);
   };
 
   useEffect(() => {
-    setLables(state.PgList?.dashboardFilter?.response?.exp_data || []);
-  }, [state.PgList?.dashboardFilter?.response?.exp_data]);
+    setLables(state.PgList?.dashboardFilter?.exp_data || []);
+  }, [state.PgList?.dashboardFilter?.exp_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilter === 200) {
@@ -244,7 +260,8 @@ function Dashboard(props) {
   useState(()=>{
     
   if(state.PgList.statuscodeForDashboard === 200){
-
+   
+    // setDashboardList(state.PgList.dashboardDetails.dashboardList);
     
   setTimeout(() => {   
     dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
@@ -265,9 +282,9 @@ function Dashboard(props) {
 
   useEffect(() => {
     setCashBackData(
-      state.PgList?.dashboardFilterCashback?.response?.cash_back_data
+      state.PgList?.dashboardFilterCashback?.cash_back_data
     );
-  }, [state.PgList?.dashboardFilterCashback?.response?.cash_back_data]);
+  }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
 
   const currentvalue =
     (Number(cashBackData?.[0]?.Revenue) || 0) + (Number(cashBackData?.[0]?.overdue) || 0);

@@ -9,7 +9,7 @@ import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
 import {  Form } from "react-bootstrap";
 import User from "../Assets/Images/New_images/profile-picture.png";
-
+import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -157,8 +157,6 @@ const InvoicePage = () => {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
-  console.log("loaderhostelid", loading);
-
   useEffect(() => {
     // setLoading(true);
     if (hostelId) {
@@ -169,7 +167,6 @@ const InvoicePage = () => {
       });
     }
   }, [hostelId]);
-  console.log("loaderbills", loading);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
@@ -239,8 +236,8 @@ const InvoicePage = () => {
     // setIsChangedError("");
   };
 
-  const handleTransaction = (e) => {
-    setInvoiceList({ ...invoiceList, transaction: e.target.value });
+  const handleTransaction = (selectedOption) => {
+    setInvoiceList({ ...invoiceList, transaction: selectedOption });
     setAccountError("");
     setPaymodeErrmsg("");
     setAccount("");
@@ -993,10 +990,10 @@ const InvoicePage = () => {
     setNewRows([...newRows, newRow]);
   };
 
-  const handleCustomerName = (e) => {
-    setCustomerName(e.target.value);
+  const handleCustomerName = (selectedOption) => {
+    setCustomerName(selectedOption);
     setAllFieldErrmsg("");
-    if (!e.target.value) {
+    if (!selectedOption) {
       setCustomerErrmsg("Please Select Name");
     } else {
       setCustomerErrmsg("");
@@ -1662,7 +1659,7 @@ const InvoicePage = () => {
 
   const handleChanges = (event, newValue) => {
 
-    console.log("newValue", newValue);
+  
 
     if (newValue === "1"){
       setLoading(true);
@@ -2479,8 +2476,6 @@ const InvoicePage = () => {
   ]);
 
 
-   console.log("loading",loading);
-   
 
   return (
     <div>
@@ -3581,11 +3576,10 @@ const InvoicePage = () => {
                                         *
                                       </span>
                                     </Form.Label>
-                                    <Form.Select
+                                    {/* <Form.Select
                                       className="border"
                                       value={invoiceList.transaction}
-                                      // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
-                                      // onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
+                                      
                                       onChange={(e) => handleTransaction(e)}
                                       style={{
                                         fontSize: 14,
@@ -3611,7 +3605,70 @@ const InvoicePage = () => {
                                       <option value="Net Banking">
                                         Banking
                                       </option>
-                                    </Form.Select>
+                                    </Form.Select> */}
+                                  
+  <Select
+    options={[
+      { value: "Cash", label: "Cash" },
+      { value: "Debit Card", label: "Debit Card" },
+      { value: "Credit Card", label: "Credit Card" },
+      { value: "UPI", label: "UPI" },
+      { value: "Net Banking", label: "Banking" },
+    ]}
+    onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+    value={
+      invoiceList.transaction
+        ? {
+            value: invoiceList.transaction,
+            label: invoiceList.transaction,
+          }
+        : null
+    }
+    placeholder="Select"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No options available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "49px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "14px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy, sans-serif",
+        fontWeight: 500,
+        boxShadow: "none",
+        marginTop: "6px",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                                     {paymodeerrormsg.trim() !== "" && (
                                       <div>
                                         <p
@@ -5703,7 +5760,7 @@ const InvoicePage = () => {
               >
                 Customer
               </Form.Label>
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 value={customername}
                 onChange={handleCustomerName}
@@ -5739,7 +5796,83 @@ const InvoicePage = () => {
                       {u.Name}
                     </option>
                   ))}
-              </Form.Select>
+              </Form.Select> */}
+             
+  <Select
+    options={
+      state.UsersList?.Users?.length > 0
+        ? state.UsersList.Users.filter(
+            (u) =>
+              u.Bed !== "undefined" &&
+              u.Bed !== "0" &&
+              typeof u.Bed === "string" &&
+              u.Bed.trim() !== "" &&
+              u.Rooms !== "undefined" &&
+              u.Rooms !== "0" &&
+              typeof u.Rooms === "string" &&
+              u.Rooms.trim() !== ""
+          ).map((u) => ({
+            value: u.ID,
+            label: u.Name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleCustomerName(selectedOption?.value)}
+    value={
+      customername
+        ? {
+            value: customername,
+            label:
+              state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
+              "Select Customer",
+          }
+        : null
+    }
+    isDisabled={isEditing}
+    placeholder="Select Customer"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No customers available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "38px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: customername ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p

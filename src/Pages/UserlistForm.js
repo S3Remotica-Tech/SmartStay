@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function UserlistForm(props) {
 
@@ -39,7 +40,6 @@ function UserlistForm(props) {
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  const [Bednum, setBednum] = useState(null);
   // const [romnum, setRoomnum] = useState("");
   const [payableamount, setPayableamount] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -334,30 +334,52 @@ function UserlistForm(props) {
     }
   };
 
-  const handleFloor = (e) => {
-    setFloor(e.target.value);
+  // const handleFloor = (e) => {
+  //   setFloor(e.target.value);
+  //   setRooms("");
+  //   setBed("");
+  //   setfloorError("");
+  // };
+  const handleFloor = (selectedOption) => {
+    setFloor(selectedOption?.value || '');
     setRooms("");
     setBed("");
     setfloorError("");
   };
-  const handleRooms = (e) => {
-    setRooms(e.target.value);
+  // const handleRooms = (e) => {
+  //   setRooms(e.target.value);
+  //   dispatch({
+  //     type: "BEDNUMBERDETAILS",
+  //     payload: {
+  //       hostel_id: state.login.selectedHostel_Id,
+  //       floor_id: Floor,
+  //       room_id: e.target.value,
+  //     },
+  //   });
+  //   setRoomRent("");
+  //   setRoomError("");
+  // };
+  const handleRooms = (selectedValue) => {
+    setRooms(selectedValue);
+
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: {
         hostel_id: state.login.selectedHostel_Id,
         floor_id: Floor,
-        room_id: e.target.value,
+        room_id: selectedValue, 
       },
     });
+
     setRoomRent("");
     setRoomError("");
-  };
+};
 
 
 
-  const handleBed = (e) => {
-    setBed(e.target.value);
+
+  const handleBed = (selectedOption) => {
+    setBed(selectedOption?.value || '');
     const Bedfilter =
     state?.UsersList?.roomdetails?.filter(
       (u) =>
@@ -376,7 +398,7 @@ function UserlistForm(props) {
     // }
     const Roomamountfilter =
   Bedfilter?.[0]?.bed_details?.filter(
-    (amount) => String(amount.id) === String(e.target.value)
+    (amount) => String(amount.id) === String(selectedOption)
   ) ?? []; // Ensure it doesn't throw an error
 
 if (Roomamountfilter.length > 0) {
@@ -387,7 +409,6 @@ if (Roomamountfilter.length > 0) {
     setBedError("");
     setRoomRentError("");
   };
-console.log("roomrent",RoomRent)
 
   //  useEffect (()=>{
 
@@ -464,7 +485,7 @@ console.log("roomrent",RoomRent)
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit("Edit");
-      setBednum(props.EditObj);
+      // setBednum(props.EditObj);
       setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {
@@ -1226,7 +1247,7 @@ console.log("roomrent",RoomRent)
                           *{" "}
                         </span>
                       </Form.Label>
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         placeholder="Select no. of floor"
                         style={{
@@ -1250,7 +1271,71 @@ console.log("roomrent",RoomRent)
                             {u.floor_name}
                           </option>
                         ))}
-                      </Form.Select>
+                      </Form.Select> */}
+                   
+
+
+  <Select
+    options={
+      state.UsersList?.hosteldetailslist?.map((u) => ({
+        value: u.floor_id,
+        label: u.floor_name,
+      })) || []
+    }
+    onChange= {handleFloor}
+    value={
+      state.UsersList?.hosteldetailslist?.find((option) => option.floor_id === Floor)
+        ? { value: Floor, label: state.UsersList.hosteldetailslist.find((option) => option.floor_id === Floor)?.floor_name }
+        : null
+    }
+    placeholder="Select no. of floor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", 
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto", 
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+        display: "inline-block",
+        fill: "currentColor",
+        lineHeight: 1,
+        stroke: "currentColor",
+        strokeWidth: 0,
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                       {floorError && (
                         <div style={{ color: "red" }}>
                           <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
@@ -1284,7 +1369,7 @@ console.log("roomrent",RoomRent)
                           *{" "}
                         </span>
                       </Form.Label>
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         placeholder="Select no. of rooms"
                         style={{
@@ -1310,7 +1395,74 @@ console.log("roomrent",RoomRent)
                               {item.Room_Name}
                             </option>
                           ))}
-                      </Form.Select>
+                      </Form.Select> */}
+                    
+  <Select
+    options={
+      state.UsersList?.roomdetails?.map((item) => ({
+        value: item.Room_Id,
+        label: item.Room_Name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleRooms(selectedOption?.value)}
+    value={
+      state.UsersList?.roomdetails?.find((option) => option.Room_Id === Rooms)
+        ? {
+            value: Rooms,
+            label: state.UsersList.roomdetails.find(
+              (option) => option.Room_Id === Rooms
+            )?.Room_Name,
+          }
+        : null
+    }
+    placeholder="Select a Room"
+    classNamePrefix="custom" 
+    menuPlacement="auto"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+        display: "inline-block",
+        fill: "currentColor",
+        lineHeight: 1,
+        stroke: "currentColor",
+        strokeWidth: 0,
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                       {roomError && (
                         <div style={{ color: "red" }}>
                           <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
@@ -1345,7 +1497,7 @@ console.log("roomrent",RoomRent)
                         </span>
                       </Form.Label>
 
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         style={{
                           fontSize: 16,
@@ -1393,7 +1545,83 @@ console.log("roomrent",RoomRent)
                                 {item.bed_no}
                               </option>
                             ))}
-                      </Form.Select>
+                      </Form.Select> */}
+
+  <Select
+    options={
+      state.UsersList?.bednumberdetails?.bed_details
+        ?.filter(
+          (item) =>
+            item.bed_no !== "0" &&
+            item.bed_no !== "undefined" &&
+            item.bed_no !== "" &&
+            item.bed_no !== "null"
+        )
+        ?.map((item) => ({
+          value: item.id,
+          label: item.bed_no,
+        })) || []
+    }
+    onChange={handleBed}
+    value={
+      state.UsersList?.bednumberdetails?.bed_details?.find(
+        (option) => option.id === Bed
+      )
+        ? {
+            value: Bed,
+            label: state.UsersList.bednumberdetails.bed_details.find(
+              (option) => option.id === Bed
+            )?.bed_no,
+          }
+        : null
+    }
+    placeholder="Select a Bed"
+    classNamePrefix="custom" // Prefix for custom styles
+    menuPlacement="auto"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", // Scrollable dropdown
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+        display: "inline-block",
+        fill: "currentColor",
+        lineHeight: 1,
+        stroke: "currentColor",
+        strokeWidth: 0,
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
                       {bedError && (
                         <div style={{ color: "red" }}>

@@ -19,6 +19,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
+import Select from "react-select";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -389,9 +390,9 @@ const ComplianceList = (props) => {
 
   };
 
-  const handleCompliant = (e) => {
-    setCompliant(e.target.value);
-    if (e.target.value === "") {
+  const handleCompliant = (selectedOption) => {
+    setCompliant(selectedOption);
+    if (selectedOption === "") {
       setStatusErrorType("Please Select Compliant");
     } else {
       setStatusErrorType(" ");
@@ -406,8 +407,8 @@ const ComplianceList = (props) => {
   //   }
   // };
 
-  const handleStatus = (e) => {
-    setStatus(e.target.value);
+  const handleStatus = (selectedOption) => {
+    setStatus(selectedOption);
     setStatusError("");
   };
 
@@ -606,8 +607,8 @@ const ComplianceList = (props) => {
                           style={{
                             backgroundColor: "#F9F9F9",
                             position: "absolute",
-                            right: 0,
-                            top: 50,
+                            right: 40,
+                            top: '2px',
                             width: 175,
                             height: 159,
                             border: "1px solid #F9F9F9",
@@ -1429,7 +1430,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                            <Form.Select
+                            {/* <Form.Select
                               className="border"
                               value={status}
                               onChange={(e) => {
@@ -1452,7 +1453,64 @@ const ComplianceList = (props) => {
                               <option value="open">Open</option>
                               <option value="in-progress">In Progress</option>
                               <option value="resolved">Resolved</option>
-                            </Form.Select>
+                            </Form.Select> */}
+                         
+  <Select
+    options={[
+      { value: "open", label: "Open" },
+      { value: "in-progress", label: "In Progress" },
+      { value: "resolved", label: "Resolved" },
+    ]}
+    onChange={(selectedOption) =>
+      handleStatus({ target: { value: selectedOption?.value } })
+    }
+    value={
+      status
+        ? { value: status, label: status.replace("-", " ").toUpperCase() }
+        : null
+    }
+    placeholder="Select a status"
+    classNamePrefix="custom"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                           </Form.Group>
 
                           {statusError.trim() !== "" && (
@@ -1574,7 +1632,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                            <Form.Select className="mb-2 border"
+                            {/* <Form.Select className="mb-2 border"
 
                               value={compliant}
                               onChange={(e) => {
@@ -1602,7 +1660,72 @@ const ComplianceList = (props) => {
                                     </option>
                                   );
                                 })}
-                            </Form.Select>
+                            </Form.Select> */}
+                         
+  <Select
+    options={
+      state.Settings.addSettingStaffList
+        ? state.Settings.addSettingStaffList.map((v) => ({
+            value: v.id,
+            label: v.first_name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) =>
+      handleCompliant({ target: { value: selectedOption?.value } })
+    }
+    value={
+      compliant
+        ? {
+            value: compliant,
+            label:
+              state.Settings.addSettingStaffList.find((v) => v.id === compliant)
+                ?.first_name || "Select a Complaint",
+          }
+        : null
+    }
+    placeholder="Select a Complaint"
+    classNamePrefix="custom"
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                           </Form.Group>
 
                           {statusErrorType.trim() !== "" && (

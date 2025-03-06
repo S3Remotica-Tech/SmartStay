@@ -8,6 +8,7 @@ import { MdError } from "react-icons/md";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function CustomerReAssign(props){
     const state = useSelector((state) => state);
@@ -68,26 +69,26 @@ function CustomerReAssign(props){
           });
         }
       }, [newFloor]);
-      const handleFloor = (e) => {
-        setNewFloor(e.target.value);
+      const handleFloor = (selectedOption) => {
+        setNewFloor(selectedOption?.value || '');
         // setRooms("");
         // setBed("");
         setfloorError("");
       };
-      const handleBed = (e) => {
-        setNewBed(e.target.value);
+      const handleBed = (selectedOption) => {
+        setNewBed(selectedOption);
         // setRooms("");
         // setBed("");
         setBedError("");
       };
-      const handleRooms = (e) => {
-        setNewRoom(e.target.value);
+      const handleRooms = (selectedOption) => {
+        setNewRoom(selectedOption);
         dispatch({
           type: "BEDNUMBERDETAILS",
           payload: {
             hostel_id: state.login.selectedHostel_Id,
             floor_id: newFloor,
-            room_id: e.target.value,
+            room_id: selectedOption,
           },
         });
         // setRoomRent("");
@@ -506,7 +507,7 @@ setTimeout(() => {
                           *{" "}
                         </span>
                       </Form.Label>
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         placeholder="Select no. of floor"
                         style={{
@@ -530,7 +531,75 @@ setTimeout(() => {
                             {u.floor_name}
                           </option>
                         ))}
-                      </Form.Select>
+                      </Form.Select> */}
+                      
+
+
+  <Select
+    options={
+      state.UsersList?.hosteldetailslist?.length > 0
+        ? state.UsersList.hosteldetailslist.map((u) => ({
+            value: u.floor_id,
+            label: u.floor_name,
+          }))
+        : []
+    }
+    onChange={handleFloor}
+    value={
+      newFloor
+        ? {
+            value: newFloor,
+            label:
+              state.UsersList?.hosteldetailslist?.find(
+                (f) => f.floor_id === newFloor
+              )?.floor_name || "Selected Floor",
+          }
+        : null
+    }
+    placeholder="Selected Floor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No floors available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: newFloor ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", // Enables scrolling
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                       {/* {floorError && (
                         <div style={{ color: "red" }}>
                           <MdError />
@@ -560,7 +629,7 @@ setTimeout(() => {
                           *{" "}
                         </span>
                       </Form.Label>
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         placeholder="Select no. of rooms"
                         style={{
@@ -586,13 +655,72 @@ setTimeout(() => {
                               {item.Room_Name}
                             </option>
                           ))}
-                      </Form.Select>
-                      {/* {roomError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {roomError}
-                        </div>
-                      )} */}
+                      </Form.Select> */}
+                   
+  <Select
+    options={
+      state.UsersList?.roomdetails?.length > 0
+        ? state.UsersList.roomdetails.map((item) => ({
+            value: item.Room_Id,
+            label: item.Room_Name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleRooms(selectedOption?.value)}
+    value={
+      newRoom
+        ? {
+            value: newRoom,
+            label:
+              state.UsersList?.roomdetails?.find(
+                (room) => room.Room_Id === newRoom
+              )?.Room_Name || "Selected Room",
+          }
+        : null
+    }
+    placeholder="Selected Room"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No rooms available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: newRoom ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", // Enables scrolling
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
 {roomError && (
                                               <div style={{ color: "red", marginTop: "-5px" }}>
@@ -618,7 +746,7 @@ setTimeout(() => {
                         </span>
                       </Form.Label>
 
-                      <Form.Select
+                      {/* <Form.Select
                         aria-label="Default select example"
                         style={{
                           fontSize: 16,
@@ -640,17 +768,7 @@ setTimeout(() => {
                           Selected Bed
                         </option>
 
-                        {/* {props.edit === "Edit" &&
-                          Bednum &&
-                          Bednum.Bed &&
-                          Bednum.Bed !== "undefined" &&
-                          Bednum.Bed !== "" &&
-                          Bednum.Bed !== "null" &&
-                          Bednum.Bed !== "0" && (
-                            <option value={Bednum.Bed} selected>
-                              {Bednum.Bed}
-                            </option>
-                          )} */}
+                     
 
                         {state.UsersList?.bednumberdetails?.bed_details &&
                           state.UsersList?.bednumberdetails?.bed_details
@@ -666,7 +784,80 @@ setTimeout(() => {
                                 {item.bed_no}
                               </option>
                             ))}
-                      </Form.Select>
+                      </Form.Select> */}
+
+  <Select
+    options={
+      state.UsersList?.bednumberdetails?.bed_details?.length > 0
+        ? state.UsersList.bednumberdetails.bed_details
+            .filter(
+              (item) =>
+                item.bed_no !== "0" &&
+                item.bed_no !== "undefined" &&
+                item.bed_no !== "" &&
+                item.bed_no !== "null"
+            )
+            .map((item) => ({
+              value: item.id,
+              label: item.bed_no,
+            }))
+        : []
+    }
+    onChange={(selectedOption) => handleBed(selectedOption?.value)}
+    value={
+      newBed
+        ? {
+            value: newBed,
+            label:
+              state.UsersList?.bednumberdetails?.bed_details?.find(
+                (bed) => bed.id === newBed
+              )?.bed_no || "Selected Bed",
+          }
+        : null
+    }
+    placeholder="Selected Bed"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No beds available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: newBed ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
                       {/* {bedError && (
                         <div style={{ color: "red" }}>
