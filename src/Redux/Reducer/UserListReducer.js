@@ -321,12 +321,12 @@ const UserListReducer = (state = initialState, action) => {
 
 
 
-        case 'ROOM_FULL':
-            if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
-                return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
-            } else {
-                return { ...state, roomFullCheck: action.payload };
-            }
+        // case 'ROOM_FULL':
+        //     if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
+        //         return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
+        //     } else {
+        //         return { ...state, roomFullCheck: action.payload };
+        //     }
 
 
         case "EXPORT_DETAILS":

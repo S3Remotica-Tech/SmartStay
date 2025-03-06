@@ -297,6 +297,31 @@ describe('It should check create account reducer', () => {
         })
     })
 
+   
+    it('it should check for   CLEAR_PASSWORD_DOESNT_ERROR', () => {
+        const action = {
+            type: 'CLEAR_PASSWORD_DOESNT_ERROR',
+            payload: ""
 
+        }
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            passwordDoesnotMatchError: '',
+
+        })
+    })
+
+
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
+
+        }
+        expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 })

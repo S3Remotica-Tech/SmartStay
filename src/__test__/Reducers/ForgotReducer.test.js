@@ -235,49 +235,17 @@ describe('It should check forgot reducer', () => {
     })
 
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    })
 
 
 

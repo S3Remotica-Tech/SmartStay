@@ -274,7 +274,17 @@ describe('it should check banking reducers', () => {
         })
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 
 

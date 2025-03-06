@@ -1240,6 +1240,21 @@ describe('it should check settings reducers', () => {
             roleEditError: "",
         });
     });
+
+
+
+
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
+
+        }
+        expect(SettingsReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
     
 
 })

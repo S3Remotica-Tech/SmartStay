@@ -205,7 +205,17 @@ describe('It should check expense reducer', () => {
 
 
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(ExpenseReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 
 

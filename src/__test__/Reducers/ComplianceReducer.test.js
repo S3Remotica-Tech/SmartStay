@@ -459,5 +459,15 @@ describe('It should check compliance reducer', () => {
         })
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 })

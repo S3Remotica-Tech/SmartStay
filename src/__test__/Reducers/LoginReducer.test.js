@@ -381,5 +381,15 @@ describe('it should check login reducers', () => {
                     })
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
+        }
+        expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 })
