@@ -221,14 +221,17 @@ const PgListReducer = (state = initialState, action) => {
 
 
 
-        case 'ERROR':
-            if (state.roomCount.length > 0) {
-                let index = state.roomCount.findIndex((item) => {
-                    return item[0]?.Floor_Id === action.payload.floor_Id
-                })
-                state.roomCount[index] = []
-            }
-            return { ...state, errMessage: action.payload.response }
+        // case 'ERROR':
+        //     if (state.roomCount.length > 0) {
+        //         let index = state.roomCount.findIndex((item) => {
+        //             return item[0]?.Floor_Id === action.payload.floor_Id
+        //         })
+        //         state.roomCount[index] = []
+        //     }
+        //     return { ...state, errMessage: action.payload.response }
+
+
+
         case 'UPDATE_MESSAGE_AFTER_CREATION':
             return { ...state, createRoomMessage: action.message }
 
