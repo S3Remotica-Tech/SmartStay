@@ -4,7 +4,6 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import 'flatpickr/dist/themes/material_blue.css';
-import { Dropdown } from 'react-bootstrap';
 import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import searchteam from "../Assets/Images/New_images/Search Team.png";
@@ -1290,7 +1289,7 @@ const Compliance = () => {
     isDisabled={edit}
     noOptionsMessage={() => "No customers available"}
     styles={{
-      control: (base, state) => ({
+      control: (base) => ({
         ...base,
         height: "50px",
         border: "1px solid #D9D9D9",

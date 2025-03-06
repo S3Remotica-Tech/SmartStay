@@ -575,7 +575,7 @@ const AddReceiptForm = (props) => {
     menuPlacement="auto"
     noOptionsMessage={() => "No customers available"}
     styles={{
-      control: (base, state) => ({
+      control: (base) => ({
         ...base,
         height: "38px",
         border: "1px solid #D9D9D9",
