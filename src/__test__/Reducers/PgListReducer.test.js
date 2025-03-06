@@ -6582,15 +6582,18 @@ describe('it should check Pg list reducers', () => {
 
         })
 
+   })
 
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
 
-
-
-
+        }
+        expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
 
     })
-
-
-
 })

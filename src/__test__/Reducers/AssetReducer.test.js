@@ -242,7 +242,7 @@ describe('it should check assets reducers', () => {
 
     it('It should be clear CLEAR_ASSET_NAME_ERROR', () => {
         const action = {
-            type: 'ASSET_NAME_ERROR',
+            type: 'CLEAR_ASSET_NAME_ERROR',
             payload: ''
 
         }
@@ -254,6 +254,17 @@ describe('it should check assets reducers', () => {
 
     })
 
+    it('It should be clear  Unknown action', () => {
+        const action = {
+            type: 'UNKNOWN',
+           
+
+        }
+        expect(AssetReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+                   })
+
+    })
 
 
 
