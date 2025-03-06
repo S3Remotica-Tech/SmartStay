@@ -11,23 +11,8 @@ describe('It should check forgot reducer', () => {
             payload: "error message"
         }
         expect(ForgetReducer(initialState, action)).toStrictEqual({
-            Pass: '',
+            ...initialState,
             errorMessage: 'error message',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -38,23 +23,8 @@ describe('It should check forgot reducer', () => {
             payload: "error password"
         }
         expect(ForgetReducer(initialState, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
+            ...initialState,
             errorPassword: 'error password',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -68,23 +38,8 @@ describe('It should check forgot reducer', () => {
             }
         }
         expect(ForgetReducer(initialState, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
+            ...initialState,
             status_codes: 200,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -96,23 +51,8 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState, status_codes: 200 }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
+            ...initialState,
             status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -125,22 +65,8 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
+            ...initialState,
             errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
 
         })
     })
@@ -155,23 +81,8 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
+            ...initialState,
             statusCode: 200,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -183,23 +94,8 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState, statusCode: 200 }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
+            ...initialState,
             statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
         })
     })
 
@@ -208,28 +104,15 @@ describe('It should check forgot reducer', () => {
             type: 'EMAIL_ERROR',
             payload: {
                 response: "",
-                statusCode: 200
+                statusCode: 201
 
             }
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
+            ...initialState,
             emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 200,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
+            EmailErrorStatusCode: 201,
 
         })
     })
@@ -240,25 +123,10 @@ describe('It should check forgot reducer', () => {
 
 
         }
-        expect(ForgetReducer({ ...initialState, EmailErrorStatusCode: 200 }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
+        expect(ForgetReducer({ ...initialState, EmailErrorStatusCode: 201 }, action)).toStrictEqual({
+            ...initialState,
             EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
-        })
+                    })
     })
 
     it('It should check for  OTP_ERROR', () => {
@@ -269,23 +137,9 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
+            ...initialState,
             OtpError: 'otp error',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
+           
         })
     })
 
@@ -301,23 +155,10 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
+            ...initialState,
             sendEmailError: '',
             sendEmailStatusCode: 200,
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
+           
         })
     })
 
@@ -329,23 +170,9 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
+            ...initialState,
             sendEmailStatusCode: 0,
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
+         
         })
     })
 
@@ -360,23 +187,9 @@ describe('It should check forgot reducer', () => {
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
+            ...initialState,
             statusCodeForgotOtp: 200,
-            otpInvalidError: '',
-
+            
         })
     })
 
@@ -384,25 +197,11 @@ describe('It should check forgot reducer', () => {
     it('It should check for REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE', () => {
         const action = {
             type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE',
-                   }
-        expect(ForgetReducer({ ...initialState,statusCodeForgotOtp : 200}, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
+        }
+        expect(ForgetReducer({ ...initialState, statusCodeForgotOtp: 200 }, action)).toStrictEqual({
+            ...initialState,
             statusCodeForgotOtp: 0,
-            otpInvalidError: '',
-
+           
         })
     })
 
@@ -411,53 +210,25 @@ describe('It should check forgot reducer', () => {
     it('It should check for OTP_INVALID_ERROR', () => {
         const action = {
             type: 'OTP_INVALID_ERROR',
-            payload : "otp is invalid"
-                   }
-        expect(ForgetReducer({ ...initialState}, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
+            payload: "otp is invalid"
+        }
+        expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             otpInvalidError: 'otp is invalid',
 
         })
     })
 
-    
+
 
 
     it('It should check for CLEAR_OTP_INVALID_ERROR', () => {
         const action = {
             type: 'CLEAR_OTP_INVALID_ERROR',
-            payload : ""
-                   }
-        expect(ForgetReducer({ ...initialState}, action)).toStrictEqual({
-            Pass: '',
-            errorMessage: '',
-            errorPassword: '',
-            OTP: '',
-            OtpError: '',
-            emailError: '',
-            statusCode: 0,
-            status_Code: 0,
-            status_Emai_Error: 0,
-            sendEmailError: '',
-            sendEmailStatusCode: '',
-            status_codes: 0,
-            EmailErrorStatusCode: 0,
-            otpVerify: '',
-            statusCodeForgotOtp: 0,
+            payload: ""
+        }
+        expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
             otpInvalidError: '',
 
         })
