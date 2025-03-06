@@ -26,6 +26,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 const Compliance = () => {
 
@@ -398,9 +399,9 @@ const Compliance = () => {
     }
   }, [selectedUsername]);
 
-  const handleCheckoutChange = (event) => {
-    setSelectedUserName(event.target.value);
-    if (!event.target.value) {
+  const handleCheckoutChange = (selectedOption) => {
+    setSelectedUserName(selectedOption);
+    if (!selectedOption) {
       setUserErrmsg("Please Select Name")
     }
     else {
@@ -449,9 +450,9 @@ const Compliance = () => {
   const [edit, setEdit] = useState(false)
 
 
-  const handleComplaintType = (e) => {
-    setComplainttype(e.target.value)
-    if (!e.target.value) {
+  const handleComplaintType = (selectedOption) => {
+    setComplainttype(selectedOption)
+    if (!selectedOption) {
       setComplaintTypeErrmsg("Please Select ComplaintType");
     } else {
       setComplaintTypeErrmsg("");
@@ -1227,7 +1228,7 @@ const Compliance = () => {
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                                 Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              <Form.Select className='border'
+                              {/* <Form.Select className='border'
                                 value={selectedUsername}
                                 onChange={handleCheckoutChange}
                                 disabled={edit}
@@ -1255,7 +1256,80 @@ const Compliance = () => {
 
 
 
-                              </Form.Select>
+                              </Form.Select> */}
+                     
+  <Select
+    options={
+      state?.UsersList?.Users?.filter(
+        (u) =>
+          u.Bed !== "undefined" &&
+          u.Bed !== "0" &&
+          typeof u.Bed === "string" &&
+          u.Bed.trim() !== "" &&
+          u.Rooms !== "undefined" &&
+          u.Rooms !== "0" &&
+          typeof u.Rooms === "string" &&
+          u.Rooms.trim() !== ""
+      ).map((u) => ({
+        value: u.Name,
+        label: u.Name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleCheckoutChange(selectedOption?.value)}
+    value={
+      selectedUsername
+        ? state?.UsersList?.Users?.find((u) => u.Name === selectedUsername) && {
+            value: selectedUsername,
+            label: selectedUsername,
+          }
+        : null
+    }
+    placeholder="Select a customer"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    isDisabled={edit}
+    noOptionsMessage={() => "No customers available"}
+    styles={{
+      control: (base, state) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: edit ? "#E7F1FF" : "#fff",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                               {usererrmsg.trim() !== "" && (
                                 <div>
                                   <p style={{ fontSize: '15px', color: 'red' }}>
@@ -1284,7 +1358,7 @@ const Compliance = () => {
                               Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
                             </label>
 
-                            <Dropdown>
+                            {/* <Dropdown>
                               <Dropdown.Toggle
                                 style={{
                                   fontSize: 16,
@@ -1310,7 +1384,7 @@ const Compliance = () => {
                                       ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
                                       : "Select a type"}
                                 </span>
-                                {/* <FaChevronDown style={{ fontSize: "14px", color: "#4B4B4B" }} /> */}
+                                
                               </Dropdown.Toggle>
 
                               {!edit && (
@@ -1332,7 +1406,78 @@ const Compliance = () => {
                                   )}
                                 </Dropdown.Menu>
                               )}
-                            </Dropdown>
+                            </Dropdown> */}
+                        
+  <Select
+    options={
+      Array.isArray(complainttypelist) && complainttypelist.length > 0
+        ? complainttypelist.map((u) => ({
+            value: u.id,
+            label: u.complaint_name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) =>
+      handleComplaintType({ target: { value: selectedOption?.value } })
+    }
+    value={
+      edit && editcomplainttype
+        ? { value: editcomplainttype, label: editcomplainttype }
+        : Complainttype
+        ? {
+            value: Complainttype,
+            label: complainttypelist.find((c) => c.id === Complainttype)
+              ?.complaint_name,
+          }
+        : null
+    }
+    placeholder="Select a type"
+    classNamePrefix="custom"
+    isDisabled={edit}
+    noOptionsMessage={() => "No complaint types available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: edit ? "#E7F1FF" : "#fff",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "0 15px",
+      }),
+      menu: (base) => ({
+        ...base,
+        maxHeight: "200px",
+        overflowY: "auto",
+        width: "100%",
+      }),
+      menuList: (base) => ({
+        ...base,
+        maxHeight: "200px",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                           </div>
                           {complaint_typeerrmsg.trim() !== "" && (
                                 <div>

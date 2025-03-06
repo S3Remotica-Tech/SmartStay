@@ -9,7 +9,7 @@ import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
-
+import Select from "react-select";
 
 const RecurringBills = (props) => {
 
@@ -41,10 +41,10 @@ const RecurringBills = (props) => {
 
 
     
-      const handleCustomerName = (e) => {
-        setCustomerName(e.target.value)
+      const handleCustomerName = (selectedOption) => {
+        setCustomerName(selectedOption)
         setAllFieldErrmsg('')
-        if(!e.target.value){
+        if(!selectedOption){
           setCustomerErrmsg("Please Select Name")
         }
         else{
@@ -323,7 +323,7 @@ const RecurringBills = (props) => {
     }}>
     Customer
   </Form.Label>
-  <Form.Select 
+  {/* <Form.Select 
     aria-label="Default select example" 
     value={customername} 
     onChange={handleCustomerName} 
@@ -344,7 +344,72 @@ const RecurringBills = (props) => {
     <option value={u.id} key={u.id}>{u.Name}</option>
   ))
 }
-  </Form.Select>
+  </Form.Select> */}
+ 
+  <Select
+    options={
+      customernamefilter && customernamefilter.length > 0
+        ? customernamefilter.map((u) => ({
+            value: u.id,
+            label: u.Name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleCustomerName(selectedOption?.value)}
+    value={
+      customername
+        ? {
+            value: customername,
+            label:
+              customernamefilter.find((u) => u.id === customername)?.Name ||
+              "Select Customer",
+          }
+        : null
+    }
+    placeholder="Select Customer"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No customers available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "38px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
   {customererrmsg.trim() !== "" && (
 <div>
   <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>

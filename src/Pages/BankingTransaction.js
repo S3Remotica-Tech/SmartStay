@@ -10,6 +10,7 @@ import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -35,8 +36,8 @@ function BankingEditTransaction(props) {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, []);
 
-  const handleAccount = (e) => {
-    setAccount(e.target.value);
+  const handleAccount = (selectedOption) => {
+    setAccount(selectedOption);
     setAccountError("");
     setError("");
   };
@@ -317,7 +318,7 @@ function BankingEditTransaction(props) {
                   *{" "}
                 </span>
               </Form.Label>
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 placeholder="Select no. of floor"
                 style={{
@@ -341,7 +342,73 @@ function BankingEditTransaction(props) {
                     {u.bank_name}
                   </option>
                 ))}
-              </Form.Select>
+              </Form.Select> */}
+             
+  <Select
+    options={
+      state.bankingDetails?.bankingList?.banks?.length > 0
+        ? state.bankingDetails.bankingList.banks.map((u) => ({
+            value: u.id,
+            label: u.bank_name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleAccount(selectedOption?.value)}
+    value={
+      account
+        ? {
+            value: account,
+            label:
+              state.bankingDetails?.bankingList?.banks?.find(
+                (b) => b.id === account
+              )?.bank_name || "Selected Account",
+          }
+        : null
+    }
+    placeholder="Selected Account"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No accounts available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: account ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
               {accountError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
