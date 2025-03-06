@@ -17,6 +17,7 @@ import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import moment from "moment";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -164,13 +165,13 @@ useEffect(() => {
       payload: { hostel_Id: hostelId },
     });
   }, [hostelId]);
-  const handleRoom = (e) => {
-    setRooms(e.target.value);
+  const handleRoom = (selectedOption) => {
+    setRooms(selectedOption);
     setRoomError("");
     setFormError("");
   };
-  const handleFloor = (e) => {
-    setFloor(e.target.value);
+  const handleFloor = (selectedOption) => {
+    setFloor(selectedOption);
     setRooms("");
     setfloorError("");
     setFormError("");
@@ -1290,7 +1291,7 @@ useEffect(() => {
                 Floor{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 className="border"
                 disabled={
@@ -1326,7 +1327,74 @@ useEffect(() => {
                       </option>
                     </>
                   ))}
-              </Form.Select>
+              </Form.Select> */}
+          
+  <Select
+    options={
+      state?.UsersList?.hosteldetailslist?.map((item) => ({
+        value: item.floor_id,
+        label: item.floor_name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleFloor(selectedOption?.value)}
+    value={
+      Floor
+        ? state?.UsersList?.hosteldetailslist?.find(
+            (item) => item.floor_id === Floor
+          ) && {
+            value: Floor,
+            label: state?.UsersList?.hosteldetailslist?.find(
+              (item) => item.floor_id === Floor
+            )?.floor_name,
+          }
+        : null
+    }
+    placeholder="Select Floor"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
+    noOptionsMessage={() => "No floors available"}
+    styles={{
+      control: (base, state) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
               {floorError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
@@ -1346,7 +1414,7 @@ useEffect(() => {
                 Room{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 className="border"
                 disabled={
@@ -1376,7 +1444,74 @@ useEffect(() => {
                       </option>
                     </>
                   ))}
-              </Form.Select>
+              </Form.Select> */}
+             
+  <Select
+    options={
+      state?.UsersList?.roomdetails?.map((item) => ({
+        value: item.Room_Id,
+        label: item.Room_Name,
+      })) || []
+    }
+    onChange={(selectedOption) => handleRoom(selectedOption?.value)}
+    value={
+      Rooms
+        ? state?.UsersList?.roomdetails?.find(
+            (item) => item.Room_Id === Rooms
+          ) && {
+            value: Rooms,
+            label: state?.UsersList?.roomdetails?.find(
+              (item) => item.Room_Id === Rooms
+            )?.Room_Name,
+          }
+        : null
+    }
+    placeholder="Select a Room"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
+    noOptionsMessage={() => "No rooms available"}
+    styles={{
+      control: (base, state) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
               {roomError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>

@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
@@ -145,8 +146,8 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
  
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
+  const handleCategoryChange = (selectedOption) => {
+    setCategory(selectedOption);
     setGeneralError("");
     setCategoryError("");
     setIsChangedError("");
@@ -436,7 +437,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     </span>
                   </Form.Label>
 
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     value={category}
                     onChange={handleCategoryChange}
@@ -469,7 +470,75 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     </option>
                     )
                     }
-                  </Form.Select>
+                  </Form.Select> */}
+                 
+  <Select
+    options={
+      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
+        ? state.Settings.Expences.data.map((view) => ({
+            value: view.category_Id,
+            label: view.category_Name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) =>
+      handleCategoryChange({ target: { value: selectedOption?.value } })
+    }
+    value={
+      category
+        ? {
+            value: category,
+            label:
+              state.Settings.Expences.data.find(
+                (view) => view.category_Id === category
+              )?.category_Name || "Select a Category",
+          }
+        : null
+    }
+    placeholder="Select a Category"
+    classNamePrefix="custom"
+    styles={{
+      control: (base) => ({
+        ...base,
+        marginTop: "5px",
+        fontSize: "16px",
+        color: "rgba(75, 75, 75, 1)",
+        fontFamily: "Gilroy",
+        fontWeight: category ? 600 : 500,
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        boxShadow: "none",
+        height:"50px"
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+    noOptionsMessage={() => "No category available"}
+  />
+
+
                 </Form.Group>
                 {categoryError && (
                   <div className="d-flex align-items-center p-1">

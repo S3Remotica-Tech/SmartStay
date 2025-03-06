@@ -240,8 +240,8 @@ function AssignBooking(props) {
     }
   };
 
-  const handleBed = (e) => {
-    setBed(e.target.value);
+  const handleBed = (selectedOption) => {
+    setBed(selectedOption);
 
     const Bedfilter =
       state?.UsersList?.roomdetails &&
@@ -252,7 +252,7 @@ function AssignBooking(props) {
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(e.target.value));
+      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(selectedOption));
 
     if (Roomamountfilter.length !== 0) {
       setRentAmount(Roomamountfilter[0]?.bed_amount);
@@ -621,7 +621,7 @@ function AssignBooking(props) {
                 Bed <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 style={{
                   fontSize: 16,
@@ -657,7 +657,80 @@ function AssignBooking(props) {
                         {item.bed_no}
                       </option>
                     ))}
-              </Form.Select>
+              </Form.Select> */}
+
+  <Select
+    options={
+      state.UsersList?.bednumberdetails?.bed_details?.length > 0
+        ? state.UsersList.bednumberdetails.bed_details
+            .filter(
+              (item) =>
+                item.bed_no !== "0" &&
+                item.bed_no !== "undefined" &&
+                item.bed_no !== "" &&
+                item.bed_no !== "null"
+            )
+            .map((item) => ({
+              value: item.id,
+              label: item.bed_no,
+            }))
+        : []
+    }
+    onChange={(selectedOption) => handleBed(selectedOption?.value)}
+    value={
+      bed
+        ? {
+            value: bed,
+            label:
+              state.UsersList?.bednumberdetails?.bed_details?.find(
+                (bedItem) => bedItem.id === bed
+              )?.bed_no || "Selected Bed",
+          }
+        : null
+    }
+    placeholder="Selected Bed"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No beds available"} // Handles empty state
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: bed ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
 
               {bedError && (
                 <div style={{ color: "red" }}>

@@ -10,7 +10,7 @@ import { MdError } from "react-icons/md";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
-
+import Select from "react-select";
 
 const AddReceiptForm = (props) => {
 
@@ -93,8 +93,8 @@ const AddReceiptForm = (props) => {
      
     
     
-      const handleCustomerName = (e) => {
-        const Value = e.target.value;
+      const handleCustomerName = (selectedOption) => {
+        const Value = selectedOption;
         setCustomerName(Value);
         setAllFieldErrmsg("");
         setDueAmount(0)
@@ -103,7 +103,7 @@ const AddReceiptForm = (props) => {
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
-              (u) => String(u.hos_user_id) === String(e.target.value) && u.BalanceDue > 0
+              (u) => String(u.hos_user_id) === String(selectedOption) && u.BalanceDue > 0
               )
             : [];
       
@@ -130,8 +130,8 @@ const AddReceiptForm = (props) => {
 
       // const [dropdownClicked, setDropdownClicked] = useState(false);
 
-      const handleInvoiceNumber = (e) => {
-        const selectedValue = e.target.value;
+      const handleInvoiceNumber = (selectedOption) => {
+        const selectedValue =selectedOption;
       
         setInvoiceNumber(selectedValue);
         // setDropdownClicked(true);
@@ -190,11 +190,11 @@ const AddReceiptForm = (props) => {
       };
 
 
-      const handleModeOfPaymentChange = (e) => {
-        setModeOfPayment(e.target.value);
+      const handleModeOfPaymentChange = (selectedOption) => {
+        setModeOfPayment(selectedOption);
         // setGeneralError("");
         // setPaymentError("");
-        if(!e.target.value){
+        if(!selectedOption){
           setPaymentError("Please Select payment method")
         }
         else{
@@ -524,7 +524,7 @@ const AddReceiptForm = (props) => {
     }}>
     Customer
   </Form.Label>
-  <Form.Select 
+  {/* <Form.Select 
     aria-label="Default select example" 
     value={customername} 
     onChange={handleCustomerName} 
@@ -547,7 +547,75 @@ const AddReceiptForm = (props) => {
     <option value={u.hos_user_id} key={u.hos_user_id}>{u.Name}</option>
   ))
 }
-  </Form.Select>
+  </Form.Select> */}
+
+  <Select
+    options={
+      state.InvoiceList.ManualInvoices && state.InvoiceList.ManualInvoices.length > 0
+        ? state.InvoiceList.ManualInvoices.map((u) => ({
+            value: u.hos_user_id,
+            label: u.Name,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleCustomerName(selectedOption?.value)}
+    value={
+      customername
+        ? {
+            value: customername,
+            label:
+              state.InvoiceList.ManualInvoices.find((u) => u.hos_user_id === customername)?.Name ||
+              "Select Customer",
+          }
+        : null
+    }
+    isDisabled={edit} // Disable when edit is true
+    placeholder="Select Customer"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No customers available"}
+    styles={{
+      control: (base, state) => ({
+        ...base,
+        height: "38px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: edit ? "#E7F1FF" : "white", // Background color when disabled
+        opacity: edit ? 0.6 : 1, // Lighten when disabled
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
   {customererrmsg && (
                   <div className="d-flex align-items-center  mb-2">
                     <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
@@ -634,32 +702,98 @@ const AddReceiptForm = (props) => {
         }}
       />
     ) : (
-      <Form.Select
-        aria-label="Default select example"
-        value={invoicenumber}
-        onChange={handleInvoiceNumber}
-        className="border"
-        style={{
-          fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          lineHeight: "18.83px",
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 38,
-          borderRadius: 8,
-          backgroundColor: "white",
-        }}
-      >
-        <option value="">Select Invoice number</option>
-        {customerinvoicefilter &&
-          customerinvoicefilter.map((u) => (
-            <option key={u.id} value={u.Invoices}>
-              {u.Invoices}
-            </option>
-          ))}
-      </Form.Select>
+      // <Form.Select
+      //   aria-label="Default select example"
+      //   value={invoicenumber}
+      //   onChange={handleInvoiceNumber}
+      //   className="border"
+      //   style={{
+      //     fontSize: 16,
+      //     color: "#4B4B4B",
+      //     fontFamily: "Gilroy",
+      //     lineHeight: "18.83px",
+      //     fontWeight: 500,
+      //     boxShadow: "none",
+      //     border: "1px solid #D9D9D9",
+      //     height: 38,
+      //     borderRadius: 8,
+      //     backgroundColor: "white",
+      //   }}
+      // >
+      //   <option value="">Select Invoice number</option>
+      //   {customerinvoicefilter &&
+      //     customerinvoicefilter.map((u) => (
+      //       <option key={u.id} value={u.Invoices}>
+      //         {u.Invoices}
+      //       </option>
+      //     ))}
+      // </Form.Select>
+     
+  <Select
+    options={
+      customerinvoicefilter && customerinvoicefilter.length > 0
+        ? customerinvoicefilter.map((u) => ({
+            value: u.Invoices,
+            label: u.Invoices,
+          }))
+        : []
+    }
+    onChange={(selectedOption) => handleInvoiceNumber(selectedOption?.value)}
+    value={
+      invoicenumber
+        ? {
+            value: invoicenumber,
+            label:
+              customerinvoicefilter.find((u) => u.Invoices === invoicenumber)?.Invoices ||
+              "Select Invoice number",
+          }
+        : null
+    }
+    placeholder="Select Invoice number"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No invoices available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "38px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        backgroundColor: "white",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
     )}
 
 {invoicenumbererrmsg && (
@@ -806,7 +940,7 @@ const AddReceiptForm = (props) => {
                       *
                     </span>
                   </Form.Label>
-                  <Form.Select
+                  {/* <Form.Select
                     aria-label="Default select example"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
@@ -826,7 +960,66 @@ const AddReceiptForm = (props) => {
                   <option value="Credit Card">Credit Card </option>
                   <option value="UPI">UPI</option>
                   <option value="Net Banking"> Banking</option>
-                  </Form.Select>
+                  </Form.Select> */}
+                 
+  <Select
+    options={[
+      { value: "Cash", label: "Cash" },
+      { value: "Debit Card", label: "Debit Card" },
+      { value: "Credit Card", label: "Credit Card" },
+      { value: "UPI", label: "UPI" },
+      { value: "Net Banking", label: "Net Banking" },
+    ]}
+    onChange={(selectedOption) => handleModeOfPaymentChange(selectedOption?.value)}
+    value={
+      modeOfPayment
+        ? { value: modeOfPayment, label: modeOfPayment }
+        : null
+    }
+    placeholder="Select Mode of Payment"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No payment modes available"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "50px",
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        fontSize: "16px",
+        color: "rgba(75, 75, 75, 1)",
+        fontFamily: "Gilroy",
+        fontWeight: modeOfPayment ? 600 : 500,
+        boxShadow: "none",
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+  />
+
+
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center  mb-2">
