@@ -42,6 +42,7 @@ import UserAdditionalContact from "./UserAdditionalContact";
 import trash from "../Assets/Images/New_images/trash.png";
 import docDown from "../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 function UserListRoomDetail(props) {
   
@@ -478,10 +479,10 @@ function UserListRoomDetail(props) {
   //   setRoomId("");
   //   setBedId("");
   // };
-  const handleFloor = (e) => {
-    setFloor(e.target.value);
+  const handleFloor = (selectedOption) => {
+    setFloor(selectedOption?.value || '');
 
-    if (e.target.value === "Selected Floor") {
+    if (selectedOption === "Selected Floor") {
       setfloorError("Please select a valid floor");
     } else {
       setfloorError("");
@@ -506,18 +507,19 @@ function UserListRoomDetail(props) {
     });
   }, [Rooms]);
 
-  const handleRooms = (e) => {
-    setRoomId(e.target.value);
+  const handleRooms = (selectedOption) => {
+    const roomIdValue = selectedOption?.value || "";
+    setRoomId(roomIdValue);
 
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: {
         hostel_id: hostel_Id,
         floor_id: Floor,
-        room_id: e.target.value,
+        room_id: roomIdValue,
       },
     });
-    if (e.target.value === "Selected Room") {
+    if (roomIdValue === "Selected Room") {
       setRoomError("Please select a valid Room");
     } else {
       setRoomError("");
@@ -2942,7 +2944,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    <Form.Select
+                                    {/* <Form.Select
                                       aria-label="Default select example"
                                       placeholder="Select no. of floor"
                                       style={{
@@ -2971,7 +2973,72 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           </option>
                                         )
                                       )}
-                                    </Form.Select>
+                                    </Form.Select> */}
+                                  
+
+
+<Select
+ 
+  options ={
+  state.UsersList?.hosteldetailslist?.map((u) => ({
+    value: u.floor_id,
+    label: u.floor_name,
+  })) || []
+}
+  onChange={handleFloor}
+  
+  value={
+    state.UsersList?.hosteldetailslist?.find((option) => option.floor_id === Floor)
+      ? { value: Floor, label: state.UsersList.hosteldetailslist.find((option) => option.floor_id === Floor)?.floor_name }
+      : null
+  }
+  placeholder="Select no. of floor"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  styles={{
+    control: (base, state) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      backgroundColor: state.isDisabled ? "#E7F1FF" : "white",
+      "&:hover": {
+        borderColor: state.isFocused ? "#40a9ff" : "#D9D9D9",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "200px", // Increased height for better scrolling
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+/>
+
+                                    
                                     {floorError && (
                                       <div style={{ color: "red" }}>
                                         <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
@@ -3008,7 +3075,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    <Form.Select
+                                    {/* <Form.Select
                                       aria-label="Default select example"
                                       placeholder="Select no. of rooms"
                                       style={{
@@ -3027,7 +3094,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       onChange={(e) => handleRooms(e)}
                                     >
                                       <option>Selected Room</option>
-                                      {/* } */}
+                                  
 
                                       {state.UsersList?.roomdetails &&
                                         state.UsersList.roomdetails.map(
@@ -3040,7 +3107,73 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                             </option>
                                           )
                                         )}
-                                    </Form.Select>
+                                    </Form.Select> */}
+                                    <Select
+  options={
+    state.UsersList?.roomdetails?.map((item) => ({
+      value: item.Room_Id,
+      label: item.Room_Name,
+    })) || []
+  }
+  onChange={handleRooms}
+  value={
+    state.UsersList?.roomdetails?.find((option) => option.Room_Id === RoomId)
+      ? {
+          value: RoomId,
+          label: state.UsersList.roomdetails.find(
+            (option) => option.Room_Id === RoomId
+          )?.Room_Name,
+        }
+      : null
+  }
+  placeholder="Select a Room"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      paddingLeft: "10px",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+/>
+
                                     {roomError && (
                                       <div style={{ color: "red" }}>
                                         <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
