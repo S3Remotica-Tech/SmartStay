@@ -93,26 +93,33 @@ const AddReceiptForm = (props) => {
      
     
     
-      const handleCustomerName = (e) => {
-        const Value = (e.target.value);
+      const handleCustomerName = (selectedOption) => {
+        if (!selectedOption) {
+          setCustomerErrmsg("Please Select Name");
+          return;
+        }
+      
+        const Value = selectedOption.value;  // Correct way to get selected value
         setCustomerName(Value);
         setAllFieldErrmsg("");
-        setDueAmount(0)
+        setDueAmount(0);
       
         // Proper filter logic
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
-              (u) => String(u.hos_user_id) === String(e.target.value) && u.BalanceDue > 0
+                (u) => String(u.hos_user_id) === String(Value) && u.BalanceDue > 0
               )
             : [];
       
         setCustomerInvoiceFilter(CustomerinvoicedetailsFilter);
-
-          if(CustomerinvoicedetailsFilter[0]?.BalanceDue === 0){
-            setInvoicenumberErrmsg("This customer has no due amounts")
-          }
-        
+      
+        if (CustomerinvoicedetailsFilter.length > 0 && CustomerinvoicedetailsFilter[0]?.BalanceDue === 0) {
+          setInvoicenumberErrmsg("This customer has no due amounts");
+        } else {
+          setInvoicenumberErrmsg("");
+        }
+      
         console.log("customerfilter", state?.InvoiceList?.ManualInvoices);
         console.log("customerfilter", CustomerinvoicedetailsFilter);
       
@@ -120,9 +127,9 @@ const AddReceiptForm = (props) => {
           setCustomerErrmsg("Please Select Name");
         } else {
           setCustomerErrmsg("");
-          setInvoicenumberErrmsg('')
         }
       };
+      
 
    
       
@@ -513,62 +520,57 @@ const AddReceiptForm = (props) => {
 
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-  <Form.Label 
-    style={{ 
-      fontFamily: 'Gilroy', 
-      fontSize: 14, 
-      fontWeight: 500, 
-      color: "#222", 
-      fontStyle: 'normal', 
-      lineHeight: 'normal' 
-    }}>
+  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
     Customer
   </Form.Label>
-  <Form.Select 
-    aria-label="Default select example" 
-    value={customername} 
-    onChange={handleCustomerName} 
-    disabled={edit}
-    className='border' 
-    style={{ 
-      fontSize: 16, 
-      color: "#4B4B4B", 
-      fontFamily: "Gilroy", 
-      lineHeight: '18.83px', 
-      fontWeight: 500, 
-      boxShadow: "none", 
-      border: "1px solid #D9D9D9", 
-      height: 38, 
-      borderRadius: 8 ,
-      backgroundColor:edit? "#E7F1FF": "white"
-    }}>
-      <option value=''>Select Customer</option>
-      {state.InvoiceList.ManualInvoices && state.InvoiceList.ManualInvoices.length > 0 && state.InvoiceList.ManualInvoices.map(u => (
-    <option value={u.hos_user_id} key={u.hos_user_id}>{u.Name}</option>
-  ))
-}
-  </Form.Select>
+
+  {/* Wrapper for Select with Scrollable Dropdown */}
+  
+  <Select
+  className="show-scroll"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  options={[...new Map(state?.InvoiceList?.ManualInvoices?.map(u => [u.hos_user_id, {
+    value: u.hos_user_id,
+    label: u.Name
+  }])).values()]} 
+  onChange={handleCustomerName}
+  value={state?.InvoiceList?.ManualInvoices?.find(u => u.hos_user_id === customername) 
+    ? { value: customername, label: state.InvoiceList.ManualInvoices.find(u => u.hos_user_id === customername)?.Name }
+    : null
+  }
+  isDisabled={edit}
+  styles={{
+    menu: (base) => ({
+      ...base,
+      maxHeight: "200px",
+      overflowY: "auto",
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "200px", 
+      overflowY: "auto", 
+      scrollbarWidth: "thin",  
+      msOverflowStyle: "none",
+    }),
+    control: (base) => ({
+      ...base,
+      fontSize: 16,
+      borderRadius: 8,
+      border: "1px solid #D9D9D9",
+    }),
+  }}
+/>
+
+
+
+
 
  
-
-
-  {customererrmsg && (
-                  <div className="d-flex align-items-center  mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {customererrmsg}
-                    </label>
-                  </div>
-                )}
 </Form.Group>
+
+
+
 </div>
 
 <div className="row mb-1">
@@ -638,32 +640,45 @@ const AddReceiptForm = (props) => {
         }}
       />
     ) : (
-      <Form.Select
-        aria-label="Default select example"
-        value={invoicenumber}
-        onChange={handleInvoiceNumber}
-        className="border"
-        style={{
+      <Select
+      className="custom-dropdown"
+      options={customerinvoicefilter.map((u) => ({
+        value: u.Invoices,
+        label: u.Invoices,
+      }))}
+      onChange={(selectedOption) =>
+        handleInvoiceNumber({ target: { value: selectedOption?.value } })
+      }
+      value={
+        customerinvoicefilter.find((u) => u.Invoices === invoicenumber)
+          ? { value: invoicenumber, label: invoicenumber }
+          : null
+      }
+      isDisabled={edit}
+      styles={{
+        menu: (base) => ({
+          ...base,
+          maxHeight: "150px",
+          overflowY: "auto",
+        }),
+        menuList: (base) => ({
+          ...base,
+          maxHeight: "150px", 
+          overflowY: "auto", 
+          scrollbarWidth: "thin",  
+          msOverflowStyle: "none",
+        }),
+        control: (base) => ({
+          ...base,
           fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          lineHeight: "18.83px",
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 38,
           borderRadius: 8,
-          backgroundColor: "white",
-        }}
-      >
-        <option value="">Select Invoice number</option>
-        {customerinvoicefilter &&
-          customerinvoicefilter.map((u) => (
-            <option key={u.id} value={u.Invoices}>
-              {u.Invoices}
-            </option>
-          ))}
-      </Form.Select>
+          border: "1px solid #D9D9D9",
+        }),
+      }}
+    />
+
+      
+
      
  
 
