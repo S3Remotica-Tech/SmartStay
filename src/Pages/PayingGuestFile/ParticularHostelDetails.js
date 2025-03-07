@@ -388,7 +388,7 @@ console.log("currentItems",currentItems)
         </div>
 
         <div className='container'
-          style={{ maxHeight: "500px", overflowY: "auto" }}>
+          style={{ maxHeight: "400px", overflowY: "auto" }}>
           <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
             {currentItems.length > 0 && currentItems.map((room) => (
               <>

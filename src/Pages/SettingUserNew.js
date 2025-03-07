@@ -339,7 +339,7 @@ function SettingNewUser() {
                                             textAlign: "start",
                                         }}
                                     >
-                                        Mobile
+                                        Mobile No
                                     </th>
                                     <th
                                         style={{
