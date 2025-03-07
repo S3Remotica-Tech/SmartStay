@@ -564,7 +564,22 @@ const AddReceiptForm = (props) => {
 
 
 
-
+{customererrmsg && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {customererrmsg}
+                    </label>
+                  </div>
+                )}
 
  
 </Form.Group>
