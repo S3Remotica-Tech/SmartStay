@@ -1065,10 +1065,10 @@ function Booking(props) {
                                   justifyContent: "center",
                                   alignItems: "center",
                                   position: "relative",
-                                  zIndex:
-                                    activeDotsId === customer.id
-                                      ? 1000
-                                      : "auto",
+                                  // zIndex:
+                                  //   activeDotsId === customer.id
+                                  //     ? 1000
+                                  //     : "auto",
                                   backgroundColor:
                                     activeDotsId === customer.id
                                       ? "#E7F1FF"
