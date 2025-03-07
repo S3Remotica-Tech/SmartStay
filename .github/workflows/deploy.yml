@@ -20,12 +20,12 @@ jobs:
 
       - name: Install Dependencies & Build
         run: |
-          npm install --legacy-peer-deps  # ✅ Fix dependency conflicts
+          npm install --force
           npm run build
 
       - name: Test Cases
         run: |
-          npm test -- --coverage watchAll
+          npm test -- --coverage
 
       - name: Install SSH Key
         run: |
