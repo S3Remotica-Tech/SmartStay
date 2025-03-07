@@ -2827,10 +2827,10 @@ const handleBack = () => {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             position: "relative",
-                                            zIndex:
-                                              activeRow === user.ID
-                                                ? 1000
-                                                : "auto",
+                                            // zIndex:
+                                            //   activeRow === user.ID
+                                            //     ? 1000
+                                            //     : "auto",
                                             backgroundColor:
                                               activeRow === user.ID
                                                 ? "#E7F1FF"

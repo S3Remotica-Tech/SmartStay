@@ -820,8 +820,8 @@ function CheckOut(props) {
                                   justifyContent: "center",
                                   alignItems: "center",
                                   position: "relative",
-                                  zIndex:
-                                    activeDotsId === checkout.ID ? 1000 : "auto",
+                                  // zIndex:
+                                  //   activeDotsId === checkout.ID ? 1000 : "auto",
                                     backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
                                 }}
                                 onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}

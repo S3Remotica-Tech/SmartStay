@@ -540,8 +540,8 @@ function UserlistWalkin(props) {
                                 alignItems: "center",
                                 position: "relative",
                                 backgroundColor: dotsButton === customer.id ? "#E7F1FF" : "white",
-                                zIndex:
-                                  dotsButton === customer.id ? 1000 : "auto",
+                                // zIndex:
+                                //   dotsButton === customer.id ? 1000 : "auto",
                               }}
                               onClick={(e) => handleDotsClick(customer.id, e)}
                             >
