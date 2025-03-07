@@ -1639,7 +1639,7 @@ useEffect(()=>{
                       </div>
                       <div className="d-flex justify-content-center pb-1 mt-3">
                         {" "}
-                        <Button
+                        {/* <Button
                           style={{
                             fontSize: 16,
                             backgroundColor: "#1E45E1",
@@ -1653,11 +1653,11 @@ useEffect(()=>{
                         >
                           {" "}
                           + Add floor
-                        </Button>
+                        </Button> */}
                       </div>
                     </div>
                     <div></div>
-                  </div>
+                  </div> 
                 )}
               </div>
             </div>
