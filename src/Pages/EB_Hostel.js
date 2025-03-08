@@ -325,7 +325,11 @@ function EB_Hostel() {
   };
 
   const handleendmeter = (e) => {
-    setEndmeter(e.target.value);
+    const value = (e.target.value)
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setEndmeter(value);
     setendMeterError("");
     setDateErrorMesg("")
     dispatch({ type: "CLEAR_EB_ERROR" });

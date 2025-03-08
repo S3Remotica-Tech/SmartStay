@@ -272,7 +272,7 @@ function Banking() {
     setEditTransaction((prevId) => (prevId === id ? null : id));
 
     const { top, left} = event.target.getBoundingClientRect();
-    const popupTop = top - 20;
+    const popupTop = top - 10;
     const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
@@ -338,7 +338,11 @@ function Banking() {
   const [amountError, setAmountError] = useState("");
 
   const handleAddBankAmount = (e) => {
-    setAddBankAmount(e.target.value);
+  const value = (e.target.value)
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setAddBankAmount(value);
     setAmountError("");
   };
   const handleAddAmountSubmit = () => {
@@ -570,7 +574,8 @@ function Banking() {
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
-                            width:"250px"
+                            width:"230px",
+                            height:40
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}

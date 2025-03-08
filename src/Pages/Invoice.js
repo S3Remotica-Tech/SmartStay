@@ -6302,7 +6302,7 @@ const InvoicePage = () => {
                         className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
                         style={{ alignItems: "center" }}
                       >
-                        <Form.Control
+                        {/* <Form.Control
                           type="text"
                           style={{ fontFamily: "Gilroy" }}
                           placeholder="Enter total amount"
@@ -6310,7 +6310,22 @@ const InvoicePage = () => {
                           onChange={(e) =>
                             handleNewRowChange(index, "amount", e.target.value)
                           }
-                        />
+                        /> */}
+                        <Form.Control
+  type="text"
+  style={{ fontFamily: "Gilroy" }}
+  placeholder="Enter total amount"
+  value={u.amount}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    // Allow only numbers and decimals
+    if (/^\d*\.?\d*$/.test(value)) {
+      handleNewRowChange(index, "amount", value);
+    }
+  }}
+/>
+
                       </td>
                       <td style={{ alignItems: "center" }}>
                         <span

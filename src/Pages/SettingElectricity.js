@@ -106,6 +106,9 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
     setAmount(newAmount);
 
     if (newAmount !== '') {

@@ -40,7 +40,12 @@ function BankingAddForm(props) {
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleAccountNo = (e) => {
-    setAccountNo(e.target.value);
+    
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setAccountNo(value);
     setError("")
     setaccountNumberError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})

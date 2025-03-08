@@ -423,7 +423,11 @@ if (Roomamountfilter.length > 0) {
 
   const handleRoomRent = (e) => {
     // const value = e.target.value;
-    setRoomRent(e.target.value);
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
+    setRoomRent(newAmount);
     setRoomRentError("");
   };
 
@@ -432,7 +436,11 @@ if (Roomamountfilter.length > 0) {
   // };
 
   const handleAdvanceAmount = (e) => {
+    
     const advanceAmount = e.target.value;
+    if (!/^\d*$/.test(advanceAmount)) {
+      return; 
+    }
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
   };

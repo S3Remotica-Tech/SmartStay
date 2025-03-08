@@ -795,7 +795,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           alignItems: "center",
                           position: "relative",
                           // zIndex: 1000,
-                          zIndex:activeRow === v.eb_Id? 1000: "auto",
+                          // zIndex:activeRow === v.eb_Id? 1000: "auto",
                           backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
                         }}
                           onClick={(e) => handleShowActive(v.eb_Id, e)}

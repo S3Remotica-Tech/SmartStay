@@ -44,7 +44,11 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   };
 
   const handleAmountChange = (e) => {
-    setAmount(e.target.value);
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
+    setAmount(newAmount);
     setErrorAmount("");
     setIsChangedError("");
   };

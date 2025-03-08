@@ -42,7 +42,11 @@ function BankingEditTransaction(props) {
     setError("");
   };
   const handleAmount = (e) => {
-    setAmount(e.target.value);
+    const value = (e.target.value)
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setAmount(value);
     setAmountError("");
     setError("");
   };
