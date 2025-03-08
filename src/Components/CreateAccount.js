@@ -487,6 +487,8 @@ function CreateAccountPage() {
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control size="lg"
                     data-testid='emailid'
+                     autoComplete="new-mail"
+                        autoCorrect="off"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
                       type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
@@ -619,6 +621,8 @@ function CreateAccountPage() {
                     <Form.Control
                     data-testid='password'
                       size="lg"
+                       autoComplete="new-password"
+                        autoCorrect="off"
                       value={password}
                       onChange={handlePassword}
                       type={showPassword ? "text" : "password"}
@@ -707,6 +711,8 @@ function CreateAccountPage() {
                     <Form.Control
                     data-testid='confirm-password'
                       size="lg"
+                       autoComplete="new-password"
+                        autoCorrect="off"
                       value={confirmpassword}
                       onChange={handleConfirmPassword}
                       type={showConfirmPassword ? "text" : "password"}

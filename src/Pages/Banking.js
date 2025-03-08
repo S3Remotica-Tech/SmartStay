@@ -19,6 +19,10 @@ import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
+import { toast } from "react-toastify";
+
+
+
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -224,6 +228,12 @@ function Banking() {
   };
 
   const handleShowForm = () => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding bank information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setEdit(false);
     setShowForm(true);
     setEditAddBank("");

@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
-
+import { toast } from 'react-toastify';
 
 function Vendor() {
 
@@ -196,6 +196,12 @@ function Vendor() {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding vendor information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setShow(true);
     setCurrentItem('')
 

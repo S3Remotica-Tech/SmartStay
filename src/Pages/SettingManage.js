@@ -26,7 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
-import { ArrowLeft2, ArrowRight2} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from "prop-types";
 
 
@@ -45,7 +45,7 @@ function SettingManage(props) {
 
   const popupRef = useRef(null);
 
-  
+
 
   const [hidePgList, setHidePgList] = useState(true);
 
@@ -147,27 +147,27 @@ function SettingManage(props) {
   useEffect(() => {
     if (state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails.length > 0) {
       const updatedFloors = showHostelDetails?.floorDetails || [];
-  
+
       if (updatedFloors.length > 0) {
-        const lastFloor = updatedFloors[updatedFloors.length - 1]; 
+        const lastFloor = updatedFloors[updatedFloors.length - 1];
         const lastIndex = updatedFloors.length - 1;
-  
+
         setFloorClick(lastFloor?.floor_id || null);
         setKey(lastFloor?.floor_id?.toString() || "");
         setFloorName(lastFloor?.floor_name || "");
-  
+
         console.log("updatedFloors", updatedFloors, "lastFloor", lastFloor, "showHostelDetails", showHostelDetails);
         console.log("floorClick", floorClick, "key", key, "floorName", floorName);
-  
-      
-        const newStartIndex = Math.max(0, lastIndex - 2); 
-        const newEndIndex = lastIndex; 
-  
-        
+
+
+        const newStartIndex = Math.max(0, lastIndex - 2);
+        const newEndIndex = lastIndex;
+
+
         // const newStart = updatedFloors[newStartIndex]?.floor_id || 0;
         // const newEnd = updatedFloors[newEndIndex]?.floor_id || 0;
-  
-      
+
+
         setVisibleRange([newStartIndex, newEndIndex]);
       } else {
         setFloorClick(null);
@@ -176,7 +176,7 @@ function SettingManage(props) {
       }
     }
   }, [state.UsersList.createFloorSuccessStatusCode, showHostelDetails?.floorDetails]);
-  
+
 
 
 
@@ -197,30 +197,30 @@ function SettingManage(props) {
       // dispatch({ type: "HOSTELIDDETAILS" });
       setShowDelete(false);
 
-     
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
-  
+
         const updatedFloors = showHostelDetails?.floorDetails || [];
-  
+
         if (updatedFloors.length > 0) {
-          
+
           const firstVisibleFloor = updatedFloors.find(
             (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
           );
-  
+
           if (firstVisibleFloor) {
             setFloorClick(firstVisibleFloor.floor_id);
             setKey(firstVisibleFloor.floor_id.toString());
             setFloorName(firstVisibleFloor.floor_name);
           } else {
-           
+
             setFloorClick(updatedFloors[0]?.floor_id || null);
             setKey(updatedFloors[0]?.floor_id?.toString() || "");
             setFloorName(updatedFloors[0]?.floor_name || "");
           }
         } else {
-        
+
           setFloorClick(null);
           setKey("");
           setFloorName("");
@@ -262,7 +262,7 @@ function SettingManage(props) {
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-      },100);
+      }, 100);
 
       // setPgList({
       //   Name: "",
@@ -282,11 +282,11 @@ function SettingManage(props) {
     }
   }, [state.UsersList.hostelList]);
 
- 
- 
- 
 
-  
+
+
+
+
 
   const handleSelectedHostel = (selectedHostelId) => {
     const selected = state.UsersList.hostelList?.find((item) => {
@@ -326,6 +326,26 @@ function SettingManage(props) {
     setEditHostelDetails("");
   };
 
+ 
+
+  useEffect(() => {
+    if (state.PgList.UpgradestatusCode === 201) {
+
+      setShowAddPg(false);
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_UPGRADE_PLAN' })
+      }, 100)
+
+    }
+
+  }, [state.PgList.UpgradestatusCode])
+
+
+
+
+
+
+
   const handleDisplayPgList = (isVisible) => {
     setHidePgList(isVisible);
   };
@@ -348,14 +368,14 @@ function SettingManage(props) {
   };
 
 
- 
+
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
   const hostelDetails = {
     room: null,
     selectedFloor: null
-};
+  };
   const [editFloor, setEditFloor] = useState({
     hostel_Id: null,
     floor_Id: null,
@@ -386,7 +406,7 @@ function SettingManage(props) {
     setFloorClick("");
     setFloorName("");
     setHidePgList(true);
-    setVisibleRange([0,2])
+    setVisibleRange([0, 2])
   };
 
   const handleDIsplayFloorClick = () => {
@@ -394,7 +414,7 @@ function SettingManage(props) {
   };
 
 
- 
+
 
   // useEffect(() => {
   //   if (stateAccount.statusCodeForAccountList == 200) {
@@ -407,7 +427,7 @@ function SettingManage(props) {
   const [editHostelDetails, setEditHostelDetails] = useState("");
 
 
-  
+
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -423,55 +443,55 @@ function SettingManage(props) {
     showHostelDetails && showHostelDetails?.floorDetails?.length;
 
 
-  
+
 
   const handlePrev = () => {
     if (floorClick > 0) {
-      
+
       const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
         (floor) => floor.floor_id === floorClick
       ) - 1;
-  
+
       if (prevFloorIndex >= 0) {
         const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
-  
-       
+
+
         setKey(prevFloor.floor_id.toString());
         setFloorClick(prevFloor.floor_id);
         setFloorName(prevFloor.floor_name);
-  
-       
+
+
         if (prevFloorIndex < visibleRange[0]) {
           setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
         }
       }
     }
   };
-  
 
- 
-  
+
+
+
 
 
   const handleNext = () => {
     const floorIndex = showHostelDetails.floorDetails.findIndex(
       (floor) => floor.floor_id === floorClick
     );
-  
+
     if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
       const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
-  
-      
+
+
       setKey(nextFloor.floor_id.toString());
       setFloorClick(nextFloor.floor_id);
       setFloorName(nextFloor.floor_name);
-  
+
       if (floorIndex + 1 > visibleRange[1]) {
         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
       }
     }
   };
-  
+
 
 
 
@@ -531,7 +551,7 @@ function SettingManage(props) {
     floor_Name: null,
   });
 
- 
+
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
@@ -669,32 +689,32 @@ function SettingManage(props) {
 
 
           {loading &&
-           <div
-           style={{
-             position: 'fixed',
-             top: '48%',
-             left: '68%',
-             transform: 'translate(-50%, -50%)',
-             width: '100vw',
-             height: '100vh',
-             display: 'flex',
-             alignItems: 'center',
-             justifyContent: 'center',
-             backgroundColor: 'transparent',
-             zIndex: 1050,
-           }}
-         >
-           <div
-             style={{
-               borderTop: '4px solid #1E45E1',
-               borderRight: '4px solid transparent',
-               borderRadius: '50%',
-               width: '40px',
-               height: '40px',
-               animation: 'spin 1s linear infinite',
-             }}
-           ></div>
-         </div>
+            <div
+              style={{
+                position: 'fixed',
+                top: '48%',
+                left: '68%',
+                transform: 'translate(-50%, -50%)',
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                zIndex: 1050,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
           }
 
 
@@ -714,7 +734,7 @@ function SettingManage(props) {
                   height: 83,
                 }}
               >
-              
+
                 <div >
                   <label
                     style={{
@@ -729,13 +749,13 @@ function SettingManage(props) {
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
-                 
+
 
                   <div>
                     <Button
                       onClick={handleShowAddPg}
                       disabled={addPermissionError}
-                     
+
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -757,7 +777,7 @@ function SettingManage(props) {
                     </Button>
                   </div>
                 </div>
-                
+
               </div>
 
               {/* {searchQuery && (
@@ -818,7 +838,7 @@ function SettingManage(props) {
               <div className="mt-2" style={{
                 maxHeight: "400px",
                 overflowY: "auto",
-                overflowX:"hidden"
+                overflowX: "hidden"
               }}>
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ?
@@ -994,11 +1014,11 @@ function SettingManage(props) {
                 </nav>
               )}
 
-             
+
             </>
           )}
 
-{selectedHostel && (
+          {selectedHostel && (
             <div className="container mt-3">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center">
@@ -1028,7 +1048,7 @@ function SettingManage(props) {
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   </div>
 
-                  <div style={{marginTop:5}}>
+                  <div style={{ marginTop: 5 }}>
                     <Button
                       style={{
                         fontSize: 14,
@@ -1037,7 +1057,7 @@ function SettingManage(props) {
                         fontWeight: 600,
                         borderRadius: 8,
                         padding: "11px 50px",
-                        paddingLeft:52,
+                        paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
@@ -1049,7 +1069,7 @@ function SettingManage(props) {
                 </div>
               </div>
 
-              <div className="show-scroll"  style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto" }}>
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1134,11 +1154,11 @@ function SettingManage(props) {
                                           height: "fit-content",
                                         }}
                                       >
-                                                                                {floor.floor_name
+                                        {floor.floor_name
                                           ? isNaN(floor.floor_name)
-                                            ? floor.floor_name.charAt(0) 
-                                            : floor.floor_name            
-                                          : floor.floor.id                
+                                            ? floor.floor_name.charAt(0)
+                                            : floor.floor_name
+                                          : floor.floor.id
                                         }
                                       </div>
                                       <div
@@ -1161,7 +1181,7 @@ function SettingManage(props) {
                                           padding: "1px 16px ",
                                         }}
                                       >
-                                                                               {typeof floor.floor_name === "string" &&
+                                        {typeof floor.floor_name === "string" &&
                                           floor.floor_name.trim() !== "" &&
                                           floor.floor_name !== "null"
                                           ? isNaN(floor.floor_name)
@@ -1197,7 +1217,7 @@ function SettingManage(props) {
                                     : "#000000"
                                 }
                                 variant="Bold"
-                               style={{cursor:"pointer"}}
+                                style={{ cursor: "pointer" }}
                               />
                             </div>
                           </div>
@@ -1233,7 +1253,7 @@ function SettingManage(props) {
                                   alignItems: "center",
                                   position: "relative",
                                   zIndex: showDots ? 1000 : "auto",
-                                   backgroundColor: showDots ? "#E7F1FF" : '#fff'
+                                  backgroundColor: showDots ? "#E7F1FF" : '#fff'
                                 }}
                                 onClick={() => handleShowDots()}
                               >
@@ -1250,14 +1270,14 @@ function SettingManage(props) {
                                         backgroundColor: "#f9f9f9",
                                         position: "absolute",
                                         right: 40,
-                                        top:-20,
+                                        top: -20,
                                         width: 140,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",
                                         borderRadius: 10,
                                         display: "flex",
                                         justifyContent: "start",
-                                        padding:'6px',
+                                        padding: '6px',
                                         alignItems: "center",
                                       }}
                                     >
@@ -1343,7 +1363,7 @@ function SettingManage(props) {
                           <ParticularHostelDetails
                             floorID={floorClick}
                             hostel_Id={showHostelDetails.id}
-                                                     phoneNumber={showHostelDetails.hostel_PhoneNo}
+                            phoneNumber={showHostelDetails.hostel_PhoneNo}
                             editPermissionError={editPermissionError}
                             deletePermissionError={deletePermissionError}
                             addPermissionError={addPermissionError}

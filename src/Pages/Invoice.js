@@ -4,10 +4,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FormControl} from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
-import {  Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import User from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,15 +36,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
-
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import Filters from "../Assets/Images/Filters.svg";
-
 import Receipt from "./Receipt";
 import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+
+
+
+
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -163,7 +166,7 @@ const InvoicePage = () => {
       setLoading(true)
       dispatch({
         type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId},
+        payload: { hostel_id: hostelId },
       });
     }
   }, [hostelId]);
@@ -172,7 +175,7 @@ const InvoicePage = () => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
-        setLoading(false); 
+        setLoading(false);
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
       }, 100);
     }
@@ -180,9 +183,9 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
-   
+
       setTimeout(() => {
-        setLoading(false); 
+        setLoading(false);
         dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
       }, 100);
     }
@@ -190,28 +193,34 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.NodataRecurringStatusCode === 201) {
-   
+
       setTimeout(() => {
-        setRecurLoader(false); 
+        setRecurLoader(false);
         dispatch({ type: "CLEAR_NODATA_RECURRINGBILLS_LIST" });
       }, 100);
     }
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
-   console.log("statuscode", state.InvoiceList.NodataReceiptStatusCode);
-   
+  console.log("statuscode", state.InvoiceList.NodataReceiptStatusCode);
+
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
-   
+
       setTimeout(() => {
-        setReceiptLoader(false); 
+        setReceiptLoader(false);
         dispatch({ type: "CLEAR_NODATA_RECEIPTS_LIST" });
       }, 100);
     }
   }, [state.InvoiceList.NodataReceiptStatusCode]);
 
   const handleManualShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding bill information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setShowAllBill(false);
     setShowManualInvoice(true);
     setBillMode("New Bill");
@@ -220,11 +229,23 @@ const InvoicePage = () => {
   };
 
   const handleRecurrBillShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding Recurring bill information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setShowAllBill(false);
     setShowRecurringBillForm(true);
   };
 
   const handleReceiptShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding receipt information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setShowAllBill(false);
     setReceiptFormShow(true);
     dispatch({ type: "GET_REFERENCE_ID" });
@@ -243,7 +264,7 @@ const InvoicePage = () => {
     setAccount("");
   };
 
-  
+
 
   const handleInvoiceDetail = (item) => {
     // setSelectedItems(item);
@@ -297,7 +318,7 @@ const InvoicePage = () => {
 
   const handleReceiptDetail = (item) => {
     if (item.User_Id) {
-      
+
       dispatch({
         type: "RECEIPTPDF",
         payload: {
@@ -309,9 +330,9 @@ const InvoicePage = () => {
     }
   };
 
-  
 
- 
+
+
 
 
 
@@ -338,7 +359,7 @@ const InvoicePage = () => {
           user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
       );
 
-    
+
       setBills(filteredItems);
     }
 
@@ -365,7 +386,7 @@ const InvoicePage = () => {
       setOriginalBillsFilterReceipt(receiptdata);
     }
   }, [receiptdata]);
- 
+
 
 
 
@@ -376,7 +397,7 @@ const InvoicePage = () => {
     return date.toISOString().split("T")[0];
   };
 
-  
+
 
   const customDateInput = (props) => {
     return (
@@ -430,7 +451,7 @@ const InvoicePage = () => {
   //   }
   //   const AmountValue =
   //     e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-    
+
 
 
   //   if (
@@ -461,15 +482,15 @@ const InvoicePage = () => {
 
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
-    
+
     if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
     } else {
       setAmountErrmsg("");
     }
-  
-    const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0; 
-  
+
+    const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0;
+
     if (
       !isNaN(AmountValue) &&
       !isNaN(invoiceList.amount) &&
@@ -479,24 +500,24 @@ const InvoicePage = () => {
       var total_amount = invoiceList.amount;
       var paid_amount = invoiceList.paidAmount;
       var payablAmount = AmountValue;
-  
+
       var cal1 = paid_amount + payablAmount;
       var new_balance_due = total_amount - cal1;
-  
+
       if (total_amount < cal1) {
         console.log("This is Not crt value");
       } else {
         setInvoiceList((prevState) => ({
           ...prevState,
           payableAmount: payablAmount,
-          balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue, 
+          balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue,
         }));
       }
     }
   };
-  
 
- 
+
+
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
@@ -519,7 +540,7 @@ const InvoicePage = () => {
     setTimeout(() => {
       setInvoiceDetails(props);
     }, 0);
-   
+
   };
 
 
@@ -612,7 +633,7 @@ const InvoicePage = () => {
     // }
   }, [invoiceDetails]);
 
-  
+
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
@@ -742,16 +763,16 @@ const InvoicePage = () => {
       const endDateChanged = formatDateTowenddate(invoiceDetails?.end_date) !== formatDateTowenddate(enddate);
       const invoiceDateChanged = formatDateToInvoicedate(invoiceDetails?.Date) !== formatDateToInvoicedate(invoicedate);
       const dueDateChanged = formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
-    
+
       // **New Condition: Check if rows are added or removed**
       const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-    
+
       // Check if any row content is changed
       const amenitiesChanged = newRows.some((row, index) => {
         const originalRow = invoiceDetails?.amenity?.[index] || {};
         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
       });
-    
+
       return (
         userChanged ||
         startDateChanged ||
@@ -763,7 +784,7 @@ const InvoicePage = () => {
         amenitiesChanged
       );
     })();
-    
+
     // const isDataChanged =
     // customername !== String(invoiceDetails?.hos_user_id) ||
     // invoicenumber !== invoiceDetails?.Invoices ||
@@ -861,7 +882,7 @@ const InvoicePage = () => {
         lastDayOfMonth.getMonth() + 1
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-     
+
 
       // setShowMenu(true);
       // setShowForm(true);
@@ -924,7 +945,7 @@ const InvoicePage = () => {
     setSelectedDate(null);
   };
 
-  
+
   const handleCloseDeleteform = () => {
     setShowDeleteform(false);
   };
@@ -952,7 +973,7 @@ const InvoicePage = () => {
       setPaymodeErrmsg("Please select a valid Paymode Type");
       return;
     }
-    
+
     if (invoiceList.transaction === "Net Banking" && !account) {
       setAccountError("Please Choose Bank Account");
       return;
@@ -970,7 +991,7 @@ const InvoicePage = () => {
       return;
     }
 
-  
+
 
     if (
       invoiceList.InvoiceId &&
@@ -1153,9 +1174,9 @@ const InvoicePage = () => {
     setFormatDueDate(formattedDate);
   };
 
-  
 
-  
+
+
 
   const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
@@ -1251,7 +1272,7 @@ const InvoicePage = () => {
       </div>
     );
   });
-  
+
   CustomEndDateInput.displayName = "CustomEndDateInput";
 
   const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
@@ -1306,7 +1327,7 @@ const InvoicePage = () => {
       <div
         className="date-input-container w-100"
         onClick={onClick}
-        style={{ position: "relative" }}  
+        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
@@ -1347,10 +1368,10 @@ const InvoicePage = () => {
       </div>
     );
   });
-  
+
   CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
 
- 
+
 
   const handleNewRowChange = (index, field, value) => {
     setAllFieldErrmsg("");
@@ -1366,7 +1387,7 @@ const InvoicePage = () => {
       const updatedRows = prevRows.filter((_, i) => i !== index);
       return updatedRows;
     });
-  
+
     setAllFieldErrmsg("");
   }
 
@@ -1498,16 +1519,16 @@ const InvoicePage = () => {
     // Format dates
     const formattedStartDate = startdate
       ? `${startdate.getFullYear()}-${String(startdate.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}-${String(startdate.getDate()).padStart(2, "0")}`
+        2,
+        "0"
+      )}-${String(startdate.getDate()).padStart(2, "0")}`
       : "";
 
     const formattedEndDate = enddate
       ? `${enddate.getFullYear()}-${String(enddate.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}-${String(enddate.getDate()).padStart(2, "0")}`
+        2,
+        "0"
+      )}-${String(enddate.getDate()).padStart(2, "0")}`
       : "";
 
     // Dispatch only if all fields are filled
@@ -1690,9 +1711,9 @@ const InvoicePage = () => {
 
   const handleChanges = (event, newValue) => {
 
-  
 
-    if (newValue === "1"){
+
+    if (newValue === "1") {
       setLoading(true);
       dispatch({
         type: "MANUALINVOICESLIST",
@@ -1700,7 +1721,7 @@ const InvoicePage = () => {
       });
     }
 
-    if (newValue === "2"){
+    if (newValue === "2") {
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
@@ -1708,14 +1729,14 @@ const InvoicePage = () => {
       });
     }
 
-    if (newValue === "3"){
+    if (newValue === "3") {
       setReceiptLoader(true);
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
       });
     }
-   
+
 
     setValue(newValue);
     setSearch(false);
@@ -1760,7 +1781,7 @@ const InvoicePage = () => {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
- 
+
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
@@ -1935,7 +1956,7 @@ const InvoicePage = () => {
     }
   }, [state.login.UpdateNotificationMessage]);
 
-  
+
 
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
@@ -1950,7 +1971,7 @@ const InvoicePage = () => {
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
           // setTimeout(() => dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" }), 100);
-        } 
+        }
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
@@ -1968,7 +1989,7 @@ const InvoicePage = () => {
           pdfWindow.location.href = pdfUrl; // Update URL to the PDF
           dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
         }
-        
+
       }
     }
   }, [state.InvoiceList?.statusCodeForReceiptPDf]);
@@ -2008,13 +2029,13 @@ const InvoicePage = () => {
           FloorNo: filteredDetails.Floor || "",
           RoomNo: filteredDetails.Rooms || "",
         });
-      } 
-      
-    } 
-    
+      }
+
+    }
+
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
- 
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -2059,7 +2080,7 @@ const InvoicePage = () => {
     }
   }, [hostelId]);
 
- 
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
@@ -2285,7 +2306,7 @@ const InvoicePage = () => {
   }, [newRows]);
 
   useEffect(() => {
-  
+
     if (hostelId) {
       setRecurLoader(true);
       dispatch({
@@ -2337,8 +2358,8 @@ const InvoicePage = () => {
     if (value === "1") {
       const FilterUser = Array.isArray(bills)
         ? bills.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setBills(FilterUser);
@@ -2347,8 +2368,8 @@ const InvoicePage = () => {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-            item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setRecurringBills(FilterUsertwo);
@@ -2357,8 +2378,8 @@ const InvoicePage = () => {
     if (value === "3") {
       const FilterUserReceipt = Array.isArray(receiptdata)
         ? receiptdata.filter((item) =>
-            item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setReceiptData(FilterUserReceipt);
@@ -2371,7 +2392,7 @@ const InvoicePage = () => {
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
-   
+
   };
 
   const handleUserSelect = (user) => {
@@ -2452,7 +2473,7 @@ const InvoicePage = () => {
 
   //Receipt  
   useEffect(() => {
-    
+
     if (hostelId) {
       setReceiptLoader(true);
       dispatch({
@@ -2479,7 +2500,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode  === 200 ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       // setReceiptLoader(true);
@@ -2545,7 +2566,7 @@ const InvoicePage = () => {
               <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
                 {search ? (
                   <>
-                    <div style={{ position: "relative",  }}>
+                    <div style={{ position: "relative", }}>
                       <div
                         style={{
                           position: "relative",
@@ -2587,7 +2608,7 @@ const InvoicePage = () => {
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
-                              width: "250px" 
+                              width: "250px"
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -2597,7 +2618,7 @@ const InvoicePage = () => {
                               src={closecircle}
                               alt="close"
                               onClick={handleCloseSearch}
-                              style={{ height: 20, width: 20,cursor:"pointer" }}
+                              style={{ height: 20, width: 20, cursor: "pointer" }}
                             />
                           </span>
                         </div>
@@ -2820,7 +2841,7 @@ const InvoicePage = () => {
                         style={{
                           height: "24px",
                           width: "24px",
-                          cursor:"pointer"
+                          cursor: "pointer"
                         }}
                         onClick={handleSearch}
                       />
@@ -2833,7 +2854,7 @@ const InvoicePage = () => {
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px", marginTop: 18,cursor:"pointer" }}
+                      style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
                       onClick={handleFilterd}
                     />
                   </div>
@@ -2859,7 +2880,7 @@ const InvoicePage = () => {
                         color: "rgba(34, 34, 34, 1)",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
-                        cursor:"pointer"
+                        cursor: "pointer"
                       }}
                     >
                       <option value="All">All</option>
@@ -3016,15 +3037,15 @@ const InvoicePage = () => {
 
           <TabContext value={value} className="container ">
             <div
-            style={{
-              position: "sticky",
-              top: 69,
-              right: 0,
-              left: 0,
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-              height: 60,
-            }}
+              style={{
+                position: "sticky",
+                top: 69,
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                height: 60,
+              }}
             >
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
@@ -3317,19 +3338,19 @@ const InvoicePage = () => {
                             </Modal.Header> */}
 
 
-                             <Modal.Header
-                                                style={{ paddingTop:40, position: "relative" }}
-                                              >
-                                                <div
-                                                  style={{
-                                                    marginTop: -20,
-                                                    fontSize: 18,
-                                                    fontWeight: 600,
-                                                    fontFamily: "Gilroy", textAlign: "start",
-                            
-                                                  }}
-                                                >
-                                                   {`Record payment `}
+                            <Modal.Header
+                              style={{ paddingTop: 40, position: "relative" }}
+                            >
+                              <div
+                                style={{
+                                  marginTop: -20,
+                                  fontSize: 18,
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy", textAlign: "start",
+
+                                }}
+                              >
+                                {`Record payment `}
                                 {invoiceValue?.Name && (
                                   <span>
                                     -
@@ -3348,39 +3369,39 @@ const InvoicePage = () => {
                                     </span>{" "}
                                   </span>
                                 )}
-                                                </div>
-                                                <button
-                                                  type="button"
-                                                  className="close"
-                                                  aria-label="Close"
-                                                  onClick={handleCloseForm}
-                                                  style={{
-                                                    position: "absolute",
-                                                    right: "10px",
-                                                    marginTop: -15,
-                                                    border: "1px solid black",
-                                                    background: "transparent",
-                                                    cursor: "pointer",
-                                                    padding: "0",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    width: "24px",
-                                                    height: "24px",
-                                                    borderRadius: "50%",
-                                                  }}
-                                                >
-                                                  <span
-                                                    aria-hidden="true"
-                                                    style={{
-                                                      fontSize: "30px",
-                                                      paddingBottom: "6px",
-                                                    }}
-                                                  >
-                                                    &times;
-                                                  </span>
-                                                </button>
-                                              </Modal.Header>
+                              </div>
+                              <button
+                                type="button"
+                                className="close"
+                                aria-label="Close"
+                                onClick={handleCloseForm}
+                                style={{
+                                  position: "absolute",
+                                  right: "10px",
+                                  marginTop: -15,
+                                  border: "1px solid black",
+                                  background: "transparent",
+                                  cursor: "pointer",
+                                  padding: "0",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  width: "24px",
+                                  height: "24px",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <span
+                                  aria-hidden="true"
+                                  style={{
+                                    fontSize: "30px",
+                                    paddingBottom: "6px",
+                                  }}
+                                >
+                                  &times;
+                                </span>
+                              </button>
+                            </Modal.Header>
 
                             <Modal.Body>
                               <div className="row mt-2">
@@ -3390,7 +3411,7 @@ const InvoicePage = () => {
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
-                                       style={{
+                                      style={{
                                         fontSize: 14,
                                         color: "#222222",
                                         fontFamily: "Gilroy",
@@ -3414,7 +3435,7 @@ const InvoicePage = () => {
                                     controlId="exampleForm.ControlInput3"
                                   >
                                     <Form.Label
-                                       style={{
+                                      style={{
                                         fontSize: 14,
                                         color: "#222222",
                                         fontFamily: "Gilroy",
@@ -3506,8 +3527,8 @@ const InvoicePage = () => {
                                         customInput={customDateInput({
                                           value: selectedDate
                                             ? selectedDate.toLocaleDateString(
-                                                "en-GB"
-                                              )
+                                              "en-GB"
+                                            )
                                             : "",
                                         })}
                                       />
@@ -3637,67 +3658,67 @@ const InvoicePage = () => {
                                         Banking
                                       </option>
                                     </Form.Select> */}
-                                  
-  <Select
-    options={[
-      { value: "Cash", label: "Cash" },
-      { value: "Debit Card", label: "Debit Card" },
-      { value: "Credit Card", label: "Credit Card" },
-      { value: "UPI", label: "UPI" },
-      { value: "Net Banking", label: "Banking" },
-    ]}
-    onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-    value={
-      invoiceList.transaction
-        ? {
-            value: invoiceList.transaction,
-            label: invoiceList.transaction,
-          }
-        : null
-    }
-    placeholder="Select"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No options available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "49px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "14px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy, sans-serif",
-        fontWeight: 500,
-        boxShadow: "none",
-        marginTop: "6px",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+
+                                    <Select
+                                      options={[
+                                        { value: "Cash", label: "Cash" },
+                                        { value: "Debit Card", label: "Debit Card" },
+                                        { value: "Credit Card", label: "Credit Card" },
+                                        { value: "UPI", label: "UPI" },
+                                        { value: "Net Banking", label: "Banking" },
+                                      ]}
+                                      onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+                                      value={
+                                        invoiceList.transaction
+                                          ? {
+                                            value: invoiceList.transaction,
+                                            label: invoiceList.transaction,
+                                          }
+                                          : null
+                                      }
+                                      placeholder="Select"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      noOptionsMessage={() => "No options available"}
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "49px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "14px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy, sans-serif",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          marginTop: "6px",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                      }}
+                                    />
 
 
                                     {paymodeerrormsg.trim() !== "" && (
@@ -3850,11 +3871,10 @@ const InvoicePage = () => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${
-                          DownloadInvoice
+                        className={` ${DownloadInvoice
                             ? "m-0 g-2 d-flex justify-content-between"
                             : "m-0 g-0"
-                        }`}
+                          }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3912,7 +3932,7 @@ const InvoicePage = () => {
                                             <img
                                               src={
                                                 item.user_profile &&
-                                                item.user_profile !== "0"
+                                                  item.user_profile !== "0"
                                                   ? item.user_profile
                                                   : User
                                               }
@@ -3973,7 +3993,7 @@ const InvoicePage = () => {
                                               }}
                                             >
                                               {item.Invoices === null ||
-                                              item.Invoices === ""
+                                                item.Invoices === ""
                                                 ? "0.00"
                                                 : item.Invoices}
                                             </div>
@@ -4049,7 +4069,7 @@ const InvoicePage = () => {
 
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
-                                    marginTop:"5px"
+                                    marginTop: "5px"
                                     // borderBottom:"none"
                                   }}
                                 >
@@ -4188,33 +4208,33 @@ const InvoicePage = () => {
                                         position: "relative",
                                       }}
                                     >
-                                      { 
-                                          currentItems.map((item) => (
-                                            <InvoiceTable
-                                              key={item.id}
-                                              item={item}
-                                              OnHandleshowform={handleShowForm}
-                                              OnHandleshowEditform={handleEdit}
-                                              OnHandleshowInvoicePdf={
-                                                handleInvoiceDetail
-                                              }
-                                              OnHandleshowDeleteform={
-                                                handleBillDelete
-                                              }
-                                              DisplayInvoice={
-                                                handleDisplayInvoiceDownload
-                                              }
-                                              billAddPermission={
-                                                billAddPermission
-                                              }
-                                              billEditPermission={
-                                                billEditPermission
-                                              }
-                                              billDeletePermission={
-                                                billDeletePermission
-                                              }
-                                            />
-                                          ))}
+                                      {
+                                        currentItems.map((item) => (
+                                          <InvoiceTable
+                                            key={item.id}
+                                            item={item}
+                                            OnHandleshowform={handleShowForm}
+                                            OnHandleshowEditform={handleEdit}
+                                            OnHandleshowInvoicePdf={
+                                              handleInvoiceDetail
+                                            }
+                                            OnHandleshowDeleteform={
+                                              handleBillDelete
+                                            }
+                                            DisplayInvoice={
+                                              handleDisplayInvoiceDownload
+                                            }
+                                            billAddPermission={
+                                              billAddPermission
+                                            }
+                                            billEditPermission={
+                                              billEditPermission
+                                            }
+                                            billDeletePermission={
+                                              billDeletePermission
+                                            }
+                                          />
+                                        ))}
                                     </tbody>
                                   </Table>
                                 </div>
@@ -4495,7 +4515,7 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  { !recurLoader  && currentItem.length === 0 && (
+                  {!recurLoader && currentItem.length === 0 && (
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4528,179 +4548,179 @@ const InvoicePage = () => {
                     </div>
                   )}
 
-                
 
-{!loading && recurLoader && 
-                                       <div
-                                       style={{
-                                         position: 'absolute',
-                                           top: 200,
-                                           right: 0,
-                                           bottom: 0,
-                                           left: 200,
-                                         display: 'flex',
-                                         height: "50vh",
-                                         alignItems: 'center',
-                                         justifyContent: 'center',
-                                         backgroundColor: 'transparent',
-                                         opacity: 0.75,
-                                         zIndex: 10,
-                                       }}
-                                     >
-                                       <div
-                                         style={{
-                                           borderTop: '4px solid #1E45E1',
-                                           borderRight: '4px solid transparent',
-                                           borderRadius: '50%',
-                                           width: '40px',
-                                           height: '40px',
-                                           animation: 'spin 1s linear infinite',
-                                         }}
-                                       ></div>
-                                     </div>
-                    
-}
 
-                    {currentItem && currentItem.length > 0 && (
+                  {!loading && recurLoader &&
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 200,
+                        right: 0,
+                        bottom: 0,
+                        left: 200,
+                        display: 'flex',
+                        height: "50vh",
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
                       <div
                         style={{
-                          // height: "400px",
-                          height: currentItem.length >= 6 ? "380px" : "auto",
-                          overflowY: currentItem.length >= 6 ? "auto" : "visible",
-                          borderRadius: "24px",
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>
+
+                  }
+
+                  {currentItem && currentItem.length > 0 && (
+                    <div
+                      style={{
+                        // height: "400px",
+                        height: currentItem.length >= 6 ? "380px" : "auto",
+                        overflowY: currentItem.length >= 6 ? "auto" : "visible",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
+                        // borderBottom:"none"
+                        // marginTop:"-15px"
+                      }}
+                    >
+                      <Table
+                        responsive="md"
+                        className="Table_Design"
+                        style={{
                           border: "1px solid #DCDCDC",
-                          // borderBottom:"none"
-                          // marginTop:"-15px"
+                          borderBottom: "1px solid transparent",
+                          borderEndStartRadius: 0,
+                          borderEndEndRadius: 0,
                         }}
                       >
-                        <Table
-                          responsive="md"
-                          className="Table_Design"
+                        <thead
                           style={{
-                            border: "1px solid #DCDCDC",
-                            borderBottom: "1px solid transparent",
-                            borderEndStartRadius: 0,
-                            borderEndEndRadius: 0,
+                            backgroundColor: "#E7F1FF",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
                           }}
                         >
-                          <thead
-                            style={{
-                              backgroundColor: "#E7F1FF",
-                              position: "sticky",
-                              top: 0,
-                              zIndex: 1,
-                            }}
-                          >
-                            <tr>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  // verticalAlign:'middle',
-                                  paddingLeft: "20px",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  borderTopLeftRadius: 24,
-                                }}
-                              >
-                                Name
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Created
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Due Date
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Next Invoice Date
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Amount
-                              </th>
-  
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  borderTopRightRadius: 24,
-                                }}
-                              ></th>
-                            </tr>
-                          </thead>
-                          <tbody style={{ fontSize: "10px" }}>
+                          <tr>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                // verticalAlign:'middle',
+                                paddingLeft: "20px",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontWeight: 500,
+                                borderTopLeftRadius: 24,
+                              }}
+                            >
+                              Name
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Created
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Due Date
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Next Invoice Date
+                            </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Amount
+                            </th>
 
-                          
-                                
-                                      {
-                              currentItem &&
-                              currentItem.length > 0 &&
-                              currentItem.map((item) => (
-                                <RecurringBillList
-                                  key={item.id}
-                                  item={item}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
-                                  // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                  // DisplayInvoice={handleDisplayInvoiceDownload}
-                                  // RecuringInvoice={handleDisplayInvoiceDownload}
-                                />
-                              ))
-}
-  
-                          </tbody>
-                        </Table>
-                      </div>
-                    )}
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 14,
+                                fontWeight: 500,
+                                borderTopRightRadius: 24,
+                              }}
+                            ></th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
 
-                  
 
-                 
+
+                          {
+                            currentItem &&
+                            currentItem.length > 0 &&
+                            currentItem.map((item) => (
+                              <RecurringBillList
+                                key={item.id}
+                                item={item}
+                                handleDeleteRecurringbills={
+                                  handleDeleteRecurringbills
+                                }
+                                recuringbillAddPermission={
+                                  recuringbillAddPermission
+                                }
+                                billrolePermission={billrolePermission}
+                                OnHandleshowform={handleShowForm}
+                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
+                              // DisplayInvoice={handleDisplayInvoiceDownload}
+                              // RecuringInvoice={handleDisplayInvoiceDownload}
+                              />
+                            ))
+                          }
+
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
+
+
+
+
 
                   {recurringbills && recurringbills.length >= 5 && (
                     <nav
@@ -5187,44 +5207,43 @@ const InvoicePage = () => {
                     </nav>
                   )} */}
 
-{!loading && receiptLoader &&
-                                       <div
-                                       style={{
-                                         position: 'absolute',
-                                           top: 200,
-                                           right: 0,
-                                           bottom: 0,
-                                           left: 200,
-                                         display: 'flex',
-                                         height: "50vh",
-                                         alignItems: 'center',
-                                         justifyContent: 'center',
-                                         backgroundColor: 'transparent',
-                                         opacity: 0.75,
-                                         zIndex: 10,
-                                       }}
-                                     >
-                                       <div
-                                         style={{
-                                           borderTop: '4px solid #1E45E1',
-                                           borderRight: '4px solid transparent',
-                                           borderRadius: '50%',
-                                           width: '40px',
-                                           height: '40px',
-                                           animation: 'spin 1s linear infinite',
-                                         }}
-                                       ></div>
-                                     </div>
-                                
-                                        }
+                  {!loading && receiptLoader &&
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 200,
+                        right: 0,
+                        bottom: 0,
+                        left: 200,
+                        display: 'flex',
+                        height: "50vh",
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>
+
+                  }
 
                   <Container fluid className="p-0">
                     <Row
-                      className={` ${
-                        DownloadReceipt
+                      className={` ${DownloadReceipt
                           ? "m-0 g-2 d-flex justify-content-between"
                           : "m-0 g-0"
-                      }`}
+                        }`}
                     >
                       <Col
                         lg={DownloadReceipt ? 4 : 12}
@@ -5247,7 +5266,7 @@ const InvoicePage = () => {
                                           <img
                                             src={
                                               item.user_profile &&
-                                              item.user_profile !== "0"
+                                                item.user_profile !== "0"
                                                 ? item.user_profile
                                                 : User
                                             }
@@ -5308,7 +5327,7 @@ const InvoicePage = () => {
                                             }}
                                           >
                                             {item.Invoices === null ||
-                                            item.Invoices === ""
+                                              item.Invoices === ""
                                               ? "0.00"
                                               : item.Invoices}
                                           </div>
@@ -5499,7 +5518,7 @@ const InvoicePage = () => {
                                       </tr>
                                     </thead>
                                     <tbody style={{ fontSize: "10px" }}>
-                                       {
+                                      {
                                         currentReceiptData &&
                                         currentReceiptData.length > 0 &&
                                         currentReceiptData.map((item) => (
@@ -5630,12 +5649,12 @@ const InvoicePage = () => {
                                         textDecoration: "none",
                                         color:
                                           currentreceiptPage ===
-                                          ReceipttotalPages
+                                            ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1",
                                         cursor:
                                           currentreceiptPage ===
-                                          ReceipttotalPages
+                                            ReceipttotalPages
                                             ? "not-allowed"
                                             : "pointer",
                                         borderRadius: "50%",
@@ -5658,7 +5677,7 @@ const InvoicePage = () => {
                                         size="16"
                                         color={
                                           currentreceiptPage ===
-                                          ReceipttotalPages
+                                            ReceipttotalPages
                                             ? "#ccc"
                                             : "#1E45E1"
                                         }
@@ -5748,7 +5767,7 @@ const InvoicePage = () => {
       )}
 
       {showmanualinvoice && (
-        <div className="mt-4" style={{paddingLeft:25}}>
+        <div className="mt-4" style={{ paddingLeft: 25 }}>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <svg
               onClick={handleBackBill}
@@ -5828,80 +5847,80 @@ const InvoicePage = () => {
                     </option>
                   ))}
               </Form.Select> */}
-             
-  <Select
-    options={
-      state.UsersList?.Users?.length > 0
-        ? state.UsersList.Users.filter(
-            (u) =>
-              u.Bed !== "undefined" &&
-              u.Bed !== "0" &&
-              typeof u.Bed === "string" &&
-              u.Bed.trim() !== "" &&
-              u.Rooms !== "undefined" &&
-              u.Rooms !== "0" &&
-              typeof u.Rooms === "string" &&
-              u.Rooms.trim() !== ""
-          ).map((u) => ({
-            value: u.ID,
-            label: u.Name,
-          }))
-        : []
-    }
-    onChange={handleCustomerName}
-    value={
-      customername
-        ? {
-            value: customername,
-            label:
-              state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
-              "Select Customer",
-          }
-        : null
-    }
-    isDisabled={isEditing}
-    placeholder="Select Customer"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No customers available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "38px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: customername ? 600 : 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+
+              <Select
+                options={
+                  state.UsersList?.Users?.length > 0
+                    ? state.UsersList.Users.filter(
+                      (u) =>
+                        u.Bed !== "undefined" &&
+                        u.Bed !== "0" &&
+                        typeof u.Bed === "string" &&
+                        u.Bed.trim() !== "" &&
+                        u.Rooms !== "undefined" &&
+                        u.Rooms !== "0" &&
+                        typeof u.Rooms === "string" &&
+                        u.Rooms.trim() !== ""
+                    ).map((u) => ({
+                      value: u.ID,
+                      label: u.Name,
+                    }))
+                    : []
+                }
+                onChange={handleCustomerName}
+                value={
+                  customername
+                    ? {
+                      value: customername,
+                      label:
+                        state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
+                        "Select Customer",
+                    }
+                    : null
+                }
+                isDisabled={isEditing}
+                placeholder="Select Customer"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No customers available"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "38px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: customername ? 600 : 500,
+                    boxShadow: "none",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                }}
+              />
 
 
               {customererrmsg.trim() !== "" && (
@@ -5978,37 +5997,37 @@ const InvoicePage = () => {
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-            <p className="mt-1 mb-1" style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>Start Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-             <div style={{ position: "relative", width: "100%" }}>
-            <DatePicker
-  selected={startdate}
-  onChange={(date) => handlestartDate(date)}
-  dateFormat="dd/MM/yyyy"
-  showMonthDropdown
-  showYearDropdown
-  scrollableYearDropdown
-  yearDropdownItemNumber={100} 
-  popperPlacement="bottom-start"
-  popperModifiers={[
-    {
-      name: "offset",
-      options: {
-        offset: [0, -300],
-      },
-    },
-  ]}
-  customInput={
-    <CustomStartDateInput
-      value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
-    />
-  }
-/>
-</div>
+              <p className="mt-1 mb-1" style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}>Start Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+              <div style={{ position: "relative", width: "100%" }}>
+                <DatePicker
+                  selected={startdate}
+                  onChange={(date) => handlestartDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  popperPlacement="bottom-start"
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -300],
+                      },
+                    },
+                  ]}
+                  customInput={
+                    <CustomStartDateInput
+                      value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
+                    />
+                  }
+                />
+              </div>
 
               {startdateerrmsg.trim() !== "" && (
                 <div>
@@ -6032,37 +6051,37 @@ const InvoicePage = () => {
             </div>
 
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <p className="mt-1 mb-1" style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>End Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-               <div style={{ position: "relative", width: "100%" }}>
-            <DatePicker
-  selected={enddate}
-  onChange={(date) => handleEndDate(date)}
-  dateFormat="dd/MM/yyyy"
-  showMonthDropdown
-  showYearDropdown
-  scrollableYearDropdown
-  yearDropdownItemNumber={100}
-  popperPlacement="bottom-start"
-  popperModifiers={[
-    {
-      name: "offset",
-      options: {
-        offset: [0, -300],
-      },
-    },
-  ]}
-  customInput={
-    <CustomEndDateInput
-      value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
-    />
-  }
-/>
-</div>
+              <p className="mt-1 mb-1" style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}>End Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+              <div style={{ position: "relative", width: "100%" }}>
+                <DatePicker
+                  selected={enddate}
+                  onChange={(date) => handleEndDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  popperPlacement="bottom-start"
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -300],
+                      },
+                    },
+                  ]}
+                  customInput={
+                    <CustomEndDateInput
+                      value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
+                    />
+                  }
+                />
+              </div>
 
               {enddateerrmsg.trim() !== "" && (
                 <div>
@@ -6090,32 +6109,32 @@ const InvoicePage = () => {
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
               <p className="mt-1 mb-1" style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-                     <div style={{ position: "relative", width: "100%" }}>
-            <DatePicker
-  selected={invoicedate}
-  onChange={(date) => handleInvoiceDate(date)}
-  dateFormat="dd/MM/yyyy"
-  showMonthDropdown
-  showYearDropdown
-  scrollableYearDropdown
-  yearDropdownItemNumber={100}
-  popperPlacement="bottom-start"
-  popperModifiers={[
-    {
-      name: "offset",
-      options: {
-        offset: [0, -300],
-      },
-    },
-  ]}
-  customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
-/>
-</div>
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+              <div style={{ position: "relative", width: "100%" }}>
+                <DatePicker
+                  selected={invoicedate}
+                  onChange={(date) => handleInvoiceDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  popperPlacement="bottom-start"
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -300],
+                      },
+                    },
+                  ]}
+                  customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
+                />
+              </div>
 
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
@@ -6139,37 +6158,37 @@ const InvoicePage = () => {
             </div>
 
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <p className="mt-1 mb-1" style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-                   <div style={{ position: "relative", width: "100%" }}>  
-            <DatePicker
-  selected={invoiceduedate}
-  onChange={(date) => handleDueDate(date)}
-  dateFormat="dd/MM/yyyy"
-  showMonthDropdown
-  showYearDropdown
-  scrollableYearDropdown
-  yearDropdownItemNumber={100} 
-  popperPlacement="bottom-start"
-                    popperModifiers={[
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -300],
-                        },
+              <p className="mt-1 mb-1" style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
+              <div style={{ position: "relative", width: "100%" }}>
+                <DatePicker
+                  selected={invoiceduedate}
+                  onChange={(date) => handleDueDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  popperPlacement="bottom-start"
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -300],
                       },
-                    ]}
-  customInput={
-    <CustomInvoiceDueDateInput
-      value={invoiceduedate ? invoiceduedate.toLocaleDateString("en-GB") : ""}
-    />
-  }
-/>
-</div>
+                    },
+                  ]}
+                  customInput={
+                    <CustomInvoiceDueDateInput
+                      value={invoiceduedate ? invoiceduedate.toLocaleDateString("en-GB") : ""}
+                    />
+                  }
+                />
+              </div>
 
 
               {invoiceduedateerrmsg.trim() !== "" && (
@@ -6342,7 +6361,7 @@ const InvoicePage = () => {
                     color: "red",
                     marginTop: "3px",
                     fontFamily: "Gilroy",
-                    textAlign:"center"
+                    textAlign: "center"
                   }}
                 >
                   {allfielderrmsg !== " " && (
@@ -6362,25 +6381,25 @@ const InvoicePage = () => {
             )}
           </div>
           <div>
-          {tableErrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px",textAlign:"center" }}
-                  >
-                    {tableErrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {tableErrmsg}
-                  </p>
-                </div>
-              )}
+            {tableErrmsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
+                >
+                  {tableErrmsg !== " " && (
+                    <MdError
+                      style={{
+                        fontSize: "15px",
+                        color: "red",
+                        marginRight: "3px",
+                        marginBottom: "3px",
+                      }}
+                    />
+                  )}{" "}
+                  {tableErrmsg}
+                </p>
+              </div>
+            )}
           </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>

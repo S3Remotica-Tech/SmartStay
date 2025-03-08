@@ -20,7 +20,7 @@ import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { ArrowLeft2, ArrowRight2,} from "iconsax-react";
 import PropTypes from "prop-types";
-
+import { toast } from 'react-toastify';
 
 
 function Expenses({ allPageHostel_Id }) {
@@ -185,6 +185,13 @@ function Expenses({ allPageHostel_Id }) {
 
 
   const handleShow = () => {
+   
+        if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding expense information.', {
+              hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
+          });
+          return;
+      }
     setShowModal(true)
     setCurrentItem('');
 
