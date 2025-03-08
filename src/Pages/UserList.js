@@ -39,7 +39,7 @@ import CustomerCheckout from "./CustomerCheckout";
 // import DatePicker from "react-datepicker";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { toast } from "react-toastify";
 import Closebtn from "../Assets/Images/CloseCircle.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
@@ -1181,6 +1181,12 @@ function UserList(props) {
   };
 
   const handleShow = (u) => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding customer information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(true);
@@ -1453,6 +1459,12 @@ const handleBack = () => {
   };
   const [showbookingForm, setShowbookingForm] = useState(false);
   const toggleForm = () => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding booking information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setShowbookingForm(!showbookingForm);
   };
   const closeModal = () => {
@@ -1461,6 +1473,12 @@ const handleBack = () => {
   //checkout form
   const [checkoutForm, setcheckoutForm] = useState(false);
   const checkOutForm = () => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding checkout information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setcheckoutForm(!checkoutForm);
   };
   const checkoutcloseModal = () => {
@@ -1470,6 +1488,12 @@ const handleBack = () => {
 
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
+      if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding walking information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setWalkinForm(true);
   };
   const walkinFormcloseModal = () => {

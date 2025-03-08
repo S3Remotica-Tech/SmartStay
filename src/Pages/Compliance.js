@@ -26,6 +26,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { toast } from 'react-toastify';
 
 const Compliance = () => {
 
@@ -413,6 +414,12 @@ const Compliance = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
+     if (!state.login.selectedHostel_Id) {
+              toast.error('Please add a hostel before adding Compliance information.', {
+                  hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
+              });
+              return;
+          }
     setEdit(false)
     setShow(true);
   }

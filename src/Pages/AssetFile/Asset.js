@@ -9,6 +9,7 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+import { toast } from 'react-toastify';
 
 function Asset() {
 
@@ -131,6 +132,13 @@ function Asset() {
   }, [assetrolePermission]);
 
   const handleShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding asset information.', {
+          hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
+      });
+      return;
+  }
+  
     setShow(true)
     setCurrentItem('')
   }

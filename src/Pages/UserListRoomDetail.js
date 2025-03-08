@@ -71,11 +71,11 @@ function UserListRoomDetail(props) {
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  const [Bednum, setBednum] = useState("");
+  // const [Bednum, setBednum] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
   const [customerAsignBed, setcustomerAsignBed] = useState(false);
-  const [Editbed, seteditBed] = useState("");
+  // const [Editbed, seteditBed] = useState("");
   const [value, setValue] = useState("1");
   const [countryCode, setCountryCode] = useState("91");
   const theme = useTheme();
@@ -193,8 +193,8 @@ function UserListRoomDetail(props) {
       } else {
         setActiveRow(item[0].ID);
       }
-      setBednum(item);
-      seteditBed("editbeddet");
+      // setBednum(item);
+      // seteditBed("editbeddet");
       setcustomerAsignBed(true);
       setcustomerdetailShow(false);
       setFormShow(true);
@@ -263,8 +263,8 @@ function UserListRoomDetail(props) {
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
-      setBednum(item);
-      seteditBed("editbeddet");
+      // setBednum(item);
+      // seteditBed("editbeddet");
       setcustomerAsignBed(false);
       setcustomerdetailShow(true);
       setFormShow(true);

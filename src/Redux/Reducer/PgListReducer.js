@@ -1,4 +1,3 @@
-
 export const initialState = {
     Name: '',
     phoneNumber: '',
@@ -87,7 +86,8 @@ export const initialState = {
     addSubCommentsSuccessStatus: 0,
     NoDashboardStatusCode:0,
     nostatusCodeforEbHostelBased:0,
-   
+   UpgradestatusCode: 0,
+
 
 }
 
@@ -108,6 +108,16 @@ const PgListReducer = (state = initialState, action) => {
 
         case 'REMOVE_DELETE_ANNOUNCEMENT':
             return { ...state, deleteAnnounmentSuccessStatus: 0 }
+
+          
+            case 'UPGRADE_PLAN':
+                return { ...state,UpgradestatusCode: action.payload.statusCode }
+    
+            case 'REMOVE_UPGRADE_PLAN':
+                return { ...state, UpgradestatusCode: 0 }
+
+
+
 
         case 'GET_COMMENTS':
             return { ...state, CommentsList: action.payload.response, getCommentsSuccessStatus: action.payload.statusCode }

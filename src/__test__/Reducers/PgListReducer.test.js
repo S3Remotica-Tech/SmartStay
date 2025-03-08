@@ -593,7 +593,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
 
         })
     })
@@ -694,7 +695,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -791,7 +793,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -889,7 +892,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -987,7 +991,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1084,7 +1089,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1184,7 +1190,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1283,7 +1290,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1382,7 +1390,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1480,7 +1489,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1579,7 +1589,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1680,7 +1691,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1781,7 +1793,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1881,7 +1894,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -1981,7 +1995,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2080,7 +2095,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2179,7 +2195,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2277,7 +2294,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2375,7 +2393,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2473,7 +2492,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2573,7 +2593,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2671,7 +2692,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2769,7 +2791,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2865,7 +2888,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -2962,7 +2986,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3059,7 +3084,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3155,7 +3181,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3254,7 +3281,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3352,7 +3380,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3450,7 +3479,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     })
 
@@ -3548,7 +3578,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -3648,7 +3679,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -3750,7 +3782,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -3849,7 +3882,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -3947,7 +3981,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4048,7 +4083,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4150,7 +4186,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4252,7 +4289,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4352,7 +4390,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4453,8 +4492,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
-        })
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
+                })
     }
     )
 
@@ -4553,7 +4593,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4653,7 +4694,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4754,7 +4796,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4853,7 +4896,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -4954,7 +4998,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5054,7 +5099,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5156,7 +5202,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5257,7 +5304,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5359,7 +5407,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5461,7 +5510,8 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
-            statusCodeForEBRoombasednodata: 0
+            statusCodeForEBRoombasednodata: 0,
+            UpgradestatusCode: 0
         })
     }
     )
@@ -5796,7 +5846,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
+            UpgradestatusCode : 0
 
 
         })
@@ -5907,7 +5957,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
+            UpgradestatusCode : 0
 
 
         })
@@ -6019,7 +6069,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
+            UpgradestatusCode : 0
 
 
         })
@@ -6130,8 +6180,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
-
+            UpgradestatusCode : 0
 
         })
 
@@ -6242,7 +6291,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 200,
-
+            UpgradestatusCode : 0
 
 
         })
@@ -6353,8 +6402,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
-
+            UpgradestatusCode : 0
 
         })
 
@@ -6465,7 +6513,7 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 200,
             nostatusCodeforEbHostelBased: 0,
-
+            UpgradestatusCode : 0
 
 
         })
@@ -6577,12 +6625,68 @@ describe('it should check Pg list reducers', () => {
             addSubCommentsSuccessStatus: 0,
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
-
+            UpgradestatusCode : 0
 
 
         })
 
    })
+
+  
+
+   it('it should check for   UPGRADE_PLAN', () => {
+
+    const action = {
+        type: 'UPGRADE_PLAN',
+        payload: {
+            statusCode: 200
+        }
+    }
+
+    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+        ...initialState,
+        UpgradestatusCode: 200
+
+
+    })
+
+
+
+
+
+
+
+
+})
+
+
+it('it should check for   REMOVE_UPGRADE_PLAN', () => {
+
+    const action = {
+        type: 'REMOVE_UPGRADE_PLAN',
+       
+    }
+
+    expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
+       ...initialState,
+        UpgradestatusCode: 0
+
+
+    })
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
 
 
     it('It should be clear  Unknown action', () => {
