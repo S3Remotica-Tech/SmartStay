@@ -181,20 +181,16 @@ const AddReceiptForm = (props) => {
             setReceivedAmountErrmsg('');
         }
     };
+    const handleAccount = (selectedOption) => {
+      const selectedValue = selectedOption?.value || "";
     
+      setAccount(selectedValue);
+      setAccountError("")
+      setAccountError(selectedValue ? "" : "Please Select Bank");
+    };
+     
 
-      const handleAccount = (e) => {
-        setAccount(e.target.value);
-        setAccountError("");
-        if(!e.target.value){
-          setAccountError("Please Select bank")
-        }
-        else{
-          setAccountError('')
-        }
-        // setIsChangedError("");
-        
-      };
+    
 
 
       const handleModeOfPaymentChange = (e) => {
@@ -968,37 +964,43 @@ const AddReceiptForm = (props) => {
 
 
 
-                  <Form.Select
-                    aria-label="Default select example"
-                    placeholder="Select no. of floor"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                    id="form-selects"
-                    className="border"
-                    value={account}
-                    onChange={(e) => handleAccount(e)}
-                  >
-                    <option value="">Select Account</option>
-                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
-                      state.bankingDetails.bankingList.banks.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.bank_name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        No accounts available
-                      </option>
-                    )}
-                  </Form.Select>
+                  <Select
+  className="custom-dropdown"
+  options={state.bankingDetails?.bankingList?.banks.map((u) => ({
+    value: u.id,
+    label: u.bank_name,
+  }))}
+
+  onChange={handleAccount} 
+
+  value={
+    state.bankingDetails?.bankingList?.banks.find((u) => u.id === account)
+      ? { value: account, label: state.bankingDetails.bankingList.banks.find((u) => u.id === account)?.bank_name }
+      : null
+  }
+
+  styles={{
+    menu: (base) => ({
+      ...base,
+      maxHeight: "150px",
+      overflowY: "auto",
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "150px",
+      overflowY: "auto",
+      scrollbarWidth: "thin",
+      msOverflowStyle: "none",
+    }),
+    control: (base) => ({
+      ...base,
+      fontSize: 16,
+      borderRadius: 8,
+      border: "1px solid #D9D9D9",
+    }),
+  }}
+/>
+
 
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">

@@ -255,9 +255,13 @@ function StaticExample({ show, setShow, currentItem }) {
   // };
 
   const handlePriceChange = (e) => {
-    const price = e.target.value;
-    setPrice(price);
-
+    // const price = e.target.value;
+    // setPrice(price);
+    const value = (e.target.value)
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setPrice(value);
     setPriceError("");
     setIsChangedError("");
     setGeneralError("");

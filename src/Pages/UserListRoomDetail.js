@@ -533,6 +533,9 @@ function UserListRoomDetail(props) {
 
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
+    if (!/^\d*$/.test(roomRentValue)) {
+      return; 
+    }
     // handleInputChange()
     setRoomRent(roomRentValue);
     setRoomRentError("");
@@ -581,6 +584,9 @@ function UserListRoomDetail(props) {
   const handleAdvanceAmount = (e) => {
     // handleInputChange()
     const advanceAmount = e.target.value;
+    if (!/^\d*$/.test(advanceAmount)) {
+      return; 
+    }
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
     setFormError("");

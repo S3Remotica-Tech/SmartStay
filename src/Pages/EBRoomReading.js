@@ -123,7 +123,11 @@ useEffect(() => {
 
 
   const handleReadingChange = (e) => {
-    setReading(e.target.value);
+    const value = (e.target.value)
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setReading(value);
     setReadingError('')
     setFormError('')
     setDateError('');

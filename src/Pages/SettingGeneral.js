@@ -215,7 +215,11 @@ function SettingGeneral() {
   };
 
   const handlePhone = (e) => {
-    setPhone(e.target.value);
+    const value = e.target.value;
+    if (!/^\d{0,10}$/.test(value)) {
+      return; // Stop input if it's not a number or exceeds 6 digits
+    }
+    setPhone(value);
     const pattern = /^\d{1,10}$/;
     const isValidMobileNo = pattern.test(e.target.value);
 

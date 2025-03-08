@@ -1088,11 +1088,11 @@ function Booking(props) {
                                       backgroundColor: "#F9F9F9",
                                       position: "fixed",
                                       top:
-                                        currentItems.length >= 6
+                                        currentItems.length >= 1
                                           ? popupPosition.top
                                           : "auto",
                                       left:
-                                        currentItems.length >= 6
+                                        currentItems.length >= 1
                                           ? popupPosition.left
                                           : popupPosition.left - 10,
 
