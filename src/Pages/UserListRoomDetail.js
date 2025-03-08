@@ -539,9 +539,9 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  const handleBed = (e) => {
+  const handleBed = (selectedOption) => {
     // handleInputChange()
-    setBedId(e.target.value);
+    setBedId(selectedOption?.value || "");
 
     const Bedfilter =
       state?.UsersList?.roomdetails &&
@@ -554,19 +554,19 @@ function UserListRoomDetail(props) {
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter?.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(e.target.value));
+      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(selectedOption));
 
     if (Roomamountfilter?.length !== 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
 
-      if (editMode && String(e.target.value) === String(initialStateAssign.Bed)) {
+      if (editMode && String(selectedOption) === String(initialStateAssign.Bed)) {
         setRoomRent(initialStateAssign.RoomRent); 
       } else {
         setRoomRent(selectedRoomRent); 
       }
     }
 
-    if (e.target.value === "Selected a Bed") {
+    if (selectedOption === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
@@ -3210,7 +3210,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    <Form.Select
+                                    {/* <Form.Select
                                       aria-label="Default select example"
                                       style={{
                                         fontSize: 16,
@@ -3258,7 +3258,77 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                               </option>
                                             )
                                         )}
-                                    </Form.Select>
+                                    </Form.Select> */}
+                                  
+
+<Select
+  options={
+    state.UsersList?.bednumberdetails?.bed_details?.map((item) => ({
+      value: item.id,
+      label: item.bed_no,
+    })) || []
+  }
+  onChange={handleBed}
+  value={
+    state.UsersList?.bednumberdetails?.bed_details?.find(
+      (option) => option.id === BedId
+    )
+      ? {
+          value: BedId,
+          label: state.UsersList.bednumberdetails.bed_details.find(
+            (option) => option.id === BedId
+          )?.bed_no,
+        }
+      : null
+  }
+  placeholder="Select a Bed"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      paddingLeft: "10px",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+/>
+
 
                                     {bedError && (
                                       <div style={{ color: "red" }}>
