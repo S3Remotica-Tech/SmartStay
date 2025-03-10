@@ -347,7 +347,7 @@ function Banking() {
   };
   const handleAddAmountSubmit = () => {
     if (!AddBankAmount.trim()) {
-      setAmountError("!Please enter an amount.");
+      setAmountError("Please enter an amount");
       return;
     }
     dispatch({
@@ -1902,7 +1902,11 @@ function Banking() {
                     }}
                   />
                 </Form.Group>
-                {amountError && <div style={{ color: "red", fontSize: "14px", marginTop: "5px",textAlign:"center" }}>{amountError}</div>}
+                 
+                {amountError && (
+                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px",textAlign:"center" }}>
+                     <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                    {amountError}</div>)}
                 <Button
                 className="col-12"
                 style={{

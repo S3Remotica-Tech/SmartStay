@@ -312,7 +312,7 @@ function BankingAddForm(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Account no.{" "}
+                  Account no{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl

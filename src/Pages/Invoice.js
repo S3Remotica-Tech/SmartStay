@@ -3407,7 +3407,7 @@ const InvoicePage = () => {
                               <div className="row mt-2">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-3"
+                                    className="mt-1"
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
@@ -3487,7 +3487,7 @@ const InvoicePage = () => {
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-2"
+                                    className="mt-2"
                                     controlId="purchaseDate"
                                   >
                                     <Form.Label
