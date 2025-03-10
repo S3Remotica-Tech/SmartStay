@@ -157,7 +157,9 @@ const InvoicePage = () => {
   const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
     []
   );
-
+  const [originalBills, setOriginalBills] = useState([]);
+  const [originalRecuiring, setOriginalRecuiring] = useState([]);
+  const [originalReceipt, setOriginalReceipt] = useState([]);
 
   useEffect(() => {
     // setLoading(true); 
@@ -180,6 +182,7 @@ const InvoicePage = () => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
       setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
+      setOriginalBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         setLoading(false);
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
@@ -2353,6 +2356,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
       setRecurringBills(state.InvoiceList.RecurringBills);
+      setOriginalRecuiring(state.InvoiceList.RecurringBills)
       setRecurLoader(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_LIST" });
@@ -2384,9 +2388,7 @@ useEffect(()=>{
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
-  const [originalBills, setOriginalBills] = useState([]);
-  const [originalRecuiring, setOriginalRecuiring] = useState([]);
-  const [originalReceipt, setOriginalReceipt] = useState([]);
+  
 
   useEffect(() => {
     if (value === "1") {
@@ -2474,6 +2476,10 @@ useEffect(()=>{
     setRecurringBills([user]);
     setDropdownVisible(false);
   };
+  
+  
+  console.log("Recurring Bills:", recurringbills);
+
 
   const handleUserReceipt = (user) => {
     setFilterInput(user.Name);
@@ -2521,6 +2527,7 @@ useEffect(()=>{
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
       setReceiptData(state.InvoiceList.ReceiptList);
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
+      setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
       dispatch({
         type: "MANUALINVOICESLIST",
@@ -2726,9 +2733,7 @@ useEffect(()=>{
                             </ul>
                           </div>
                         )}
-                      {value === "2" &&
-                        isDropdownVisible &&
-                        recurringbills?.length > 0 && (
+                      {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
                             style={{
                               border: "1px solid #d9d9d9 ",
@@ -2742,58 +2747,48 @@ useEffect(()=>{
                               width: "94%",
                             }}
                           >
-                            <ul
-                              className="show-scroll p-0"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                maxHeight:
-                                  recurringbills?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                  recurringbills?.length > 1
-                                    ? "auto"
-                                    : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
-                              }}
-                            >
-                              {recurringbills?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== recurringbills?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleUserRecuire(user)}
-                                  >
-                                    <Image
-                                      src={imagedrop}
-                                      alt={user.user_name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.user_name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
+                          <ul
+  className="show-scroll p-0"
+  style={{
+    backgroundColor: "#fff",
+    borderRadius: "4px",
+    maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+    overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+    margin: "0",
+    listStyleType: "none",
+    boxSizing: "border-box",
+  }}
+>
+  {recurringbills?.length === 0 ? (
+    <li style={{ padding: "10px" }}>No results found</li>
+  ) : (
+    recurringbills?.map((user, index) => (
+      <li
+        key={index}
+        className="list-group-item d-flex align-items-center"
+        style={{
+          cursor: "pointer",
+          padding: "10px 5px",
+          borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
+        }}
+        onClick={() => handleUserRecuire(user)}
+      >
+        <Image
+          src={user.profile || Profile}
+          alt={user.user_name || "Default Profile"}
+          roundedCircle
+          style={{ height: "30px", width: "30px", marginRight: "10px" }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = Profile;
+          }}
+        />
+        <span>{user.user_name}</span>
+      </li>
+    ))
+  )}
+</ul>
+
                           </div>
                         )}
 
@@ -3073,7 +3068,7 @@ useEffect(()=>{
           <TabContext value={value} className="container ">
             <div
               style={{
-                position: "sticky",
+                // position: "sticky",
                 top: 69,
                 right: 0,
                 left: 0,
@@ -3085,12 +3080,13 @@ useEffect(()=>{
               <Box
                 sx={{ borderBottom: 0, borderColor: "divider" }}
                 className="container"
+                
               >
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "7px" }}
+                  style={{ marginLeft: "7px"}}
                   className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
                   <Tab
