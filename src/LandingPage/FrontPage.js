@@ -68,13 +68,13 @@ function FrontPage() {
 
                 <Navbar collapseOnSelect expand="lg" fixed="top" className="" style={{ backgroundColor: "#FFFFFF", }} transparent>
 
-                    <Container fluid className="ms-5 me-5">
+                    <Container fluid className="px-lg-5 px-md-4 px-sm-3">
                         <Navbar.Brand onClick={handleBrandClick}><img src={Logo} alt='logo' style={{ width: 176.45, height: 33 , cursor:"pointer"}} />
                             {/* <img src={Smart} style={{ height: 20, width: 133 }} /> */}
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
-                            <Nav className="mx-auto">
+                            <Nav className="mx-auto text-center">
                                 <Nav.Link
                                    className="custom-link"
                                     as={Link}
@@ -136,11 +136,11 @@ function FrontPage() {
                                     Testimonials
                                 </Nav.Link>
                             </Nav>
-                            <Nav className=' justi-content-end'>
-                                <div className='d-lg-flex d-sm-block d-md-block align-items-center gap-3'>
+                            <Nav className='d-flex align-items-center justify-content-center gap-3 mt-lg-0 mt-3'>
+                                
                                     <Nav.Link style={{ fontSize: 16, fontWeight: 500, color: "#000", fontFamily: "Montserrat", marginRight: 20 }} onClick={handleSignIn}>Sign in</Nav.Link>
                                     <Button data-testid='signup' onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
-                                </div>
+                             
 
 
                             </Nav>
