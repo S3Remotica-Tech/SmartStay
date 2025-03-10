@@ -580,7 +580,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile no.{" "}
+                  Mobile no{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
@@ -662,7 +662,7 @@ useEffect(() => {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
               <Form.Group
                 controlId="exampleForm.ControlInput1"
               >
@@ -675,7 +675,8 @@ useEffect(() => {
                   }}
                 >
                   Email ID{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span> </Form.Label>
+                  <span style={{ color: "white", fontSize: "20px" }}>*</span>
+                   </Form.Label>
                 <Form.Control
                   value={email}
                   onChange={handleEmailChange}
@@ -690,7 +691,6 @@ useEffect(() => {
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
-                    marginTop:6
                   }}
                 />
               </Form.Group>

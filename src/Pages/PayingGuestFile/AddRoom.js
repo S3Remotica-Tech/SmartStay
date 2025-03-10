@@ -197,7 +197,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                     value={room}
                     onChange={handleRoomChange}
                     type="text"
-                    placeholder="Enter Room name or no."
+                    placeholder="Enter Room name or no"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
