@@ -2031,23 +2031,19 @@ const handleBack = () => {
                           width: "94%",
                         }}
                       >
-                        <ul
-                          className="show-scroll p-0"
-                          style={{
-                            backgroundColor: "#fff",
-                            // maxHeight: 174,
-                            maxHeight:
-                              filteredUsers?.length > 1 ? "174px" : "auto",
-                            minHeight: 100,
-                            overflowY:
-                              filteredUsers?.length > 1 ? "auto" : "hidden",
-
-                            margin: "0",
-                            listStyleType: "none",
-                            borderRadius: 8,
-                            boxSizing: "border-box",
-                          }}
-                        >
+                       <ul
+  className="show-scroll p-0"
+  style={{
+    backgroundColor: "#fff",
+    maxHeight: "174px",
+    minHeight: filteredUsers?.length > 1 ? "100px" : "auto",
+    overflowY: filteredUsers?.length > 3 ? "auto" : "hidden",
+    margin: 0,
+    listStyleType: "none",
+    borderRadius: 8,
+    boxSizing: "border-box",
+  }}
+>
                           {filteredUsers?.map((user, index) => {
                             const imagedrop = user.profile || Profile;
                             return (

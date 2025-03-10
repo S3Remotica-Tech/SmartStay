@@ -160,7 +160,7 @@ function StaticExample({
                       fontWeight: 600,
                     }}
                   >
-                    Floor name or no.
+                    Floor name or no
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
