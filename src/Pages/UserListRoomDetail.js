@@ -1726,7 +1726,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Mobile no.
+                                        Mobile no
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
                                         <Call size="16" color="#1E45E1" />
@@ -2213,7 +2213,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                     </div>
                                                     <div className="col-sm-4 text-center">
                                                       <p className="mb-1 small fw-medium">
-                                                        Mobile no.
+                                                        Mobile no
                                                       </p>
                                                       <p className="mb-0 fw-semibold">
                                                         +
@@ -2295,7 +2295,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                   </div>
                                                   <div className="col-sm-4 text-center">
                                                     <p className="mb-1 small fw-medium">
-                                                      Mobile no.
+                                                      Mobile no
                                                     </p>
                                                     <p className="mb-0 fw-semibold">
                                                       +

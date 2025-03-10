@@ -450,16 +450,16 @@ const handleAmnitiesSelect = ()=>{
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
                   fontSize: 14,
-                  fontWeight: 500,
                   backgroundColor: "#f8f9fa",
                   height: 45,
                   borderRadius: 8,
+                  opacity:1
                 }}
               >
                 <option
                   style={{
                     fontSize: 14,
-                    fontWeight: 500,
+                    fontWeight: 530,
                     fontFamily: "Gilroy",
                   }}
                 >

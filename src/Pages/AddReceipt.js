@@ -354,7 +354,7 @@ const AddReceiptForm = (props) => {
           // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
         
         if (!isChanged) {
-          setAllFieldErrmsg("No changes detected!");
+          setAllFieldErrmsg("No Changes detected");
           return;
         }
         
