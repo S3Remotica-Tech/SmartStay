@@ -153,6 +153,11 @@ const InvoicePage = () => {
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
+  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
+  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
+    []
+  );
+
 
   useEffect(() => {
     // setLoading(true); 
@@ -174,6 +179,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
+      setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         setLoading(false);
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
@@ -336,52 +342,74 @@ const InvoicePage = () => {
 
 
 
-  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
-  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
-    []
-  ); // Store original data
-
+ 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
       setOriginalBillsFilter(bills);
     }
   }, [bills]);
-console.log("originalBillsFilter",originalBillsFilter)
-console.log("bills",bills)
+
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
+     };
 
-    if (searchTerm === "All") {
-      setBills(originalBillsFilter);
-    } else {
-      const filteredItems = originalBillsFilter.filter(
-        (user) =>
-          user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
-      );
+useEffect(()=>{
+  if (statusfilter === "All") {
+    setBills(originalBillsFilter);
+  } else {
+    const filteredItems = originalBillsFilter.filter((user) =>
+        user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+    );
 
 
-      setBills(filteredItems);
-    }
+    setBills(filteredItems);
+  }
 
-    // 🔥 Reset to first page after filtering
-    setCurrentPage(1);
-  };
+
+  setCurrentPage(1);
+
+},[statusfilter])
+
+
+
 
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
-
   const handleStatusFilterReceipt = (event) => {
     const searchTerm = event.target.value;
     setStatusFilterReceipt(searchTerm);
-    if (searchTerm === "All") {
+     };
+  // const handleStatusFilterReceipt = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusFilterReceipt(searchTerm);
+  //   if (searchTerm === "All") {
+  //     setReceiptData(originalBillsFilterReceipt);
+  //   } else {
+  //     const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
+  //       user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setReceiptData(filteredItemsReceipt);
+  //   }
+  // };
+
+  useEffect(()=>{
+    if (statusFilterReceipt === "All") {
       setReceiptData(originalBillsFilterReceipt);
     } else {
-      const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
-        user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
+        user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
       );
+  
+  
       setReceiptData(filteredItemsReceipt);
     }
-  };
+  
+  
+    setCurrentPage(1);
+  
+  },[statusFilterReceipt])
+
+
   useEffect(() => {
     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
       setOriginalBillsFilterReceipt(receiptdata);
@@ -2487,6 +2515,7 @@ console.log("bills",bills)
   useEffect(() => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
       setReceiptData(state.InvoiceList.ReceiptList);
+      setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
       dispatch({
         type: "MANUALINVOICESLIST",
@@ -3408,7 +3437,7 @@ console.log("bills",bills)
                               <div className="row mt-2">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-3"
+                                    className="mt-1"
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
@@ -3488,7 +3517,7 @@ console.log("bills",bills)
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-2"
+                                    className="mt-2"
                                     controlId="purchaseDate"
                                   >
                                     <Form.Label

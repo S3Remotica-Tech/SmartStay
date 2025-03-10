@@ -742,11 +742,12 @@ const AddReceiptForm = (props) => {
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received</Form.Label>
         <Form.Control
-          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor:edit ? "#E7F1FF" : "white" }}
           type="text"
           placeholder="Enter received amount"
           value={received_amount || 0} 
           onChange={handleReceivedAmount} 
+          disabled={edit}
         />
  {receivedamounterrmsg && (
                   <div className="d-flex align-items-center  mb-2">
