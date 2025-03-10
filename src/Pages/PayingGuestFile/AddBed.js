@@ -187,7 +187,7 @@ useEffect(()=>{
                     value={bedNo}
                     onChange={handleBedNoChange}
                     type="text"
-                    placeholder="Enter bed name or no."
+                    placeholder="Enter bed name or no"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

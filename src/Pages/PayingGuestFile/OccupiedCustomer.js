@@ -85,7 +85,7 @@ console.log("called")
                             <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                                 <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {currentItem.bed.bed_no}</Modal.Title>
 
-                                <CloseCircle size="24" color="#000" onClick={handleClose} />
+                                <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}}/>
 
                             </Modal.Header>
 
@@ -103,7 +103,14 @@ console.log("called")
                                             <label style={{ fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", fontWeight: 600 }}> ₹{custom.RoomRent}</label>
                                         </div>
                                         <div className='d-flex justify-content-between flex-wrap'>
-                                            <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>{custom.Phone}</label>
+                                            <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                {/* {custom.Phone} */} + {custom &&
+                                          String(custom.Phone)?.slice(
+                                            0,
+                                            String(custom.Phone).length - 10
+                                          )}{" "}
+                                        {custom && String(custom.Phone)?.slice(-10)}
+                                                </label>
                                             <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}> {moment(custom.createdAt).format("DD/MM/YYYY")}</label>
                                         </div>
                                     </div>

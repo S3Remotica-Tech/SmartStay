@@ -352,11 +352,6 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
-
-console.log("bills",bills)
-
-console.log("billsoriginalBillsFilter",originalBillsFilter)
-
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);

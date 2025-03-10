@@ -855,7 +855,7 @@ useEffect(()=>{
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div style={{ marginTop: -5 }}>
+                <div className="pglistlable" style={{ marginTop: -5 }}>
                   <label
                     style={{
                       fontSize: 18,
@@ -1476,12 +1476,12 @@ useEffect(()=>{
                                   alignItems: "center",
                                   position: "relative",
                                   zIndex: showDots ? 1000 : "auto",
-                                  backgroundColor: showDots ? "#E7F1FF" : '#fff'
+                                  backgroundColor: showDots ? "#E7F1FF" : '#fff',
                                 }}
                                 onClick={() => handleShowDots()}
                               >
                                 <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20 }}
+                                  style={{ height: 20, width:20 }}
                                 />
 
                                 {showDots && (
