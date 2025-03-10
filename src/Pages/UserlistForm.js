@@ -377,38 +377,31 @@ function UserlistForm(props) {
 
 
 
+const handleBed = (selectedOption) => {
+  const selectedBedId = selectedOption?.value || '';
+  setBed(selectedBedId);
 
-  const handleBed = (selectedOption) => {
-    setBed(selectedOption?.value || '');
-    const Bedfilter =
-    state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(hostel_Id) &&
-        String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(Rooms)
-    );
- 
-    // const Roomamountfilter =
-    //   Bedfilter &&
-    //   Bedfilter.length > 0 &&
-    //   Bedfilter[0]?.bed_details.filter((amount) => amount.id === e.target.value);
+  const Bedfilter = state?.UsersList?.roomdetails?.filter(
+    (u) =>
+      String(u.Hostel_Id) === String(hostel_Id) &&
+      String(u.Floor_Id) === String(Floor) &&
+      String(u.Room_Id) === String(Rooms)
+  );
 
-    // if (Roomamountfilter.length !== 0) {
-    //   setRoomRent(Roomamountfilter[0]?.bed_amount);
-    // }
-    const Roomamountfilter =
-  Bedfilter?.[0]?.bed_details?.filter(
-    (amount) => String(amount.id) === String(selectedOption)
-  ) ?? []; // Ensure it doesn't throw an error
+  const Roomamountfilter =
+    Bedfilter?.[0]?.bed_details?.filter(
+      (amount) => String(amount.id) === String(selectedBedId)
+    ) ?? [];
 
-if (Roomamountfilter.length > 0) {
-  setRoomRent(Roomamountfilter[0]?.bed_amount);
-}
+  if (Roomamountfilter.length > 0) {
+    setRoomRent(Roomamountfilter[0]?.bed_amount);
+  }
 
+  setBedError("");
+  setRoomRentError("");
+};
 
-    setBedError("");
-    setRoomRentError("");
-  };
+  
 
   //  useEffect (()=>{
 

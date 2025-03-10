@@ -71,11 +71,11 @@ function UserListRoomDetail(props) {
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-  // const [Bednum, setBednum] = useState("");
+  const [Bednum, setBednum] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
   const [customerAsignBed, setcustomerAsignBed] = useState(false);
-  // const [Editbed, seteditBed] = useState("");
+  const [Editbed, seteditBed] = useState("");
   const [value, setValue] = useState("1");
   const [countryCode, setCountryCode] = useState("91");
   const theme = useTheme();
@@ -193,8 +193,8 @@ function UserListRoomDetail(props) {
       } else {
         setActiveRow(item[0].ID);
       }
-      // setBednum(item);
-      // seteditBed("editbeddet");
+      setBednum(item);
+      seteditBed("editbeddet");
       setcustomerAsignBed(true);
       setcustomerdetailShow(false);
       setFormShow(true);
@@ -263,8 +263,8 @@ function UserListRoomDetail(props) {
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
-      // setBednum(item);
-      // seteditBed("editbeddet");
+      setBednum(item);
+      seteditBed("editbeddet");
       setcustomerAsignBed(false);
       setcustomerdetailShow(true);
       setFormShow(true);
@@ -479,22 +479,39 @@ function UserListRoomDetail(props) {
   //   setRoomId("");
   //   setBedId("");
   // };
-  const handleFloor = (selectedOption) => {
-    setFloor(selectedOption?.value || '');
+  // const handleFloor = (selectedOption) => {
+  //   setFloor(selectedOption?.value || '');
 
-    if (selectedOption === "Selected Floor") {
-      setfloorError("Please select a valid floor");
-    } else {
+  //   if (selectedOption === "Selected Floor") {
+  //     setfloorError("Please select a valid floor");
+  //   } else {
+  //     setfloorError("");
+  //   }
+  //   // handleInputChange()
+  //   setRooms("");
+  //   setfloorError("");
+  //   setFormError("");
+  //   setRoomId("");
+  //   setBedId("");
+  //   setRoomRent(0);
+  // };
+  const handleFloor = (selectedOption) => {
+    if (selectedOption) {
+      setFloor(selectedOption.value); // correctly set value
       setfloorError("");
+    } else {
+      setFloor("");
+      setfloorError("Please select a valid floor");
     }
-    // handleInputChange()
+  
+    // Reset dependent fields
     setRooms("");
-    setfloorError("");
-    setFormError("");
     setRoomId("");
     setBedId("");
     setRoomRent(0);
+    setFormError("");
   };
+  
 
   useEffect(() => {
     dispatch({
@@ -542,43 +559,68 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  const handleBed = (selectedOption) => {
-    // handleInputChange()
-    setBedId(selectedOption?.value || "");
-
-    const Bedfilter =
-      state?.UsersList?.roomdetails &&
-      state.UsersList.roomdetails.filter(
-        (u) =>
-          String(u.Hostel_Id) === String(hostel_Id) &&
-        String (u.Floor_Id) === String(Floor) && String(u.Room_Id) === String(RoomId)
-      );
-
+  console.log("BedId",BedId)
+  const handleBed = (e) => {
+    const selectedBedId = e.target.value;
+    setBedId(selectedBedId);
+  
+    const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(hostel_Id) &&
+        String(u.Floor_Id) === String(Floor) &&
+        String(u.Room_Id) === String(RoomId)
+    );
+  
     const Roomamountfilter =
-      Bedfilter &&
-      Bedfilter?.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(selectedOption));
-
-    if (Roomamountfilter?.length !== 0) {
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(selectedBedId)
+      ) ?? [];
+  
+    if (Roomamountfilter.length > 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
-
-      if (editMode && String(selectedOption) === String(initialStateAssign.Bed)) {
-        setRoomRent(initialStateAssign.RoomRent); 
+  
+      if (editMode && String(selectedBedId) === String(initialStateAssign.Bed)) {
+        setRoomRent(initialStateAssign.RoomRent);
       } else {
-        setRoomRent(selectedRoomRent); 
+        setRoomRent(selectedRoomRent);
       }
+    } else {
+      // Optional: if no rent found, clear or reset rent
+      setRoomRent('');
     }
-
-    if (selectedOption === "Selected a Bed") {
+  
+    if (selectedBedId === "Select a Bed") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
     }
-    setBedError("");
+  
     setFormError("");
     setRoomRentError("");
   };
+  
+  
+  const bedOptions = [
+    { value: '', label: 'Select a Bed' },
+    ...(Editbed === "editbeddet" && Bednum?.[0]?.Bed
+      ? [{ value: Bednum[0].hstl_Bed, label: Bednum[0].Bed }]
+      : []),
+    ...(state.UsersList?.bednumberdetails?.bed_details
+      ?.filter((item) => item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined")
+      .map((item) => ({
+        value: item.id,
+        label: item.bed_no,
+      })) || []),
+  ];
+  const bedOptionsRaw =
+  state.UsersList?.bednumberdetails?.bed_details?.map((item) => ({
+    value: item.id,
+    label: item.bed_no,
+  })) || [];
 
+const selectedBedOption = bedOptionsRaw.find(
+  (option) => String(option.value) === String(BedId)
+);
   
 
   const handleAdvanceAmount = (e) => {
@@ -855,9 +897,9 @@ const handleGenerateAdvance=()=>{
       return;
     }
 
-    if (BedId === "Select a Bed") {
-      setBedError("Please select a valid PG");
-      return;
+    if (BedId === "" || BedId === "Select a Bed") {
+      setBedError("Please select a valid Bed");
+      return; 
     }
 
     // Format the date
@@ -2982,27 +3024,27 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Select> */}
                                   
 
-
-<Select
- 
-  options ={
-  state.UsersList?.hosteldetailslist?.map((u) => ({
-    value: u.floor_id,
-    label: u.floor_name,
-  })) || []
-}
+                                  <Select
+  options={
+    state.UsersList?.hosteldetailslist?.map((u) => ({
+      value: u.floor_id,
+      label: u.floor_name,
+    })) || []
+  }
   onChange={handleFloor}
-  
   value={
-    state.UsersList?.hosteldetailslist?.find((option) => option.floor_id === Floor)
-      ? { value: Floor, label: state.UsersList.hosteldetailslist.find((option) => option.floor_id === Floor)?.floor_name }
-      : null
+    state.UsersList?.hosteldetailslist
+      ?.map((u) => ({
+        value: u.floor_id,
+        label: u.floor_name,
+      }))
+      .find((option) => String(option.value) === String(Floor)) || null
   }
   placeholder="Select no. of floor"
   classNamePrefix="custom"
   menuPlacement="auto"
   styles={{
-    control: (base, state) => ({
+    control: (base) => ({
       ...base,
       height: "50px",
       border: "1px solid #D9D9D9",
@@ -3012,10 +3054,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       fontFamily: "Gilroy",
       fontWeight: 500,
       boxShadow: "none",
-      backgroundColor: state.isDisabled ? "#E7F1FF" : "white",
-      "&:hover": {
-        borderColor: state.isFocused ? "#40a9ff" : "#D9D9D9",
-      },
+      paddingLeft: "10px",
     }),
     menu: (base) => ({
       ...base,
@@ -3025,7 +3064,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     menuList: (base) => ({
       ...base,
       backgroundColor: "#f8f9fa",
-      maxHeight: "200px", // Increased height for better scrolling
+      maxHeight: "120px",
       padding: 0,
       scrollbarWidth: "thin",
       overflowY: "auto",
@@ -3037,12 +3076,21 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     dropdownIndicator: (base) => ({
       ...base,
       color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
     }),
     indicatorSeparator: () => ({
       display: "none",
     }),
   }}
 />
+
+
+
+
 
                                     
                                     {floorError && (
@@ -3266,27 +3314,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         )}
                                     </Form.Select> */}
                                   
-
-<Select
-  options={
-    state.UsersList?.bednumberdetails?.bed_details?.map((item) => ({
-      value: item.id,
-      label: item.bed_no,
-    })) || []
-  }
-  onChange={handleBed}
-  value={
-    state.UsersList?.bednumberdetails?.bed_details?.find(
-      (option) => option.id === BedId
-    )
-      ? {
-          value: BedId,
-          label: state.UsersList.bednumberdetails.bed_details.find(
-            (option) => option.id === BedId
-          )?.bed_no,
-        }
-      : null
-  }
+                                  <Select
+  options={bedOptions}
+  value={bedOptions.find((opt) => opt.value === BedId)}
+  onChange={(selectedOption) => handleBed({ target: { value: selectedOption.value } })}
+  
   placeholder="Select a Bed"
   classNamePrefix="custom"
   menuPlacement="auto"
@@ -3334,6 +3366,10 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     }),
   }}
 />
+
+
+
+
 
 
                                     {bedError && (
