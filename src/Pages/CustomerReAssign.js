@@ -82,13 +82,14 @@ function CustomerReAssign(props){
         setBedError("");
       };
       const handleRooms = (selectedOption) => {
-        setNewRoom(selectedOption?.value || '');
+        const value =(selectedOption?.value || '');
+        setNewRoom(value);
         dispatch({
           type: "BEDNUMBERDETAILS",
           payload: {
             hostel_id: state.login.selectedHostel_Id,
             floor_id: newFloor,
-            room_id: selectedOption,
+            room_id: value,
           },
         });
         // setRoomRent("");

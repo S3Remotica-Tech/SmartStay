@@ -612,15 +612,8 @@ function UserListRoomDetail(props) {
         label: item.bed_no,
       })) || []),
   ];
-  const bedOptionsRaw =
-  state.UsersList?.bednumberdetails?.bed_details?.map((item) => ({
-    value: item.id,
-    label: item.bed_no,
-  })) || [];
+ 
 
-const selectedBedOption = bedOptionsRaw.find(
-  (option) => String(option.value) === String(BedId)
-);
   
 
   const handleAdvanceAmount = (e) => {
