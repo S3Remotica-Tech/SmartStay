@@ -153,6 +153,11 @@ const InvoicePage = () => {
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
+  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
+  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
+    []
+  );
+
 
   useEffect(() => {
     // setLoading(true); 
@@ -337,11 +342,7 @@ const InvoicePage = () => {
 
 
 
-  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
-  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
-    []
-  );
-
+ 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
       setOriginalBillsFilter(bills);
@@ -379,19 +380,41 @@ useEffect(()=>{
 
 
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
-
   const handleStatusFilterReceipt = (event) => {
     const searchTerm = event.target.value;
     setStatusFilterReceipt(searchTerm);
-    if (searchTerm === "All") {
+     };
+  // const handleStatusFilterReceipt = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusFilterReceipt(searchTerm);
+  //   if (searchTerm === "All") {
+  //     setReceiptData(originalBillsFilterReceipt);
+  //   } else {
+  //     const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
+  //       user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setReceiptData(filteredItemsReceipt);
+  //   }
+  // };
+
+  useEffect(()=>{
+    if (statusFilterReceipt === "All") {
       setReceiptData(originalBillsFilterReceipt);
     } else {
-      const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
-        user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
+        user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
       );
+  
+  
       setReceiptData(filteredItemsReceipt);
     }
-  };
+  
+  
+    setCurrentPage(1);
+  
+  },[statusFilterReceipt])
+
+
   useEffect(() => {
     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
       setOriginalBillsFilterReceipt(receiptdata);
@@ -2497,6 +2520,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
       setReceiptData(state.InvoiceList.ReceiptList);
+      setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
       dispatch({
         type: "MANUALINVOICESLIST",
