@@ -854,7 +854,7 @@ useEffect(()=>{
                 }}
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
-
+               
                 <div className="pglistlable" style={{ marginTop: -5 }}>
                   <label
                     style={{
@@ -867,7 +867,7 @@ useEffect(()=>{
                     Paying Guest
                   </label>
                 </div>
-
+               
                 <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
