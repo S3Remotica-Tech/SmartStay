@@ -174,6 +174,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
+      setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         setLoading(false);
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST" });
@@ -339,7 +340,7 @@ const InvoicePage = () => {
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
     []
-  ); // Store original data
+  );
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
@@ -347,25 +348,35 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
+
+console.log("bills",bills)
+
+console.log("billsoriginalBillsFilter",originalBillsFilter)
+
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
+     };
 
-    if (searchTerm === "All") {
-      setBills(originalBillsFilter);
-    } else {
-      const filteredItems = originalBillsFilter.filter(
-        (user) =>
-          user.status?.trim().toLowerCase() === searchTerm.trim().toLowerCase()
-      );
+useEffect(()=>{
+  if (statusfilter === "All") {
+    setBills(originalBillsFilter);
+  } else {
+    const filteredItems = originalBillsFilter.filter((user) =>
+        user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+    );
 
 
-      setBills(filteredItems);
-    }
+    setBills(filteredItems);
+  }
 
-    // 🔥 Reset to first page after filtering
-    setCurrentPage(1);
-  };
+
+  setCurrentPage(1);
+
+},[statusfilter])
+
+
+
 
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
 
