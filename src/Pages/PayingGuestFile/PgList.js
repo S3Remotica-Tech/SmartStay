@@ -855,7 +855,7 @@ useEffect(()=>{
               >
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
 
-                <div style={{ marginTop: -5 }}>
+                <div className="pglabel" >
                   <label
                     style={{
                       fontSize: 18,

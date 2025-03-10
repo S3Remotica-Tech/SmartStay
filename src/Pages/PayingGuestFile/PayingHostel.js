@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types";
+import "./PayingHostel.css"
 
 
 
@@ -149,6 +150,7 @@ function PayingHostel(props) {
 
         {
             props.filteredData[0] && (
+               <div>
                 <Card className="animated-text ms-0 h-100 " style={{
                     borderRadius: 16, border: hoverPgCard ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #e6e6e6" : "1px solid #E6E6E6", transition: "border 0.3s ease, box-shadow 0.3s ease",
                     height: "auto",
@@ -199,7 +201,10 @@ function PayingHostel(props) {
 
                                     {showDots  && <>
 
-                                        <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 40, top:-20, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                        <div ref={popupRef} className= "pg-card" style={{ cursor: "pointer", backgroundColor: "#F9F9F9", 
+                                            position: "absolute", right: 40, top:-20, width: 120, height: 92, 
+                                            border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", 
+                                            padding: 15, alignItems: "center" }}>
                                             <div >
                                                 {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleEdit(props.hostel)} 
@@ -382,6 +387,7 @@ function PayingHostel(props) {
                     </Card.Body>
 
                 </Card>
+                </div> 
             )
 
      

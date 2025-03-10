@@ -13,6 +13,7 @@ import { MdError } from "react-icons/md";
 import {CloseCircle,Trash,AddCircle,Gallery,} from "iconsax-react";
 import PropTypes from "prop-types";
 
+
 function AddPg({ show, handleClose, currentItem }) {
 
   
@@ -399,19 +400,20 @@ useEffect(() => {
   };
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-      }}
-    >
+    
+      <div
+  className="modal show"
+  style={{
+    display: "block",
+    position: "initial", 
+  }}
+>
       <Modal
         show={show }
         onHide={handleClose}
         centered
         backdrop="static"
-        className="custom-modal-width"
+        className="custom-modal-width responsive-modal"
       >
         <Modal.Header>
           <Modal.Title
@@ -978,6 +980,7 @@ useEffect(() => {
       
       </Modal>
     </div>
+    
   );
 }
 AddPg.propTypes = {
