@@ -45,45 +45,45 @@ function KeyFeature() {
 
 
   return (
-    <div className='' style={{ width: "100%" }}>
-      <div className='row  ps-5 pe-5 'style={{paddingBottom:"72px"}} >
+   
+    <div className="container-fluid">
+  <div className="row px-4 pb-5">
 
-        <div className='mt-4 mb-4'>
-          <h5 style={{ fontSize:"60px", color: "rgba(34, 34, 34, 1)", fontWeight: 700, fontFamily: "Gilroy", textAlign: "center" }}> Key <span style={{ fontSize: 56, color: "rgba(30, 69, 225, 1)", fontWeight: 700, fontFamily: "Gilroy" }} >Features </span></h5>
-
-        </div>
-
-        {keyValue.map((item) => (
-          <div key={item.id} className='col-lg-4 col-md-6 col-xs-12 col-sm-12' style={{padding:"40px 20px 40px 20px"}}>
-            <Card className="h-100 fade-in" style={{ backgroundColor: "#e7f1ff", borderRadius: 24, border: "1px solid #e7f1ff" }}>
-              <Card.Body>
-
-                <div className='ps-2 mb-2'>
-                  <img src={item.KeyImage} alt='imgg' style={{height:60, width:60}} />
-                </div>
-
-                <div className='ps-2 pe-5 mb-2 w-100'>
-                  <label style={{fontSize:32, fontWeight:700, fontFamily:"Gilroy",wordSpacing:5}}>{item.Heading}</label>
-                </div>
-
-
-                <div className='ps-2 mb-2'>
-                  <label style={{fontSize:16, fontWeight:400, fontFamily:"Montserrat"}}>{item.Title}</label>
-                </div>
-
-
-
-
-              </Card.Body>
-            </Card>
-
-
-          </div>
-        ))}
-      </div>
-
-
+    <div className="mt-4 mb-4 text-center">
+      <h5 className="fw-bold" style={{ fontSize: "60px", color: "#222" }}>
+        Key <span style={{ color: "rgba(30, 69, 225, 1)", fontSize: "56px" }}>Features</span>
+      </h5>
     </div>
+
+  
+    {keyValue.map((item) => (
+      <div 
+        key={item.id} 
+        className="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch mb-4"
+      >
+        <Card className="w-100 shadow-sm fade-in" style={{ backgroundColor: "#e7f1ff", borderRadius: 24, border: "1px solid #e7f1ff" }}>
+          <Card.Body className="d-flex flex-column">
+            
+           
+            <div className="mb-3">
+              <img src={item.KeyImage} alt="feature icon" className="img-fluid" style={{ height: 60, width: 60 }} />
+            </div>
+
+            <h5 className="fw-bold" style={{ fontSize: "28px", fontFamily: "Gilroy" }}>
+              {item.Heading}
+            </h5>
+
+          
+            <p style={{ fontSize: "16px", fontFamily: "Montserrat", flexGrow: 1 }}>
+              {item.Title}
+            </p>
+          </Card.Body>
+        </Card>
+      </div>
+    ))}
+  </div>
+</div>
+
   )
 }
 
