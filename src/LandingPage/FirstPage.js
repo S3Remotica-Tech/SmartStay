@@ -92,42 +92,50 @@ function FirstPage() {
           <Button onClick={handleStartNow} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", width: 320, height: 70, borderRadius: 16, padding: "24px 53px 24px 53px" }}>Get Started</Button>
 
         </div>
+ </div>
+      <div className="position-relative d-flex justify-content-center mt-4">
+ 
+  <img
+    src={Desktop}
+    alt="desk"
+    className="img-fluid"
+    style={{
+      maxWidth: "100%",
+      height: "auto",
+      width: "1000px", 
+      maxHeight: "776px",
+    }}
+  />
+
+ 
+  <img
+    src={Spring1}
+    alt="spring"
+    className="position-absolute d-none d-lg-block"
+    style={{
+      left: 0,
+      top: "90%",
+      transform: "translateY(-50%) rotate(360deg)",
+      width: 220,
+      height: 219,
+    }}
+  />
 
 
+  <img
+    src={Spring2}
+    alt="spring3"
+    className="position-absolute d-none d-lg-block"
+    style={{
+      right: 0,
+      top: "-5%",
+      width: 220,
+      height: 219,
+    }}
+  />
+</div>
 
-
-
-
-
-
-
-
-      </div>
-      <div className='row d-flex justify-content-center mt-4' style={{ position: "relative", backgroundColor: "" }}>
-        <img src={Desktop} alt='desk' className='img-fluid' style={{ height: 776, width: 1000 }} />
-        <img src={Spring1} alt='spring'
-          style={{
-            position: "absolute",
-            left: 0,
-            top: "90%",
-            transform: "translateY(-50%) rotate(360deg)",
-            width: 220,
-            height: 219,
-            display: isMobile ? "none" : "flex"
-          }}
-        />
-        <img
-          src={Spring2} alt='spring3'
-          style={{
-            position: "absolute",
-            top: "-5%",
-            right: 0,
-            width: 220,
-            height: 219,
-            display: isMobile ? "none" : "flex"
-          }}
-        />
-      </div>
+     
 
       <div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{ backgroundColor: "rgba(250, 249, 255, 1)", padding: "42px 10px 42px 10px" }}>
 
