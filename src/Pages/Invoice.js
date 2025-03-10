@@ -346,7 +346,8 @@ const InvoicePage = () => {
       setOriginalBillsFilter(bills);
     }
   }, [bills]);
-
+console.log("originalBillsFilter",originalBillsFilter)
+console.log("bills",bills)
   const handleStatusFilter = (event) => {
     const searchTerm = event.target.value;
     setStatusfilter(searchTerm);
