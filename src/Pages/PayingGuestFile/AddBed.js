@@ -180,7 +180,7 @@ useEffect(()=>{
                       fontWeight: 500,
                     }}
                   >
-                    Bed name or no.{" "}
+                    Bed name or no{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
