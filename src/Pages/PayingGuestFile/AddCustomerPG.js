@@ -307,6 +307,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
+    if (!/^\d*$/.test(roomRentValue)) {
+      return; 
+    }
     // handleInputChange()
     setRoomRent(roomRentValue);
     setRoomRentError("");
@@ -315,6 +318,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const handleAdvanceAmount = (e) => {
     // handleInputChange()
     const advanceAmount = e.target.value;
+    if (!/^\d*$/.test(advanceAmount)) {
+      return; 
+    }
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
   };

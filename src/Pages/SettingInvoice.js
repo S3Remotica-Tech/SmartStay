@@ -82,16 +82,31 @@ function SettingInvoice({ hostelid }) {
 
 
 
+  // const handlePrefix = (e) => {
+  //   setTotalErrmsg("");
+  //   setPrefix(e.target.value);
+  //   setSuffixfixErrmsg("");
+  //   if (!e.target.value) {
+  //     setPrefixErrmsg("Please Enter Prefix");
+  //   } else {
+  //     setPrefixErrmsg("");
+  //   }
+  // };
   const handlePrefix = (e) => {
-    setTotalErrmsg("");
-    setPrefix(e.target.value);
-    setSuffixfixErrmsg("");
-    if (!e.target.value) {
-      setPrefixErrmsg("Please Enter Prefix");
-    } else {
-      setPrefixErrmsg("");
+    const inputValue = e.target.value;
+    if (/^[a-zA-Z]*$/.test(inputValue)) {
+      setTotalErrmsg("");
+      setPrefix(inputValue);
+      setSuffixfixErrmsg("");
+  
+      if (!inputValue) {
+        setPrefixErrmsg("Please Enter Prefix");
+      } else {
+        setPrefixErrmsg("");
+      }
     }
   };
+  
 
   const handleSuffix = (e) => {
     setTotalErrmsg("");

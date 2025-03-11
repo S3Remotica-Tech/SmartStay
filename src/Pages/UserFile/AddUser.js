@@ -89,7 +89,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setEmailError('');
     setError('');
 
-    // Automatically convert email to lowercase
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
 
@@ -180,44 +179,51 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     type: "CLEAR_EMAIL_ID_ERROR"
   })
 
-
   const handleSubmit = () => {
-
     let isValid = true;
-
+  
     setNameError('');
     setEmailError('');
     setMobileError('');
     setCountryCodeError('');
     setRoleError('');
-
-
-
+    setError('');
+  
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  
     if (!name) {
       setNameError('Please enter name');
       isValid = false;
     }
+  
     if (!email) {
       setEmailError('Please enter email');
       isValid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError('Invalid Email Id *');
+      isValid = false;
     }
+  
     if (!countryCode) {
       setCountryCodeError('Please select country code');
       isValid = false;
     }
+  
     if (!mobile) {
       setMobileError('Please enter mobile number');
       isValid = false;
     }
+  
     if (!role) {
       setRoleError('Please select a role');
       isValid = false;
     }
+  
     if (!editDetails && !password) {
       setPasswordError('Please enter a password');
       isValid = false;
     }
-
+  
     const hasChanges =
       name !== initialState.name ||
       email !== initialState.email ||
@@ -225,46 +231,119 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       countryCode !== initialState.countryCode ||
       role !== initialState.role ||
       description !== initialState.description;
-
+  
     if (editDetails && !hasChanges) {
       setError("No changes detected. Please update the fields.");
       isValid = false;
     }
-
+  
     if (isValid) {
+      const MobileNumber = `${countryCode}${mobile}`;
+      const payload = {
+        user_name: name,
+        phone: MobileNumber,
+        email_id: email,
+        role_id: role,
+        description: description,
+      };
+  
       if (editDetails && edit) {
-        const MobileNumber = `${countryCode}${mobile}`
-        dispatch({
-          type: "ADDSTAFFUSER",
-          payload: {
-            user_name: name,
-            phone: MobileNumber,
-            email_id: email,
-            role_id: role,
-            description: description,
-            id: editDetails.id
-          },
-        });
+        payload.id = editDetails.id;
       } else {
-        const MobileNumber = `${countryCode}${mobile}`
-
-
-        dispatch({
-          type: "ADDSTAFFUSER",
-          payload: {
-            user_name: name,
-            phone: MobileNumber,
-            email_id: email,
-            password: password,
-            role_id: role,
-            description: description,
-          },
-        });
+        payload.password = password;
       }
-
-
+  
+      dispatch({
+        type: "ADDSTAFFUSER",
+        payload,
+      });
     }
   };
+  
+  // const handleSubmit = () => {
+
+  //   let isValid = true;
+
+  //   setNameError('');
+  //   setEmailError('');
+  //   setMobileError('');
+  //   setCountryCodeError('');
+  //   setRoleError('');
+
+
+
+  //   if (!name) {
+  //     setNameError('Please enter name');
+  //     isValid = false;
+  //   }
+  //   if (!email) {
+  //     setEmailError('Please enter email');
+  //     isValid = false;
+  //   }
+  //   if (!countryCode) {
+  //     setCountryCodeError('Please select country code');
+  //     isValid = false;
+  //   }
+  //   if (!mobile) {
+  //     setMobileError('Please enter mobile number');
+  //     isValid = false;
+  //   }
+  //   if (!role) {
+  //     setRoleError('Please select a role');
+  //     isValid = false;
+  //   }
+  //   if (!editDetails && !password) {
+  //     setPasswordError('Please enter a password');
+  //     isValid = false;
+  //   }
+
+  //   const hasChanges =
+  //     name !== initialState.name ||
+  //     email !== initialState.email ||
+  //     mobile !== initialState.mobile ||
+  //     countryCode !== initialState.countryCode ||
+  //     role !== initialState.role ||
+  //     description !== initialState.description;
+
+  //   if (editDetails && !hasChanges) {
+  //     setError("No changes detected. Please update the fields.");
+  //     isValid = false;
+  //   }
+
+  //   if (isValid) {
+  //     if (editDetails && edit) {
+  //       const MobileNumber = `${countryCode}${mobile}`
+  //       dispatch({
+  //         type: "ADDSTAFFUSER",
+  //         payload: {
+  //           user_name: name,
+  //           phone: MobileNumber,
+  //           email_id: email,
+  //           role_id: role,
+  //           description: description,
+  //           id: editDetails.id
+  //         },
+  //       });
+  //     } else {
+  //       const MobileNumber = `${countryCode}${mobile}`
+
+
+  //       dispatch({
+  //         type: "ADDSTAFFUSER",
+  //         payload: {
+  //           user_name: name,
+  //           phone: MobileNumber,
+  //           email_id: email,
+  //           password: password,
+  //           role_id: role,
+  //           description: description,
+  //         },
+  //       });
+  //     }
+
+
+  //   }
+  // };
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
@@ -333,7 +412,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   </Form.Label>
                   <Form.Control
                     value={email}
-                    onChange={handleEmailChange}
+                    onChange={(e)=>handleEmailChange(e)}
                     type="text"
                     autoComplete="off"
                     autoCorrect="off"
