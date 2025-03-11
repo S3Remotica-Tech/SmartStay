@@ -1457,15 +1457,15 @@ const ComplianceList = (props) => {
                          
   <Select
     options={[
-      { value: "open", label: "Open" },
-      { value: "in-progress", label: "In Progress" },
-      { value: "resolved", label: "Resolved" },
+      { value: "open", label: "open" },
+      { value: "in-progress", label: "in-progress" },
+      { value: "resolved", label: "resolved" },
     ]}
     onChange={handleStatus}
     
     value={
       status
-        ? { value: status, label: status.replace("-", " ").toUpperCase() }
+        ? { value: status, label: status.replace("-", " ")}
         : null
     }
     placeholder="Select a status"
