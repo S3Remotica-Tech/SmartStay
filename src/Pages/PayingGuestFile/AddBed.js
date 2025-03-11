@@ -74,7 +74,11 @@ useEffect(()=>{
   };
 
   const handleAmountChange = (e) => {
-    setAmount(e.target.value);
+    const newAmount = e.target.value
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
+    setAmount(newAmount);
     setGeneralError("");
     setBedAlreadyBooked("")
     setAmountError("");

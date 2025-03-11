@@ -460,28 +460,23 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
       <div className="cotainer">
         <TabContext value={value}>
 
-          <div
-            className="container justify-content-between d-flex align-items-center"
-            style={{
-              position: "sticky",
-              top: 0,
-              right: 0,
-              left: 0,
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-              height: 83,
-              width: "100%", 
-              touchAction: "none", 
-              marginTop: 0, 
-            }}
-          >
+        <div
+  className="container-fluid px-2"
+  style={{
+    position: "sticky",
+    top: 0,
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    width: "100%",
+  }}
+>
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
               <TabList
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                style={{ marginLeft: "20px" }}
-                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                style={{ marginLeft: "20px"}}
+                 className="d-flex flex-column flex-md-row flex-wrap"
               >
                 <Tab
                   label="Dashboard"
