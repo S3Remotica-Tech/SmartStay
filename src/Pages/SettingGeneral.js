@@ -304,19 +304,19 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
-          setFirstNameError("First Name is Required");
+          setFirstNameError("First Name Required");
           break;
         case "emilId":
-          setEmailError("Email Id is Required");
+          setEmailError("Email Id Required");
           break;
         case "Phone":
-          setPhoneError("Phone Number is Required");
+          setPhoneError("Phone Number Required");
           break;
         case "address":
-          setAddressError("Address is Required");
+          setAddressError("Address Required");
           break;
         case "password":
-          setPasswordError("Password is Required");
+          setPasswordError("Password Required");
           break;
         default:
           break;

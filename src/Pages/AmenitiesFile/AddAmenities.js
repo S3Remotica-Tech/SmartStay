@@ -85,7 +85,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
         initialState.isChecked !== isChecked;
 
       if (!isChanged) {
-        setIsChangedError("No changes detected.");
+        setIsChangedError("No Changes Detected");
         isValid = false;
       }
     }

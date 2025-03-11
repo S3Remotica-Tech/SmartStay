@@ -135,7 +135,7 @@ useEffect(() => {
               <div className="mb-1">
                 <label
                   style={{color: "#939393",fontSize: 14,fontWeight: 500,fontFamily: "Gilroy",fontStyle: "normal",lineHeight: "normal"}}>
-                  Invoice date      
+                  Invoice Date      
                 </label>
               </div>
               <div>

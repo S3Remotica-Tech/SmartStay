@@ -79,11 +79,20 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   // ///// function /////////////
 
+  // const handleNameChange = (e) => {
+  //   setName(e.target.value)
+  //   setNameError('')
+  //   setError('')
+  // }
   const handleNameChange = (e) => {
-    setName(e.target.value)
-    setNameError('')
-    setError('')
-  }
+    const value = e.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setName(value);
+      setNameError('');
+      setError('');
+    }
+  };
+  
 
   const handleEmailChange = (e) => {
     setEmailError('');
@@ -192,12 +201,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
   
     if (!name) {
-      setNameError('Please enter name');
+      setNameError('Please Enter Name');
       isValid = false;
     }
   
     if (!email) {
-      setEmailError('Please enter email ID');
+      setEmailError('Please Enter Email ID');
       isValid = false;
     } else if (!emailRegex.test(email)) {
       setEmailError('Invalid Email Id *');
@@ -205,22 +214,22 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   
     if (!countryCode) {
-      setCountryCodeError('Please select country code');
+      setCountryCodeError('Please Select Country Code');
       isValid = false;
     }
   
     if (!mobile) {
-      setMobileError('Please enter mobile number');
+      setMobileError('Please Enter Mobile Number');
       isValid = false;
     }
   
     if (!role) {
-      setRoleError('Please select role');
+      setRoleError('Please Select Role');
       isValid = false;
     }
   
     if (!editDetails && !password) {
-      setPasswordError('Please enter password');
+      setPasswordError('Please Enter Password');
       isValid = false;
     }
   
@@ -233,7 +242,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       description !== initialState.description;
   
     if (editDetails && !hasChanges) {
-      setError("No changes detected. Please update the fields.");
+      setError("No changes detected");
       isValid = false;
     }
   
@@ -381,7 +390,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   >Name<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     value={name}
-                    onChange={handleNameChange}
+                    onChange={(e)=>handleNameChange(e)}
                     type="text" placeholder="Enter Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
                 {nameError && (
@@ -461,7 +470,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
                     }}
                   >
-                    Mobile{" "}
+                    Mobile No{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>
                       {" "}
                       *{" "}

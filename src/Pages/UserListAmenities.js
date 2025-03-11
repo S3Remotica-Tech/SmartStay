@@ -9,6 +9,8 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Form, } from "react-bootstrap";
 import cross from "../Assets/Images/cross.png";
 import PropTypes from "prop-types";
+import Select from "react-select";
+import "./UserList.css";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -25,21 +27,23 @@ function UserListAmenities(props) {
   const [createby, setcreateby] = useState("");
   const [amnityError, setamnityError] = useState("");
 
-  const handleselect = (e) => {
-    const value = e.target.value;
+  const handleselect = (selectedOption) => {
+    const value = selectedOption?.value || "";
+  
     setselectAmneties(value);
-
-    if (value === "" || value === "Select an Amenities") {
+  
+    if (value === "") {
       setamnityError("Please select a valid amenity Id");
       setaddamenityShow(false);
       return;
     } else {
       setamnityError("");
     }
-    const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
+  
+    const amenitiesHistory = state.UsersList?.amnetieshistory?.filter((item) => {
       return item.amenity_Id === value;
     });
-
+  
     if (amenitiesHistory && amenitiesHistory.length > 0) {
       if (amenitiesHistory[0].status === 0) {
         setaddamenityShow(true);
@@ -226,35 +230,56 @@ const handleAmnitiesSelect = ()=>{
         >
           Amenities
         </Form.Label>
-        <Form.Select
-          aria-label="Default select example"
-          className="border"
-          style={{
-            fontSize: 16,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy,sans-serif",
-            fontWeight: 500,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            height: 50,
-            borderRadius: 8,
-          }}
-          value={selectAmneties}
-          onChange={(e) => handleselect(e)}
-        >
-          <option
-            style={{ fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}
-            selected
-            value=""
-          >
-            Select an Amenities
-          </option>
-          {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
-            <option key={item.Amnities_Id} value={item.Amnities_Id}>
-              {item.Amnities_Name}
-            </option>
-          ))}
-        </Form.Select>
+        <Select
+ 
+  // isDisabled={edit} // if you want to disable based on a flag
+  placeholder="Select an Amenities"
+  value={
+    state.UsersList?.customerdetails?.all_amenities
+      ?.find((item) => item.Amnities_Id === selectAmneties)
+      ? {
+          value: selectAmneties,
+          label: state.UsersList.customerdetails.all_amenities.find(
+            (item) => item.Amnities_Id === selectAmneties
+          )?.Amnities_Name,
+        }
+      : null
+  }
+  onChange={handleselect}
+  options={state.UsersList?.customerdetails?.all_amenities?.map((item) => ({
+    value: item.Amnities_Id,
+    label: item.Amnities_Name,
+  }))}
+   classNamePrefix="custom"
+  menuPlacement="auto"
+  styles={{
+    menu: (base) => ({
+      ...base,
+      maxHeight: "170px",
+      overflowY: "auto",
+      zIndex: 9999, // ensures dropdown comes over table or other elements
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "170px",
+      overflowY: "auto",
+      padding: 0,
+      scrollbarWidth: "thin",
+    }),
+    control: (base, state) => ({
+      ...base,
+      fontSize: 16,
+      borderRadius: 8,
+      border: "1px solid #D9D9D9",
+      height: 50,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      boxShadow: "none",
+      boxShadowColor: "none",
+    }),
+  }}
+  
+/>
         {amnityError && (
           <div style={{ color: "red" }}>
             {" "}
@@ -550,10 +575,10 @@ const handleAmnitiesSelect = ()=>{
             );
           })}
       </div>
-      <div 
+      <div className="show-scroll-amnities"
         style={{
           // height: "400px",
-          height: currentRowAmnities.length >= 1 ? "150px" : "auto",
+          height: currentRowAmnities.length >= 1 ? "110px" : "auto",
           overflowY: "auto",
           borderRadius: "24px",
           border: "1px solid #DCDCDC",

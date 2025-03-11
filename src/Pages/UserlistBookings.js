@@ -939,12 +939,11 @@ function Booking(props) {
 
                             <td
                               style={{
-                                textAlign: "start",
                                 fontSize: "16px",
-                                fontWeight: 600,
-                                color: "#000000",
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                whiteSpace: "nowrap",
+                                color: "#000000",
+                                textAlign: "start",
                                 verticalAlign: "middle",
                               }}
                             >

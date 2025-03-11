@@ -267,7 +267,7 @@ console.log("Comparison Result:", JSON.stringify(normalizedInitial) !== JSON.str
 console.log("roleName Comparison",initialFormState.current.roleName.trim() !== currentState.roleName.trim())
 
 if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
-    setErrorIsChanged("No changes detected in the form.");
+    setErrorIsChanged("No Changes Detected");
     isValid = false;
 }
     

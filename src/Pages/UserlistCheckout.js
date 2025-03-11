@@ -621,14 +621,13 @@ function CheckOut(props) {
 
 
                             <td
-                              style={{
-                                textAlign: "start",
+                               style={{
                                 fontSize: "16px",
-                                fontWeight: 600,
-                                color: "#000000",
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                whiteSpace: "nowrap",
-                                verticalAlign: "middle"
+                                color: "#000000",
+                                textAlign: "start",
+                                verticalAlign: "middle",
                               }}
                             >
                               +
