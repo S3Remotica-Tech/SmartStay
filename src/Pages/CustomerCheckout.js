@@ -208,14 +208,7 @@ function CustomerCheckout(props){
                   </Modal.Header>
 
 
-{state.UsersList.errorMessageAddCheckOut && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state.UsersList.errorMessageAddCheckOut}
-                  </label>
-                </div>
-              )}
+
 
                   <div className="row mb-3">
                     
@@ -336,6 +329,14 @@ function CustomerCheckout(props){
       )}
 
                   </div>
+                  {state.UsersList.errorMessageAddCheckOut && (
+                <div className="d-flex align-items-center p-1" style={{paddingBottom:5}}>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {state.UsersList.errorMessageAddCheckOut}
+                  </label>
+                </div>
+              )}
 
                   <Button
                     className="w-100"

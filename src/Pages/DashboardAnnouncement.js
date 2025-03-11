@@ -1381,7 +1381,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     background: "#F8F9FA"
                   }}
                 >
-                  No Comments available
+                  No Comments Available
                 </div>
                 )}
             </Modal.Body>

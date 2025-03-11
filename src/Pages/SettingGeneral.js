@@ -246,9 +246,6 @@ function SettingGeneral() {
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-      // } else if (hasUpperCase) {
-      //   setEmailErrorMessage("Email should be in lowercase *");
-      //   setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
@@ -307,19 +304,19 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
-          setFirstNameError("FirstName is required");
+          setFirstNameError("First Name Is Required");
           break;
         case "emilId":
-          setEmailError("EmailId is required");
+          setEmailError("Email Id Is Required");
           break;
         case "Phone":
-          setPhoneError("Phone number is required");
+          setPhoneError("Phone Number Is Required");
           break;
         case "address":
-          setAddressError("Address is required");
+          setAddressError("Address Is Required");
           break;
         case "password":
-          setPasswordError("Password is required");
+          setPasswordError("Password Is Required");
           break;
         default:
           break;
@@ -458,14 +455,11 @@ function SettingGeneral() {
         (!file && initialStateAssign.file);
   
       if (!isChanged) {
-        setFormError("No changes detected.");
-        console.log("No changes detected. Form not submitted.");
+        setFormError("No Changes Detected.");
         return;
       } else {
         setFormError("");
       }
-  
-           console.log("Submitting changes to dispatch...");
       dispatch({
         type: "ADDGENERALSETTING",
         payload: {
@@ -505,7 +499,6 @@ function SettingGeneral() {
 
   useEffect(() => {
     setLoading(true)
-    console.log("load",loading);
    
      dispatch({ type: "GETALLGENERAL" });
      const timeout = setTimeout(() => {

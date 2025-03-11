@@ -1270,7 +1270,7 @@ function SettingManage(props) {
                                         backgroundColor: "#f9f9f9",
                                         position: "absolute",
                                         right: 40,
-                                        top: -20,
+                                        top: 20,
                                         width: 140,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",

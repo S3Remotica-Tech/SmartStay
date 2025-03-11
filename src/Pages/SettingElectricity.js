@@ -117,7 +117,7 @@ const SettingElectricity = ({ hostelid }) => {
     }
 
     if (editHostel && editHostel.editamount === newAmount) {
-      setTotalErr('No changes Deducted');
+      setTotalErr('No Changes Deducted');
     }
   };
 
@@ -128,7 +128,7 @@ const SettingElectricity = ({ hostelid }) => {
     }
 
     if (edit && editHostel && editHostel.editamount === amount) {
-      setTotalErr('No changes Deducted');
+      setTotalErr('No Changes Deducted');
       return;
     }
 
@@ -790,7 +790,7 @@ const SettingElectricity = ({ hostelid }) => {
                     fontWeight: 500,
                   }}
                 >
-                  Amount/Unit.{" "}
+                  Amount/Unit{" "}
                   {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                 </Form.Label>
                 <FormControl
@@ -1040,7 +1040,7 @@ const SettingElectricity = ({ hostelid }) => {
                 <div className="row mt-1">
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">EB calculation Start Date will be
+                      <label htmlFor="startDayDropdown" className="form-label">EB Calculation Start Date Will Be
                       <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
@@ -1136,7 +1136,7 @@ const SettingElectricity = ({ hostelid }) => {
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">EB Calculation End date wil be
+                      <label htmlFor="startDayDropdown" className="form-label">EB Calculation End Date Will Be
                       <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}

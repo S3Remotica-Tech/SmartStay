@@ -1758,7 +1758,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        RoomRent.
+                                        RoomRent
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
                                         {/* <Call size="16" color="#1E45E1" /> */}
