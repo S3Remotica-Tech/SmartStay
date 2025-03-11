@@ -412,17 +412,17 @@ function EB_Hostel() {
     if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor is required");
+          setfloorError("Floor Required");
           break;
         case "Rooms":
-          setRoomError("Rooms is required");
+          setRoomError("Rooms Required");
           break;
 
         case "selectedDate":
-          setDateErrorMesg("Date is required");
+          setDateErrorMesg("Date Required");
           break;
         case "endmeter":
-          setendMeterError("Reading is required");
+          setendMeterError("Reading Required");
           break;
         default:
           break;
@@ -473,7 +473,7 @@ function EB_Hostel() {
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
 
     if (Floor === "Select Floor" || !isFloorValid) {
-      setfloorError("Please select a valid Floor");
+      setfloorError("Please Select Valid Floor");
       return;
     } else {
       setfloorError("");
@@ -481,7 +481,7 @@ function EB_Hostel() {
 
     // Validate Room field
     if (Rooms === "Select a Room" || !isRoomValid) {
-      setRoomError("Please select a valid Room");
+      setRoomError("Please Select Valid Room");
       return;
     } else {
       setRoomError("");
@@ -1354,7 +1354,7 @@ function EB_Hostel() {
             </td> */}
                               <td
                                 style={{
-                                  paddingTop: 15,
+                                  paddingTop: 20,
                                   border: "none",
                                   textAlign: "start",
                                   fontSize: "16px",

@@ -656,7 +656,7 @@ function SettingExpenses({ hostelid }) {
 
       }} >
         <div style={{ marginTop: 25 }}>
-          <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Expences Category</h3></div>
+          <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Expenses Category</h3></div>
         <div >
           <Button onClick={handleShow}
             style={{

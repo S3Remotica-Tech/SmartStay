@@ -131,11 +131,11 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="mb-2 me-5">
+            <div className="mb-2 me-5" style={{paddingRight:25}}>
               <div className="mb-1">
                 <label
                   style={{color: "#939393",fontSize: 14,fontWeight: 500,fontFamily: "Gilroy",fontStyle: "normal",lineHeight: "normal"}}>
-                  Invoice date
+                  Invoice date      
                 </label>
               </div>
               <div>
@@ -146,7 +146,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="mb-2 me-5">
+            <div className="mb-2 me-5" style={{paddingRight:25}}>
               <div className="mb-1">
                 <label style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
                   Due Date
@@ -205,7 +205,7 @@ useEffect(() => {
             </div>
 
             <div className="mb-2">
-              <div className="mb-1">
+              <div className="mb-1 me-1">
                 <label
                   style={{
                     color: "#939393",

@@ -145,11 +145,11 @@ function SettingManage(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails.length > 0) {
+    if (state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails?.length > 0) {
       const updatedFloors = showHostelDetails?.floorDetails || [];
 
-      if (updatedFloors.length > 0) {
-        const lastFloor = updatedFloors[updatedFloors.length - 1];
+      if (updatedFloors?.length > 0) {
+        const lastFloor = updatedFloors[updatedFloors?.length - 1];
         const lastIndex = updatedFloors.length - 1;
 
         setFloorClick(lastFloor?.floor_id || null);

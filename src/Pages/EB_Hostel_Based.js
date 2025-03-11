@@ -187,7 +187,11 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
 
 
   const handleReadingChange = (e) => {
-    setReading(e.target.value);
+    const newReading = e.target.value;
+    if (!/^\d*$/.test(newReading)) {
+      return; 
+    }
+    setReading(newReading);
     setReadingError("");
     setFormError("");
     setDateError("")

@@ -668,7 +668,7 @@ function CheckOut(props) {
                                   verticalAlign: "middle"
                                 }}
                               >
-                                {checkout.Floor}
+                                {checkout.floor_name}
                               </span>
                             </td>
 
