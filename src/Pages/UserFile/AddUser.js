@@ -197,7 +197,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   
     if (!email) {
-      setEmailError('Please enter email');
+      setEmailError('Please enter email ID');
       isValid = false;
     } else if (!emailRegex.test(email)) {
       setEmailError('Invalid Email Id *');
@@ -215,12 +215,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   
     if (!role) {
-      setRoleError('Please select a role');
+      setRoleError('Please select role');
       isValid = false;
     }
   
     if (!editDetails && !password) {
-      setPasswordError('Please enter a password');
+      setPasswordError('Please enter password');
       isValid = false;
     }
   
