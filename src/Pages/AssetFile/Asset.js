@@ -134,11 +134,11 @@ function Asset() {
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error('Please add a hostel before adding asset information.', {
-          hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
       return;
-  }
-  
+    }
+
     setShow(true)
     setCurrentItem('')
   }
@@ -261,7 +261,7 @@ function Asset() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
- 
+
 
   // const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
   const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
@@ -269,7 +269,7 @@ function Asset() {
 
 
 
-const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
     if (!sortConfig.key) return currentItems;
@@ -315,7 +315,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
- 
+
 
   const handleEditAsset = (item) => {
     setShow(true)
@@ -457,19 +457,19 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
             </div></>
         ) :
           <div className='container p-0'>
-            <div>
+           
 
-              <div className="container d-flex justify-content-between align-items-center mb-1 flex-wrap"
+              <div className="container d-flex justify-content-between align-items-center mb-1 flex-wrap h-auto"
                 style={{
                   position: 'sticky',
- 
+
                   backgroundColor: 'white',
                   zIndex: 10,
-                  paddingLeft:25,paddingRight:20,
+                  paddingLeft: 25, paddingRight: 20,
                   height: 83,
                 }}
               >
-                <div style={{marginTop:-5}}>
+                <div style={{ marginTop: -5 }}>
                   <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     Assets</label>
                 </div>
@@ -479,7 +479,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   {
                     !showFilterData &&
 
-                    <div  onClick={handleShowSearch} style={{paddingRight:30,marginTop:12,cursor:"pointer"}}>
+                    <div onClick={handleShowSearch} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -488,9 +488,9 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     </div>
                   }
                   {
-                    
+
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative',cursor:"pointer",marginTop:10}}>
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative', cursor: "pointer", marginTop: 10 }}>
                       <InputGroup
                         style={{
                           display: 'flex',
@@ -512,7 +512,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                           }}
                           placeholder="Search..."
                         />
-                        <InputGroup.Text style={{ backgroundColor: "#ffffff",cursor:"pointer" }}>
+                        <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
                           <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                         </InputGroup.Text>
                       </InputGroup>
@@ -577,7 +577,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
-                  <div onClick={handleFilterByPrice} style={{paddingRight:23,marginTop:12,cursor:"pointer"}}>
+                  <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
                     <Sort
                       Size="24"
                       color="#222"
@@ -588,12 +588,14 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   {
                     showFilter &&
 
-                    <div style={{paddingRight:30,marginTop:10}}>
+                    <div style={{ paddingRight: 30, marginTop: 10 }}>
                       <Form.Select aria-label="Select Price Range"
                         value={selectedPriceRange}
                         onChange={handlePriceRangeChange}
-                        className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600,
-                         fontFamily: "Gilroy" ,height:"40px"}}>
+                        className='' id="vendor-select" style={{
+                          color: "rgba(34, 34, 34, 1)", fontWeight: 600,
+                          fontFamily: "Gilroy", height: "40px"
+                        }}>
                         <option value="All">All</option>
                         <option value="0-100">0-100</option>
                         <option value="100-500">100-500</option>
@@ -602,52 +604,45 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                       </Form.Select>
                     </div>
                   }
-                  <div style={{ paddingRight: "29px",marginTop:10,cursor:"pointer"}}>
-                    <img src={excelimg} alt='excel' width={38} height={38} 
+                  <div style={{ paddingRight: "29px", marginTop: 10, cursor: "pointer" }}>
+                    <img src={excelimg} alt='excel' width={38} height={38}
                       onClick={handleAssetsExcel}
                     />
                   </div>
 
-            <div style={{marginTop:15,paddingRight:4}}>
-              <Button disabled={assetAddPermission} onClick={handleShow}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: "8px",
-                padding: "12px",
-                paddingLeft:50,
-                paddingRight:48,
-                marginBottom: "10px",
-                maxHeight: 45,
-    
-              }}
-                 >
-                   + Asset</Button>
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div style={{ marginTop: 15, paddingRight: 4 }}>
+                    <Button disabled={assetAddPermission} onClick={handleShow}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "12px",
+                        paddingLeft: 50,
+                        paddingRight: 48,
+                        marginBottom: "10px",
+                        maxHeight: 45,
 
-            {/* <div className='table-responsive' 
-        style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
-         >  */}
+                      }}
+                    >
+                      + Asset</Button>
+                  </div>
+                </div>
+              </div>
+       
 
 
             {searchQuery && (
               <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {getData.length > 0 ? (
-                  // <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                  //   {getData.length} result{getData.length > 1 ? 's' : ''} found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-                  // </span>
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-  {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
-  <span style={{ color: "rgba(34, 34, 34, 1)" }}>
-    &quot;{searchQuery}&quot;
-  </span>
-</span>
+                                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                    {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
+                    <span style={{ color: "rgba(34, 34, 34, 1)" }}>
+                      &quot;{searchQuery}&quot;
+                    </span>
+                  </span>
                 ) : (
                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}> &quot;{searchQuery}&quot;</span></span>
                 )}
@@ -697,7 +692,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
               <div
-               className='show-scrolls'
+                className='show-scrolls'
                 style={{
                   // height: "400px",
                   // height: currentItems.length >= 6 ? "380px" : "auto",
@@ -705,11 +700,11 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                  height: currentItems.length >= 8  || sortedData.length >= 8 ? "500px" : "auto",
-                  overflowY: "auto",
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                  overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
-                  marginBottom:20,
-                  marginTop:"20px"
+                  marginBottom: 20,
+                  marginTop: "20px"
                   //  borderBottom:"1px solid #DCDCDC"
                 }}>
 
@@ -724,45 +719,45 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
                     zIndex: 1
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start",fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')}  style={{cursor:"pointer"}}/>
-                        <ArrowDown2 size="10"   variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{cursor:"pointer"}}/>
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Product Name </div>  </th>
-                                             
-                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 ,}} > <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{cursor:"pointer"}}/>
-                        </div>  Serial Number </div></th>
 
-                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 , }}> <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{cursor:"pointer"}}/>
-                        </div> Brand </div> </th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Serial Number </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 , }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{cursor:"pointer"}}/>
-                        </div> Asset </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Brand </div> </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 , }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{cursor:"pointer"}}/>
-                        </div>  Price </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Asset </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 ,}}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{cursor:"pointer"}}/>
-                        </div> Purchase Date </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Price </div></th>
 
-                      <th style={{  textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 , }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                      <ArrowUp2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')}  style={{cursor:"pointer"}}/>
-                      <ArrowDown2 size="10"  variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{cursor:"pointer"}}/>
-                        </div>  Assigned </div></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Purchase Date </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 , }}></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Assigned </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}></th>
                     </tr>
                   </thead>
-               
+
 
                   <tbody>
                     {
@@ -816,7 +811,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
                 </div>
               </div>
- 
+
 
             }
 
@@ -949,7 +944,7 @@ const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
           </div>
       }
 
-      {show && <AddAsset show={show} currentItem={currentItem} setShow={setShow}/>}
+      {show && <AddAsset show={show} currentItem={currentItem} setShow={setShow} />}
 
 
 

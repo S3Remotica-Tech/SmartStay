@@ -555,7 +555,7 @@ function SettingGeneral() {
     if (state.Settings?.StatusCodeForSettingGeneral === 200) {
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-
+      dispatch({ type: "ACCOUNTDETAILS" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_GENERAL_ADD" });
       }, 200);
