@@ -455,7 +455,7 @@ function SettingGeneral() {
         (!file && initialStateAssign.file);
   
       if (!isChanged) {
-        setFormError("No Changes Detected.");
+        setFormError("No Changes Detected");
         return;
       } else {
         setFormError("");
