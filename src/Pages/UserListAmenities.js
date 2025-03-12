@@ -11,7 +11,6 @@ import cross from "../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import { pointer } from "@testing-library/user-event/dist/cjs/pointer/index.js";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);

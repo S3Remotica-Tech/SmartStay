@@ -15,7 +15,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { height } from "@mui/system";
 
 function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
