@@ -217,38 +217,38 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
   
     // Validate individual fields and show specific errors
     if (!category) {
-      setCategoryError("Please select a category");
+      setCategoryError("Please Select Category");
       hasError = true;
     }
   
     if (!selectedDate) {
-      setDateError("Please select a purchase date");
+      setDateError("Please Select Purchase Date");
       hasError = true;
     }
   
     if (!modeOfPayment) {
-      setPaymentError("Please enter a mode of payment");
+      setPaymentError("Please Enter Mode Of Payment");
       hasError = true;
     }
   
     if (!price) {
-      setPriceError("Please enter a valid price");
+      setPriceError("Please Enter Valid Price");
       hasError = true;
     } else if (isNaN(price) || price <= 0) {
-      setPriceError("Price must be a positive number");
+      setPriceError("Price Must be a Positive Number");
       hasError = true;
     }
   
     if (!count) {
-      setCountError("Please enter a valid unit count");
+      setCountError("Please Enter Valid Unit Count");
       hasError = true;
     } else if (isNaN(count) || count <= 0) {
-      setCountError("Unit count must be a positive number");
+      setCountError("Unit Count Must be a Positive Number");
       hasError = true;
     }
   
     if (modeOfPayment === "Net Banking" && !account) {
-      setAccountError("Please choose a bank account");
+      setAccountError("Please Choose Bank Account");
       hasError = true;
     }
   
@@ -266,7 +266,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       initialState.hostelName !== hostelName;
   
     if (!isChanged) {
-      setIsChangedError("Please make some changes before saving.");
+      setIsChangedError("No Changes Detected");
       hasError = true;
     }
   
