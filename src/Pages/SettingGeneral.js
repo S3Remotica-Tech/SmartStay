@@ -1325,7 +1325,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter name"
+                  placeholder="Enter First Name"
                   value={firstName}
                   onChange={(e) => handleFirstName(e)}
                   style={{
@@ -1364,7 +1364,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter lastname."
+                  placeholder="Enter Last Name."
                   value={lastName}
                   onChange={(e) => handlelastName(e)}
                   style={{

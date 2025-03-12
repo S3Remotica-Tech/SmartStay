@@ -38,7 +38,6 @@ function StaticExample({ show, setShow, currentItem }) {
   const [selectedDateError, setSelectedDateError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
-  const [generalError, setGeneralError] = useState("");
   const [assetError, setAssetError] = useState("");
   const [paymentError, setPaymentError] = useState("");
   // const [errors, setErrors] = useState({});
@@ -164,7 +163,6 @@ function StaticExample({ show, setShow, currentItem }) {
     setPaymentError("");
     setBankingError("")
     dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
-    // setGeneralError("");
     // setPaymentError("");
     // setIsChangedError("");
   };
@@ -177,7 +175,6 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handleAssetNameChange = (e) => {
-    setGeneralError("");
     const value = e.target.value;
     setAssetError("");
 
@@ -202,13 +199,11 @@ function StaticExample({ show, setShow, currentItem }) {
   const handleVendorNameChange = (selectedOption) => {
     setVendorName(selectedOption?.value || '');
     setIsChangedError("");
-    setGeneralError("");
   };
 
   const handleBrandNameChange = (e) => {
     const value = e.target.value;
     setIsChangedError("");
-    setGeneralError("");
 
     if (value === "") {
       setBrandName(value);
@@ -230,7 +225,6 @@ function StaticExample({ show, setShow, currentItem }) {
     setSerialNumberError("");
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
     setIsChangedError("");
-    setGeneralError("");
     if (value === "") {
       setSerialNumber(value);
       // setErrors((prevErrors) => ({
@@ -264,7 +258,6 @@ function StaticExample({ show, setShow, currentItem }) {
     setPrice(value);
     setPriceError("");
     setIsChangedError("");
-    setGeneralError("");
     setBankingError("")
     
     dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
@@ -272,7 +265,6 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
-    setGeneralError("");
     setProductNameError("");
     setIsChangedError("");
 
@@ -304,10 +296,11 @@ function StaticExample({ show, setShow, currentItem }) {
       !selectedDate &&
       !price &&
       !assetName
-    ) {
-      setGeneralError("Please enter all mandatory fields");
-      return;
-    }
+    ) 
+    // {
+    //   setGeneralError("Please enter all mandatory fields");
+    //   return;
+    // }
 
     if (!assetName) {
       setAssetError("Please Enter a Valid Asset Name");
@@ -384,7 +377,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (!isChanged) {
       setIsChangedError(
-        "No changes detected. Please make some changes before saving."
+        "No changes detected"
       );
       return;
     }
@@ -852,7 +845,6 @@ function StaticExample({ show, setShow, currentItem }) {
                     <DatePicker
                       selected={selectedDate}
                       onChange={(date) => {
-                        setGeneralError("");
                         setIsChangedError("");
                         setSelectedDateError("");
                         setSelectedDate(date);
@@ -1122,22 +1114,7 @@ function StaticExample({ show, setShow, currentItem }) {
           <Modal.Footer style={{ border: "none" }} className="">
 
   
-{generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2" style={{width:"100%",marginLeft:"130px"}}>
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
-          )}
+
 
             <Button
               onClick={handleAddAsset}
