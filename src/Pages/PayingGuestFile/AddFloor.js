@@ -80,12 +80,12 @@ function StaticExample({
     const isChanged = floorNo !== initialState.floorNo;
 
     if (!floorNo) {
-      setFloorError("Please enter a valid Floor name or no.");
+      setFloorError("Please Enter a Valid Floor Name or No");
       return;
     }
 
     if (!isChanged) {
-      setIsChangedError("No changes detected");
+      setIsChangedError("No Changes Detected");
       return;
     }
 
@@ -279,7 +279,7 @@ function StaticExample({
                 padding: 12,
               }}
             >
-              {updateFloor ? "Save Changes" : "Add floor"}
+              {updateFloor ? "Save Changes" : "Add Floor"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

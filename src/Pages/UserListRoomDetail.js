@@ -1726,7 +1726,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Mobile no
+                                        Mobile No
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
                                         <Call size="16" color="#1E45E1" />
@@ -2610,7 +2610,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Mobile number{" "}
+                                        Mobile Number{" "}
                                         <span
                                           style={{
                                             color: "red",
@@ -2718,7 +2718,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Email Id{" "}
+                                        Email ID{" "}
                                        
                                       </Form.Label>
                                       <FormControl
@@ -3394,7 +3394,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Joining date{" "}
+                                        Joining Date{" "}
                                         <span
                                           style={{
                                             color: "red",

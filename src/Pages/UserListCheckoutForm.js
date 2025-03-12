@@ -166,22 +166,7 @@ const CheckOutForm = ({
     }
   }, [data, show]);
 
-  // useEffect(() => {
-  //   console.log("SelectedCustomer:", selectedCustomer);
-  //   if (selectedCustomer && !data && !currentItem) {
-
-  //     const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
-  //     console.log("Filtered User List:", filteruserlist);
-  //     if (filteruserlist && filteruserlist.length > 0) {
-  //       setCurrentBed(filteruserlist[0].Bed);
-  //       setCurrentFloor(filteruserlist[0].Floor);
-  //       setBedname(filteruserlist[0].bed_name);
-  //       setFloorname(filteruserlist[0].floor_name);
-  //     } else {
-  //       console.log("No matching user found for selectedCustomer:", selectedCustomer);
-  //     }
-  //   }
-  // }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
+ 
 
   useEffect(() => {
 
@@ -202,14 +187,9 @@ const CheckOutForm = ({
         if (user.bed_name !== undefined && user.bed_name !== null) {
           setBedname(user.bed_name);
         }
-        console.log("user.Floor", user.Floor);
+      
         setFloorname(filteruserlist[0].floor_name);
 
-        // if (user.Floor !== undefined && user.Floor !== null) {
-        //   setCurrentFloor(user.Floor);
-        //   setFloorname(user.Floor)
-        // }
-        console.log("Floor Name:", user.floor_name);
         if (user.floor_name !== undefined && user.floor_name !== null) {
           setFloorname(user.floor_name);
         }
@@ -371,8 +351,6 @@ const CheckOutForm = ({
       return;
     }
 
-    console.log("editdata", comments, currentItem?.checkout_comment);
-
     if (
       selectedCustomer ||
       (currentItem?.ID &&
@@ -429,7 +407,6 @@ const CheckOutForm = ({
     }),
   };
 
-  console.log("filtercus", state.UsersList?.availableCheckOutCustomerList);
 
   const formatOptions = () => {
     return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
@@ -502,7 +479,6 @@ const CheckOutForm = ({
   const invoiceDisplay = validInvoices
     .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
     .join(", ");
-  console.log("invoicenumber", validInvoices);
   const hasBalance =
     Array.isArray(validInvoices) &&
     validInvoices.some((invoice) => invoice.balance > 0);
@@ -514,17 +490,13 @@ const CheckOutForm = ({
         0
       );
       SetDueAmount(totaldueamount);
-      console.log("===--------------------=====",dueamount);
       
     }
   }, [validInvoices]);
 
-  console.log("validInvoices:", validInvoices);
-  console.log("hasBalance:", hasBalance);
 
   const handleCheckboxChange = (e) => {
     const checked = e.target.checked;
-    console.log("checked", checked);
     
 
     setIsChecked(checked);
@@ -546,7 +518,6 @@ const CheckOutForm = ({
       setReinburse(1)
     }
   },[isChecked])
-  console.log("========================",dueamount);
 
   useEffect(() => {
     if (!isChecked) {
@@ -561,20 +532,18 @@ const CheckOutForm = ({
   }, [isChecked]);
 
   const handleConfirmCheckout = () => {
-    console.log("handleConfirmCheckout",handleConfirmCheckout)
     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
-      // setGeneralError("Please select all mandatory fields");
       return;
     }
     if (!selectedCustomer) {
-      setCustomerError("Please select a customer.");
+      setCustomerError("Please Select a Customer");
       // return;
     }
 
     
 
     if (!checkOutDate) {
-      setCheckOutDateError("Please select a checkout date.");
+      setCheckOutDateError("Please select a checkout Date");
       // return;
     }
 
@@ -756,7 +725,7 @@ const CheckOutForm = ({
                 </Form.Label>
                 <FormControl
                   id="form-controls"
-                  placeholder="Enter name"
+                  placeholder="Enter Name"
                   type="text"
                   value={floorname}
                   //   onChange={(e) => handleFirstName(e)}

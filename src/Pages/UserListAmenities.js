@@ -11,6 +11,7 @@ import cross from "../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
+import { pointer } from "@testing-library/user-event/dist/cjs/pointer/index.js";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -230,7 +231,7 @@ const handleAmnitiesSelect = ()=>{
         >
           Amenities
         </Form.Label>
-        <Select
+        <Select 
  
   // isDisabled={edit} // if you want to disable based on a flag
   placeholder="Select an Amenities"
@@ -257,7 +258,7 @@ const handleAmnitiesSelect = ()=>{
       ...base,
       maxHeight: "170px",
       overflowY: "auto",
-      zIndex: 9999, // ensures dropdown comes over table or other elements
+      zIndex: 9999,
     }),
     menuList: (base) => ({
       ...base,
@@ -276,6 +277,10 @@ const handleAmnitiesSelect = ()=>{
       fontFamily: "Gilroy, sans-serif",
       boxShadow: "none",
       boxShadowColor: "none",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
     }),
   }}
   

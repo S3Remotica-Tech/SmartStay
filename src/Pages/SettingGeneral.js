@@ -1364,7 +1364,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter Last Name."
+                  placeholder="Enter Last Name"
                   value={lastName}
                   onChange={(e) => handlelastName(e)}
                   style={{
@@ -1397,7 +1397,7 @@ function SettingGeneral() {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile number{" "}
+                  Mobile Number{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
@@ -1410,10 +1410,10 @@ function SettingGeneral() {
                   placeholder="9876543210"
                   maxLength={10}
                   style={{
-                    fontSize: 16,
+                    fontSize: 14,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: Phone ? 600 : 500,
+                    fontWeight: Phone ? 500 : 500,
                     boxShadow: "none",
                     borderLeft: "1px solid #D9D9D9",
                     borderRight: "1px solid #D9D9D9",
@@ -1470,7 +1470,7 @@ function SettingGeneral() {
                   id="form-controls"
                    autoComplete="off"
                     autoCorrect="off"
-                  placeholder="Enter Email address"
+                  placeholder="Enter Email"
                   value={emilId}
                   onChange={(e) => handleEmailId(e)}
                   style={{
@@ -1526,7 +1526,7 @@ function SettingGeneral() {
                      autoComplete="new-password"
                     autoCorrect="off"
                       id="form-controls"
-                      placeholder="Enter password"
+                      placeholder="Enter Password"
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => handlePassword(e)}
@@ -1599,7 +1599,7 @@ function SettingGeneral() {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter address"
+                  placeholder="Enter Address"
                   value={address}
                   onChange={(e) => handleAddress(e)}
                   style={{
