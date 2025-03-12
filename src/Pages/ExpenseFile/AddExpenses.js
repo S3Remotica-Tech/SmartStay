@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { height } from "@mui/system";
 
 function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
@@ -321,9 +322,10 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
             fontFamily: "Gilroy",
             fontWeight: props.value ? 600 : 500,
             width: "100%",
-            height: 50,
+            height: 48,
             boxSizing: "border-box",
             boxShadow: "none",
+            marginTop:5
           }}
         />
         <img
@@ -622,7 +624,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       marginTop:"5px",
                     }}
                   >
-                    Unit count{" "}
+                    Unit Count{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -681,7 +683,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                        marginTop:"5px",
                     }}
                   >
-                    Per unit amount{" "}
+                    Per Unit Amount{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -776,11 +778,10 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                        marginTop:"5px",
                     }}
                   >
-                    Mode of transaction{" "}
+                    Mode Of Transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",
-                        display: modeOfPayment ? "none" : "inline-block",
                         fontSize:"20px",
                       }}
                     >
@@ -801,7 +802,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       fontWeight: modeOfPayment ? 600 : 500,
                     }}
                   >
-                    <option value="">Select a mode</option>
+                    <option value="">Select a Mode</option>
                     <option value="UPI/BHIM">UPI/BHIM</option>
                     <option value="CASH">CASH</option>
                     <option value="Net Banking">Net Banking</option>

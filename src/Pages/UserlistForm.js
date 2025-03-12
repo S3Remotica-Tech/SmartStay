@@ -208,21 +208,36 @@ function UserlistForm(props) {
   //   }
   // };
 
-  const handlePhone = (e) => {
-    setPhone(e.target.value);
-    const pattern = /^\d{1,10}$/;
-    const isValidMobileNo = pattern.test(e.target.value);
+  // const handlePhone = (e) => {
+  //   setPhone(e.target.value);
+  //   const pattern = /^\d{1,10}$/;
+  //   const isValidMobileNo = pattern.test(e.target.value);
 
-    if (isValidMobileNo && e.target.value.length === 10) {
-      setPhoneError("");
-    } else {
+  //   if (isValidMobileNo && e.target.value.length === 10) {
+  //     setPhoneError("");
+  //   } else {
+  //     setPhoneError("Invalid mobile number *");
+  //   }
+  
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   setPhoneErrorMessage("");
+  // };
+  const handlePhone = (e) => {
+    const input = e.target.value.replace(/\D/g, ""); 
+    setPhone(input);
+  
+    if (input.length === 0) {
+      setPhoneError(""); 
+    } else if (input.length < 10) {
       setPhoneError("Invalid mobile number *");
+    } else if (input.length === 10) {
+      setPhoneError(""); 
     }
   
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
     setPhoneErrorMessage("");
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
-
+  
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
@@ -528,12 +543,12 @@ const handleBed = (selectedOption) => {
     if (!validateField(hostel_Id, "Hostel ID"));
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
-      setHostelIdError("Please select a valid PG");
+      setHostelIdError("Please select a Valid PG");
       // return;
     }
 
     if (phoneError === "Invalid mobile number *") {
-      setPhoneErrorMessage("Please enter a valid 10-digit phone number");
+      setPhoneErrorMessage("Please Enter a Valid 10-digit Phone Number");
       // return;
     } else {
       setPhoneErrorMessage("");
@@ -590,25 +605,25 @@ const handleBed = (selectedOption) => {
     if (!validateAssignField(RoomRent, "RoomRent"));
 
     if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please select a valid PG");
+      setfloorError("Please Select a Valid PG");
       return;
     }
     if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please select a valid PG");
+      setRoomError("Please Select a Valid PG");
       return;
     }
     if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please select a valid PG");
+      setBedError("Please Select a Valid PG");
       return;
 
 
     }
     if (RoomRent <= 0) {
-      setRoomRentError("Room Rent must be greater than 0");
+      setRoomRentError("Roomrent Must be Greater Than 0");
       return;
     }
     if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Advance Amount must be greater than 0");
+      setAdvanceAmountError("Advanceamount must be greater than 0");
       return;
     }
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
@@ -1032,7 +1047,7 @@ const handleBed = (selectedOption) => {
                             marginTop: "10px",
                           }}
                         >
-                          Email Id{" "}
+                          Email ID{" "}
                           {/* <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
@@ -1646,7 +1661,7 @@ const handleBed = (selectedOption) => {
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
                       <Form.Group controlId="purchaseDate">
                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                          Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                         </Form.Label>
                         <div style={{ position: 'relative', width: "100%" }}>
                           <DatePicker

@@ -216,19 +216,21 @@ function BookingModal(props) {
 
 
   const handlePhone = (e) => {
-    setPhone(e.target.value);
-    const pattern = /^\d{1,10}$/;
-    const isValidMobileNo = pattern.test(e.target.value);
-
-    if (isValidMobileNo && e.target.value.length === 10) {
-      setPhoneError("");
-    } else {
-      setPhoneError("Invalid mobile number *");
+    const input = e.target.value.replace(/\D/g, ""); 
+    setPhone(input);
+  
+    if (input.length === 0) {
+      setPhoneError(""); 
+    } else if (input.length < 10) {
+      setPhoneError("Invalid mobile number");
+    } else if (input.length === 10) {
+      setPhoneError(""); 
     }
-    setPhoneErrorMessage("");
-    // seterrorInPhone("");
+  
+    setPhoneErrorMessage("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
+  
   const options = {
     dateFormat: "Y/m/d",
 
@@ -669,7 +671,7 @@ try {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile number
+                  Mobile Number
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}

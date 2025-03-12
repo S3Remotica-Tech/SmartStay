@@ -149,7 +149,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleCreatePayingGuest = () => {
     const emailInvalid = errors.email === "Invalid Email Id *";
-    const mobileInvalid = errors.mobile === "Invalid mobile number *";
+    const mobileInvalid = errors.mobile === "Invalid Mobile Number *";
 
     if (!pgName && !mobile && !email && !location && !countryCode) {
       setGeneralError("Please fill in all the required fields.");
@@ -157,17 +157,17 @@ function AddPg({ show, handleClose, currentItem }) {
     }
 
     if (!pgName) {
-      setPgNameError("Please enter PG name");
+      setPgNameError("Please Enter PG Name");
       // return;
     }
 
     if (!countryCode) {
-      setCountryCodeError("Please select country code");
+      setCountryCodeError("Please Select Country Code");
       // return;
     }
 
     if (!mobile) {
-      setMobileError("Please enter mobile number");
+      setMobileError("Please Enter Mobile Number");
       // return;
     }
 
@@ -177,7 +177,7 @@ function AddPg({ show, handleClose, currentItem }) {
     // }
 
     if (!location) {
-      setLocationError("Please enter address");
+      setLocationError("Please Enter Address");
       // return;
     }
 
@@ -580,7 +580,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile no{" "}
+                  Mobile No{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
