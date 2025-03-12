@@ -266,7 +266,7 @@ const handleAmnitiesSelect = ()=>{
       padding: 0,
       scrollbarWidth: "thin",
     }),
-    control: (base, state) => ({
+    control: (base) => ({
       ...base,
       fontSize: 16,
       borderRadius: 8,
