@@ -92,7 +92,7 @@ function ExpensesListTable(props) {
 
   useEffect(() => {
     if (state.ExpenseList.StatusCodeForAddExpenseTagSuccess === 200) {
-
+      handleHideTagAsset("")
       setshowTagAsset(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_EXPENSE_TAG_STATUS_CODE' })
@@ -127,6 +127,7 @@ function ExpensesListTable(props) {
   const handleHideTagAsset = () => {
     setshowTagAsset(false);
     setAssetNameError('')
+    setAssetName("")
   };
 
 

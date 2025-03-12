@@ -237,25 +237,38 @@ function Booking(props) {
     }
   }, [state.Booking.bookingError]);
 
-  
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
   const handlePhone = (e) => {
-    setPhone(e.target.value);
-    const pattern = /^\d{1,10}$/;
-    const isValidMobileNo = pattern.test(e.target.value);
-
-    if (isValidMobileNo && e.target.value.length === 10) {
-      setPhoneError("");
-    } else {
-      setPhoneError("Invalid mobile number");
+    const input = e.target.value.replace(/\D/g, ""); 
+    setPhone(input);
+  
+    if (input.length === 0) {
+      setPhoneError(""); 
+    } else if (input.length < 10) {
+      setPhoneError("Invalid mobile number *");
+    } else if (input.length === 10) {
+      setPhoneError(""); 
     }
+  
     setPhoneErrorMessage("");
+    setFormError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
-    setFormError("");
   };
-
+  // const handlePhone = (e) => {
+  //   const input = e.target.value.replace(/\D/g, ""); 
+  //   setPhone(input);
+  
+  //   const isValidMobileNo = /^\d{10}$/.test(input);
+  
+  //   if (isValidMobileNo) {
+  //     setPhoneError("");
+  //   } else {
+  //     setPhoneError("Invalid mobile number *");
+  //   }
+  
+  //   setPhoneErrorMessage("");
+  //   setFormError("");
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  // };
  
   const handleAddress = (e) => {
     setAddress(e.target.value);
@@ -718,6 +731,7 @@ function Booking(props) {
                     overflowY: currentItems.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
+                    borderRight: "1px solid transparent",
                     // borderBottom:"none"
                   }}
                 >
@@ -728,6 +742,7 @@ function Booking(props) {
                       border: "1px solid #DCDCDC",
                       borderBottom: "1px solid transparent",
                       borderEndStartRadius: 0,
+                     
                       borderEndEndRadius: 0,
                     }}
                   >
@@ -1600,7 +1615,7 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile number{" "}
+                  Mobile Number{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 

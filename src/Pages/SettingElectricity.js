@@ -116,7 +116,7 @@ const SettingElectricity = ({ hostelid }) => {
       setTotalErr('')
     }
 
-    if (editHostel && editHostel.editamount === newAmount) {
+    if (editHostel && String(editHostel.editamount) === String(newAmount)) {
       setTotalErr('No Changes Deducted');
     }
   };
@@ -127,7 +127,7 @@ const SettingElectricity = ({ hostelid }) => {
       return;
     }
 
-    if (edit && editHostel && editHostel.editamount === amount) {
+    if (edit && editHostel && String(editHostel.editamount) === String(amount)) {
       setTotalErr('No Changes Deducted');
       return;
     }

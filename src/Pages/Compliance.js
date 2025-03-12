@@ -1517,7 +1517,7 @@ const Compliance = () => {
                   </div> */}
 
                           {/* //floor  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 //  style={labelStyle}
@@ -1536,7 +1536,7 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
                           {/* Room  */}
-                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-3'>
+                          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
@@ -1618,7 +1618,16 @@ const Compliance = () => {
 
 
 
+                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
+                              <Form.Control
+                                value={description} onChange={(e) => { setDescription(e.target.value) }}
+                                type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                            </Form.Group>
 
+                          </div>
+                        </div>
 
 
 
@@ -1647,16 +1656,7 @@ const Compliance = () => {
 
 
 
-                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
-                              <Form.Control
-                                value={description} onChange={(e) => { setDescription(e.target.value) }}
-                                type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                            </Form.Group>
-
-                          </div>
-                        </div>
+                         
 
                       </Modal.Body>
 

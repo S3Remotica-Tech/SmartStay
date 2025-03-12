@@ -291,7 +291,7 @@ function DashboardAnnouncement() {
       description === editDetails.description;
 
     if (noChanges) {
-      setErrorMessage("No changes made to the announcement")
+      setErrorMessage("No Changes Detected")
       return;
     }
 
