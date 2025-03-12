@@ -76,15 +76,18 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleFirstName = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+
+    if (!pattern.test(value)) {
+      return;
+    }
     setFirstNameError("");
-    // Allow empty value (e.g., when clearing the field)
     if (value === "") {
       setFirstname(value);
      
       return;
     }
 
-    // If not empty and contains text, update the value and clear errors
     if (value.trim() !== "") {
       setFirstname(value);
      
@@ -93,6 +96,10 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleLastName = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
 
     if (value === "") {
       setLastname(value);
@@ -203,21 +210,21 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     // }
 
     if (!firstname) {
-      setFirstNameError("Please enter First Name");
+      setFirstNameError("Please Enter First Name");
       // return;
     }
 
     if (!countryCode) {
-      setCountryCodeError("Please enter Country Code");
+      setCountryCodeError("Please Enter Country Code");
       // return;
     }
 
     if (!phone) {
-      setPhoneError("Please enter Phone Number");
+      setPhoneError("Please Enter Phone Number");
       // return;
     }
     if (!address) {
-      setAddressError("Please enter Address");
+      setAddressError("Please Enter Address");
       // return;
     }
 
@@ -227,17 +234,17 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (!AdvanceAmount) {
-      setAdvanceAmountError("Please enter Advance Amount");
+      setAdvanceAmountError("Please Enter Advance Amount");
       // return;
     }
 
     if (!RoomRent) {
-      setRoomRentError("Please enter a valid Room Rent");
+      setRoomRentError("Please Enter a valid Room Rent");
       // return;
     }
 
     if (phone.length < 10) {
-      setPhoneError("Phone number must be 10 digits long");
+      setPhoneError("Phone Number must be 10 digits long");
       return;
     }
 
@@ -257,7 +264,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (isNaN(RoomRent) || RoomRent <= 0) {
-      setRoomRentError("Please enter a valid Room Rent");
+      setRoomRentError("Please enter a valid Rental Amount");
       return;
     }
     const mobileNumber = `${countryCode}${phone}`;
@@ -588,7 +595,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           fontWeight: 500,
                         }}
                       >
-                        Mobile no.{" "}
+                        Mobile No{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           *
                         </span>
@@ -684,7 +691,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           fontWeight: 500,
                         }}
                       >
-                        Email Id{" "}
+                        Email ID{" "}
                        
                       </Form.Label>
                       <FormControl
@@ -797,7 +804,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="purchaseDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                    Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
                 <div style={{ position: 'relative', width: "100%" }}>
                     <DatePicker

@@ -194,7 +194,12 @@ function Booking(props) {
  
 
   const handleFirstName = (e) => {
-    setFirstName(e.target.value);
+const value = e.target.value;
+const pattern = /^[a-zA-Z\s]*$/;
+if (!pattern.test(value)) {
+  return;
+}
+    setFirstName(value);
     setfirstNameError("");
     setFormError("");
   };
@@ -218,13 +223,22 @@ function Booking(props) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
   const handleLastName = (e) => {
-    setLastName(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setLastName(value);
     setFormError("");
   };
 
  
   const handleAmount = (e) => {
-    setAmount(e.target.value);
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
+    setAmount(newAmount);
     setamountError("");
     setFormError("");
   };
@@ -289,13 +303,13 @@ function Booking(props) {
     ) {
       switch (fieldName) {
         case "firstName":
-          setfirstNameError("FirstName ID is required");
+          setfirstNameError("First Name is Required");
           break;
         case "joiningDate":
-          setDateError("joiningDate ID is required");
+          setDateError("Joining Date ID is Required");
           break;
         case "amount":
-          setamountError("Amount is required");
+          setamountError("Amount is Required");
           break;
         
         // case "floor":
@@ -308,10 +322,10 @@ function Booking(props) {
         //   setBedError("Bed is required");
         //   break;
         case "Address":
-          setAddressError("Address is required");
+          setAddressError("Address is Required");
           break;
         case "Email":
-          setEmailError("Email is required");
+          setEmailError("Email is Required");
           break;
 
         default:
@@ -1553,7 +1567,7 @@ function Booking(props) {
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter first name"
+                  placeholder="Enter First Name"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
@@ -1573,7 +1587,7 @@ function Booking(props) {
                 </div>
               )}
             </Col>
-            <Col md={6}>
+            {/* <Col md={6}>
               <Form.Group controlId="formLastName" className="">
                 <Form.Label
                   style={{
@@ -1588,7 +1602,7 @@ function Booking(props) {
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter last name"
+                  placeholder="Enter Last Name"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
@@ -1597,11 +1611,42 @@ function Booking(props) {
                     marginTop: 6
                   }}
                   value={lastName}
-                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleLastName(e)}
                 />
               </Form.Group>
-            </Col>
+            </Col> */}
+             <Col md={6} className="">
+                          <Form.Group controlId="formLastName" >
+                            <Form.Label
+                              style={{
+                                fontSize: 14,
+                                color: "#222222",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              Last Name{" "}
+                              {/* <span style={{ color: "transparent", fontSize: "20px" }}>
+                                {" "}
+                                *{" "}
+                              </span> */}
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter Last Name"
+                              style={{
+                                fontSize: 14,
+                                color: "rgba(75, 75, 75, 1)",
+                                fontFamily: "Gilroy",
+                                height: "50px",
+                                marginTop:5
+                              }}
+                              value={lastName}
+                              // isInvalid={!!formErrors.lastName}
+                              onChange={(e) => handleLastName(e)}
+                            />
+                          </Form.Group>
+                        </Col>
           </Row>
 
           <Row className="mb-0">

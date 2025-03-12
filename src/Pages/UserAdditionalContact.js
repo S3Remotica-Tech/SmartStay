@@ -59,12 +59,22 @@ function UserAdditionalContact(props) {
   // }, []);
 
   const handleUserName = (e) => {
-    setUserName(e.target.value);
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setUserName(value);
     setFormError("");
     setUserNameError("");
   };
   const handleGuardian = (e) => {
-    setGuardian(e.target.value);
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setGuardian(value);
     setFormError("");
     setGuardianError("");
   };
@@ -83,16 +93,16 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setGuardianError("Gurardian is required");
+          setGuardianError("Gurardian is Required");
           break;
         case "userName":
-          setUserNameError("Username is required");
+          setUserNameError("Username is Required");
           break;
         case "Phone":
-          setPhoneError("Phone number is required");
+          setPhoneError("Phone Number is Required");
           break;
         case "address":
-          setAddressError("Address is required");
+          setAddressError("Address is Required");
           break;
 
         default:
@@ -139,7 +149,7 @@ function UserAdditionalContact(props) {
         address === initialState.address
       );
       if (!isChanged) {
-        setFormError("No changes detected.");
+        setFormError("No Changes Detected");
         return;
       } else {
         setFormError("");
@@ -295,7 +305,7 @@ function UserAdditionalContact(props) {
                           alignItems: "center",
                         }}
                       >
-                        first Name{" "}
+                        First Name{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -304,7 +314,7 @@ function UserAdditionalContact(props) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter name"
+                        placeholder="Enter Username"
                         onChange={(e) => handleUserName(e)}
                         value={userName}
                         style={{
@@ -416,7 +426,7 @@ function UserAdditionalContact(props) {
                           fontWeight: 500,
                         }}
                       >
-                        Mobile number{" "}
+                        Mobile Number{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}

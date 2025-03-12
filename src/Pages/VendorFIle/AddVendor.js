@@ -45,7 +45,12 @@ function AddVendor({ show, setShow, currentItem }) {
   const [vendorEmailError,setVendorEmailError]= useState("")
 
   const handleCountryChange = (e) => {
-    setCountry(e.target.value);
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setCountry(value);
     setGeneralError("");
     setIsChangedError("");
     setCountryError("");
@@ -123,6 +128,10 @@ const handleClose =()=>{
 
   const handleFirstNameChange = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setFirstNameError("");
     setGeneralError("");
     setIsChangedError("");
@@ -144,7 +153,10 @@ const handleClose =()=>{
 
   const handleLastNameChange = (e) => {
     const value = e.target.value;
-
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     if (value === "") {
       setLast_Name(value);
       setErrors((prevErrors) => ({
@@ -267,17 +279,17 @@ const handleClose =()=>{
     }
 
     if (!first_Name) {
-      setFirstNameError("Please enter First Name");
+      setFirstNameError("Please Enter First Name");
       isValid = false;
     }
 
     if (!countryCode) {
-      setCountryCodeError("Please select  country code");
+      setCountryCodeError("Please Select  Country Code");
       isValid = false;
     }
 
     if (!vendor_Mobile) {
-      setMobileError("Please enter  mobile number");
+      setMobileError("Please Enter  Mobile Number");
       isValid = false;
     }
 
@@ -286,22 +298,22 @@ const handleClose =()=>{
     // }
 
     if (!business_Name) {
-      setBusinessNameError("Please enter  business name");
+      setBusinessNameError("Please Enter  Business Name");
       isValid = false;
     }
 
     if (!address) {
-      setAddressError("Please enter address");
+      setAddressError("Please Enter Address");
       isValid = false;
     }
 
     if (!country) {
-      setCountryError("Please enter  country");
+      setCountryError("Please Enter  Country");
       isValid = false;
     }
 
     if (!pinCode) {
-      setPinCodeError("Please enter  pin code");
+      setPinCodeError("Please Enter  Pincode");
       isValid = false;
     } else if (!/^\d+$/.test(pinCode)) {
       setPinCodeError("Pin code must be numeric");
@@ -316,7 +328,7 @@ const handleClose =()=>{
         isValid = false;
       }
       if (mobileInvalid) {
-        setMobileError("Enter  valid 10 digit  mobile number");
+        setMobileError("Enter Valid 10 Digit  Mobile Number");
         isValid = false;
       }
       return;
@@ -335,7 +347,7 @@ const handleClose =()=>{
       pinCode !== initialState.pinCode;
 
     if (!isChanged) {
-      setIsChangedError("No changes detected");
+      setIsChangedError("No Changes Detected");
       isValid = false;
 
     }
@@ -658,7 +670,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     onChange={(e) => handleFirstNameChange(e)}
                     value={first_Name}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter First Name"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -708,7 +720,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={last_Name}
                     onChange={(e) => handleLastNameChange(e)}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter Last Name"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -737,7 +749,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       fontWeight: 500,
                     }}
                   >
-                    Mobile no.{" "}
+                    Mobile No{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
@@ -855,7 +867,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={email_Id}
                     onChange={(e) => handleEmailChange(e)}
                     type="email"
-                    placeholder="Enter email address"
+                    placeholder="Enter Email Address"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

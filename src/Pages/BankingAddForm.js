@@ -24,7 +24,6 @@ function BankingAddForm(props) {
   const [accountNumberError, setaccountNumberError] = useState("");
   const [bankNameError, setBankNameError] = useState("");
   const [ifcsCodeError, setIfcsCodeError] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
   const [hostel_id, setHostel_Id] = useState("")
 
   useEffect(() => {
@@ -34,7 +33,12 @@ function BankingAddForm(props) {
 
 
   const handleAccountName = (e) => {
-    setAccountName(e.target.value);
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setAccountName(value);
     setError("")
     setaccountnameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
@@ -51,7 +55,12 @@ function BankingAddForm(props) {
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
   const handleBankName = (e) => {
-    setBankName(e.target.value);
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setBankName(value);
     setError("")
     setBankNameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
@@ -65,7 +74,6 @@ function BankingAddForm(props) {
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setError("")
-    setDescriptionError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
 
@@ -109,7 +117,6 @@ function BankingAddForm(props) {
     setaccountNumberError("")
     setaccountnameError("")
     setIfcsCodeError("")
-    setDescriptionError("")
     setBankNameError("")
 
 
@@ -127,20 +134,18 @@ function BankingAddForm(props) {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "accountName":
-          setaccountnameError("Account Name is required");
+          setaccountnameError("Account Name is Required");
           break;
         case "accountNo":
-          setaccountNumberError("Account No is required");
+          setaccountNumberError("Account No is Required");
           break;
         case "bankName":
-          setBankNameError("Bank Name is required");
+          setBankNameError("Bank Name is Required");
           break;
         case "ifscCode":
-          setIfcsCodeError("IFSC Code is required");
+          setIfcsCodeError("IFSC Code is Required");
           break;
-        case "description":
-          setDescriptionError("Description is required");
-          break;
+        
         default:
           break;
       }
@@ -155,7 +160,6 @@ function BankingAddForm(props) {
     if (!validateField(accountNo, "accountNo")) isValid = false;
     if (!validateField(bankName, "bankName")) isValid = false;
     if (!validateField(ifscCode, "ifscCode")) isValid = false;
-    if (!validateField(description, "description")) isValid = false;
   
     if (!isValid) {
       return; 
@@ -172,7 +176,7 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No changes detected.");
+        setError("No changes detected");
         return;
       }
       else {
@@ -273,13 +277,13 @@ function BankingAddForm(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Account name{" "}
+                  Account Name{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter account name"
+                  placeholder="Enter Account Name"
                   value={accountName}
                   onChange={(e) => handleAccountName(e)}
                   style={{
@@ -312,13 +316,13 @@ function BankingAddForm(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Account no{" "}
+                  Account No{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter account no."
+                  placeholder="Enter Account No"
                   value={accountNo}
                   onChange={(e) => handleAccountNo(e)}
                   style={{
@@ -356,7 +360,7 @@ function BankingAddForm(props) {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter bank name"
+                  placeholder="Enter Bank Name"
                   value={bankName}
                   onChange={(e) => handleBankName(e)}
                   style={{
@@ -389,13 +393,13 @@ function BankingAddForm(props) {
                     fontWeight: 500,marginTop:5
                   }}
                 >
-                  IFSC code{" "}
+                  IFSC Code{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter IFSC code"
+                  placeholder="Enter IFSC Code"
                   value={ifscCode}
                   onChange={(e) => handleIfscCode(e)}
                   style={{
@@ -428,12 +432,11 @@ function BankingAddForm(props) {
                   }}
                 >
                   Description{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter description"
+                  placeholder="Enter Description"
                   value={description}
                   onChange={(e) => handleDescription(e)}
                   style={{
@@ -449,12 +452,7 @@ function BankingAddForm(props) {
                   }}
                 />
               </Form.Group>
-              {descriptionError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
-                </div>
-              )}
+             
             </div>
           </div>
         </Modal.Body>

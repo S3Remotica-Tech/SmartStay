@@ -64,12 +64,11 @@ function UserListAmenities(props) {
     ) {
       const AmnitiesNamelist =
         state.UsersList.customerdetails.all_amenities.filter((item) => {
-          return item.Amnities_Id === selectAmneties;
+          return String(item.Amnities_Id) === String(selectAmneties);
         });
       setcreateby(AmnitiesNamelist);
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
-
   const uniqueAmenities = [];
   const seenNames = new Set();
 
@@ -110,7 +109,7 @@ function UserListAmenities(props) {
     ) {
       switch (fieldName) {
         case "statusAmni":
-          setSelectError("status is required");
+          setSelectError("Status is Required");
           break;
         
         default:
@@ -132,7 +131,7 @@ function UserListAmenities(props) {
 const handleAmnitiesSelect = ()=>{
   if (!validateAssignField(statusAmni, "statusAmni"));
   if (statusAmni === "Select Status" || selectError) {
-    setSelectError("Please select a valid Status");
+    setSelectError("Please Select a Valid Status");
     return;
   }
   if (statusAmni && statusShow) {
@@ -177,6 +176,10 @@ const handleAmnitiesSelect = ()=>{
     setstatusShow(true);
     setselectAmneties(v.amenity_Id);
   };
+  const handleFormClose = ()=>{
+    setSelectError("")
+    setaddamenityShow(false);
+  }
 
   const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(10);
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
@@ -266,6 +269,7 @@ const handleAmnitiesSelect = ()=>{
       overflowY: "auto",
       padding: 0,
       scrollbarWidth: "thin",
+      cursor:"pointer"
     }),
     control: (base) => ({
       ...base,
@@ -281,6 +285,12 @@ const handleAmnitiesSelect = ()=>{
     dropdownIndicator: (base) => ({
       ...base,
       cursor: "pointer",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer", 
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+      color: "#000",
     }),
   }}
   
@@ -305,7 +315,7 @@ const handleAmnitiesSelect = ()=>{
 
       <Modal
         show={addamenityShow}
-        onHide={() => setaddamenityShow(false)}
+        onHide={handleFormClose}
         backdrop="static"
         centered
         

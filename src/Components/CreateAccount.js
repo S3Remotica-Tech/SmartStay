@@ -43,6 +43,11 @@ function CreateAccountPage() {
 
   const handleFirstName = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+
+    if (!pattern.test(value)) {
+      return;
+    }
 
     setFirstNameError('')
 
@@ -62,6 +67,12 @@ function CreateAccountPage() {
 
   const handleLastName = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+
+    // Don't update value if user types anything other than letters or space
+    if (!pattern.test(value)) {
+      return;
+    }
     if (value === "") {
       setLastName(value);
       // setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
@@ -315,13 +326,13 @@ function CreateAccountPage() {
 
     if (!firstName) {
 
-      setFirstNameError('Please enter first name')
+      setFirstNameError('Please Enter First Name')
      
     }
 
     if (!emailID) {
 
-      setEmailError('Please enter email id')
+      setEmailError('Please Enter Email ID')
 
       
     }
@@ -330,14 +341,14 @@ function CreateAccountPage() {
 
     if (emailError === 'Invalid Email Id *') {
 
-      setEmailError('Please enter a valid email address')
+      setEmailError('Please Enter Valid Email Address')
 
       
     }
 
     if (!countryCode) {
 
-      setCountryCodeError('Please select country code')
+      setCountryCodeError('Please Select Country Code')
 
       
     }
@@ -346,7 +357,7 @@ function CreateAccountPage() {
 
 
 
-      setPhoneError('Please enter mobile no.')
+      setPhoneError('Please Enter Mobile no.')
      
     }
 
@@ -355,18 +366,18 @@ function CreateAccountPage() {
     const isValidMobileNo = phonePattern.test(phoneNo);
 
     if (!isValidMobileNo) {
-      setPhoneError('Please enter a valid 10-digit mobile number')
+      setPhoneError('Please Enter Valid 10-digit Mobile Number')
       
     }
 
 
     if (!password) {
-      setPasswordErrors('Please enter password')
+      setPasswordErrors('Please Enter Password')
      
     }
     if (!confirmpassword) {
 
-      setConfirmPasswordError('Please enter confirm password');
+      setConfirmPasswordError('Please Enter Confirm Password');
 
      
     }
@@ -527,7 +538,7 @@ function CreateAccountPage() {
                       fontFamily: "Gilroy",
                       fontWeight: 500
                     }}>
-                      Mobile number <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                      Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                     </Form.Label>
 
                     <InputGroup >

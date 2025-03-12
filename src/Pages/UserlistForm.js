@@ -122,7 +122,12 @@ function UserlistForm(props) {
   // }, [state.UsersList.Users]);
 
   const handleFirstName = (e) => {
-    setFirstname(e.target.value);
+const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setFirstname(value);
     setFirstnameError("");
   };
 
@@ -190,7 +195,14 @@ function UserlistForm(props) {
   // };
 
   const handleLastName = (e) => {
-    setLastname(e.target.value);
+    const value =  e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+
+    // Don't update value if user types anything other than letters or space
+    if (!pattern.test(value)) {
+      return;
+    }
+    setLastname(value);
   };
 
   // const handlePaidadvance = (e) => {
@@ -874,7 +886,7 @@ const handleBed = (selectedOption) => {
                         </Form.Label>
                         <FormControl
                           id="form-controls"
-                          placeholder="Enter name"
+                          placeholder="Enter First Name"
                           type="text"
                           value={firstname}
                           onChange={(e) => handleFirstName(e)}
@@ -920,7 +932,7 @@ const handleBed = (selectedOption) => {
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter name"
+                          placeholder="Enter Last Name"
                           value={lastname}
                           onChange={(e) => handleLastName(e)}
                           style={{
@@ -949,7 +961,7 @@ const handleBed = (selectedOption) => {
                           fontWeight: 500,
                         }}
                       >
-                        Mobile number{" "}
+                        Mobile Number{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}

@@ -239,6 +239,10 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     const handleNameChange = (e) => {
         const value = e.target.value;
+        const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
         setGeneralError('');
         setNameError('');
         setIsChangedError('');
@@ -252,6 +256,10 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     const handleLastNameChange = (e) => {
         const value = e.target.value;
+        const pattern = /^[a-zA-Z\s]*$/;
+        if (!pattern.test(value)) {
+          return;
+        }
         setLastName(value);
         setIsChangedError("")
     }
@@ -423,7 +431,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter name"
+                                    placeholder="Enter First Name"
                                     value={name}
                                     onChange={handleNameChange}
                                     style={{
@@ -456,7 +464,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter name"
+                                    placeholder="Enter Last Name"
                                     value={lastname}
                                     onChange={handleLastNameChange}
                                     style={{

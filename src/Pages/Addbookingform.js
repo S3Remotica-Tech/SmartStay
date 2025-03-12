@@ -148,14 +148,28 @@ function BookingModal(props) {
   const calendarRef = useRef(null);
 
   const handleFirstName = (e) => {
-    setFirstName(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setFirstName(value);
     setfirstNameError("");
   };
   const handleLastName = (e) => {
-    setLastName(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setLastName(value);
   };
   const handleAmount = (e) => {
-    setAmount(e.target.value);
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return; 
+    }
+    setAmount(newAmount);
     setamountError("");
   };
 
@@ -258,7 +272,7 @@ function BookingModal(props) {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -276,16 +290,16 @@ function BookingModal(props) {
     ) {
       switch (fieldName) {
         case "firstName":
-          setfirstNameError("FirstName is required");
+          setfirstNameError("FirstName is Required");
           break;
         case "Phone":
-          setPhoneError("Phone  is required");
+          setPhoneError("Phone  is Required");
           break;
         case "joiningDate":
-          setDateError("JoiningDate ID is required");
+          setDateError("JoiningDate ID is Required");
           break;
         case "amount":
-          setamountError("Amount is required");
+          setamountError("Amount is Required");
           break;
         // case "paying":
         //   setHostelIdError("Hostel ID is required");
@@ -300,10 +314,10 @@ function BookingModal(props) {
         //   setBedError("Bed is required");
         //   break;
         case "Address":
-          setAddressError("Address is required");
+          setAddressError("Address is Required");
           break;
         case "Email":
-          setEmailError("Email is required");
+          setEmailError("Email is Required");
           break;
         default:
           break;

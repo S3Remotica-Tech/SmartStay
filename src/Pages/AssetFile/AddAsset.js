@@ -176,6 +176,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setAssetError("");
 
     setIsChangedError("");
@@ -203,6 +207,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleBrandNameChange = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setIsChangedError("");
 
     if (value === "") {
@@ -222,6 +230,9 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleSerialNumberChange = (e) => {
     const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
     setSerialNumberError("");
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
     setIsChangedError("");
@@ -265,6 +276,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setProductNameError("");
     setIsChangedError("");
 
@@ -541,7 +556,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     value={assetName}
                     onChange={handleAssetNameChange}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter Asset Name"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -590,7 +605,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     value={productName}
                     onChange={handleProductNameChange}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter Product Name"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -744,7 +759,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     value={brandName}
                     onChange={handleBrandNameChange}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter Brand Name"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -777,7 +792,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     value={serialNumber}
                     onChange={handleSerialNumberChange}
                     type="text"
-                    placeholder="Enter number"
+                    placeholder="Enter Serial Number"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -897,7 +912,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     value={price}
                     onChange={handlePriceChange}
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder="Enter Amount"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

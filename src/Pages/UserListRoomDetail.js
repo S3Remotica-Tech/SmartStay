@@ -320,12 +320,22 @@ function UserListRoomDetail(props) {
   }, [Floor]);
 
   const handleFirstName = (e) => {
-    setFirstname(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setFirstname(value);
     setFirstnameError("");
     setFormError("");
   };
   const handleLastName = (e) => {
-    setLastname(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setLastname(value);
     setFormError("");
   };
 
@@ -2534,7 +2544,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </Form.Label>
                                       <FormControl
                                         id="form-controls"
-                                        placeholder="Enter name"
+                                        placeholder="Enter First Name"
                                         type="text"
                                         value={firstname}
                                         onChange={(e) => handleFirstName(e)}
@@ -2582,7 +2592,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        placeholder="Enter name"
+                                        placeholder="Enter Last Name"
                                         value={lastname}
                                         onChange={(e) => handleLastName(e)}
                                         style={{
