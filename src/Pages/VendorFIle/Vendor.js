@@ -14,6 +14,7 @@ import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-reac
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 
+
 function Vendor() {
 
   const state = useSelector(state => state)
@@ -810,10 +811,10 @@ function Vendor() {
 
             <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static" dialogClassName="custom-modal"
               style={{
-                width: 388,
-                height: 250,
-                marginLeft: "500px",
-                marginTop: "200px",
+                // width: 388,
+                // height: 250,
+                // marginLeft: "500px",
+                // marginTop: "200px",
               }}>
 
               <Modal.Header style={{ borderBottom: "none" }}>

@@ -395,10 +395,10 @@ function PayingHostel(props) {
         {show &&
             <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modal"
                 style={{
-                    width: 388,
-                    height: 250,
-                    marginLeft: "500px",
-                    marginTop: "200px",
+                    // width: 388,
+                    // height: 250,
+                    // marginLeft: "500px",
+                    // marginTop: "200px",
                 }}>
                 <Modal.Header style={{
                     borderBottom: "none",

@@ -1,0 +1,5 @@
+@media only screen and (max-width: 384px) and (min-width: 100px) {
+    .ven-popup{
+        left: 5px;
+    } 
+}
