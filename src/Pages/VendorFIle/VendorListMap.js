@@ -7,6 +7,7 @@ import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import { Edit } from "iconsax-react";
 import PropTypes from "prop-types";
+import "./VendorListMap.css";
 
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
@@ -134,6 +135,7 @@ function VendorListMap(props) {
                 {showDots && (
                   <div
                     ref={popupRef}
+                    className="ven-popup"
                     style={{
                       cursor: "pointer",
                       backgroundColor: "#F9F9F9",
