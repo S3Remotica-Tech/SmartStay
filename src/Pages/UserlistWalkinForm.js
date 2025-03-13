@@ -173,7 +173,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
         if (initialData && !isChanged) {
-            setIsChangedError('No changes detected in the form.');
+            setIsChangedError('No Changes Detected');
             return;
         }
 
@@ -500,7 +500,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                     fontFamily: 'Gilroy',
                                     fontWeight: 500
                                 }}>
-                                    Mobile number
+                                    Mobile Number
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
 

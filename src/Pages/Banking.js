@@ -686,6 +686,7 @@ function Banking() {
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
+                      cursor:"pointer"
                     }}
                   >
                     <option value="All">All</option>

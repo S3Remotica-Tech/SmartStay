@@ -5941,9 +5941,16 @@ useEffect(()=>{
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
+                    cursor: "pointer",
                   }),
                   indicatorSeparator: () => ({
                     display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer", 
+                    backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+                    color: "#000",
                   }),
                 }}
               />

@@ -84,6 +84,10 @@ const handleClose =()=>{
 
   const handleBusinessChange = (e) => {
     const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setGeneralError("");
     setIsChangedError("");
     setBusinessNameError("");
