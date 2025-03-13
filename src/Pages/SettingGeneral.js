@@ -203,37 +203,57 @@ function SettingGeneral() {
   };
 
   const handleFirstName = (e) => {
-    setFirstName(e.target.value);
+   const value = e.target.value;
+   const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setFirstName(value);
     setFirstNameError("");
     setFormError("");
   };
 
   const handlelastName = (e) => {
-    setLastName(e.target.value);
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+     if (!pattern.test(value)) {
+       return;
+     }
+    setLastName(value);
     // setLastNameError("");
     setFormError("");
   };
 
+
   const handlePhone = (e) => {
     const value = e.target.value;
     if (!/^\d{0,10}$/.test(value)) {
-      return; // Stop input if it's not a number or exceeds 6 digits
+      return;
     }
+  
     setPhone(value);
-    const pattern = /^\d{1,10}$/;
-    const isValidMobileNo = pattern.test(e.target.value);
-
-    if (isValidMobileNo && e.target.value.length === 10) {
+  
+    if (value === "") {
+      setPhoneError("");
+      setPhoneErrorMessage("");
+      dispatch({ type: "CLEAR_MOBILE_ERROR" });
+      return;
+    }
+  
+    const pattern = /^\d{10}$/;
+    const isValidMobileNo = pattern.test(value);
+  
+    if (isValidMobileNo) {
       setPhoneError("");
     } else {
       setPhoneError("Invalid mobile number *");
     }
+  
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
-
-
-
+  
+  
   const handleEmailId = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);

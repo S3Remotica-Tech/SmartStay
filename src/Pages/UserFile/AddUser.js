@@ -97,41 +97,82 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const handleEmailChange = (e) => {
     setEmailError('');
     setError('');
-
+  
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
-
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
-
-    if (!emailValue) {
-      setEmailError("Please enter Email");
-    } else if (!isValidEmail) {
+  
+    if (emailValue && !isValidEmail) {
       setEmailError("Invalid Email Id *");
     } else {
       setEmailError("");
     }
-
+  
     dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
   };
-
-
-
-
   const handleMobileChange = (e) => {
-    setMobileError('')
-    setError('')
+    setMobileError('');
+    setError('');
+  
     const value = e.target.value;
     if (/^\d{0,10}$/.test(value)) {
       setMobile(value);
-      setMobileError('');
+  
+      if (value && value.length < 10) {
+        setMobileError('');
+      } else {
+        setMobileError('');
+      }
     } else {
-      setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
+      if (value !== '') {
+        setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
+      }
     }
-
-
+  
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
+  
+
+  // const handleEmailChange = (e) => {
+  //   setEmailError('');
+  //   setError('');
+
+  //   const emailValue = e.target.value.toLowerCase();
+  //   setEmail(emailValue);
+
+  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  //   const isValidEmail = emailRegex.test(emailValue);
+
+  //   if (!emailValue) {
+  //     setEmailError("Please enter Email");
+  //   } else if (!isValidEmail) {
+  //     setEmailError("Invalid Email Id *");
+  //   } else {
+  //     setEmailError("");
+  //   }
+
+  //   dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
+  // };
+
+
+
+
+  // const handleMobileChange = (e) => {
+  //   setMobileError('')
+  //   setError('')
+  //   const value = e.target.value;
+  //   if (/^\d{0,10}$/.test(value)) {
+  //     setMobile(value);
+  //     setMobileError('');
+  //   } else {
+  //     setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
+  //   }
+
+
+  //   dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
+  // };
   // const handleCountryCodeChange = (e) => {
   //   setCountryCodeError('')
   //   setError('')
@@ -417,7 +458,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    Email <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                    Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={email}
@@ -425,7 +466,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     type="text"
                     autoComplete="off"
                     autoCorrect="off"
-                    placeholder="Enter email"
+                    placeholder="Enter Email"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -605,7 +646,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         autoComplete="new-password"
                         autoCorrect="off"
 
-                        placeholder="Enter password"
+                        placeholder="Enter Password"
                         type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => handlePassword(e)}

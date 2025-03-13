@@ -166,7 +166,12 @@ function SettingCompliance({ hostelid }) {
 
 
     const handleComplaintType = (e) => {
-        setComplaintTypeName(e.target.value)
+        const value = e.target.value
+        const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+        setComplaintTypeName(value)
         if (e.target.value) {
             setComplaintError('')
         }

@@ -38,7 +38,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   }, [editDetails]);
 
   const handleAmenityChange = (e) => {
-    setAmenity(e.target.value);
+   const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setAmenity(value);
     setErrorAmenity("");
     setIsChangedError("");
   };

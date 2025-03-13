@@ -239,7 +239,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (!RoomRent) {
-      setRoomRentError("Please Enter a valid Room Rent");
+      setRoomRentError("Please Enter a Valid Rental Amount");
       // return;
     }
 
@@ -259,7 +259,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please enter a valid Advance Amount");
+      setAdvanceAmountError("Please enter a Valid Advance Amount");
       return;
     }
 
@@ -514,7 +514,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </Form.Label>
                       <FormControl
                         id="form-controls"
-                        placeholder="Enter name"
+                        placeholder="Enter First Name"
                         type="text"
                         value={firstname}
                         onChange={(e) => handleFirstName(e)}
@@ -564,7 +564,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter name"
+                        placeholder="Enter Last Name"
                         value={lastname}
                         onChange={(e) => handleLastName(e)}
                         style={{
@@ -697,7 +697,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter email address"
+                        placeholder="Enter Email Address"
                         value={email}
                         onChange={(e) => handleEmail(e)}
                         style={{
@@ -767,7 +767,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         type="text"
                         id="form-controls"
                         value={address}
-                        placeholder="Enter address"
+                        placeholder="Enter Address"
                         onChange={(e) => handleAddress(e)}
                         style={{
                           fontSize: 16,
@@ -864,7 +864,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter amount"
+                        placeholder="Enter Amount"
                         value={AdvanceAmount}
                         onChange={(e) => handleAdvanceAmount(e)}
                         style={{

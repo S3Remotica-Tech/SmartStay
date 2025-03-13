@@ -178,8 +178,14 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
     }
 
     const handleRoleName = (e) => {
+        const value = e.target.value.trim()
+        const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
         setErrorForm('')
-        setRoleName(e.target.value.trim());
+        setRoleName(value);
+
         setErrorIsChanged("")
         setRoleError("")
         setEditRoleError("")
