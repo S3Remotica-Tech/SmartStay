@@ -826,7 +826,7 @@ function SettingInvoice({ hostelid }) {
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice calculation Start Date 
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date 
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -901,7 +901,7 @@ function SettingInvoice({ hostelid }) {
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End date 
+                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date 
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
