@@ -185,7 +185,7 @@ useEffect(() => {
                     lineHeight: "normal",
                   }}
                 >
-                  Calculation type
+                  Calculation Type
                 </label>
               </div>
               <div>

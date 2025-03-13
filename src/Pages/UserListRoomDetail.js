@@ -396,8 +396,7 @@ function UserListRoomDetail(props) {
     setEmail(emailValue);
 
     
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
 
     if (!emailValue) {

@@ -258,9 +258,7 @@ function SettingGeneral() {
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR'})
-    // Regex to validate email
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    // const hasUpperCase = /[A-Z]/.test(emailValue);
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
 
     if (!emailValue) {

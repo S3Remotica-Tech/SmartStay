@@ -266,23 +266,23 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
-    const handleEmailChange = (e) => {
-        const value = e.target.value.toLowerCase();
-        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-        setEmailError('')
+   const handleEmailChange = (e) => {
+  const value = e.target.value.toLowerCase();
+  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
 
-        setGeneralError('');
-        setIsChangedError('');
-        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
-        setEmail(value);
+  setEmail(value);
+  setEmailError('');
+  setGeneralError('');
+  setIsChangedError('');
+  dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
+  if (value && !emailRegex.test(value)) {
+    setEmailError('Please enter a valid email address');
+  } else {
+    setEmailError('');
+  }
+};
 
-        if (!emailRegex.test(value)) {
-            setEmailError('Please enter a valid email address');
-        } else {
-            setEmailError('');
-        }
-    };
 
 
 
@@ -325,7 +325,14 @@ function CustomerForm({ show, handleClose, initialData }) {
             });
         }
     };
-
+    const handleFormClose = () => {
+        setErrors('');
+        setEmailError("")
+        setNameError("")
+        setMobileError("")
+        handleClose();
+        setWalkInDateError("")
+      }
 
     const customDateInput = (props) => {
         return (
@@ -371,12 +378,12 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
+            <Modal show={show} onHide={handleFormClose} centered backdrop="static">
                 <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
                     <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
                         {initialData ? 'Edit Walk-in' : 'Add Walk-in'}
                     </div>
-                    <CloseCircle size="24" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
+                    <CloseCircle size="24" color="#222222" onClick={handleFormClose} style={{ cursor: 'pointer' }} />
                 </Modal.Header>
 
 
