@@ -1711,7 +1711,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Email
+                                        Email ID
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
                                         <Sms size="16" color="#1E45E1" />
