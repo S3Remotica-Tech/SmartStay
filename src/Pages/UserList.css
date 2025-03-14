@@ -299,3 +299,8 @@ text-decoration: underline;
       overflow-y: hidden;
   }
 }
+.custom-delete-modal {
+  max-width: 400px !important;
+  width: 90% !important;
+  margin: auto;
+}
