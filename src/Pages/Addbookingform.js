@@ -289,13 +289,13 @@ function BookingModal(props) {
     ) {
       switch (fieldName) {
         case "firstName":
-          setfirstNameError("FirstName is Required");
+          setfirstNameError("First Name is Required");
           break;
         case "Phone":
           setPhoneError("Phone  is Required");
           break;
         case "joiningDate":
-          setDateError("JoiningDate ID is Required");
+          setDateError("Joining Date is Required");
           break;
         case "amount":
           setamountError("Amount is Required");
@@ -611,7 +611,7 @@ try {
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter name"
+                  placeholder="Enter First Name"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
@@ -658,7 +658,7 @@ try {
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter name"
+                  placeholder="Enter Last Name"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
@@ -816,7 +816,7 @@ try {
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Please Enter Email Id"
+                  placeholder="Please Enter Email ID"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
@@ -1008,7 +1008,7 @@ try {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter amount"
+                  placeholder="Enter Booking Amount"
                   value={amount}
                   onChange={(e) => handleAmount(e)}
                   style={{

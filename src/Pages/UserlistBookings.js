@@ -406,7 +406,7 @@ if (!pattern.test(value)) {
       file !== initialStateAssign.file;
 
     if (!isChangedBed) {
-      setFormError("No changes detected.");
+      setFormError("No Changes Detected");
       return;
     } else {
       setFormError("");

@@ -117,17 +117,20 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setError('');
   
     const value = e.target.value;
+  
+    // Allow only numbers, max 10 digits
     if (/^\d{0,10}$/.test(value)) {
       setMobile(value);
   
+      // Show error if length is less than 10 digits (but not empty)
       if (value && value.length < 10) {
-        setMobileError('');
+        setMobileError('Mobile Number must be 10 Digits');
       } else {
         setMobileError('');
       }
     } else {
       if (value !== '') {
-        setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
+        setMobileError('Invalid Mobile Number');
       }
     }
   
@@ -228,7 +231,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const clearEmailError = () => ({
     type: "CLEAR_EMAIL_ID_ERROR"
   })
-
   const handleSubmit = () => {
     let isValid = true;
   
@@ -237,6 +239,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setMobileError('');
     setCountryCodeError('');
     setRoleError('');
+    setPasswordError('');
     setError('');
   
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -261,6 +264,9 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   
     if (!mobile) {
       setMobileError('Please Enter Mobile Number');
+      isValid = false;
+    } else if (mobile.length !== 10) {
+      setMobileError('Mobile Number must be 10 Digits');
       isValid = false;
     }
   
@@ -287,6 +293,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       isValid = false;
     }
   
+    // ⛔ Prevent save if mobile error is already set from handleMobileChange
+    if (mobileError) {
+      isValid = false;
+    }
+  
     if (isValid) {
       const MobileNumber = `${countryCode}${mobile}`;
       const payload = {
@@ -309,6 +320,88 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       });
     }
   };
+  
+
+  // const handleSubmit = () => {
+  //   let isValid = true;
+  
+  //   setNameError('');
+  //   setEmailError('');
+  //   setMobileError('');
+  //   setCountryCodeError('');
+  //   setRoleError('');
+  //   setError('');
+  
+  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  
+  //   if (!name) {
+  //     setNameError('Please Enter Name');
+  //     isValid = false;
+  //   }
+  
+  //   if (!email) {
+  //     setEmailError('Please Enter Email ID');
+  //     isValid = false;
+  //   } else if (!emailRegex.test(email)) {
+  //     setEmailError('Invalid Email Id *');
+  //     isValid = false;
+  //   }
+  
+  //   if (!countryCode) {
+  //     setCountryCodeError('Please Select Country Code');
+  //     isValid = false;
+  //   }
+  
+  //   if (!mobile) {
+  //     setMobileError('Please Enter Mobile Number');
+  //     isValid = false;
+  //   }
+  
+  //   if (!role) {
+  //     setRoleError('Please Select Role');
+  //     isValid = false;
+  //   }
+  
+  //   if (!editDetails && !password) {
+  //     setPasswordError('Please Enter Password');
+  //     isValid = false;
+  //   }
+  
+  //   const hasChanges =
+  //     name !== initialState.name ||
+  //     email !== initialState.email ||
+  //     mobile !== initialState.mobile ||
+  //     countryCode !== initialState.countryCode ||
+  //     role !== initialState.role ||
+  //     description !== initialState.description;
+  
+  //   if (editDetails && !hasChanges) {
+  //     setError("No changes detected");
+  //     isValid = false;
+  //   }
+  
+  //   if (isValid) {
+  //     const MobileNumber = `${countryCode}${mobile}`;
+  //     const payload = {
+  //       user_name: name,
+  //       phone: MobileNumber,
+  //       email_id: email,
+  //       role_id: role,
+  //       description: description,
+  //     };
+  
+  //     if (editDetails && edit) {
+  //       payload.id = editDetails.id;
+  //     } else {
+  //       payload.password = password;
+  //     }
+  
+  //     dispatch({
+  //       type: "ADDSTAFFUSER",
+  //       payload,
+  //     });
+  //   }
+  // };
   
   // const handleSubmit = () => {
 

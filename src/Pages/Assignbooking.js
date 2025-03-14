@@ -262,11 +262,19 @@ function AssignBooking(props) {
     setRentError("");
   };
   const handleRentAmount = (e) => {
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
     setRentAmount(e.target.value);
     setRentError("");
   };
   const handleAdvanceAmount = (e) => {
-    setAdvanceamount(e.target.value);
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return; 
+    }
+    setAdvanceamount(value);
     setAdavanceError("");
   };
 
@@ -828,7 +836,7 @@ function AssignBooking(props) {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter amount"
+                  placeholder="Enter Advance Amount"
                   value={Advanceamount}
                   onChange={(e) => handleAdvanceAmount(e)}
                   style={{
@@ -873,7 +881,7 @@ function AssignBooking(props) {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter amount"
+                  placeholder="Enter Rent Amount"
                   value={rentamount}
                   onChange={(e) => handleRentAmount(e)}
                   style={{

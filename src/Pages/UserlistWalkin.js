@@ -479,7 +479,14 @@ function UserlistWalkin(props) {
                               padding: "10px",
                             }}
                           >
-                            {customer.mobile_Number}
+                            {/* {customer.mobile_Number} */}
+                            +
+                              {customer &&
+                                String(customer.mobile_Number).slice(
+                                  0,
+                                  String(customer.mobile_Number).length - 10
+                                )}{" "}
+                              {customer && String(customer.mobile_Number).slice(-10)}
                           </td>
 
                           <td

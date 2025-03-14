@@ -443,14 +443,22 @@ function SettingNewUser() {
                                                         textOverflow: "ellipsis"
                                                     }}
                                                 >
-                                                    +
+                                                    {/* +
                                                     {item &&
                                                         String(item.mobileNo).slice(
                                                             0,
                                                             String(item.mobileNo).length - 10
                                                         )}{" "}
-                                                    {item && String(item.mobileNo).slice(-10)}
+                                                    {item && String(item.mobileNo).slice(-10)} */}
+                                                     +
+                                        {item &&
+                                          String(item.mobileNo)?.slice(
+                                            0,
+                                            String(item.mobileNo).length - 10
+                                          )}{" "}
+                                        {item && String(item.mobileNo)?.slice(-10)}
                                                 </td>
+                                                
                                                 <td title={item.role_name}
                                                     style={{
                                                         fontWeight: 500,
