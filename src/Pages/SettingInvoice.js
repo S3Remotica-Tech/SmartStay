@@ -176,7 +176,7 @@ function SettingInvoice({ hostelid }) {
       invoiceDate === initialValuesRef.current.editinvoicedate &&
       invoicedueDate === initialValuesRef.current.editduedate 
     ) {
-      setTotalErrmsg("No changes detected.");
+      setTotalErrmsg("No Changes Detected");
       return;
     }
   
@@ -284,10 +284,10 @@ function SettingInvoice({ hostelid }) {
     if (!calculatedstartdate || !calculatedenddate) {
 
       if (!calculatedstartdate) {
-        setCalculatedstartdateErrmsg('Please Select date')
+        setCalculatedstartdateErrmsg('Please Select Date')
       }
       if (!calculatedenddate) {
-        setCalculatedEnddateErrMsg('Please Select date')
+        setCalculatedEnddateErrMsg('Please Select Date')
       }
       return;
     }

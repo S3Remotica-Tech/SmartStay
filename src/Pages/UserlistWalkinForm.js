@@ -180,12 +180,12 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
         if (!name) {
-            setNameError('Please enter Name');
+            setNameError('Please Enter Name');
             // return;
         }
 
         if (!mobile) {
-            setMobileError('Please enter Mobile Number');
+            setMobileError('Please Enter Mobile Number');
             // return;
         }
 
@@ -195,7 +195,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         }
 
         if (!walkInDate) {
-            setWalkInDateError('Please select Walk-In Date');
+            setWalkInDateError('Please Select Walk-In Date');
             // return;
         }
 

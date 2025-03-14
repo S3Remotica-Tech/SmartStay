@@ -270,7 +270,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
         String(reading) !== String(initialStateAssign.reading);
 
       if (!isChangedBed) {
-        setFormError("No changes detected.");
+        setFormError("No Changes Detected");
         return;
       }
 

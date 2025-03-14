@@ -716,7 +716,7 @@ function UserListRoomDetail(props) {
       file === initialState.file
     );
     if (!isChanged) {
-      setFormError("No changes detected.");
+      setFormError("No Changes Detected");
       return;
     } else {
       setFormError("");
@@ -876,7 +876,7 @@ const handleGenerateAdvance=()=>{
 
     // Check if room rent is valid
     if (Number(RoomRent) <= 0) {
-      setRoomRentError("Room Rent must be greater than 0");
+      setRoomRentError("Please Enter Valid Rent Amount");
       return;
     } else {
       setRoomRentError("");
@@ -932,7 +932,7 @@ const handleGenerateAdvance=()=>{
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
     if (!isChangedBed) {
-      setFormError("No changes detected.");
+      setFormError("No Changes Detected");
       return;
     } else {
       setFormError("");

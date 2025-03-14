@@ -415,7 +415,7 @@ function EB_Hostel() {
           setfloorError("Floor Required");
           break;
         case "Rooms":
-          setRoomError("Rooms Required");
+          setRoomError("Room Required");
           break;
 
         case "selectedDate":

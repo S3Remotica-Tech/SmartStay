@@ -984,7 +984,7 @@ const Compliance = () => {
                               aria-label="Select Price Range"
                               className=''
                               id="statusselect"
-                              style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}
+                              style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy",cursor:"pointer" }}
                             >
                               <option value="All">All</option>
                               <option value="open">Open</option>
@@ -1581,7 +1581,7 @@ const Compliance = () => {
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className='mb-1' controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                Complaint date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
                                 <DatePicker

@@ -812,11 +812,11 @@ try {
                     fontWeight: 500,
                   }}
                 >
-                  Email address
+                  Email ID
                 </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="email@gmail.com"
+                  placeholder="Please Enter Email Id"
                   style={{
                     fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",

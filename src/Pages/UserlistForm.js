@@ -1316,7 +1316,7 @@ const handleBed = (selectedOption) => {
         ? { value: Floor, label: state.UsersList.hosteldetailslist.find((option) => option.floor_id === Floor)?.floor_name }
         : null
     }
-    placeholder="Select no. of floor"
+    placeholder="Select a Floor"
     classNamePrefix="custom"
     menuPlacement="auto"
     styles={{
@@ -1801,7 +1801,7 @@ const handleBed = (selectedOption) => {
                       </Form.Group>
                       {roomrentError && (
                         <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-                          <MdError  style={{ fontSize: "13px", marginRight: "5px",marginBottom:"17px" }}/>
+                          <MdError  style={{ fontSize: "13px", marginRight: "5px"}}/>
                           <label
                             className="mb-0"
                             style={{

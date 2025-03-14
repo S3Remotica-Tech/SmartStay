@@ -67,19 +67,19 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     let isValid = true;
 
     if (!hostelid) {
-      setHostelError("Pleae select a Hostel");
+      setHostelError("Pleae Select a Hostel");
     }
 
     if (!amenity) {
-      setErrorAmenity("Amenity is required.");
+      setErrorAmenity("Amenity is Required");
       isValid = false;
     }
 
     if (!amount) {
-      setErrorAmount("Amount is required.");
+      setErrorAmount("Amount is Required");
       isValid = false;
     } else if (isNaN(amount)) {
-      setErrorAmount("Amount must be a number.");
+      setErrorAmount("Amount must be a Number");
       isValid = false;
     }
 

@@ -106,19 +106,19 @@ function CustomerReAssign(props){
         if (isValueEmpty) {
           switch (fieldName) {
             case "newRoomRent":
-              setRentError("NewRoomRent is required");
+              setRentError("New Rentamount is Required");
               break;
               case "newFloor":
-                setfloorError("NewFloor is required");
+                setfloorError("New Floor is Required");
                 break;
               case "newRoom":
-                setRoomError("NewRoom is required");
+                setRoomError("New Room is Required");
                 break;
                 case "newBed":
-                  setBedError("NewBed is required");
+                  setBedError("New Bed is Required");
                 break;
             case "selectedDate":
-              setDateError("Date is required");
+              setDateError("Date is Required");
               break;
     
             default:
@@ -162,20 +162,20 @@ const handleSaveReassignBed = ()=>{
 
 
     if (newFloor === "Selected Floor" || !isFloorValid) {
-      setfloorError("Please select a valid Floor");
+      setfloorError("Please Select a Valid Floor");
       return;
     } else {
       setfloorError("");
     }
     if (newRoom === "Selected Room" || !isRoomValid) {
-      setRoomError("Please select a valid Room");
+      setRoomError("Please Select a Valid Room");
       return;
     } else {
       setRoomError("");
     }
 
     if (newBed === "Selected Bed" || !isBedValid) {
-      setBedError("Please select a valid Bed");
+      setBedError("Please Select a Valid Bed");
       return;
     } else {
       setBedError("");

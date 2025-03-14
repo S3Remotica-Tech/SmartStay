@@ -81,7 +81,7 @@ function ExpensesListTable(props) {
  const handleTagAsset = () => {
 
     if (!assetname) {
-      setAssetNameError("Please select a assetname ")
+      setAssetNameError("Please Select a Asset Name ")
       return;
     }
     setAssetNameError("");

@@ -97,7 +97,7 @@ const InvoicePage = () => {
   const [totalAmount, setTotalAmount] = useState("");
   const [bills, setBills] = useState([]);
   const [newRows, setNewRows] = useState([
-    { "S.NO": 1, am_name: "", amount: "0" },
+    { "S.No": 1, am_name: "", amount: "0" },
   ]);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
@@ -514,7 +514,6 @@ useEffect(()=>{
 
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
-
     if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
     } else {
@@ -624,7 +623,7 @@ useEffect(()=>{
 
     if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
       newRows.push({
-        "S.NO": newRows.length + 1,
+        "S.No": newRows.length + 1,
         am_name: "Room Rent",
         amount: invoiceDetails.RoomRent,
       });
@@ -632,7 +631,7 @@ useEffect(()=>{
 
     if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
       newRows.push({
-        "S.NO": newRows.length + 1,
+        "S.No": newRows.length + 1,
         am_name: "Advance Amount",
         amount: invoiceDetails.advance_amount,
       });
@@ -640,7 +639,7 @@ useEffect(()=>{
 
     if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
       newRows.push({
-        "S.NO": newRows.length + 1,
+        "S.No": newRows.length + 1,
         am_name: "EB Amount",
         amount: invoiceDetails.EbAmount,
       });
@@ -650,7 +649,7 @@ useEffect(()=>{
       newRows = [
         ...newRows,
         ...invoiceDetails.amenity.map((item, index) => ({
-          "S.NO": newRows.length + index + 1,
+          "S.No": newRows.length + index + 1,
           am_name: item.am_name,
           amount: item.amount,
         })),
@@ -658,7 +657,7 @@ useEffect(()=>{
     }
 
     if (newRows.length === 0) {
-      newRows = [{ "S.NO": 1, am_name: "Room Rent", amount: 0 }];
+      newRows = [{ "S.No": 1, am_name: "Room Rent", amount: 0 }];
     }
 
     setNewRows(newRows);
@@ -695,35 +694,35 @@ useEffect(()=>{
 
     // Validate Customer
     if (!customername) {
-      setCustomerErrmsg("Customer is required.");
+      setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
     // Validate Invoice Number
     if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice number is required.");
+      setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
     // Validate Start Date
     if (!startdate) {
-      setStartdateErrmsg("Start date is required.");
+      setStartdateErrmsg("Start Date is Required");
       isValid = false;
     }
     if (!enddate) {
-      setEnddateErrmsg("End date is required.");
+      setEnddateErrmsg("End Date is Required");
       isValid = false;
     }
 
     // Validate Invoice Date
     if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice date is required.");
+      setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
     // Validate Due Date
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due date is required.");
+      setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
     }
 
@@ -736,7 +735,7 @@ useEffect(()=>{
       !invoiceduedate ||
       !enddate
     ) {
-      setAllFieldErrmsg("Please fill out all required fields.");
+      setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
 
@@ -6265,7 +6264,7 @@ useEffect(()=>{
                       fontweight: 500,
                     }}
                   >
-                    S.NO
+                    S.No
                   </th>
                   <th
                     style={{

@@ -99,7 +99,7 @@ useEffect(()=>{
     // }
 
     if (!bedNo) {
-      setBedError("Please enter a valid bed number.");
+      setBedError("Please Enter a Valid Bed Number");
       // return;
     } else {
       setBedError("");
@@ -107,7 +107,7 @@ useEffect(()=>{
 
     // if (!amount || isNaN(amount) || amount <= 0) {
       if (!amount || amount <= 0) {
-      setAmountError("Please enter a valid amount.");
+      setAmountError("Please Enter a Valid Amount");
       // return;
     } else {
       setAmountError("");

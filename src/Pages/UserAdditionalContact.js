@@ -93,7 +93,7 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setGuardianError("Gurardian is Required");
+          setGuardianError("Guardian is Required");
           break;
         case "userName":
           setUserNameError("Username is Required");
@@ -193,18 +193,29 @@ function UserAdditionalContact(props) {
   
 
   const handlePhone = (e) => {
-    setPhone(e.target.value);
-    const pattern = /^\d{1,10}$/;
-    const isValidMobileNo = pattern.test(e.target.value);
-
-    if (isValidMobileNo && e.target.value.length === 10) {
+    const value = e.target.value;
+  
+    // Allow only numbers and up to 10 digits
+    if (!/^\d{0,10}$/.test(value)) {
+      return;
+    }
+  
+    setPhone(value);
+  
+    // Clear error if empty (no error on blank input)
+    if (value === "") {
+      setPhoneError("");
+    } else if (value.length === 10) {
       setPhoneError("");
     } else {
       setPhoneError("Invalid mobile number *");
     }
+  
     setFormError("");
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
+  
+  
   useEffect(() => {
     if (state.UsersList.contactError) {
       setPhoneError(state.UsersList.contactError);
@@ -305,7 +316,7 @@ function UserAdditionalContact(props) {
                           alignItems: "center",
                         }}
                       >
-                        First Name{" "}
+                        User Name{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -314,7 +325,7 @@ function UserAdditionalContact(props) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter Username"
+                        placeholder="Enter User Name"
                         onChange={(e) => handleUserName(e)}
                         value={userName}
                         style={{
@@ -375,7 +386,7 @@ function UserAdditionalContact(props) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter name"
+                        placeholder="Enter Guardian Name"
                         onChange={(e) => handleGuardian(e)}
                         value={guardian}
                         style={{

@@ -386,11 +386,12 @@ const RecurringBills = (props) => {
         ...base,
         backgroundColor: "#f8f9fa",
         border: "1px solid #ced4da",
+        zIndex: 9999, 
       }),
       menuList: (base) => ({
         ...base,
         backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
+        maxHeight: "100px",
         padding: 0,
         scrollbarWidth: "thin",
         overflowY: "auto",

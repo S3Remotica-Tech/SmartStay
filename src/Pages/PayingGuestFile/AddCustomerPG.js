@@ -229,7 +229,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (!selectedDate) {
-      setDateError("Please select a Date");
+      setDateError("Please Select a Date");
       // return;
     }
 

@@ -86,7 +86,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     // }
 
     if (!room) {
-      setRoomError("Please enter a  Room no. or name");
+      setRoomError("Please Enter a Room No or Name");
 
       // Swal.fire({
       //   icon: 'warning',
@@ -96,7 +96,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     }
 
     if (!floorId) {
-      setFloorError("Please select floor");
+      setFloorError("Please Select Floor");
       setTimeout(() => {
         setFloorError("");
       }, 2000);
@@ -115,7 +115,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     const isChanged = room !== initialState.room;
 
     if (!isChanged) {
-      setIsChangedError("No changes detected");
+      setIsChangedError("No Changes Detected");
 
       return;
     }

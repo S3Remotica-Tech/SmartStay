@@ -282,7 +282,7 @@ const CheckOutForm = ({
     // let isValid = true;
 
     if (!selectedCustomer) {
-      setCustomerError("Please select a customer.");
+      setCustomerError("Please Select a Customer");
       // isValid = false;
     }
 
@@ -292,12 +292,12 @@ const CheckOutForm = ({
     // }
 
     if (!checkOutDate) {
-      setCheckOutDateError("Please select a checkout date.");
+      setCheckOutDateError("Please Select a Checkout Date");
       // isValid = false;
     }
 
     if (!checkOutrequestDate) {
-      setCheckOutRequestDateError("Please select a request date.");
+      setCheckOutRequestDateError("Please Select a Request Date");
       // isValid = false;
     }
 

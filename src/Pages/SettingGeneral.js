@@ -246,7 +246,7 @@ function SettingGeneral() {
     if (isValidMobileNo) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid Mobile Number");
     }
   
     setPhoneErrorMessage("");
@@ -266,7 +266,7 @@ function SettingGeneral() {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");

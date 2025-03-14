@@ -701,7 +701,7 @@ function AssignBooking(props) {
         fontSize: "16px",
         color: "#4B4B4B",
         fontFamily: "Gilroy",
-        fontWeight: bed ? 600 : 500,
+        fontWeight: 500,
         boxShadow: "none",
       }),
       menu: (base) => ({

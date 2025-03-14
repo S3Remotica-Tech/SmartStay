@@ -325,7 +325,7 @@ useEffect(() => {
 
 
     if (Floor === "Select Floor" || !isFloorValid) {
-      setfloorError("Please select a valid Floor");
+      setfloorError("Please Select a Valid Floor");
       return;
     } else {
       setfloorError("");
@@ -333,7 +333,7 @@ useEffect(() => {
 
     // Validate Room field
     if (Rooms === "Select a Room" || !isRoomValid) {
-      setRoomError("Please select a valid Room");
+      setRoomError("Please Select a Valid Room");
       return;
     } else {
       setRoomError("");
@@ -365,7 +365,7 @@ useEffect(() => {
 
 
     if (!isChangedBed) {
-      setFormError("No changes detected.");
+      setFormError("No Changes Detected");
       return;
     } else {
       setFormError("");

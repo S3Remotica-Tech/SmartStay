@@ -129,7 +129,7 @@ function SettingCompliance({ hostelid }) {
     //add complaint
     const handleAddComplaintType = () => {
         if (!complaintTypeName) {
-            setComplaintError('Please enter Complaint Type')
+            setComplaintError('Please Enter Complaint Type')
         }
         else {
             dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: complaintTypeName, hostel_id: hostelid } })
