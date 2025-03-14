@@ -88,15 +88,34 @@ function AddPg({ show, handleClose, currentItem }) {
     setEmail(emailValue);
     setGeneralError("");
     setIsChangedError("");
-    setEmailError("");
+  
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
+    if (emailValue && !emailRegex.test(emailValue)) {
+      setEmailError("Invalid Email Id");
+    } else {
+      setEmailError("");
+    }
 
     setErrors((prevErrors) => ({
       ...prevErrors,
-      email: isValidEmail ? "" : "Invalid Email Id *",
+      email: emailValue && !emailRegex.test(emailValue) ? "Invalid Email Id" : "",
     }));
   };
+
+  // const handleEmailChange = (e) => {
+  //   const emailValue = e.target.value.toLowerCase();
+  //   setEmail(emailValue);
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   setEmailError("");
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //   const isValidEmail = emailRegex.test(emailValue);
+
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     email: isValidEmail ? "" : "Invalid Email Id *",
+  //   }));
+  // };
 
   const handlePgNameChange = (e) => {
     const value = e.target.value;
@@ -152,58 +171,60 @@ function AddPg({ show, handleClose, currentItem }) {
   }, []);
 
   const handleCreatePayingGuest = () => {
-    const emailInvalid = errors.email === "Invalid Email Id *";
-    const mobileInvalid = errors.mobile === "Invalid Mobile Number *";
-
-    if (!pgName && !mobile && !email && !location && !countryCode) {
+    let hasError = false;
+  
+    // Reset previous error messages
+    setGeneralError("");
+    setPgNameError("");
+    setMobileError("");
+    setCountryCodeError("");
+    setLocationError("");
+    setEmailError("");
+    setIsChangedError("");
+  
+    // Required Field Validations
+    if (!pgName) {
+      setPgNameError("Please Enter PG Name");
+      hasError = true;
+    }
+  
+    if (!countryCode) {
+      setCountryCodeError("Please Select Country Code");
+      hasError = true;
+    }
+  
+    if (!mobile) {
+      setMobileError("Please Enter Mobile Number");
+      hasError = true;
+    }
+  
+    if (!location) {
+      setLocationError("Please Enter Address");
+      hasError = true;
+    }
+  
+    // Email Format Validation
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    if (email && !emailRegex.test(email)) {
+      setEmailError("Enter a valid Email ID");
+      hasError = true;
+    }
+  
+    // Mobile format check (10 digit validation, optional)
+    if (mobile && mobile.length !== 10) {
+      setMobileError("Enter a valid 10 digit mobile number");
+      hasError = true;
+    }
+  
+    if (!pgName && !mobile && !location && !countryCode) {
       setGeneralError("Please fill in all the required fields.");
       return;
     }
-
-    if (!pgName) {
-      setPgNameError("Please Enter PG Name");
-      // return;
-    }
-
-    if (!countryCode) {
-      setCountryCodeError("Please Select Country Code");
-      // return;
-    }
-
-    if (!mobile) {
-      setMobileError("Please Enter Mobile Number");
-      // return;
-    }
-
-    // if (!email) {
-    //   setEmailError('Please enter email');
-    //   return;
-    // }
-
-    if (!location) {
-      setLocationError("Please Enter Address");
-      // return;
-    }
-
-    if (emailInvalid || mobileInvalid) {
-      if (emailInvalid) {
-        setEmailError("Enter a valid Email ID");
-      }
-      if (mobileInvalid) {
-        setMobileError("Enter a valid 10 digit mobile number");
-      }
-      return;
-    }
-
-    // if (errors.pgName)  {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'PG name cannot be empty or spaces only *',
-
-    //   });
-    //   return;
-    // }
-
+  
+    // Stop execution if any validation fails
+    if (hasError) return;
+  
+    // Check for changes
     const arraysAreEqual = (arr1, arr2) => {
       if (arr1.length !== arr2.length) return false;
       for (let i = 0; i < arr1.length; i++) {
@@ -211,7 +232,7 @@ function AddPg({ show, handleClose, currentItem }) {
       }
       return true;
     };
-
+  
     const isChanged =
       pgName !== initialState.pgName ||
       Number(mobile) !== Number(initialState.mobile) ||
@@ -220,51 +241,39 @@ function AddPg({ show, handleClose, currentItem }) {
       file !== initialState.file ||
       countryCode !== initialState.countryCode ||
       !arraysAreEqual(images, initialState.imageUrls);
-
+  
     if (!isChanged) {
       setIsChangedError("No changes detected");
       return;
     }
-
+  
+    // Proceed with dispatch
     const MobileNumber = `${countryCode}${mobile}`;
-
-    if (pgName && MobileNumber && location && countryCode) {
-      dispatch({
-        type: "PGLIST",
-        payload: {
-          profile: file,
-          name: pgName,
-          phoneNo: MobileNumber,
-          email_Id: email,
-          location: location,
-          id: currentItem.id,
-          // image1: images[0]?.image ,
-          // image2: images[1]?.image,
-          // image3: images[2]?.image,
-          // image4: images[3]?.image,
-          image1: images[0]?.isChanged
-            ? images[0].image
-            : currentItem.image_list?.[0]?.image || null,
-          image2: images[1]?.isChanged
-            ? images[1].image
-            : currentItem.image_list?.[1]?.image || null,
-          image3: images[2]?.isChanged
-            ? images[2].image
-            : currentItem.image_list?.[2]?.image || null,
-          image4: images[3]?.isChanged
-            ? images[3].image
-            : currentItem.image_list?.[3]?.image || null,
-        },
-      });
-      // handleClose()
-      setFile("");
-      setPgName("");
-      setMobile("");
-      setEmail("");
-
-      setLocation("");
-    } 
+  
+    dispatch({
+      type: "PGLIST",
+      payload: {
+        profile: file,
+        name: pgName,
+        phoneNo: MobileNumber,
+        email_Id: email,
+        location: location,
+        id: currentItem.id,
+        image1: images[0]?.isChanged ? images[0].image : currentItem.image_list?.[0]?.image || null,
+        image2: images[1]?.isChanged ? images[1].image : currentItem.image_list?.[1]?.image || null,
+        image3: images[2]?.isChanged ? images[2].image : currentItem.image_list?.[2]?.image || null,
+        image4: images[3]?.isChanged ? images[3].image : currentItem.image_list?.[3]?.image || null,
+      },
+    });
+  
+    // Reset form
+    setFile("");
+    setPgName("");
+    setMobile("");
+    setEmail("");
+    setLocation("");
   };
+  
   const [hostel_Id,setHostel_Id] = useState("")
    useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
