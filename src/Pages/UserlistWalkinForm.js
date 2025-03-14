@@ -56,21 +56,63 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     // const datePickerRef = useRef(null);
 
+    // const handlePhone = (e) => {
+    //     setGeneralError('');
+    //     setMobileError('');
+    //     setIsChangedError('');
+    //     dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
+    //     const value = e.target.value;
+    //     if (/^\d*$/.test(value) && value.length <= 10) {
+    //         setMobile(value);
+    //         if (value.length === 10) {
+    //             setErrors(prev => ({ ...prev, mobile: '' }));
+    //         } else {
+    //             setErrors(prev => ({ ...prev, mobile: 'Mobile number must be 10 digits.' }));
+    //         }
+    //     }
+    // };
     const handlePhone = (e) => {
-        setGeneralError('');
-        setMobileError('');
-        setIsChangedError('');
-        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
-        const value = e.target.value;
-        if (/^\d*$/.test(value) && value.length <= 10) {
-            setMobile(value);
-            if (value.length === 10) {
-                setErrors(prev => ({ ...prev, mobile: '' }));
-            } else {
-                setErrors(prev => ({ ...prev, mobile: 'Mobile number must be 10 digits.' }));
-            }
+        const input = e.target.value.replace(/\D/g, ""); 
+        setMobile(input);
+      
+        if (input.length === 0) {
+            setMobileError(""); 
+        } else if (input.length < 10) {
+            setMobileError("Invalid Mobile Number");
+        } else if (input.length === 10) {
+            setMobileError(""); 
         }
-    };
+      
+        setIsChangedError("")
+        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
+      };
+    // const handlePhone = (e) => {
+    //     setGeneralError('');
+    //     setMobileError('');
+    //     setIsChangedError('');
+    //     dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
+      
+    //     const value = e.target.value;
+      
+    //     if (/^\d*$/.test(value) && value.length <= 10) {
+    //       setMobile(value);
+      
+    //       // Show error immediately if less than 10 digits
+    //       if (value.length < 10) {
+    //         setErrors((prev) => ({
+    //           ...prev,
+    //           mobile: 'Mobile number must be 10 digits.'
+    //         }));
+    //       } else {
+    //         setErrors((prev) => ({
+    //           ...prev,
+    //           mobile: ''
+    //         }));
+    //       }
+    //     }
+    //   };
+      
+      
 
     useEffect(() => {
         if (initialData) {
@@ -180,7 +222,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
         if (!name) {
-            setNameError('Please Enter Name');
+            setNameError('Please Enter First Name');
             // return;
         }
 
@@ -205,7 +247,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         }
         
         if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
-            setMobileError('Mobile Number must be exactly 10 digits');
+            setMobileError('Mobile Number is Required');
             return;
         }
 
@@ -381,7 +423,7 @@ function CustomerForm({ show, handleClose, initialData }) {
             <Modal show={show} onHide={handleFormClose} centered backdrop="static">
                 <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
                     <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
-                        {initialData ? 'Edit Walk-in' : 'Add Walk-in'}
+                        {initialData ? 'Edit Walk-In' : 'Add Walk-In'}
                     </div>
                     <CloseCircle size="24" color="#222222" onClick={handleFormClose} style={{ cursor: 'pointer' }} />
                 </Modal.Header>
@@ -558,7 +600,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
                             {mobileError && (
                                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-12px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', marginTop: "-20px", fontSize: "13px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {mobileError}
                                     </label>

@@ -104,19 +104,19 @@ function BankingEditTransaction(props) {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "account":
-          setAccountError("Account is required");
+          setAccountError("Account is Required");
           break;
         case "selectedDate":
-          setDateError("Date is required");
+          setDateError("Date is Required");
           break;
         case "amount":
-          setAmountError("Amount is required");
+          setAmountError("Amount is Required");
           break;
         case "transaction":
-          setTransError("Transaction is required");
+          setTransError("Transaction is Required");
           break;
         case "describtion":
-          setdescribtionError("Description is required");
+          setdescribtionError("Description is Required");
           break;
         default:
           break;
@@ -497,7 +497,7 @@ function BankingEditTransaction(props) {
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter account no."
+                  placeholder="Enter Amount"
                   value={amount}
                   onChange={(e) => handleAmount(e)}
                   style={{

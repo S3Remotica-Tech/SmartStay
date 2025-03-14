@@ -206,13 +206,13 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("Reading is required");
+          setReadingError("Reading is Required");
           break;
         case "Hostel ID":
-          setHostelIdError("Hostel is required");
+          setHostelIdError("Hostel is Required");
           break;
         case "selectedDate":
-          setDateErrorMesg("Date is required");
+          setDateErrorMesg("Date is Required");
           break;
 
         default:
@@ -1334,7 +1334,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                     fontWeight: 500,
                   }}
                 >
-                  HostelName{" "}
+                  Hostel Name{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl

@@ -329,7 +329,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setProductNameError("Please Enter a Valid Product Name");
     }
     if (!modeOfPayment) {
-      setPaymentError("Please Enter payment type");
+      setPaymentError("Please Enter Payment Type");
 
       // return;
     }
@@ -512,7 +512,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 fontWeight: 600,
               }}
             >
-              {currentItem ? "Edit an asset" : "Add an asset"}
+              {currentItem ? "Edit an Asset" : "Add an Asset"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
@@ -1143,7 +1143,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 padding: 12,
               }}
             >
-              {currentItem ? "Save Changes" : "Add  asset"}
+              {currentItem ? "Save Changes" : "Add  Asset"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

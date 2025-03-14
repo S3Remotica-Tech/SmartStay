@@ -82,11 +82,11 @@ function CustomerCheckout(props){
 
         if(!selectedDate || !requestDate){
           if (!selectedDate) {
-            setCheckOutDateError('Please select a checkout date.');
+            setCheckOutDateError('Please Select a Check-out Date');
           }
       
           if (!requestDate) {
-            setCheckOutRequestDateError('Please select a request date.');
+            setCheckOutRequestDateError('Please Select a Request Date');
           }
           return
         }

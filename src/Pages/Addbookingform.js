@@ -236,7 +236,7 @@ function BookingModal(props) {
     if (input.length === 0) {
       setPhoneError(""); 
     } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number");
+      setPhoneError("Invalid Mobile Number");
     } else if (input.length === 10) {
       setPhoneError(""); 
     }
@@ -292,7 +292,7 @@ function BookingModal(props) {
           setfirstNameError("First Name is Required");
           break;
         case "Phone":
-          setPhoneError("Phone  is Required");
+          setPhoneError("Mobile Number  is Required");
           break;
         case "joiningDate":
           setDateError("Joining Date is Required");
@@ -394,7 +394,7 @@ try {
   formattedDate = date.toISOString().split("T")[0];
 } catch (error) {
   console.error("Error formatting date:", error);
-  setDateError("Date is required.");
+  setDateError("Date is Required");
   return;
 }
     // Ensure all required fields are present before dispatching

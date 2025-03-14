@@ -195,7 +195,7 @@ const CheckOutForm = ({
         }
       } else {
         console.log(
-          "No matching user found for selectedCustomer:",
+          "No matching user found for selectedCustomer",
           selectedCustomer
         );
       }
@@ -347,7 +347,7 @@ const CheckOutForm = ({
     })();
 
     if (!isChanged) {
-      setIsChangedError("No changes detected.");
+      setIsChangedError("No Changes Detected");
       return;
     }
 
@@ -640,10 +640,10 @@ const CheckOutForm = ({
             }}
           >
             {data && checkoutaction
-              ? "Confirm Check-out"
+              ? "Confirm Check-Out"
               : currentItem && checkouteditaction
-              ? "Edit check-out"
-              : "Add Check-out"}
+              ? "Edit Check-Out"
+              : "Add Check-Out"}
           </Modal.Title>
           <img
             src={Closecircle}
@@ -787,7 +787,7 @@ const CheckOutForm = ({
                     fontWeight: 500,
                   }}
                 >
-                  Check-out Date{" "}
+                  Check-Out Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <div style={{ position: "relative", width: "100%" }}>
@@ -966,7 +966,7 @@ const CheckOutForm = ({
                     value={advanceamount}
                     // onChange={handleCommentsChange}
                     className="form-control mt-2"
-                    placeholder="Add Advance amount"
+                    placeholder="Add Advance Amount"
                     required
                     style={{
                       height: "50px",
@@ -1179,10 +1179,10 @@ const CheckOutForm = ({
                
           >
             {data && checkoutaction
-              ? "Confirm Check-out"
+              ? "Confirm Check-Out"
               : currentItem && checkouteditaction
               ? "Save Changes"
-              : "Add Check-out"}
+              : "Add Check-Out"}
           </Button>
         </Modal.Body>
       </Modal>

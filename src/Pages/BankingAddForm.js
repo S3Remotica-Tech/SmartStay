@@ -176,7 +176,7 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No changes detected");
+        setError("No Changes Detected");
         return;
       }
       else {

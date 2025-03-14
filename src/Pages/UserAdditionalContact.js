@@ -96,7 +96,7 @@ function UserAdditionalContact(props) {
           setGuardianError("Guardian is Required");
           break;
         case "userName":
-          setUserNameError("Username is Required");
+          setUserNameError("User Name is Required");
           break;
         case "Phone":
           setPhoneError("Phone Number is Required");

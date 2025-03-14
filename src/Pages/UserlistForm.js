@@ -241,7 +241,7 @@ const value = e.target.value
     if (input.length === 0) {
       setPhoneError(""); 
     } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid Nobile Number");
     } else if (input.length === 10) {
       setPhoneError(""); 
     }

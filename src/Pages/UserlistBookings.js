@@ -215,7 +215,7 @@ if (!pattern.test(value)) {
 
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email ID");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -258,7 +258,7 @@ if (!pattern.test(value)) {
     if (input.length === 0) {
       setPhoneError(""); 
     } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid Mobile Number");
     } else if (input.length === 10) {
       setPhoneError(""); 
     }
@@ -1753,7 +1753,7 @@ if (!pattern.test(value)) {
                     fontWeight: 500,
                   }}
                 >
-                  Email address{" "}
+                  Email ID{" "}
 
                 </Form.Label>
                 <Form.Control
@@ -1867,7 +1867,7 @@ if (!pattern.test(value)) {
                     fontWeight: 500,
                   }}
                 >
-                  Joining_Date{" "}
+                  Joining Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
                 </Form.Label>
