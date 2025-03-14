@@ -339,21 +339,13 @@ function AssetListTable(props) {
 
       <div >
         <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static"
-          // dialogClassName="custom-modal"
-          style={{
-            // width: 380,
-            // height: 250,
-            // marginLeft: "500px",
-            // marginTop: "200px",
-            // padding: "15px 25px",
-            width: 388,
-            height: 250,
-            marginLeft: "500px",
-            marginTop: "200px",
-          }}
+          dialogClassName="custom-delete-modal"
+         
         >
-          <Modal.Header style={{ display: "flex", justifyContent: "center", borderBottom: 'none' }}>
-            <Modal.Title style={{
+          <Modal.Header style={{  borderBottom: 'none' }}>
+            <Modal.Title 
+            className="w-100 text-center"
+            style={{
             
               fontSize: "18px",
               fontFamily: "Gilroy",
@@ -368,14 +360,16 @@ function AssetListTable(props) {
 
 
 
-          <Modal.Body style={{
+          <Modal.Body 
+           className="text-center"
+          style={{
             //  fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", padding: "0px"
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
+  
+            marginTop: "-10px",
               }}>
             Are you sure you want to delete this asset?
           </Modal.Body>
@@ -384,15 +378,16 @@ function AssetListTable(props) {
           <Modal.Footer className='d-flex justify-content-center' 
           style={{
             //  border: "none" 
-            justifyContent: "center",
+            
             borderTop: "none",
             marginTop: "-10px",
           }}>
-            <Button onClick={handleCloseForDeleteAsset} 
-            style={{ 
-              // borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF",
-              //  color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" 
-              width: 160,
+            <Button 
+            className="me-2"
+            onClick={handleCloseForDeleteAsset} 
+            style={{
+              width: "100%",
+              maxWidth: 160,
               height: 52,
               borderRadius: 8,
               padding: "12px 20px",
@@ -402,24 +397,25 @@ function AssetListTable(props) {
               fontWeight: 600,
               fontFamily: "Gilroy",
               fontSize: "14px",
-              marginRight: 10,
-               }}>
+            }}
+               >
               Cancel
             </Button>
 
-            <Button style={{ 
-              // borderRadius: 8, padding: "12px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: 
-              // "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" 
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              }} onClick={handleDelete}>
+            <Button 
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#1E45E1",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              onClick={handleDelete}>
               Delete
             </Button>
 
