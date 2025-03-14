@@ -22,6 +22,7 @@ function PayingHostel(props) {
 
     const [hoverPgCard, setHoverPgCard] = useState(false)
     const popupRef = useRef(null);
+    const [pgDeleteError,setPgDeleteError] = useState("")
 
 
     const handleEdit = (item) => {
@@ -102,21 +103,25 @@ function PayingHostel(props) {
 
     const handleClose = () => {
         setShow(false)
+        setPgDeleteError("")
+        dispatch({ type:'CLEAR_DELETE_PG_ERROR'})
+        
     }
 
 
     useEffect(() => {
         if (state.PgList.deletePgSuccessStatusCode === 200) {
-            setShow(false)
+            handleClose()
+            setTimeout(()=>{
+                dispatch({ type:'CLEAR_DELETE_PG_STATUS_CODE'})
+            })
         }
     }, [state.PgList.deletePgSuccessStatusCode])
 
 
     useEffect(() => {
         if (state.PgList?.deletePgError) {
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_DELETE_PG_ERROR' })
-            }, 3000);
+            setPgDeleteError(state.PgList.deletePgError)
         }
     }, [state.PgList?.deletePgError]);
 
@@ -393,13 +398,7 @@ function PayingHostel(props) {
 
 
         {show &&
-            <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modal"
-                style={{
-                    // width: 388,
-                    // height: 250,
-                    // marginLeft: "500px",
-                    // marginTop: "200px",
-                }}>
+            <Modal show={show} onHide={handleClose} centered backdrop="static"  dialogClassName="custom-delete-modal">
                 <Modal.Header style={{
                     borderBottom: "none",
                     // justifyContent: "center",
@@ -418,15 +417,24 @@ function PayingHostel(props) {
                 <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
-                {state.PgList?.deletePgError && (
-                    <div className="d-flex align-items-center">
-                        <MdError style={{ color: "red", marginLeft: "40px" }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", 
-                            fontWeight: 500 }}>
-                            {state.PgList?.deletePgError}
-                        </label>
-                    </div>
-                )}
+                {pgDeleteError && (
+  <div className="d-flex justify-content-center align-items-center gap-2 ">
+    <MdError style={{ color: "red" }} />
+    <label
+      className="mb-0"
+      style={{
+        color: "red",
+        fontSize: "12px",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        textAlign: "center"
+      }}
+    >
+      {pgDeleteError}
+    </label>
+  </div>
+)}
+
 
 
                 <Modal.Footer  style={{ justifyContent: "center", borderTop: "none",  marginTop: "-10px", }}>

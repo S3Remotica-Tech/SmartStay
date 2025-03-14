@@ -26,7 +26,7 @@ function UserListKyc(props) {
         dispatch({ type: 'KYCVALIDATE', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID } })
         setaadhaarErr('')
       } else {
-        setaadhaarErr('Please Enter valid Aadhar Number')
+        setaadhaarErr('Please Enter Valid Aadhar Number')
       }
     }
     else {
@@ -34,13 +34,28 @@ function UserListKyc(props) {
     }
   }
   function validateAadharNumber(aadhar) {
-    const aadharRegex = /^\d{12}$/;
-    if (aadharRegex.test(aadhar)) {
-      return true;
-    } else {
-      return false;
-    }
+    if (typeof aadhar !== 'number') return false;
+    const aadharStr = aadhar.toString();
+    if (!/^\d{12}$/.test(aadharStr)) return false;
+    if (aadharStr.length !== 12) return false;
+  
+    return true;
   }
+  
+  const handleAadharNumber = (e) => {
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return;
+    }
+  
+    if (value.length > 12) {
+      return;
+    }
+  
+    setAadhaarNo(value);
+    setaadhaarErr("");
+  };
+  
 
 
 
@@ -93,18 +108,14 @@ function UserListKyc(props) {
         style={{ width: 411,height:390,borderRadius:24 }}
       >
       
-          <Modal.Body style={{ padding: "0px"}}>
+          <Modal.Body>
             <div className="d-flex align-items-center" style={{borderRadius:24,padding:0,margin:0,width: "100%",}}>
 
-              <div className="container" style={{
-                padding:10,
-            
-            borderRadius:24
-          }}>
+              <div className="container" style={{borderRadius:24}}>
 
                 <Modal.Header
                   style={{  position: "relative",
-                    marginBottom: "10px",
+                    // marginBottom: "10px",
                     padding: "20px", }}
                 >
                   
@@ -114,7 +125,8 @@ function UserListKyc(props) {
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       cursor: 'pointer',
-                      marginTop:-20
+                      marginTop:-20,
+                      marginLeft:-15
                     }}
                   >
                     KYC Verify
@@ -135,8 +147,8 @@ function UserListKyc(props) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "20px",
-                      height: "20px",
+                      width: "25px",
+                      height: "25px",
                       borderRadius: "50%",
                     }}
                   >
@@ -187,7 +199,7 @@ function UserListKyc(props) {
                           marginTop: 8,
                         }}
                         value={aadhaarNo}
-                        onChange={(e) => { setAadhaarNo(e.target.value) }}
+                        onChange={(e) =>{handleAadharNumber(e)}}
                       />
                     </Form.Group>
                     {aadhaarErr && <p style={{ color: 'red' }}>{aadhaarErr}</p>}

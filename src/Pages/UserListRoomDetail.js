@@ -1302,7 +1302,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             </span>
                           </p> */}
                           <p
-                            style={{ marginTop: 8 }}
+                            style={{ marginTop: 8 ,cursor:"pointer"}}
                             onClick={() => {
                               handleKycdetailsForm(item);
                             }}

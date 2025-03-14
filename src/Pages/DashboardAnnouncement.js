@@ -567,8 +567,6 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                         <p style={{ marginBottom: "0px" }}>
                           <Image
                             roundedCircle
-                            // src={data?.profile || Profile}
-                            // src={data?.profile && data.profile !== 0 ? data.profile : Profile}
                             src={
                               !data.profile || ["0", "", "undefined", "null", "NULL",null,undefined,0].includes(String(data.profile).trim()) 
                                 ? Profile 
@@ -1361,7 +1359,11 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     commentsList.map((comment, index) => (
                         <div key={index} className="p-2 rounded mb-2" style={{ background: "#F8F9FA" }}>
                             <div className="d-flex align-items-center">
-                                <img src={comment.profile || Profile} alt="Profile" width={30} height={30} className="rounded-circle" />
+                               <img src={
+                              !comment.profile || ["0", "", "undefined", "null", "NULL",null,undefined,0].includes(String(comment.profile).trim()) 
+                                ? Profile 
+                                : comment.profile
+                            } width={30} height={30}/>
                                 <div className="ms-2">
                                     <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
                                     <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
@@ -1456,7 +1458,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               alignItems: "center",
                               cursor: "pointer",
                             }}
-                          >
+                            onClick={handleSendComments} >
                             <img
                               src={send}
                               alt="Send"

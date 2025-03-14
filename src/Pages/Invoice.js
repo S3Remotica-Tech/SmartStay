@@ -574,7 +574,7 @@ useEffect(()=>{
 
   };
 
-
+console.log('invoiceDetails',invoiceDetails)
   useEffect(() => {
     // if (invoiceDetails ) {
 
@@ -1638,6 +1638,7 @@ useEffect(()=>{
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
+  console.log("currentItems",currentItems)
 
   //recurring pagination
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
@@ -6026,116 +6027,100 @@ useEffect(()=>{
               )}
             </Form.Group>
           </div>
+          {invoiceDetails?.action !== "advance" && (
+  <div style={{ display: "flex", flexDirection: "row" }}>
+    <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+      <p className="mt-1 mb-1" style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}>
+        Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+      </p>
+      <div style={{ position: "relative", width: "100%" }}>
+        <DatePicker
+          selected={startdate}
+          onChange={(date) => handlestartDate(date)}
+          dateFormat="dd/MM/yyyy"
+          showMonthDropdown
+          showYearDropdown
+          scrollableYearDropdown
+          yearDropdownItemNumber={100}
+          popperPlacement="bottom-start"
+          popperModifiers={[{ name: "offset", options: { offset: [0, -300] } }]}
+          customInput={
+            <CustomStartDateInput
+              value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
+            />
+          }
+        />
+      </div>
+      {startdateerrmsg.trim() !== "" && (
+        <div>
+          <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
+            <MdError
+              style={{
+                fontSize: "15px",
+                color: "red",
+                marginRight: "3px",
+                marginBottom: "3px",
+              }}
+            />
+            {startdateerrmsg}
+          </p>
+        </div>
+      )}
+    </div>
 
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-              <p className="mt-1 mb-1" style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}>Start Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-              <div style={{ position: "relative", width: "100%" }}>
-                <DatePicker
-                  selected={startdate}
-                  onChange={(date) => handlestartDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  popperPlacement="bottom-start"
-                  popperModifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -300],
-                      },
-                    },
-                  ]}
-                  customInput={
-                    <CustomStartDateInput
-                      value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
-                    />
-                  }
-                />
-              </div>
+    <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <p className="mt-1 mb-1" style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}>
+        End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+      </p>
+      <div style={{ position: "relative", width: "100%" }}>
+        <DatePicker
+          selected={enddate}
+          onChange={(date) => handleEndDate(date)}
+          dateFormat="dd/MM/yyyy"
+          showMonthDropdown
+          showYearDropdown
+          scrollableYearDropdown
+          yearDropdownItemNumber={100}
+          popperPlacement="bottom-start"
+          popperModifiers={[{ name: "offset", options: { offset: [0, -300] } }]}
+          customInput={
+            <CustomEndDateInput
+              value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
+            />
+          }
+        />
+      </div>
+      {enddateerrmsg.trim() !== "" && (
+        <div>
+          <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
+            <MdError
+              style={{
+                fontSize: "15px",
+                color: "red",
+                marginRight: "3px",
+                marginBottom: "3px",
+              }}
+            />
+            {enddateerrmsg}
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
-              {startdateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
-                  >
-                    {startdateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {startdateerrmsg}
-                  </p>
-                </div>
-              )}
-            </div>
 
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <p className="mt-1 mb-1" style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}>End Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-              <div style={{ position: "relative", width: "100%" }}>
-                <DatePicker
-                  selected={enddate}
-                  onChange={(date) => handleEndDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  popperPlacement="bottom-start"
-                  popperModifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -300],
-                      },
-                    },
-                  ]}
-                  customInput={
-                    <CustomEndDateInput
-                      value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
-                    />
-                  }
-                />
-              </div>
 
-              {enddateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
-                  >
-                    {enddateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {enddateerrmsg}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
